@@ -179,7 +179,17 @@ Load the product images into your private registry.
 {{< /clipboard >}}
 4. Although most images can be protected using credentials stored in an image pull secret, some images _must_ be public. Use the following commands to get the list of public images:
 
-   * All the Rancher images in the `rancher/additional-rancher` subcomponent.
+      * The Rancher Agent image.
+{{< clipboard >}}
+<div class="highlight">
+
+   ```
+   $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.image == "rancher-agent") | "\(.image):\(.tag)"'
+   ```
+</div>
+{{< /clipboard >}}
+
+      * All the Rancher images in the `rancher/additional-rancher` subcomponent.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -189,47 +199,16 @@ Load the product images into your private registry.
 </div>
 {{< /clipboard >}}
 
-   * The Fluentd Kubernetes daemonset image.
+      * For all the Verrazzano Docker images in the private registry that are not explicitly marked public, you will need to create the secret `verrazzano-container-registry` in the `verrazzano-install` namespace, with the appropriate credentials for the registry, identified by `$MYREG`.
+       For example:
 {{< clipboard >}}
 <div class="highlight">
 
    ```
-   $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[].images[] | select(.image == "fluentd-kubernetes-daemonset") | "\(.image):\(.tag)"'
-   ```
-</div>
-{{< /clipboard >}}
-
-   * The Istio proxy image.
-{{< clipboard >}}
-<div class="highlight">
-
-   ```
-   $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] |  select(.name == "istiod") | .images[] | select(.image == "proxyv2") | "\(.image):\(.tag)"'
-   ```
-</div>
-{{< /clipboard >}}
-
-   * The WebLogic Monitoring Exporter image.
-{{< clipboard >}}
-<div class="highlight">
-
-   ```
-   $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[].images[] | select(.image == "weblogic-monitoring-exporter") | "\(.image):\(.tag)"'
-   ```
-</div>
-{{< /clipboard >}}
-
-   * The Verrazzano platform operator image identified by `$VPO_IMAGE`, as defined previously in Step 2.
-
-   * For all the Verrazzano Docker images in the private registry that are not explicitly marked public, you will need to create the secret `verrazzano-container-registry` in the `default` namespace, with the appropriate credentials for the registry, identified by `$MYREG`.    
-  For example:
-{{< clipboard >}}
-<div class="highlight">
-
-   ```
-   $ kubectl create secret docker-registry verrazzano-container-registry \  
-        --docker-server=$MYREG --docker-username=myreguser \  
-        --docker-password=xxxxxxxx --docker-email=me@example.com
+   $ kubectl create namespace verrazzano-install
+   $ kubectl create secret docker-registry verrazzano-container-registry -n verrazzano-install \
+  	 --docker-server=$MYREG --docker-username=myreguser \
+  	 --docker-password=xxxxxxxx --docker-email=me@example.com
    ```     
 </div>
 {{< /clipboard >}}
@@ -243,7 +222,7 @@ Load the product images into your private registry.
   ```
   $ helm template --include-crds ${DISTRIBUTION_DIR}/manifests/charts/verrazzano-platform-operator \
       --set image=${MYREG}/${MYREPO}/${VPO_IMAGE} --set global.registry=${MYREG} \
-      --set global.repository=${MYREPO} --set global.imagePullSecrets={verrazzano-container-registry} | kubectl apply -f -
+      --set global.repository=${MYREPO} | kubectl apply -f -
    ```
 </div>
 {{< /clipboard >}}
@@ -304,3 +283,10 @@ For example, for the [Oracle Cloud Native Environment platform]({{< relref "/doc
  ```
 </div>
 {{< /clipboard >}}
+
+## WebLogic applications
+
+WebLogic applications require that the container registry secret be specified in the `Domain` resource. Create a registry secret in the application namespace and specify the secret in
+the `imagePullSecrets` field of the WebLogic `Domain` spec for the application.
+
+For an example, see the [ToDo List]( {{< release_source_url path=examples/todo-list/todo-list-components.yaml >}} ) example application component YAML file.
