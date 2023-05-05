@@ -9,11 +9,12 @@ draft: false
 Verrazzano provides Jaeger, a distributed tracing system used for monitoring and troubleshooting microservices.
 
 ### About distributed tracing
-Distributed tracing lets you trace errors across your microservice architecture.
+Distributed tracing is a method of tracking application behavior as it propagates through distributed systems.
 You can track application requests as they flow from front end devices to back end services and databases.
 
-Distributed tracing helps you identify the exact line of occurrence of a error in a complex architecture.
-You use distributed tracing to troubleshoot requests that exhibit high latency or errors.
+Distributed tracing is useful for tracking and observability in general. Also, it can help you identify
+the exact line of occurrence of a error in a complex architecture. You can use distributed tracing to troubleshoot
+requests that exhibit high latency or errors.
 
 With distributed tracing, the application transactions are captured using request and response headers. A trace header gets added from the original request to subsequent requests and thus creating a link through out the entire transaction that can be traced back to the origin. A single trace typically shows the activity for an individual transaction or request within the application being monitored, from the browser or mobile device, down through to the database and back.
 
@@ -32,7 +33,7 @@ In Verrazzano, Jaeger is comprised of the following components:
 
 - Collector service, which receives traces from clients, processes them, and stores them in a storage back end.
 - Query service, which exposes the APIs for retrieving traces from storage and hosts the Jaeger console for searching and analyzing traces.
-- Storage, which may be ephemeral, such as Cassandra or OpenSearch, or a database back end.
+- Storage, may be ephemeral or backed by OpenSearch.
    - Jaeger can be configured to use one of several choices for [storage back ends](https://www.jaegertracing.io/docs/1.18/deployment/#storage-backends).
    - In Verrazzano, trace records are stored in OpenSearch; OpenSearch must be enabled in Verrazzano for this to work.
 
