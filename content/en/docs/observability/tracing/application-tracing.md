@@ -12,7 +12,7 @@ Verrazzano provides Jaeger, a distributed tracing system used for monitoring and
 Distributed tracing is a method of tracking application behavior as it propagates through distributed systems.
 You can track application requests as they flow from front end devices to back end services and databases.
 
-Distributed tracing is useful for tracking and observability in general. Also, it can help you identify
+Distributed tracing is useful for tracking and observability in general. It can also help you identify
 the exact line of occurrence of a error in a complex architecture. You can use distributed tracing to troubleshoot
 requests that exhibit high latency or errors.
 
