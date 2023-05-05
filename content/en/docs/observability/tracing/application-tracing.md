@@ -10,7 +10,7 @@ Verrazzano provides Jaeger, a distributed tracing system used for monitoring and
 
 ### About distributed tracing
 Distributed tracing lets you trace errors across your microservice architecture.
-You can track application requests as they flow from frontend devices to backend services and databases.
+You can track application requests as they flow from front end devices to back end services and databases.
 
 Distributed tracing helps you identify the exact line of occurrence of a error in a complex architecture.
 You use distributed tracing to troubleshoot requests that exhibit high latency or errors.
@@ -30,10 +30,10 @@ As with most other distributed tracing systems, Jaeger works with spans and trac
 
 In Verrazzano, Jaeger is comprised of the following components:
 
-- Collector service, which receives traces from clients, processes them, and stores them in a storage backend.
+- Collector service, which receives traces from clients, processes them, and stores them in a storage back end.
 - Query service, which exposes the APIs for retrieving traces from storage and hosts the Jaeger console for searching and analyzing traces.
-- Storage, which may be ephemeral, such as Cassandra or OpenSearch, or a database backend.
-   - Jaeger can be configured to use one of several choices for [storage backends](https://www.jaegertracing.io/docs/1.18/deployment/#storage-backends).
+- Storage, which may be ephemeral, such as Cassandra or OpenSearch, or a database back end.
+   - Jaeger can be configured to use one of several choices for [storage back ends](https://www.jaegertracing.io/docs/1.18/deployment/#storage-backends).
    - In Verrazzano, trace records are stored in OpenSearch; OpenSearch must be enabled in Verrazzano for this to work.
 
 Jaeger is very configurable. See the Jaeger documentation for detailed information about Jaeger [features](https://www.jaegertracing.io/docs/1.44/features/) and [architecture](https://www.jaegertracing.io/docs/1.44/architecture/#architecture). In Verrazzano, Jaeger does not include the Ingester service, Kafka, or Sparks jobs.
