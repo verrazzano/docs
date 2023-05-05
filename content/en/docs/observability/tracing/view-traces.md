@@ -15,7 +15,7 @@ On the initial page, select the service name to display the traces that you want
 
 ![Hello Helidon](/docs/images/tracing/hello-helidon-traces.png)
 
-Select a span to see its details.
+Select a trace to see its details.
 
 ![Hello Helidon SPAN](/docs/images/tracing/hello-helidon-spans.png)
 
@@ -25,7 +25,7 @@ The Jaeger console shows:
 
 - All the spans that make up the trace.
 - Each span will contain all the tags, events, and timings for that span.
-- Each span can be expanded to see the values of the tags, events, and the start time, end time, and the overall execution time of the span.
+- Each span can be expanded to see the values of the tags, events, and the start time, end time, and the overall duration of the span.
 
 
 ### View managed cluster traces
@@ -38,7 +38,12 @@ for the managed cluster only, search based on the tag `verrazzano_cluster=<manag
 
 **Sample output of Jager console screens**
 
+Output filtered for the managed cluster only (arrow).
+
 ![Jaeger console](/docs/images/multicluster/jaeger-multicluster-filter-based-on-tag.png)
+
+The span details for that managed cluster.
+
 ![Jaeger SPAN](/docs/images/multicluster/jaeger-multicluster-span-details.png)
 
 ### Store traces and log records
