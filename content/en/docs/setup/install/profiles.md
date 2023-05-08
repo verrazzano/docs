@@ -15,7 +15,7 @@ The following table describes the Verrazzano installation profiles.
 |-------------------|:----------------------------------------------------------------------------|:-------------
 | `prod`            | Full installation, production configuration.                                | Default profile:<br/>- Full installation.<br/>- Persistent storage. <br/>- Production OpenSearch cluster topology.
 | `dev`             | Development or evaluation configuration.                                    | Lightweight installation:<br/>- For evaluation purposes.<br/>- No persistence.<br/>- Single-node OpenSearch cluster topology.
-| `managed-cluster` | A specialized installation for managed clusters in a multicluster topology. | Minimal installation for a managed cluster:<br/>- Clusters must be registered with an admin cluster to use [multicluster]({{< relref "/docs/concepts/verrazzanomulticluster" >}}) features.
+| `managed-cluster` | A specialized installation for managed clusters in a multicluster topology. | Minimal installation for a managed cluster:<br/>- Clusters must be registered with an admin cluster to use [multicluster]({{< relref "/docs/about/verrazzanomulticluster" >}}) features.
 | `none`            | A basic configuration is installed. No components are enabled.               | Simplest installation with no components enabled by default.
 
 ## Use an installation profile

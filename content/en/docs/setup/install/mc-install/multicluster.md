@@ -7,7 +7,7 @@ draft: false
 
 ## Prerequisites
 
-- Before you begin, read this document, [Verrazzano in a multicluster environment]({{< relref "/docs/concepts/VerrazzanoMultiCluster.md" >}}).
+- Before you begin, read this document, [Verrazzano in a multicluster environment]({{< relref "/docs/about/VerrazzanoMultiCluster.md" >}}).
 - To set up a multicluster Verrazzano environment, you will need two or more Kubernetes clusters. One of these clusters
 will be *admin* cluster; the others will be *managed* clusters. For instructions on preparing Kubernetes platforms for installing Verrazzano, see [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}}).
 
