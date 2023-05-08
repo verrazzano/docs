@@ -220,7 +220,7 @@ For more information and the source code of this application, see the [Verrazzan
 
 Use the WebLogic Server Administration Console to access the applications as follows.
 
-{{< alert title="NOTE" color="warning" >}}
+{{< alert title="NOTE" color="danger" >}}
 It is recommended that the WebLogic Server Administration Console _not_ be exposed publicly.
 {{< /alert >}}
 

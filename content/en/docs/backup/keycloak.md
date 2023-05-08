@@ -68,7 +68,7 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
    $ kubectl create secret generic --namespace keycloak mysql-backup-secret --from-file=credentials=backup-secret.txt --from-file=config=backup-region.txt
    ```
 
-{{< alert title="NOTE" color="warning" >}}
+{{< alert title="NOTE" color="primary" >}}
 - The secret must be created in the namespace `keycloak`.
 - To restore Keycloak on a new cluster, create the secret in the namespace, `keycloak`, in the new cluster.
 - To avoid misuse of sensitive data, ensure that the `backup-secret.txt` file is deleted after the Kubernetes secret is created.
@@ -103,7 +103,7 @@ EOF
    ```
    {{< /clipboard >}}
 
-   {{< alert title="NOTE" color="warning" >}}
+   {{< alert title="NOTE" color="primary" >}}
    - The `config` value is `mysql-backup-secret`, which is the name of the secret that you created previously in the `keycloak` namespace.
    - The `clustername` has to be `mysql`.
    - The `namespace` has to be `keycloak`.
