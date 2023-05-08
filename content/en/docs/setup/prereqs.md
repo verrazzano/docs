@@ -61,7 +61,7 @@ Verrazzano installs a curated set of open source software. The following table l
 
   | Software       | Version    | Description                                                                 |
   |----------------|------------|-----------------------------------------------------------------------------|
-  | [Alertmanager]({{< relref "/docs/observability/monitoring/metrics/configure/prometheus.md" >}})   | 0.24.0   | Handles alerts sent by client applications, such as the Prometheus server.    |
+  | [Alertmanager](../../observability/monitoring/metrics/configure/prometheus.md)   | 0.24.0   | Handles alerts sent by client applications, such as the Prometheus server.    |
   | [Argo CD](../../reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.ArgoCDComponent)   | 2.5.3   | A declarative, GitOps continuous delivery tool for Kubernetes.                      |
   | [cert-manager](../../reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.CertManagerComponent)  | 1.9.1   | Automates the management and issuance of TLS certificates.                      |
   | [Coherence Operator](../../reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.CoherenceOperatorComponent) | 3.2.9   | Assists with deploying and managing Coherence clusters.                    |
