@@ -12,7 +12,7 @@ Verrazzano creates and manages a Fluentd sidecar injection for each WebLogic pod
 However, these resources are not currently configurable and additional containers are required to customize the Fluentd configuration file and the container image.
 For more information on Fluentd sidecars and DaemonSet, see [Logging]({{< relref "/docs/observability/logs" >}}).
 
-The following instructions use the [ToDo List]({{< relref "/docs/samples/wls-coh/todo-list" >}}) example application to demonstrate how to attach and deploy a custom Fluentd sidecar to a [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) component. Before deploying the application, you will need to edit the application and component YAML files.
+The following instructions use the [ToDo List]({{< relref "/docs/examples/wls-coh/todo-list" >}}) example application to demonstrate how to attach and deploy a custom Fluentd sidecar to a [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) component. Before deploying the application, you will need to edit the application and component YAML files.
 Run the following commands to create a local copy of them:
 ```
 $ curl {{< release_source_url raw=true path=examples/todo-list/todo-list-components.yaml >}} --output todo-list-components.yaml
@@ -191,7 +191,7 @@ The example Fluentd configuration volume is mounted at `/fluentd/etc/`. While th
 
 ## Deploy the Fluentd sidecar
 
-Now that the resources have been configured, you can deploy the application. Follow Steps 1 through 3 in the [ToDo List]({{< relref "/docs/samples/wls-coh/todo-list" >}}) example application instructions.
+Now that the resources have been configured, you can deploy the application. Follow Steps 1 through 3 in the [ToDo List]({{< relref "/docs/examples/wls-coh/todo-list" >}}) example application instructions.
 Replace the deployment commands in Step 4 with your locally edited YAML files:
 {{< clipboard >}}
 <div class="highlight">
@@ -204,7 +204,7 @@ $ kubectl apply -f todo-list-application.yaml
 </div>
 {{< /clipboard >}}
 
-Now, follow the [ToDo List]({{< relref "/docs/samples/wls-coh/todo-list" >}}) instructions from Step 5 onward, as needed.
+Now, follow the [ToDo List]({{< relref "/docs/examples/wls-coh/todo-list" >}}) instructions from Step 5 onward, as needed.
 
 To verify that a deployment successfully created a custom Fluentd sidecar:
 - Verify that the container name exists on the WebLogic application pod.

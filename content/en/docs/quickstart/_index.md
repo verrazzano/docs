@@ -95,7 +95,7 @@ Wait for the installation to complete.
 
 ## 3. Deploy an application
 
-The [Hello World Helidon]({{< relref "/docs/samples/hello-helidon/_index.md" >}})
+The [Hello World Helidon]({{< relref "/docs/examples/hello-helidon/_index.md" >}})
 example application provides a simple *Hello World* REST service written with [Helidon](https://helidon.io).
 For more information and the code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
 
@@ -169,4 +169,4 @@ To deploy the Hello World Helidon example application:
 
 ## Next steps
 
-See the [Verrazzano Example Applications]({{< relref "/docs/samples/_index.md" >}}).
+See the [Verrazzano Example Applications]({{< relref "/docs/examples/_index.md" >}}).

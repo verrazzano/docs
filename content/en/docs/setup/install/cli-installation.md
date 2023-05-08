@@ -123,4 +123,4 @@ For information on how to get the consoles URLs and credentials, see [Access Ver
 
 ## Next steps
 
-(Optional) Run the example applications located [here]({{< relref "/docs/samples/_index.md" >}}).
+(Optional) Run the example applications located [here]({{< relref "/docs/examples/_index.md" >}}).

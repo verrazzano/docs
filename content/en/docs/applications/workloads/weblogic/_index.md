@@ -288,7 +288,7 @@ Step 2. Create a VerrazzanoWebLogicWorkload component.
 
 Step 3. Create an ApplicationConfiguration for the WebLogic application.
    - Next, create an ApplicationConfiguration that uses the VerrazzanoWebLogicWorkload component you created for the WebLogic domain.
-   - For an example ApplicationConfiguration using a VerrazzanoWebLogicWorkload component, see the [ToDo List]({{< relref "/docs/samples/wls-coh/todo-list.md" >}}) example application.
+   - For an example ApplicationConfiguration using a VerrazzanoWebLogicWorkload component, see the [ToDo List]({{< relref "/docs/examples/wls-coh/todo-list.md" >}}) example application.
 
 Step 4. Verify the domain.
    - Verrazzano creates the underlying domain Kubernetes resource from the VerrazzanoWebLogicWorkload component, which is then processed by the WebLogic Kubernetes Operator to create the Administration and Managed Server pods, and deploy the applications and resources associated with the WebLogic domain.
@@ -305,7 +305,7 @@ Step 1. Deploy the database in Verrazzano.
 
 Step 2. Create a WebLogic resource ConfigMap.
    - Next, create a ConfigMap that will contain the JDBCSystemResource definition with connection information for the database.
-   - For an example, see the  `tododomain-configmap` definition in the [ToDo List]({{< relref "/docs/samples/wls-coh/todo-list.md" >}}) example application configuration.
+   - For an example, see the  `tododomain-configmap` definition in the [ToDo List]({{< relref "/docs/examples/wls-coh/todo-list.md" >}}) example application configuration.
 
 Step 3. Configure the WebLogic domain to use the WebLogic resource ConfigMap.
    - You can configure the ConfigMap, containing the resource information for the JDBCSystemResource, in the configuration section of the VerrazzanoWebLogicWorkload component of the WebLogic domain.
@@ -321,11 +321,11 @@ Step 3. Configure the WebLogic domain to use the WebLogic resource ConfigMap.
 ...
 ```
 {{< /clipboard >}}
-For more details, see the [ToDo List]({{< relref "/docs/samples/wls-coh/todo-list.md" >}}) example application configuration.
+For more details, see the [ToDo List]({{< relref "/docs/examples/wls-coh/todo-list.md" >}}) example application configuration.
 
 ## Ingresses
 
-To access the endpoints for a Java EE application deployed as part of a VerrazzanoWebLogicWorkload component, Verrazzano lets you specify an IngressTrait for the component which is then translated to an [Istio ingress gateway](https://istio.io/latest/docs/reference/config/networking/gateway/) and [VirtualService](https://istio.io/latest/docs/reference/config/networking/virtual-service/). For an example, see the [ToDo List]({{< relref "/docs/samples/wls-coh/todo-list.md" >}}) example application, where the IngressTrait is configured for the application endpoint.
+To access the endpoints for a Java EE application deployed as part of a VerrazzanoWebLogicWorkload component, Verrazzano lets you specify an IngressTrait for the component which is then translated to an [Istio ingress gateway](https://istio.io/latest/docs/reference/config/networking/gateway/) and [VirtualService](https://istio.io/latest/docs/reference/config/networking/virtual-service/). For an example, see the [ToDo List]({{< relref "/docs/examples/wls-coh/todo-list.md" >}}) example application, where the IngressTrait is configured for the application endpoint.
 {{< clipboard >}}
 
 ```yaml
@@ -344,7 +344,7 @@ To access the endpoints for a Java EE application deployed as part of a Verrazza
 ```
 {{< /clipboard >}}
 
-Then, you can access the endpoint using the Istio gateway, as described in Step 8. [Access the ToDo List application]({{< relref "/docs/samples/wls-coh/todo-list.md" >}}).
+Then, you can access the endpoint using the Istio gateway, as described in Step 8. [Access the ToDo List application]({{< relref "/docs/examples/wls-coh/todo-list.md" >}}).
 {{< clipboard >}}
 <div class="highlight">
 

@@ -74,11 +74,11 @@ Apply the VerrazzanoProject resource on the admin cluster that defines the names
 
 ## Explore the example application
 
-Follow the instructions for [exploring]({{< relref "/docs/samples/hello-helidon/#explore-the-application" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster kubeconfig file for testing the example application.
+Follow the instructions for [exploring]({{< relref "/docs/examples/hello-helidon/#explore-the-application" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster kubeconfig file for testing the example application.
 
 ## Verify the deployed application
 
-Follow the instructions for [troubleshooting]({{< relref "/docs/samples/hello-helidon/#troubleshooting" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster kubeconfig file for troubleshooting the example application.
+Follow the instructions for [troubleshooting]({{< relref "/docs/examples/hello-helidon/#troubleshooting" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster kubeconfig file for troubleshooting the example application.
 
 1. Verify that the application namespace exists on the managed cluster.
 {{< clipboard >}}

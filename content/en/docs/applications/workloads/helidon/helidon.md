@@ -84,7 +84,7 @@ spec:
 The [Application Development Guide]({{< relref "/docs/guides/app-deployment/application-deployment-guide.md" >}}) provides end-to-end instructions for
 developing and deploying the Verrazzano Helidon application.
 
-For more Verrazzano Helidon application examples, see [Examples]({{< relref "/docs/samples/_index.md" >}}).
+For more Verrazzano Helidon application examples, see [Examples]({{< relref "/docs/examples/_index.md" >}}).
 
 ### Customizing Helidon Workload service
 
