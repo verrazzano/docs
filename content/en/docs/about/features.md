@@ -1,7 +1,7 @@
 ---
-title: "Features"
+title: "Verrazzano Features"
 description: ""
-weight: 1
+weight: 2
 draft: false
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "Verrazzano in a Multicluster Environment"
-weight: 1
+weight: 4
 draft: false
 ---
 Review the following key concepts to understand multicluster Verrazzano.
