@@ -1,4 +1,4 @@
-docs/samples/wls-coh/todo-list---
+---
 title: LoggingTrait
 description: "A trait supporting the definition of application logging parameters"
 weight: 4
