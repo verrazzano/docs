@@ -7,14 +7,13 @@ draft: false
 
 Installing Verrazzano using a private Docker-compliant container registry requires the following:
 
-* Loading all required Verrazzano container images into your own registry and repository.
-* Installing the Verrazzano platform operator with the private registry and repository used to load the images.
+* Loading all required Verrazzano container images into your own registry and repositories.
+* Installing Verrazzano with the private registry and a common prefix for all the repositories used to load the images.
 
 You must have the following software installed:
 
  - [Docker](https://docs.docker.com/get-docker/)
  - [kubectl](https://kubernetes.io/docs/tasks/tools/)
- - [Helm](https://helm.sh/docs/intro/install/) (version 3.x+)
  - [jq](https://github.com/stedolan/jq/wiki/Installation)
 
  The Verrazzano distribution contains Kubernetes manifests to deploy Verrazzano, client binaries, and various other utilities. These distributions are provided for Linux and MacOS operating systems on AMD and ARM architectures.
@@ -87,16 +86,15 @@ You must have the following software installed:
 
     a. To log in to the Docker registry, run `docker login <SERVER>` with your credentials.
 
-    b. For use with the examples in this document, define the following variables with respect to your target registry and repository: `MYREG`, `MYREPO`, `VPO_IMAGE`.    
+    b. For use with the examples in this document, define the following variables with respect to your target registry and image prefix: `MYREG`, `MYPREFIX`.
 
-     These identify the target Docker registry and repository, and the Verrazzano platform operator image, as defined in the BOM file. For example, using a target registry of `myreg.io` and a target repository of `myrepo/v8o`:
+     These identify the target Docker registry and image prefix. For example, using a target registry of `myreg.io` and a target image prefix of `myrepo/v8o`:
 {{< clipboard >}}
 <div class="highlight">
 
    ```
    $ MYREG=myreg.io
-   $ MYREPO=myrepo/v8o
-   $ VPO_IMAGE=$(cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name == "verrazzano-platform-operator") | "\(.repository)/\(.images[].image):\(.images[].tag)"')
+   $ MYPREFIX=myrepo/v8o
    ```
 </div>
 {{< /clipboard >}}
@@ -106,7 +104,7 @@ You must have the following software installed:
 <div class="highlight">
 
    ```
-    $ sh ${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh -t $MYREG -r $MYREPO -l ${DISTRIBUTION_DIR}/images
+    $ sh ${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh -t $MYREG -r $MYPREFIX -l ${DISTRIBUTION_DIR}/images
    ```   
 </div>
 {{< /clipboard >}}
@@ -149,58 +147,40 @@ You must have the following software installed:
 
   ## Install Verrazzano   
 
-  1. Install the Verrazzano platform operator using the image defined by `$MYREG/$MYREPO/$VPO_IMAGE`.  
-{{< clipboard >}}
+  Use the Verrazzano CLI to perform the Verrazzano install from your private registry. 
+
+  1. Make sure that the Verrazzano platform operator manifests file is available on the file system. This is the
+`verrazzano-platform-operator.yaml` file for the release of Verrazzano you are installing, available from the
+[Verrazzano releases](https://github.com/verrazzano/verrazzano/releases) page. If the environment where you are
+running the installation has access to the public internet, you may skip this step.
+  2. Install Verrazzano using the Verrazzano CLI. The CLI can be found in the distribution archive at `${DISTRIBUTION_DIR}/bin/<platform>/vz`. 
+For example, for Linux operating system on AMD architecture, the path to the CLI is `${DISTRIBUTION_DIR}/bin/linux-amd64/vz`. 
+This path is used in all the sample commands.
+     {{< clipboard >}}
 <div class="highlight">
 
-   ```
-   $ helm template --include-crds ${DISTRIBUTION_DIR}/manifests/charts/verrazzano-platform-operator \
-     --set image=${MYREG}/${MYREPO}/${VPO_IMAGE} --set global.registry=${MYREG} \
-     --set global.repository=${MYREPO} | kubectl apply -f -
-   ```
+  ```
+  $ ${DISTRIBUTION_DIR}/bin/linux-amd64/vz install --image-registry "${MYREG}" --image-prefix "${MYPREFIX}" --manifests path/to/verrazzano-platform-operator.yaml
+  ```  
 </div>
 {{< /clipboard >}}
 
-  1. Wait for the deployment of the Verrazzano platform operator.
-{{< clipboard >}}
-<div class="highlight">
+**NOTE**: The `--manifests` flag is used in this example, to provide the location of the Verrazzano platform operator
+manifests file. If you omit this flag, the `vz` CLI will attempt to download the manifests file.
 
-   ```
-   $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
+Verrazzano supports customizing installation configurations. See [Customize Verrazzano]({{< relref "/docs/customize/_index.md" >}}).      
 
-   # Sample output
-     deployment "verrazzano-platform-operator" successfully rolled out
-   ```      
-</div>
-{{< /clipboard >}}
-
-  1. Confirm that the Verrazzano platform operator pod is running.
-{{< clipboard >}}
-<div class="highlight">
-
-   ```
-   $ kubectl -n verrazzano-install get pods
-
-   # Sample output
-     NAME                                            READY   STATUS    RESTARTS   AGE
-     verrazzano-platform-operator-74f4547555-s76r2   1/1     Running   0          114s
-   ```    
-</div>
-{{< /clipboard >}}
-
-  The distribution archive includes the supported installation profiles under `${DISTRIBUTION_DIR}/manifests/profiles`.
-       Verrazzano supports customizing installation configurations. See [Customize Verrazzano]({{< relref "/docs/customize/_index.md" >}}).      
-
-  To create a Verrazzano installation using the provided profiles, run the following command:
+For example, to install Verrazzano using the the prod profile, run the following command:
 {{< clipboard >}}
 <div class="highlight">
 
   ```
-  $ kubectl apply -f $DISTRIBUTION_DIR/manifests/profiles/prod.yaml
+  $ ${DISTRIBUTION_DIR}/bin/linux-amd64/vz install --set profile=prod --image-registry "${MYREG}" --image-prefix "${MYPREFIX}" --manifests path/to/verrazzano-platform-operator.yaml
   ```  
 </div>
 {{< /clipboard >}}
-  For a complete description of Verrazzano configuration options, see the [Reference API]({{< relref "/docs/reference/api/_index.md" >}}).
+
+For a complete description of Verrazzano CLI options, run `${DISTRIBUTION_DIR}/bin/linux-amd64/vz -h`.
 
 ## Configuring access to an insecure private registry
 
