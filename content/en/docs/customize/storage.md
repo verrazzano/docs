@@ -17,7 +17,7 @@ The following components can use persistent storage:
 By default, each Verrazzano installation profile has different storage characteristics.  The `dev` profile uses ephemeral
 storage only, but in all other profiles, each of the listed components use persistent storage.  For more information, see [Profile Configurations]({{< relref "/docs/setup/install/profiles.md#profile-configurations" >}}).
 
-{{< alert title="NOTE" color="warning" >}}
+{{< alert title="NOTE" color="danger" >}}
 Ephemeral storage is not recommended for use in production; Kubernetes pods can be restarted at any time, leading to
 a loss of data and system instability if non-persistent storage is used.  Persistent storage is recommended
 for all use cases beyond evaluation or development.
@@ -59,7 +59,7 @@ Review the following customizing persistent storage examples:
 
 ### Customize persistence globally using defaultVolumeSource
 
-{{< alert title="NOTE" color="warning" >}}
+{{< alert title="NOTE" color="primary" >}}
 Beginning in version 1.5, persistent storage is always required for MySQL. If `defaultVolumeSource` is configured to use `emptyDir`, then MySQL will ignore that configuration setting.
 {{< /alert >}}
 

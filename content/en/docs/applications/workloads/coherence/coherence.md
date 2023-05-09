@@ -97,7 +97,7 @@ configuration shows the `replicas` field that specifies the number of pods in th
 You can terminate the Coherence cluster by removing the Component from the ApplicationConfiguration or by
 deleting the ApplicationConfiguration resource entirely.
 
-{{< alert title="NOTE" color="warning" >}}
+{{< alert title="NOTE" color="danger" >}}
 Do not delete the Coherence component if the application is still using it.
 {{< /alert >}}
 

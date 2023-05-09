@@ -50,10 +50,9 @@ spec:
             type: spc_t
 ```
 {{< /clipboard >}}  
-   {{< alert title="NOTE" color="warning" >}}The `spc_t` SELinux context is very permissive in that it gives the pod full access to the node on which it is running. If you don't want the Fluentd pod to have the `spc_t` context, consider creating a custom SELinux context type with only the required privileges on all the worker nodes instead of using `spc_t`.
+   {{< alert title="NOTE" color="primary" >}}The `spc_t` SELinux context is very permissive in that it gives the pod full access to the node on which it is running. If you don't want the Fluentd pod to have the `spc_t` context, consider creating a custom SELinux context type with only the required privileges on all the worker nodes instead of using `spc_t`.
    {{< /alert >}}
 
 4. Verification.
     - Verify that Fluentd is able to read and push the logs to OpenSearch by reviewing the Fluentd logs.
     - Verify that the logs are visible in OpenSearch by accessing the OpenSearch dashboard or using relevant search queries.
-

@@ -9,7 +9,7 @@ draft: false
 [Kind](https://kind.sigs.k8s.io/) is a tool for running local Kubernetes clusters using Docker container “nodes”.  Follow
 these instructions to prepare a Kind cluster for running Verrazzano.
 
-{{% alert title="NOTE" color="warning" %}}
+{{% alert title="NOTE" color="primary" %}}
 Kind is not recommended for use on macOS and Windows because the Docker network is not directly exposed
 to the host.
 {{% /alert %}}
