@@ -13,8 +13,8 @@ Component version updates:
 
 ### v1.5.3
 Features:
-- The `vz` CLI `uninstall` command now prompts the user to confirm before continuing with uninstall.
-  The prompt can be overridden using the flag `--skip-confirmation` or shorthanded as `-y`.
+- The `vz` CLI `uninstall` command now prompts you to confirm before continuing with the uninstall operation.
+  You can override the prompt using the flag `--skip-confirmation` or shorthanded as `-y`.
 
 Component version updates:
 - Jaeger v1.42.0
