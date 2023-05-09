@@ -12,7 +12,7 @@ Verrazzano requires that your Kubernetes cluster provides an implementation of n
 of the Verrazzano custom resource with no customizations and follow the [Installation Guide]({{< relref "/docs/setup/install/" >}}).
 
 
-{{% alert title="NOTE" color="warning" %}}
+{{% alert title="NOTE" color="primary" %}}
 Remember to not overlap network Classless Inter-Domain Routing (CIDR) blocks when designing and implementing your Kubernetes cluster; proper routing relies on that.
 {{% /alert %}}
 

@@ -135,7 +135,7 @@ The following table describes the OpenSearch Dashboards and OpenSearch cluster t
 | `managed-cluster` | Not installed                                                                                                                                             | Not installed
 | `none`            | Not installed                                                                                                                                             | Not installed
 
-{{< alert title="NOTE" color="warning" >}}
+{{< alert title="NOTE" color="primary" >}}
 OpenSearch containers are configured to use 75% of the configured request memory for the Java min/max heap settings.
 {{< /alert >}}
 

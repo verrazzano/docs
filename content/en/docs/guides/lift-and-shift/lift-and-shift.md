@@ -704,6 +704,6 @@ tododomain-adminserver   4/4     Running   0          5m
 </div>
 {{< /clipboard >}}
 
-{{< alert title="NOTE" color="warning" >}}
+{{< alert title="NOTE" color="danger" >}}
 It is recommended that the WebLogic Server Administration Console _not_ be exposed publicly.
 {{< /alert >}}
