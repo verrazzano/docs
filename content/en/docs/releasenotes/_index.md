@@ -23,8 +23,8 @@ Component version updates:
 
 Fixes:
 - Disabled the `startupapicheck` job during cert-manager startup.
-- Fixed an install bug related to incorrect ingress names in certain configurations.
-- Fixed an ArgoCD bug to reuse Rancher auth tokens when applicable.
+- Fixed an installation issue related to incorrect ingress names in certain configurations.
+- Fixed an ArgoCD issue to reuse Rancher auth tokens when applicable.
 
 ### v1.5.2
 Component version updates:
