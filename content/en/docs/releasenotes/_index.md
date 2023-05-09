@@ -11,6 +11,21 @@ Component version updates:
 - WebLogic Kubernetes Operator v4.0.6
 - WebLogic Monitoring Exporter v2.1.3
 
+### v1.5.3
+Features:
+- The `vz` CLI `uninstall` command now prompts you to confirm before continuing with the uninstall operation.
+  You can override the prompt using the flag `--skip-confirmation` or shorthanded as `-y`.
+
+Component version updates:
+- Jaeger v1.42.0
+- WebLogic Kubernetes Operator v4.0.6
+- WebLogic Monitoring Exporter v2.1.3
+
+Fixes:
+- Disabled the `startupapicheck` job during cert-manager startup.
+- Fixed an install bug related to incorrect ingress names in certain configurations.
+- Fixed an ArgoCD bug to reuse Rancher auth tokens when applicable.
+
 ### v1.5.2
 Component version updates:
 - Rancher 2.7.1
