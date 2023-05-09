@@ -149,18 +149,16 @@ You must have the following software installed:
 
   Use the Verrazzano CLI to perform the Verrazzano install from your private registry. 
 
-  1. Make sure that the Verrazzano platform operator manifests file is available on the file system. This is the
-`verrazzano-platform-operator.yaml` file for the release of Verrazzano you are installing, available from the
-[Verrazzano releases](https://github.com/verrazzano/verrazzano/releases) page. If the environment where you are
-running the installation has access to the public internet, you may skip this step.
-  2. Install Verrazzano using the Verrazzano CLI. The CLI can be found in the distribution archive at `${DISTRIBUTION_DIR}/bin/<platform>/vz`. 
+  1. You will need the Verrazzano platform operator manifests file in order to install Verrazzano. This file is in the
+distribution at `${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.yaml`.
+  3. Install Verrazzano using the Verrazzano CLI. The CLI can be found in the distribution archive at `${DISTRIBUTION_DIR}/bin/<platform>/vz`. 
 For example, for Linux operating system on AMD architecture, the path to the CLI is `${DISTRIBUTION_DIR}/bin/linux-amd64/vz`. 
 This path is used in all the sample commands.
      {{< clipboard >}}
 <div class="highlight">
 
   ```
-  $ ${DISTRIBUTION_DIR}/bin/linux-amd64/vz install --image-registry "${MYREG}" --image-prefix "${MYPREFIX}" --manifests path/to/verrazzano-platform-operator.yaml
+  $ ${DISTRIBUTION_DIR}/bin/linux-amd64/vz install --image-registry "${MYREG}" --image-prefix "${MYPREFIX}" --manifests ${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.yaml
   ```  
 </div>
 {{< /clipboard >}}
@@ -175,7 +173,7 @@ For example, to install Verrazzano using the the prod profile, run the following
 <div class="highlight">
 
   ```
-  $ ${DISTRIBUTION_DIR}/bin/linux-amd64/vz install --set profile=prod --image-registry "${MYREG}" --image-prefix "${MYPREFIX}" --manifests path/to/verrazzano-platform-operator.yaml
+  $ ${DISTRIBUTION_DIR}/bin/linux-amd64/vz install --set profile=prod --image-registry "${MYREG}" --image-prefix "${MYPREFIX}" --manifests ${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.yaml
   ```  
 </div>
 {{< /clipboard >}}
