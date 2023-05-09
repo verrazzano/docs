@@ -1,7 +1,7 @@
 ---
 title: "Quick Start"
 description: "Instructions for getting started with Verrazzano"
-weight: 2
+weight: 3
 ---
 
 The Quick Start assumes that you have already installed a
