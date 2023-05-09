@@ -10,7 +10,7 @@ WebLogic Server is a widely-used enterprise application server for managing Java
 
 The operator is installed in the `verrazzano-system` namespace and is also part of the [istio-mesh](https://istio.io/latest/about/service-mesh/) deployed by Verrazzano.
 
-{{< alert title="NOTE" color="warning" >}}
+{{< alert title="NOTE" color="primary" >}}
 Verrazzano installs an instance of the WebLogic Kubernetes Operator. If you have a pre-existing instance of the operator, namespaces managed by each instance must be mutually exclusive.
 Do not label a namespace which is managed by the pre-existing WebLogic Kubernetes Operator, to also be managed by Verrazzano.
 {{< /alert >}}
@@ -310,7 +310,7 @@ Step 2. Create a WebLogic resource ConfigMap.
 Step 3. Configure the WebLogic domain to use the WebLogic resource ConfigMap.
    - You can configure the ConfigMap, containing the resource information for the JDBCSystemResource, in the configuration section of the VerrazzanoWebLogicWorkload component of the WebLogic domain.
      {{< clipboard >}}
-   - 
+   -
 ```yaml
 ...
     configuration:

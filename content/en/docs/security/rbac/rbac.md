@@ -11,7 +11,7 @@ Verrazzano includes a set of roles that can be granted to users, enabling access
 
 Verrazzano creates default role bindings during installation and for projects, at project creation or update.
 
-{{< alert title="NOTE" color="warning" >}}
+{{< alert title="NOTE" color="primary" >}}
 Kubernetes RBAC must be enabled in every cluster to which Verrazzano is deployed or access control will not work. RBAC is enabled by default in most Kubernetes environments.
 {{< /alert >}}
 
@@ -68,7 +68,7 @@ Verrazzano creates role bindings for project users at project creation or update
 | verrazzano-project-admin | group: verrazzano-project-_<proj_name>_-admins |
 | verrazzano-project-monitor | group: verrazzano-project-_<proj_name>_-monitors |
 
-{{< alert title="NOTE" color="warning" >}}
+{{< alert title="NOTE" color="primary" >}}
 The role bindings for project roles are created automatically, but the project-specific groups that they refer to are not automatically created. You must create those groups using the Keycloak console or API, or specify different binding subjects for the project.
 {{< /alert >}}
 
