@@ -271,7 +271,7 @@ The `vz-system` and `vz-application` policies are immutable and any change to th
 - **Disable default policies**: You can disable the use of these default policies by setting the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) to `true` in the Verrazzano CR. This will delete the default ISM policies.
 - **Override default policies**: Both these default policies have a zero (`0`) priority. You can override the default policies by creating policies with `policy.ism_template.priority` greater than `0`. Check [Configure ISM Policies](/docs/customize/opensearch/#configure-ism-policies) in order to configure/create your own policies.
 
-{{< alert title="NOTE" color="warning" >}}
+{{< alert title="NOTE" color="primary" >}}
 - Avoid creating policies with policy IDs `vz-system` or `vz-application` because they are reserved for Verrazzano default policies names. In the Verrazzano CR, by default, if the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) is set to `false`, then policies that are created with these names will be overridden with the default ISM policies, .
 - The default policy will be applied only to the newly created indices. To manually attach the new policies to the older indices, see [Step 2: Attach policies to indexes](https://opensearch.org/docs/latest/im-plugin/ism/index/#step-2-attach-policies-to-indexes).
   {{< /alert >}}
@@ -612,7 +612,7 @@ There are three ways to specify a plug-in in the `plugins.installList`:
           - org.opensearch.plugin:opensearch-anomaly-detection:2.2.0.0
   ```
   {{< /clipboard >}}
-{{< alert title="NOTE" color="warning" >}}
+{{< alert title="NOTE" color="primary" >}}
 - Adding a new plug-in to the `plugins.installList` or removing a plug-in from the `plugins.installList` will result in restarting the OpenSearch related pods.
 - To verify that a plug-in has installed successfully, make sure that no pod is in the CrashLoopBackOff state and the plug-in functionality is working fine.
 - If there is any error during plug-in installation, then one of the OS master pods will go into the CrashLoopBackOff state, while other pods will still be in the Running state, and the OpenSearch cluster will be healthy and functional. Check the logs for the exact reason of the failure.

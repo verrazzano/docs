@@ -13,7 +13,7 @@ single Kubernetes cluster using `kubectl`.
 - Find the Verrazzano prerequisite requirements [here]({{< relref "/docs/setup/prereqs.md" >}}).
 - Review the list of the [software versions supported]({{< relref "/docs/setup/prereqs.md#supported-software-versions" >}}) and [installed]({{< relref "/docs/setup/prereqs.md#installed-components" >}}) by Verrazzano.
 
-{{< alert title="NOTE" color="warning" >}}
+{{< alert title="NOTE" color="primary" >}}
 To avoid conflicts with Verrazzano system components, we recommend installing Verrazzano into an empty cluster.
 {{< /alert >}}
 

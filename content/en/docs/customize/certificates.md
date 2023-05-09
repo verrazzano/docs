@@ -16,7 +16,7 @@ following ways:
 
 In all cases, Verrazzano uses [cert-manager](https://cert-manager.io/) to manage the creation of certificates.
 
-{{< alert title="NOTE" color="warning" >}}
+{{< alert title="NOTE" color="danger" >}}
 Self-signed certificate authorities generate certificates that are NOT signed by a trusted authority; typically, they are not used in production environments.
 {{< /alert >}}
 
@@ -174,7 +174,7 @@ spec:
 </div>
 {{< /clipboard >}}
 
-{{< alert title="NOTE" color="warning" >}}
+{{< alert title="NOTE" color="danger" >}}
 Certificates issued by the LetsEncrypt `staging` environment are signed by untrusted authorities, similar to
 self-signed certificates.  They are typically not used in production environments.
 {{< /alert >}}

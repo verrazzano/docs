@@ -132,7 +132,7 @@ The following table describes the OpenSearch Dashboards and OpenSearch cluster t
 | `dev` | One master/data/ingest replica (1 Gi memory, ephemeral storage)                                                                                              | One replica (192 MB memory, ephemeral storage)
 | `managed-cluster` | Not installed                                                                                                                                             | Not installed
 
-{{< alert title="NOTE" color="warning" >}}
+{{< alert title="NOTE" color="primary" >}}
 OpenSearch containers are configured to use 75% of the configured request memory for the Java min/max heap settings.
 {{< /alert >}}
 

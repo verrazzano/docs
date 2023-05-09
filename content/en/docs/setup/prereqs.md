@@ -13,7 +13,7 @@ Verrazzano requires the following:
 
 The persistent volumes are provisioned using the default [StorageClass](https://kubernetes.io/docs/tasks/administer-cluster/change-default-storage-class/) in the cluster. In case of a  local disk based PV [provisioner](https://kubernetes.io/docs/concepts/storage/storage-classes/#provisioner), each node in the cluster should have a minimum of 80 GB of disk storage for both of the profiles.
 
-{{< alert title="NOTE" color="warning" >}}
+{{< alert title="NOTE" color="primary" >}}
 To avoid conflicts with Verrazzano system components, we recommend installing Verrazzano into an empty cluster. Also, depending on the resource requirements of the applications you deploy, the configurations previously suggested may or may not be sufficient.
 {{< /alert >}}
 
