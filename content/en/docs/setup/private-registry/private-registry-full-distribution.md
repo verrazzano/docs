@@ -7,7 +7,7 @@ draft: false
 
 Installing Verrazzano using a private Docker-compliant container registry requires the following:
 
-* Loading all required Verrazzano container images into your own registry and repositories.
+* Loading all the required Verrazzano container images into your own registry and repositories.
 * Installing Verrazzano with the private registry and a common prefix for all the repositories used to load the images.
 
 You must have the following software installed:
@@ -213,36 +213,38 @@ Load the product images into your private registry.
 
 ## Install Verrazzano   
 
-Use the Verrazzano CLI to perform the Verrazzano install from your private registry.
+Use the Verrazzano CLI to install Verrazzano from your private registry.
 
-1.  You will need the Verrazzano platform operator manifests file in order to install Verrazzano. This file is in the
+1. To install Verrazzano, you will need the Verrazzano platform operator manifests file. This file is in the
     distribution at `${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.yaml`.
-1. Install Verrazzano using the Verrazzano CLI. The CLI can be found in the distribution archive at `${DISTRIBUTION_DIR}/bin/vz`.
+2. Install Verrazzano using the Verrazzano CLI. You can find the CLI in the distribution archive at `${DISTRIBUTION_DIR}/bin/<platform>/vz`.
+   For example, for the Linux operating system on AMD architecture, the path to the CLI is `${DISTRIBUTION_DIR}/bin/linux-amd64/vz`.
+   This path is used in all the sample commands.
    {{< clipboard >}}
 <div class="highlight">
 
   ```
-  $ ${DISTRIBUTION_DIR}/bin/vz install --image-registry "${MYREG}" --image-prefix "${MYPREFIX}" --manifests ${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.yaml
+  $ ${DISTRIBUTION_DIR}/bin/linux-amd64/vz install --image-registry "${MYREG}" --image-prefix "${MYPREFIX}" --manifests ${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.yaml
   ```  
 </div>
 {{< /clipboard >}}
 
-**NOTE**: The `--manifests` flag is used in this example, to provide the location of the Verrazzano platform operator
+**NOTE**: The `--manifests` flag is used in this example to provide the location of the Verrazzano platform operator
 manifests file. If you omit this flag, the `vz` CLI will attempt to download the manifests file.
 
 Verrazzano supports customizing installation configurations. See [Customize Verrazzano]({{< relref "/docs/customize/_index.md" >}}).
 
-For example, to install Verrazzano using the the prod profile, run the following command:
+For example, to install Verrazzano using the `prod` profile, run the following command:
 {{< clipboard >}}
 <div class="highlight">
 
   ```
-  $ ${DISTRIBUTION_DIR}/bin/vz install --set profile=prod --image-registry "${MYREG}" --image-prefix "${MYPREFIX}" --manifests ${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.yaml
+  $ ${DISTRIBUTION_DIR}/bin/linux-amd64/vz install --set profile=prod --image-registry "${MYREG}" --image-prefix "${MYPREFIX}" --manifests ${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.yaml
   ```  
 </div>
 {{< /clipboard >}}
 
-For a complete description of Verrazzano CLI options, run `${DISTRIBUTION_DIR}/bin/vz -h`.
+For a complete description of Verrazzano CLI options, run `${DISTRIBUTION_DIR}/bin/linux-amd64/vz -h`.
 
 ## Configuring access to an insecure private registry
 
