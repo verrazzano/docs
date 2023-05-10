@@ -1,7 +1,7 @@
 ---
 title: "Verrazzano Drafts"
 weight: 17
-bookCollapseSection: true
-bookHidden: true
+toc_hide: true
+hide_summary: true
 draft: true
 ---
