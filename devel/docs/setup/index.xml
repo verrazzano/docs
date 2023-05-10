@@ -987,14 +987,13 @@ as well as analyzing failures in a running Verrazzano environment.&lt;/p&gt;
         
         &lt;p&gt;Installing Verrazzano using a private Docker-compliant container registry requires the following:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Loading all required Verrazzano container images into your own registry and repository.&lt;/li&gt;
-&lt;li&gt;Installing the Verrazzano platform operator with the private registry and repository used to load the images.&lt;/li&gt;
+&lt;li&gt;Loading all the required Verrazzano container images into your own registry and repositories.&lt;/li&gt;
+&lt;li&gt;Installing Verrazzano with the private registry and a common prefix for all the repositories used to load the images.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;You must have the following software installed:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://docs.docker.com/get-docker/&#34;&gt;Docker&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/tools/&#34;&gt;kubectl&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://helm.sh/docs/intro/install/&#34;&gt;Helm&lt;/a&gt; (version 3.x+)&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/stedolan/jq/wiki/Installation&#34;&gt;jq&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The Verrazzano distribution contains Kubernetes manifests to deploy Verrazzano, client binaries, and various other utilities. These distributions are provided for Linux and MacOS operating systems on AMD and ARM architectures.&lt;/p&gt;
@@ -1393,8 +1392,8 @@ The previous command downloads all the images to the &lt;code&gt;${DISTRIBUTION_
 &lt;li&gt;
 &lt;p&gt;Load the product images into your private registry.&lt;/p&gt;
 &lt;p&gt;a. To log in to the Docker registry, run &lt;code&gt;docker login &amp;lt;SERVER&amp;gt;&lt;/code&gt; with your credentials.&lt;/p&gt;
-&lt;p&gt;b. For use with the examples in this document, define the following variables with respect to your target registry and repository: &lt;code&gt;MYREG&lt;/code&gt;, &lt;code&gt;MYREPO&lt;/code&gt;, &lt;code&gt;VPO_IMAGE&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;These identify the target Docker registry and repository, and the Verrazzano platform operator image, as defined in the BOM file. For example, using a target registry of &lt;code&gt;myreg.io&lt;/code&gt; and a target repository of &lt;code&gt;myrepo/v8o&lt;/code&gt;:
+&lt;p&gt;b. For use with the examples in this document, define the following variables with respect to your target registry and image prefix: &lt;code&gt;MYREG&lt;/code&gt;, &lt;code&gt;MYPREFIX&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;These identify the target Docker registry and image prefix. For example, using a target registry of &lt;code&gt;myreg.io&lt;/code&gt; and a target image prefix of &lt;code&gt;myrepo/v8o&lt;/code&gt;:
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -1426,8 +1425,7 @@ The previous command downloads all the images to the &lt;code&gt;${DISTRIBUTION_
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ MYREG=myreg.io
-$ MYREPO=myrepo/v8o
-$ VPO_IMAGE=$(cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r &amp;#39;.components[].subcomponents[] | select(.name == &amp;#34;verrazzano-platform-operator&amp;#34;) | &amp;#34;\(.repository)/\(.images[].image):\(.images[].tag)&amp;#34;&amp;#39;)
+$ MYPREFIX=myrepo/v8o
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -1519,7 +1517,7 @@ $ VPO_IMAGE=$(cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r &amp
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ sh ${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh -t $MYREG -r $MYREPO -l ${DISTRIBUTION_DIR}/images
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ sh ${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh -t $MYREG -r $MYPREFIX -l ${DISTRIBUTION_DIR}/images
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -1872,9 +1870,13 @@ $ kubectl create secret docker-registry verrazzano-container-registry -n verrazz
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h2&gt;
+&lt;p&gt;Use the Verrazzano CLI to install Verrazzano from your private registry.&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Install the Verrazzano platform operator using the image defined by &lt;code&gt;$MYREG/$MYREPO/$VPO_IMAGE&lt;/code&gt;.&lt;br&gt;
+&lt;li&gt;To install Verrazzano, you will need the Verrazzano platform operator manifests file. This file is in the
+distribution at &lt;code&gt;${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.yaml&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Install Verrazzano using the Verrazzano CLI. You can find the CLI in the distribution archive at &lt;code&gt;${DISTRIBUTION_DIR}/bin/&amp;lt;platform&amp;gt;/vz&lt;/code&gt;.
+For example, for the Linux operating system on AMD architecture, the path to the CLI is &lt;code&gt;${DISTRIBUTION_DIR}/bin/linux-amd64/vz&lt;/code&gt;.
+This path is used in all the sample commands.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -1905,9 +1907,7 @@ $ kubectl create secret docker-registry verrazzano-container-registry -n verrazz
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ helm template --include-crds ${DISTRIBUTION_DIR}/manifests/charts/verrazzano-platform-operator \
-  --set image=${MYREG}/${MYREPO}/${VPO_IMAGE} --set global.registry=${MYREG} \
-  --set global.repository=${MYREPO} | kubectl apply -f -
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ ${DISTRIBUTION_DIR}/bin/linux-amd64/vz install --image-registry &amp;#34;${MYREG}&amp;#34; --image-prefix &amp;#34;${MYPREFIX}&amp;#34; --manifests ${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -1967,207 +1967,12 @@ $ kubectl create secret docker-registry verrazzano-container-registry -n verrazz
     document
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Wait for the deployment of the Verrazzano platform operator.
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
-
-# Sample output
-  deployment &amp;#34;verrazzano-platform-operator&amp;#34; successfully rolled out
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Confirm that the Verrazzano platform operator pod is running.
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-install get pods
-
-# Sample output
-  NAME                                            READY   STATUS    RESTARTS   AGE
-  verrazzano-platform-operator-74f4547555-s76r2   1/1     Running   0          114s
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;/li&gt;
+&lt;/script&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;The distribution archive includes the supported installation profiles under &lt;code&gt;${DISTRIBUTION_DIR}/manifests/profiles&lt;/code&gt;.
-Verrazzano supports customizing installation configurations. See &lt;a href=&#34;../../docs/customize/&#34;&gt;Customize Verrazzano&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;To create a Verrazzano installation using the provided profiles, run the following command:
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The &lt;code&gt;--manifests&lt;/code&gt; flag is used in this example to provide the location of the Verrazzano platform operator
+manifests file. If you omit this flag, the &lt;code&gt;vz&lt;/code&gt; CLI will attempt to download the manifests file, which requires access to the Internet.&lt;/p&gt;
+&lt;p&gt;Verrazzano supports customizing installation configurations. See &lt;a href=&#34;../../docs/customize/&#34;&gt;Customize Verrazzano&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For example, to install Verrazzano using the &lt;code&gt;prod&lt;/code&gt; profile, run the following command:
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -2198,7 +2003,7 @@ Verrazzano supports customizing installation configurations. See &lt;a href=&#34
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f $DISTRIBUTION_DIR/manifests/profiles/prod.yaml
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ ${DISTRIBUTION_DIR}/bin/linux-amd64/vz install --set profile=prod --image-registry &amp;#34;${MYREG}&amp;#34; --image-prefix &amp;#34;${MYPREFIX}&amp;#34; --manifests ${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -2258,8 +2063,8 @@ Verrazzano supports customizing installation configurations. See &lt;a href=&#34
     document
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;
-For a complete description of Verrazzano configuration options, see the &lt;a href=&#34;../../docs/reference/api/&#34;&gt;Reference API&lt;/a&gt;.&lt;/p&gt;
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;For a complete description of Verrazzano CLI options, run &lt;code&gt;${DISTRIBUTION_DIR}/bin/linux-amd64/vz -h&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;configuring-access-to-an-insecure-private-registry&#34;&gt;Configuring access to an insecure private registry&lt;/h2&gt;
 &lt;p&gt;A private Docker registry is called an &lt;a href=&#34;https://docs.docker.com/registry/insecure/&#34;&gt;insecure registry&lt;/a&gt; when it is configured for access using a self-signed certificate or over an unencrypted HTTP connection. Depending on the platform, there could be some additional configuration required for installing Verrazzano with an insecure registry.&lt;/p&gt;
 &lt;p&gt;For example, for the &lt;a href=&#34;../../docs/setup/platforms/olcne/olcne/&#34;&gt;Oracle Cloud Native Environment platform&lt;/a&gt;, insecure registries must be configured in &lt;code&gt;/etc/containers/registries.conf&lt;/code&gt; as follows on the worker nodes:
