@@ -182,7 +182,7 @@ Load the product images into your private registry.
 <div class="highlight">
 
    ```
-   $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.image == "rancher-agent") | "\(.image):\(.tag)"'
+   $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name == "rancher") | .images[] | select(.image == "rancher-agent") | "\(.image):\(.tag)"'
    ```
 </div>
 {{< /clipboard >}}
