@@ -89,7 +89,7 @@ Fixes:
 
 ### v1.4.5
 Fixes:
-- Updated base and other images for bugs and security.
+- Updated base and other images for issues and security.
 
 Component version updates:
 - WebLogic Kubernetes Operator v4.0.6
