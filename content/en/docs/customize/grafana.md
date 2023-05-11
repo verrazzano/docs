@@ -59,4 +59,4 @@ If you prefer to use your own Grafana database, complete the following steps:
 </div>
 {{< /clipboard >}}
 
-For more information about the component definition, see [Grafana component]({{< relref "/docs/reference/API/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.GrafanaComponent" >}}) in the Verrazzano custom resource.
+For more information about the component definition, see [Grafana component]({{< relref "/docs/reference/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.GrafanaComponent" >}}) in the Verrazzano custom resource.

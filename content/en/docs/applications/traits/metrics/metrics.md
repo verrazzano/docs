@@ -4,7 +4,7 @@ description: "A trait supporting the publication of application metrics"
 weight: 4
 draft: false
 ---
-The [MetricsTrait]({{< relref "/docs/reference/api/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.MetricsTrait" >}}) custom resource contains the configuration information needed to enable metrics for an application component.  Component workloads configured with a MetricsTrait are set up to emit metrics through an endpoint that are scraped by a given Prometheus deployment.  Here is a sample ApplicationConfiguration that specifies a MetricsTrait.  To deploy an example application that demonstrates a MetricsTrait, see [Hello World Helidon]({{< relref "/docs/samples/hello-helidon/" >}}).
+The [MetricsTrait]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.MetricsTrait" >}}) custom resource contains the configuration information needed to enable metrics for an application component.  Component workloads configured with a MetricsTrait are set up to emit metrics through an endpoint that are scraped by a given Prometheus deployment.  Here is a sample ApplicationConfiguration that specifies a MetricsTrait.  To deploy an example application that demonstrates a MetricsTrait, see [Hello World Helidon]({{< relref "/docs/samples/hello-helidon/" >}}).
 
 Note that if an ApplicationConfiguration does not specify a MetricsTrait, then a default MetricsTrait will be generated with values appropriate for the workload type.
 

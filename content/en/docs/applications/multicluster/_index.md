@@ -40,7 +40,7 @@ installation profile. A managed cluster has the following additional characteris
     - The MultiClusterApplicationConfiguration itself has a `placement` value that includes this managed cluster.
 
 ## Verrazzano multicluster applications
-Verrazzano includes a [MultiClusterApplicationConfiguration]({{< relref "/docs/reference/api/vao-clusters-v1alpha1#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfiguration" >}})
+Verrazzano includes a [MultiClusterApplicationConfiguration]({{< relref "/docs/reference/vao-clusters-v1alpha1#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfiguration" >}})
 resource definition for applications that may be targeted for placement in one or more clusters.
 
 - A MultiClusterApplicationConfiguration is a wrapper for an ApplicationConfiguration, and additionally allows the
@@ -55,7 +55,7 @@ resource definition for applications that may be targeted for placement in one o
 ## Managed cluster registration
 A managed cluster may be registered with an admin cluster using a two-step process:
 
-**Step 1**: Create a [VerrazzanoManagedCluster]({{< relref "/docs/reference/api/vco-clusters-v1alpha1#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster" >}}) resource in the `verrazzano-mc` namespace of the admin cluster.
+**Step 1**: Create a [VerrazzanoManagedCluster]({{< relref "/docs/reference/vco-clusters-v1alpha1#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster" >}}) resource in the `verrazzano-mc` namespace of the admin cluster.
 
 **Step 2**: Retrieve the Kubernetes manifest file generated in the VerrazzanoManagedCluster resource and apply it on
 the managed cluster to complete the registration.
@@ -89,6 +89,6 @@ This diagram shows a detailed view of how multicluster Verrazzano works.
 
 ## Try out multicluster Verrazzano
 
-For more information, see the [API Documentation]({{< relref "/docs/reference/api/" >}}) for the resources described here.
+For more information, see the [API Documentation]({{< relref "/docs/reference/" >}}) for the resources described here.
 
 To try out multicluster Verrazzano, see the [Multicluster]({{< relref "/docs/samples/multicluster/" >}}) examples.
