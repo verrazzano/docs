@@ -1,7 +1,7 @@
 ---
 title: "Verrazzano and the Open Application Model"
 linkTitle: Verrazzano and the Open Application Model
-weight: 1
+weight: 3
 draft: false
 ---
 
@@ -19,4 +19,4 @@ OAM has five core concepts:
 - Scopes - Apply customization to several components.  
 - Traits - Apply customization to a single component.
 
-![](/docs/concepts/oam-app.svg)
+![](/docs/about/oam-app.svg)
