@@ -17,7 +17,7 @@ Do not label a namespace which is managed by the pre-existing WebLogic Kubernete
 
 ## WebLogic OAM Component
 
-In Verrazzano, WebLogic workloads are specified as a [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) OAM Component and one component specifies exactly one WebLogic domain. An `ApplicationConfiguration` can contain multiple `VerrazzanoWebLogicWorkload` components and therefore, multiple WebLogic domains. You can specify `Traits` for one or more `VerrazzanoWebLogicWorkload` components. All WebLogic Domain CR fields can be specified in the `VerrazzanoWebLogicWorkload`.
+In Verrazzano, WebLogic workloads are specified as a [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) OAM Component and one component specifies exactly one WebLogic domain. An `ApplicationConfiguration` can contain multiple `VerrazzanoWebLogicWorkload` components and therefore, multiple WebLogic domains. You can specify `Traits` for one or more `VerrazzanoWebLogicWorkload` components. All WebLogic Domain CR fields can be specified in the `VerrazzanoWebLogicWorkload`.
 
 
 The following is an example WebLogic OAM Component.
@@ -283,7 +283,7 @@ Step 1. Create a WebLogic domain image.
 
 Step 2. Create a VerrazzanoWebLogicWorkload component.
    - To deploy and run the WebLogic domain image in Verrazzano, create the VerrazzanoWebLogicWorkload component that specifies the definition and parameters for the WebLogic domain contained in the image.
-   - For an example VerrazzanoWebLogicWorkload Component resource created for a sample WebLogic domain, see the [todo-domain]({{< relref "/docs/reference/API/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) example.
+   - For an example VerrazzanoWebLogicWorkload Component resource created for a sample WebLogic domain, see the [todo-domain]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) example.
    - For all the options supported by the WebLogic domain configuration, see [Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md).
 
 Step 3. Create an ApplicationConfiguration for the WebLogic application.

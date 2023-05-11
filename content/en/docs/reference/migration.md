@@ -1,6 +1,6 @@
 ---
-title: Deprecated API Migration Guide
-linkTitle: Deprecated API Migration Guide
+title: Migrate from Deprecated API Versions
+linkTitle: Migrate from Deprecated API Versions
 weight: 100
 draft: false
 ---

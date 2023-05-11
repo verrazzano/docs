@@ -243,7 +243,7 @@ For example, to install Verrazzano using the `prod` profile, run the following c
   ```  
 </div>
 {{< /clipboard >}}
-
+  
 For a complete description of Verrazzano CLI options, run `${DISTRIBUTION_DIR}/bin/linux-amd64/vz -h`.
 
 ## Configuring access to an insecure private registry
