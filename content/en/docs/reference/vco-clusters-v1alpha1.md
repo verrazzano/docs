@@ -1,6 +1,6 @@
 ---
 title: Verrazzano Managed Cluster
-weight: 2
+weight: 3
 ---
 <p>Packages:</p>
 <ul>

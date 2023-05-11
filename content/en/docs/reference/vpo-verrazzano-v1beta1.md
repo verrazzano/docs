@@ -1,6 +1,6 @@
 ---
-title: Verrazzano v1beta1
-weight: 2
+title: Verrazzano v1beta1 APIs
+weight: 4
 ---
 <p>Packages:</p>
 <ul>
@@ -1232,7 +1232,7 @@ string
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1beta1.ComponentStatusDetails">ComponentStatusDetails</a>, 
+<a href="#install.verrazzano.io/v1beta1.ComponentStatusDetails">ComponentStatusDetails</a>,
 <a href="#install.verrazzano.io/v1beta1.VerrazzanoStatus">VerrazzanoStatus</a>)
 </p>
 <p>
@@ -1789,32 +1789,32 @@ key in the <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOver
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1beta1.ApplicationOperatorComponent">ApplicationOperatorComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.ArgoCDComponent">ArgoCDComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.AuthProxyComponent">AuthProxyComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.CertManagerComponent">CertManagerComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.ClusterOperatorComponent">ClusterOperatorComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.CoherenceOperatorComponent">CoherenceOperatorComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.ConsoleComponent">ConsoleComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.DNSComponent">DNSComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.FluentdComponent">FluentdComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.IngressNginxComponent">IngressNginxComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.IstioComponent">IstioComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.JaegerOperatorComponent">JaegerOperatorComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.KeycloakComponent">KeycloakComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.KialiComponent">KialiComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.KubeStateMetricsComponent">KubeStateMetricsComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.MySQLComponent">MySQLComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.MySQLOperatorComponent">MySQLOperatorComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.OAMComponent">OAMComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.PrometheusAdapterComponent">PrometheusAdapterComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.PrometheusNodeExporterComponent">PrometheusNodeExporterComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.PrometheusOperatorComponent">PrometheusOperatorComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.PrometheusPushgatewayComponent">PrometheusPushgatewayComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.RancherBackupComponent">RancherBackupComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.RancherComponent">RancherComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.VeleroComponent">VeleroComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.VerrazzanoComponent">VerrazzanoComponent</a>, 
+<a href="#install.verrazzano.io/v1beta1.ApplicationOperatorComponent">ApplicationOperatorComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.ArgoCDComponent">ArgoCDComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.AuthProxyComponent">AuthProxyComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.CertManagerComponent">CertManagerComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.ClusterOperatorComponent">ClusterOperatorComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.CoherenceOperatorComponent">CoherenceOperatorComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.ConsoleComponent">ConsoleComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.DNSComponent">DNSComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.FluentdComponent">FluentdComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.IngressNginxComponent">IngressNginxComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.IstioComponent">IstioComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.JaegerOperatorComponent">JaegerOperatorComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.KeycloakComponent">KeycloakComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.KialiComponent">KialiComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.KubeStateMetricsComponent">KubeStateMetricsComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.MySQLComponent">MySQLComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.MySQLOperatorComponent">MySQLOperatorComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.OAMComponent">OAMComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.PrometheusAdapterComponent">PrometheusAdapterComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.PrometheusNodeExporterComponent">PrometheusNodeExporterComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.PrometheusOperatorComponent">PrometheusOperatorComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.PrometheusPushgatewayComponent">PrometheusPushgatewayComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.RancherBackupComponent">RancherBackupComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.RancherComponent">RancherComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.VeleroComponent">VeleroComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.VerrazzanoComponent">VerrazzanoComponent</a>,
 <a href="#install.verrazzano.io/v1beta1.WebLogicOperatorComponent">WebLogicOperatorComponent</a>)
 </p>
 <p>

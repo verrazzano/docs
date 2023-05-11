@@ -218,7 +218,7 @@ You must have the following software installed:
   ```  
 </div>
 {{< /clipboard >}}
-  For a complete description of Verrazzano configuration options, see the [Reference API]({{< relref "/docs/reference/api/_index.md" >}}).
+  For a complete description of Verrazzano configuration options, see the [Reference API]({{< relref "/docs/reference/_index.md" >}}).
 
 ## Configuring access to an insecure private registry
 
