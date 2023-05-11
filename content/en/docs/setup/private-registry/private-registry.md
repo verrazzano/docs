@@ -113,20 +113,30 @@ You must have the following software installed:
 
      d. Although most images can be protected using credentials stored in an image pull secret, some images _must_ be public. Use the following commands to get the list of public images:
 
-   * The Rancher Agent image and all the Rancher images in the `rancher/additional-rancher` subcomponent.
+   * The Rancher Agent image.
 {{< clipboard >}}
 <div class="highlight">
 
    ```
    $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name == "rancher") | .images[] | select(.image == "rancher-agent") | "\(.image):\(.tag)"'
+   ```
+</div>
+{{< /clipboard >}}
+
+   * All the Rancher images in the `rancher/additional-rancher` subcomponent.
+{{< clipboard >}}
+<div class="highlight">
+
+   ```
    $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name == "additional-rancher") | .images[] | "\(.image):\(.tag)"'
    ```
 </div>
 {{< /clipboard >}}
 
-      * The Verrazzano platform operator image identified by `$VPO_IMAGE`, as defined previously in Step 3.b.
-      * For all the Verrazzano Docker images in the private registry that are not explicitly marked public, you will need to create the secret `verrazzano-container-registry` in the `default` namespace, with the appropriate credentials for the registry, identified by `$MYREG`.    
-       For example:
+   * The Verrazzano platform operator image identified by `$VPO_IMAGE`, as defined previously in Step 3.b.
+
+   * For all the Verrazzano Docker images in the private registry that are not explicitly marked public, you will need to create the secret `verrazzano-container-registry` in the `default` namespace, with the appropriate credentials for the registry, identified by `$MYREG`.
+   For example:
 {{< clipboard >}}
 <div class="highlight">
 

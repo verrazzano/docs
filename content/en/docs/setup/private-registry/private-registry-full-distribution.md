@@ -179,12 +179,21 @@ Load the product images into your private registry.
 {{< /clipboard >}}
 4. Although most images can be protected using credentials stored in an image pull secret, some images _must_ be public. Use the following commands to get the list of public images:
 
-   * The Rancher Agent image and all the Rancher images in the `rancher/additional-rancher` subcomponent.
+   * The Rancher Agent image.
 {{< clipboard >}}
 <div class="highlight">
 
    ```
    $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name == "rancher") | .images[] | select(.image == "rancher-agent") | "\(.image):\(.tag)"'
+   ```
+</div>
+{{< /clipboard >}}
+
+   * All the Rancher images in the `rancher/additional-rancher` subcomponent.
+{{< clipboard >}}
+<div class="highlight">
+
+   ```
    $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name == "additional-rancher") | .images[] | "\(.image):\(.tag)"'
    ```
 </div>
