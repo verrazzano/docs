@@ -136,23 +136,7 @@ You must have the following software installed:
 <div class="highlight">
 
    ```
-   $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name == "capi-cluster-api") | .images[] | "\(.image):\(.tag)"'
-   ```
-</div>
-{{< /clipboard >}}
-{{< clipboard >}}
-<div class="highlight">
-
-   ```
-   $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name == "capi-oci") | .images[] | "\(.image):\(.tag)"'
-   ```
-</div>
-{{< /clipboard >}}
-{{< clipboard >}}
-<div class="highlight">
-
-   ```
-   $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name == "capi-ocne") | .images[] | "\(.image):\(.tag)"'
+   $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name | startswith("capi-")) | .images[] | "\(.image):\(.tag)"'
    ```
 </div>
 {{< /clipboard >}}
