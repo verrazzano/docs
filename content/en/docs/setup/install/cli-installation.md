@@ -30,7 +30,7 @@ Make sure that you have a valid kubeconfig file pointing to the Kubernetes clust
 ## Perform the installation
 
 Verrazzano provides a platform [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
-to manage the life cycle of Verrazzano installations.  Using the [Verrazzano]({{< relref "/docs/reference/api/vpo-verrazzano-v1beta1" >}})
+to manage the life cycle of Verrazzano installations.  Using the [Verrazzano]({{< relref "/docs/reference/vpo-verrazzano-v1beta1" >}})
 custom resource, you can install, uninstall, and upgrade Verrazzano installations. When applying the Verrazzano custom resource, the Verrazzano CLI deploys and installs the Verrazzano platform operator; you need only to install Verrazzano as described in the following section.
 
 Verrazzano supports the following installation profiles:  development (`dev`), production (`prod`), and
@@ -46,7 +46,7 @@ This document shows how to create a basic Verrazzano installation using:
 
 For an overview of how to configure Verrazzano, see [Modify Verrazzano Installations]({{< relref "/docs/setup/install/modify-installation.md" >}}).
 For a complete description of Verrazzano configuration options, see the
-[Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/vpo-verrazzano-v1beta1" >}}).
+[Verrazzano Custom Resource Definition]({{< relref "/docs/reference/vpo-verrazzano-v1beta1" >}}).
 
 To use other DNS options, see [Customizing DNS]({{< relref "/docs/customize/dns" >}}) for more details.
 

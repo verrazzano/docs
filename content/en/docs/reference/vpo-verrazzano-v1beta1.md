@@ -1,21 +1,21 @@
 ---
-title: Verrazzano v1alpha1
-weight: 2
+title: Verrazzano v1beta1 APIs
+weight: 4
 ---
 <p>Packages:</p>
 <ul>
 <li>
-<a href="#install.verrazzano.io%2fv1alpha1">install.verrazzano.io/v1alpha1</a>
+<a href="#install.verrazzano.io%2fv1beta1">install.verrazzano.io/v1beta1</a>
 </li>
 </ul>
-<h2 id="install.verrazzano.io/v1alpha1">install.verrazzano.io/v1alpha1</h2>
+<h2 id="install.verrazzano.io/v1beta1">install.verrazzano.io/v1beta1</h2>
 <p>
 </p>
 Resource Types:
 <ul><li>
-<a href="#install.verrazzano.io/v1alpha1.Verrazzano">Verrazzano</a>
+<a href="#install.verrazzano.io/v1beta1.Verrazzano">Verrazzano</a>
 </li></ul>
-<h3 id="install.verrazzano.io/v1alpha1.Verrazzano">Verrazzano
+<h3 id="install.verrazzano.io/v1beta1.Verrazzano">Verrazzano
 </h3>
 <p>
 <p>Verrazzano specifies the Verrazzano API.</p>
@@ -34,7 +34,7 @@ Resource Types:
 string</td>
 <td>
 <code>
-install.verrazzano.io/v1alpha1
+install.verrazzano.io/v1beta1
 </code>
 </td>
 </tr>
@@ -63,7 +63,7 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.VerrazzanoSpec">
+<a href="#install.verrazzano.io/v1beta1.VerrazzanoSpec">
 VerrazzanoSpec
 </a>
 </em>
@@ -76,7 +76,7 @@ VerrazzanoSpec
 <td>
 <code>components</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">
 ComponentSpec
 </a>
 </em>
@@ -120,7 +120,7 @@ The default value is <code>default</code>.</p>
 <td>
 <code>profile</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.ProfileType">
+<a href="#install.verrazzano.io/v1beta1.ProfileType">
 ProfileType
 </a>
 </em>
@@ -135,7 +135,7 @@ The default is <code>prod</code>.</p>
 <td>
 <code>security</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.SecuritySpec">
+<a href="#install.verrazzano.io/v1beta1.SecuritySpec">
 SecuritySpec
 </a>
 </em>
@@ -163,7 +163,7 @@ Defaults to the current version supported by the Verrazzano platform operator.</
 <td>
 <code>volumeClaimSpecTemplates</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.VolumeClaimSpecTemplate">
+<a href="#install.verrazzano.io/v1beta1.VolumeClaimSpecTemplate">
 []VolumeClaimSpecTemplate
 </a>
 </em>
@@ -180,7 +180,7 @@ Defaults to the current version supported by the Verrazzano platform operator.</
 <td>
 <code>status</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.VerrazzanoStatus">
+<a href="#install.verrazzano.io/v1beta1.VerrazzanoStatus">
 VerrazzanoStatus
 </a>
 </em>
@@ -190,11 +190,11 @@ VerrazzanoStatus
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.Acme">Acme
+<h3 id="install.verrazzano.io/v1beta1.Acme">Acme
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.Certificate">Certificate</a>)
+<a href="#install.verrazzano.io/v1beta1.Certificate">Certificate</a>)
 </p>
 <p>
 <p>Acme identifies the ACME cert issuer.</p>
@@ -235,7 +235,7 @@ string
 <td>
 <code>provider</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.ProviderType">
+<a href="#install.verrazzano.io/v1beta1.ProviderType">
 ProviderType
 </a>
 </em>
@@ -246,11 +246,11 @@ ProviderType
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.ApplicationOperatorComponent">ApplicationOperatorComponent
+<h3 id="install.verrazzano.io/v1beta1.ApplicationOperatorComponent">ApplicationOperatorComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>ApplicationOperatorComponent specifies the Application Operator configuration.</p>
@@ -272,14 +272,14 @@ bool
 </td>
 <td>
 <em>(Optional)</em>
-<p>If true, then Application Operator will be installed.</p>
+<p>If true, then the Application Operator will be installed.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -298,11 +298,11 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.ArgoCDComponent">ArgoCDComponent
+<h3 id="install.verrazzano.io/v1beta1.ArgoCDComponent">ArgoCDComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>ArgoCDComponent specifies the Argo CD configuration.</p>
@@ -331,7 +331,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -350,11 +350,11 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.AuthProxyComponent">AuthProxyComponent
+<h3 id="install.verrazzano.io/v1beta1.AuthProxyComponent">AuthProxyComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>AuthProxyComponent specifies the AuthProxy configuration.</p>
@@ -383,7 +383,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -400,61 +400,13 @@ find all possible values
 and invalid values will be ignored.</p>
 </td>
 </tr>
-<tr>
-<td>
-<code>kubernetes</code></br>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.AuthProxyKubernetesSection">
-AuthProxyKubernetesSection
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>The Kubernetes resources that can be configured for AuthProxy.</p>
-</td>
-</tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.AuthProxyKubernetesSection">AuthProxyKubernetesSection
+<h3 id="install.verrazzano.io/v1beta1.CA">CA
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.AuthProxyComponent">AuthProxyComponent</a>)
-</p>
-<p>
-<p>AuthProxyKubernetesSection specifies the Kubernetes resources that can be customized for AuthProxy.</p>
-</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>CommonKubernetesSpec</code></br>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.CommonKubernetesSpec">
-CommonKubernetesSpec
-</a>
-</em>
-</td>
-<td>
-<p>
-(Members of <code>CommonKubernetesSpec</code> are embedded into this type.)
-</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="install.verrazzano.io/v1alpha1.CA">CA
-</h3>
-<p>
-(<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.Certificate">Certificate</a>)
+<a href="#install.verrazzano.io/v1beta1.Certificate">Certificate</a>)
 </p>
 <p>
 <p>CA identifies the Certificate Authority cert issuer.</p>
@@ -491,11 +443,11 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.CAPIComponent">CAPIComponent
+<h3 id="install.verrazzano.io/v1beta1.CAPIComponent">CAPIComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>CAPIComponent specifies the CAPI configuration.</p>
@@ -522,11 +474,11 @@ bool
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.CertManagerComponent">CertManagerComponent
+<h3 id="install.verrazzano.io/v1beta1.CertManagerComponent">CertManagerComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>CertManagerComponent specifies the cert-manager configuration.</p>
@@ -543,7 +495,7 @@ bool
 <td>
 <code>certificate</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.Certificate">
+<a href="#install.verrazzano.io/v1beta1.Certificate">
 Certificate
 </a>
 </em>
@@ -569,7 +521,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -588,11 +540,11 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.Certificate">Certificate
+<h3 id="install.verrazzano.io/v1beta1.Certificate">Certificate
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.CertManagerComponent">CertManagerComponent</a>)
+<a href="#install.verrazzano.io/v1beta1.CertManagerComponent">CertManagerComponent</a>)
 </p>
 <p>
 <p>Certificate represents the type of cert issuer for an installation.</p>
@@ -609,7 +561,7 @@ and invalid values will be ignored.</p>
 <td>
 <code>acme</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.Acme">
+<a href="#install.verrazzano.io/v1beta1.Acme">
 Acme
 </a>
 </em>
@@ -623,7 +575,7 @@ Acme
 <td>
 <code>ca</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.CA">
+<a href="#install.verrazzano.io/v1beta1.CA">
 CA
 </a>
 </em>
@@ -635,11 +587,11 @@ CA
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.ClusterOperatorComponent">ClusterOperatorComponent
+<h3 id="install.verrazzano.io/v1beta1.ClusterOperatorComponent">ClusterOperatorComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>ClusterOperatorComponent specifies the Cluster Operator configuration.</p>
@@ -668,7 +620,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -687,11 +639,11 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.CoherenceOperatorComponent">CoherenceOperatorComponent
+<h3 id="install.verrazzano.io/v1beta1.CoherenceOperatorComponent">CoherenceOperatorComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>CoherenceOperatorComponent specifies the Coherence Operator configuration.</p>
@@ -713,14 +665,14 @@ bool
 </td>
 <td>
 <em>(Optional)</em>
-<p>If true, then Coherence Operator will be installed.</p>
+<p>If true, then the Coherence Operator will be installed.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -739,75 +691,29 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.CommonKubernetesSpec">CommonKubernetesSpec
-</h3>
-<p>
-(<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.AuthProxyKubernetesSection">AuthProxyKubernetesSection</a>, 
-<a href="#install.verrazzano.io/v1alpha1.IstioKubernetesSection">IstioKubernetesSection</a>)
-</p>
-<p>
-<p>Kubernetes resources that are common to a subgroup of components.</p>
-</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>replicas</code></br>
-<em>
-uint32
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>Specifies the number of pod instances to run.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>affinity</code></br>
-<em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#affinity-v1-core">
-Kubernetes core/v1.Affinity
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>Specifies the group of affinity scheduling rules.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="install.verrazzano.io/v1alpha1.CompStateType">CompStateType
+<h3 id="install.verrazzano.io/v1beta1.CompStateType">CompStateType
 (<code>string</code> alias)</p></h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentStatusDetails">ComponentStatusDetails</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentStatusDetails">ComponentStatusDetails</a>)
 </p>
 <p>
 <p>CompStateType identifies the state of a component.</p>
 </p>
-<h3 id="install.verrazzano.io/v1alpha1.ComponentAvailability">ComponentAvailability
+<h3 id="install.verrazzano.io/v1beta1.ComponentAvailability">ComponentAvailability
 (<code>string</code> alias)</p></h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentStatusDetails">ComponentStatusDetails</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentStatusDetails">ComponentStatusDetails</a>)
 </p>
 <p>
 <p>ComponentAvailability identifies the availability of a Verrazzano Component.</p>
 </p>
-<h3 id="install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec
+<h3 id="install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.VerrazzanoSpec">VerrazzanoSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.VerrazzanoSpec">VerrazzanoSpec</a>)
 </p>
 <p>
 <p>ComponentSpec contains a set of components used by Verrazzano.</p>
@@ -824,7 +730,7 @@ Kubernetes core/v1.Affinity
 <td>
 <code>applicationOperator</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.ApplicationOperatorComponent">
+<a href="#install.verrazzano.io/v1beta1.ApplicationOperatorComponent">
 ApplicationOperatorComponent
 </a>
 </em>
@@ -838,7 +744,7 @@ ApplicationOperatorComponent
 <td>
 <code>argoCD</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.ArgoCDComponent">
+<a href="#install.verrazzano.io/v1beta1.ArgoCDComponent">
 ArgoCDComponent
 </a>
 </em>
@@ -852,7 +758,7 @@ ArgoCDComponent
 <td>
 <code>authProxy</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.AuthProxyComponent">
+<a href="#install.verrazzano.io/v1beta1.AuthProxyComponent">
 AuthProxyComponent
 </a>
 </em>
@@ -866,7 +772,7 @@ AuthProxyComponent
 <td>
 <code>capi</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.CAPIComponent">
+<a href="#install.verrazzano.io/v1beta1.CAPIComponent">
 CAPIComponent
 </a>
 </em>
@@ -880,7 +786,7 @@ CAPIComponent
 <td>
 <code>certManager</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.CertManagerComponent">
+<a href="#install.verrazzano.io/v1beta1.CertManagerComponent">
 CertManagerComponent
 </a>
 </em>
@@ -894,7 +800,7 @@ CertManagerComponent
 <td>
 <code>clusterOperator</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.ClusterOperatorComponent">
+<a href="#install.verrazzano.io/v1beta1.ClusterOperatorComponent">
 ClusterOperatorComponent
 </a>
 </em>
@@ -908,7 +814,7 @@ ClusterOperatorComponent
 <td>
 <code>coherenceOperator</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.CoherenceOperatorComponent">
+<a href="#install.verrazzano.io/v1beta1.CoherenceOperatorComponent">
 CoherenceOperatorComponent
 </a>
 </em>
@@ -922,7 +828,7 @@ CoherenceOperatorComponent
 <td>
 <code>console</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.ConsoleComponent">
+<a href="#install.verrazzano.io/v1beta1.ConsoleComponent">
 ConsoleComponent
 </a>
 </em>
@@ -936,7 +842,7 @@ ConsoleComponent
 <td>
 <code>dns</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.DNSComponent">
+<a href="#install.verrazzano.io/v1beta1.DNSComponent">
 DNSComponent
 </a>
 </em>
@@ -948,23 +854,9 @@ DNSComponent
 </tr>
 <tr>
 <td>
-<code>elasticsearch</code></br>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.ElasticsearchComponent">
-ElasticsearchComponent
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>The Elasticsearch component configuration.</p>
-</td>
-</tr>
-<tr>
-<td>
 <code>fluentd</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.FluentdComponent">
+<a href="#install.verrazzano.io/v1beta1.FluentdComponent">
 FluentdComponent
 </a>
 </em>
@@ -978,7 +870,7 @@ FluentdComponent
 <td>
 <code>grafana</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.GrafanaComponent">
+<a href="#install.verrazzano.io/v1beta1.GrafanaComponent">
 GrafanaComponent
 </a>
 </em>
@@ -990,9 +882,9 @@ GrafanaComponent
 </tr>
 <tr>
 <td>
-<code>ingress</code></br>
+<code>ingressNGINX</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.IngressNginxComponent">
+<a href="#install.verrazzano.io/v1beta1.IngressNginxComponent">
 IngressNginxComponent
 </a>
 </em>
@@ -1006,7 +898,7 @@ IngressNginxComponent
 <td>
 <code>istio</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.IstioComponent">
+<a href="#install.verrazzano.io/v1beta1.IstioComponent">
 IstioComponent
 </a>
 </em>
@@ -1020,7 +912,7 @@ IstioComponent
 <td>
 <code>jaegerOperator</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.JaegerOperatorComponent">
+<a href="#install.verrazzano.io/v1beta1.JaegerOperatorComponent">
 JaegerOperatorComponent
 </a>
 </em>
@@ -1032,37 +924,9 @@ JaegerOperatorComponent
 </tr>
 <tr>
 <td>
-<code>kiali</code></br>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.KialiComponent">
-KialiComponent
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>The Kiali component configuration.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>kibana</code></br>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.KibanaComponent">
-KibanaComponent
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>The Kibana component configuration.</p>
-</td>
-</tr>
-<tr>
-<td>
 <code>keycloak</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.KeycloakComponent">
+<a href="#install.verrazzano.io/v1beta1.KeycloakComponent">
 KeycloakComponent
 </a>
 </em>
@@ -1074,23 +938,37 @@ KeycloakComponent
 </tr>
 <tr>
 <td>
+<code>kiali</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.KialiComponent">
+KialiComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The Kiali component configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>kubeStateMetrics</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.KubeStateMetricsComponent">
+<a href="#install.verrazzano.io/v1beta1.KubeStateMetricsComponent">
 KubeStateMetricsComponent
 </a>
 </em>
 </td>
 <td>
 <em>(Optional)</em>
-<p>The kube-state-metrics component configuration.</p>
+<p>The kube-state-metrics  component configuration.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>mySQLOperator</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.MySQLOperatorComponent">
+<a href="#install.verrazzano.io/v1beta1.MySQLOperatorComponent">
 MySQLOperatorComponent
 </a>
 </em>
@@ -1104,7 +982,7 @@ MySQLOperatorComponent
 <td>
 <code>oam</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.OAMComponent">
+<a href="#install.verrazzano.io/v1beta1.OAMComponent">
 OAMComponent
 </a>
 </em>
@@ -1116,9 +994,37 @@ OAMComponent
 </tr>
 <tr>
 <td>
+<code>opensearch</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.OpenSearchComponent">
+OpenSearchComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The OpenSearch component configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>opensearchDashboards</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.OpenSearchDashboardsComponent">
+OpenSearchDashboardsComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The OpenSearch Dashboards component configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>prometheus</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.PrometheusComponent">
+<a href="#install.verrazzano.io/v1beta1.PrometheusComponent">
 PrometheusComponent
 </a>
 </em>
@@ -1132,7 +1038,7 @@ PrometheusComponent
 <td>
 <code>prometheusAdapter</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.PrometheusAdapterComponent">
+<a href="#install.verrazzano.io/v1beta1.PrometheusAdapterComponent">
 PrometheusAdapterComponent
 </a>
 </em>
@@ -1146,7 +1052,7 @@ PrometheusAdapterComponent
 <td>
 <code>prometheusNodeExporter</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.PrometheusNodeExporterComponent">
+<a href="#install.verrazzano.io/v1beta1.PrometheusNodeExporterComponent">
 PrometheusNodeExporterComponent
 </a>
 </em>
@@ -1160,7 +1066,7 @@ PrometheusNodeExporterComponent
 <td>
 <code>prometheusOperator</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.PrometheusOperatorComponent">
+<a href="#install.verrazzano.io/v1beta1.PrometheusOperatorComponent">
 PrometheusOperatorComponent
 </a>
 </em>
@@ -1174,7 +1080,7 @@ PrometheusOperatorComponent
 <td>
 <code>prometheusPushgateway</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.PrometheusPushgatewayComponent">
+<a href="#install.verrazzano.io/v1beta1.PrometheusPushgatewayComponent">
 PrometheusPushgatewayComponent
 </a>
 </em>
@@ -1188,7 +1094,7 @@ PrometheusPushgatewayComponent
 <td>
 <code>rancher</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.RancherComponent">
+<a href="#install.verrazzano.io/v1beta1.RancherComponent">
 RancherComponent
 </a>
 </em>
@@ -1202,7 +1108,7 @@ RancherComponent
 <td>
 <code>rancherBackup</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.RancherBackupComponent">
+<a href="#install.verrazzano.io/v1beta1.RancherBackupComponent">
 RancherBackupComponent
 </a>
 </em>
@@ -1216,7 +1122,7 @@ RancherBackupComponent
 <td>
 <code>thanos</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.ThanosComponent">
+<a href="#install.verrazzano.io/v1beta1.ThanosComponent">
 ThanosComponent
 </a>
 </em>
@@ -1230,7 +1136,7 @@ ThanosComponent
 <td>
 <code>velero</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.VeleroComponent">
+<a href="#install.verrazzano.io/v1beta1.VeleroComponent">
 VeleroComponent
 </a>
 </em>
@@ -1244,7 +1150,7 @@ VeleroComponent
 <td>
 <code>verrazzano</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.VerrazzanoComponent">
+<a href="#install.verrazzano.io/v1beta1.VerrazzanoComponent">
 VerrazzanoComponent
 </a>
 </em>
@@ -1258,7 +1164,7 @@ VerrazzanoComponent
 <td>
 <code>weblogicOperator</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.WebLogicOperatorComponent">
+<a href="#install.verrazzano.io/v1beta1.WebLogicOperatorComponent">
 WebLogicOperatorComponent
 </a>
 </em>
@@ -1270,7 +1176,7 @@ WebLogicOperatorComponent
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.ComponentStatusDetails">ComponentStatusDetails
+<h3 id="install.verrazzano.io/v1beta1.ComponentStatusDetails">ComponentStatusDetails
 </h3>
 <p>
 <p>ComponentStatusDetails defines the observed state of a component.</p>
@@ -1287,7 +1193,7 @@ WebLogicOperatorComponent
 <td>
 <code>available</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentAvailability">
+<a href="#install.verrazzano.io/v1beta1.ComponentAvailability">
 ComponentAvailability
 </a>
 </em>
@@ -1300,7 +1206,7 @@ ComponentAvailability
 <td>
 <code>conditions</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.Condition">
+<a href="#install.verrazzano.io/v1beta1.Condition">
 []Condition
 </a>
 </em>
@@ -1346,7 +1252,7 @@ int64
 <td>
 <code>state</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.CompStateType">
+<a href="#install.verrazzano.io/v1beta1.CompStateType">
 CompStateType
 </a>
 </em>
@@ -1368,25 +1274,25 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.ComponentStatusMap">ComponentStatusMap
-(<code>map[string]*github.com/verrazzano/verrazzano/platform-operator/apis/verrazzano/v1alpha1.ComponentStatusDetails</code> alias)</p></h3>
+<h3 id="install.verrazzano.io/v1beta1.ComponentStatusMap">ComponentStatusMap
+(<code>map[string]*github.com/verrazzano/verrazzano/platform-operator/apis/verrazzano/v1beta1.ComponentStatusDetails</code> alias)</p></h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.VerrazzanoStatus">VerrazzanoStatus</a>)
+<a href="#install.verrazzano.io/v1beta1.VerrazzanoStatus">VerrazzanoStatus</a>)
 </p>
 <p>
 <p>ComponentStatusMap is a map of components status details.</p>
 </p>
-<h3 id="install.verrazzano.io/v1alpha1.ComponentValidator">ComponentValidator
+<h3 id="install.verrazzano.io/v1beta1.ComponentValidator">ComponentValidator
 </h3>
 <p>
 </p>
-<h3 id="install.verrazzano.io/v1alpha1.Condition">Condition
+<h3 id="install.verrazzano.io/v1beta1.Condition">Condition
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentStatusDetails">ComponentStatusDetails</a>, 
-<a href="#install.verrazzano.io/v1alpha1.VerrazzanoStatus">VerrazzanoStatus</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentStatusDetails">ComponentStatusDetails</a>,
+<a href="#install.verrazzano.io/v1beta1.VerrazzanoStatus">VerrazzanoStatus</a>)
 </p>
 <p>
 <p>Condition describes the current state of an installation.</p>
@@ -1438,7 +1344,7 @@ Kubernetes core/v1.ConditionStatus
 <td>
 <code>type</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.ConditionType">
+<a href="#install.verrazzano.io/v1beta1.ConditionType">
 ConditionType
 </a>
 </em>
@@ -1449,20 +1355,20 @@ ConditionType
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.ConditionType">ConditionType
+<h3 id="install.verrazzano.io/v1beta1.ConditionType">ConditionType
 (<code>string</code> alias)</p></h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.Condition">Condition</a>)
+<a href="#install.verrazzano.io/v1beta1.Condition">Condition</a>)
 </p>
 <p>
 <p>ConditionType identifies the condition of the install, uninstall, or upgrade, which can be checked with <code>kubectl wait</code>.</p>
 </p>
-<h3 id="install.verrazzano.io/v1alpha1.ConsoleComponent">ConsoleComponent
+<h3 id="install.verrazzano.io/v1beta1.ConsoleComponent">ConsoleComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>ConsoleComponent specifies the Verrazzano Console configuration.</p>
@@ -1484,14 +1390,14 @@ bool
 </td>
 <td>
 <em>(Optional)</em>
-<p>If true, then the Verrazzano Console will be installed.</p>
+<p>If true, then Verrazzano Console will be installed.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -1510,11 +1416,11 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.DNSComponent">DNSComponent
+<h3 id="install.verrazzano.io/v1beta1.DNSComponent">DNSComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>DNSComponent specifies the DNS configuration.</p>
@@ -1531,7 +1437,7 @@ and invalid values will be ignored.</p>
 <td>
 <code>external</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.External">
+<a href="#install.verrazzano.io/v1beta1.External">
 External
 </a>
 </em>
@@ -1545,7 +1451,7 @@ External
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -1566,7 +1472,7 @@ and invalid values will be ignored.</p>
 <td>
 <code>oci</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.OCI">
+<a href="#install.verrazzano.io/v1beta1.OCI">
 OCI
 </a>
 </em>
@@ -1580,7 +1486,7 @@ OCI
 <td>
 <code>wildcard</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.Wildcard">
+<a href="#install.verrazzano.io/v1beta1.Wildcard">
 Wildcard
 </a>
 </em>
@@ -1592,11 +1498,11 @@ Wildcard
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.DatabaseInfo">DatabaseInfo
+<h3 id="install.verrazzano.io/v1beta1.DatabaseInfo">DatabaseInfo
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.GrafanaComponent">GrafanaComponent</a>)
+<a href="#install.verrazzano.io/v1beta1.GrafanaComponent">GrafanaComponent</a>)
 </p>
 <p>
 <p>DatabaseInfo specifies the database connection information for the Grafana DB instance.</p>
@@ -1633,111 +1539,11 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.ElasticsearchComponent">ElasticsearchComponent
+<h3 id="install.verrazzano.io/v1beta1.External">External
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
-</p>
-<p>
-<p>ElasticsearchComponent specifies the Elasticsearch configuration.</p>
-</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code></br>
-<em>
-bool
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>If true, then OpenSearch will be installed.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>installArgs</code></br>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.InstallArgs">
-[]InstallArgs
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>A list of values to use during the OpenSearch installation. Each argument is specified as either a <code>name/value</code> or
-<code>name/valueList</code> pair. For sample usage, see
-<a href="../../../../docs/customize/opensearch/">Customize OpenSearch</a>.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nodes</code></br>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.OpenSearchNode">
-[]OpenSearchNode
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>A list of OpenSearch node groups.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>policies</code></br>
-<em>
-<a href="https://pkg.go.dev/github.com/verrazzano/verrazzano-monitoring-operator/pkg/apis/vmcontroller/v1#IndexManagementPolicy">
-[]VMO /vmcontroller/v1.IndexManagementPolicy
-</a>
-</em>
-</td>
-<td>
-<p>A list of <a href="https://opensearch.org/docs/2.3/im-plugin/ism/index/">Index State Management</a> policies
-to enable on OpenSearch.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>plugins</code></br>
-<em>
-<a href="https://pkg.go.dev/github.com/verrazzano/verrazzano-monitoring-operator/pkg/apis/vmcontroller/v1#OpenSearchPlugins">
-VMO /vmcontroller/v1.OpenSearchPlugins
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>Enable to add 3rd Party / Custom plugins not offered in the default OpenSearch image</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>disableDefaultPolicy</code></br>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>To disable the default ISM policies.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="install.verrazzano.io/v1alpha1.External">External
-</h3>
-<p>
-(<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.DNSComponent">DNSComponent</a>)
+<a href="#install.verrazzano.io/v1beta1.DNSComponent">DNSComponent</a>)
 </p>
 <p>
 <p>External DNS type.</p>
@@ -1763,11 +1569,11 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.FluentdComponent">FluentdComponent
+<h3 id="install.verrazzano.io/v1beta1.FluentdComponent">FluentdComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>FluentdComponent specifies the Fluentd configuration.</p>
@@ -1780,36 +1586,6 @@ string
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>
-<code>elasticsearchSecret</code></br>
-<em>
-string
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>The secret containing the credentials for connecting to OpenSearch. This secret needs to be created in the
-<code>verrazzano-install</code> namespace prior to creating the Verrazzano custom resource. Specify the OpenSearch login
-credentials in the <code>username</code> and <code>password</code> fields in this secret. Specify the CA for verifying the OpenSearch
-certificate in the <code>ca-bundle</code> field, if applicable. The default <code>verrazzano</code> is the secret for connecting to
-the VMI OpenSearch.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>elasticsearchURL</code></br>
-<em>
-string
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>The target OpenSearch URLs.
-Specify this option in this <a href="https://docs.fluentd.org/output/elasticsearch#hosts-optional">format</a>.
-The default <code>http://vmi-system-es-ingest-oidc:8775</code> is the VMI OpenSearch URL.</p>
-</td>
-</tr>
 <tr>
 <td>
 <code>enabled</code></br>
@@ -1826,7 +1602,7 @@ bool
 <td>
 <code>extraVolumeMounts</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.VolumeMount">
+<a href="#install.verrazzano.io/v1beta1.VolumeMount">
 []VolumeMount
 </a>
 </em>
@@ -1844,7 +1620,7 @@ mount of that directory to collect the logs.</p>
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -1865,7 +1641,7 @@ and invalid values will be ignored.</p>
 <td>
 <code>oci</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.OciLoggingConfiguration">
+<a href="#install.verrazzano.io/v1beta1.OciLoggingConfiguration">
 OciLoggingConfiguration
 </a>
 </em>
@@ -1875,13 +1651,43 @@ OciLoggingConfiguration
 <p>The Oracle Cloud Infrastructure Logging configuration.</p>
 </td>
 </tr>
+<tr>
+<td>
+<code>opensearchSecret</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The secret containing the credentials for connecting to OpenSearch. This secret needs to be created in the
+<code>verrazzano-install</code> namespace prior to creating the Verrazzano custom resource. Specify the OpenSearch login
+credentials in the <code>username</code> and <code>password</code> fields in this secret. Specify the CA for verifying the OpenSearch
+certificate in the <code>ca-bundle</code> field, if applicable. The default <code>verrazzano</code> is the secret for connecting to
+the VMI OpenSearch.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>opensearchURL</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The target OpenSearch URLs.
+Specify this option in this <a href="https://docs.fluentd.org/output/opensearch#hosts-optional">format</a>.
+The default <code>http://vmi-system-es-ingest-oidc:8775</code> is the VMI OpenSearch URL.</p>
+</td>
+</tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.GrafanaComponent">GrafanaComponent
+<h3 id="install.verrazzano.io/v1beta1.GrafanaComponent">GrafanaComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>GrafanaComponent specifies the Grafana configuration.</p>
@@ -1898,7 +1704,7 @@ OciLoggingConfiguration
 <td>
 <code>database</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.DatabaseInfo">
+<a href="#install.verrazzano.io/v1beta1.DatabaseInfo">
 DatabaseInfo
 </a>
 </em>
@@ -1948,14 +1754,14 @@ VMO /vmcontroller/v1.SMTPInfo
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.IngressNginxComponent">IngressNginxComponent
+<h3 id="install.verrazzano.io/v1beta1.IngressNginxComponent">IngressNginxComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
-<p>IngressNginxComponent specifies the ingress-nginx configuration.</p>
+<p>IngressNginxComponent specifies the ingress NGINX configuration.</p>
 </p>
 <table>
 <thead>
@@ -1993,7 +1799,7 @@ string
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -2008,20 +1814,6 @@ but in the event of conflicting fields, the last override in the list takes prec
 find all possible values
 <a href="{{% release_source_url path=platform-operator/thirdparty/charts/ingress-nginx/values.yaml %}}">here</a>
 and invalid values will be ignored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>nginxInstallArgs</code></br>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.InstallArgs">
-[]InstallArgs
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>Arguments for installing NGINX.</p>
 </td>
 </tr>
 <tr>
@@ -2042,7 +1834,7 @@ and invalid values will be ignored.</p>
 <td>
 <code>type</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.IngressType">
+<a href="#install.verrazzano.io/v1beta1.IngressType">
 IngressType
 </a>
 </em>
@@ -2051,126 +1843,53 @@ IngressType
 <em>(Optional)</em>
 <p>The ingress type. Valid values are <code>LoadBalancer</code> and <code>NodePort</code>. The default value is <code>LoadBalancer</code>. If the ingress
 type is <code>NodePort</code>, then a valid and accessible IP address must be specified using the <code>controller.service.externalIPs</code>
-key in NGINXInstallArgs. For sample usage, see
+key in the <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. For sample usage, see
 <a href="../../../../docs/customize/externallbs/">External Load Balancers</a>.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.IngressType">IngressType
+<h3 id="install.verrazzano.io/v1beta1.IngressType">IngressType
 (<code>string</code> alias)</p></h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.IngressNginxComponent">IngressNginxComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.IstioIngressSection">IstioIngressSection</a>)
+<a href="#install.verrazzano.io/v1beta1.IngressNginxComponent">IngressNginxComponent</a>)
 </p>
 <p>
 <p>IngressType is the type of ingress.</p>
 </p>
-<h3 id="install.verrazzano.io/v1alpha1.InstallArgs">InstallArgs
+<h3 id="install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ElasticsearchComponent">ElasticsearchComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.IngressNginxComponent">IngressNginxComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.IstioComponent">IstioComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.KeycloakComponent">KeycloakComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.MySQLComponent">MySQLComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.VerrazzanoComponent">VerrazzanoComponent</a>)
-</p>
-<p>
-<p>InstallArgs identifies a name/value or name/value list needed for the install.
-Value and ValueList cannot both be specified.</p>
-</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code></br>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name of the install argument.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>value</code></br>
-<em>
-string
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>Value for the named install argument.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>setString</code></br>
-<em>
-bool
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>If the value is a literal string.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>valueList</code></br>
-<em>
-[]string
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>List of values for the named install argument.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="install.verrazzano.io/v1alpha1.InstallOverrides">InstallOverrides
-</h3>
-<p>
-(<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ApplicationOperatorComponent">ApplicationOperatorComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.ArgoCDComponent">ArgoCDComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.AuthProxyComponent">AuthProxyComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.CertManagerComponent">CertManagerComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.ClusterOperatorComponent">ClusterOperatorComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.CoherenceOperatorComponent">CoherenceOperatorComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.ConsoleComponent">ConsoleComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.DNSComponent">DNSComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.FluentdComponent">FluentdComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.IngressNginxComponent">IngressNginxComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.IstioComponent">IstioComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.JaegerOperatorComponent">JaegerOperatorComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.KeycloakComponent">KeycloakComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.KialiComponent">KialiComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.KubeStateMetricsComponent">KubeStateMetricsComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.MySQLComponent">MySQLComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.MySQLOperatorComponent">MySQLOperatorComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.OAMComponent">OAMComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.PrometheusAdapterComponent">PrometheusAdapterComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.PrometheusNodeExporterComponent">PrometheusNodeExporterComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.PrometheusOperatorComponent">PrometheusOperatorComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.PrometheusPushgatewayComponent">PrometheusPushgatewayComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.RancherBackupComponent">RancherBackupComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.RancherComponent">RancherComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.ThanosComponent">ThanosComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.VeleroComponent">VeleroComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.VerrazzanoComponent">VerrazzanoComponent</a>, 
-<a href="#install.verrazzano.io/v1alpha1.WebLogicOperatorComponent">WebLogicOperatorComponent</a>)
+<a href="#install.verrazzano.io/v1beta1.ApplicationOperatorComponent">ApplicationOperatorComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.ArgoCDComponent">ArgoCDComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.AuthProxyComponent">AuthProxyComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.CertManagerComponent">CertManagerComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.ClusterOperatorComponent">ClusterOperatorComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.CoherenceOperatorComponent">CoherenceOperatorComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.ConsoleComponent">ConsoleComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.DNSComponent">DNSComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.FluentdComponent">FluentdComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.IngressNginxComponent">IngressNginxComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.IstioComponent">IstioComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.JaegerOperatorComponent">JaegerOperatorComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.KeycloakComponent">KeycloakComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.KialiComponent">KialiComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.KubeStateMetricsComponent">KubeStateMetricsComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.MySQLComponent">MySQLComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.MySQLOperatorComponent">MySQLOperatorComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.OAMComponent">OAMComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.PrometheusAdapterComponent">PrometheusAdapterComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.PrometheusNodeExporterComponent">PrometheusNodeExporterComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.PrometheusOperatorComponent">PrometheusOperatorComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.PrometheusPushgatewayComponent">PrometheusPushgatewayComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.RancherBackupComponent">RancherBackupComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.RancherComponent">RancherComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.ThanosComponent">ThanosComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.VeleroComponent">VeleroComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.VerrazzanoComponent">VerrazzanoComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.WebLogicOperatorComponent">WebLogicOperatorComponent</a>)
 </p>
 <p>
 <p>InstallOverrides are used to pass installation overrides to components.</p>
@@ -2199,28 +1918,28 @@ bool
 <td>
 <code>overrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.Overrides">
+<a href="#install.verrazzano.io/v1beta1.Overrides">
 []Overrides
 </a>
 </em>
 </td>
 <td>
 <em>(Optional)</em>
-<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.InstanceInfo">InstanceInfo
+<h3 id="install.verrazzano.io/v1beta1.InstanceInfo">InstanceInfo
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.VerrazzanoStatus">VerrazzanoStatus</a>)
+<a href="#install.verrazzano.io/v1beta1.VerrazzanoStatus">VerrazzanoStatus</a>)
 </p>
 <p>
-<p>InstanceInfo details of installed Verrazzano instance maintained in status field.</p>
+<p>InstanceInfo details of the installed Verrazzano instance maintained in status field.</p>
 </p>
 <table>
 <thead>
@@ -2250,17 +1969,6 @@ string
 </td>
 <td>
 <p>The Console URL for this Verrazzano installation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>elasticUrl</code></br>
-<em>
-string
-</em>
-</td>
-<td>
-<p>The OpenSearch URL for this Verrazzano installation.</p>
 </td>
 </tr>
 <tr>
@@ -2309,13 +2017,24 @@ string
 </tr>
 <tr>
 <td>
-<code>kibanaUrl</code></br>
+<code>openSearchDashboardsUrl</code></br>
 <em>
 string
 </em>
 </td>
 <td>
 <p>The OpenSearch Dashboards URL for this Verrazzano installation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>openSearchUrl</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<p>The OpenSearch URL for this Verrazzano installation.</p>
 </td>
 </tr>
 <tr>
@@ -2354,11 +2073,11 @@ The Thanos Query ingress gets forwarded to the Thanos Query Frontend service.</p
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.IstioComponent">IstioComponent
+<h3 id="install.verrazzano.io/v1beta1.IstioComponent">IstioComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>IstioComponent specifies the Istio configuration.</p>
@@ -2373,20 +2092,6 @@ The Thanos Query ingress gets forwarded to the Thanos Query Frontend service.</p
 <tbody>
 <tr>
 <td>
-<code>egress</code></br>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.IstioEgressSection">
-IstioEgressSection
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>The Istio egress gateway configuration.</p>
-</td>
-</tr>
-<tr>
-<td>
 <code>enabled</code></br>
 <em>
 bool
@@ -2395,20 +2100,6 @@ bool
 <td>
 <em>(Optional)</em>
 <p>If true, then Istio will be installed.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ingress</code></br>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.IstioIngressSection">
-IstioIngressSection
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>The Istio ingress gateway configuration.</p>
 </td>
 </tr>
 <tr>
@@ -2427,7 +2118,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -2443,159 +2134,13 @@ fields, the last override in the list takes precedence over any others. You can 
 Passing through an invalid IstioOperator resource will result in an error.</p>
 </td>
 </tr>
-<tr>
-<td>
-<code>istioInstallArgs</code></br>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.InstallArgs">
-[]InstallArgs
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>Arguments for installing Istio.</p>
-</td>
-</tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.IstioEgressSection">IstioEgressSection
+<h3 id="install.verrazzano.io/v1beta1.JaegerOperatorComponent">JaegerOperatorComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.IstioComponent">IstioComponent</a>)
-</p>
-<p>
-<p>IstioEgressSection specifies the specific configuration options available for the Istio egress gateways.</p>
-</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>kubernetes</code></br>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.IstioKubernetesSection">
-IstioKubernetesSection
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>The Kubernetes resources that can be configured for an Istio egress gateway.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="install.verrazzano.io/v1alpha1.IstioIngressSection">IstioIngressSection
-</h3>
-<p>
-(<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.IstioComponent">IstioComponent</a>)
-</p>
-<p>
-<p>IstioIngressSection specifies the specific configuration options available for the Istio ingress gateways.</p>
-</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>type</code></br>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.IngressType">
-IngressType
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>The Istio ingress type. Valid values are <code>LoadBalancer</code> and <code>NodePort</code>. The default value is <code>LoadBalancer</code>. If the
-Istio ingress type is <code>NodePort</code>, then a valid and accessible IP address must be specified using the
-<code>gateways.istio-ingressgateway.externalIPs</code> key in IstioInstallArgs. For sample usage, see
-<a href="../../../../docs/customize/externallbs/">External Load Balancers</a>.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ports</code></br>
-<em>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#serviceport-v1-core">
-[]Kubernetes core/v1.ServicePort
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>The list port configurations used by the Istio ingress.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>kubernetes</code></br>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.IstioKubernetesSection">
-IstioKubernetesSection
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>The Kubernetes resources that can be configured for an Istio ingress gateway.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="install.verrazzano.io/v1alpha1.IstioKubernetesSection">IstioKubernetesSection
-</h3>
-<p>
-(<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.IstioEgressSection">IstioEgressSection</a>, 
-<a href="#install.verrazzano.io/v1alpha1.IstioIngressSection">IstioIngressSection</a>)
-</p>
-<p>
-<p>IstioKubernetesSection specifies the Kubernetes resources that can be customized for Istio.</p>
-</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>CommonKubernetesSpec</code></br>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.CommonKubernetesSpec">
-CommonKubernetesSpec
-</a>
-</em>
-</td>
-<td>
-<p>
-(Members of <code>CommonKubernetesSpec</code> are embedded into this type.)
-</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="install.verrazzano.io/v1alpha1.JaegerOperatorComponent">JaegerOperatorComponent
-</h3>
-<p>
-(<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>JaegerOperatorComponent specifies the Jaeger Operator configuration.</p>
@@ -2624,7 +2169,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -2643,11 +2188,11 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.KeycloakComponent">KeycloakComponent
+<h3 id="install.verrazzano.io/v1beta1.KeycloakComponent">KeycloakComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>KeycloakComponent specifies the Keycloak configuration.</p>
@@ -2676,7 +2221,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -2695,23 +2240,9 @@ and invalid values will be ignored.</p>
 </tr>
 <tr>
 <td>
-<code>keycloakInstallArgs</code></br>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.InstallArgs">
-[]InstallArgs
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>Arguments for installing Keycloak.</p>
-</td>
-</tr>
-<tr>
-<td>
 <code>mysql</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.MySQLComponent">
+<a href="#install.verrazzano.io/v1beta1.MySQLComponent">
 MySQLComponent
 </a>
 </em>
@@ -2723,11 +2254,11 @@ MySQLComponent
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.KialiComponent">KialiComponent
+<h3 id="install.verrazzano.io/v1beta1.KialiComponent">KialiComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>KialiComponent specifies the Kiali configuration.</p>
@@ -2756,7 +2287,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -2775,67 +2306,11 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.KibanaComponent">KibanaComponent
+<h3 id="install.verrazzano.io/v1beta1.KubeStateMetricsComponent">KubeStateMetricsComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
-</p>
-<p>
-<p>KibanaComponent specifies the Kibana configuration.</p>
-</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code></br>
-<em>
-bool
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>If true, then OpenSearch Dashboards will be installed.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>replicas</code></br>
-<em>
-int32
-</em>
-</td>
-<td>
-<p>The number of pods to replicate. The default is <code>1</code>.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>plugins</code></br>
-<em>
-<a href="https://pkg.go.dev/github.com/verrazzano/verrazzano-monitoring-operator/pkg/apis/vmcontroller/v1#OpenSearchDashboardsPlugins">
-VMO /vmcontroller/v1.OpenSearchDashboardsPlugins
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>Enable to add 3rd Party / Custom plugins not offered in the default OpenSearch-Dashboard image</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="install.verrazzano.io/v1alpha1.KubeStateMetricsComponent">KubeStateMetricsComponent
-</h3>
-<p>
-(<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>KubeStateMetricsComponent specifies the kube-state-metrics configuration.</p>
@@ -2864,7 +2339,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -2883,11 +2358,11 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.MySQLComponent">MySQLComponent
+<h3 id="install.verrazzano.io/v1beta1.MySQLComponent">MySQLComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.KeycloakComponent">KeycloakComponent</a>)
+<a href="#install.verrazzano.io/v1beta1.KeycloakComponent">KeycloakComponent</a>)
 </p>
 <p>
 <p>MySQLComponent specifies the MySQL configuration.</p>
@@ -2904,7 +2379,7 @@ and invalid values will be ignored.</p>
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -2919,20 +2394,6 @@ but in the event of conflicting fields, the last override in the list takes prec
 find all possible values
 <a href="{{% release_source_url path=platform-operator/thirdparty/charts/mysql/values.yaml %}}">here</a>
 and invalid values will be ignored.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>mysqlInstallArgs</code></br>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.InstallArgs">
-[]InstallArgs
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>Arguments for installing MySQL.</p>
 </td>
 </tr>
 <tr>
@@ -2954,11 +2415,11 @@ then the <code>claimName</code> must reference the name of a <code>VolumeClaimSp
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.MySQLOperatorComponent">MySQLOperatorComponent
+<h3 id="install.verrazzano.io/v1beta1.MySQLOperatorComponent">MySQLOperatorComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>MySQLOperatorComponent specifies the MySQL Operator configuration.</p>
@@ -2987,7 +2448,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -3006,11 +2467,11 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.OAMComponent">OAMComponent
+<h3 id="install.verrazzano.io/v1beta1.OAMComponent">OAMComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>OAMComponent specifies the OAM configuration.</p>
@@ -3039,7 +2500,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -3058,11 +2519,11 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.OCI">OCI
+<h3 id="install.verrazzano.io/v1beta1.OCI">OCI
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.DNSComponent">DNSComponent</a>)
+<a href="#install.verrazzano.io/v1beta1.DNSComponent">DNSComponent</a>)
 </p>
 <p>
 <p>OCI DNS type.</p>
@@ -3135,11 +2596,11 @@ Oracle Cloud Infrastructure configuration profile you want to use. You can speci
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.OciLoggingConfiguration">OciLoggingConfiguration
+<h3 id="install.verrazzano.io/v1beta1.OciLoggingConfiguration">OciLoggingConfiguration
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.FluentdComponent">FluentdComponent</a>)
+<a href="#install.verrazzano.io/v1beta1.FluentdComponent">FluentdComponent</a>)
 </p>
 <p>
 <p>OciLoggingConfiguration is the Oracle Cloud Infrastructure logging configuration for Fluentd.</p>
@@ -3188,11 +2649,153 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.OpenSearchNode">OpenSearchNode
+<h3 id="install.verrazzano.io/v1beta1.OpenSearchComponent">OpenSearchComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ElasticsearchComponent">ElasticsearchComponent</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
+</p>
+<p>
+<p>OpenSearchComponent specifies the OpenSearch configuration.</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>If true, then OpenSearch will be installed.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>nodes</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.OpenSearchNode">
+[]OpenSearchNode
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>A list of OpenSearch node groups. For sample usage, see
+<a href="../../../../docs/customize/opensearch/">Customize OpenSearch</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>policies</code></br>
+<em>
+<a href="https://pkg.go.dev/github.com/verrazzano/verrazzano-monitoring-operator/pkg/apis/vmcontroller/v1#IndexManagementPolicy">
+[]VMO /vmcontroller/v1.IndexManagementPolicy
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>A list of <a href="https://opensearch.org/docs/2.3/im-plugin/ism/index/">Index State Management</a> policies
+to enable on OpenSearch.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>plugins</code></br>
+<em>
+<a href="https://pkg.go.dev/github.com/verrazzano/verrazzano-monitoring-operator/pkg/apis/vmcontroller/v1#OpenSearchPlugins">
+VMO /vmcontroller/v1.OpenSearchPlugins
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Enable to add 3rd Party / Custom plugins not offered in the default OpenSearch image.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>disableDefaultPolicy</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>To disable the default ISM policies.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="install.verrazzano.io/v1beta1.OpenSearchDashboardsComponent">OpenSearchDashboardsComponent
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
+</p>
+<p>
+<p>OpenSearchDashboardsComponent specifies the OpenSearch Dashboards configuration.</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>If true, then OpenSearch Dashboards will be installed.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>replicas</code></br>
+<em>
+int32
+</em>
+</td>
+<td>
+<p>The number of pods to replicate. The default is <code>1</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>plugins</code></br>
+<em>
+<a href="https://pkg.go.dev/github.com/verrazzano/verrazzano-monitoring-operator/pkg/apis/vmcontroller/v1#OpenSearchDashboardsPlugins">
+VMO /vmcontroller/v1.OpenSearchDashboardsPlugins
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Enable to add 3rd Party / Custom plugins not offered in the default OpenSearch-Dashboard image</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="install.verrazzano.io/v1beta1.OpenSearchNode">OpenSearchNode
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1beta1.OpenSearchComponent">OpenSearchComponent</a>)
 </p>
 <p>
 <p>OpenSearchNode specifies a node group in the OpenSearch cluster.</p>
@@ -3259,7 +2862,7 @@ Kubernetes core/v1.ResourceRequirements
 <td>
 <code>storage</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.OpenSearchNodeStorage">
+<a href="#install.verrazzano.io/v1beta1.OpenSearchNodeStorage">
 OpenSearchNodeStorage
 </a>
 </em>
@@ -3283,11 +2886,11 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.OpenSearchNodeStorage">OpenSearchNodeStorage
+<h3 id="install.verrazzano.io/v1beta1.OpenSearchNodeStorage">OpenSearchNodeStorage
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.OpenSearchNode">OpenSearchNode</a>)
+<a href="#install.verrazzano.io/v1beta1.OpenSearchNode">OpenSearchNode</a>)
 </p>
 <p>
 </p>
@@ -3313,11 +2916,11 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.Overrides">Overrides
+<h3 id="install.verrazzano.io/v1beta1.Overrides">Overrides
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">InstallOverrides</a>)
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>)
 </p>
 <p>
 <p>Overrides identifies overrides for a component.</p>
@@ -3380,20 +2983,20 @@ For sample usage, see
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.ProfileType">ProfileType
+<h3 id="install.verrazzano.io/v1beta1.ProfileType">ProfileType
 (<code>string</code> alias)</p></h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.VerrazzanoSpec">VerrazzanoSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.VerrazzanoSpec">VerrazzanoSpec</a>)
 </p>
 <p>
 <p>ProfileType is the type of installation profile.</p>
 </p>
-<h3 id="install.verrazzano.io/v1alpha1.PrometheusAdapterComponent">PrometheusAdapterComponent
+<h3 id="install.verrazzano.io/v1beta1.PrometheusAdapterComponent">PrometheusAdapterComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>PrometheusAdapterComponent specifies the Prometheus Adapter configuration.</p>
@@ -3422,7 +3025,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -3441,11 +3044,11 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.PrometheusComponent">PrometheusComponent
+<h3 id="install.verrazzano.io/v1beta1.PrometheusComponent">PrometheusComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>PrometheusComponent specifies the Prometheus configuration.</p>
@@ -3469,16 +3072,16 @@ bool
 <em>(Optional)</em>
 <p>If true, then Prometheus will be installed.
 This is a legacy setting; the preferred way to configure Prometheus is using the
-<a href="#install.verrazzano.io/v1alpha1.PrometheusOperatorComponent">PrometheusOperatorComponent</a>.</p>
+<a href="#install.verrazzano.io/v1beta1.PrometheusOperatorComponent">PrometheusOperatorComponent</a>.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.PrometheusNodeExporterComponent">PrometheusNodeExporterComponent
+<h3 id="install.verrazzano.io/v1beta1.PrometheusNodeExporterComponent">PrometheusNodeExporterComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>PrometheusNodeExporterComponent specifies the Prometheus Node Exporter configuration.</p>
@@ -3507,7 +3110,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -3526,11 +3129,11 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.PrometheusOperatorComponent">PrometheusOperatorComponent
+<h3 id="install.verrazzano.io/v1beta1.PrometheusOperatorComponent">PrometheusOperatorComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>PrometheusOperatorComponent specifies the Prometheus Operator configuration.</p>
@@ -3559,7 +3162,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -3578,11 +3181,11 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.PrometheusPushgatewayComponent">PrometheusPushgatewayComponent
+<h3 id="install.verrazzano.io/v1beta1.PrometheusPushgatewayComponent">PrometheusPushgatewayComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>PrometheusPushgatewayComponent specifies the Prometheus Pushgateway configuration.</p>
@@ -3611,7 +3214,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -3630,20 +3233,20 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.ProviderType">ProviderType
+<h3 id="install.verrazzano.io/v1beta1.ProviderType">ProviderType
 (<code>string</code> alias)</p></h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.Acme">Acme</a>)
+<a href="#install.verrazzano.io/v1beta1.Acme">Acme</a>)
 </p>
 <p>
 <p>ProviderType identifies Acme provider type.</p>
 </p>
-<h3 id="install.verrazzano.io/v1alpha1.RancherBackupComponent">RancherBackupComponent
+<h3 id="install.verrazzano.io/v1beta1.RancherBackupComponent">RancherBackupComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>RancherBackupComponent specifies the rancherBackup configuration.</p>
@@ -3672,7 +3275,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -3691,11 +3294,11 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.RancherComponent">RancherComponent
+<h3 id="install.verrazzano.io/v1beta1.RancherComponent">RancherComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>RancherComponent specifies the Rancher configuration.</p>
@@ -3724,7 +3327,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -3755,11 +3358,11 @@ bool
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.SecuritySpec">SecuritySpec
+<h3 id="install.verrazzano.io/v1beta1.SecuritySpec">SecuritySpec
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.VerrazzanoSpec">VerrazzanoSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.VerrazzanoSpec">VerrazzanoSpec</a>)
 </p>
 <p>
 <p>SecuritySpec defines the security configuration for Verrazzano.</p>
@@ -3802,11 +3405,11 @@ bool
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.ThanosComponent">ThanosComponent
+<h3 id="install.verrazzano.io/v1beta1.ThanosComponent">ThanosComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>ThanosComponent specifies the Thanos configuration.</p>
@@ -3835,7 +3438,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -3854,11 +3457,11 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.VeleroComponent">VeleroComponent
+<h3 id="install.verrazzano.io/v1beta1.VeleroComponent">VeleroComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>VeleroComponent specifies the Velero configuration.</p>
@@ -3887,7 +3490,7 @@ bool
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -3906,11 +3509,11 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.VerrazzanoComponent">VerrazzanoComponent
+<h3 id="install.verrazzano.io/v1beta1.VerrazzanoComponent">VerrazzanoComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>VerrazzanoComponent specifies the Verrazzano configuration.</p>
@@ -3937,23 +3540,9 @@ bool
 </tr>
 <tr>
 <td>
-<code>installArgs</code></br>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.InstallArgs">
-[]InstallArgs
-</a>
-</em>
-</td>
-<td>
-<em>(Optional)</em>
-<p>Arguments for installing Verrazzano.</p>
-</td>
-</tr>
-<tr>
-<td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -3972,14 +3561,14 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.VerrazzanoSpec">VerrazzanoSpec
+<h3 id="install.verrazzano.io/v1beta1.VerrazzanoSpec">VerrazzanoSpec
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.Verrazzano">Verrazzano</a>)
+<a href="#install.verrazzano.io/v1beta1.Verrazzano">Verrazzano</a>)
 </p>
 <p>
-<p>VerrazzanoSpec defines the desired state of a Verrazzano resource.</p>
+<p>VerrazzanoSpec defines the desired state of Verrazzano resource.</p>
 </p>
 <table>
 <thead>
@@ -3993,7 +3582,7 @@ and invalid values will be ignored.</p>
 <td>
 <code>components</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">
 ComponentSpec
 </a>
 </em>
@@ -4037,7 +3626,7 @@ The default value is <code>default</code>.</p>
 <td>
 <code>profile</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.ProfileType">
+<a href="#install.verrazzano.io/v1beta1.ProfileType">
 ProfileType
 </a>
 </em>
@@ -4052,7 +3641,7 @@ The default is <code>prod</code>.</p>
 <td>
 <code>security</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.SecuritySpec">
+<a href="#install.verrazzano.io/v1beta1.SecuritySpec">
 SecuritySpec
 </a>
 </em>
@@ -4080,7 +3669,7 @@ Defaults to the current version supported by the Verrazzano platform operator.</
 <td>
 <code>volumeClaimSpecTemplates</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.VolumeClaimSpecTemplate">
+<a href="#install.verrazzano.io/v1beta1.VolumeClaimSpecTemplate">
 []VolumeClaimSpecTemplate
 </a>
 </em>
@@ -4092,11 +3681,11 @@ Defaults to the current version supported by the Verrazzano platform operator.</
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.VerrazzanoStatus">VerrazzanoStatus
+<h3 id="install.verrazzano.io/v1beta1.VerrazzanoStatus">VerrazzanoStatus
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.Verrazzano">Verrazzano</a>)
+<a href="#install.verrazzano.io/v1beta1.Verrazzano">Verrazzano</a>)
 </p>
 <p>
 <p>VerrazzanoStatus defines the observed state of a Verrazzano resource.</p>
@@ -4124,7 +3713,7 @@ string
 <td>
 <code>components</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentStatusMap">
+<a href="#install.verrazzano.io/v1beta1.ComponentStatusMap">
 ComponentStatusMap
 </a>
 </em>
@@ -4137,7 +3726,7 @@ ComponentStatusMap
 <td>
 <code>conditions</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.Condition">
+<a href="#install.verrazzano.io/v1beta1.Condition">
 []Condition
 </a>
 </em>
@@ -4150,7 +3739,7 @@ ComponentStatusMap
 <td>
 <code>state</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.VzStateType">
+<a href="#install.verrazzano.io/v1beta1.VzStateType">
 VzStateType
 </a>
 </em>
@@ -4163,13 +3752,13 @@ VzStateType
 <td>
 <code>instance</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstanceInfo">
+<a href="#install.verrazzano.io/v1beta1.InstanceInfo">
 InstanceInfo
 </a>
 </em>
 </td>
 <td>
-<p>The Verrazzano instance information.</p>
+<p>The Verrazzano instance info.</p>
 </td>
 </tr>
 <tr>
@@ -4185,15 +3774,15 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.VolumeClaimSpecTemplate">VolumeClaimSpecTemplate
+<h3 id="install.verrazzano.io/v1beta1.VolumeClaimSpecTemplate">VolumeClaimSpecTemplate
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.VerrazzanoSpec">VerrazzanoSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.VerrazzanoSpec">VerrazzanoSpec</a>)
 </p>
 <p>
-<p>VolumeClaimSpecTemplate Contains common PVC configurations that can be referenced from Components; these
-do not actually result in generated PVCs, but can be used to provide common configurations to components that
+<p>VolumeClaimSpecTemplate Contains common PVC configuration that can be referenced from Components; these
+do not actually result in generated PVCs, but can be used to provide common configuration to components that
 declare a PersistentVolumeClaimVolumeSource.</p>
 </p>
 <table>
@@ -4377,14 +3966,14 @@ specified.
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.VolumeMount">VolumeMount
+<h3 id="install.verrazzano.io/v1beta1.VolumeMount">VolumeMount
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.FluentdComponent">FluentdComponent</a>)
+<a href="#install.verrazzano.io/v1beta1.FluentdComponent">FluentdComponent</a>)
 </p>
 <p>
-<p>VolumeMount defines a hostPath type volume mount.</p>
+<p>VolumeMount defines a hostPath type Volume mount.</p>
 </p>
 <table>
 <thead>
@@ -4403,7 +3992,7 @@ string
 </td>
 <td>
 <em>(Optional)</em>
-<p>The destination path on the Fluentd container, defaults to the source host path.</p>
+<p>The destination path on the Fluentd Container, defaults to the source host path.</p>
 </td>
 </tr>
 <tr>
@@ -4431,20 +4020,20 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.VzStateType">VzStateType
+<h3 id="install.verrazzano.io/v1beta1.VzStateType">VzStateType
 (<code>string</code> alias)</p></h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.VerrazzanoStatus">VerrazzanoStatus</a>)
+<a href="#install.verrazzano.io/v1beta1.VerrazzanoStatus">VerrazzanoStatus</a>)
 </p>
 <p>
 <p>VzStateType identifies the state of a Verrazzano installation.</p>
 </p>
-<h3 id="install.verrazzano.io/v1alpha1.WebLogicOperatorComponent">WebLogicOperatorComponent
+<h3 id="install.verrazzano.io/v1beta1.WebLogicOperatorComponent">WebLogicOperatorComponent
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
 <p>WebLogicOperatorComponent specifies the WebLogic Kubernetes Operator configuration.</p>
@@ -4466,14 +4055,14 @@ bool
 </td>
 <td>
 <em>(Optional)</em>
-<p>If true, then WebLogic Kubernetes Operator will be installed.</p>
+<p>If true, then the WebLogic Kubernetes Operator will be installed.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>InstallOverrides</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
 InstallOverrides
 </a>
 </em>
@@ -4492,11 +4081,11 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.Wildcard">Wildcard
+<h3 id="install.verrazzano.io/v1beta1.Wildcard">Wildcard
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.DNSComponent">DNSComponent</a>)
+<a href="#install.verrazzano.io/v1beta1.DNSComponent">DNSComponent</a>)
 </p>
 <p>
 <p>Wildcard DNS type.</p>

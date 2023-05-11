@@ -143,7 +143,7 @@ Use the `OSDataNodeFilesystemSpaceFillingUp` alert to indicate that the OpenSear
 ## Configure cluster topology
 
 You can customize the node characteristics of your OpenSearch cluster by using the
-[spec.components.opensearch.nodes](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchNode)
+[spec.components.opensearch.nodes](/docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchNode)
 field in the Verrazzano custom resource.  When installing or upgrading Verrazzano, you can use this field to
 define an OpenSearch cluster using node groups.
 
@@ -268,11 +268,11 @@ Both ISM policies have three states:
 
 ## Override default ISM policies
 The `vz-system` and `vz-application` policies are immutable and any change to these policies will be reverted immediately. However, the following two methods will override this behavior:
-- **Disable default policies**: You can disable the use of these default policies by setting the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) to `true` in the Verrazzano CR. This will delete the default ISM policies.
+- **Disable default policies**: You can disable the use of these default policies by setting the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) to `true` in the Verrazzano CR. This will delete the default ISM policies.
 - **Override default policies**: Both these default policies have a zero (`0`) priority. You can override the default policies by creating policies with `policy.ism_template.priority` greater than `0`. Check [Configure ISM Policies](/docs/customize/opensearch/#configure-ism-policies) in order to configure/create your own policies.
 
 {{< alert title="NOTE" color="primary" >}}
-- Avoid creating policies with policy IDs `vz-system` or `vz-application` because they are reserved for Verrazzano default policies names. In the Verrazzano CR, by default, if the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) is set to `false`, then policies that are created with these names will be overridden with the default ISM policies, .
+- Avoid creating policies with policy IDs `vz-system` or `vz-application` because they are reserved for Verrazzano default policies names. In the Verrazzano CR, by default, if the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) is set to `false`, then policies that are created with these names will be overridden with the default ISM policies, .
 - The default policy will be applied only to the newly created indices. To manually attach the new policies to the older indices, see [Step 2: Attach policies to indexes](https://opensearch.org/docs/latest/im-plugin/ism/index/#step-2-attach-policies-to-indexes).
   {{< /alert >}}
 
@@ -544,7 +544,7 @@ For more information, see [Index templates ](https://opensearch.org/docs/latest/
 
 ## Install OpenSearch and OpenSearch Dashboards plug-ins
 Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by providing plug-ins in the Verrazzano custom resource.
-To install plug-ins for OpenSearch, you define the field [spec.components.opensearch.plugins](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) in the Verrazzano custom resource.
+To install plug-ins for OpenSearch, you define the field [spec.components.opensearch.plugins](/docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) in the Verrazzano custom resource.
 
 The following Verrazzano custom resource example installs the `analysis-stempel` and `opensearch-anomaly-detection` plug-ins for OpenSearch:
 
@@ -620,7 +620,7 @@ There are three ways to specify a plug-in in the `plugins.installList`:
 - To be compatible, major, minor, and patch plug-in versions must match the OpenSearch major, minor, and patch versions. For example, plug-ins versions 2.3.0.x are compatible only with OpenSearch version 2.3.0.
 {{< /alert >}}
 
-For OpenSearch Dashboard, you can provide the plug-ins by defining the field [spec.components.opensearch-dashboards.plugins](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.v1beta1.OpenSearchDashboardsComponent) in the Verrazzano custom resource.
+For OpenSearch Dashboard, you can provide the plug-ins by defining the field [spec.components.opensearch-dashboards.plugins](/docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.v1beta1.OpenSearchDashboardsComponent) in the Verrazzano custom resource.
 
 #### Pre-built plug-ins for OpenSearch Dashboards
 Here is a pre-built plug-in that is bundled with the OpenSearch Dashboard image: `indexManagementDashboards`
