@@ -87,6 +87,14 @@ Fixes:
 - Fixed IngressTrait JWT so that `RequestPrincipals` with no paths are allowed.
 - Fixed IngressTrait related `AuthorizationPolicy` cleanup when an application is deleted.
 
+### v1.4.5
+Fixes:
+- Updated base and other images for issues and security.
+
+Component version updates:
+- WebLogic Kubernetes Operator v4.0.6
+- WebLogic Monitoring Exporter v2.1.3
+
 ### v1.4.4
 Fixes:
 
