@@ -131,6 +131,16 @@ You must have the following software installed:
 </div>
 {{< /clipboard >}}
 
+      * All the Cluster API (CAPI) images.
+{{< clipboard >}}
+<div class="highlight">
+
+   ```
+   $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name | startswith("capi-")) | .images[] | "\(.image):\(.tag)"'
+   ```
+</div>
+{{< /clipboard >}}
+
       * For all the Verrazzano Docker images in the private registry that are not explicitly marked public, you will need to create the secret `verrazzano-container-registry` in the `verrazzano-install` namespace, with the appropriate credentials for the registry, identified by `$MYREG`.
        For example:
 {{< clipboard >}}
