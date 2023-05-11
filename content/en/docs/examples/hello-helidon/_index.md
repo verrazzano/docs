@@ -1,4 +1,6 @@
-
+---
+toc_hide: true
+---
 # Hello World Helidon
 
 This example is a Helidon-based service that returns a “Hello World” response when invoked. The application configuration uses the default, microprofile properties file.
