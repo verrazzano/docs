@@ -1,4 +1,6 @@
-
+---
+toc_hide: true
+---
 # Hello Config World Helidon
 
 This example is a Helidon-based service that returns a "HelloConfig World" response when invoked. The application configuration uses a Kubernetes ConfigMap, instead of the default, microprofile properties file.
