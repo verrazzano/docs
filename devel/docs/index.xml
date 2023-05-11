@@ -4838,7 +4838,7 @@ spec:
 &lt;p&gt;The only means for controlling pod security for the &lt;a href=&#34;../docs/applications/#oam-containerizedworkload&#34;&gt;ContainerizedWorkload&lt;/a&gt; type is to
 specify a non-root user, using the &lt;code&gt;USER&lt;/code&gt; instruction in the container image build, as described in this section, &lt;a href=&#34;#specify-a-non-root-user-in-the-container-image&#34;&gt;Specify a non-root user in the container image&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;pod-security-for-applications-using-standard-kubernetes-resources&#34;&gt;Pod security for applications using standard Kubernetes resources&lt;/h2&gt;
-&lt;p&gt;You can deploy applications using standard Kubernetes resources, as described in the &lt;a href=&#34;../docs/samples/standard-kubernetes/&#34;&gt;Standard Kubernetes Resources&lt;/a&gt;
+&lt;p&gt;You can deploy applications using standard Kubernetes resources, as described in the &lt;a href=&#34;../docs/examples/standard-kubernetes/&#34;&gt;Standard Kubernetes Resources&lt;/a&gt;
 example.&lt;/p&gt;
 &lt;p&gt;You configure security for these resources as you typically would for any Kubernetes &lt;code&gt;Deployment&lt;/code&gt; resource.&lt;/p&gt;
 &lt;p&gt;For example:&lt;/p&gt;
@@ -4968,158 +4968,6 @@ spec:
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
 &lt;/div&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Argo CD</title>
-      <link>/docs/samples/argo-cd/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/samples/argo-cd/</guid>
-      <description>
-        
-        
-        &lt;p&gt;Argo CD is a Kubernetes deployment tool that uses Git repositories as the source of truth. It monitors running applications and compares the deployed state against the desired one in Git. Argo CD lets you visualize the differences and provides methods to automatically or manually update the live state with the desired target state. For more information, see the &lt;a href=&#34;https://argo-cd.readthedocs.io/en/stable/&#34;&gt;Argo CD documentation&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;In a multicluster Verrazzano environment, Argo CD integration depends on Rancher being enabled on the admin cluster. Argo CD connects to managed clusters using the Rancher proxy, to create the required resources for Argo CD cluster registration.&lt;/p&gt;
-&lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Install Verrazzano and set up a multicluster environment by following these &lt;a href=&#34;../docs/setup/install/mc-install/multicluster/#install-verrazzano&#34;&gt;instructions&lt;/a&gt;.
-&lt;ul&gt;
-&lt;li&gt;Because Argo CD is &lt;em&gt;not&lt;/em&gt; enabled by default, you must first &lt;a href=&#34;../docs/setup/install/modify-installation/#pre-installation&#34;&gt;enable argoCD&lt;/a&gt; on the &lt;em&gt;admin&lt;/em&gt; cluster.&lt;/li&gt;
-&lt;li&gt;When you &lt;a href=&#34;../docs/setup/install/mc-install/multicluster/#register-the-managed-cluster&#34;&gt;register managed clusters&lt;/a&gt;, they are automatically registered in Argo CD.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Access the Argo CD console using the instructions at &lt;a href=&#34;../docs/access/#the-argo-cd-console&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;After you set up your application in the Argo CD console, those registered clusters will be available for you to select, deploy, and manage applications.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;configure-repositories&#34;&gt;Configure repositories&lt;/h2&gt;
-&lt;p&gt;In the Argo CD console, configure repositories that will contain the Kubernetes resources for deploying an application.&lt;/p&gt;
-&lt;p&gt;The following is a sample procedure to configure a private Git repository through HTTPS.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Log in to the Argo CD console.&lt;/li&gt;
-&lt;li&gt;In the left navigation, click &lt;strong&gt;Settings&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;Click &lt;strong&gt;Repositories&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;Click &lt;strong&gt;Connect Repo&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;Select &lt;strong&gt;VIA HTTPS&lt;/strong&gt; as the connection method.&lt;/li&gt;
-&lt;li&gt;For &lt;strong&gt;Project&lt;/strong&gt;, specify &lt;strong&gt;default&lt;/strong&gt;.
-&lt;br&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Unless they are grouped together, all the projects are defined in the &lt;code&gt;default&lt;/code&gt; level.&lt;/li&gt;
-&lt;li&gt;For &lt;strong&gt;Repository URL&lt;/strong&gt;, provide the required URL.&lt;/li&gt;
-&lt;li&gt;If it is a private repository and a user name and password is required to connect to the repository, enter the required credentials.
-&lt;br&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The other fields are optional and based on how the Git repository is configured.&lt;/li&gt;
-&lt;li&gt;Click &lt;strong&gt;Connect&lt;/strong&gt; and verify that the connection status displayed is &lt;code&gt;Successful&lt;/code&gt;.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;deploy-applications&#34;&gt;Deploy applications&lt;/h2&gt;
-&lt;p&gt;To deploy applications in a custom namespace, create Argo CD applications that specify the Git repository path, which Argo CD requires to synchronize and deploy the applications in the specified namespace.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: You can either pre-create a namespace and label it or auto-create a namespace when deploying an application.&lt;/p&gt;
-&lt;p&gt;This example provides information about how to deploy the &lt;code&gt;Hello-helidon&lt;/code&gt; application. The &lt;code&gt;Hello-helidon&lt;/code&gt; application and component YAML files are available at &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/helidon-config&#34;&gt;Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Log in to the Argo CD console.&lt;/li&gt;
-&lt;li&gt;Click &lt;strong&gt;New App&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;Specify a name for the application.&lt;/li&gt;
-&lt;li&gt;For &lt;strong&gt;Project Name&lt;/strong&gt;, select &lt;strong&gt;default&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;Select the required &lt;strong&gt;Sync Policy&lt;/strong&gt; option:
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;Automatic&lt;/code&gt; - By default, every three minutes, Argo CD checks the specified Git repository and synchronizes the updates in Kubernetes to the Git repository.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Manual&lt;/code&gt; - For manually synchronizing the updates to the Git repository, use the &lt;strong&gt;Manual&lt;/strong&gt; option.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;If you want to auto-create a namespace, in the &lt;strong&gt;Sync Options&lt;/strong&gt; section, select &lt;strong&gt;Auto-Create Namespace&lt;/strong&gt;.
-&lt;br&gt;By auto-creating the namespace, the application will be deployed outside of the service mesh. The best practice is to pre-create the namespace and label it.&lt;/li&gt;
-&lt;li&gt;Under the &lt;strong&gt;Source&lt;/strong&gt; section, enter the following:
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Repository URL&lt;/strong&gt;: &lt;a href=&#34;https://github.com/verrazzano/verrazzano/&#34;&gt;https://github.com/verrazzano/verrazzano/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Revision&lt;/strong&gt;: &lt;code&gt;master&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Path&lt;/strong&gt;: Path in the repository where the Kubernetes resource definitions are listed. For example: &lt;code&gt;examples/helidon-config&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Under the &lt;strong&gt;Destination&lt;/strong&gt; section, do the following:
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Cluster URL&lt;/strong&gt;: Select the cluster to which you want to deploy the applications.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Namespace&lt;/strong&gt;: Specify the namespace in which you want to deploy the applications. The instructions in this sample use &lt;code&gt;hello-helidon&lt;/code&gt; as the namespace.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Click &lt;strong&gt;Create&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;If you selected &lt;code&gt;Manual&lt;/code&gt; as the &lt;strong&gt;Sync Policy&lt;/strong&gt; option, then click &lt;strong&gt;Sync&lt;/strong&gt;. In the &lt;strong&gt;Synchronize Resources&lt;/strong&gt; section, select all the resources, and then click &lt;strong&gt;Synchronize&lt;/strong&gt;.
-&lt;br&gt; This creates the Argo CD application and a pictorial representation of the deployed applications is displayed.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;verify-the-deployed-application&#34;&gt;Verify the deployed application&lt;/h2&gt;
-&lt;p&gt;The Hello World Helidon microservices application implements a REST API endpoint, &lt;code&gt;/config&lt;/code&gt;, which returns a message &lt;code&gt;{&amp;quot;message&amp;quot;:&amp;quot;Hello World!&amp;quot;}&lt;/code&gt; when invoked.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;:  The following instructions assume that you are using a Kubernetes environment such as OKE. Other environments or deployments may require alternative mechanisms for retrieving addresses, ports, and such.&lt;/p&gt;
-&lt;p&gt;Follow these steps to test the endpoints.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-helidon-config-appconf-gw \
-     -n hello-helidon \
-     -o jsonpath=&amp;#39;{.spec.servers[0].hosts[0]}&amp;#39;)
-$ echo $HOST
-
-# Sample output
-helidon-config-appconf.hello-helidon.11.22.33.44.nip.io
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Get the &lt;code&gt;EXTERNAL_IP&lt;/code&gt; address of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ ADDRESS=$(kubectl get service \
-     -n istio-system istio-ingressgateway \
-     -o jsonpath=&amp;#39;{.status.loadBalancer.ingress[0].ip}&amp;#39;)
-$ echo $ADDRESS
-
-# Sample output
-11.22.33.44
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Access the application.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Using the command line&lt;/strong&gt;&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ curl -sk \
-   -X GET \
-   https://${HOST}/config \
-   --resolve ${HOST}:443:${ADDRESS}
-
-# Expected response output
-{&amp;#34;message&amp;#34;:&amp;#34;Hello World!&amp;#34;}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you do not need to include &lt;code&gt;--resolve&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Local testing with a browser&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Temporarily, modify the &lt;code&gt;/etc/hosts&lt;/code&gt; file (on Mac or Linux)
-or &lt;code&gt;c:\Windows\System32\Drivers\etc\hosts&lt;/code&gt; file (on Windows 10),
-to add an entry mapping the host name to the ingress gateway&amp;rsquo;s &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address.
-For example:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;11.22.33.44 hello-helidon.example.com
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then you can access the application in a browser at &lt;code&gt;https://&amp;lt;host&amp;gt;/config&lt;/code&gt;.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you can access the application in a browser using the &lt;code&gt;HOST&lt;/code&gt; variable (for example, &lt;code&gt;https://${HOST}/config&lt;/code&gt;).&lt;/li&gt;
-&lt;li&gt;If you are going through a proxy, then you may need to add &lt;code&gt;*.nip.io&lt;/code&gt; to the &lt;code&gt;NO_PROXY&lt;/code&gt; list.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Using your own DNS name&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Point your own DNS name to the ingress gateway&amp;rsquo;s &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;In this case, you would need to edit the &lt;code&gt;hello-helidon-app.yaml&lt;/code&gt; file
-to use the appropriate value under the &lt;code&gt;hosts&lt;/code&gt; section (such as &lt;code&gt;yourhost.your.domain&lt;/code&gt;),
-before deploying the &lt;code&gt;hello-helidon&lt;/code&gt; application.&lt;/li&gt;
-&lt;li&gt;Then, you can use a browser to access the application at &lt;code&gt;https://&amp;lt;yourhost.your.domain&amp;gt;/config&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;A variety of endpoints associated with the deployed application are available to further explore the logs, metrics, and such.
-You can access them according to the directions &lt;a href=&#34;../docs/access/#get-the-consoles-urls&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;undeploy-applications&#34;&gt;Undeploy applications&lt;/h2&gt;
-&lt;ol&gt;
-&lt;li&gt;Log in to the Argo CD console.&lt;/li&gt;
-&lt;li&gt;Select the application that you want to undeploy and then click &lt;strong&gt;Delete&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;Enter the name of the application and then click &lt;strong&gt;OK&lt;/strong&gt;.
-&lt;br&gt;This deletes all the resources created by the specific application except for the namespaces.&lt;/li&gt;
-&lt;/ol&gt;
 
       </description>
     </item>
@@ -5275,10 +5123,10 @@ spec:
     
     <item>
       <title>Docs: Bob&#39;s Books</title>
-      <link>/docs/samples/bobs-books/</link>
+      <link>/docs/examples/wls-coh/bobs-books/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/samples/bobs-books/</guid>
+      <guid>/docs/examples/wls-coh/bobs-books/</guid>
       <description>
         
         
@@ -7047,7 +6895,7 @@ This requires a good working knowledge of networking and has limited use cases.&
         
         &lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;Before you begin, read this document, &lt;a href=&#34;../docs/concepts/verrazzanomulticluster/&#34;&gt;Verrazzano in a multicluster environment&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Before you begin, read this document, &lt;a href=&#34;../docs/about/verrazzanomulticluster/&#34;&gt;Verrazzano in a multicluster environment&lt;/a&gt;.&lt;/li&gt;
 &lt;li&gt;To set up a multicluster Verrazzano environment, you will need two or more Kubernetes clusters. One of these clusters
 will be &lt;em&gt;admin&lt;/em&gt; cluster; the others will be &lt;em&gt;managed&lt;/em&gt; clusters. For instructions on preparing Kubernetes platforms for installing Verrazzano, see &lt;a href=&#34;../docs/setup/platforms/&#34;&gt;Platform Setup&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
@@ -7301,7 +7149,7 @@ EOF
 &lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Verify your multicluster Verrazzano environment set up by following the instructions at &lt;a href=&#34;../docs/setup/install/mc-install/verify-install/&#34;&gt;Verify Multicluster Installation&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Deploy multicluster example applications. See &lt;a href=&#34;../docs/samples/multicluster/&#34;&gt;Examples of using Verrazzano in a multicluster environment&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Deploy multicluster example applications. See &lt;a href=&#34;../docs/examples/multicluster/&#34;&gt;Examples of using Verrazzano in a multicluster environment&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
 
@@ -7595,7 +7443,7 @@ or until the default timeout (30m) has been reached.&lt;/p&gt;
 &lt;p&gt;After the installation has completed, you can use the Verrazzano consoles.
 For information on how to get the consoles URLs and credentials, see &lt;a href=&#34;../docs/access/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
-&lt;p&gt;(Optional) Run the example applications located &lt;a href=&#34;../docs/samples/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;(Optional) Run the example applications located &lt;a href=&#34;../docs/examples/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>
@@ -8315,7 +8163,7 @@ example-verrazzano   23/23       InstallComplete   v1.5.2
 &lt;p&gt;After the installation has completed, you can use the Verrazzano consoles.
 For information on how to get the consoles URLs and credentials, see &lt;a href=&#34;../docs/access/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
-&lt;p&gt;(Optional) Run the example applications located &lt;a href=&#34;../docs/samples/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;(Optional) Run the example applications located &lt;a href=&#34;../docs/examples/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>
@@ -14950,88 +14798,6 @@ This lets you create a directory to hold the cluster snapshots of related cluste
     </item>
     
     <item>
-      <title>Docs: Verrazzano and the Open Application Model</title>
-      <link>/docs/concepts/verrazzanooam/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/concepts/verrazzanooam/</guid>
-      <description>
-        
-        
-        &lt;p&gt;Open Application Model (OAM) is a runtime-agnostic specification for defining cloud native applications; it allows developers to focus on the application instead of the complexities of a particular runtime infrastructure.  OAM provides the &lt;a href=&#34;https://github.com/oam-dev/spec&#34;&gt;specification&lt;/a&gt; for several file formats and rules for a runtime to interpret.  Verrazzano uses OAM to enable the definition of a composite application abstraction and makes OAM constructs available within a &lt;code&gt;VerrazzanoApplication&lt;/code&gt; YAML file.  Verrazzano provides the flexibility to combine what you want into a multicloud enablement. It uses the &lt;code&gt;VerrazzanoApplication&lt;/code&gt; as a means to encapsulate a set of components, scopes, and traits, and deploy them on a selected cluster.&lt;/p&gt;
-&lt;p&gt;OAM&amp;rsquo;s workload concept makes it easy to use many different workload types.  Verrazzano includes specific workload types with special handling to deploy and manage those types, such as WebLogic, Coherence, and Helidon.  OAM&amp;rsquo;s flexibility lets you create a grouping that is managed as a unit, although each component can be scaled or updated independently.&lt;/p&gt;
-&lt;h2 id=&#34;how-does-oam-work&#34;&gt;How does OAM work?&lt;/h2&gt;
-&lt;p&gt;OAM has five core concepts:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Workloads - Declarations of the kinds of resources supported by the platform and the OpenAPI schema for that resource.  Most Kubernetes CRDs can be exposed as workloads.  Standard Kubernetes resource types can also be used
-(for example, Deployment, Service, Pod, ConfigMap).&lt;/li&gt;
-&lt;li&gt;Components - Wrap a workload resource&amp;rsquo;s specification data within OAM specific metadata.&lt;/li&gt;
-&lt;li&gt;Application Configurations - Describe a collection of components that comprise an application.  This is also where customization (such as, environmental) of each component is done.  Customization is achieved using scopes and traits.&lt;/li&gt;
-&lt;li&gt;Scopes - Apply customization to several components.&lt;/li&gt;
-&lt;li&gt;Traits - Apply customization to a single component.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;../docs/concepts/oam-app.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Verrazzano in a Multicluster Environment</title>
-      <link>/docs/concepts/verrazzanomulticluster/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/concepts/verrazzanomulticluster/</guid>
-      <description>
-        
-        
-        &lt;p&gt;Review the following key concepts to understand multicluster Verrazzano.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Admin cluster - A Kubernetes cluster that serves as the central management point for deploying and monitoring applications
-in managed clusters.&lt;/li&gt;
-&lt;li&gt;Managed clusters - A Kubernetes cluster that has the following characteristics:
-&lt;ul&gt;
-&lt;li&gt;It is registered with an admin cluster with a unique name.&lt;/li&gt;
-&lt;li&gt;Verrazzano multicluster applications may be deployed to the managed cluster from the admin cluster.&lt;/li&gt;
-&lt;li&gt;Logs and metrics for Verrazzano system components and Verrazzano multicluster applications deployed on the
-managed cluster are viewable from the admin cluster.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Verrazzano multicluster resources - Custom Kubernetes resources defined by Verrazzano.
-&lt;ul&gt;
-&lt;li&gt;Each multicluster resource serves as a wrapper for an underlying resource type.&lt;/li&gt;
-&lt;li&gt;A multicluster resource allows the &lt;code&gt;placement&lt;/code&gt; of the underlying resource to be specified as a list of
-names of the clusters in which the resource must be placed.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;For more details, see &lt;a href=&#34;../docs/applications/multicluster/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../docs/images/multicluster/MCIntro.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Verrazzano Projects</title>
-      <link>/docs/concepts/verrazzanoproject/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/concepts/verrazzanoproject/</guid>
-      <description>
-        
-        
-        &lt;p&gt;A &lt;em&gt;project&lt;/em&gt; provides a way to group application namespaces that are owned or administered by the same user or
-group of users. When creating a project, you can specify the &lt;em&gt;subjects:&lt;/em&gt; users, groups, or service accounts, that are
-to be granted access to the namespaces governed by the project. Two types of subjects may be specified:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Project admins, who have both read and write access to the project&amp;rsquo;s namespaces.&lt;/li&gt;
-&lt;li&gt;Project monitors, who have read-only access to the project&amp;rsquo;s namespaces.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;For more information, see &lt;a href=&#34;../docs/applications/projects/&#34;&gt;Projects&lt;/a&gt;.&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
       <title>Docs: Argo CD</title>
       <link>/docs/backup/argocd/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -17610,18 +17376,18 @@ avoid LetsEncrypt rate limits.&lt;/p&gt;
     
     <item>
       <title>Docs: Hello World Helidon</title>
-      <link>/docs/samples/hello-world/</link>
+      <link>/docs/examples/microservices/hello-world/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/samples/hello-world/</guid>
+      <guid>/docs/examples/microservices/hello-world/</guid>
       <description>
         
         
         &lt;p&gt;The Hello World Helidon example is a &lt;a href=&#34;https://helidon.io&#34;&gt;Helidon&lt;/a&gt;-based service that returns a &amp;ldquo;Hello World&amp;rdquo; response when invoked. The example application is specified using Open Application Model (OAM) component and application configuration YAML files, and then deployed by applying those files.&lt;/p&gt;
 &lt;p&gt;The example application has two endpoints, which differ in configuration source:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;/greet&lt;/code&gt;- uses a microprofile properties file. Deploy this application by using the instructions &lt;a href=&#34;../docs/samples/hello-helidon/&#34;&gt;here&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;/config&lt;/code&gt;- uses a Kubernetes ConfigMap. Deploy this application by using the instructions &lt;a href=&#34;../docs/samples/helidon-config/&#34;&gt;here&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/greet&lt;/code&gt;- uses a microprofile properties file. Deploy this application by using the instructions &lt;a href=&#34;../docs/examples/hello-helidon/&#34;&gt;here&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/config&lt;/code&gt;- uses a Kubernetes ConfigMap. Deploy this application by using the instructions &lt;a href=&#34;../docs/examples/helidon-config/&#34;&gt;here&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;For more information and the code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano examples&lt;/a&gt;.&lt;/p&gt;
 
@@ -17663,7 +17429,7 @@ customized as needed.&lt;/p&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;managed-cluster&lt;/code&gt;&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;A specialized installation for managed clusters in a multicluster topology.&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Minimal installation for a managed cluster:&lt;br/&gt;- Clusters must be registered with an admin cluster to use &lt;a href=&#34;../docs/concepts/verrazzanomulticluster/&#34;&gt;multicluster&lt;/a&gt; features.&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Minimal installation for a managed cluster:&lt;br/&gt;- Clusters must be registered with an admin cluster to use &lt;a href=&#34;../docs/about/verrazzanomulticluster/&#34;&gt;multicluster&lt;/a&gt; features.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -28067,6 +27833,41 @@ $ curl -k --user verrazzano:${VZPASS} -X POST -H &amp;#39;kbn-xsrf: true&amp;#39
     </item>
     
     <item>
+      <title>Docs: Verrazzano Features</title>
+      <link>/docs/about/features/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/about/features/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Verrazzano Enterprise Container Platform delivers a unified platform for standardizing application and cluster management across various hosting environments. It&amp;rsquo;s built from many familiar open source projects, each working in concert on Kubernetes clusters to provide vital container management services.&lt;/p&gt;
+&lt;p&gt;Getting started with Verrazzano is easy - the basic installation process is simple yet flexible enough to evolve with your requirements.&lt;/p&gt;
+&lt;h2 id=&#34;unified-hosting-environment-for-all-application-types&#34;&gt;Unified hosting environment for all application types&lt;/h2&gt;
+&lt;p&gt;The flexibility of Verrazzano ensures that you can deploy both cloud native and traditional applications in on-premises and multicloud environments and manage them all using the same components. Using a consistent set of tools and processes reduces overhead related to training and maintenance, leaving more development resources available to address your business needs.&lt;/p&gt;
+&lt;p&gt;Verrazzano can even accelerate your approach to modernizing your traditional applications. While cloud native technologies offer many advantages, the labor requirements necessary to convert your existing applications can be intimidating. Verrazzano presents a bridge between the two: developers can immediately start building new applications cloud natively, while simultaneously maintaining and converting their existing traditional applications on a timeline that makes sense, all within the same platform.&lt;/p&gt;
+&lt;h2 id=&#34;complete-application-life-cycle-management&#34;&gt;Complete application life cycle management&lt;/h2&gt;
+&lt;p&gt;Starting with deployment, Verrazzano supports an application through all phases of its life cycle. It extensively automates the deployment process so you can reproduce successful application deployments reliably, even in multicloud environments.&lt;/p&gt;
+&lt;p&gt;Verrazzano understands that application management is a continuous and dynamic process where deployment is just the beginning. As an application moves through its life cycle, its management system must be able to adapt to its developing needs. Day 2 operations are given equal consideration so that post-deployment, you can continue to optimize your applications and their clusters over the course of their lifetime.&lt;/p&gt;
+&lt;p&gt;With management occurring within a single platform, Verrazzano makes it easy to follow the principles of DevOps and GitOps. Coordination between diverse types of users becomes effortless, encouraging quick resolutions and creative innovations.&lt;/p&gt;
+&lt;p&gt;For a list of the components that make up Verrazzano and what they do, see &lt;a href=&#34;../docs/setup/prereqs/#installed-components&#34;&gt;Installed Components&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;dependable-infrastructure-management&#34;&gt;Dependable infrastructure management&lt;/h2&gt;
+&lt;p&gt;Verrazzano also recognizes that the direct management of applications is only part of what makes up a useful container management platform: to consistently provide a stable and reliable service, you need to start with a healthy foundation. The infrastructure supporting your applications must be equally well supported.&lt;/p&gt;
+&lt;p&gt;Verrazzano tracks and receives valuable and timely information on the state of your clusters to ensure they&amp;rsquo;re operating optimally.&lt;/p&gt;
+&lt;p&gt;Verrazzano also supports both single and multicluster Kubernertes environments.&lt;/p&gt;
+&lt;p&gt;For more information on how Verrazzano works in a multicluster environment, see &lt;a href=&#34;../docs/applications/multicluster/&#34;&gt;Multicluster&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;comprehensive-observability&#34;&gt;Comprehensive observability&lt;/h2&gt;
+&lt;p&gt;Verrazzano includes a variety of logging, monitoring, and tracing components so you can make intelligent decisions based on the comprehensive data generated by your application and its environment. Many of the components in this observability stack offer significant automated functionality which means Verrazzano alerts you to problems before you know to look for them.&lt;/p&gt;
+&lt;p&gt;For more information on the available observability options, see &lt;a href=&#34;../docs/observability/&#34;&gt;Observability&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;integrated-security&#34;&gt;Integrated security&lt;/h2&gt;
+&lt;p&gt;Verrazzano protects your applications and other resources with a robust set of security-focused components. It takes advantage of Kubernetes Role-Based Access Control to authorize only the right users to the right resources. Verrazzano also incorporates an identity solution that&amp;rsquo;s easily integrated with OAuth and LDAP systems so you can streamline user management and implement Single Sign On services, protecting Verrazzano components and your applications.&lt;/p&gt;
+&lt;p&gt;Furthermore, a single and cohesive platform can reduce potential security gaps that often arise when working across unrelated software components. Verrazzano seals potential breaches between its individual components to minimize any compatibility issues and ensure each component remains on a supported and secure version.&lt;/p&gt;
+&lt;p&gt;For more information on how Verrazzano protects your applications, see &lt;a href=&#34;../docs/security/&#34;&gt;Security&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Deregister a Managed Cluster</title>
       <link>/docs/setup/install/mc-install/deregister-install/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -36409,6 +36210,752 @@ EOF
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Verrazzano and the Open Application Model</title>
+      <link>/docs/about/verrazzanooam/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/about/verrazzanooam/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Open Application Model (OAM) is a runtime-agnostic specification for defining cloud native applications; it allows developers to focus on the application instead of the complexities of a particular runtime infrastructure.  OAM provides the &lt;a href=&#34;https://github.com/oam-dev/spec&#34;&gt;specification&lt;/a&gt; for several file formats and rules for a runtime to interpret.  Verrazzano uses OAM to enable the definition of a composite application abstraction and makes OAM constructs available within a &lt;code&gt;VerrazzanoApplication&lt;/code&gt; YAML file.  Verrazzano provides the flexibility to combine what you want into a multicloud enablement. It uses the &lt;code&gt;VerrazzanoApplication&lt;/code&gt; as a means to encapsulate a set of components, scopes, and traits, and deploy them on a selected cluster.&lt;/p&gt;
+&lt;p&gt;OAM&amp;rsquo;s workload concept makes it easy to use many different workload types.  Verrazzano includes specific workload types with special handling to deploy and manage those types, such as WebLogic, Coherence, and Helidon.  OAM&amp;rsquo;s flexibility lets you create a grouping that is managed as a unit, although each component can be scaled or updated independently.&lt;/p&gt;
+&lt;h2 id=&#34;how-does-oam-work&#34;&gt;How does OAM work?&lt;/h2&gt;
+&lt;p&gt;OAM has five core concepts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Workloads - Declarations of the kinds of resources supported by the platform and the OpenAPI schema for that resource.  Most Kubernetes CRDs can be exposed as workloads.  Standard Kubernetes resource types can also be used
+(for example, Deployment, Service, Pod, ConfigMap).&lt;/li&gt;
+&lt;li&gt;Components - Wrap a workload resource&amp;rsquo;s specification data within OAM specific metadata.&lt;/li&gt;
+&lt;li&gt;Application Configurations - Describe a collection of components that comprise an application.  This is also where customization (such as, environmental) of each component is done.  Customization is achieved using scopes and traits.&lt;/li&gt;
+&lt;li&gt;Scopes - Apply customization to several components.&lt;/li&gt;
+&lt;li&gt;Traits - Apply customization to a single component.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;../docs/about/oam-app.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Verrazzano Managed Cluster</title>
+      <link>/docs/reference/vco-clusters-v1alpha1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/reference/vco-clusters-v1alpha1/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Packages:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;a href=&#34;#clusters.verrazzano.io%2fv1alpha1&#34;&gt;clusters.verrazzano.io/v1alpha1&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;clusters.verrazzano.io/v1alpha1&#34;&gt;clusters.verrazzano.io/v1alpha1&lt;/h2&gt;
+&lt;p&gt;
+&lt;/p&gt;
+Resource Types:
+&lt;ul&gt;&lt;li&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster&#34;&gt;VerrazzanoManagedCluster&lt;/a&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster&#34;&gt;VerrazzanoManagedCluster
+&lt;/h3&gt;
+&lt;p&gt;
+&lt;p&gt;VerrazzanoManagedCluster specifies the Verrazzano Managed Cluster API.&lt;/p&gt;
+&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;apiVersion&lt;/code&gt;&lt;/br&gt;
+string&lt;/td&gt;
+&lt;td&gt;
+&lt;code&gt;
+clusters.verrazzano.io/v1alpha1
+&lt;/code&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;kind&lt;/code&gt;&lt;/br&gt;
+string
+&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;metadata&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta&#34;&gt;
+Kubernetes meta/v1.ObjectMeta
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+Refer to the Kubernetes API documentation for the fields of the
+&lt;code&gt;metadata&lt;/code&gt; field.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;spec&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterSpec&#34;&gt;
+VerrazzanoManagedClusterSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The desired state of a Verrazzano Managed Cluster resource.&lt;/p&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;caSecret&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The name of a Secret that contains the CA certificate of the managed cluster. This is used to configure the
+admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. See the pre-registration
+&lt;a href=&#34;../../../../docs/setup/install/multicluster/#preregistration-setup&#34;&gt;instructions&lt;/a&gt;
+for how to create this Secret.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;description&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The description of the managed cluster.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;managedClusterManifestSecret&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The name of the Secret containing the generated YAML manifest file to be applied by the user to the managed cluster.
+This field is managed by a Verrazzano Kubernetes operator.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;serviceAccount&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The name of the ServiceAccount that was generated for the managed cluster. This field is managed by a
+Verrazzano Kubernetes operator.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus&#34;&gt;
+VerrazzanoManagedClusterStatus
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The observed state of a Verrazzano Managed Cluster resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.ArgoCDRegistration&#34;&gt;ArgoCDRegistration
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus&#34;&gt;VerrazzanoManagedClusterStatus&lt;/a&gt;)
+&lt;/p&gt;
+&lt;p&gt;
+&lt;p&gt;ArgoCDRegistration defines the Argo CD registration state for a managed cluster.&lt;/p&gt;
+&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.ArgoCDRegistrationStatus&#34;&gt;
+ArgoCDRegistrationStatus
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The status of the ArgoCD registration.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;lastSetTimestamp&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#time-v1-meta&#34;&gt;
+Kubernetes meta/v1.Time
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The timestamp of last status set.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;message&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;Supporting message related to the Argo CD registration status.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.ArgoCDRegistrationStatus&#34;&gt;ArgoCDRegistrationStatus
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/p&gt;&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.ArgoCDRegistration&#34;&gt;ArgoCDRegistration&lt;/a&gt;)
+&lt;/p&gt;
+&lt;p&gt;
+&lt;p&gt;ArgoCDRegistrationStatus identifies the status of an Argo CD registration.&lt;/p&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.Condition&#34;&gt;Condition
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus&#34;&gt;VerrazzanoManagedClusterStatus&lt;/a&gt;)
+&lt;/p&gt;
+&lt;p&gt;
+&lt;p&gt;Condition describes a condition that occurred on the Verrazzano Managed Cluster.&lt;/p&gt;
+&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;lastTransitionTime&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#time-v1-meta&#34;&gt;
+Kubernetes meta/v1.Time
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;Last time the condition transitioned from one status to another.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;message&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;A message with details about the last transition.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/k8s.io/api/core/v1#ConditionStatus&#34;&gt;
+Kubernetes core/v1.ConditionStatus
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Status of the condition: one of &lt;code&gt;True&lt;/code&gt;, &lt;code&gt;False&lt;/code&gt;, or &lt;code&gt;Unknown&lt;/code&gt;.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.ConditionType&#34;&gt;
+ConditionType
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The condition of the multicluster resource which can be checked with a &lt;code&gt;kubectl wait&lt;/code&gt; command. Condition values
+are case-sensitive and formatted as follows: &lt;code&gt;Ready&lt;/code&gt;: the VerrazzanoManagedCluster is ready to be used and all
+resources needed have been generated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.ConditionType&#34;&gt;ConditionType
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/p&gt;&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.Condition&#34;&gt;Condition&lt;/a&gt;)
+&lt;/p&gt;
+&lt;p&gt;
+&lt;p&gt;ConditionType identifies the condition of the Verrazzano Managed Cluster which can be checked with &lt;code&gt;kubectl wait&lt;/code&gt;.&lt;/p&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.RancherRegistration&#34;&gt;RancherRegistration
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus&#34;&gt;VerrazzanoManagedClusterStatus&lt;/a&gt;)
+&lt;/p&gt;
+&lt;p&gt;
+&lt;p&gt;RancherRegistration defines the Rancher registration state for a managed cluster.&lt;/p&gt;
+&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clusterID&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The Rancher cluster ID for this cluster.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;message&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;A supporting message related to the Rancher registration status.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.RancherRegistrationStatus&#34;&gt;
+RancherRegistrationStatus
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The status of the Rancher registration.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.RancherRegistrationStatus&#34;&gt;RancherRegistrationStatus
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/p&gt;&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.RancherRegistration&#34;&gt;RancherRegistration&lt;/a&gt;)
+&lt;/p&gt;
+&lt;p&gt;
+&lt;p&gt;RancherRegistrationStatus identifies the status of a Rancher registration.&lt;/p&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.StateType&#34;&gt;StateType
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/p&gt;&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus&#34;&gt;VerrazzanoManagedClusterStatus&lt;/a&gt;)
+&lt;/p&gt;
+&lt;p&gt;
+&lt;p&gt;StateType identifies the state of the Verrazzano Managed Cluster.&lt;/p&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterSpec&#34;&gt;VerrazzanoManagedClusterSpec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster&#34;&gt;VerrazzanoManagedCluster&lt;/a&gt;)
+&lt;/p&gt;
+&lt;p&gt;
+&lt;p&gt;VerrazzanoManagedClusterSpec defines the desired state of a Verrazzano Managed Cluster.&lt;/p&gt;
+&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;caSecret&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The name of a Secret that contains the CA certificate of the managed cluster. This is used to configure the
+admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. See the pre-registration
+&lt;a href=&#34;../../../../docs/setup/install/multicluster/#preregistration-setup&#34;&gt;instructions&lt;/a&gt;
+for how to create this Secret.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;description&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The description of the managed cluster.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;managedClusterManifestSecret&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The name of the Secret containing the generated YAML manifest file to be applied by the user to the managed cluster.
+This field is managed by a Verrazzano Kubernetes operator.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;serviceAccount&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The name of the ServiceAccount that was generated for the managed cluster. This field is managed by a
+Verrazzano Kubernetes operator.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus&#34;&gt;VerrazzanoManagedClusterStatus
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster&#34;&gt;VerrazzanoManagedCluster&lt;/a&gt;)
+&lt;/p&gt;
+&lt;p&gt;
+&lt;p&gt;VerrazzanoManagedClusterStatus defines the observed state of a Verrazzano Managed Cluster.&lt;/p&gt;
+&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;apiUrl&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The Verrazzano API server URL for this managed cluster.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;conditions&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.Condition&#34;&gt;
+[]Condition
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The current state of this managed cluster.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;lastAgentConnectTime&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#time-v1-meta&#34;&gt;
+Kubernetes meta/v1.Time
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The last time the agent from this managed cluster connected to the admin cluster.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;prometheusHost&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The Prometheus host for this managed cluster.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;thanosQueryStore&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The Thanos Query Store API host name for this managed cluster.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;rancherRegistration&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.RancherRegistration&#34;&gt;
+RancherRegistration
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The state of Rancher registration for this managed cluster.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;argoCDRegistration&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.ArgoCDRegistration&#34;&gt;
+ArgoCDRegistration
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The state of ArgoCD registration for this managed cluster.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;state&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.StateType&#34;&gt;
+StateType
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The state of this managed cluster.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr/&gt;
+&lt;p&gt;&lt;em&gt;
+Generated with &lt;code&gt;gen-crd-api-reference-docs&lt;/code&gt;
+&lt;/em&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Continuous deployment example with Argo CD</title>
+      <link>/docs/examples/argo-cd/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/examples/argo-cd/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Argo CD is a Kubernetes deployment tool that uses Git repositories as the source of truth. It monitors running applications and compares the deployed state against the desired one in Git. Argo CD lets you visualize the differences and provides methods to automatically or manually update the live state with the desired target state. For more information, see the &lt;a href=&#34;https://argo-cd.readthedocs.io/en/stable/&#34;&gt;Argo CD documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In a multicluster Verrazzano environment, Argo CD integration depends on Rancher being enabled on the admin cluster. Argo CD connects to managed clusters using the Rancher proxy, to create the required resources for Argo CD cluster registration.&lt;/p&gt;
+&lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Install Verrazzano and set up a multicluster environment by following these &lt;a href=&#34;../docs/setup/install/mc-install/multicluster/#install-verrazzano&#34;&gt;instructions&lt;/a&gt;.
+&lt;ul&gt;
+&lt;li&gt;Because Argo CD is &lt;em&gt;not&lt;/em&gt; enabled by default, you must first &lt;a href=&#34;../docs/setup/install/modify-installation/#pre-installation&#34;&gt;enable argoCD&lt;/a&gt; on the &lt;em&gt;admin&lt;/em&gt; cluster.&lt;/li&gt;
+&lt;li&gt;When you &lt;a href=&#34;../docs/setup/install/mc-install/multicluster/#register-the-managed-cluster&#34;&gt;register managed clusters&lt;/a&gt;, they are automatically registered in Argo CD.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Access the Argo CD console using the instructions at &lt;a href=&#34;../docs/access/#the-argo-cd-console&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;After you set up your application in the Argo CD console, those registered clusters will be available for you to select, deploy, and manage applications.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;configure-repositories&#34;&gt;Configure repositories&lt;/h2&gt;
+&lt;p&gt;In the Argo CD console, configure repositories that will contain the Kubernetes resources for deploying an application.&lt;/p&gt;
+&lt;p&gt;The following is a sample procedure to configure a private Git repository through HTTPS.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Log in to the Argo CD console.&lt;/li&gt;
+&lt;li&gt;In the left navigation, click &lt;strong&gt;Settings&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;Repositories&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;Connect Repo&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Select &lt;strong&gt;VIA HTTPS&lt;/strong&gt; as the connection method.&lt;/li&gt;
+&lt;li&gt;For &lt;strong&gt;Project&lt;/strong&gt;, specify &lt;strong&gt;default&lt;/strong&gt;.
+&lt;br&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Unless they are grouped together, all the projects are defined in the &lt;code&gt;default&lt;/code&gt; level.&lt;/li&gt;
+&lt;li&gt;For &lt;strong&gt;Repository URL&lt;/strong&gt;, provide the required URL.&lt;/li&gt;
+&lt;li&gt;If it is a private repository and a user name and password is required to connect to the repository, enter the required credentials.
+&lt;br&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The other fields are optional and based on how the Git repository is configured.&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;Connect&lt;/strong&gt; and verify that the connection status displayed is &lt;code&gt;Successful&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;deploy-applications&#34;&gt;Deploy applications&lt;/h2&gt;
+&lt;p&gt;To deploy applications in a custom namespace, create Argo CD applications that specify the Git repository path, which Argo CD requires to synchronize and deploy the applications in the specified namespace.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: You can either pre-create a namespace and label it or auto-create a namespace when deploying an application.&lt;/p&gt;
+&lt;p&gt;This example provides information about how to deploy the &lt;code&gt;Hello-helidon&lt;/code&gt; application. The &lt;code&gt;Hello-helidon&lt;/code&gt; application and component YAML files are available at &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/helidon-config&#34;&gt;Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Log in to the Argo CD console.&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;New App&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Specify a name for the application.&lt;/li&gt;
+&lt;li&gt;For &lt;strong&gt;Project Name&lt;/strong&gt;, select &lt;strong&gt;default&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Select the required &lt;strong&gt;Sync Policy&lt;/strong&gt; option:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Automatic&lt;/code&gt; - By default, every three minutes, Argo CD checks the specified Git repository and synchronizes the updates in Kubernetes to the Git repository.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Manual&lt;/code&gt; - For manually synchronizing the updates to the Git repository, use the &lt;strong&gt;Manual&lt;/strong&gt; option.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;If you want to auto-create a namespace, in the &lt;strong&gt;Sync Options&lt;/strong&gt; section, select &lt;strong&gt;Auto-Create Namespace&lt;/strong&gt;.
+&lt;br&gt;By auto-creating the namespace, the application will be deployed outside of the service mesh. The best practice is to pre-create the namespace and label it.&lt;/li&gt;
+&lt;li&gt;Under the &lt;strong&gt;Source&lt;/strong&gt; section, enter the following:
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Repository URL&lt;/strong&gt;: &lt;a href=&#34;https://github.com/verrazzano/verrazzano/&#34;&gt;https://github.com/verrazzano/verrazzano/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Revision&lt;/strong&gt;: &lt;code&gt;master&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Path&lt;/strong&gt;: Path in the repository where the Kubernetes resource definitions are listed. For example: &lt;code&gt;examples/helidon-config&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Under the &lt;strong&gt;Destination&lt;/strong&gt; section, do the following:
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Cluster URL&lt;/strong&gt;: Select the cluster to which you want to deploy the applications.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Namespace&lt;/strong&gt;: Specify the namespace in which you want to deploy the applications. The instructions in this sample use &lt;code&gt;hello-helidon&lt;/code&gt; as the namespace.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;Create&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;If you selected &lt;code&gt;Manual&lt;/code&gt; as the &lt;strong&gt;Sync Policy&lt;/strong&gt; option, then click &lt;strong&gt;Sync&lt;/strong&gt;. In the &lt;strong&gt;Synchronize Resources&lt;/strong&gt; section, select all the resources, and then click &lt;strong&gt;Synchronize&lt;/strong&gt;.
+&lt;br&gt; This creates the Argo CD application and a pictorial representation of the deployed applications is displayed.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;verify-the-deployed-application&#34;&gt;Verify the deployed application&lt;/h2&gt;
+&lt;p&gt;The Hello World Helidon microservices application implements a REST API endpoint, &lt;code&gt;/config&lt;/code&gt;, which returns a message &lt;code&gt;{&amp;quot;message&amp;quot;:&amp;quot;Hello World!&amp;quot;}&lt;/code&gt; when invoked.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;:  The following instructions assume that you are using a Kubernetes environment such as OKE. Other environments or deployments may require alternative mechanisms for retrieving addresses, ports, and such.&lt;/p&gt;
+&lt;p&gt;Follow these steps to test the endpoints.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-helidon-config-appconf-gw \
+     -n hello-helidon \
+     -o jsonpath=&amp;#39;{.spec.servers[0].hosts[0]}&amp;#39;)
+$ echo $HOST
+
+# Sample output
+helidon-config-appconf.hello-helidon.11.22.33.44.nip.io
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Get the &lt;code&gt;EXTERNAL_IP&lt;/code&gt; address of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ ADDRESS=$(kubectl get service \
+     -n istio-system istio-ingressgateway \
+     -o jsonpath=&amp;#39;{.status.loadBalancer.ingress[0].ip}&amp;#39;)
+$ echo $ADDRESS
+
+# Sample output
+11.22.33.44
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Access the application.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Using the command line&lt;/strong&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ curl -sk \
+   -X GET \
+   https://${HOST}/config \
+   --resolve ${HOST}:443:${ADDRESS}
+
+# Expected response output
+{&amp;#34;message&amp;#34;:&amp;#34;Hello World!&amp;#34;}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you do not need to include &lt;code&gt;--resolve&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Local testing with a browser&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Temporarily, modify the &lt;code&gt;/etc/hosts&lt;/code&gt; file (on Mac or Linux)
+or &lt;code&gt;c:\Windows\System32\Drivers\etc\hosts&lt;/code&gt; file (on Windows 10),
+to add an entry mapping the host name to the ingress gateway&amp;rsquo;s &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address.
+For example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;11.22.33.44 hello-helidon.example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then you can access the application in a browser at &lt;code&gt;https://&amp;lt;host&amp;gt;/config&lt;/code&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you can access the application in a browser using the &lt;code&gt;HOST&lt;/code&gt; variable (for example, &lt;code&gt;https://${HOST}/config&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;If you are going through a proxy, then you may need to add &lt;code&gt;*.nip.io&lt;/code&gt; to the &lt;code&gt;NO_PROXY&lt;/code&gt; list.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Using your own DNS name&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Point your own DNS name to the ingress gateway&amp;rsquo;s &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;In this case, you would need to edit the &lt;code&gt;hello-helidon-app.yaml&lt;/code&gt; file
+to use the appropriate value under the &lt;code&gt;hosts&lt;/code&gt; section (such as &lt;code&gt;yourhost.your.domain&lt;/code&gt;),
+before deploying the &lt;code&gt;hello-helidon&lt;/code&gt; application.&lt;/li&gt;
+&lt;li&gt;Then, you can use a browser to access the application at &lt;code&gt;https://&amp;lt;yourhost.your.domain&amp;gt;/config&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A variety of endpoints associated with the deployed application are available to further explore the logs, metrics, and such.
+You can access them according to the directions &lt;a href=&#34;../docs/access/#get-the-consoles-urls&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;undeploy-applications&#34;&gt;Undeploy applications&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Log in to the Argo CD console.&lt;/li&gt;
+&lt;li&gt;Select the application that you want to undeploy and then click &lt;strong&gt;Delete&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Enter the name of the application and then click &lt;strong&gt;OK&lt;/strong&gt;.
+&lt;br&gt;This deletes all the resources created by the specific application except for the namespaces.&lt;/li&gt;
+&lt;/ol&gt;
 
       </description>
     </item>
