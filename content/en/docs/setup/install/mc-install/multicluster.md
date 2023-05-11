@@ -87,7 +87,7 @@ For more information, see [Registering Existing Clusters](https://ranchermanager
 ## Next steps
 
 - Verify your multicluster Verrazzano environment set up by following the instructions at [Verify Multicluster Installation]({{< relref "/docs/setup/install/mc-install/verify-install.md" >}}).
-- Deploy multicluster example applications. See [Examples of using Verrazzano in a multicluster environment]({{< relref "/docs/samples/multicluster/_index.md" >}}).
+- Deploy multicluster example applications. See [Examples of using Verrazzano in a multicluster environment]({{< relref "/docs/examples/multicluster/_index.md" >}}).
 
 {{< alert title="NOTE" color="primary" >}}
 To deregister a managed cluster, see [Deregister a Managed Cluster]({{< relref "/docs/setup/install/mc-install/deregister-install.md" >}}).

@@ -1,11 +1,12 @@
 ---
 title: "Multicluster Hello World Helidon"
 linktitle: "Hello World Helidon"
-description: "Hello World Helidon example deployed to a multicluster environment. The example also demonstrates how to change the placement of the application to a different cluster."
+description: "Hello World Helidon example appplication deployed to a multicluster environment."
 weight: 1
 ---
 
-The Hello World Helidon example is a Helidon-based service that returns a "Hello World" response when invoked. The example application is specified using Open Application Model (OAM) component and application configuration YAML files, and then deployed by applying those files.  This example shows how to deploy the Hello World Helidon application in a multicluster environment.
+The Hello World Helidon example is a Helidon-based service that returns a "Hello World" response when invoked. The example application is specified using Open Application Model (OAM) component and application configuration YAML files, and then deployed by applying those files. The example also demonstrates how to change the placement of the application to a different cluster.
+.
 
 ## Before you begin
 
@@ -74,11 +75,11 @@ Apply the VerrazzanoProject resource on the admin cluster that defines the names
 
 ## Explore the example application
 
-Follow the instructions for [exploring]({{< relref "/docs/samples/hello-helidon/#explore-the-application" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster kubeconfig file for testing the example application.
+Follow the instructions for [exploring]({{< relref "/docs/examples/hello-helidon/#explore-the-application" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster kubeconfig file for testing the example application.
 
 ## Verify the deployed application
 
-Follow the instructions for [troubleshooting]({{< relref "/docs/samples/hello-helidon/#troubleshooting" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster kubeconfig file for troubleshooting the example application.
+Follow the instructions for [troubleshooting]({{< relref "/docs/examples/hello-helidon/#troubleshooting" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster kubeconfig file for troubleshooting the example application.
 
 1. Verify that the application namespace exists on the managed cluster.
 {{< clipboard >}}
