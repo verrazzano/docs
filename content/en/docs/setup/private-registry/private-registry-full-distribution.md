@@ -179,42 +179,13 @@ Load the product images into your private registry.
 {{< /clipboard >}}
 4. Although most images can be protected using credentials stored in an image pull secret, some images _must_ be public. Use the following commands to get the list of public images:
 
-   * All the Rancher images in the `rancher/additional-rancher` subcomponent.
+   * The Rancher Agent image and all the Rancher images in the `rancher/additional-rancher` subcomponent.
 {{< clipboard >}}
 <div class="highlight">
 
    ```
+   $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name == "rancher") | .images[] | select(.image == "rancher-agent") | "\(.image):\(.tag)"'
    $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name == "additional-rancher") | .images[] | "\(.image):\(.tag)"'
-   ```
-</div>
-{{< /clipboard >}}
-
-   * The Fluentd Kubernetes daemonset image.
-{{< clipboard >}}
-<div class="highlight">
-
-   ```
-   $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[].images[] | select(.image == "fluentd-kubernetes-daemonset") | "\(.image):\(.tag)"'
-   ```
-</div>
-{{< /clipboard >}}
-
-   * The Istio proxy image.
-{{< clipboard >}}
-<div class="highlight">
-
-   ```
-   $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] |  select(.name == "istiod") | .images[] | select(.image == "proxyv2") | "\(.image):\(.tag)"'
-   ```
-</div>
-{{< /clipboard >}}
-
-   * The WebLogic Monitoring Exporter image.
-{{< clipboard >}}
-<div class="highlight">
-
-   ```
-   $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[].images[] | select(.image == "weblogic-monitoring-exporter") | "\(.image):\(.tag)"'
    ```
 </div>
 {{< /clipboard >}}
@@ -304,3 +275,10 @@ For example, for the [Oracle Cloud Native Environment platform]({{< relref "/doc
  ```
 </div>
 {{< /clipboard >}}
+
+## WebLogic applications
+
+WebLogic applications require that the container registry secret be specified in the `Domain` resource. Create a registry secret in the application namespace and specify the secret in
+the `imagePullSecrets` field of the WebLogic [Domain](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md#domain-spec) spec for the application.
+
+For an example, see the [ToDo List]( {{< release_source_url path=examples/todo-list/todo-list-components.yaml >}} ) example application component YAML file.
