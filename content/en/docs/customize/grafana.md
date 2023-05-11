@@ -110,4 +110,4 @@ To configure Grafana to send SMTP notifications, complete the following steps:
 
 For more information about Grafana SMTP configurations, see the [Grafana Documentation](https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#smtp).
 
-For more information about the component definition, see [Grafana component]({{< relref "/docs/reference/API/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.GrafanaComponent" >}}) in the Verrazzano custom resource.
+For more information about the component definition, see [Grafana component]({{< relref "/docs/reference/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.GrafanaComponent" >}}) in the Verrazzano custom resource.

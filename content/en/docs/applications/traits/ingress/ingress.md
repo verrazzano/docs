@@ -4,7 +4,7 @@ description: "A trait supporting the generation of an ingress for application ac
 weight: 4
 draft: false
 ---
-The [IngressTrait]({{< relref "/docs/reference/api/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.IngressTrait" >}}) custom resource contains the configuration of host and path rules for traffic routing to an application.  Here is a sample ApplicationConfiguration that specifies an IngressTrait.  To deploy an example application that demonstrates this IngressTrait, see [Hello World Helidon]({{< relref "/docs/samples/hello-helidon/" >}}).
+The [IngressTrait]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.IngressTrait" >}}) custom resource contains the configuration of host and path rules for traffic routing to an application.  Here is a sample ApplicationConfiguration that specifies an IngressTrait.  To deploy an example application that demonstrates this IngressTrait, see [Hello World Helidon]({{< relref "/docs/samples/hello-helidon/" >}}).
 
 {{< clipboard >}}
 <div class="highlight">

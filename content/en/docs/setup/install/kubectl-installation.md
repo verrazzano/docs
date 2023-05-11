@@ -29,7 +29,7 @@ You can install Verrazzano using the [Verrazzano CLI]({{< relref "docs/setup/cli
 ## Install the Verrazzano platform operator
 
 Verrazzano provides a platform [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
-to manage the life cycle of Verrazzano installations.  Using the [Verrazzano]({{< relref "/docs/reference/api/vpo-verrazzano-v1beta1" >}})
+to manage the life cycle of Verrazzano installations.  Using the [Verrazzano]({{< relref "/docs/reference/vpo-verrazzano-v1beta1" >}})
 custom resource, you can install, uninstall, and upgrade Verrazzano installations.
 
 To install the Verrazzano platform operator:
@@ -78,7 +78,7 @@ This document shows how to create a basic Verrazzano installation using:
 **NOTE**: Because the `dev` profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: **Your connection is not private**. For a workaround, see this [FAQ]({{< relref "/docs/faq/_index.md#enable-google-chrome-to-accept-self-signed-verrazzano-certificates" >}}).
 
 For a complete description of Verrazzano configuration options, see the
-[Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/vpo-verrazzano-v1beta1" >}}).
+[Verrazzano Custom Resource Definition]({{< relref "/docs/reference/vpo-verrazzano-v1beta1" >}}).
 
 To use other DNS options, see [Customzing DNS]({{< relref "/docs/customize/dns" >}}) for more details.
 
