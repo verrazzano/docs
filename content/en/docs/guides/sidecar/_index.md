@@ -12,17 +12,17 @@ Verrazzano creates and manages a Fluentd sidecar injection for each WebLogic pod
 However, these resources are not currently configurable and additional containers are required to customize the Fluentd configuration file and the container image.
 For more information on Fluentd sidecars and DaemonSet, see [Logging]({{< relref "/docs/observability/logs" >}}).
 
-The following instructions use the [ToDo List]({{< relref "/docs/examples/wls-coh/todo-list" >}}) example application to demonstrate how to attach and deploy a custom Fluentd sidecar to a [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) component. Before deploying the application, you will need to edit the application and component YAML files.
+The following instructions use the [ToDo List]({{< relref "/docs/examples/wls-coh/todo-list" >}}) example application to demonstrate how to attach and deploy a custom Fluentd sidecar to a [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) component. Before deploying the application, you will need to edit the application and component YAML files.
 Run the following commands to create a local copy of them:
 ```
 $ curl {{< release_source_url raw=true path=examples/todo-list/todo-list-components.yaml >}} --output todo-list-components.yaml
 $ curl {{< release_source_url raw=true path=examples/todo-list/todo-list-application.yaml >}} --output todo-list-application.yaml
 ```
-The `todo-list-components.yaml` file contains the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}), which is where you will modify the deployment.
+The `todo-list-components.yaml` file contains the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}), which is where you will modify the deployment.
 
 ## Create a Fluentd custom sidecar configuration file
 
-Before deploying the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) component, create a [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) that contains the Fluentd config file.
+Before deploying the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) component, create a [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) that contains the Fluentd config file.
 {{< clipboard >}}
 ```yaml
 apiVersion: v1
@@ -107,7 +107,7 @@ The `fdconfig` example volume mounts the previously deployed ConfigMap containin
 
 ## Create the Fluentd custom sidecar container
 
-The final resource addition to the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) is to create the custom sidecar container.
+The final resource addition to the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) is to create the custom sidecar container.
 {{< clipboard >}}
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
@@ -184,7 +184,7 @@ spec:
 This example container uses the Verrazzano Fluentd image, but you can use any image with additional Fluentd plug-ins in its place.
 
 Mounted are both volumes created to enable the Fluentd sidecar to monitor and parse logs.
-[VerrazzanoWebLogicWorkloads]({{< relref "/docs/reference/API/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) mount a volume in the `/scratch` directory containing log files.
+[VerrazzanoWebLogicWorkloads]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) mount a volume in the `/scratch` directory containing log files.
 Thus, any sidecar containers are limited to log access under that directory. As shown previously, the `shared-log-file` volume is mounted at `/scratch` for this reason.
 
 The example Fluentd configuration volume is mounted at `/fluentd/etc/`. While this path is more flexible, the `FLUEND_ARGS` environment variable needs to be updated accordingly.

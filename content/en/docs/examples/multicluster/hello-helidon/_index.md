@@ -1,11 +1,11 @@
 ---
 title: "Multicluster Hello World Helidon"
 linktitle: "Hello World Helidon"
-description: "Hello World Helidon example deployed to a multicluster environment. The example also demonstrates how to change the placement of the application to a different cluster."
+description: "Hello World Helidon example appplication deployed to a multicluster environment."
 weight: 1
 ---
 
-The Hello World Helidon example is a Helidon-based service that returns a "Hello World" response when invoked. The example application is specified using Open Application Model (OAM) component and application configuration YAML files, and then deployed by applying those files.  This example shows how to deploy the Hello World Helidon application in a multicluster environment.
+The Hello World Helidon example is a Helidon-based service that returns a "Hello World" response when invoked. The example application is specified using Open Application Model (OAM) component and application configuration YAML files, and then deployed by applying those files.  This example shows how to deploy the Hello World Helidon application in a multicluster environment. The example also demonstrates how to change the placement of the application to a different cluster.
 
 ## Before you begin
 
