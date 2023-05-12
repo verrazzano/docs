@@ -2,6 +2,8 @@
 title: "Verrazzano in a Multicluster Environment"
 weight: 4
 draft: false
+aliases:
+  - /docs/concepts/verrazzanomulticluster
 ---
 Review the following key concepts to understand multicluster Verrazzano.
 - Admin cluster - A Kubernetes cluster that serves as the central management point for deploying and monitoring applications
