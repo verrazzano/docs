@@ -9,7 +9,7 @@ Fixes:
 - Updated base and other images for issues and security.
 
 Component version updates:
-- WebLogic Kubernetes Operator v4.0.6
+- WebLogic Kubernetes Operator v3.4.7
 - WebLogic Monitoring Exporter v2.1.3
 
 ### v1.4.4
