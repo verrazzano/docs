@@ -2,6 +2,8 @@
 title: "Spring Boot"
 weight: 5
 description: "A Spring Boot-based simple web application"
+aliases:
+  - /docs/samples/spring-boot
 ---
 
 ## Before you begin

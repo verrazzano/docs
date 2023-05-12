@@ -1,5 +1,7 @@
 ---
 toc_hide: true
+aliases:
+  - /docs/samples/hello-helidon
 ---
 # Hello World Helidon
 
