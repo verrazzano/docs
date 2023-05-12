@@ -3,6 +3,8 @@ title: "Standard Kubernetes Resources"
 weight: 6
 description: "Example of using standard Kubernetes resources"
 draft: false
+aliases:
+  - /docs/samples/standard-kubernetes
 ---
 
 
