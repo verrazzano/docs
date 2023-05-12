@@ -2,6 +2,8 @@
 title: "Hello World Helidon"
 weight: 2
 description: "A simple Hello World REST service written with Helidon"
+aliases:
+  - /docs/samples/hello-world
 ---
 
 The Hello World Helidon example is a [Helidon](https://helidon.io)-based service that returns a "Hello World" response when invoked. The example application is specified using Open Application Model (OAM) component and application configuration YAML files, and then deployed by applying those files.
