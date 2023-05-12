@@ -57,6 +57,28 @@ Tracing port values will differ depending on the tracing endpoint:
 - GRPC, `14250`
 - HTTP, `14267` and `14268`
 
+### Use Jaeger tracing in a multicluster Verrazzano environment
+
+If the Jaeger Operator component is enabled in the managed cluster, after successful registration with the admin cluster,
+a Jaeger collector service runs in the managed cluster, which exports the traces to the OpenSearch
+storage configured in the admin cluster.
+
+**NOTE**: Traces are exported to the admin cluster only when the Jaeger instance in the admin cluster is configured with the OpenSearch storage.
+
+Listing Jaeger resources in the managed cluster shows output similar to the following.
+{{< clipboard >}}
+<div class="highlight">
+
+```
+$ kubectl get jaegers -n verrazzano-monitoring
+```
+</div>
+{{< /clipboard >}}
+```
+#sample output
+NAME                                STATUS    VERSION   STRATEGY     STORAGE         AGE
+jaeger-verrazzano-managed-cluster   Running   1.34.1    production   opensearch      11m
+```
 
 ### Customize Jaeger
 
@@ -71,6 +93,7 @@ The following sections describe some common customizations you might want to emp
 - [Disable default Jaeger instance creation](#disable-default-jaeger-instance-creation)
 - [Jaeger Operator Helm chart values that you cannot override](#jaeger-operator-helm-chart-values-that-you-cannot-override)
 - [Configure the Istio mesh to use Jaeger tracing](#configure-the-istio-mesh-to-use-jaeger-tracing)
+- [Configure the Istio mesh in a managed cluster to export Jaeger traces to the admin cluster](#configure-the-istio-mesh-in-a-managed-cluster-to-export-jaeger-traces-to-the-admin-cluster)
 - [Manage Jaeger indices in OpenSearch](#manage-jaeger-indices-in-opensearch)
 
 #### Customize a Jaeger instance to use an external OpenSearch for storage
@@ -294,6 +317,41 @@ spec:
                     sampling: 25.0
 ```
 {{< /clipboard >}}
+
+#### Configure the Istio mesh in a managed cluster to export Jaeger traces to the admin cluster
+
+To export the Istio mesh traces in the managed cluster to the admin cluster, set `meshConfig.defaultConfig.tracing.zipkin.address`
+to the Jaeger Collector URL created in the managed cluster that exports the traces to the OpenSearch
+storage configured in the admin cluster.
+
+Configure the Istio mesh on the managed cluster at the time of the Verrazzano installation, as follows:
+{{< clipboard >}}
+
+```yaml
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: verrazzano
+spec:
+  profile: managed-cluster
+  components:
+    jaegerOperator:
+      enabled: true
+    istio:
+      overrides:
+      - values:
+          apiVersion: install.istio.io/v1alpha1
+          kind: IstioOperator
+          spec:
+            meshConfig:
+              enableTracing: true
+              defaultConfig:
+                tracing:
+                  zipkin:
+                    address: jaeger-verrazzano-managed-cluster-collector.verrazzano-monitoring.svc.cluster.local.:9411
+```
+{{< /clipboard >}}
+
 
 #### Manage Jaeger indices in OpenSearch
 
