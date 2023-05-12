@@ -3,6 +3,8 @@ title: "Verrazzano Features"
 description: ""
 weight: 2
 draft: false
+aliases:
+  - /docs/concepts/features
 ---
 
 The Verrazzano Enterprise Container Platform delivers a unified platform for standardizing application and cluster management across various hosting environments. It's built from many familiar open source projects, each working in concert on Kubernetes clusters to provide vital container management services.
@@ -11,13 +13,13 @@ Getting started with Verrazzano is easy - the basic installation process is simp
 
 ## Unified hosting environment for all application types
 
-The flexibility of Verrazzano ensures that you can deploy both cloud native and traditional applications in on-premises and multicloud environments and manage them all using the same components. Using a consistent set of tools and processes reduces overhead related to training and maintenance, leaving more development resources available to address your business needs. 
+The flexibility of Verrazzano ensures that you can deploy both cloud native and traditional applications in on-premises and multicloud environments and manage them all using the same components. Using a consistent set of tools and processes reduces overhead related to training and maintenance, leaving more development resources available to address your business needs.
 
 Verrazzano can even accelerate your approach to modernizing your traditional applications. While cloud native technologies offer many advantages, the labor requirements necessary to convert your existing applications can be intimidating. Verrazzano presents a bridge between the two: developers can immediately start building new applications cloud natively, while simultaneously maintaining and converting their existing traditional applications on a timeline that makes sense, all within the same platform.
 
 ## Complete application life cycle management
 
-Starting with deployment, Verrazzano supports an application through all phases of its life cycle. It extensively automates the deployment process so you can reproduce successful application deployments reliably, even in multicloud environments. 
+Starting with deployment, Verrazzano supports an application through all phases of its life cycle. It extensively automates the deployment process so you can reproduce successful application deployments reliably, even in multicloud environments.
 
 Verrazzano understands that application management is a continuous and dynamic process where deployment is just the beginning. As an application moves through its life cycle, its management system must be able to adapt to its developing needs. Day 2 operations are given equal consideration so that post-deployment, you can continue to optimize your applications and their clusters over the course of their lifetime.
 
@@ -31,7 +33,7 @@ Verrazzano also recognizes that the direct management of applications is only pa
 
 Verrazzano tracks and receives valuable and timely information on the state of your clusters to ensure they're operating optimally.
 
-Verrazzano also supports both single and multicluster Kubernertes environments. 
+Verrazzano also supports both single and multicluster Kubernertes environments.
 
 For more information on how Verrazzano works in a multicluster environment, see [Multicluster]({{< relref "/docs/applications/multicluster/_index.md" >}}).
 
@@ -43,6 +45,6 @@ For more information on the available observability options, see [Logging and Mo
 
 ## Integrated security
 
-Verrazzano protects your applications and other resources with a robust set of security-focused components. It takes advantage of Kubernetes Role-Based Access Control to authorize only the right users to the right resources. Verrazzano also incorporates an identity solution that's easily integrated with OAuth and LDAP systems so you can streamline user management and implement Single Sign On services, protecting Verrazzano components and your applications. 
+Verrazzano protects your applications and other resources with a robust set of security-focused components. It takes advantage of Kubernetes Role-Based Access Control to authorize only the right users to the right resources. Verrazzano also incorporates an identity solution that's easily integrated with OAuth and LDAP systems so you can streamline user management and implement Single Sign On services, protecting Verrazzano components and your applications.
 
 Furthermore, a single and cohesive platform can reduce potential security gaps that often arise when working across unrelated software components. Verrazzano seals potential breaches between its individual components to minimize any compatibility issues and ensure each component remains on a supported and secure version.
