@@ -1,6 +1,8 @@
 ---
 title: Multicluster and Verrazzano Project
 weight: 1
+aliases:
+  - /docs/reference/api/vao-clusters-v1alpha1
 ---
 <p>Packages:</p>
 <ul>
