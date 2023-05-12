@@ -2,6 +2,8 @@
 title: "Verrazzano Projects"
 weight: 5
 draft: false
+aliases:
+  - /docs/concepts/verrazzanoproject
 ---
 
 A _project_ provides a way to group application namespaces that are owned or administered by the same user or
