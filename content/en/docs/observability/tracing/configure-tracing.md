@@ -228,7 +228,7 @@ error message returned.
 and hence, the Helm chart value `jaeger.spec.storage.dependencies.enabled`, which is set to `false` for the Jaeger
 instance managed by Verrazzano, cannot be overridden.
 
-### Configure the Istio mesh to use Jaeger tracing
+#### Configure the Istio mesh to use Jaeger tracing
 
 You can view Istio mesh traffic by enabling Istio's distributed tracing integration. Traces from the Istio mesh provide observability on application traffic
 that passes through Istio's ingress and egress gateways.
