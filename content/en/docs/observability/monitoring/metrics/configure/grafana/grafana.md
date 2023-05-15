@@ -83,7 +83,7 @@ In addition, there are the following preconfigured Grafana Verrazzano dashboards
     - `node-exporter-mixin` provides node level status for CPU, memory, disk, and network usage.
 <br>The following graphic shows some `Verrazzano Monitoring` dashboards:    
 
-![Verrazzano Monitoring Dashboard](/docs/images/grafana-verrazzano-monitoring-dashboards.png)
+![Verrazzano Monitoring Dashboard](/docs/images/grafana-monitoring-dashboards.png)
 
 - `Verrazzano System` has a set of dashboards  that provide information on the health of all Verrazzano system components and the resource usage of Kubernetes resources across clusters.
     - `Resource Usage Detailed` gives a detailed view of the resource usage for each of the Verrazzano system components, such as the application operator, cluster operator, monitoring operator, and platform operator. You can filter information based on cluster, component, and so on.
