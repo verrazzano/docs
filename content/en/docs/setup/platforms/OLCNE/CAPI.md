@@ -9,23 +9,23 @@ The Cluster API (CAPI) project seeks to develop and standardize Kubernetes-style
 
 Learn more about CAPI at [Kubernetes Cluster API Documentation](https://cluster-api.sigs.k8s.io/introduction.html).
 
-CAPI spreads the various cluster management tasks across three types of providers:
+CAPI spreads the various cluster management tasks across three types of providers: 
 
-* Infrastructure: which standardize the host environment for the clusters
-* Bootstrap: which streamline the node creation process
-* Control Plane: which manage the nodes
+* **Infrastructure** providers standardize the host environment by provisioning any infrastructure or computational resources required by the cluster or machine. 
+
+* **Bootstrap** providers streamline the node creation process by convert servers into Kubernetes nodes. 
+
+* **Control plane** providers work with the Kubernetes API to regulate your clusters, ensuring they always strive towards a desired state. 
 
 The CAPI provider for Oracle Cloud Native Environment (CAPOCNE) includes both a bootstrap and a control plane provider. When you enable Verrazzano with CAPOCNE on an Oracle Cloud Native Environment, you can use it to rapidly design and deploy clusters and then continue managing your clusters throughout their life cycle.
 
-During the setup process, the bootstrap provider converts a cluster into a management cluster - a Kubernetes cluster that controls any other, subordinate or 'workload' clusters. It generates certificates, starts and manages the creation of additonal nodes and handles the addition of control plane and worker nodes to the cluster.
+During the setup process, the bootstrap provider converts a cluster into a management cluster - a Kubernetes cluster that controls any other, subordinate or 'workload' clusters. It generates certificates, starts and manages the creation of additional nodes and handles the addition of control plane and worker nodes to the cluster.
 
 Next, a CAPI *infrastructure* provider will provision the first instance on the cloud provider and generate a provider ID, a unique identifier which any future nodes and clusters will use to associate with the instance. It will also create a kubeconfig file. The first control plane node is ready once these are created.
 
 After the management cluster is up and running, you can use CAPOCNE to create additional workload clusters.
 
 CAPOCNE currently only works with the [CAPOCI infrastructure provider](https://github.com/oracle/cluster-api-provider-oci) offered by Oracle Cloud Infrastructure (OCI).
-
-To get started with CAPOCNE, visit the [CAPOCNE GitHub repository](https://github.com/verrazzano/cluster-api-provider-ocne).
 
 {{% alert title="NOTE" color="primary" %}}
 The terminology around clusters differs between CAPI and Verrazzano though the underlying concepts are the same. What CAPI calls Management and Workload clusters are equivalent to Admin and Managed clusters, respectively, in Verrazzano.
