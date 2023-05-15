@@ -182,7 +182,7 @@ Load the product images into your private registry.
 <div class="highlight">
 
    ```
-   $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.image == "rancher-agent") | "\(.image):\(.tag)"'
+   $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name == "rancher") | .images[] | select(.image == "rancher-agent") | "\(.image):\(.tag)"'
    ```
 </div>
 {{< /clipboard >}}
@@ -193,6 +193,16 @@ Load the product images into your private registry.
 
    ```
    $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name == "additional-rancher") | .images[] | "\(.image):\(.tag)"'
+   ```
+</div>
+{{< /clipboard >}}
+
+      * All the Cluster API (CAPI) images.
+{{< clipboard >}}
+<div class="highlight">
+
+   ```
+   $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name | startswith("capi-")) | .images[] | "\(.image):\(.tag)"'
    ```
 </div>
 {{< /clipboard >}}

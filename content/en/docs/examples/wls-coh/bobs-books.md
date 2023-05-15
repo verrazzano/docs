@@ -2,6 +2,8 @@
 title: "Bob's Books"
 weight: 1
 description: "An example application based on WebLogic, Helidon, and Coherence"
+aliases:
+  - /docs/samples/bobs-books
 ---
 
 ## Before you begin

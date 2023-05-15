@@ -2,6 +2,8 @@
 title: "Multicluster"
 weight: 3
 description: "Examples of using Verrazzano in a multicluster environment"
+aliases:
+  - /docs/samples/multicluster
 ---
 
 ## Prerequisites

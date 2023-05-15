@@ -8,8 +8,8 @@ draft: false
 
 Verrazzano requires the following:
 - A Kubernetes cluster and a compatible `kubectl`.
-- `dev` profile - Each node in the cluster should contain at least two CPUs, 8 GB RAM, and 30 GB of disk storage. The entire cluster requires at least six CPUs, 48 GB RAM, and 100 GB of disk storage. In addition, about 52 GB of storage is required for the persistent volumes.
-- `prod` profile - Each node in the cluster should contain at least two CPUs, 24 GB RAM, and 30 GB of disk storage. The entire cluster requires at least eight CPUs, 64 GB RAM, and 150 GB of disk storage. In addition, about 450 GB of storage is required for the persistent volumes.
+- `dev` profile - Each node in the cluster should contain at least two CPUs, 16 GB RAM, and 100 GB of disk storage. The entire cluster requires at least six CPUs, 48 GB RAM, and 100 GB of disk storage. In addition, about 52 GB of storage is required for the persistent volumes.
+- `prod` profile - Each node in the cluster should contain at least four CPUs, 32 GB RAM, and 100 GB of disk storage. The entire cluster requires at least eight CPUs, 64 GB RAM, and 150 GB of disk storage. In addition, about 450 GB of storage is required for the persistent volumes.
 
 The persistent volumes are provisioned using the default [StorageClass](https://kubernetes.io/docs/tasks/administer-cluster/change-default-storage-class/) in the cluster. In case of a  local disk based PV [provisioner](https://kubernetes.io/docs/concepts/storage/storage-classes/#provisioner), each node in the cluster should have a minimum of 80 GB of disk storage for both of the profiles.
 
@@ -29,7 +29,7 @@ You can install Verrazzano on the following Kubernetes versions.
 | Verrazzano | Release Date | Latest Patch Release | Latest Patch Release Date | End of Error Correction* | Kubernetes Versions    |
 |------------|--------------|----------------------|---------------------------|--------------------------|------------------------|
 | 1.5        | 2023-02-15   | 1.5.3                | 2023-05-09                | 2024-02-28**             | 1.21, 1.22, 1.23, 1.24 |
-| 1.4        | 2022-09-30   | 1.4.4                | 2023-03-15                | 2023-10-31               | 1.21, 1.22, 1.23, 1.24 |
+| 1.4        | 2022-09-30   | 1.4.5                | 2023-05-12                | 2023-10-31               | 1.21, 1.22, 1.23, 1.24 |
 | 1.3        | 2022-05-24   | 1.3.8                | 2022-11-17                | 2023-05-31               | 1.21, 1.22, 1.23       |
 | 1.2        | 2022-03-14   | 1.2.2                | 2022-05-10                | 2022-11-30               | 1.19, 1.20, 1.21       |
 | 1.1        | 2021-12-16   | 1.1.2                | 2022-03-09                | 2022-09-30               | 1.19, 1.20, 1.21       |
