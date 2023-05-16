@@ -1,6 +1,6 @@
 ---
 title: "Troubleshooting"
-description: "Troubleshooting issue in logging"
+description: "Troubleshooting logging issues"
 weight: 6
 draft: false
 ---

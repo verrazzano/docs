@@ -1,7 +1,7 @@
 ---
 title: "Configure an OpenSearch Cluster"
 linkTitle: OpenSearch cluster
-description: "Learn about how to configure an OpenSearch cluster and access OpenSearch dashboards"
+description: "Learn how to configure an OpenSearch cluster and access OpenSearch dashboards"
 weight: 2
 draft: false
 ---
