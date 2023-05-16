@@ -41,6 +41,6 @@ Jaeger is very configurable. See the Jaeger documentation for detailed informati
 
 ### Next steps
 
-- Enable Jaeger and customize your Verrazzano Jaeger installation. See [configure tracing]({{< relref "/docs/observability/tracing/configure-tracing.md" >}}).
-- Configure your applications to [send traces to Jaeger]({{< relref "/docs/observability/tracing/capture-traces.md" >}}).
-- Then, use the Verrazzano Jaeger console to [view traces]({{< relref "/docs/observability/tracing/view-traces.md" >}}).
+- Enable Jaeger and customize your Verrazzano Jaeger installation. See [configure tracing]({{< relref "/docs/manage/observability/tracing/configure-tracing.md" >}}).
+- Configure your applications to [send traces to Jaeger]({{< relref "/docs/manage/observability/tracing/capture-traces.md" >}}).
+- Then, use the Verrazzano Jaeger console to [view traces]({{< relref "/docs/manage/observability/tracing/view-traces.md" >}}).
