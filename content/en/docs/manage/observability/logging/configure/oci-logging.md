@@ -1,7 +1,7 @@
 ---
 title: "Oracle Cloud Infrastructure Logging Service"
-linkTitle: Oracle Cloud Infrastructure Logging Service
-description: "Learn how to send Verrazzano logs to the Oracle Cloud Infrastructure Logging service"
+linkTitle: OCI Logging Service
+description: "Send Verrazzano logs to the Oracle Cloud Infrastructure Logging service"
 weight: 4
 draft: false
 ---

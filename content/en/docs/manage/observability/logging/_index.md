@@ -1,6 +1,6 @@
 ---
 title: "Logging"
-description: "Learn how to configure, manage, and troubleshoot logging components"
+description: "Configure and manage Verrazzano logging"
 weight: 1
 draft: false
 ---

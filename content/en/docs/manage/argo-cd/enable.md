@@ -1,6 +1,6 @@
 ---
 title: "Enable and Configure Argo CD"
-description: "Learn about how to enable and configure Argo CD"
+description: "Enable and configure Argo CD to work with your Git repositories"
 weight: 5
 draft: false
 ---

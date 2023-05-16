@@ -1,7 +1,7 @@
 ---
-title: "Understand Monitoring Components in Verrazzano"
+title: "Understand Verrazzano Monitoring Components"
 linkTitle: Monitor Components
-description: "Understand Verrazzano metrics gathering and viewing"
+description: "Learn about Verrazzano metrics gathering and viewing"
 weight: 1
 draft: false
 ---

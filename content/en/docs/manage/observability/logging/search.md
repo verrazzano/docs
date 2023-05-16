@@ -1,6 +1,6 @@
 ---
 title: "Search Log Records"
-description: "Learn how to search log records"
+description: "Ways to search log records"
 weight: 5
 draft: false
 ---
