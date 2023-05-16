@@ -1,6 +1,6 @@
 ---
 title: "Manage Verrazzano"
-description: "Discover Verrazzano's observability features and its continuous delivery capability"
+description: "Discover Verrazzano observability features and continuous delivery with ArgoCD"
 weight: 8
 draft: false
 ---

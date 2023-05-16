@@ -1,6 +1,6 @@
 ---
 title: "Continuous Delivery"
-description: "Learn about continuous delivery in Verrazzano"
+description: "Use ArgoCD for continuous delivery in Verrazzano"
 weight: 10
 draft: false
 ---

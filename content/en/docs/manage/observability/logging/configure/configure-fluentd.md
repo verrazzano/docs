@@ -1,7 +1,7 @@
 ---
-title: "Configure Fluentd for Log Collection"
+title: "Use Fluentd"
 linkTitle: Fluentd
-description: "Learn how to configure Fluentd for log collection"
+description: "Configure Fluentd for log collection"
 weight: 3
 draft: false
 ---

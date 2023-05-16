@@ -1,5 +1,5 @@
 ---
-title: "Logging components in Verrazzano"
+title: "Verrazzano Logging"
 linkTitle: Logging Components
 description: "Learn about Verrazzano logging components"
 weight: 1
