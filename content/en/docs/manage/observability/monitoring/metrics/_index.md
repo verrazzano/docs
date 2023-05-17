@@ -1,7 +1,7 @@
 ---
 title: "Configure Monitoring Components"
 linkTitle: Configure
-description: "Learn how to configure monitoring components"
+description: "Use Prometheus, Thanos, and Grafana to view, monitor, and store metrics"
 weight: 2
 draft: false
 ---
