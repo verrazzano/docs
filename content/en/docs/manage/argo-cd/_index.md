@@ -1,6 +1,6 @@
 ---
 title: "Continuous Delivery"
-description: "Use ArgoCD for continuous delivery in Verrazzano"
+description: "Use ArgoCD to manage application life cycle and deployment"
 weight: 10
 draft: false
 ---
