@@ -2456,7 +2456,7 @@ with firewalls that validate &lt;code&gt;HTTP Host&lt;/code&gt; headers.&lt;/li&
 These logs are collected using OpenSearch and can be accessed using OpenSearch Dashboards.
 OpenSearch and OpenSearch Dashboards are examples of infrastructure Verrazzano creates in support of an application as a
 result of applying an application configuration. For more information on creating an index pattern
-and visualizing the log data collected in OpenSearch, see &lt;a href=&#34;../docs/observability/logs/#opensearch-dashboards&#34;&gt;OpenSearch Dashboards&lt;/a&gt;.&lt;/p&gt;
+and visualizing the log data collected in OpenSearch, see &lt;a href=&#34;../docs/manage/observability/logging/configure/configure-opensearch/#opensearch-dashboards&#34;&gt;OpenSearch Dashboards&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Determine the URL to access OpenSearch Dashboards:
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -2655,7 +2655,7 @@ $ open &amp;#34;${OSD_URL}&amp;#34;
 Grafana can be used to access these metrics collected by Prometheus.
 Prometheus and Grafana are additional components Verrazzano creates as a result of
 applying an application configuration. For more information on visualizing Prometheus
-metrics data, see &lt;a href=&#34;../docs/observability/monitoring/metrics/configure/grafana/grafana/&#34;&gt;Grafana&lt;/a&gt;.&lt;/p&gt;
+metrics data, see &lt;a href=&#34;../docs/manage/observability/monitoring/metrics/configure/grafana/grafana/&#34;&gt;Grafana&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Determine the URL to access Grafana:
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -4974,10 +4974,10 @@ spec:
     
     <item>
       <title>Docs: Understand Application Tracing</title>
-      <link>/docs/observability/tracing/application-tracing/</link>
+      <link>/docs/manage/observability/tracing/application-tracing/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/observability/tracing/application-tracing/</guid>
+      <guid>/docs/manage/observability/tracing/application-tracing/</guid>
       <description>
         
         
@@ -5015,9 +5015,9 @@ requests that exhibit high latency or errors.&lt;/p&gt;
 &lt;p&gt;Jaeger is very configurable. See the Jaeger documentation for detailed information about Jaeger &lt;a href=&#34;https://www.jaegertracing.io/docs/1.37/features/&#34;&gt;features&lt;/a&gt; and &lt;a href=&#34;https://www.jaegertracing.io/docs/1.37/architecture/#architecture&#34;&gt;architecture&lt;/a&gt;. In Verrazzano, Jaeger does not include the Ingester service, Kafka, or Sparks jobs.&lt;/p&gt;
 &lt;h3 id=&#34;next-steps&#34;&gt;Next steps&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Enable Jaeger and customize your Verrazzano Jaeger installation. See &lt;a href=&#34;../docs/observability/tracing/configure-tracing/&#34;&gt;configure tracing&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Configure your applications to &lt;a href=&#34;../docs/observability/tracing/capture-traces/&#34;&gt;send traces to Jaeger&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Then, use the Verrazzano Jaeger console to &lt;a href=&#34;../docs/observability/tracing/view-traces/&#34;&gt;view traces&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Enable Jaeger and customize your Verrazzano Jaeger installation. See &lt;a href=&#34;../docs/manage/observability/tracing/configure-tracing/&#34;&gt;configure tracing&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Configure your applications to &lt;a href=&#34;../docs/manage/observability/tracing/capture-traces/&#34;&gt;send traces to Jaeger&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Then, use the Verrazzano Jaeger console to &lt;a href=&#34;../docs/manage/observability/tracing/view-traces/&#34;&gt;view traces&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
@@ -8220,11 +8220,32 @@ For information on how to get the consoles URLs and credentials, see &lt;a href=
     </item>
     
     <item>
-      <title>Docs: Monitor Components in Verrazzano</title>
-      <link>/docs/observability/monitoring/configure-metrics/</link>
+      <title>Docs: Verrazzano Logging</title>
+      <link>/docs/manage/observability/logging/configure/logs/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/observability/monitoring/configure-metrics/</guid>
+      <guid>/docs/manage/observability/logging/configure/logs/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Verrazzano logging stack consists of Fluentd, OpenSearch, and OpenSearch Dashboards components.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fluentd: a log aggregator that collects, processes, and formats logs from Kubernetes clusters.&lt;/li&gt;
+&lt;li&gt;OpenSearch: a scalable search and analytics engine for storing Kubernetes logs.&lt;/li&gt;
+&lt;li&gt;OpenSearch Dashboards: a visualization layer that provides a user interface to query and visualize collected logs.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As shown in the following diagram, logs written to stdout by a container running on Kubernetes are picked up by the kubelet service running on that node and written to &lt;code&gt;/var/log/containers&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../docs/images/logging.png&#34; alt=&#34;Logging&#34;&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Understand Verrazzano Monitoring Components</title>
+      <link>/docs/manage/observability/monitoring/configure-metrics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/manage/observability/monitoring/configure-metrics/</guid>
       <description>
         
         
@@ -8740,7 +8761,7 @@ For details on Service Monitor and Pod Monitor, refer to the &lt;a href=&#34;htt
 &lt;/ol&gt;
 &lt;p&gt;Metrics Traits use Service Monitors which require &lt;a href=&#34;https://kubernetes.io/docs/concepts/services-networking/service/&#34;&gt;Services&lt;/a&gt; for metrics collection.
 If you are unable to verify metrics collection, you might need to manually create a Service for the workload.&lt;/p&gt;
-&lt;p&gt;For more information on Prometheus solutions, see &lt;a href=&#34;../docs/observability/monitoring/troubleshooting-prometheus/&#34;&gt;Troubleshooting Prometheus&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For more information on Prometheus solutions, see &lt;a href=&#34;../docs/manage/observability/monitoring/troubleshooting-prometheus/&#34;&gt;Troubleshooting Prometheus&lt;/a&gt;.&lt;/p&gt;
 &lt;h4 id=&#34;legacy-workloads&#34;&gt;Legacy workloads&lt;/h4&gt;
 &lt;p&gt;Standard Kubernetes workloads that were metrics sources in earlier versions of Verrazzano (1.3.x or earlier), will continue
 to be supported when upgrading to later versions of Verrazzano.&lt;/p&gt;
@@ -10768,10 +10789,10 @@ See the Coherence versions supported &lt;a href=&#34;https://oracle.github.io/co
     
     <item>
       <title>Docs: Prometheus</title>
-      <link>/docs/observability/monitoring/metrics/configure/prometheus/prometheus/</link>
+      <link>/docs/manage/observability/monitoring/metrics/configure/prometheus/prometheus/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/observability/monitoring/metrics/configure/prometheus/prometheus/</guid>
+      <guid>/docs/manage/observability/monitoring/metrics/configure/prometheus/prometheus/</guid>
       <description>
         
         
@@ -21421,6 +21442,325 @@ In this case, it&amp;rsquo;s &lt;code&gt;statefulset.kubernetes.io/pod-name: vmi
     </item>
     
     <item>
+      <title>Docs: Use OpenSearch</title>
+      <link>/docs/manage/observability/logging/configure/configure-opensearch/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/manage/observability/logging/configure/configure-opensearch/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano creates an OpenSearch cluster as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the OpenSearch REST API.&lt;/p&gt;
+&lt;p&gt;For example, you can use &lt;code&gt;curl&lt;/code&gt; to get all of the OpenSearch data streams. First, you must get the password for the &lt;code&gt;verrazzano&lt;/code&gt; user and the host for the Verrazzano Monitoring Instance (VMI) OpenSearch.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ PASS=$(kubectl get secret \
+    --namespace verrazzano-system verrazzano \
+    -o jsonpath={.data.password} | base64 \
+    --decode; echo)
+$ HOST=$(kubectl get ingress \
+    -n verrazzano-system vmi-system-os-ingest \
+    -o jsonpath={.spec.rules[0].host})
+
+$ curl -ik \
+   --user verrazzano:$PASS https://$HOST/_data_stream
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;To see all of the records for a specific data stream, do the following:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ DATA_STREAM=verrazzano-application-todo-list
+
+$ curl -ik \
+    --user verrazzano:$PASS https://$HOST/$DATA_STREAM/_search?q=message:*
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;Verrazzano provides support for &lt;a href=&#34;../docs/setup/install/profiles/&#34;&gt;Installation Profiles&lt;/a&gt;. The production profile (&lt;code&gt;prod&lt;/code&gt;), which is the default, provides a 3-node OpenSearch and persistent storage for the VMI. The development profile (&lt;code&gt;dev&lt;/code&gt;) provides a single node OpenSearch and no persistent storage for the VMI. The &lt;code&gt;managed-cluster&lt;/code&gt; profile does not install OpenSearch or OpenSearch Dashboards in the local cluster; all logs are forwarded to the admin cluster&amp;rsquo;s OpenSearch instance.&lt;/p&gt;
+&lt;p&gt;If you want the logs sent to an external OpenSearch, instead of the default VMI OpenSearch, specify &lt;code&gt;opensearchURL&lt;/code&gt; and &lt;code&gt;opensearchSecret&lt;/code&gt; in the &lt;a href=&#34;../docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.FluentdComponent&#34;&gt;Fluentd&lt;/a&gt; Component configuration in your Verrazzano custom resource.&lt;/p&gt;
+&lt;p&gt;The following is an example of a Verrazzano custom resource to send the logs to the OpenSearch endpoint &lt;code&gt;https://external-os.default.172.18.0.231.nip.io&lt;/code&gt;.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: default
+spec:
+  components:
+    fluentd:
+      opensearchURL: https://external-os.default.172.18.0.231.nip.io
+      opensearchSecret: external-os-secret
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;For information on OpenSearch, see the &lt;a href=&#34;../docs/customize/opensearch/&#34;&gt;Customize OpenSearch&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;opensearch-dashboards&#34;&gt;OpenSearch Dashboards&lt;/h2&gt;
+&lt;p&gt;OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.&lt;/p&gt;
+&lt;p&gt;To access the OpenSearch Dashboards, read &lt;a href=&#34;../docs/access/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To see the records of an OpenSearch index or data stream through OpenSearch Dashboards, create an index pattern to filter for records under the desired data stream or index.&lt;/p&gt;
+&lt;p&gt;For example, to see the log records of a WebLogic application deployed to the &lt;code&gt;todo-list&lt;/code&gt; namespace, create an index pattern of &lt;code&gt;verrazzano-application-todo-*&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../docs/images/opensearch-dashboards-todo.png&#34; alt=&#34;OpenSearch Dashboards&#34;&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Rancher</title>
       <link>/docs/backup/rancher/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -22817,10 +23157,10 @@ $ rm register.yaml
     
     <item>
       <title>Docs: Thanos</title>
-      <link>/docs/observability/monitoring/metrics/configure/thanos/thanos/</link>
+      <link>/docs/manage/observability/monitoring/metrics/configure/thanos/thanos/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/observability/monitoring/metrics/configure/thanos/thanos/</guid>
+      <guid>/docs/manage/observability/monitoring/metrics/configure/thanos/thanos/</guid>
       <description>
         
         
@@ -26316,7 +26656,7 @@ $ curl -k --user verrazzano:${VZPASS} -X POST -H &amp;#39;kbn-xsrf: true&amp;#39
 &lt;p&gt;For more information on how Verrazzano works in a multicluster environment, see &lt;a href=&#34;../docs/applications/multicluster/&#34;&gt;Multicluster&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;comprehensive-observability&#34;&gt;Comprehensive observability&lt;/h2&gt;
 &lt;p&gt;Verrazzano includes a variety of logging, monitoring, and tracing components so you can make intelligent decisions based on the comprehensive data generated by your application and its environment. Many of the components in this observability stack offer significant automated functionality which means Verrazzano alerts you to problems before you know to look for them.&lt;/p&gt;
-&lt;p&gt;For more information on the available observability options, see &lt;a href=&#34;../docs/observability/&#34;&gt;Observability&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For more information on the available observability options, see &lt;a href=&#34;../docs/manage/observability/&#34;&gt;Observability&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;integrated-security&#34;&gt;Integrated security&lt;/h2&gt;
 &lt;p&gt;Verrazzano protects your applications and other resources with a robust set of security-focused components. It takes advantage of Kubernetes Role-Based Access Control to authorize only the right users to the right resources. Verrazzano also incorporates an identity solution that&amp;rsquo;s easily integrated with OAuth and LDAP systems so you can streamline user management and implement Single Sign On services, protecting Verrazzano components and your applications.&lt;/p&gt;
 &lt;p&gt;Furthermore, a single and cohesive platform can reduce potential security gaps that often arise when working across unrelated software components. Verrazzano seals potential breaches between its individual components to minimize any compatibility issues and ensure each component remains on a supported and secure version.&lt;/p&gt;
@@ -26327,10 +26667,10 @@ $ curl -k --user verrazzano:${VZPASS} -X POST -H &amp;#39;kbn-xsrf: true&amp;#39
     
     <item>
       <title>Docs: Configure Tracing Components</title>
-      <link>/docs/observability/tracing/configure-tracing/</link>
+      <link>/docs/manage/observability/tracing/configure-tracing/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/observability/tracing/configure-tracing/</guid>
+      <guid>/docs/manage/observability/tracing/configure-tracing/</guid>
       <description>
         
         
@@ -29662,6 +30002,256 @@ set to &lt;code&gt;example.com&lt;/code&gt;, the A records would need to be set 
     </item>
     
     <item>
+      <title>Docs: Use Fluentd</title>
+      <link>/docs/manage/observability/logging/configure/configure-fluentd/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/manage/observability/logging/configure/configure-fluentd/</guid>
+      <description>
+        
+        
+        &lt;h3 id=&#34;fluentd-sidecar&#34;&gt;Fluentd sidecar&lt;/h3&gt;
+&lt;p&gt;For components with multiple log streams or that cannot log to stdout, Verrazzano deploys a Fluentd sidecar which parses and translates the log stream.  The resulting log is sent to stdout of the sidecar container and then written to &lt;code&gt;/var/log/containers&lt;/code&gt; by the kubelet service.&lt;/p&gt;
+&lt;p&gt;For example, in a WebLogic deployment, &lt;code&gt;AdminServer.log&lt;/code&gt; is consumed, translated, and written to stdout by the Fluentd sidecar.  You can view these logs using &lt;code&gt;kubectl&lt;/code&gt; on the container named &lt;code&gt;fluentd-stdout-sidecar&lt;/code&gt;.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs tododomain-adminserver \
+   -n todo-list \
+   -c fluentd-stdout-sidecar
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;The Verrazzano Fluentd Docker image comes with these plug-ins:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fluent-plugins-nursery/fluent-plugin-concat&#34;&gt;fluent-plugin-concat&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/lunardial/fluent-plugin-dedot_filter&#34;&gt;fluent-plugin-dedot_filter&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/GoogleCloudPlatform/fluent-plugin-detect-exceptions&#34;&gt;fluent-plugin-detect-exceptions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.fluentd.org/output/opensearch&#34;&gt;fluent-plugin-opensearch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fluent/fluent-plugin-grok-parser&#34;&gt;fluent-plugin-grok-parser&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://rubygems.org/gems/fluent-plugin-json-in-json-2&#34;&gt;fluent-plugin-json-in-json-2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fabric8io/fluent-plugin-kubernetes_metadata_filter&#34;&gt;fluent-plugin-kubernetes_metadata_filter&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/repeatedly/fluent-plugin-multi-format-parser&#34;&gt;fluent-plugin-multi-format-parser&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fluent/fluent-plugin-parser-cri&#34;&gt;fluent-plugin-parser-cri&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fluent/fluent-plugin-prometheus&#34;&gt;fluent-plugin-prometheus&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/repeatedly/fluent-plugin-record-modifier&#34;&gt;fluent-plugin-record-modifier&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fluent/fluent-plugin-rewrite-tag-filter&#34;&gt;fluent-plugin-rewrite-tag-filter&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fluent-plugin-systemd/fluent-plugin-systemd&#34;&gt;fluent-plugin-systemd&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/oracle/fluent-plugin-oci-logging&#34;&gt;fluent-plugin-oci-logging&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The Verrazzano Fluentd Docker image also has two local default plug-ins, &lt;code&gt;kubernetes_parser&lt;/code&gt; and &lt;code&gt;kubernetes_multiline_parser&lt;/code&gt;.
+These plug-ins help to parse Kubernetes management log files.&lt;/p&gt;
+&lt;p&gt;Here are example use cases for these plug-ins:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# ---- fluentd.conf ----
+# kubernetes parser
+&amp;lt;source&amp;gt;
+  @type tail
+  path ./kubelet.log
+  read_from_head yes
+  tag kubelet
+  &amp;lt;parse&amp;gt;
+     @type multiline_kubernetes
+  &amp;lt;/parse&amp;gt;
+&amp;lt;/source&amp;gt;
+
+# kubernetes multi-line parser
+&amp;lt;source&amp;gt;
+  @type tail
+  path ./kubelet.log
+  read_from_head yes
+  tag kubelet
+  &amp;lt;parse&amp;gt;
+     @type multiline_kubernetes
+  &amp;lt;/parse&amp;gt;
+&amp;lt;/source&amp;gt;
+# ----   EOF      ----
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;h3 id=&#34;fluentd-daemonset&#34;&gt;Fluentd DaemonSet&lt;/h3&gt;
+&lt;p&gt;Verrazzano deploys a Fluentd DaemonSet which runs one Fluentd replica per node in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.
+Each instance pulls logs from the node&amp;rsquo;s &lt;code&gt;/var/log/containers&lt;/code&gt; directory and writes them to the target OpenSearch data stream.
+Verrazzano system applications receive special handling, and write their logs to the &lt;code&gt;verrazzano-system&lt;/code&gt; data stream.
+Verrazzano application logs are exported to a data stream based on the application&amp;rsquo;s namespace, following this format: &lt;code&gt;verrazzano-application-&amp;lt;application namespace&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For example, &lt;code&gt;vmi-system-opensearchDashboards&lt;/code&gt; logs written to &lt;code&gt;/var/log/containers&lt;/code&gt; will be pulled by Fluentd and written to OpenSearch.  The logs are exported
+to the &lt;code&gt;verrazzano-system&lt;/code&gt; data stream, because &lt;code&gt;vmi-system-opensearchDashboards&lt;/code&gt; is a Verrazzano system application. For a non-system application, if it is in the &lt;code&gt;myapp&lt;/code&gt; namespace,
+then its logs will be exported to the &lt;code&gt;verrazzano-application-myapp&lt;/code&gt; data stream.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Fluentd</title>
       <link>/docs/troubleshooting/troubleshooting-fluentd/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -29998,10 +30588,10 @@ set to &lt;code&gt;example.com&lt;/code&gt;, the A records would need to be set 
     
     <item>
       <title>Docs: Grafana</title>
-      <link>/docs/observability/monitoring/metrics/configure/grafana/grafana/</link>
+      <link>/docs/manage/observability/monitoring/metrics/configure/grafana/grafana/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/observability/monitoring/metrics/configure/grafana/grafana/</guid>
+      <guid>/docs/manage/observability/monitoring/metrics/configure/grafana/grafana/</guid>
       <description>
         
         
@@ -31915,571 +32505,6 @@ $ rm register.yaml
 &lt;p&gt;Also, you can configure Keycloak to delegate authentication to an external user store, such as Active Directory or an LDAP server.&lt;/p&gt;
 &lt;p&gt;Because Keycloak is not configured as an authentication provider for the Kubernetes API, authenticating Keycloak users to Kubernetes requires the use of a proxy that impersonates Keycloak users when making Kubernetes API requests. For more information about the Verrazzano authentication proxy, see &lt;a href=&#34;../docs/security/proxies/proxies/&#34;&gt;Verrazzano Proxies&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Keycloak is also used when authenticating to the Verrazzano Console and the various Verrazzano Monitoring Instance (VMI) logging and metrics consoles. The Verrazzano Console uses the OpenID Connect (OIDC) PKCE flow to authenticate users against Keycloak and obtain ID and access tokens. Authentication for VMI consoles is provided by the Verrazzano authentication proxy, which also uses PKCE to authenticate users, validates the resulting tokens, and authorizes incoming requests. For more information about the Verrazzano authentication proxy, see &lt;a href=&#34;../docs/security/proxies/proxies/&#34;&gt;Verrazzano Proxies&lt;/a&gt;.&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Logging</title>
-      <link>/docs/observability/logs/logs/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/observability/logs/logs/</guid>
-      <description>
-        
-        
-        &lt;p&gt;The Verrazzano logging stack consists of Fluentd, OpenSearch, and OpenSearch Dashboards components.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Fluentd: a log aggregator that collects, processes, and formats logs from Kubernetes clusters.&lt;/li&gt;
-&lt;li&gt;OpenSearch: a scalable search and analytics engine for storing Kubernetes logs.&lt;/li&gt;
-&lt;li&gt;OpenSearch Dashboards: a visualization layer that provides a user interface to query and visualize collected logs.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;As shown in the following diagram, logs written to stdout by a container running on Kubernetes are picked up by the kubelet service running on that node and written to &lt;code&gt;/var/log/containers&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../docs/images/logging.png&#34; alt=&#34;Logging&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;fluentd-sidecar&#34;&gt;Fluentd sidecar&lt;/h2&gt;
-&lt;p&gt;For components with multiple log streams or that cannot log to stdout, Verrazzano deploys a Fluentd sidecar which parses and translates the log stream.  The resulting log is sent to stdout of the sidecar container and then written to &lt;code&gt;/var/log/containers&lt;/code&gt; by the kubelet service.&lt;/p&gt;
-&lt;p&gt;For example, in a WebLogic deployment, &lt;code&gt;AdminServer.log&lt;/code&gt; is consumed, translated, and written to stdout by the Fluentd sidecar.  You can view these logs using &lt;code&gt;kubectl&lt;/code&gt; on the container named &lt;code&gt;fluentd-stdout-sidecar&lt;/code&gt;.
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs tododomain-adminserver \
-   -n todo-list \
-   -c fluentd-stdout-sidecar
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;The Verrazzano Fluentd Docker image comes with these plug-ins:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/fluent-plugins-nursery/fluent-plugin-concat&#34;&gt;fluent-plugin-concat&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/lunardial/fluent-plugin-dedot_filter&#34;&gt;fluent-plugin-dedot_filter&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/GoogleCloudPlatform/fluent-plugin-detect-exceptions&#34;&gt;fluent-plugin-detect-exceptions&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://docs.fluentd.org/output/opensearch&#34;&gt;fluent-plugin-opensearch&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/fluent/fluent-plugin-grok-parser&#34;&gt;fluent-plugin-grok-parser&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://rubygems.org/gems/fluent-plugin-json-in-json-2&#34;&gt;fluent-plugin-json-in-json-2&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/fabric8io/fluent-plugin-kubernetes_metadata_filter&#34;&gt;fluent-plugin-kubernetes_metadata_filter&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/repeatedly/fluent-plugin-multi-format-parser&#34;&gt;fluent-plugin-multi-format-parser&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/fluent/fluent-plugin-parser-cri&#34;&gt;fluent-plugin-parser-cri&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/fluent/fluent-plugin-prometheus&#34;&gt;fluent-plugin-prometheus&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/repeatedly/fluent-plugin-record-modifier&#34;&gt;fluent-plugin-record-modifier&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/fluent/fluent-plugin-rewrite-tag-filter&#34;&gt;fluent-plugin-rewrite-tag-filter&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/fluent-plugin-systemd/fluent-plugin-systemd&#34;&gt;fluent-plugin-systemd&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/oracle/fluent-plugin-oci-logging&#34;&gt;fluent-plugin-oci-logging&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;The Verrazzano Fluentd Docker image also has two local default plug-ins, &lt;code&gt;kubernetes_parser&lt;/code&gt; and &lt;code&gt;kubernetes_multiline_parser&lt;/code&gt;.
-These plug-ins help to parse Kubernetes management log files.&lt;/p&gt;
-&lt;p&gt;Here are example use cases for these plug-ins:
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# ---- fluentd.conf ----
-# kubernetes parser
-&amp;lt;source&amp;gt;
-  @type tail
-  path ./kubelet.log
-  read_from_head yes
-  tag kubelet
-  &amp;lt;parse&amp;gt;
-     @type multiline_kubernetes
-  &amp;lt;/parse&amp;gt;
-&amp;lt;/source&amp;gt;
-
-# kubernetes multi-line parser
-&amp;lt;source&amp;gt;
-  @type tail
-  path ./kubelet.log
-  read_from_head yes
-  tag kubelet
-  &amp;lt;parse&amp;gt;
-     @type multiline_kubernetes
-  &amp;lt;/parse&amp;gt;
-&amp;lt;/source&amp;gt;
-# ----   EOF      ----
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;h2 id=&#34;fluentd-daemonset&#34;&gt;Fluentd DaemonSet&lt;/h2&gt;
-&lt;p&gt;Verrazzano deploys a Fluentd DaemonSet which runs one Fluentd replica per node in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.
-Each instance pulls logs from the node&amp;rsquo;s &lt;code&gt;/var/log/containers&lt;/code&gt; directory and writes them to the target OpenSearch data stream.
-Verrazzano system applications receive special handling, and write their logs to the &lt;code&gt;verrazzano-system&lt;/code&gt; data stream.
-Verrazzano application logs are exported to a data stream based on the application&amp;rsquo;s namespace, following this format: &lt;code&gt;verrazzano-application-&amp;lt;application namespace&amp;gt;&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;For example, &lt;code&gt;vmi-system-opensearchDashboards&lt;/code&gt; logs written to &lt;code&gt;/var/log/containers&lt;/code&gt; will be pulled by Fluentd and written to OpenSearch.  The logs are exported
-to the &lt;code&gt;verrazzano-system&lt;/code&gt; data stream, because &lt;code&gt;vmi-system-opensearchDashboards&lt;/code&gt; is a Verrazzano system application. For a non-system application, if it is in the &lt;code&gt;myapp&lt;/code&gt; namespace,
-then its logs will be exported to the &lt;code&gt;verrazzano-application-myapp&lt;/code&gt; data stream.&lt;/p&gt;
-&lt;h2 id=&#34;opensearch&#34;&gt;OpenSearch&lt;/h2&gt;
-&lt;p&gt;Verrazzano creates an OpenSearch cluster as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the OpenSearch REST API.&lt;/p&gt;
-&lt;p&gt;For example, you can use &lt;code&gt;curl&lt;/code&gt; to get all of the OpenSearch data streams. First, you must get the password for the &lt;code&gt;verrazzano&lt;/code&gt; user and the host for the Verrazzano Monitoring Instance (VMI) OpenSearch.
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ PASS=$(kubectl get secret \
-    --namespace verrazzano-system verrazzano \
-    -o jsonpath={.data.password} | base64 \
-    --decode; echo)
-$ HOST=$(kubectl get ingress \
-    -n verrazzano-system vmi-system-os-ingest \
-    -o jsonpath={.spec.rules[0].host})
-
-$ curl -ik \
-   --user verrazzano:$PASS https://$HOST/_data_stream
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;To see all of the records for a specific data stream, do the following:
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ DATA_STREAM=verrazzano-application-todo-list
-
-$ curl -ik \
-    --user verrazzano:$PASS https://$HOST/$DATA_STREAM/_search?q=message:*
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;Verrazzano provides support for &lt;a href=&#34;../docs/setup/install/profiles/&#34;&gt;Installation Profiles&lt;/a&gt;. The production profile (&lt;code&gt;prod&lt;/code&gt;), which is the default, provides a 3-node OpenSearch and persistent storage for the VMI. The development profile (&lt;code&gt;dev&lt;/code&gt;) provides a single node OpenSearch and no persistent storage for the VMI. The &lt;code&gt;managed-cluster&lt;/code&gt; profile does not install OpenSearch or OpenSearch Dashboards in the local cluster; all logs are forwarded to the admin cluster&amp;rsquo;s OpenSearch instance.&lt;/p&gt;
-&lt;p&gt;If you want the logs sent to an external OpenSearch, instead of the default VMI OpenSearch, specify &lt;code&gt;opensearchURL&lt;/code&gt; and &lt;code&gt;opensearchSecret&lt;/code&gt; in the &lt;a href=&#34;../docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.FluentdComponent&#34;&gt;Fluentd&lt;/a&gt; Component configuration in your Verrazzano custom resource.&lt;/p&gt;
-&lt;p&gt;The following is an example of a Verrazzano custom resource to send the logs to the OpenSearch endpoint &lt;code&gt;https://external-os.default.172.18.0.231.nip.io&lt;/code&gt;.
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: default
-spec:
-  components:
-    fluentd:
-      opensearchURL: https://external-os.default.172.18.0.231.nip.io
-      opensearchSecret: external-os-secret
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;For information on OpenSearch, see the &lt;a href=&#34;../docs/customize/opensearch/&#34;&gt;Customize OpenSearch&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;opensearch-dashboards&#34;&gt;OpenSearch Dashboards&lt;/h2&gt;
-&lt;p&gt;OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.&lt;/p&gt;
-&lt;p&gt;To access the OpenSearch Dashboards, read &lt;a href=&#34;../docs/access/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;To see the records of an OpenSearch index or data stream through OpenSearch Dashboards, create an index pattern to filter for records under the desired data stream or index.&lt;/p&gt;
-&lt;p&gt;For example, to see the log records of a WebLogic application deployed to the &lt;code&gt;todo-list&lt;/code&gt; namespace, create an index pattern of &lt;code&gt;verrazzano-application-todo-*&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../docs/images/opensearch-dashboards-todo.png&#34; alt=&#34;OpenSearch Dashboards&#34;&gt;&lt;/p&gt;
 
       </description>
     </item>
@@ -34762,877 +34787,6 @@ the NGINX Ingress Controller on the managed cluster.&lt;/p&gt;
     </item>
     
     <item>
-      <title>Docs: Oracle Cloud Infrastructure Logging Service</title>
-      <link>/docs/observability/logs/oci-logging/oci-logging/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/observability/logs/oci-logging/oci-logging/</guid>
-      <description>
-        
-        
-        &lt;p&gt;The Oracle Cloud Infrastructure Logging service is a highly scalable and fully managed single view for
-all the logs in your tenancy. You can configure Verrazzano to send logs to Oracle Cloud Infrastructure Logging instead of OpenSearch.
-For general information, see Oracle Cloud Infrastructure &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm&#34;&gt;Logging Overview&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;set-up-custom-logs&#34;&gt;Set up custom logs&lt;/h2&gt;
-&lt;p&gt;Verrazzano can send its logs to Oracle Cloud Infrastructure custom logs. You will need to provide two Oracle Cloud Infrastructure Log identifiers in your Verrazzano
-installation resource: one for Verrazzano system logs and one for application logs. Follow the steps in
-&lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/custom_logs.htm&#34;&gt;Creating Custom Logs&lt;/a&gt; to create two
-custom logs. &lt;strong&gt;Do not&lt;/strong&gt; create an agent configuration when creating a custom log, otherwise the log records will be duplicated.&lt;/p&gt;
-&lt;h2 id=&#34;configure-credentials&#34;&gt;Configure credentials&lt;/h2&gt;
-&lt;p&gt;The Fluentd plug-in included with Verrazzano will use Oracle Cloud Infrastructure instance principal authentication by default. Optionally, you
-can configure Verrazzano with a user API signing key. API signing key authentication is required to send logs to
-Oracle Cloud Infrastructure Logging if the cluster is running outside of Oracle Cloud Infrastructure.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#instance-principal-authentication&#34;&gt;Instance principal authentication&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#user-api-signing-key&#34;&gt;User API signing key&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;instance-principal-authentication&#34;&gt;Instance principal authentication&lt;/h3&gt;
-&lt;p&gt;Create a dynamic group that includes the compute instances in your cluster&amp;rsquo;s node pools and assign the appropriate policy,
-so that the dynamic group is allowed to send log entries to the custom logs you created earlier. Pay close attention to
-the &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups&#34;&gt;required permissions&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;If the dynamic group and policy are configured incorrectly, then Fluentd will fail to send logs to Oracle Cloud Infrastructure Logging.&lt;/p&gt;
-&lt;h3 id=&#34;user-api-signing-key&#34;&gt;User API signing key&lt;/h3&gt;
-&lt;p&gt;If you do not already have an API signing key, then see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm&#34;&gt;Required Keys and OCIDs&lt;/a&gt;
-in the Oracle Cloud Infrastructure documentation. You need to create an Oracle Cloud Infrastructure configuration file with the credential details and then use that
-configuration file to create a secret.&lt;/p&gt;
-&lt;p&gt;The following requirements must be met for Fluentd Oracle Cloud Infrastructure Logging to work:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;The profile name in the Oracle Cloud Infrastructure configuration file must be &lt;code&gt;DEFAULT&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;The &lt;code&gt;key_file&lt;/code&gt; path in the Oracle Cloud Infrastructure configuration file must be &lt;code&gt;/root/.oci/key&lt;/code&gt;. The actual key file does not need to be in
-that location, because you will be providing the actual key file location in a secret.&lt;/li&gt;
-&lt;li&gt;The user associated with the API key must have the appropriate Oracle Cloud Infrastructure Identity and Access Management (IAM) policy
-in place to allow the Fluentd plug-in to send logs to Oracle Cloud Infrastructure. See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Identity/Reference/loggingpolicyreference.htm&#34;&gt;Details for Logging&lt;/a&gt;
-in the Oracle Cloud Infrastructure documentation for the IAM policies used by the Oracle Cloud Infrastructure Logging service.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;After the Verrazzano platform operator has been installed, create an opaque secret in the &lt;code&gt;verrazzano-install&lt;/code&gt; namespace
-from the Oracle Cloud Infrastructure configuration and private key files. The key for the configuration file must be &lt;code&gt;config&lt;/code&gt; and the key
-for the private key file data must be &lt;code&gt;key&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Here is an example &lt;code&gt;kubectl&lt;/code&gt; command that will create the secret.
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl create secret generic oci-fluentd -n verrazzano-install \
-      --from-file=config=/home/myuser/oci_config --from-file=key=/home/myuser/keys/oci_api.pem
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;The secret should look something like this.&lt;/p&gt;
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: v1
-data:
-  config: W0RFRkFVTFRdCnVzZXI9b2NpZDEudXN...
-  key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS...
-kind: Secret
-metadata:
-  name: oci-fluentd
-  namespace: verrazzano-install
-type: Opaque
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;
-&lt;p&gt;For convenience, there is a helper script available
-&lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_fluentd_secret.sh&#34;&gt;here&lt;/a&gt; that
-you can point at an existing Oracle Cloud Infrastructure configuration file and it will create the secret for you. The script allows you to
-override the default configuration file location, profile name, and the name of the secret.&lt;/p&gt;
-&lt;h2 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h2&gt;
-&lt;p&gt;Oracle Cloud Infrastructure Logging is enabled in your cluster when installing Verrazzano. The Verrazzano installation custom resource has fields
-for specifying two custom logs: one for system logs and one for application logs. Here is an example Verrazzano
-installation YAML file for each type of credential.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#instance-principal-credentials&#34;&gt;Instance principal credentials&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#user-api-credentials&#34;&gt;User API credentials&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;instance-principal-credentials&#34;&gt;Instance principal credentials&lt;/h3&gt;
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: vz-oci-logging
-spec:
-  profile: dev
-  components:
-    fluentd:
-      enabled: true
-      oci:
-        systemLogId: ocid1.log.oc1.iad.system.example
-        defaultAppLogId: ocid1.log.oc1.iad.app.example
-    opensearch:
-      enabled: false
-    opensearchDashboards:
-      enabled: false
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;
-&lt;h3 id=&#34;user-api-credentials&#34;&gt;User API credentials&lt;/h3&gt;
-&lt;p&gt;When using user API credentials, you need to configure the name of the secret in the Verrazzano custom resource,
-under the Oracle Cloud Infrastructure section of the Fluentd component settings. Your YAML file should look something like this.
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: vz-oci-logging
-spec:
-  profile: dev
-  components:
-    fluentd:
-      enabled: true
-      oci:
-        systemLogId: ocid1.log.oc1.iad.system.example
-        defaultAppLogId: ocid1.log.oc1.iad.app.example
-        apiSecret: oci-fluentd
-    opensearch:
-      enabled: false
-    opensearchDashboards:
-      enabled: false
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;apiSecret&lt;/code&gt; value must match the secret you created earlier when configuring the user API credentials.&lt;/p&gt;
-&lt;h2 id=&#34;override-the-default-log-objects&#34;&gt;Override the default log objects&lt;/h2&gt;
-&lt;p&gt;You can override the Oracle Cloud Infrastructure Log object on an individual namespace. To specify a log identifier on a namespace, add an annotation named &lt;code&gt;verrazzano.io/oci-log-id&lt;/code&gt; to the namespace. The value of the annotation is the Oracle Cloud Infrastructure Log object identifier.&lt;/p&gt;
-&lt;p&gt;Here is an example namespace.
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: v1
-kind: Namespace
-metadata:
-  annotations:
-    verrazzano.io/oci-log-id: ocid1.log.oc1.iad.ns.app.example
-  creationTimestamp: &amp;#34;2022-01-14T15:09:19Z&amp;#34;
-  labels:
-    istio-injection: enabled
-    verrazzano-managed: &amp;#34;true&amp;#34;
-  name: example
-spec:
-  finalizers:
-  - kubernetes
-status:
-  phase: Active
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;Note that if you add and subsequently remove the annotation, then the logs will revert to the default Oracle Cloud Infrastructure Log object
-specified in the Verrazzano custom resource.&lt;/p&gt;
-&lt;h2 id=&#34;search-logs&#34;&gt;Search logs&lt;/h2&gt;
-&lt;p&gt;To search Verrazzano logs, you can use the Oracle Cloud Infrastructure Console, Oracle Cloud Infrastructure CLI, or Oracle Cloud Infrastructure SDK.&lt;/p&gt;
-&lt;p&gt;For example, use the Oracle Cloud Infrastructure CLI to search the system logs for records emitted by the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; container:
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ oci logging-search search-logs --search-query=\
-     &amp;#34;search \&amp;#34;ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\&amp;#34; | \
-     where \&amp;#34;data\&amp;#34;.\&amp;#34;kubernetes.container_name\&amp;#34; = &amp;#39;verrazzano-application-operator&amp;#39; | sort by datetime desc&amp;#34; \
-     --time-start 2021-12-07 --time-end 2021-12-17
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;Search for all application log records in the &lt;code&gt;springboot&lt;/code&gt; namespace:
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ oci logging-search search-logs --search-query=\
-     &amp;#34;search \&amp;#34;ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\&amp;#34; | \
-     where \&amp;#34;data\&amp;#34;.\&amp;#34;kubernetes.namespace_name\&amp;#34; = &amp;#39;springboot&amp;#39; | sort by datetime desc&amp;#34; \
-     --time-start 2021-12-07 --time-end 2021-12-17
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;For more information on searching logs, see the &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Reference/query_language_specification.htm&#34;&gt;Logging Query Language Specification&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
-&lt;p&gt;If you are not able to view Verrazzano logs in Oracle Cloud Infrastructure Logging, then check the Fluentd container logs in the cluster to see if there are errors.
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-system -l app=fluentd --tail=-1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;If you see &lt;code&gt;not authorized&lt;/code&gt; error messages, then there is likely a problem with the Oracle Cloud Infrastructure Dynamic Group or IAM policy that is preventing the Fluentd plug-in from communicating with the Oracle Cloud Infrastructure API.&lt;/p&gt;
-&lt;p&gt;To ensure the appropriate permissions are in place, review the Oracle Cloud Infrastructure Logging &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups&#34;&gt;required permissions&lt;/a&gt; documentation.&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
       <title>Docs: Upgrade prod Installation for High Availability</title>
       <link>/docs/guides/ha/prod-upgrade/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -36055,574 +35209,6 @@ EOF
 &lt;li&gt;Traits - Apply customization to a single component.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img src=&#34;../docs/about/oam-app.svg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Verrazzano Managed Cluster</title>
-      <link>/docs/reference/vco-clusters-v1alpha1/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/reference/vco-clusters-v1alpha1/</guid>
-      <description>
-        
-        
-        &lt;p&gt;Packages:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;a href=&#34;#clusters.verrazzano.io%2fv1alpha1&#34;&gt;clusters.verrazzano.io/v1alpha1&lt;/a&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;clusters.verrazzano.io/v1alpha1&#34;&gt;clusters.verrazzano.io/v1alpha1&lt;/h2&gt;
-&lt;p&gt;
-&lt;/p&gt;
-Resource Types:
-&lt;ul&gt;&lt;li&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster&#34;&gt;VerrazzanoManagedCluster&lt;/a&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster&#34;&gt;VerrazzanoManagedCluster
-&lt;/h3&gt;
-&lt;p&gt;
-&lt;p&gt;VerrazzanoManagedCluster specifies the Verrazzano Managed Cluster API.&lt;/p&gt;
-&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;apiVersion&lt;/code&gt;&lt;/br&gt;
-string&lt;/td&gt;
-&lt;td&gt;
-&lt;code&gt;
-clusters.verrazzano.io/v1alpha1
-&lt;/code&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;kind&lt;/code&gt;&lt;/br&gt;
-string
-&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;metadata&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-&lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta&#34;&gt;
-Kubernetes meta/v1.ObjectMeta
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-Refer to the Kubernetes API documentation for the fields of the
-&lt;code&gt;metadata&lt;/code&gt; field.
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;spec&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterSpec&#34;&gt;
-VerrazzanoManagedClusterSpec
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;The desired state of a Verrazzano Managed Cluster resource.&lt;/p&gt;
-&lt;br/&gt;
-&lt;br/&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;caSecret&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;The name of a Secret that contains the CA certificate of the managed cluster. This is used to configure the
-admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. See the pre-registration
-&lt;a href=&#34;../../../../docs/setup/install/multicluster/#preregistration-setup&#34;&gt;instructions&lt;/a&gt;
-for how to create this Secret.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;description&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;em&gt;(Optional)&lt;/em&gt;
-&lt;p&gt;The description of the managed cluster.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;managedClusterManifestSecret&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;em&gt;(Optional)&lt;/em&gt;
-&lt;p&gt;The name of the Secret containing the generated YAML manifest file to be applied by the user to the managed cluster.
-This field is managed by a Verrazzano Kubernetes operator.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;serviceAccount&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;em&gt;(Optional)&lt;/em&gt;
-&lt;p&gt;The name of the ServiceAccount that was generated for the managed cluster. This field is managed by a
-Verrazzano Kubernetes operator.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;status&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus&#34;&gt;
-VerrazzanoManagedClusterStatus
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;The observed state of a Verrazzano Managed Cluster resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.ArgoCDRegistration&#34;&gt;ArgoCDRegistration
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus&#34;&gt;VerrazzanoManagedClusterStatus&lt;/a&gt;)
-&lt;/p&gt;
-&lt;p&gt;
-&lt;p&gt;ArgoCDRegistration defines the Argo CD registration state for a managed cluster.&lt;/p&gt;
-&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;status&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.ArgoCDRegistrationStatus&#34;&gt;
-ArgoCDRegistrationStatus
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;The status of the ArgoCD registration.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;lastSetTimestamp&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-&lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#time-v1-meta&#34;&gt;
-Kubernetes meta/v1.Time
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;em&gt;(Optional)&lt;/em&gt;
-&lt;p&gt;The timestamp of last status set.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;message&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;em&gt;(Optional)&lt;/em&gt;
-&lt;p&gt;Supporting message related to the Argo CD registration status.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.ArgoCDRegistrationStatus&#34;&gt;ArgoCDRegistrationStatus
-(&lt;code&gt;string&lt;/code&gt; alias)&lt;/p&gt;&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.ArgoCDRegistration&#34;&gt;ArgoCDRegistration&lt;/a&gt;)
-&lt;/p&gt;
-&lt;p&gt;
-&lt;p&gt;ArgoCDRegistrationStatus identifies the status of an Argo CD registration.&lt;/p&gt;
-&lt;/p&gt;
-&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.Condition&#34;&gt;Condition
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus&#34;&gt;VerrazzanoManagedClusterStatus&lt;/a&gt;)
-&lt;/p&gt;
-&lt;p&gt;
-&lt;p&gt;Condition describes a condition that occurred on the Verrazzano Managed Cluster.&lt;/p&gt;
-&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;lastTransitionTime&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-&lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#time-v1-meta&#34;&gt;
-Kubernetes meta/v1.Time
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;em&gt;(Optional)&lt;/em&gt;
-&lt;p&gt;Last time the condition transitioned from one status to another.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;message&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;em&gt;(Optional)&lt;/em&gt;
-&lt;p&gt;A message with details about the last transition.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;status&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-&lt;a href=&#34;https://pkg.go.dev/k8s.io/api/core/v1#ConditionStatus&#34;&gt;
-Kubernetes core/v1.ConditionStatus
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Status of the condition: one of &lt;code&gt;True&lt;/code&gt;, &lt;code&gt;False&lt;/code&gt;, or &lt;code&gt;Unknown&lt;/code&gt;.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;type&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.ConditionType&#34;&gt;
-ConditionType
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;The condition of the multicluster resource which can be checked with a &lt;code&gt;kubectl wait&lt;/code&gt; command. Condition values
-are case-sensitive and formatted as follows: &lt;code&gt;Ready&lt;/code&gt;: the VerrazzanoManagedCluster is ready to be used and all
-resources needed have been generated.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.ConditionType&#34;&gt;ConditionType
-(&lt;code&gt;string&lt;/code&gt; alias)&lt;/p&gt;&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.Condition&#34;&gt;Condition&lt;/a&gt;)
-&lt;/p&gt;
-&lt;p&gt;
-&lt;p&gt;ConditionType identifies the condition of the Verrazzano Managed Cluster which can be checked with &lt;code&gt;kubectl wait&lt;/code&gt;.&lt;/p&gt;
-&lt;/p&gt;
-&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.RancherRegistration&#34;&gt;RancherRegistration
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus&#34;&gt;VerrazzanoManagedClusterStatus&lt;/a&gt;)
-&lt;/p&gt;
-&lt;p&gt;
-&lt;p&gt;RancherRegistration defines the Rancher registration state for a managed cluster.&lt;/p&gt;
-&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;clusterID&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;The Rancher cluster ID for this cluster.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;message&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;em&gt;(Optional)&lt;/em&gt;
-&lt;p&gt;A supporting message related to the Rancher registration status.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;status&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.RancherRegistrationStatus&#34;&gt;
-RancherRegistrationStatus
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;The status of the Rancher registration.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.RancherRegistrationStatus&#34;&gt;RancherRegistrationStatus
-(&lt;code&gt;string&lt;/code&gt; alias)&lt;/p&gt;&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.RancherRegistration&#34;&gt;RancherRegistration&lt;/a&gt;)
-&lt;/p&gt;
-&lt;p&gt;
-&lt;p&gt;RancherRegistrationStatus identifies the status of a Rancher registration.&lt;/p&gt;
-&lt;/p&gt;
-&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.StateType&#34;&gt;StateType
-(&lt;code&gt;string&lt;/code&gt; alias)&lt;/p&gt;&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus&#34;&gt;VerrazzanoManagedClusterStatus&lt;/a&gt;)
-&lt;/p&gt;
-&lt;p&gt;
-&lt;p&gt;StateType identifies the state of the Verrazzano Managed Cluster.&lt;/p&gt;
-&lt;/p&gt;
-&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterSpec&#34;&gt;VerrazzanoManagedClusterSpec
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster&#34;&gt;VerrazzanoManagedCluster&lt;/a&gt;)
-&lt;/p&gt;
-&lt;p&gt;
-&lt;p&gt;VerrazzanoManagedClusterSpec defines the desired state of a Verrazzano Managed Cluster.&lt;/p&gt;
-&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;caSecret&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;The name of a Secret that contains the CA certificate of the managed cluster. This is used to configure the
-admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. See the pre-registration
-&lt;a href=&#34;../../../../docs/setup/install/multicluster/#preregistration-setup&#34;&gt;instructions&lt;/a&gt;
-for how to create this Secret.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;description&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;em&gt;(Optional)&lt;/em&gt;
-&lt;p&gt;The description of the managed cluster.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;managedClusterManifestSecret&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;em&gt;(Optional)&lt;/em&gt;
-&lt;p&gt;The name of the Secret containing the generated YAML manifest file to be applied by the user to the managed cluster.
-This field is managed by a Verrazzano Kubernetes operator.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;serviceAccount&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;em&gt;(Optional)&lt;/em&gt;
-&lt;p&gt;The name of the ServiceAccount that was generated for the managed cluster. This field is managed by a
-Verrazzano Kubernetes operator.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus&#34;&gt;VerrazzanoManagedClusterStatus
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster&#34;&gt;VerrazzanoManagedCluster&lt;/a&gt;)
-&lt;/p&gt;
-&lt;p&gt;
-&lt;p&gt;VerrazzanoManagedClusterStatus defines the observed state of a Verrazzano Managed Cluster.&lt;/p&gt;
-&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;apiUrl&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;The Verrazzano API server URL for this managed cluster.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;conditions&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.Condition&#34;&gt;
-[]Condition
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;The current state of this managed cluster.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;lastAgentConnectTime&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-&lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#time-v1-meta&#34;&gt;
-Kubernetes meta/v1.Time
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;The last time the agent from this managed cluster connected to the admin cluster.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;prometheusHost&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;The Prometheus host for this managed cluster.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;thanosQueryStore&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;The Thanos Query Store API host name for this managed cluster.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;rancherRegistration&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.RancherRegistration&#34;&gt;
-RancherRegistration
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;The state of Rancher registration for this managed cluster.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;argoCDRegistration&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.ArgoCDRegistration&#34;&gt;
-ArgoCDRegistration
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;The state of ArgoCD registration for this managed cluster.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;state&lt;/code&gt;&lt;/br&gt;
-&lt;em&gt;
-&lt;a href=&#34;#clusters.verrazzano.io/v1alpha1.StateType&#34;&gt;
-StateType
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;The state of this managed cluster.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;hr/&gt;
-&lt;p&gt;&lt;em&gt;
-Generated with &lt;code&gt;gen-crd-api-reference-docs&lt;/code&gt;
-&lt;/em&gt;&lt;/p&gt;
 
       </description>
     </item>
