@@ -1,7 +1,7 @@
 ---
 title: "Grafana"
 linkTitle: Grafana
-description: "Learn how to use Grafana to monitor Verrazzano"
+description: "Use Grafana to view monitoring metrics"
 weight: 3
 draft: false
 ---

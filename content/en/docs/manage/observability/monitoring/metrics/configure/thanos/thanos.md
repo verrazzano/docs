@@ -1,7 +1,7 @@
 ---
 title: "Thanos"
 linkTitle: Thanos
-description: "Learn how to use Thanos to monitor Verrazzano"
+description: "Use Thanos to access and store metrics data"
 weight: 2
 draft: false
 ---
