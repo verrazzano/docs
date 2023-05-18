@@ -4,6 +4,8 @@ linkTitle: View Traces
 description: "View trace records in the Jaeger console"
 weight: 5
 draft: false
+aliases:
+  - /docs/monitoring/tracing/jaeger-tracing
 ---
 
 Use the Verrazzano Jaeger console to view, query, and filter traces.
