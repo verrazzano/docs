@@ -101,4 +101,4 @@ spec:
 </div>
 {{< /clipboard >}}
 
-After you've completed these steps, you can [verify metrics collection]({{< relref "/docs/manage/observability/monitoring/configure-metrics.md#verify-metrics-collection" >}}) has succeeded.
+After you've completed these steps, you can [verify metrics collection]({{< relref "/docs/observability/monitoring/configure-metrics.md#verify-metrics-collection" >}}) has succeeded.

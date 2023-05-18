@@ -2,7 +2,7 @@
 title: "Thanos"
 linkTitle: Thanos
 description: "Use Thanos to access and store metrics data"
-weight: 2
+weight: 3
 draft: false
 ---
 
