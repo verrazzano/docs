@@ -30,6 +30,12 @@ $ kubectl logs <fluentd-pod-name> -n verrazzano-system
    ```
 3. Resolve permission issue.
     - The issue occurs when SELinux is in `enforcing` mode on the worker nodes and Fluentd does not have the appropriate SELinux context to have read/write access to the logs directory.
+      Fluentd container requires the following permissions:
+      - Permission to read the logs file in the directory `/var/log/containers/` on the host.
+      - Permission to write the `.pos` file in the directory `/var/log` on the host by tail plugin.
+      - Permission to read the journal logs in the directory `/var/run/journal` on the host by the systemd plugin.
+      - Permission to write the pos file in directory `/tmp/` by the systemd plugin.
+      The default container Selinux type `container_t` has only read access to the host directories.
     - Check if SELinux is in `enforcing` mode by running this command on the worker nodes:
 {{< clipboard >}}
 ```sh
