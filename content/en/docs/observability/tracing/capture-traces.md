@@ -4,6 +4,8 @@ linkTitle: Capture Trace Spans
 description: "Configure applications to export traces to Jaeger"
 weight: 4
 draft: false
+aliases:
+  - /docs/monitoring/tracing/jaeger-tracing
 ---
 
 The Jaeger agent sidecar is injected to application pods by the
