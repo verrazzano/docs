@@ -1,6 +1,5 @@
 ---
-title: "Prometheus"
-linkTitle: "Prometheus"
+title: "Troubleshoot Prometheus"
 description: "Troubleshoot Prometheus issues"
 weight: 5
 draft: false
@@ -102,4 +101,4 @@ spec:
 </div>
 {{< /clipboard >}}
 
-After you've completed these steps, you can [verify metrics collection]({{< relref "/docs/monitoring/metrics/metrics.md#verify-metrics-collection" >}}) has succeeded.
+After you've completed these steps, you can [verify metrics collection]({{< relref "/docs/observability/monitoring/configure-metrics.md#verify-metrics-collection" >}}) has succeeded.

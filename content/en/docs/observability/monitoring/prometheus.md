@@ -1,10 +1,11 @@
 ---
-title: Prometheus
-description: Customize Verrazzano Prometheus settings
+title: "Prometheus"
 linkTitle: Prometheus
-Weight: 12
+description: "Customize Prometheus to monitor Verrazzano"
+weight: 2
 draft: false
 ---
+Prometheus is a system for monitoring cloud native applications and is used by Verrazzano to monitor applications. Prometheus is used in Verrazzano to collect system performance metrics and applications deployed or managed by Verrazzano. Prometheus analysis the metrics and provide a visualization using Grafana.
 
 Verrazzano installs Prometheus components, including Prometheus Operator and Prometheus, using the
 [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) Helm chart.
