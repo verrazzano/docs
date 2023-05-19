@@ -4,6 +4,8 @@ linkTitle: Grafana
 description: "Use Grafana to view monitoring metrics"
 weight: 4
 draft: false
+aliases:
+  - /docs/monitoring/metrics/metrics
 ---
 
 Grafana provides visualization for your Prometheus metric data.
@@ -81,7 +83,7 @@ In addition, there are the following preconfigured Grafana Verrazzano dashboards
     - `etcd-mixin` provides cluster metrics and shows additional information, such as active streams, RPC rate, database size, memory usage, client traffic, peer traffic, and such.
     - `kubernetes-mixin` provides CPU, memory and network metrics based on cluster, pod, workload type, and nodes; network bandwidth based on cluster, pod, workload type, and nodes; persistent volume usage; and metrics for proxy and scheduler.
     - `node-exporter-mixin` provides node level status for CPU, memory, disk, and network usage.
-    
+
 <br>The following graphic shows some `Verrazzano Monitoring` dashboards:    
 
 ![Verrazzano Monitoring Dashboard](/docs/images/grafana-monitoring-dashboards.png)

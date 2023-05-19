@@ -4,6 +4,8 @@ linkTitle: OCI Logging Service
 description: "Send Verrazzano logs to the Oracle Cloud Infrastructure Logging service"
 weight: 4
 draft: false
+aliases:
+  - /docs/monitoring/oci-logging/oci-logging
 ---
 
 The Oracle Cloud Infrastructure Logging service is a highly scalable and fully managed single view for
