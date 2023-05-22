@@ -36,31 +36,7 @@ $ kubectl logs <fluentd-pod-name> -n verrazzano-system
 $ sudo getenforce
 ```
 {{< /clipboard >}}
-    - If SELinux is in `enforcing` mode, then follow these steps:
-       - To fix this issue, you need to override the default SELinux option in the Verrazzano Custom Resource.
-       - Edit the Verrazzano CR and add the necessary SELinux options to provide read/write access to the logs directory in the Fluentd section. For example:
-{{< clipboard >}}
-```yaml
-spec:
-  components:
-    fluentd:
-      overrides:
-      - values:
-          seLinuxOptions:
-            type: spc_t
-```
-{{< /clipboard >}}  
-{{< alert title="NOTE" color="primary" >}}
-The `spc_t` SELinux context is very permissive as it grants the pod full access to the node on which it is running. If you don't want the Fluentd pod to have the `spc_t` context, consider creating a custom SELinux context type with only the required privileges on all the worker nodes instead of using `spc_t`.
-
-The Fluentd container requires the following permissions:
-- Permission to read the log files in the directory `/var/log/containers/` on the host.
-- Permission to write the `.pos` file in the directory `/var/log` on the host using the tail plugin.
-- Permission to read the journal logs in the directory `/var/run/journal` on the host using the systemd plugin.
-- Permission to write the `.pos` file in the directory `/tmp/` using the systemd plugin.
-
-The default container SELinux type, `container_t`,has only read access to the host directories.
-{{< /alert >}}
+    If SELinux is in `enforcing` mode, then follow the steps mentioned in [Update SELinux context for Fluentd on the nodes with SELinux enforcing mode]({{< relref "/docs/customize/fluentd.md" >}})
 
 4. Verification.
     - Verify that Fluentd is able to read and push the logs to OpenSearch by reviewing the Fluentd logs.
