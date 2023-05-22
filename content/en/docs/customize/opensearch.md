@@ -546,7 +546,7 @@ With this example, new indices that match the `verrazzano-application-myapp*` in
 For more information, see [Index templates ](https://opensearch.org/docs/latest/opensearch/index-templates/) in the OpenSearch documentation.
 
 ### Override default mappings and field types
-The default index template uses dynamic mapping to store all fields as text and keyword. To store a field as a different type, get the index template, get the default index template, change the mappings for the desired fields and create a new index template with higher priority.
+The default index template uses dynamic mapping to store all fields as text and keyword. To store a field as a different type, get the default index template, change the mappings for the desired fields and create a new index template with higher priority.
 
 Here is an example to create a new index template, which dynamically maps all long fields to integers and explicitly maps `age` and `ip_address` fields as integer and ip respectively.
 
@@ -642,10 +642,13 @@ $ PUT _index_template/my-template
 {{< /clipboard >}}
 With this example, new indices that match the `verrazzano-application-myapp*` index pattern will store `age` and `ip_address` fields as integer and ip instead of text. Also, long data fields will be stored as integer. For more information, see [Mappings and field types](https://opensearch.org/docs/latest/field-types/index/) in the OpenSearch documentation.
 
-#### Handling pre-existing indices for your applications
+### Configure pre-existing indices after overriding default index template
+If you already have indices for your app created by OpenSearch based on the default index template then you might need to follow the below steps so that the new index template can take effect.
 
-##### Rollover old indices
-If you already have pre-existing indices for your app created by Verrazzano based on the default index template then you might need to rollover the data stream so that OpenSearch starts indexing data based on the newer template that you created. To rollover the index:
+#### Rollover old indices
+The mappings for existing indices cannot be changed. So you need to rollover the data stream for your application so that a new index is created. OpenSearch will then start indexing data based on the newer template that you created.
+
+To rollover the index:
 
 {{< clipboard >}}
 ```yaml
@@ -653,13 +656,17 @@ POST /verrazzano-application-myapp/_rollover
 ```
 {{< /clipboard >}}
 
-##### Refresh the index pattern
+#### Refresh the index pattern
 
-To see the updated mappings for your fields in the `Discover` page you need to refresh the index pattern for your application. To do this, navigate to `Stack Managemnet` in the Dock under `Management` section. Then to `Index Pattern` → `verrazzano-application-*` , Click on `Refresh field list` icon on the upper right hand side of the page.
+To see the updated mappings for your fields in the `Discover` page you need to refresh the index pattern for your application. To do this, navigate to `Stack Managemnet` in the Dock under `Management` section. Then to `Index Pattern` → `verrazzano-application*`. If you have created a separate index pattern for your application select that. Finally click on `Refresh field list` icon on the upper right hand side of the page.
 
-##### Re-index old indices
+![refresh-field-list-icon](/docs/images/refresh-field-list-icon.png)
 
-After refreshing the field list, if you see a warning about mapping conflict, you need to re-index your older indices. The mapping conflict arises due to the older indices having different mappings for fields than the current newer indices created after you create the new index template with different mappings. To re-index old indices:
+#### Reindex old indices
+
+After refreshing the field list, if you see a warning about mapping conflict, you need to reindex your older indices. The mapping conflict arises due to the older indices having different mappings for fields than the newer indices created based on the new index template with different mappings.
+
+To reindex old indices:
 
 {{< clipboard >}}
 ```yaml
@@ -679,7 +686,7 @@ POST _reindex
 ```
 {{< /clipboard >}}
 
-Under source, list all the older indices that were created based on default index template. Once the re-index is complete, follow the previous step to refresh the index pattern again. This time you shouldn't see any mapping conflicts.
+Under source, list all the older indices that were created based on default index template. Once the reindex is complete, follow the previous step to refresh the index pattern again. For more information, see [Reindex data](https://opensearch.org/docs/latest/im-plugin/reindex-data/) in the OpenSearch documentation.
 
 ## Install OpenSearch and OpenSearch Dashboards plug-ins
 Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by providing plug-ins in the Verrazzano custom resource.
