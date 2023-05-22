@@ -8,11 +8,11 @@ draft: false
 
 # Running Verrazzano on Clusters with SELinux Enforcing
 
-When running Verrazzano on clusters where the nodes have SELinux enforcing mode enabled, there are a few considerations to keep in mind. SELinux provides an extra layer of security by enforcing mandatory access controls on processes and files.
+When running Verrazzano on clusters where the nodes have SELinux `enforcing` mode enabled, there are a few considerations to keep in mind. SELinux provides an extra layer of security by enforcing mandatory access controls on processes and files.
 
 ## Update SELinux context for Fluentd on the nodes with SELinux enforcing mode
 
-By default, Fluentd is deployed with the SELinux context type `container_t`, which only grants read access to host directories (/var/log/). However, Fluentd may require additional permissions to function properly on SELinux enforcing nodes.
+By default, Fluentd is deployed with the SELinux context type `container_t`, which only grants read access to host directories (/var/log/). However, Fluentd may require additional permissions to function properly on SELinux `enforcing` nodes.
 
 To grant Fluentd the required permissions, override the default SELinux context type in the Verrazzano Custom Resource and provide the SELinux type `spc_t`, which designates the Fluentd container as a super privileged container.
 {{< clipboard >}}
