@@ -646,15 +646,17 @@ With this example, new indices that match the `verrazzano-application-myapp*` in
 If you already have indices for your app created by OpenSearch based on the default index template then you might need to follow the below steps so that the new index template can take effect.
 
 #### Rollover old indices
-The mappings for existing indices cannot be changed. So you need to rollover the data stream for your application so that a new index is created. OpenSearch will then start indexing data based on the newer template that you created.
+The mappings for existing indices cannot be changed. So you need to roll over the data stream for your application so that a new index is created. OpenSearch will then start indexing data based on the newer template that you created.
 
-To rollover the index:
+To roll over the index:
 
 {{< clipboard >}}
 ```yaml
 POST /verrazzano-application-myapp/_rollover
 ```
 {{< /clipboard >}}
+
+**NOTE**: The default ISM Policy that Verrazzano provides regularly rolls over the index after meeting certain conditions. So you might not need to manually roll over the index.
 
 #### Refresh the index pattern
 
