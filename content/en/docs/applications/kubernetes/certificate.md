@@ -1,11 +1,11 @@
 ---
 title: "Certificate Management"
-description: "Learn about certificate management"
+description: "Secure public access for your applications"
 weight: 3
 draft: false
 ---
 
-The following is an example to secure public access to the Hello Helidon Greet application.
+Use the following example to secure public access to the Hello Helidon Greet application.
 
 Replace _domain name_ with the Kubernetes cluster domain used in Verrazzano. This ensures that you have a fully-qualified domain name for host entries in the resources.
 

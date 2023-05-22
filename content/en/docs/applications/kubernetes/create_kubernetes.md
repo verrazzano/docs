@@ -1,13 +1,10 @@
 ---
 title: "Create a Kubernetes Deployment and Service"
 linkTitle: Kubernetes Deployment and Service
-description: "Learn how to create a Kubernetes Deployment and Service"
+description: "Use these instructions to create a Kubernetes deployment and service"
 weight: 1
 draft: false
 ---
-
-
-The following are the steps to deploy a sample application and create a service.
 
 1. Create a namespace for the example application and add labels identifying the namespace as managed by Verrazzano and enabled for Istio.
 {{< clipboard >}}
@@ -54,7 +51,7 @@ spec:
         verrazzano.io/metricsPath: /metrics  # This annotation is used in the ServiceMonitor YAML to replace the metrics path.
         verrazzano.io/metricsPort: "8080"    # This annotation is used in the ServiceMonitor YAML to replace the metrics port.
       labels:
-        app: hello-helidon # This label us used in the Service YAML in the selector.
+        app: hello-helidon # This label is used in the Service YAML in the selector.
     spec:
       containers:
       - image: ghcr.io/verrazzano/example-helidon-greet-app-v1:1.0.0-1-20230126194830-31cd41f

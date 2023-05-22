@@ -1,14 +1,14 @@
 ---
-title: "Wiring for Metrics and Logs"
-description: "Learn about wiring for metrics and logs"
+title: "Gather Metrics and Collect Logs"
+description: "Learn about collecting metrics and logs"
 weight: 2
 draft: false
 ---
 
-Prometheus is used in Verrazzano to collect system performance metrics and applications deployed or managed by Verrazzano. For information, see [Prometheus]({{< relref "/docs/observability/monitoring/metrics/configure/prometheus/prometheus.md" >}}).
+Use Prometheus to collect system performance metrics and metrics for applications deployed or managed by Verrazzano. For information, see [Prometheus]({{< relref "/docs/observability/monitoring/metrics/configure/prometheus/prometheus.md" >}}).
 
-### Wiring for Metrics
-The following is an example used by Prometheus to scape the metrics endpoint of the Hello Helidon Greet application.
+### Gather metrics
+The following is an example of using Prometheus to scrape the metrics endpoint of the Hello Helidon Greet application.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -91,5 +91,5 @@ spec:
 </div>
 {{< /clipboard >}}
 
-### Wiring for Logs
+### Wiring for logs
 Application logs record events happening in the Kubernetes cluster, which are automatically accessed by Verrazzano when required.  

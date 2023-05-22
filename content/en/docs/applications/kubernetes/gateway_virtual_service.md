@@ -5,7 +5,7 @@ weight: 4
 draft: false
 ---
 
-### Istio Gateway
+### Istio gateway
 A gateway is a load balancer that connects to the mesh and receives incoming or outgoing HTTP/TCP connections. It specifies which ports are to be exposed, the protocol to be used, and so on.
 
 The following is an example to direct public access to the Hello Helidon Greet application.
@@ -38,11 +38,11 @@ spec:
 </div>
 {{< /clipboard >}}
 
-### Istio Virtual Service
+### Istio virtual service
 
-A Virtual Service helps in connecting the gateway to the Kubernetes service. It is a set of rules for routing traffic based on the match criteria for a specific protocol. If the traffic matches the criteria, then it will be sent to a name destination service.   
+A virtual service helps in connecting the gateway to the Kubernetes service. It is a set of rules for routing traffic based on the match criteria for a specific protocol. If the traffic matches the criteria, then it will be sent to a named destination service.   
 
-The following is an example to register the Hello Helidon Greet application in the Istio service registry.  
+The following is an example of registering the Hello Helidon Greet application in the Istio service registry.  
 Replace _domain name_ with the Kubernetes cluster domain used in Verrazzano. This ensures that you have a fully-qualified domain name for host entries in the resources.
 
 {{< clipboard >}}
