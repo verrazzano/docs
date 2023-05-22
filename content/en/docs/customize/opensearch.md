@@ -546,9 +546,9 @@ With this example, new indices that match the `verrazzano-application-myapp*` in
 For more information, see [Index templates ](https://opensearch.org/docs/latest/opensearch/index-templates/) in the OpenSearch documentation.
 
 ### Override default mappings and field types
-The default index template uses dynamic mapping to store all fields as text and keyword. To store a field as a different type, get the default index template, change the mappings for the desired fields and create a new index template with higher priority.
+The default index template uses dynamic mapping to store all fields as text and keyword. For your application, if you want to store a field as a different type, get the default index template, change the mappings for the desired fields and create a new index template with higher priority.
 
-Here is an example to create a new index template, which dynamically maps all long fields to integers and explicitly maps `age` and `ip_address` fields as integer and ip respectively.
+Here is an example to create a new index template, for applications in `myapp*` namespace, which dynamically maps all long fields to integers and explicitly maps `age` and `ip_address` fields as integer and ip respectively.
 
 {{< clipboard >}}
 ```yaml
