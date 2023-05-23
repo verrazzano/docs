@@ -15,6 +15,7 @@ Learn more about the advantages of using Verrazzano at [Verrazzano Features]({{<
 Select [Quick Start]({{< relref "/docs/quickstart/_index.md" >}}) to get started.
 
 Verrazzano [release versions](https://github.com/verrazzano/verrazzano/releases/) and source code are available at [https://github.com/verrazzano/verrazzano](https://github.com/verrazzano/verrazzano).
-This repository contains a Kubernetes operator for installing Verrazzano and example applications for use with Verrazzano.
+This repository contains a Kubernetes operator for installing Verrazzano and example applications for use with Verrazzano. For licensing information, see
+[Oracle Verrazzano Enterprise Container Platform](https://docs.oracle.com/en/middleware/fusion-middleware/fmwlc/oracle-verrazzano.html).
 
 For documentation from all releases, see the [Documentation Archive](../../archive). For developers' perspectives, read our [blogs](https://medium.com/verrazzano).
