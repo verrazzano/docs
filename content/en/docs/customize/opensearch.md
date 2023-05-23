@@ -645,10 +645,10 @@ With this example, new indices that match the `verrazzano-application-myapp*` in
 ### Configure pre-existing indices after overriding default index template
 For your app, if you already have indices created by OpenSearch that are based on the default index template, then complete the following steps for the previous indices.
 
-#### Rollover old index
+#### Rollover data stream
 The mappings for existing indices cannot be changed. So, you need to roll over the data stream for your application to create an index. OpenSearch will then start indexing data based on the newer template that you created.
 
-To roll over the index:
+To roll over the data stream:
 
 {{< clipboard >}}
 ```yaml
@@ -667,7 +667,7 @@ To see the updated mappings for your fields on the `Discover` page, you need to 
 
 ![refresh-field-list-icon](/docs/images/refresh-field-list-icon.png)
 
-#### Reindex old indices
+#### Reindex indices
 
 After refreshing the field list, if you see a warning about mapping conflict, you need to reindex your previous indices. The mapping conflict arises due to the previous indices having different mappings for fields than the newer indices created based on the new index template with different mappings.
 
