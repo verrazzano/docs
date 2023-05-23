@@ -663,7 +663,7 @@ POST /verrazzano-application-myapp/_rollover
 To see the updated mappings for your fields on the Discover page, you need to refresh the index pattern for your application.
 
 To refresh the index pattern:
-1. Under the Management section, navigate to Stack Management in the Dock.
+1. On the main OpenSearch Dashboards page, under the Management section, navigate to Stack Management in the Dock.
 2. Then, go to Index Pattern > `verrazzano-application*`. If you have created a separate index pattern for your application, then select that.
 3. Click the Refresh field list icon in the upper, right-hand side of the page.
 
@@ -687,13 +687,13 @@ POST _reindex
    },
    "dest" : {
       "index" : "verrazzano-application-myapp",
-      "op_type": "create"
+      "op_type" : "create"
    }
 }
 ```
 {{< /clipboard >}}
 
-Under source, lists all the previous indices that were created based on the default index template. After reindexing is complete, [Refresh the index pattern](#refresh-the-index-pattern) again. For more information, see [Reindex data](https://opensearch.org/docs/latest/im-plugin/reindex-data/) in the OpenSearch documentation.
+Under source, list all the previous indices that were created based on the default index template. After reindexing is complete, [Refresh the index pattern](#refresh-the-index-pattern) again. For more information, see [Reindex data](https://opensearch.org/docs/latest/im-plugin/reindex-data/) in the OpenSearch documentation.
 
 ## Install OpenSearch and OpenSearch Dashboards plug-ins
 Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by providing plug-ins in the Verrazzano custom resource.
