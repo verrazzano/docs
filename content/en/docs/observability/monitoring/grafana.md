@@ -96,7 +96,7 @@ In addition, there are the following preconfigured Grafana Verrazzano dashboards
        - `Requests` provides HTTP requests and request metrics.
     - `System Health` gives the health for all Verrazzano system components that can be viewed for local clusters or any other registered clusters.
 
-### Dynamic dashboard discovery and portability
+## Dynamic dashboard discovery and portability
 
 Verrazzano enables dynamic discovery of Grafana dashboards. Using this feature, you can package the dashboard configuration and settings as a Kubernetes ConfigMap, and then deploy it individually or along with your application.
 

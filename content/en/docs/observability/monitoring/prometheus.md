@@ -64,8 +64,11 @@ For more information about setting component overrides, see [Customizing the Cha
 
 After you have enabled Alertmanager, you can deploy alert rules to get proactive alerts.
 To create a `TestAlertRule`, run the following command.
-```yaml
-kubectl apply -f - <<EOF
+{{< clipboard >}}
+<div class="highlight">
+
+```
+$ kubectl apply -f - <<EOF
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -89,4 +92,7 @@ spec:
             severity: critical
 EOF
 ```
+</div>
+{{< /clipboard >}}
+
 For more information, see [Deploying Prometheus rules](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules).

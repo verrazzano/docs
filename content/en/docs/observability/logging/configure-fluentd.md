@@ -8,7 +8,7 @@ aliases:
   - /docs/monitoring/logs
 ---
 
-### Fluentd sidecar
+## Fluentd sidecar
 For components with multiple log streams or that cannot log to stdout, Verrazzano deploys a Fluentd sidecar which parses and translates the log stream.  The resulting log is sent to stdout of the sidecar container and then written to `/var/log/containers` by the kubelet service.
 
 For example, in a WebLogic deployment, `AdminServer.log` is consumed, translated, and written to stdout by the Fluentd sidecar.  You can view these logs using `kubectl` on the container named `fluentd-stdout-sidecar`.
@@ -79,7 +79,7 @@ Here are example use cases for these plug-ins:
 {{< /clipboard >}}
 
 
-### Fluentd DaemonSet
+## Fluentd DaemonSet
 Verrazzano deploys a Fluentd DaemonSet which runs one Fluentd replica per node in the `verrazzano-system` namespace.
 Each instance pulls logs from the node's `/var/log/containers` directory and writes them to the target OpenSearch data stream.
 Verrazzano system applications receive special handling, and write their logs to the `verrazzano-system` data stream.
