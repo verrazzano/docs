@@ -663,7 +663,7 @@ POST /verrazzano-application-myapp/_rollover
 To see the updated mappings for your fields on the Discover page, you need to refresh the index pattern for your application.
 
 To refresh the index pattern:
-1. In the Dock, under the Management section, navigate to Stack Management.
+1. Under the Management section, navigate to Stack Management in the Dock.
 2. Then, go to Index Pattern > `verrazzano-application*`. If you have created a separate index pattern for your application, then select that.
 3. Click the Refresh field list icon in the upper, right-hand side of the page.
 
