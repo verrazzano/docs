@@ -241,7 +241,7 @@ $ curl -ik \
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
 &lt;p&gt;Verrazzano provides support for &lt;a href=&#34;../../../docs/setup/install/profiles/&#34;&gt;Installation Profiles&lt;/a&gt;. The production profile (&lt;code&gt;prod&lt;/code&gt;), which is the default, provides a 3-node OpenSearch and persistent storage for the VMI. The development profile (&lt;code&gt;dev&lt;/code&gt;) provides a single node OpenSearch and no persistent storage for the VMI. The &lt;code&gt;managed-cluster&lt;/code&gt; profile does not install OpenSearch or OpenSearch Dashboards in the local cluster; all logs are forwarded to the admin cluster&amp;rsquo;s OpenSearch instance.&lt;/p&gt;
-&lt;p&gt;If you want the logs sent to an external OpenSearch, instead of the default VMI OpenSearch, specify &lt;code&gt;opensearchURL&lt;/code&gt; and &lt;code&gt;opensearchSecret&lt;/code&gt; in the &lt;a href=&#34;../../../docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.FluentdComponent&#34;&gt;Fluentd&lt;/a&gt; Component configuration in your Verrazzano custom resource.&lt;/p&gt;
+&lt;p&gt;If you want the logs sent to an external OpenSearch, instead of the default VMI OpenSearch, specify &lt;code&gt;opensearchURL&lt;/code&gt; and &lt;code&gt;opensearchSecret&lt;/code&gt; in the &lt;a href=&#34;../../../docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.FluentdComponent&#34;&gt;FluentdComponent&lt;/a&gt; configuration in your Verrazzano custom resource.&lt;/p&gt;
 &lt;p&gt;The following is an example of a Verrazzano custom resource to send the logs to the OpenSearch endpoint &lt;code&gt;https://external-os.default.172.18.0.231.nip.io&lt;/code&gt;.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -362,7 +362,7 @@ spec:
       <description>
         
         
-        &lt;h3 id=&#34;fluentd-sidecar&#34;&gt;Fluentd sidecar&lt;/h3&gt;
+        &lt;h2 id=&#34;fluentd-sidecar&#34;&gt;Fluentd sidecar&lt;/h2&gt;
 &lt;p&gt;For components with multiple log streams or that cannot log to stdout, Verrazzano deploys a Fluentd sidecar which parses and translates the log stream.  The resulting log is sent to stdout of the sidecar container and then written to &lt;code&gt;/var/log/containers&lt;/code&gt; by the kubelet service.&lt;/p&gt;
 &lt;p&gt;For example, in a WebLogic deployment, &lt;code&gt;AdminServer.log&lt;/code&gt; is consumed, translated, and written to stdout by the Fluentd sidecar.  You can view these logs using &lt;code&gt;kubectl&lt;/code&gt; on the container named &lt;code&gt;fluentd-stdout-sidecar&lt;/code&gt;.
 &lt;style type=&#34;text/css&#34;&gt;
@@ -591,7 +591,7 @@ These plug-ins help to parse Kubernetes management log files.&lt;/p&gt;
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;h3 id=&#34;fluentd-daemonset&#34;&gt;Fluentd DaemonSet&lt;/h3&gt;
+&lt;h2 id=&#34;fluentd-daemonset&#34;&gt;Fluentd DaemonSet&lt;/h2&gt;
 &lt;p&gt;Verrazzano deploys a Fluentd DaemonSet which runs one Fluentd replica per node in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.
 Each instance pulls logs from the node&amp;rsquo;s &lt;code&gt;/var/log/containers&lt;/code&gt; directory and writes them to the target OpenSearch data stream.
 Verrazzano system applications receive special handling, and write their logs to the &lt;code&gt;verrazzano-system&lt;/code&gt; data stream.

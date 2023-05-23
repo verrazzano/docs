@@ -118,14 +118,33 @@ names of the clusters in which the resource must be placed.&lt;/li&gt;
       <description>
         
         
-        &lt;p&gt;A &lt;em&gt;project&lt;/em&gt; provides a way to group application namespaces that are owned or administered by the same user or
+        &lt;p&gt;A Verrazzano project provides a way to group application namespaces that are owned or administered by the same user or
 group of users. When creating a project, you can specify the &lt;em&gt;subjects:&lt;/em&gt; users, groups, or service accounts, that are
 to be granted access to the namespaces governed by the project. Two types of subjects may be specified:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Project admins, who have both read and write access to the project&amp;rsquo;s namespaces.&lt;/li&gt;
 &lt;li&gt;Project monitors, who have read-only access to the project&amp;rsquo;s namespaces.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;For more information, see &lt;a href=&#34;../../docs/applications/projects/&#34;&gt;Projects&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;the-verrazzanoproject-resource&#34;&gt;The VerrazzanoProject resource&lt;/h3&gt;
+&lt;p&gt;A VerrazzanoProject &lt;a href=&#34;../../docs/reference/vao-clusters-v1alpha1/#clusters.verrazzano.io/v1alpha1.VerrazzanoProject&#34;&gt;resource&lt;/a&gt; is created by
+a Verrazzano admin user, and specifies the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A list of namespaces that the project governs.&lt;/li&gt;
+&lt;li&gt;One or more users, groups, or service accounts that will be granted the &lt;code&gt;verrazzano-project-admin&lt;/code&gt; role for the
+VerrazzanoProject. Project admins may deploy or delete applications and related resources in the namespaces
+in the project.&lt;/li&gt;
+&lt;li&gt;One or more users, groups, or service accounts that will be granted the &lt;code&gt;verrazzano-project-monitor&lt;/code&gt; role for the
+VerrazzanoProject. Project monitors may view the resources in the namespaces in the project, but not modify
+or delete them.&lt;/li&gt;
+&lt;li&gt;A list of network policies to apply to the namespaces in the project.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The creation of a VerrazzanoProject results in:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The creation of the specified namespaces in the project, if those do not already exist.&lt;/li&gt;
+&lt;li&gt;The creation of a Kubernetes RoleBindings in each of the namespaces, to set up the appropriate
+permissions for the project admins and project monitors of the project.&lt;/li&gt;
+&lt;li&gt;The creation of the specified network policies for each of the namespaces.&lt;/li&gt;
+&lt;/ul&gt;
 
       </description>
     </item>
