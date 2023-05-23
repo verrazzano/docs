@@ -25,11 +25,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/observability/logging/configure-fluentd/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-05-19T11:29:40-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-05-23T06:35:41-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Use Fluentd">
 <meta itemprop="description" content="Configure Fluentd for log collection">
-<meta itemprop="dateModified" content="2023-05-19T11:29:40-04:00" />
+<meta itemprop="dateModified" content="2023-05-23T06:35:41-04:00" />
 <meta itemprop="wordCount" content="641">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Use Fluentd"/>
@@ -110,7 +110,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.1cbd92b56308a389cbb4db18bb76e531.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.84c6ce49681d3043b83707b77884548f.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.1cbd92b56308a389cbb4db18bb76e531.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.84c6ce49681d3043b83707b77884548f.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -439,10 +439,6 @@ if (!doNotTrack) {
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsapplicationsprojects-li">
-  <input type="checkbox" id="m-docsapplicationsprojects-check"/>
-  <label for="m-docsapplicationsprojects-check"><a href="../../../../docs/applications/projects/" class="align-left pl-0  td-sidebar-link td-sidebar-link__section" id="m-docsapplicationsprojects"><span class="">Projects</span></a></label>
-  
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsapplicationstraits-li">
   <input type="checkbox" id="m-docsapplicationstraits-check"/>
   <label for="m-docsapplicationstraits-check"><a href="../../../../docs/applications/traits/" class="align-left pl-0  td-sidebar-link td-sidebar-link__section" id="m-docsapplicationstraits"><span class="">Traits</span></a></label>
@@ -901,7 +897,8 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
-        <li></li>
+        <li><a href="#fluentd-sidecar">Fluentd sidecar</a></li>
+        <li><a href="#fluentd-daemonset">Fluentd DaemonSet</a></li>
       </ul>
     </li>
   </ul>
@@ -968,7 +965,7 @@ if (!doNotTrack) {
 
 		
 	</header>    
-	<h3 id="fluentd-sidecar">Fluentd sidecar</h3>
+	<h2 id="fluentd-sidecar">Fluentd sidecar</h2>
 <p>For components with multiple log streams or that cannot log to stdout, Verrazzano deploys a Fluentd sidecar which parses and translates the log stream.  The resulting log is sent to stdout of the sidecar container and then written to <code>/var/log/containers</code> by the kubelet service.</p>
 <p>For example, in a WebLogic deployment, <code>AdminServer.log</code> is consumed, translated, and written to stdout by the Fluentd sidecar.  You can view these logs using <code>kubectl</code> on the container named <code>fluentd-stdout-sidecar</code>.
 <style type="text/css">
@@ -1197,7 +1194,7 @@ These plug-ins help to parse Kubernetes management log files.</p>
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<h3 id="fluentd-daemonset">Fluentd DaemonSet</h3>
+<h2 id="fluentd-daemonset">Fluentd DaemonSet</h2>
 <p>Verrazzano deploys a Fluentd DaemonSet which runs one Fluentd replica per node in the <code>verrazzano-system</code> namespace.
 Each instance pulls logs from the node&rsquo;s <code>/var/log/containers</code> directory and writes them to the target OpenSearch data stream.
 Verrazzano system applications receive special handling, and write their logs to the <code>verrazzano-system</code> data stream.
