@@ -449,9 +449,9 @@ $ curl -ik \
 
 ## Override default index template
 
-Verrazzano provides a default index template, `verrazzano-data-stream`. The default index template has some predefined settings for index creation like number of shards and replicas, dynamic mappings for fields. You can use your own index template by overriding the default index template.
+Verrazzano provides a default index template, `verrazzano-data-stream`. To create an index, the default index template consists of a few predefined settings, like the number of shards and replicas, dynamic mappings for fields, and so on. However, you can use your preferred index template and override the default index template.
 
-To do that, you need to get the default index template, copy the contents and change the desired settings, and then create your own index template with a higher priority so that the new template will override the default one.
+To do that, you need to get the default index template, copy the contents and change the required settings, and then create your own index template with a higher priority so that the new template will override the default one.
 
 You can use the OpenSearch Dev Tools Console to send given queries to OpenSearch. To open the console, select Dev Tools on the main OpenSearch Dashboards page and write your queries in the editor pane on the left side of the console.
 
@@ -464,7 +464,7 @@ $ GET /_index_template/verrazzano-data-stream
 
 ### Override default number of shards and replicas
 
-In initial Verrazzano v1.5 installations (not upgrades), the default index template creates one shard and one replica for each index. (In previous and upgrade installations, it creates five shards and one replica.) To change the default number of shards and replicas, get the default index template, change the number of shards and replicas to desired value and create a new index template with higher priority.
+In initial Verrazzano v1.5 installations (not upgrades), the default index template creates one shard and one replica for each index. (In previous and upgrade installations, it creates five shards and one replica). To change the default number of shards and replicas, get the default index template, change the number of shards and replicas to desired value, and create a new index template with higher priority.
 
 Here is an example to create a new index template, which changes the number of shards to `3` and replicas to `2`.
 {{< clipboard >}}
@@ -546,7 +546,7 @@ With this example, new indices that match the `verrazzano-application-myapp*` in
 For more information, see [Index templates ](https://opensearch.org/docs/latest/opensearch/index-templates/) in the OpenSearch documentation.
 
 ### Override default mappings and field types
-The default index template uses dynamic mapping to store all fields as text and keyword. For your application, if you want to store a field as a different type, get the default index template, change the mappings for the desired fields and create a new index template with higher priority.
+The default index template uses dynamic mapping to store all fields as text and keyword. For your application, if you want to store a field as a different type, get the default index template, change the mappings for the desired fields, and create a new index template with higher priority.
 
 Here is an example to create a new index template, for applications in `myapp*` namespace, which dynamically maps all long fields to integers and explicitly maps `age` and `ip_address` fields as integer and ip respectively.
 
@@ -643,10 +643,10 @@ $ PUT _index_template/my-template
 With this example, new indices that match the `verrazzano-application-myapp*` index pattern will store `age` and `ip_address` fields as integer and ip instead of text. Also, long data fields will be stored as integer. For more information, see [Mappings and field types](https://opensearch.org/docs/latest/field-types/index/) in the OpenSearch documentation.
 
 ### Configure pre-existing indices after overriding default index template
-If you already have indices for your app created by OpenSearch based on the default index template then you might need to follow the below steps so that the new index template can take effect.
+For your app, if you already have indices created by OpenSearch that are based on the default index template, then complete the following steps for the previous indices.
 
-#### Rollover old indices
-The mappings for existing indices cannot be changed. So you need to roll over the data stream for your application so that a new index is created. OpenSearch will then start indexing data based on the newer template that you created.
+#### Rollover old index
+The mappings for existing indices cannot be changed. So, you need to roll over the data stream for your application to create an index. OpenSearch will then start indexing data based on the newer template that you created.
 
 To roll over the index:
 
@@ -656,19 +656,22 @@ POST /verrazzano-application-myapp/_rollover
 ```
 {{< /clipboard >}}
 
-**NOTE**: The default ISM Policy that Verrazzano provides regularly rolls over the index after meeting certain conditions. So you might not need to manually roll over the index.
+**NOTE**: The default ISM policy that Verrazzano provides regularly rolls over the index after meeting certain conditions. So, there might be no requirement to manually roll over the index.
 
 #### Refresh the index pattern
 
-To see the updated mappings for your fields in the `Discover` page you need to refresh the index pattern for your application. To do this, navigate to `Stack Management` in the Dock under `Management` section. Then to `Index Pattern` → `verrazzano-application*`. If you have created a separate index pattern for your application select that. Finally click on `Refresh field list` icon on the upper right hand side of the page.
+To see the updated mappings for your fields on the `Discover` page, you need to refresh the index pattern for your application. To refresh the index pattern:
+1. Navigate to `Stack Management` in the Dock under `Management` section. 
+2. Then to `Index Pattern` → `verrazzano-application*`. If you have created a separate index pattern for your application, select that. 
+3. Click on `Refresh field list` icon on the upper right hand side of the page.
 
 ![refresh-field-list-icon](/docs/images/refresh-field-list-icon.png)
 
 #### Reindex old indices
 
-After refreshing the field list, if you see a warning about mapping conflict, you need to reindex your older indices. The mapping conflict arises due to the older indices having different mappings for fields than the newer indices created based on the new index template with different mappings.
+After refreshing the field list, if you see a warning about mapping conflict, you need to reindex your previous indices. The mapping conflict arises due to the previous indices having different mappings for fields than the newer indices created based on the new index template with different mappings.
 
-To reindex old indices:
+To reindex previous indices:
 
 {{< clipboard >}}
 ```yaml
@@ -688,7 +691,7 @@ POST _reindex
 ```
 {{< /clipboard >}}
 
-Under source, list all the older indices that were created based on default index template. Once the reindex is complete, follow the previous step to refresh the index pattern again. For more information, see [Reindex data](https://opensearch.org/docs/latest/im-plugin/reindex-data/) in the OpenSearch documentation.
+Under source, list all the previous indices that were created based on the default index template. After the reindex is complete, follow the previous step to refresh the index pattern again. For more information, see [Reindex data](https://opensearch.org/docs/latest/im-plugin/reindex-data/) in the OpenSearch documentation.
 
 ## Install OpenSearch and OpenSearch Dashboards plug-ins
 Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by providing plug-ins in the Verrazzano custom resource.
