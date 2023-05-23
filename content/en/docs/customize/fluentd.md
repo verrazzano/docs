@@ -6,7 +6,6 @@ Weight: 5
 draft: false
 ---
 
-### Running Verrazzano on clusters with SELinux `enforcing` mode enabled
 
 When running Verrazzano on clusters where the nodes have SELinux `enforcing` mode enabled, there are a few considerations to keep in mind. SELinux provides an extra layer of security by enforcing mandatory access controls on processes and files.
 
