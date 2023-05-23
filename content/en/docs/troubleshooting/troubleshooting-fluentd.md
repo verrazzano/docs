@@ -29,14 +29,14 @@ $ kubectl logs <fluentd-pod-name> -n verrazzano-system
    unexpected error error_class=Errno::EACCES error="Permission denied @ rb_sysopen - /var/log/vz-fluentd-containers.log.pos", it indicates a permission issue. Fluentd doesn't have enough privilege to write `.pos` file.
    ```
 3. Resolve permission issue.
-    - The issue occurs when SELinux is in `enforcing` mode on the worker nodes and Fluentd does not have the appropriate SELinux context to have read/write access to the logs (/var/log/) directory.
+    - The issue occurs when SELinux is in `enforcing` mode on the worker nodes and Fluentd does not have the appropriate SELinux context to have read/write access to the logs (`/var/log/`) directory.
     - Check if SELinux is in `enforcing` mode by running this command on the worker nodes:
 {{< clipboard >}}
 ```sh
 $ sudo getenforce
 ```
 {{< /clipboard >}}
-    If SELinux is in `enforcing` mode, then follow the steps mentioned in [Update SELinux context for Fluentd on the nodes with SELinux enforcing mode]({{< relref "/docs/customize/fluentd.md" >}})
+    If SELinux is in `enforcing` mode, then follow the advice found [here]({{< relref "/docs/customize/fluentd#update-the-selinux-context-type-for-fluentd" >}}).
 
 4. Verification.
     - Verify that Fluentd is able to read and push the logs to OpenSearch by reviewing the Fluentd logs.
