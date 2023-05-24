@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/troubleshooting/troubleshooting-fluentd/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-05-09T06:13:11-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-05-24T13:35:16+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Fluentd">
 <meta itemprop="description" content="Troubleshoot a Fluentd permission issue when SELinux is in `enforcing` mode">
-<meta itemprop="dateModified" content="2023-05-09T06:13:11-04:00" />
-<meta itemprop="wordCount" content="848">
+<meta itemprop="dateModified" content="2023-05-24T13:35:16+05:30" />
+<meta itemprop="wordCount" content="584">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Fluentd"/>
 <meta name="twitter:description" content="Troubleshoot a Fluentd permission issue when SELinux is in `enforcing` mode"/>
@@ -110,7 +110,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.8e34fac4f10fee164988d58c226dab72.json"
+    data-offline-search-index-json-src="../../../offline-search-index.ef3dc5d45039aaefdb851bdb6e2c07b7.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.8e34fac4f10fee164988d58c226dab72.json"
+    data-offline-search-index-json-src="../../../offline-search-index.ef3dc5d45039aaefdb851bdb6e2c07b7.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -309,9 +309,9 @@ if (!doNotTrack) {
   <input type="checkbox" id="m-docscustomizeexternallbs-check"/>
   <label for="m-docscustomizeexternallbs-check"><a href="../../../docs/customize/externallbs/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docscustomizeexternallbs"><span class="">External Load Balancers</span></a></label>
   
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscustomizenfs-li">
-  <input type="checkbox" id="m-docscustomizenfs-check"/>
-  <label for="m-docscustomizenfs-check"><a href="../../../docs/customize/nfs/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docscustomizenfs"><span class="">Network File System</span></a></label>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscustomizefluentd-li">
+  <input type="checkbox" id="m-docscustomizefluentd-check"/>
+  <label for="m-docscustomizefluentd-check"><a href="../../../docs/customize/fluentd/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docscustomizefluentd"><span class="">Fluentd</span></a></label>
   
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscustomizegrafana-li">
   <input type="checkbox" id="m-docscustomizegrafana-check"/>
@@ -340,6 +340,10 @@ if (!doNotTrack) {
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscustomizeociloadbalancerips-li">
   <input type="checkbox" id="m-docscustomizeociloadbalancerips-check"/>
   <label for="m-docscustomizeociloadbalancerips-check"><a href="../../../docs/customize/ociloadbalancerips/" title="Load Balancers on OCI" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docscustomizeociloadbalancerips"><span class="">OCI Load Balancers</span></a></label>
+  
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscustomizenfs-li">
+  <input type="checkbox" id="m-docscustomizenfs-check"/>
+  <label for="m-docscustomizenfs-check"><a href="../../../docs/customize/nfs/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docscustomizenfs"><span class="">Network File System</span></a></label>
   
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscustomizeopensearch-li">
   <input type="checkbox" id="m-docscustomizeopensearch-check"/>
@@ -1069,7 +1073,7 @@ if (!doNotTrack) {
 <li>
 <p>Resolve permission issue.</p>
 <ul>
-<li>The issue occurs when SELinux is in <code>enforcing</code> mode on the worker nodes and Fluentd does not have the appropriate SELinux context to have read/write access to the logs directory.</li>
+<li>The issue occurs when SELinux is in <code>enforcing</code> mode on the worker nodes and Fluentd does not have the appropriate SELinux context to have read/write access to the logs (<code>/var/log/</code>) directory.</li>
 <li>Check if SELinux is in <code>enforcing</code> mode by running this command on the worker nodes:
 <style type="text/css">
     code {
@@ -1159,117 +1163,8 @@ if (!doNotTrack) {
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script></li>
-<li>If SELinux is in <code>enforcing</code> mode, then follow these steps:
-<ul>
-<li>To fix this issue, you need to override the default SELinux option in the Verrazzano Custom Resource.</li>
-<li>Edit the Verrazzano CR and add the necessary SELinux options to provide read/write access to the logs directory in the Fluentd section. For example:
-<style type="text/css">
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-</style>
-
-<div class="clipboard">
-    <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">components</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">fluentd</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">overrides</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span>- <span style="color:#204a87;font-weight:bold">values</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">seLinuxOptions</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">spc_t</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span></code></pre></div>
-</div>
-
-<script>
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement("button");
-        button.innerText = "Copy";
-        button.className = "copy-code-button";
-        button.addEventListener("click", () =>
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement("div");
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
-        
-        let codeBlock = codeToCopy.split("\n");
-        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join("\n");
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement('textarea');
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = "Copied";
-        setTimeout(function () {
-            button.innerText = "Copy";
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(".highlight")
-        .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script><br>
-
-
-<div class="alert alert-primary" role="alert">
-<h4 class="alert-heading">NOTE</h4>
-
-    The <code>spc_t</code> SELinux context is very permissive in that it gives the pod full access to the node on which it is running. If you don&rsquo;t want the Fluentd pod to have the <code>spc_t</code> context, consider creating a custom SELinux context type with only the required privileges on all the worker nodes instead of using <code>spc_t</code>.
-
-</div>
-</li>
-</ul>
-</li>
+</script>
+If SELinux is in <code>enforcing</code> mode, then follow the advice found <a href="../../../docs/customize/fluentd/#update-the-selinux-context-type-for-fluentd">here</a>.</li>
 </ul>
 </li>
 <li>
