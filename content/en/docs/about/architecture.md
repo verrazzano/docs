@@ -7,7 +7,7 @@ draft: false
 
 Each Verrazzano installation sits on top of a Kubernetes cluster (that can be hosted on a variety of environments). Verrazzano relies on the Kubernetes API to pull information from the cluster to its components and push instructions from its components down to the cluster. Specifically, Verrazzano uses [custom resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/), extensions of the Kubernetes API to configure Kubernetes environments and provide additional functionality.
 
-Since Verrazzano extends Kubernetes, you can continue to use many of the Kubernetes management tools you're already familiar with, such as kubectl and kubeadm.
+Because Verrazzano extends Kubernetes, you can continue to use many of the Kubernetes management tools you're already familiar with, such as kubectl and kubeadm.
 
 Each Kubernetes cluster must have both a Container Network Interface (CNI) and a Container Storage Interface (CSI) plugin.
 
@@ -38,14 +38,12 @@ With Verrazzano, you can manage a variety of application types. Depending on the
 
 Applications that conform to the [Open Application Model (OAM)]({{< relref "/docs/about/verrazzanooam/_index.md" >}}) specification are deployed within the service mesh. Their close proximity to other components allows for significant automation and configuration benefits.
 
-Other application types are deployed in the Kubernetes cluster. They can still use Verrazzano features but may require additional configuration.
-
-Whichever application types you use, they'll benefit from Verrazzano's comprehensive management solution.
+Other application types are deployed in the Kubernetes cluster. They can still use Verrazzano features but may require additional configuration. Whichever application types you use, they'll benefit from Verrazzano's comprehensive management solution.
 
 ## Multicluster support
 
-You can use Verrazzano in single and multicluster Kubernetes environments. In a multicluster environment, there is an *admin* cluster which is the central management point for deploying and monitoring applications, and one or more *managed* clusters which look to the admin cluster for configurations.
+You can use Verrazzano in single and multicluster Kubernetes environments. In a multicluster environment, there is an *admin* cluster, which is the central management point for deploying and monitoring applications, and one or more *managed* clusters, which look to the admin cluster for configurations.
 
-Verrazzano is installed on every cluster; admin clusters are installed with either a dev or prod profile, while managed clusters use a managed-cluster profile which has fewer components enabled by default and requires registration to an admin cluster. See [Installation Profiles]({{< relref "/docs/setup/install/profiles/_index.md" >}}) for details.
+Verrazzano is installed on every cluster; admin clusters are installed with either a `dev` or `prod` profile, while managed clusters use a `managed-cluster` profile which has fewer components enabled by default and requires registration to an admin cluster. See [Installation Profiles]({{< relref "/docs/setup/install/profiles/_index.md" >}}) for details.
 
 After registration, a managed cluster submits logging and metrics data to its admin cluster, and receives configuration instructions in turn, over HTTPS.
