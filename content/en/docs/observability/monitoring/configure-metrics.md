@@ -111,7 +111,7 @@ When creating the Service Monitor or Pod Monitor for your workload, include the 
 #### Verify metrics collection
 
 To verify that the metrics are being collected for your workload, follow these steps.
-1. Access the [Prometheus console]({{< relref "/docs/access/_index.md" >}}).
+1. Access the [Prometheus console]({{< relref "/docs/setup/access/_index.md" >}}).
 2. From the console, use the navigation bar to access Status/Targets.
 3. On this page, you will see a target name with this formatting: `<monitor-type>/<workload-namespace>_<workload-name>_<workload-type>`, where `monitor-type` may be serviceMonitor or podMonitor.
 4. Copy this job name from the target labels for use in future queries.

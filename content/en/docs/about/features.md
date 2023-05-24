@@ -25,7 +25,7 @@ Verrazzano understands that application management is a continuous and dynamic p
 
 With management occurring within a single platform, Verrazzano makes it easy to follow the principles of DevOps and GitOps. Coordination between diverse types of users becomes effortless, encouraging quick resolutions and creative innovations.
 
-For a list of the components that make up Verrazzano and what they do, see [Installed Components]({{< relref "/docs/setup/prereqs#installed-components" >}}).
+For a list of the components that make up Verrazzano and what they do, see [Installed Components]({{< relref "/docs/setup/install/prepare/prereqs#installed-components" >}}).
 
 ## Dependable infrastructure management
 
