@@ -15,7 +15,7 @@ The following components can use persistent storage:
   - Keycloak/MySQL
 
 By default, each Verrazzano installation profile has different storage characteristics.  The `dev` profile uses ephemeral
-storage only, but in all other profiles, each of the listed components use persistent storage.  For more information, see [Profile Configurations]({{< relref "/docs/setup/install/profiles.md#profile-configurations" >}}).
+storage only, but in all other profiles, each of the listed components use persistent storage.  For more information, see [Profile Configurations]({{< relref "/docs/setup/install/perform/profiles.md#profile-configurations" >}}).
 
 {{< alert title="NOTE" color="danger" >}}
 Ephemeral storage is not recommended for use in production; Kubernetes pods can be restarted at any time, leading to

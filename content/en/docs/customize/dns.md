@@ -392,4 +392,4 @@ This example assumes that load balancers exist for `ingress-mgmt` on `198.51.100
 `203.0.113.10`.
 
 For a more complete example, see the documentation for setting up Verrazzano on the
-[Oracle Cloud Native Environment Platform]({{< relref "/docs/setup/platforms/olcne/olcne.md" >}}).
+[Oracle Cloud Native Environment Platform]({{< relref "/docs/setup/install/prepare/platforms/olcne/olcne.md" >}}).

@@ -10,12 +10,12 @@ The exact steps required to upgrade a Verrazzano environment to achieve high ava
 
 1. Assess whether your Kubernetes configuration must be updated to support the level of high availability that you want to achieve.  See [Configure High Availability]({{< relref "/docs/customize/ha.md" >}}).
 
-1. Upgrade Verrazzano to v1.5.0 or later.   See [Upgrade Verrazzano]({{< relref "/docs/upgrade/upgrade.md" >}}).
+1. Upgrade Verrazzano to v1.5.0 or later.   See [Upgrade Verrazzano]({{< relref "/docs/setup/upgrade/_index.md" >}}).
 
 1. The [examples/ha]({{< ghlink path="examples/ha/README.md" >}}) directory contains examples of highly available Verrazzano installations. The following example uses the [ha.yaml]({{< ghlink raw=true path="examples/ha/ha.yaml" >}}) file as an example of how to upgrade a default `prod` installation to a highly available Verrazzano environment.
 
    a. Create a patch file:
-   
+
 {{< clipboard >}}
 <div class="highlight">
 

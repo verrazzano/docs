@@ -12,7 +12,7 @@ Verrazzano supports two cluster topologies for an OpenSearch cluster:
 - A single-node cluster: master, ingest, and data roles performed by a single node.
 - A multi-node cluster configuration with separate master, data, and ingest nodes.
 
-For information about the default OpenSearch cluster configurations provided by Verrazzano, see [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}).
+For information about the default OpenSearch cluster configurations provided by Verrazzano, see [Installation Profiles]({{< relref "/docs/setup/install/perform/profiles.md" >}}).
 ## Plan cluster topology
 
 Start with an initial estimate of your hardware needs. The following recommendations will provide you with initial, educated estimates, but for ideal sizing, you will need to test them with representative workloads, monitor their performance, and then reiterate.

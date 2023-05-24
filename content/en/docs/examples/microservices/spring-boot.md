@@ -156,7 +156,7 @@ This example provides a simple web application developed using [Spring Boot](htt
        The actuator endpoint is accessible under the path `/actuator` and the Prometheus endpoint exposing metrics data in a format that can be scraped by a Prometheus server is accessible under the path `/actuator/prometheus`.
 
 1. A variety of endpoints associated with the deployed application are available to further explore the logs, metrics, and such.
-You can access them according to the directions [here]({{< relref "/docs/access/#get-the-consoles-urls" >}}).
+You can access them according to the directions [here]({{< relref "/docs/setup/access/#get-the-consoles-urls" >}}).
 
 ## Undeploy the application   
 

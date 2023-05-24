@@ -13,8 +13,8 @@ The root cause appears to be that the load balancer is either missing or unable 
 
 ### Steps
 
-Refer to the platform-specific environment setup for your platform [here]({{< relref "/docs/setup/platforms/_index.md" >}}).
+Refer to the platform-specific environment setup for your platform [here]({{< relref "/docs/setup/install/prepare/platforms/_index.md" >}}).
 
 ### Related information
-* [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}})
+* [Platform Setup]({{< relref "/docs/setup/install/prepare/platforms/_index.md" >}})
 * [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug/)

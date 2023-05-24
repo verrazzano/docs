@@ -141,4 +141,4 @@ spec:
 
 ## Access the Thanos Query console
 
-You can access the Thanos Query console using the instructions at [Get the consoles URLs]({{< relref "/docs/access/#get-the-consoles-urls" >}}).
+You can access the Thanos Query console using the instructions at [Get the consoles URLs]({{< relref "/docs/setup/access/#get-the-consoles-urls" >}}).
