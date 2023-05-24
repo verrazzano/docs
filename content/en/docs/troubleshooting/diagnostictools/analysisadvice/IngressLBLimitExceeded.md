@@ -17,6 +17,6 @@ The root cause appears to be that the load balancer service limit has been reach
 3. Refer to the Oracle Cloud Infrastructure documentation on [Service Limits](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm#).
 
 ### Related information
-* [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}})
+* [Platform Setup]({{< relref "/docs/setup/install/prepare/platforms/_index.md" >}})
 * [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug/)
 * [More information on load balancers](https://docs.oracle.com/en-us/iaas/Content/Balance/Concepts/balanceoverview.htm)

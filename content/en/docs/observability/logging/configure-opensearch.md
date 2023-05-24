@@ -45,7 +45,7 @@ $ curl -ik \
 {{< /clipboard >}}
 
 
-Verrazzano provides support for [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}). The production profile (`prod`), which is the default, provides a 3-node OpenSearch and persistent storage for the VMI. The development profile (`dev`) provides a single node OpenSearch and no persistent storage for the VMI. The `managed-cluster` profile does not install OpenSearch or OpenSearch Dashboards in the local cluster; all logs are forwarded to the admin cluster's OpenSearch instance.
+Verrazzano provides support for [Installation Profiles]({{< relref "/docs/setup/install/perform/profiles.md" >}}). The production profile (`prod`), which is the default, provides a 3-node OpenSearch and persistent storage for the VMI. The development profile (`dev`) provides a single node OpenSearch and no persistent storage for the VMI. The `managed-cluster` profile does not install OpenSearch or OpenSearch Dashboards in the local cluster; all logs are forwarded to the admin cluster's OpenSearch instance.
 
 If you want the logs sent to an external OpenSearch, instead of the default VMI OpenSearch, specify `opensearchURL` and `opensearchSecret` in the [FluentdComponent]({{< relref "/docs/reference/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.FluentdComponent" >}}) configuration in your Verrazzano custom resource.
 
@@ -73,7 +73,7 @@ For information on OpenSearch, see the [Customize OpenSearch]({{< relref "/docs/
 ## OpenSearch Dashboards
 OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.
 
-To access the OpenSearch Dashboards, read [Access Verrazzano]({{< relref "/docs/access/_index.md" >}}).
+To access the OpenSearch Dashboards, read [Access Verrazzano]({{< relref "/docs/setup/access/_index.md" >}}).
 
 To see the records of an OpenSearch index or data stream through OpenSearch Dashboards, create an index pattern to filter for records under the desired data stream or index.  
 

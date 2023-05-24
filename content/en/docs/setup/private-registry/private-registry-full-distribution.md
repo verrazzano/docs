@@ -1,7 +1,7 @@
 ---
 title: Use a Private Registry
-description: Instructions for setting up Verrazzano using a private container registry
-Weight: 8
+description: Set up Verrazzano using a private container registry
+Weight: 12
 draft: false
 ---
 
@@ -21,8 +21,8 @@ You must have the following software installed:
  * The `Verrazzano Full Distribution` contains Kubernetes manifests to deploy Verrazzano, client binaries and various utilities for Linux and MacOS operating systems on AMD and ARM architectures. This full distribution also includes the Linux AMD container images required for Verrazzano.
 
  Both the distributions include:
- * [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}})
- * [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}})
+ * [Verrazzano CLI]({{< relref "docs/setup/install/prepare/cli-setup.md" >}})
+ * [Installation Profiles]({{< relref "/docs/setup/install/perform/profiles.md" >}})
  * Helper scripts to download the images from the bill of materials (BOM) and to upload the Verrazzano images to a private registry
  * Helm charts for the Verrazzano platform operator
  * `README.md` which provides the layout of the respective distribution
@@ -253,14 +253,14 @@ For example, to install Verrazzano using the `prod` profile, run the following c
   ```  
 </div>
 {{< /clipboard >}}
-  
+
 For a complete description of Verrazzano CLI options, run `${DISTRIBUTION_DIR}/bin/linux-amd64/vz -h`.
 
 ## Configuring access to an insecure private registry
 
 A private Docker registry is called an [insecure registry](https://docs.docker.com/registry/insecure/) when it is configured for access using a self-signed certificate or over an unencrypted HTTP connection. Depending on the platform, there could be some additional configuration required for installing Verrazzano with an insecure registry.
 
-For example, for the [Oracle Cloud Native Environment platform]({{< relref "/docs/setup/platforms/OLCNE/OLCNE.md" >}}), insecure registries must be configured in `/etc/containers/registries.conf` as follows on the worker nodes:
+For example, for the [Oracle Cloud Native Environment platform]({{< relref "/docs/setup/install/prepare/platforms/OLCNE/OLCNE.md" >}}), insecure registries must be configured in `/etc/containers/registries.conf` as follows on the worker nodes:
 {{< clipboard >}}
 <div class="highlight">
 
