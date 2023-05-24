@@ -26503,7 +26503,11 @@ deployment.apps/jaeger-operator-jaeger-query       1/1     1            1       
 &lt;p&gt;If the Jaeger Operator component is enabled in the managed cluster, after successful registration with the admin cluster,
 a Jaeger collector service runs in the managed cluster, which exports the traces to the OpenSearch
 storage configured in the admin cluster.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Traces are exported to the admin cluster only when the Jaeger instance in the admin cluster is configured with the OpenSearch storage.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Traces are exported to the admin cluster only when the Jaeger instance in the admin cluster is configured with OpenSearch storage.&lt;/li&gt;
+&lt;li&gt;If the admin cluster goes down, then the storage backend is no longer available; Jaeger will start dropping traces because it cannot buffer much data. To buffer large amounts of data, you would need to set up an intermediary queue, such as &lt;a href=&#34;https://www.jaegertracing.io/docs/1.37/deployment/#kafka&#34;&gt;Kafka&lt;/a&gt;. This would prevent data loss from Jaeger collectors.&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;Listing Jaeger resources in the managed cluster shows output similar to the following.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
