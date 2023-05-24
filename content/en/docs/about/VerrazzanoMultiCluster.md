@@ -1,5 +1,6 @@
 ---
 title: "Verrazzano in a Multicluster Environment"
+linkTitle: Multicluster Environment
 weight: 4
 draft: false
 aliases:

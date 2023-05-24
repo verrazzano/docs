@@ -1,6 +1,6 @@
 ---
 title: "Verrazzano Architecture"
-linkTitle: Verrazzano Architecture
+linkTitle: Architecture
 weight: 2
 draft: false
 ---

@@ -1,5 +1,6 @@
 ---
 title: "Verrazzano Projects"
+linkTitle: Projects
 weight: 5
 draft: false
 aliases:
