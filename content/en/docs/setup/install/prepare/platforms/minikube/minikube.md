@@ -1,6 +1,6 @@
 ---
 title: minikube
-description: Instructions for setting up a minikube cluster for Verrazzano
+description: Set up a minikube cluster for Verrazzano
 linkTitle: minikube
 Weight: 3
 draft: true

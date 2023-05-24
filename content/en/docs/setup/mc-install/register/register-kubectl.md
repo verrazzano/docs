@@ -1,6 +1,6 @@
 ---
 title: "Use Kubernetes Custom Resources"
-description: "Learn how to register a managed cluster in a multicluster environment using `kubectl`"
+description: "Register managed cluster using `kubectl`"
 weight: 3
 draft: false
 ---

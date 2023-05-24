@@ -1,7 +1,7 @@
 ---
-title: "Troubleshoot Upgrade Failures"
-linkTitle: "Upgrade failures"
-description: "Learn how to solve some common upgrade failures"
+title: "Troubleshoot Upgrade Issues"
+linkTitle: "Upgrade issues"
+description: "Solve some common upgrade issues"
 weight: 4
 draft: false
 ---

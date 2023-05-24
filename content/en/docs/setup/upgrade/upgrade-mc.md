@@ -1,7 +1,7 @@
 ---
 title: "Upgrade Verrazzano in a Multicluster Environment"
 linkTitle: "Upgrade Multicluster"
-description: "Learn how to upgrade a multicluster Verrazzano environment"
+description: "Upgrade a multicluster Verrazzano environment"
 weight: 6
 draft: false
 ---

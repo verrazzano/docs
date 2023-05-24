@@ -1,6 +1,6 @@
 ---
 title: "Install Multicluster Verrazzano Without Rancher"
-description: "How to set up a multicluster Verrazzano environment when Rancher is disabled"
+description: "Set up a multicluster Verrazzano environment when Rancher is disabled"
 weight: 3
 draft: false
 ---

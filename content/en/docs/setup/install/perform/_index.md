@@ -1,6 +1,6 @@
 ---
 title: "Perform"
-description: "Learn how to install Verrazzano"
+description: "Install Verrazzano"
 weight: 2
 draft: false
 ---

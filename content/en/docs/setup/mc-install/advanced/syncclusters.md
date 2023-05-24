@@ -1,6 +1,6 @@
 ---
 title: "Synchronize Managed Clusters Registration"
-description: "Learn how to register and synchronize cluster registration automatically"
+description: "Register and synchronize cluster registration automatically"
 weight: 1
 draft: false
 ---

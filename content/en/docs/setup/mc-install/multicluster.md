@@ -1,6 +1,6 @@
 ---
 title: "Install Multicluster"
-description: "How to set up a multicluster Verrazzano environment"
+description: "Set up a multicluster Verrazzano environment"
 weight: 1
 draft: false
 ---

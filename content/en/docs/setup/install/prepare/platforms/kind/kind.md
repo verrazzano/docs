@@ -1,6 +1,6 @@
 ---
 title: Kind
-description: Instructions for setting up a Kind cluster for Verrazzano
+description: Set up a Kind cluster for Verrazzano
 linkTitle: Kind
 Weight: 4
 draft: false

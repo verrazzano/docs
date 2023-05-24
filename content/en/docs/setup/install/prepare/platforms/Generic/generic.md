@@ -1,6 +1,6 @@
 ---
 title: Generic Kubernetes
-description: Instructions for setting up a generic Kubernetes cluster for Verrazzano
+description: Set up a generic Kubernetes cluster for Verrazzano
 linkTitle: Generic
 Weight: 3
 draft: false

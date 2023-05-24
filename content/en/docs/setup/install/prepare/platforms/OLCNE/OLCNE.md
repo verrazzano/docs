@@ -1,6 +1,6 @@
 ---
 title: Oracle Cloud Native Environment
-description: Instructions for setting up an Oracle Cloud Native Environment cluster for Verrazzano
+description: Set up an Oracle Cloud Native Environment cluster for Verrazzano
 linkTitle: Oracle Cloud Native Environment
 weight: 1
 draft: false

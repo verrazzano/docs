@@ -1,6 +1,6 @@
 ---
-title: "Deregister a Managed Cluster"
-description: "How to deregister a managed cluster in your multicluster Verrazzano environment"
+title: "Deregister Managed Clusters"
+description: "Deregister managed clusters in your multicluster Verrazzano environment"
 weight: 3
 draft: false
 ---

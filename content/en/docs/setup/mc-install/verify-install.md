@@ -1,6 +1,6 @@
 ---
 title: "Verify Multicluster Installation"
-description: "How to verify your multicluster Verrazzano environment set up"
+description: "Verify your multicluster Verrazzano environment set up"
 weight: 2
 draft: false
 ---

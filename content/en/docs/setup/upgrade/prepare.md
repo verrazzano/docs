@@ -1,7 +1,7 @@
 ---
-title: "Prepare to Upgrade Verrazzano Verrazzano"
+title: "Prepare to Upgrade Verrazzano"
 linkTitle: "Prepare"
-description: "Learn the items you need to complete before you upgrade Verrazzano"
+description: "Pre-upgrade information"
 weight: 1
 draft: false
 ---

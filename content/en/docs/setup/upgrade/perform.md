@@ -1,12 +1,12 @@
 ---
 title: "Perform the Verrazzano Upgrade"
 linkTitle: "Upgrade"
-description: "Learn how to upgrade Verrazzano"
+description: "Upgrade Verrazzano"
 weight: 2
 draft: false
 ---
 
-## Upgrade steps
+
 It is important to distinguish between updating the Verrazzano platform operator versus upgrading the Verrazzano installation.
 The platform operator contains the newer component charts and image versions, so it must be updated prior to upgrading the installation.
 Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade.

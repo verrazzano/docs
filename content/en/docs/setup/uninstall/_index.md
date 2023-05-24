@@ -1,6 +1,6 @@
 ---
 title: "Uninstall"
-description: "Learn how to uninstall Verrazzano"
+description: "Uninstall Verrazzano"
 weight: 10
 draft: false
 ---

@@ -1,6 +1,6 @@
 ---
 title: Change Verrazzano Passwords
-description: "Learn how to change the Verrazzano and Keycloak administrator passwords"
+description: "Change the Verrazzano and Keycloak administrator passwords"
 weight: 4
 draft: false
 

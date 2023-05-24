@@ -1,6 +1,6 @@
 ---
 title: "Verify using CLI kubectl"
-description: "How to verify the installed Verrazzano using `kubectl`"
+description: "Verify installed Verrazzano using `kubectl`"
 weight: 2
 draft: false
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Installation Profiles"
-description: "How to use named Verrazzano configurations to simplify an installation"
+description: "Use named Verrazzano configurations to simplify an installation"
 weight: 2
 draft: false
 ---

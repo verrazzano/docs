@@ -1,6 +1,6 @@
 ---
 title: "Install with CLI"
-description: "How to install Verrazzano with the `vz` CLI"
+description: "Install Verrazzano using the `vz` CLI"
 weight: 1
 draft: false
 aliases:

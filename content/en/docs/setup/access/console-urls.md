@@ -1,6 +1,6 @@
 ---
 title: Get Consoles URLs
-description: "Verrazzano installs several consoles. The endpoints for an installation are stored in the `Status` field of the installed Verrazzano Custom Resource."
+description: "Get the endpoints for the consoles Verrazzano installs"
 weight: 2
 draft: false
 ---
