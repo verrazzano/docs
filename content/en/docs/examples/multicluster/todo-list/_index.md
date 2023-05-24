@@ -12,7 +12,7 @@ For more information and the source code of this application, see the [Verrazzan
 
 ## Before you begin
 
-* Set up a multicluster Verrazzano environment following the [installation instructions]({{< relref "/docs/setup/install/mc-install/multicluster.md" >}}).
+* Set up a multicluster Verrazzano environment following the [installation instructions]({{< relref "/docs/setup/mc-install/multicluster.md" >}}).
 * The example assumes that there is a managed cluster named `managed1` associated with the multicluster environment.
 If your environment does not have a cluster of that name, then you should edit the deployment files and change the cluster name
 listed in the `placement` section.
@@ -201,7 +201,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 
 1. A variety of endpoints associated with
    the deployed ToDo List application are available to further explore the logs, metrics, and such.
-   You can access them according to the directions [here]({{< relref "/docs/access/#get-the-consoles-urls" >}}).
+   You can access them according to the directions [here]({{< relref "/docs/setup/access/#get-the-consoles-urls" >}}).
 
 ## Verify the deployed application
 

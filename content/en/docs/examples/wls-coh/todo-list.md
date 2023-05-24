@@ -223,7 +223,7 @@ For more information and the source code of this application, see the [Verrazzan
        with an edit field and an **Add** button that lets you add tasks.
 
 1. A variety of endpoints associated with the deployed ToDo List application are available to further explore the logs, metrics, and such.
-   You can access them according to the directions [here]({{< relref "/docs/access/#get-the-consoles-urls" >}}).
+   You can access them according to the directions [here]({{< relref "/docs/setup/access/#get-the-consoles-urls" >}}).
 
 ## Access the WebLogic Server Administration Console
 

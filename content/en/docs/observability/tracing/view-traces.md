@@ -9,7 +9,7 @@ aliases:
 ---
 
 Use the Verrazzano Jaeger console to view, query, and filter traces.
-For information on how to get the Verrazzano Jaeger console URL and credentials, see [Access Verrazzano]({{< relref "/docs/access/" >}}).
+For information on how to get the Verrazzano Jaeger console URL and credentials, see [Access Verrazzano]({{< relref "/docs/setup/access/" >}}).
 
 ### View traces in the Jaeger console
 
@@ -33,7 +33,7 @@ The Jaeger console shows:
 ### View managed cluster traces
 
 You can see the managed cluster traces from the Jaeger console in the admin cluster only. To find the Jaeger console URL for
-your admin cluster, follow the instructions for [Accessing Verrazzano]({{< relref "/docs/access/_index.md" >}}).
+your admin cluster, follow the instructions for [Accessing Verrazzano]({{< relref "/docs/setup/access/_index.md" >}}).
 
 The following spans include the Process tag, `verrazzano_cluster`, which has the name of the managed cluster. To see the traces
 for the managed cluster only, search based on the tag `verrazzano_cluster=<managed cluster name>`.
