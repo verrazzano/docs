@@ -27,7 +27,7 @@ The components within the service mesh can broadly be organized into the followi
 * Observability
 * Verrazzano operators
 
-See [Installed Software]({{< relref "/docs/setup/prereqs#installed-software" >}}) for a list of the components included with Verrazzano. Depending on which [installation profile]({{< relref "/docs/setup/install/profiles/_index.md" >}}) you choose to apply, some components are not enabled by default.
+See [Installed Software]({{< relref "/docs/setup/install/prepare/prereqs#installed-software" >}}) for a list of the components included with Verrazzano. Depending on which [installation profile]({{< relref "/docs/setup/install/perform/profiles/_index.md" >}}) you choose to apply, some components are not enabled by default.
 
 One Verrazzano component that does not reside within the service mesh is the Verrazzano platform operator, a custom Kubernetes operator that handles the management of Verrazzano itself - including installation (and uninstallation), upgrades, and troubleshooting. The platform operator also works with the service mesh to synchronize actions between the components and Kubernetes clusters.
 
@@ -44,6 +44,6 @@ Other application types are deployed in the Kubernetes cluster. They can still u
 
 You can use Verrazzano in single and multicluster Kubernetes environments. In a multicluster environment, there is an *admin* cluster, which is the central management point for deploying and monitoring applications, and one or more *managed* clusters, which look to the admin cluster for configurations.
 
-Verrazzano is installed on every cluster; admin clusters are installed with either a `dev` or `prod` profile, while managed clusters use a `managed-cluster` profile which has fewer components enabled by default and requires registration to an admin cluster. See [Installation Profiles]({{< relref "/docs/setup/install/profiles/_index.md" >}}) for details.
+Verrazzano is installed on every cluster; admin clusters are installed with either a `dev` or `prod` profile, while managed clusters use a `managed-cluster` profile which has fewer components enabled by default and requires registration to an admin cluster. See [Installation Profiles]({{< relref "/docs/setup/install/perform/profiles/_index.md" >}}) for details.
 
 After registration, a managed cluster submits logging and metrics data to its admin cluster, and receives configuration instructions in turn, over HTTPS.
