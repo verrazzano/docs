@@ -2,7 +2,7 @@
 title: "Network File System"
 description: "Configure NFS storage"
 linkTitle: Network File System
-weight: 4
+weight: 10
 draft: false
 ---
 
@@ -51,7 +51,7 @@ Complete the following steps to configure NFS storage in an Oracle Cloud Native 
 </div>
 {{< /clipboard >}}
 
-   e. Enable and start the NFS service. 
+   e. Enable and start the NFS service.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -76,7 +76,7 @@ Complete the following steps to configure NFS storage in an Oracle Cloud Native 
 </div>
 {{< /clipboard >}}
 
-   c. Install the provisioner. Set your storage class as a default and create a service account. 
+   c. Install the provisioner. Set your storage class as a default and create a service account.
 {{< clipboard >}}
 <div class="highlight">
 
