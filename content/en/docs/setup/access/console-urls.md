@@ -3,9 +3,6 @@ title: Get Consoles URLs
 description: "Get the endpoints for the consoles Verrazzano installs"
 weight: 2
 draft: false
-aliases:
-  - /docs/operations
-  - /docs/access
 ---
 
 You can access the installation endpoints using the [Verrazzano CLI]({{< relref "/docs/setup/install" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/):

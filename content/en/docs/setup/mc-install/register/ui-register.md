@@ -3,8 +3,6 @@ title: "Use the Verrazzano Console"
 description: "Register managed clusters using the Verrazzano Console"
 weight: 1
 draft: false
-aliases:
-  - /docs/setup/install/mc-install/multicluster
 ---
 
 To register a cluster, complete the following steps:

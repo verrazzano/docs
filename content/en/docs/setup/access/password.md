@@ -3,9 +3,6 @@ title: Change Verrazzano Passwords
 description: "Change the Verrazzano and Keycloak administrator passwords"
 weight: 4
 draft: false
-aliases:
-  - /docs/operations
-  - /docs/access
 ---
 
 ### Change the Verrazzano password
