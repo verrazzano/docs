@@ -48,12 +48,12 @@ requests that exhibit high latency or errors.&lt;/p&gt;
 &lt;li&gt;Query service, which exposes the APIs for retrieving traces from storage and hosts the Jaeger console for searching and analyzing traces.&lt;/li&gt;
 &lt;li&gt;Storage, may be ephemeral or backed by OpenSearch.
 &lt;ul&gt;
-&lt;li&gt;Jaeger can be configured to use one of several choices for &lt;a href=&#34;https://www.jaegertracing.io/docs/1.37/deployment/#storage-backends&#34;&gt;storage back ends&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Jaeger can be configured to use one of several choices for &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/deployment/#span-storage-backends&#34;&gt;storage back ends&lt;/a&gt;.&lt;/li&gt;
 &lt;li&gt;In Verrazzano, trace records are stored in OpenSearch; OpenSearch must be enabled in Verrazzano for this to work.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Jaeger is very configurable. See the Jaeger documentation for detailed information about Jaeger &lt;a href=&#34;https://www.jaegertracing.io/docs/1.37/features/&#34;&gt;features&lt;/a&gt; and &lt;a href=&#34;https://www.jaegertracing.io/docs/1.37/architecture/#architecture&#34;&gt;architecture&lt;/a&gt;. In Verrazzano, Jaeger does not include the Ingester service, Kafka, or Sparks jobs.&lt;/p&gt;
+&lt;p&gt;Jaeger is very configurable. See the Jaeger documentation for detailed information about Jaeger &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/features/&#34;&gt;features&lt;/a&gt; and &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/architecture&#34;&gt;architecture&lt;/a&gt;. In Verrazzano, Jaeger does not include the Ingester service, Kafka, or Sparks jobs.&lt;/p&gt;
 &lt;h3 id=&#34;next-steps&#34;&gt;Next steps&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;Enable Jaeger and customize your Verrazzano Jaeger installation. See &lt;a href=&#34;../../../docs/observability/tracing/configure-tracing/&#34;&gt;configure tracing&lt;/a&gt;.&lt;/li&gt;
@@ -291,7 +291,7 @@ storage configured in the admin cluster.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Traces are exported to the admin cluster only when the Jaeger instance in the admin cluster is configured with OpenSearch storage.&lt;/li&gt;
-&lt;li&gt;If the admin cluster goes down, then the storage backend is no longer available; Jaeger will start dropping traces because it cannot buffer much data. To buffer large amounts of data, you would need to set up an intermediary queue, such as &lt;a href=&#34;https://www.jaegertracing.io/docs/1.37/deployment/#kafka&#34;&gt;Kafka&lt;/a&gt;. This would prevent data loss from Jaeger collectors.&lt;/li&gt;
+&lt;li&gt;If the admin cluster goes down, then the storage backend is no longer available; Jaeger will start dropping traces because it cannot buffer much data. To buffer large amounts of data, you would need to set up an intermediary queue, such as &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/deployment/#kafka&#34;&gt;Kafka&lt;/a&gt;. This would prevent data loss from Jaeger collectors.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Listing Jaeger resources in the managed cluster shows output similar to the following.
 &lt;style type=&#34;text/css&#34;&gt;
@@ -390,7 +390,7 @@ NAME                                STATUS    VERSION   STRATEGY     STORAGE    
 jaeger-verrazzano-managed-cluster   Running   1.34.1    production   opensearch      11m
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;customize-jaeger&#34;&gt;Customize Jaeger&lt;/h3&gt;
 &lt;p&gt;Verrazzano installs the Jaeger Operator and Jaeger using the
-&lt;a href=&#34;https://github.com/jaegertracing/helm-charts/tree/jaeger-operator-2.32.2/charts/jaeger-operator&#34;&gt;jaeger-operator&lt;/a&gt; Helm chart.
+&lt;a href=&#34;https://github.com/jaegertracing/helm-charts/tree/jaeger-operator-2.41.0/charts/jaeger-operator&#34;&gt;jaeger-operator&lt;/a&gt; Helm chart.
 Using Helm overrides specified in the Verrazzano custom resource, you can customize the installation configuration.
 For more information about setting component overrides, see &lt;a href=&#34;https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing&#34;&gt;Customizing the Chart Before Installing&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The following sections describe some common customizations you might want to employ:&lt;/p&gt;
@@ -407,7 +407,7 @@ For more information about setting component overrides, see &lt;a href=&#34;http
 &lt;p&gt;You can use the default Jaeger instance with an external OpenSearch cluster. The following example shows you how to
 configure Jaeger Operator Helm overrides in the Verrazzano custom resource to use an external OpenSearch cluster
 with a TLS CA certificate mounted from a volume and the user/password stored in a secret. For more details, see the
-&lt;a href=&#34;https://www.jaegertracing.io/docs/1.37/operator/#external-elasticsearch&#34;&gt;Jaeger documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/operator/#external-elasticsearch&#34;&gt;Jaeger documentation&lt;/a&gt;.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Prior to configuring the external OpenSearch for Jaeger in the Verrazzano custom resource, create a secret containing
 the OpenSearch credentials and certificates in the &lt;code&gt;verrazzano-install&lt;/code&gt; namespace. Jaeger will use these credentials
@@ -632,12 +632,12 @@ to connect to OpenSearch.
 &lt;/ol&gt;
 &lt;h4 id=&#34;enable-jaeger-service-performance-monitoring&#34;&gt;Enable Jaeger Service Performance Monitoring&lt;/h4&gt;
 &lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The Service Performance Monitoring (SPM) feature is currently considered experimental.&lt;/p&gt;
-&lt;p&gt;To enable &lt;a href=&#34;https://www.jaegertracing.io/docs/1.37/spm/&#34;&gt;Service Performance Monitoring&lt;/a&gt;
+&lt;p&gt;To enable &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/spm/&#34;&gt;Service Performance Monitoring&lt;/a&gt;
 in the default Jaeger instance created by Verrazzano, use the following Verrazzano custom resource. Verrazzano
 sets &lt;code&gt;jaeger.spec.query.options.prometheus.server-url&lt;/code&gt; to the Prometheus server URL managed by Verrazzano, if it exists.
 To configure an external Prometheus server for your use case, override &lt;code&gt;jaeger.spec.query.options.prometheus.server-url&lt;/code&gt;,
 &lt;code&gt;jaeger.spec.query.options.prometheus.tls.enabled&lt;/code&gt;, and &lt;code&gt;jaeger.spec.query.options.prometheus.tls.ca&lt;/code&gt;, appropriately, in
-the Verrazzano custom resource. For more details, see the &lt;a href=&#34;https://www.jaegertracing.io/docs/1.37/deployment/#tls-support-1&#34;&gt;Jaeger documentation&lt;/a&gt;.
+the Verrazzano custom resource. For more details, see the &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/deployment/#tls-support-1&#34;&gt;Jaeger documentation&lt;/a&gt;.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -1308,7 +1308,7 @@ storage configured in the admin cluster.&lt;/p&gt;
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
 &lt;h4 id=&#34;manage-jaeger-indices-in-opensearch&#34;&gt;Manage Jaeger indices in OpenSearch&lt;/h4&gt;
-&lt;p&gt;To clean old Jaeger data from OpenSearch, Verrazzano uses the &lt;a href=&#34;https://www.jaegertracing.io/docs/1.37/operator/#elasticsearch-index-cleaner-job&#34;&gt;index management&lt;/a&gt;
+&lt;p&gt;To clean old Jaeger data from OpenSearch, Verrazzano uses the &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/operator/#elasticsearch-index-cleaner-job&#34;&gt;index management&lt;/a&gt;
 provided by Jaeger. By default, a cron job with the following default values is created to clean old traces. To
 configure it to your use case, override the following Jaeger spec values in the Verrazzano custom resource with your
 desired values.
@@ -1543,7 +1543,7 @@ such as Deployments. The subsequent snippet shows how to annotate an OAM Compone
 &lt;/script&gt;&lt;/p&gt;
 &lt;p&gt;If you have multiple Jaeger instances in your cluster, specify the name of the Jaeger instance to which you intend to
 send the traces, as a value for the annotation &lt;code&gt;sidecar.jaegertracing.io/inject&lt;/code&gt;. For more details,
-see the &lt;a href=&#34;https://www.jaegertracing.io/docs/1.37/operator/#auto-injecting-jaeger-agent-sidecars&#34;&gt;Jaeger documentation&lt;/a&gt;.&lt;/p&gt;
+see the &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/operator/#auto-injecting-jaeger-agent-sidecars&#34;&gt;Jaeger documentation&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Using the Jaeger agent is not supported in Helidon 3.x. To use Jaeger tracing,
 the Helidon application should connect directly to the Jaeger collector. See the following example YAML file, where
 &lt;code&gt;&amp;quot;TRACING_HOST&amp;quot;&lt;/code&gt; is set to &lt;code&gt;&amp;quot;jaeger-operator-jaeger-collector.verrazzano-monitoring&amp;quot;&lt;/code&gt; and &lt;code&gt;&amp;quot;TRACING_PORT&amp;quot;&lt;/code&gt; to &lt;code&gt;&amp;quot;9411&amp;quot;&lt;/code&gt;.
@@ -1682,7 +1682,7 @@ set the &lt;code&gt;&amp;quot;TRACING_HOST&amp;quot;&lt;/code&gt; to &lt;code&gt
         
         
         &lt;p&gt;Use the Verrazzano Jaeger console to view, query, and filter traces.
-For information on how to get the Verrazzano Jaeger console URL and credentials, see &lt;a href=&#34;../../../docs/access/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/p&gt;
+For information on how to get the Verrazzano Jaeger console URL and credentials, see &lt;a href=&#34;../../../docs/setup/access/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;view-traces-in-the-jaeger-console&#34;&gt;View traces in the Jaeger console&lt;/h3&gt;
 &lt;p&gt;On the initial page, select the service name to display the traces that you want to evaluate, for example, &lt;code&gt;hello-helidon&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;../../../docs/images/tracing/hello-helidon-traces.png&#34; alt=&#34;Hello Helidon&#34;&gt;&lt;/p&gt;
@@ -1697,7 +1697,7 @@ For information on how to get the Verrazzano Jaeger console URL and credentials,
 &lt;/ul&gt;
 &lt;h3 id=&#34;view-managed-cluster-traces&#34;&gt;View managed cluster traces&lt;/h3&gt;
 &lt;p&gt;You can see the managed cluster traces from the Jaeger console in the admin cluster only. To find the Jaeger console URL for
-your admin cluster, follow the instructions for &lt;a href=&#34;../../../docs/access/&#34;&gt;Accessing Verrazzano&lt;/a&gt;.&lt;/p&gt;
+your admin cluster, follow the instructions for &lt;a href=&#34;../../../docs/setup/access/&#34;&gt;Accessing Verrazzano&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The following spans include the Process tag, &lt;code&gt;verrazzano_cluster&lt;/code&gt;, which has the name of the managed cluster. To see the traces
 for the managed cluster only, search based on the tag &lt;code&gt;verrazzano_cluster=&amp;lt;managed cluster name&amp;gt;&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Sample output of Jager console screens&lt;/strong&gt;&lt;/p&gt;
