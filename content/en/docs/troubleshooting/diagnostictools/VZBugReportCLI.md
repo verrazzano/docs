@@ -9,7 +9,7 @@ draft: false
 Use the `vz bug-report` tool to selectively capture cluster information and create an archive (`*.tar.gz`) file to help diagnose problems. The archive file helps development and support teams analyze issues and provide recommendations. If a failure occurs while Verrazzano is being installed, upgraded, or uninstalled using the Verrazzano CLI, then the archive file is generated automatically.
 
 ## CLI setup
-To set up the `vz` command-line tool, follow the steps [here]({{< relref "docs/setup/cli/_index.md" >}}).
+To set up the `vz` command-line tool, follow the steps [here]({{< relref "docs/setup/install/prepare/cli-setup.md" >}}).
 
 ## Use the vz bug-report tool
 

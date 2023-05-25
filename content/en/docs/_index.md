@@ -12,7 +12,7 @@ Verrazzano is an end-to-end enterprise container platform for deploying cloud na
 
 Learn more about the advantages of using Verrazzano at [Verrazzano Features]({{< relref "/docs/about/features.md" >}}).
 
-Select [Quick Start]({{< relref "/docs/quickstart/_index.md" >}}) to get started.
+Select [Quick Start]({{< relref "/docs/setup/quickstart/_index.md" >}}) to get started.
 
 Verrazzano [release versions](https://github.com/verrazzano/verrazzano/releases/) and source code are available at [https://github.com/verrazzano/verrazzano](https://github.com/verrazzano/verrazzano).
 This repository contains a Kubernetes operator for installing Verrazzano and example applications for use with Verrazzano.

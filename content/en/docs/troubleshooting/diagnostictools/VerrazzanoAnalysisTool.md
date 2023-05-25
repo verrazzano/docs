@@ -12,7 +12,7 @@ Verrazzano provides the `vz analyze` command-line tool, which assists in trouble
 The `vz analyze` command-line tool analyzes the cluster or a cluster snapshot, reports the issues found, and prescribes related actions to take. Users, developers, and Continuous Integration (CI) can use this tooling to quickly identify the root cause of encountered problems, determine mitigation actions, and provide a sharable report with other users or tooling.
 
 ## Set up the CLI tool
-To set up the `vz` command-line tool, follow the steps [here]({{< relref "docs/setup/cli/_index.md" >}}).
+To set up the `vz` command-line tool, follow the steps [here]({{< relref "docs/setup/install/prepare/cli-setup.md" >}}).
 
 ## Analyze clusters
 To analyze a Kubernetes cluster:

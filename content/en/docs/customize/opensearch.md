@@ -12,12 +12,12 @@ Verrazzano supports two cluster topologies for an OpenSearch cluster:
 - A single-node cluster: master, ingest, and data roles performed by a single node.
 - A multi-node cluster configuration with separate master, data, and ingest nodes.
 
-For information about the default OpenSearch cluster configurations provided by Verrazzano, see [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}).
+For information about the default OpenSearch cluster configurations provided by Verrazzano, see [Installation Profiles]({{< relref "/docs/setup/install/perform/profiles.md" >}}).
 ## Plan cluster topology
 
 Start with an initial estimate of your hardware needs. The following recommendations will provide you with initial, educated estimates, but for ideal sizing, you will need to test them with representative workloads, monitor their performance, and then reiterate.
 
-#### Storage Requirements
+#### Storage requirements
 
 | Input    | Description                                                   | Value    |
 |:----|---------------------------------------------------------------|:----|
@@ -53,7 +53,7 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
   For 192 GiB of storage requirement, you need 16 GiB of memory.
 
-#### Number of Data Nodes
+#### Number of data nodes
 
 |  Input   | Description                                                                                                                            | Value        |
 |-----|----------------------------------------------------------------------------------------------------------------------------------------|--------------|
@@ -81,10 +81,10 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
   With reference to the [Example](#example):
 
-  For 192 GiB of storage, the vCPU cores required are 4.
+  For 192 GiB of storage, the vCPU cores required are four.
 
 
-#### Shard Size
+#### Shard size
 
   For logging, shard sizes between 10 GiB and 50 GiB typically perform well.
   For search-intensive operations, 10-25 GiB typically is a good shard size. Overall, it is a best practice that, for a single shard, the OpenSearch shard size should not go above 50GiB. When the shards exceed 50 GiB, you will have to reindex your data.
@@ -111,7 +111,7 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
 
 ## Recommended alarms
-You can [customize Prometheus]({{< relref "/docs/manage/observability/monitoring/metrics/configure/prometheus/prometheus.md" >}}) to enable Alertmanager and configure recommended alarms (add alert rules) to get insight into your OpenSearch cluster and take some actions proactively.
+You can [customize Prometheus]({{< relref "/docs/observability/monitoring/prometheus.md" >}}) to enable Alertmanager and configure recommended alarms (add alert rules) to get insight into your OpenSearch cluster and take some actions proactively.
 
 Use the `OSDataNodeFilesystemSpaceFillingUp` alert to indicate that the OpenSearch average disk usage has exceeded the specified threshold. Adjust the alert thresholds according to your needs.
    ```yaml
@@ -191,7 +191,7 @@ spec:
 {{< /clipboard >}}
 
 Listing the pods and persistent volumes in the `verrazzano-system` namespace for the previous configuration
-shows the expected nodes are running with the appropriate data volumes.
+shows that the expected nodes are running with the appropriate data volumes.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -269,7 +269,7 @@ Both ISM policies have three states:
 ## Override default ISM policies
 The `vz-system` and `vz-application` policies are immutable and any change to these policies will be reverted immediately. However, the following two methods will override this behavior:
 - **Disable default policies**: You can disable the use of these default policies by setting the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) to `true` in the Verrazzano CR. This will delete the default ISM policies.
-- **Override default policies**: Both these default policies have a zero (`0`) priority. You can override the default policies by creating policies with `policy.ism_template.priority` greater than `0`. Check [Configure ISM Policies](/docs/customize/opensearch/#configure-ism-policies) in order to configure/create your own policies.
+- **Override default policies**: Both these default policies have a zero (`0`) priority. You can override the default policies by creating policies with `policy.ism_template.priority` greater than `0`. To create/configure your own policies, see [Configure ISM Policies](/docs/customize/opensearch/#configure-ism-policies).
 
 {{< alert title="NOTE" color="primary" >}}
 - Avoid creating policies with policy IDs `vz-system` or `vz-application` because they are reserved for Verrazzano default policies names. In the Verrazzano CR, by default, if the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) is set to `false`, then policies that are created with these names will be overridden with the default ISM policies, .
@@ -447,11 +447,11 @@ $ curl -ik \
 ```
 {{< /clipboard >}}
 
-## Override default number of shards and replicas
+## Override the default index template
 
-Verrazzano provides a default index template, `verrazzano-data-stream`. In initial Verrazzano v1.5 installations (not upgrades), the default index template creates one shard and one replica for each index. (In previous and upgrade installations, it creates five shards and one replica.) You can override the default number of shards or replicas by overriding the default index template.
+Verrazzano provides a default index template, `verrazzano-data-stream`. For creating an index, the default index template has a few predefined settings, like the number of shards and replicas, dynamic mappings for fields, and such. However, you can override the default index template and use your own, preferred index template.
 
-To do that, you need to get the default index template, copy the contents and change the number of shards, replicas, and index pattern, and then create your own index template with a higher priority so that the new template will override the default one.
+To do that, you need to copy the contents of the default index template and change the settings, as desired, and then create your index template with a higher priority so that the new template will override the default one.
 
 You can use the OpenSearch Dev Tools Console to send given queries to OpenSearch. To open the console, select Dev Tools on the main OpenSearch Dashboards page and write your queries in the editor pane on the left side of the console.
 
@@ -462,8 +462,11 @@ $ GET /_index_template/verrazzano-data-stream
 ```
 {{< /clipboard >}}
 
+### Override default number of shards and replicas
 
-Here is an example to create a new index template, which changes the number of shards to `3` and replicas to `2`.
+In initial Verrazzano v1.5 installations (not upgrades), the default index template creates one shard and one replica for each index. (In previous and upgrade installations, it creates five shards and one replica). To change the default number of shards and replicas, get the default index template, change the number of shards and replicas to the desired values, and create a new index template with higher priority.
+
+Here is an example that creates a new index template and changes the number of shards to `3` and replicas to `2`.
 {{< clipboard >}}
 ```yaml
 $ PUT _index_template/my-template
@@ -541,6 +544,156 @@ $ PUT _index_template/my-template
 {{< /clipboard >}}
 With this example, new indices that match the `verrazzano-application-myapp*` index pattern will be created with three shards and two replicas, and other indices that don't match will continue to be created with the default number of shards and replicas.
 For more information, see [Index templates ](https://opensearch.org/docs/latest/opensearch/index-templates/) in the OpenSearch documentation.
+
+### Override default mappings and field types
+The default index template uses dynamic mapping to store all fields as `text` and `keyword`. For your application, if you want to store a field as a different type, get the default index template, change the mappings for the desired fields, and then create a new index template with a higher priority.
+
+Here is an example that creates a new index template, for applications in the `myapp*` namespace, which dynamically maps all long fields to integers and explicitly maps `age` and `ip_address` fields as `integer` and `ip` respectively.
+
+{{< clipboard >}}
+```yaml
+$ PUT _index_template/my-template
+    {
+        "index_patterns" : [
+          "verrazzano-application-myapp*"
+        ],
+        "template" : {
+          "settings" : {
+            "index" : {
+              "mapping" : {
+                "total_fields" : {
+                  "limit" : "2000"
+                }
+              },
+              "refresh_interval" : "5s",
+              "number_of_shards" : "1",
+              "auto_expand_replicas" : "0-1",
+              "number_of_replicas" : "0"
+            }
+          },
+          "mappings" : {
+            "dynamic_templates" : [
+              {
+                "long_as_int" : {
+                  "mapping" : {
+                    "type" : "integer"
+                  },
+                  "match_mapping_type" : "long"
+                }
+              },
+              {
+                "message_field" : {
+                  "path_match" : "message",
+                  "mapping" : {
+                    "norms" : false,
+                    "type" : "text"
+                  },
+                  "match_mapping_type" : "string"
+                }
+              },
+              {
+                "object_fields" : {
+                  "mapping" : {
+                    "type" : "object"
+                  },
+                  "match_mapping_type" : "object",
+                  "match" : "*"
+                }
+              },
+              {
+                "all_non_object_fields" : {
+                  "mapping" : {
+                    "norms" : false,
+                    "type" : "text",
+                    "fields" : {
+                      "keyword" : {
+                        "ignore_above" : 256,
+                        "type" : "keyword"
+                      }
+                    }
+                  },
+                  "match" : "*"
+                }
+              }
+            ],
+            "properties" : {
+              "@timestamp" : {
+                "format" : "strict_date_time||strict_date_optional_time||epoch_millis",
+                "type" : "date"
+              },
+              "age" : {
+                "type" : "integer"
+              },
+              "ip_address" : {
+                "type" : "ip",
+                "ignore_malformed" : true
+              }
+            }
+          }
+        },
+        "priority" : 201,
+        "data_stream" : {
+          "timestamp_field" : {
+            "name" : "@timestamp"
+          }
+        }
+}
+```
+{{< /clipboard >}}
+With this example, new indices that match the `verrazzano-application-myapp*` index pattern will store `age` and `ip_address` fields as `integer` and `ip` instead of `text`. Also, long data fields will be stored as `integer`. For more information, see [Mappings and field types](https://opensearch.org/docs/latest/field-types/index/) in the OpenSearch documentation.
+
+### Configure pre-existing indices after overriding the default index template
+For your application, if you already have indices created by OpenSearch that are based on the default index template, then complete the steps in the following sections to configure them.
+
+#### Rollover data stream
+The mappings for existing indices cannot be changed, so you will need to rollover the data stream for your application to create an index. Then, OpenSearch will start indexing data based on the newer template that you created.
+
+To rollover the data stream:
+
+{{< clipboard >}}
+```yaml
+POST /verrazzano-application-myapp/_rollover
+```
+{{< /clipboard >}}
+
+**NOTE**: The default ISM policy that Verrazzano provides regularly rolls over the index after meeting certain conditions, so there might not be a requirement to manually rollover the index.
+
+#### Refresh the index pattern
+
+To see the updated mappings for your fields on the Discover page, you need to refresh the index pattern for your application.
+
+To refresh the index pattern:
+1. On the main OpenSearch Dashboards page, under the Management section, navigate to Stack Management in the Dock.
+2. Then, go to Index Pattern > `verrazzano-application*`. If you have created a separate index pattern for your application, then select that.
+3. Click the Refresh field list icon in the upper, right-hand side of the page.
+
+![refresh-field-list-icon](/docs/images/refresh-field-list-icon.png)
+
+#### Reindex indices
+
+After refreshing the field list, if you see a warning about a mapping conflict, you need to reindex your previous indices. The mapping conflict arises because the previous indices have different mappings for fields than the newer indices, which were created based on the new index template with different mappings.
+
+To reindex previous indices:
+
+{{< clipboard >}}
+```yaml
+POST _reindex
+{
+  "conflicts" : "proceed",
+   "source" : {
+      "index" : [
+         ".ds-verrazzano-application-myapp-000001"
+      ]
+   },
+   "dest" : {
+      "index" : "verrazzano-application-myapp",
+      "op_type" : "create"
+   }
+}
+```
+{{< /clipboard >}}
+
+Under source, list all the previous indices that were created based on the default index template. After reindexing is complete, [Refresh the index pattern](#refresh-the-index-pattern) again. For more information, see [Reindex data](https://opensearch.org/docs/latest/im-plugin/reindex-data/) in the OpenSearch documentation.
 
 ## Install OpenSearch and OpenSearch Dashboards plug-ins
 Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by providing plug-ins in the Verrazzano custom resource.

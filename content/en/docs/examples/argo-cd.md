@@ -9,7 +9,7 @@ aliases:
 
 ### Before you begin
 
-Enabled and configure Argo CD using the instructions [here]({{< relref "/docs/manage/argo-cd/enable.md" >}}).
+Enabled and configure Argo CD using the instructions [here]({{< relref "/docs/applications/argo-cd/enable.md" >}}).
 
 ### Deploy a sample application
 
@@ -104,7 +104,7 @@ Follow these steps to test the endpoints.
      * Then, you can use a browser to access the application at `https://<yourhost.your.domain>/config`.     
 
 1. A variety of endpoints associated with the deployed application are available to further explore the logs, metrics, and such.
-You can access them according to the directions [here]({{< relref "/docs/access/#get-the-consoles-urls" >}}).  
+You can access them according to the directions [here]({{< relref "/docs/setup/access/#get-the-consoles-urls" >}}).  
 
 ### Undeploy applications
 

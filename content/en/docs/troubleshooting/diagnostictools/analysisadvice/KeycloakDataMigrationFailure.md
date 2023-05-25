@@ -179,6 +179,6 @@ Analysis detected that the Verrazzano upgrade failed when migrating Keycloak dat
 {{< /clipboard >}}
 
 ### Related information
-* [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}})
+* [Platform Setup]({{< relref "/docs/setup/install/prepare/platforms/_index.md" >}})
 * [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug/)
 * [MySQL Troubleshooting](https://dev.mysql.com/doc/refman/8.0/en/starting-server-troubleshooting.html)
