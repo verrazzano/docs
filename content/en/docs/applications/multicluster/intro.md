@@ -1,7 +1,7 @@
 ---
-title: "About Application Deployment in a Managed Cluster"
+title: "About Multicluster Application Deployment"
 linkTitle: About
-description: "Learn about Verrazzano application deployment in a managed cluster"
+description: "Learn about application deployment in a multicluster environment"
 weight: 1
 draft: false
 ---
