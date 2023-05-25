@@ -5,6 +5,9 @@ weight: 2
 draft: false
 ---
 ### v1.6.0
+Features:
+- Added support for Kubernetes v1.25
+
 Component version updates:
 - Jaeger v1.42.0
 - Rancher 2.7.3
