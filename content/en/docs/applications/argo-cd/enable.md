@@ -7,11 +7,11 @@ draft: false
 
 ### Enable Argo CD
 
-1. Install Verrazzano and set up a multicluster environment by following these [instructions]({{< relref "/docs/setup/install/mc-install/multicluster#install-verrazzano" >}}).
+1. Install Verrazzano and set up a multicluster environment by following these [instructions]({{< relref "/docs/setup/mc-install/multicluster#install-verrazzano" >}}).
 <br>
-  a. Because Argo CD is _not_ enabled by default, you must first [enable argoCD]({{< relref "/docs/setup/install/modify-installation#pre-installation" >}}) on the _admin_ cluster. <br>
-  b. When you [register managed clusters]({{< relref "/docs/setup/install/mc-install/multicluster#register-the-managed-cluster" >}}), they are automatically registered in Argo CD.
-2. Access the Argo CD console using the instructions at [Access Verrazzano]({{< relref "/docs/access#the-argo-cd-console" >}}).
+  a. Because Argo CD is _not_ enabled by default, you must first [enable argoCD]({{< relref "/docs/setup/modify-installation#pre-installation" >}}) on the _admin_ cluster. <br>
+  b. When you [register managed clusters]({{< relref "/docs/setup/mc-install/multicluster#register-the-managed-cluster" >}}), they are automatically registered in Argo CD.
+2. Access the Argo CD console using the instructions at [Access Verrazzano]({{< relref "/docs/setup/access#the-argo-cd-console" >}}).
 3. After you set up your application in the Argo CD console, those registered clusters will be available for you to select, deploy, and manage applications.
 
 ### Configure repositories

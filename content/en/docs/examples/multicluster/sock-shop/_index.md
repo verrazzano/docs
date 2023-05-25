@@ -12,7 +12,7 @@ It uses OAM resources to define the application deployment in a multicluster env
 
 ## Before you begin
 
-* Set up a multicluster Verrazzano environment following the [installation instructions]({{< relref "/docs/setup/install/mc-install/multicluster.md" >}}).
+* Set up a multicluster Verrazzano environment following the [installation instructions]({{< relref "/docs/setup/mc-install/multicluster.md" >}}).
 * The example assumes that there is a managed cluster named `managed1` associated with the multicluster environment.
 If your environment does not have a cluster of that name, then you should edit the deployment files and change the cluster name
 listed in the `placement` section.
@@ -265,7 +265,7 @@ Follow these steps to test the endpoints.
 {{< /clipboard >}}
 
 1. A variety of endpoints are available to further explore the logs, metrics, and such, associated with
-the deployed Sock Shop application.  You can access them according to the directions [here]({{< relref "/docs/access/#get-the-consoles-urls" >}}).
+the deployed Sock Shop application.  You can access them according to the directions [here]({{< relref "/docs/setup/access/#get-the-consoles-urls" >}}).
 
 ## Undeploy the application
 
