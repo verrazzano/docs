@@ -4,8 +4,6 @@ linkTitle: "Prepare"
 description: "Pre-upgrade information"
 weight: 1
 draft: false
-aliases:
-  - \docs\upgrade\upgrade
 ---
 
 A Verrazzano installation consists of a stack of components, such as cert-manager, where each component has a

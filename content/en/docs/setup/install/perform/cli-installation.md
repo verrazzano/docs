@@ -5,7 +5,6 @@ weight: 1
 draft: false
 aliases:
 - "/docs/setup/install/installation"
-- "/docs/setup/install/installation.md"
 - "/docs/setup/install/cli-installation"
 ---
 

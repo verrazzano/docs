@@ -3,8 +3,6 @@ title: "Verify using CLI"
 description: "Verify installed Verrazzano using the `vz` CLI"
 weight: 1
 draft: false
-aliases:
-  - /docs/setup/install/cli-installation
 ---
 
 To verify the Verrazzano installation, you can use the `vz status` command to determine the status of your installation.  After a successful installation, Verrazzano should be in the `Ready` state.
