@@ -4,6 +4,8 @@ description: Set up a Kind cluster for Verrazzano
 linkTitle: Kind
 Weight: 4
 draft: false
+aliases:
+  - /docs/setup/platforms/kind/kind
 ---
 
 [Kind](https://kind.sigs.k8s.io/) is a tool for running local Kubernetes clusters using Docker container “nodes”.  Follow

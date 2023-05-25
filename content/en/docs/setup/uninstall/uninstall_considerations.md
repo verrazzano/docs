@@ -6,6 +6,7 @@ weight: 1
 draft: false
 aliases:
   - /docs/uninstall/uninstall
+  - /docs/uninstall/uninstall_considerations
 ---
 
 Before uninstalling Verrazzano, you should delete your Verrazzano applications because they may not function properly after the uninstall operation is done.

@@ -4,6 +4,8 @@ linkTitle: "Upgrade issues"
 description: "Solve some common upgrade issues"
 weight: 4
 draft: false
+aliases:
+  - \docs\upgrade\upgrade
 ---
 
 In Verrazzano 1.3 and later, upgrade will continue to run until it succeeds or until you delete the Verrazzano CR.  In previous versions,

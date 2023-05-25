@@ -4,6 +4,8 @@ linkTitle: "Verify"
 description: "Verify the upgrade installation"
 weight: 3
 draft: false
+aliases:
+  - \docs\upgrade\upgrade
 ---
 
 Check that all the pods in the `verrazzano-system` namespace are in the `Running` state.  While the upgrade is in progress,
