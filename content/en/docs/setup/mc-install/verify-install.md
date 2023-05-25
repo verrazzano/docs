@@ -3,6 +3,8 @@ title: "Verify Multicluster Installation"
 description: "Verify your multicluster Verrazzano environment set up"
 weight: 2
 draft: false
+aliases:
+  - /docs/setup/install/mc-install/verify-install
 ---
 
 ## Verify that managed cluster registration has completed

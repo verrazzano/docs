@@ -4,6 +4,8 @@ linkTitle: "Troubleshoot"
 description: "Troubleshoot issues with multicluster setup and applications"
 weight: 6
 draft: false
+aliases:
+  - /docs/troubleshooting/troubleshooting-multicluster
 ---
 
 This document describes some common problems you might encounter when using multicluster Verrazzano, and how to troubleshoot them.

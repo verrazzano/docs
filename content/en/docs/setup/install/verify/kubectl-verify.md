@@ -3,6 +3,8 @@ title: "Verify using CLI kubectl"
 description: "Verify installed Verrazzano using `kubectl`"
 weight: 2
 draft: false
+aliases:
+  - /docs/setup/install/kubectl-installation
 ---
 
 

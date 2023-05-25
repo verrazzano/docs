@@ -3,6 +3,8 @@ title: "Use Kubernetes Custom Resources"
 description: "Register managed clusters using `kubectl`"
 weight: 3
 draft: false
+aliases:
+  - /docs/setup/install/mc-install/advanced/register-kubectl
 ---
 
 To register managed clusters using the VerrazzanoManagedCluster resource, complete the following steps:
