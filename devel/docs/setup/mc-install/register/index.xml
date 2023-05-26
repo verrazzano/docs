@@ -26,7 +26,7 @@
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Enable &lt;code&gt;syncClusters&lt;/code&gt;.
-&lt;br&gt;For information about &lt;code&gt;syncClusters&lt;/code&gt;, see &lt;a href=&#34;../../../../docs/setup/mc-install/advanced/syncclusters/#enable-syncclusters&#34;&gt;Enable syncClusters&lt;/a&gt;.
+&lt;br&gt;For information about &lt;code&gt;syncClusters&lt;/code&gt;, see &lt;a href=&#34;../../../../docs/setup/mc-install/register/syncclusters/#enable-syncclusters&#34;&gt;Enable syncClusters&lt;/a&gt;.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -143,7 +143,7 @@ EOF
 &lt;p&gt;Provide a name for your managed cluster, for example, &lt;em&gt;managed1&lt;/em&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Optional. In your Verrazzano configuration, if you specified a &lt;a href=&#34;../../../../docs/setup/mc-install/advanced/syncclusters/#filter-cluster-selection&#34;&gt;cluster label selector&lt;/a&gt;, then under &lt;strong&gt;Labels &amp;amp; Annotations&lt;/strong&gt; provide the &lt;code&gt;label&lt;/code&gt; and &lt;code&gt;value&lt;/code&gt; for the cluster. The &lt;code&gt;label&lt;/code&gt; and &lt;code&gt;value&lt;/code&gt; information must match the cluster selection &lt;code&gt;matchExpression&lt;/code&gt; in your Verrazzano configuration for selective cluster registration to occur.&lt;/p&gt;
+&lt;p&gt;Optional. In your Verrazzano configuration, if you specified a &lt;a href=&#34;../../../../docs/setup/mc-install/register/syncclusters/#filter-cluster-selection&#34;&gt;cluster label selector&lt;/a&gt;, then under &lt;strong&gt;Labels &amp;amp; Annotations&lt;/strong&gt; provide the &lt;code&gt;label&lt;/code&gt; and &lt;code&gt;value&lt;/code&gt; for the cluster. The &lt;code&gt;label&lt;/code&gt; and &lt;code&gt;value&lt;/code&gt; information must match the cluster selection &lt;code&gt;matchExpression&lt;/code&gt; in your Verrazzano configuration for selective cluster registration to occur.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Click &lt;strong&gt;Create&lt;/strong&gt;.&lt;/p&gt;
@@ -783,6 +783,245 @@ $ rm register.yaml
 &lt;/script&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Synchronize Managed Clusters Registration</title>
+      <link>/docs/setup/mc-install/register/syncclusters/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/mc-install/register/syncclusters/</guid>
+      <description>
+        
+        
+        &lt;p&gt;You can synchronize cluster registration across Verrazzano by enabling &lt;code&gt;syncClusters&lt;/code&gt; in the Verrazzano custom resource. Any clusters imported in the Rancher console will be synchronized across the rest of Verrazzano, including in Verrazzano managed cluster resources, Rancher, and Argo CD. Additionally, you can use a &lt;a href=&#34;#filter-cluster-selection&#34;&gt;label selector&lt;/a&gt; to filter the clusters you want registered.&lt;/p&gt;
+&lt;h2 id=&#34;register-managed-clusters-automatically&#34;&gt;Register managed clusters automatically&lt;/h2&gt;
+&lt;p&gt;The following illustrates an admin cluster Verrazzano resource that enables &lt;code&gt;syncClusters&lt;/code&gt;.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: admin
+spec:
+  profile: prod
+  components:
+    clusterOperator:
+      overrides:
+      - values:
+          syncClusters:
+            enabled: true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;When &lt;code&gt;enabled&lt;/code&gt; is set to true, Verrazzano will synchronize the registration of clusters across Verrazzano, Rancher, and Argo CD.&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;enabled&lt;/code&gt; is set to &lt;code&gt;false&lt;/code&gt; (the default), then Verrazzano will not synchronize the registration of clusters across Verrazzano.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;filter-cluster-selection&#34;&gt;Filter cluster selection&lt;/h2&gt;
+&lt;p&gt;Optionally, to determine which clusters imported into Rancher will be automatically registered by Verrazzano, you can provide a label selector in the Verrazzano resource.
+This lets you filter which clusters you want to be synchronized.&lt;/p&gt;
+&lt;p&gt;The following illustrates an admin cluster Verrazzano resource that supports cluster label selection.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: admin
+spec:
+  profile: prod
+  components:
+    clusterOperator:
+      overrides:
+      - values:
+          syncClusters:
+            enabled: true
+            clusterSelector:
+              matchExpressions:
+              - key: verrazzanomulticluster
+                operator: In
+                values: [supported]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;syncClusters&lt;/code&gt; &lt;code&gt;enabled&lt;/code&gt; field must be set to &lt;code&gt;true&lt;/code&gt; to use cluster label selection. Verrazzano will automatically register all clusters with labels that match the &lt;code&gt;clusterSelector&lt;/code&gt; field.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The &lt;code&gt;clusterSelector&lt;/code&gt; field is optional.&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;enabled&lt;/code&gt; is set to &lt;code&gt;true&lt;/code&gt; and the &lt;code&gt;clusterSelector&lt;/code&gt; field is omitted, then all clusters imported into Rancher will be automatically registered.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When you import a cluster into Rancher, you can provide a &lt;code&gt;label&lt;/code&gt; and &lt;code&gt;value&lt;/code&gt; for the cluster. If the label matches this label selector, then the cluster will be synchronized.&lt;/p&gt;
 
       </description>
     </item>
