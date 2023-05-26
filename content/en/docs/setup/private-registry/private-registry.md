@@ -1,7 +1,7 @@
 ---
 title: Use a Private Registry
 description: Set up Verrazzano using a private container registry
-Weight: 12
+Weight: 4
 draft: false
 ---
 
