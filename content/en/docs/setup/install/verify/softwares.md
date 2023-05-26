@@ -1,11 +1,11 @@
 ---
-title: "Installed Components"
-description: "List of installed components"
+title: "Installed Software"
+description: "List of installed software"
 weight: 1
 draft: false
 ---
 
-Verrazzano installs a curated set of open source software. The following table lists the components, its  version, and a brief description.
+Verrazzano installs a curated set of open source software. The following table lists the software, its version, and a brief description.
 
   | Software                                                                                                                                        | Version      | Description                                                                              |
   |-------------------------------------------------------------------------------------------------------------------------------------------------|--------------|------------------------------------------------------------------------------------------|
