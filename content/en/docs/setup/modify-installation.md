@@ -1,7 +1,7 @@
 ---
 title: "Modify Verrazzano Installations"
 description: "Modify and customize Verrazzano installations"
-weight: 3
+weight: 5
 draft: false
 aliases:
   - /docs/install/modify-installation
