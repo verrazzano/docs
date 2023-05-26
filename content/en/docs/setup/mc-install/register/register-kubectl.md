@@ -1,7 +1,7 @@
 ---
 title: "Use Kubernetes Custom Resources"
 description: "Register managed clusters using `kubectl`"
-weight: 3
+weight: 2
 draft: false
 aliases:
   - /docs/setup/install/mc-install/advanced/register-kubectl
