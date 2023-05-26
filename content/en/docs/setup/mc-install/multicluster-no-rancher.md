@@ -1,7 +1,8 @@
 ---
-title: "Install Multicluster Verrazzano Without Rancher"
+title: "Install Multicluster Without Rancher"
+linkTitle: "Install Multicluster Without Rancher"
 description: "Set up a multicluster Verrazzano environment when Rancher is disabled"
-weight: 3
+weight: 2
 draft: false
 aliases:
   - /docs/setup/install/mc-install/advanced/multicluster-no-rancher

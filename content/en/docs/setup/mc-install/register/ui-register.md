@@ -7,7 +7,7 @@ draft: false
 
 To register a cluster, complete the following steps:
 1. Enable `syncClusters`.
-<br>For information about `syncClusters`, see [Enable syncClusters]({{< relref "/docs/setup/mc-install/advanced/syncclusters#enable-syncclusters" >}}).
+<br>For information about `syncClusters`, see [Enable syncClusters]({{< relref "/docs/setup/mc-install/syncclusters#enable-syncclusters" >}}).
 {{< clipboard >}}
 <div class="highlight">
 
@@ -35,7 +35,7 @@ EOF
 <br>You can find the Rancher console URL for your cluster by following the instructions [here]({{< relref "/docs/setup/access/_index.md#get-the-consoles-urls" >}}).
 2. Select **Cluster Management**, and then click **Import Existing Cluster**.
 3. Provide a name for your managed cluster, for example, _managed1_.
-4. Optional. In your Verrazzano configuration, if you specified a [cluster label selector]({{< relref "/docs/setup/mc-install/advanced/syncclusters#filter-cluster-selection" >}}), then under **Labels & Annotations** provide the `label` and `value` for the cluster. The `label` and `value` information must match the cluster selection `matchExpression` in your Verrazzano configuration for selective cluster registration to occur.
+4. Optional. In your Verrazzano configuration, if you specified a [cluster label selector]({{< relref "/docs/setup/mc-install/syncclusters#filter-cluster-selection" >}}), then under **Labels & Annotations** provide the `label` and `value` for the cluster. The `label` and `value` information must match the cluster selection `matchExpression` in your Verrazzano configuration for selective cluster registration to occur.
 5. Click **Create**.
 6. On the next screen, follow the on-screen instructions to complete the registration by running the provided command against the managed cluster.
 
