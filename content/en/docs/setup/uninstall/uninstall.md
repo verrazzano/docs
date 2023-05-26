@@ -4,6 +4,8 @@ linkTitle: "Uninstall Verrazzano"
 description: "Uninstall Verrazzano"
 weight: 2
 draft: false
+aliases:
+  - /docs/uninstall/uninstall
 ---
 
 You can uninstall Verrazzano using the [Verrazzano CLI]({{< relref "/docs/setup/install/" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/).
