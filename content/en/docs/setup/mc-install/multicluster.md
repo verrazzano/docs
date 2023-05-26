@@ -12,7 +12,7 @@ draft: false
 will be *admin* cluster; the others will be *managed* clusters. For instructions on preparing Kubernetes platforms for installing Verrazzano, see [Platform Setup]({{< relref "/docs/setup/install/prepare/platforms/_index.md" >}}).
 
 {{< alert title="NOTE" color="primary" >}}
-If Rancher is not enabled, then refer to [Verrazzano multicluster installation without Rancher]({{< relref "docs/setup/mc-install/advanced/multicluster-no-rancher.md" >}})
+If Rancher is not enabled, then refer to [Verrazzano multicluster installation without Rancher]({{< relref "docs/setup/mc-install/multicluster-no-rancher.md" >}})
 because additional steps are required to register a managed cluster.
 {{< /alert >}}
 
