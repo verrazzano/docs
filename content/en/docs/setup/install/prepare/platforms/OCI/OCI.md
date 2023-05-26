@@ -4,6 +4,8 @@ description: Set up an Oracle Cloud Infrastructure Container Engine for Kubernet
 linkTitle: OKE
 Weight: 2
 draft: false
+aliases:
+  - /docs/setup/platforms/oci/oci
 ---
 
 ## Prepare for the Oracle Cloud Infrastructure installation

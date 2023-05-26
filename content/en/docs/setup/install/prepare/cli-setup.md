@@ -4,6 +4,8 @@ linkTitle:
 weight: 2
 description: Install the Verrazzano command-line tool
 draft: false
+aliases:
+  - /docs/setup/cli
 ---
 
 The Verrazzano command-line tool, `vz`, is available for Linux and Mac systems.
