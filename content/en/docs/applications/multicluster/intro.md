@@ -1,6 +1,6 @@
 ---
 title: "Multicluster Application Deployment"
-description: "Learn about application deployment in a multicluster environment"
+description: "Understand application deployment in a multicluster environment"
 weight: 1
 draft: false
 ---
@@ -82,13 +82,15 @@ When a managed cluster is registered, the following will happen:
   admin cluster. Likewise, application metrics will be scraped by the admin cluster and available from
   Verrazzano-installed Prometheus on the admin cluster.
 
+
 ## Detailed view of multicluster Verrazzano
 
 This diagram shows a detailed view of how multicluster Verrazzano works.
 
 ![](/docs/images/multicluster/MCConcepts.png)
 
-## Deploy an application
-
-To deploy an example application to a managed cluster, see [here]({{< relref "/docs/examples/multicluster/todo-list/_index.md" >}}).
 For more information, see the [API Documentation]({{< relref "/docs/reference/" >}}) for the resources described here.
+
+## Deploy multicluster applications
+
+For an example of how to deploy an application in a multicluster environment, see [Multicluster ToDo List]({{< relref "/docs/examples/multicluster/todo-list/_index.md" >}}).
