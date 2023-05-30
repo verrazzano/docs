@@ -1,9 +1,11 @@
 ---
-title: Use a Private Registry
-description: Set up Verrazzano using a private container registry
+title: Install in a Disconnected Environment
+description: Learn how to install Verrazzano in a disconnected environment
 Weight: 4
 draft: false
 ---
+
+## Use a private registry
 
 Installing Verrazzano using a private Docker-compliant container registry requires the following:
 

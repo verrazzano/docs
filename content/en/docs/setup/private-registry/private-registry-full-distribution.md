@@ -1,9 +1,11 @@
 ---
-title: Use a Private Registry
-description: Set up Verrazzano using a private container registry
+title: Install in a Disconnected Environment
+description: Learn how to install Verrazzano in a disconnected environment
 Weight: 4
 draft: false
 ---
+
+## Use a private registry
 
 Installing Verrazzano using a private Docker-compliant container registry requires the following:
 
@@ -32,7 +34,7 @@ To set up a private registry, download the desired Verrazzano distribution, then
 - [Lite Distribution](#lite-distribution)
 - [Full Distribution](#full-distribution)
 
-### Lite Distribution
+### Lite distribution
 
 1. Download the `Verrazzano Lite Distribution` from the GitHub releases page.
 
@@ -90,7 +92,7 @@ To set up a private registry, download the desired Verrazzano distribution, then
 
    The previous command downloads all the images to the `${DISTRIBUTION_DIR}/images` directory. 	 
 
-### Full Distribution
+### Full distribution
 
 1. Download the Verrazzano ZIP file.
     * Download the Verrazzano ZIP file from the Oracle Software Delivery Cloud for major or minor releases.
