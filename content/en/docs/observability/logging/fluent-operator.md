@@ -200,99 +200,119 @@ EOF
 
 You can set the labels under `spec.filterSelector`, `spec.parserSelector` and `spec.outputSelector` to any valid label, you just need to create the corresponding Filter, Output and Parser custom resources with that label.
 
-### Filtering and Parsing
-Following is an example of a Filter and a Parser to parse logs from a namespace, and FluentBitConfig resource to locate these Filter and Parser resources in the namespace.
-
+### Custom Filtering and Parsing
+Following is an example of a Filter and a Parser to parse logs from myapp application running in my-app namespace, and FluentBitConfig resource to locate these Filter and Parser resources in the same namespace where logs emitted by it have the following format:
+```text
+2023-05-29T09:53:35.959135345Z stdout F 2023-05-29 09:53:35 +0000 [warn]: #0 got incomplete line before first line from /logs/myapp-0.log: "(thread=DefaultHttpServerThread-1, member=3, up=342.673): Health: checking safe\n"
+```
 {{< clipboard >}}
 <div class="highlight">
 
 ```
 $ kubectl apply -f - <<EOF
+-----
 apiVersion: fluentbit.fluent.io/v1alpha2
 kind: FluentBitConfig
 metadata:
   labels:
     fluentbit.verrazzano.io/namespace-config: "verrazzano"
-  name: example-fluentbitconfig
-  namespace: <application-namespace>
+  name: myapp-fluentbitconfig
+  namespace: my-app
 spec:
   filterSelector:
     matchLabels:
-      foo: "bar"
+      app: "myapp"
   parserSelector:
     matchLabels:
-      foo: "bar"
-  outputSelector:
-    matchLabels:
-      foo: "bar"
+      app: "myapp"
 ---
 apiVersion: fluentbit.fluent.io/v1alpha2
 kind: Filter
 metadata:
   labels:
-    foo: "bar"
-  name: example-filter
-  namespace: <application-namespace>
+    app: "myapp"
+  name: myapp-filter
+  namespace: my-app
 spec:
   filters:
   - parser:
       keyName: log
       reserveData: true
-      parser: example-parser
+      parser: myapp-parser
   match: kube.*
 ---
 apiVersion: fluentbit.fluent.io/v1alpha2
 kind: Parser
 metadata:
   labels:       
-    foo: "bar"
-  name: example-parser
-  namespace: <application-namespace>
+    app: "myapp"
+  name: myapp-parser
+  namespace: my-app
 spec:
   regex:
-    regex: '/^.*?(?<logtime>\d{2}:\d{2}:\d{2},\d{3}) (?<level>.*?)( |\t)+\[.*?\]( |\t)+\(.*?\)( |\t)+(?<message>.*)$/'
+    regex: '/^(?<logtime>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}Z) (?<level>[^\s]+)[^:]+: (?<message>.*)$/'
+    timeFormat: '%Y-%m-%dT%H:%M:%S.%LZ'
     timeKey: logtime
-    timeFormat: "%H:%M:%S,%N"
 EOF
 ```
 </div>
 {{< /clipboard >}}
 
-### Output
+This configuration consists of three resources: FluentBitConfig, Filter, and Parser.
+
+FluentBitConfig:
+  - Name: myapp-fluentbitconfig
+  - Namespace: my-app
+  - It uses a filterSelector and parserSelector to match labels with the value "myapp" for accurate filtering and parsing.
+
+Filter:
+ - Name: myapp-filter
+ - Namespace: my-app
+ - This filter is associated with the "myapp" application.
+ - It applies a parser called "myapp-parser" to the logs and filter is configured to match logs from the "kube" source.
+
+Parser:
+ - Name: myapp-parser
+ - Namespace: my-app
+ - This parser defines the regular expression and formatting details for parsing logs. It extracts three fields from the log lines: logtime, level, and message.
+
+After applying this configuration, you should observe that the logs emitted by the "myapp" application are now parsed according to the regex and enriched with the following fields:
+```
+level: stderr
+logtime: 2023-05-29T09:53:35.959135345Z
+message: Health: checking safe
+```
+You can adjust the provided regular expression (regex) in the Parser resource according to the specific format of your logs. Modify it to match the structure and patterns of your application's log lines.
+
+### Custom Output
 If you are running your own log store, you can create an Output resource in your application namespace so that only the logs from your application namespace go to this log store.
 
-Following is an example of Output resource to send logs to a custom OpenSearch cluster protected by basic authentication:
+Following is an example of Output resource for myapp application running in my-app namespace to send logs to a custom OpenSearch cluster protected by basic authentication:
 
 {{< clipboard >}}
 <div class="highlight">
 
 ```
-$ kubectl apply -f - <<EOF
+---
 apiVersion: fluentbit.fluent.io/v1alpha2
 kind: FluentBitConfig
 metadata:
   labels:
     fluentbit.verrazzano.io/namespace-config: "verrazzano"
-  name: example-fluentbitconfig
-  namespace: <application-namespace>
+  name: myapp-fluentbitconfig
+  namespace: my-app
 spec:
-  filterSelector:
-    matchLabels:
-      foo: "bar"
-  parserSelector:
-    matchLabels:
-      foo: "bar"
   outputSelector:
     matchLabels:
-      foo: "bar"
+      app: "myapp"
 ---
 apiVersion: fluentbit.fluent.io/v1alpha2
 kind: Output
 metadata:
   labels:
-    foo: "bar"
-  name: example-output
-  namespace: <application-namespace>
+    app: "myapp"
+  name: myapp-output
+  namespace: my-app
 spec:
   match: kube.*
   opensearch:
@@ -318,6 +338,8 @@ EOF
 Replace _host-url_, _port-number_ and _index-name_ with appropriate values. The secret holding the credentials for the OpenSearch cluster needs to be created in the same namespace as the Output, that is, the application namespace. Replace _your-secret-name_, _password-key_ and _username-key_ with appropriate values.
 
 For any namespaced Output, create the secret containing the user credentials in the same namespace as the Output custom resource.
+
+Note that with this configuration, your applications logs will still continue to go to deafult cluster output as well.
 
 ### Disable application log collection in Verrazzano's OpenSearch
 
