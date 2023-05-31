@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/observability/tracing/configure-tracing/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-05-26T08:38:26-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-05-31T09:51:09-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Configure Tracing Components">
 <meta itemprop="description" content="Enable and configure Jaeger distributed tracing in Verrazzano">
-<meta itemprop="dateModified" content="2023-05-26T08:38:26-04:00" />
-<meta itemprop="wordCount" content="3173">
+<meta itemprop="dateModified" content="2023-05-31T09:51:09-04:00" />
+<meta itemprop="wordCount" content="3192">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Configure Tracing Components"/>
 <meta name="twitter:description" content="Enable and configure Jaeger distributed tracing in Verrazzano"/>
@@ -110,7 +110,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.3a689c57e576e157513f34dd061732cb.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.716679376d366ece08a9af65cb2a81ce.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.3a689c57e576e157513f34dd061732cb.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.716679376d366ece08a9af65cb2a81ce.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -1257,11 +1257,13 @@ deployment.apps/jaeger-operator-jaeger-query       1/1     1            1       
 <p>If the Jaeger Operator component is enabled in the managed cluster, after successful registration with the admin cluster,
 a Jaeger collector service runs in the managed cluster, which exports the traces to the OpenSearch
 storage configured in the admin cluster.</p>
-<p><strong>NOTE</strong>:</p>
+<p><strong>NOTES</strong>:</p>
 <ul>
 <li>Traces are exported to the admin cluster only when the Jaeger instance in the admin cluster is configured with OpenSearch storage.</li>
 <li>If the admin cluster is unavailable or the storage backend, OpenSearch, is not operational, then Jaeger will start dropping traces because it cannot buffer much data. To buffer large amounts of data, you would need to set up an intermediary queue, such as <a href="https://www.jaegertracing.io/docs/1.42/deployment/#kafka">Kafka</a>. This would prevent data loss from Jaeger collectors.</li>
 </ul>
+<p>The following graphic illustrates managed clusters exporting data to the admin cluster, with Jaeger instances and OpenSearch backend storage.</p>
+<p><img src="../../../../docs/images/tracing/jaeger-mc-tracing.png" alt="MC Tracing"></p>
 <p>Listing Jaeger resources in the managed cluster shows output similar to the following.
 <style type="text/css">
     code {
