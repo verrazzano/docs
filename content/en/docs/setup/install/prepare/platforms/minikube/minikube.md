@@ -4,6 +4,8 @@ description: Set up a minikube cluster for Verrazzano
 linkTitle: minikube
 Weight: 3
 draft: true
+aliases:
+  - /docs/setup/platforms/minikube/minikube
 ---
 
 [minikube](https://minikube.sigs.k8s.io/docs/) quickly sets up a local Kubernetes cluster on macOS, Linux, and Windows. Follow

@@ -4,6 +4,8 @@ linkTitle: "Upgrade Multicluster"
 description: "Upgrade a multicluster Verrazzano environment"
 weight: 6
 draft: false
+aliases:
+  - \docs\upgrade\multicluster
 ---
 
 Each cluster of a multicluster environment is upgraded separately. Start with the admin cluster, and then for each managed cluster, follow the [Upgrade Verrazzano]({{< relref "/docs/setup/upgrade/perform.md" >}}) instructions.

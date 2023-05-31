@@ -3,6 +3,8 @@ title: "Installation Profiles"
 description: "Use named Verrazzano configurations to simplify an installation"
 weight: 2
 draft: false
+aliases:
+- "/docs/setup/install/profiles"
 ---
 
 This document describes built-in configuration profiles that you can use to simplify a Verrazzano installation.  An installation
@@ -80,37 +82,38 @@ For details on how to customize Verrazzano components, see [Customize an Install
 The following table lists the Verrazzano components that are enabled by default with each profile.  Note that you can
 customize any Verrazzano installation regardless of the profile.
 
-| Component               | dev | prod | managed-cluster |
-|-------------------------|:---:|:----:|:---------------:|
-| `applicationOperator`     | ✔️  |  ✔️  |       ✔️        |
-| `argoCD`                  |     |       |                 |
-| `authProxy`               | ✔️  |  ✔️  |       ✔️        |
-| `certManager`             | ✔️  |  ✔️  |       ✔️        |
-| `clusterOperator`         | ✔️  |  ✔️  |       ✔️        |
-| `coherenceOperator`       | ✔️  |  ✔️  |       ✔️        |
-| `console`                 | ✔️  |  ✔️  |                  |
-| `dns`                     | ✔️  |  ✔️  |       ✔️        |
-| `fluentd`                 | ✔️  |  ✔️  |       ✔️        |
-| `grafana`                 | ✔️  |  ✔️  |                  |
-| `ingressNGINX`            | ✔️  |  ✔️  |       ✔️        |
-| `istio`                   | ✔️  |  ✔️  |       ✔️        |
-| `jaegerOperator`          |      |      |                |
-| `keycloak`                | ✔️  |  ✔️  |                |
-| `kiali`                   | ✔️  |  ✔️  |                |
-| `kubeStateMetrics`        |      |      |                |
-| `mySQLOperator`           | ✔️  |  ✔️  |       ✔️        |
-| `oam`                     | ✔️  |  ✔️  |       ✔️        |
-| `opensearch`              | ✔️  |  ✔️  |                |
-| `opensearchDashboards`    | ✔️  |  ✔️  |                |
-| `prometheus`              | ✔️  |  ✔️  |       ✔️        |
-| `prometheusAdapter`       |    |     |                |
-| `prometheusNodeExporter`  | ✔️  |  ✔️  |       ✔️        |
-| `prometheusOperator`      | ✔️  |  ✔️  |       ✔️        |
-| `prometheusPushgateway`   |    |     |                |
-| `rancher`                 | ✔️  |  ✔️  |                |
-| `rancherBackup`           |    |     |                |
-| `velero`                  |    |     |                |
-| `weblogicOperator`        | ✔️  |  ✔️  |       ✔️        |
+| Component                | dev | prod | managed-cluster |
+|--------------------------|:---:|:----:|:---------------:|
+| `applicationOperator`    | ✔️  |  ✔️  |       ✔️        |
+| `argoCD`                 |     |      |                 |
+| `authProxy`              | ✔️  |  ✔️  |       ✔️        |
+| `certManager`            | ✔️  |  ✔️  |       ✔️        |
+| `clusterOperator`        | ✔️  |  ✔️  |       ✔️        |
+| `coherenceOperator`      | ✔️  |  ✔️  |       ✔️        |
+| `console`                | ✔️  |  ✔️  |                 |
+| `dns`                    | ✔️  |  ✔️  |       ✔️        |
+| `fluentd`                | ✔️  |  ✔️  |       ✔️        |
+| `grafana`                | ✔️  |  ✔️  |                 |
+| `ingressNGINX`           | ✔️  |  ✔️  |       ✔️        |
+| `istio`                  | ✔️  |  ✔️  |       ✔️        |
+| `jaegerOperator`         |     |      |                 |
+| `keycloak`               | ✔️  |  ✔️  |                 |
+| `kiali`                  | ✔️  |  ✔️  |                 |
+| `kubeStateMetrics`       |     |      |                 |
+| `mySQLOperator`          | ✔️  |  ✔️  |       ✔️        |
+| `oam`                    | ✔️  |  ✔️  |       ✔️        |
+| `opensearch`             | ✔️  |  ✔️  |                 |
+| `opensearchDashboards`   | ✔️  |  ✔️  |                 |
+| `prometheus`             | ✔️  |  ✔️  |       ✔️        |
+| `prometheusAdapter`      |     |      |                 |
+| `prometheusNodeExporter` | ✔️  |  ✔️  |       ✔️        |
+| `prometheusOperator`     | ✔️  |  ✔️  |       ✔️        |
+| `prometheusPushgateway`  |     |      |                 |
+| `rancher`                | ✔️  |  ✔️  |                 |
+| `rancherBackup`          |     |      |                 |
+| `thanos`                 |     |      |                 |
+| `velero`                 |     |      |                 |
+| `weblogicOperator`       | ✔️  |  ✔️  |       ✔️        |
 
 ### Prometheus and Grafana configurations
 

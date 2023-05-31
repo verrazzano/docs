@@ -1,7 +1,9 @@
 ---
 title: "Quick Start"
-description: "Getting started using Verrazzano"
+description: "Get started using Verrazzano"
 weight: 1
+aliases:
+  - /docs/quickstart
 ---
 
 The Quick Start assumes that you have already installed a
