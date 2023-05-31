@@ -4,8 +4,6 @@ linkTitle: Grafana
 description: "Use Grafana to view monitoring metrics"
 weight: 4
 draft: false
-aliases:
-  - /docs/monitoring/metrics/metrics
 ---
 
 Grafana provides visualization for your Prometheus metric data.

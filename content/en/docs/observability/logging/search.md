@@ -3,8 +3,6 @@ title: "Search Log Records"
 description: "Explore ways to search log records"
 weight: 5
 draft: false
-aliases:
-  - /docs/monitoring/oci-logging/oci-logging
 ---
 
 To search Verrazzano logs, you can use the Oracle Cloud Infrastructure Console, Oracle Cloud Infrastructure CLI, or Oracle Cloud Infrastructure SDK.

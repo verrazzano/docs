@@ -3,8 +3,6 @@ title: "Troubleshoot Prometheus"
 description: "Troubleshoot Prometheus issues"
 weight: 5
 draft: false
-aliases:
-  - /docs/troubleshooting/troubleshooting-prometheus
 ---
 
 ### Kubernetes cluster monitors are in a DOWN state

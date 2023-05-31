@@ -1,7 +1,5 @@
 ---
 toc_hide: true
-aliases:
-  - /docs/samples/helidon-config
 ---
 # Hello Config World Helidon
 

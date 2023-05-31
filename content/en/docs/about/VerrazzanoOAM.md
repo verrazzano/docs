@@ -3,8 +3,6 @@ title: "Verrazzano and the Open Application Model"
 linkTitle: Verrazzano and the Open Application Model
 weight: 3
 draft: false
-aliases:
-  - /docs/concepts/verrazzanooam
 ---
 
 Open Application Model (OAM) is a runtime-agnostic specification for defining cloud native applications; it allows developers to focus on the application instead of the complexities of a particular runtime infrastructure.  OAM provides the [specification](https://github.com/oam-dev/spec) for several file formats and rules for a runtime to interpret.  Verrazzano uses OAM to enable the definition of a composite application abstraction and makes OAM constructs available within a `VerrazzanoApplication` YAML file.  Verrazzano provides the flexibility to combine what you want into a multicloud enablement. It uses the `VerrazzanoApplication` as a means to encapsulate a set of components, scopes, and traits, and deploy them on a selected cluster.

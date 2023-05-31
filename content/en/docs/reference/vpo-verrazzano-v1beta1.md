@@ -1,8 +1,6 @@
 ---
 title: Verrazzano v1beta1 APIs
 weight: 4
-aliases:
-  - /docs/reference/api/vpo-verrazzano-v1beta1
 ---
 <p>Packages:</p>
 <ul>

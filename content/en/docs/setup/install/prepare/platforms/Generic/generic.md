@@ -4,8 +4,6 @@ description: Set up a generic Kubernetes cluster for Verrazzano
 linkTitle: Generic
 Weight: 3
 draft: false
-aliases:
-  - /docs/setup/platforms/generic/generic
 ---
 
 ## Prepare for the generic install

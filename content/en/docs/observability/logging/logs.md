@@ -4,8 +4,6 @@ linkTitle: Logging Components
 description: "Learn about Verrazzano logging components"
 weight: 1
 draft: false
-aliases:
-  - /docs/monitoring/logs
 ---
 
 The Verrazzano logging stack consists of Fluentd, OpenSearch, and OpenSearch Dashboards components.

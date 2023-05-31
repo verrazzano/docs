@@ -3,8 +3,6 @@ title: "Prerequisites"
 description: "Review the prerequisite requirements and the software versions supported by Verrazzano"
 weight: 1
 draft: false
-aliases:
-  - /docs/setup/prereqs
 ---
 
 

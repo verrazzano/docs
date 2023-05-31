@@ -3,8 +3,6 @@ title: "Sock Shop"
 weight: 4
 linkTitle: Sock Shop
 description: "Implementations of the Sock Shop Microservices Demo Application"
-aliases:
-  - /docs/samples/sock-shop
 ---
 
 ## Before you begin

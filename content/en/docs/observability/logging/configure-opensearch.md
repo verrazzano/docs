@@ -4,8 +4,6 @@ linkTitle: OpenSearch cluster
 description: "Configure OpenSearch clusters and access OpenSearch dashboards"
 weight: 2
 draft: false
-aliases:
-  - /docs/monitoring/logs
 ---
 
 Verrazzano creates an OpenSearch cluster as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the OpenSearch REST API.

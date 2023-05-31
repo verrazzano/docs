@@ -4,8 +4,6 @@ linkTitle: Fluentd
 description: "Configure Fluentd for log collection"
 weight: 3
 draft: false
-aliases:
-  - /docs/monitoring/logs
 ---
 
 ## Fluentd sidecar

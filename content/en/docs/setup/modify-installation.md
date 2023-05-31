@@ -3,8 +3,6 @@ title: "Modify Verrazzano Installations"
 description: "Modify and customize Verrazzano installations"
 weight: 5
 draft: false
-aliases:
-  - /docs/install/modify-installation
 ---
 
 This document shows how you can modify Verrazzano to add customizations to your installation.

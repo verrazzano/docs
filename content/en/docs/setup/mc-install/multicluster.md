@@ -3,8 +3,6 @@ title: "Install Multicluster"
 description: "Set up a multicluster Verrazzano environment"
 weight: 1
 draft: false
-aliases:
-  - /docs/setup/install/mc-install/multicluster
 ---
 
 ## Prerequisites

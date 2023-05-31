@@ -3,8 +3,6 @@ title: "Install with kubectl"
 description: "Install Verrazzano using `kubectl`"
 weight: 1
 draft: false
-aliases:
-- "/docs/setup/install/kubectl-installation"
 ---
 
 The following instructions show you how to install Verrazzano in a

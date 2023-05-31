@@ -3,8 +3,6 @@ title: "Multicluster ToDo List"
 linktitle: "ToDo List"
 description: "ToDo List is an example application containing a WebLogic component deployed to a multicluster environment."
 weight: 3
-aliases:
-  - /docs/samples/multicluster/todo-list
 ---
 
 ToDo List is an example application containing a WebLogic component.
