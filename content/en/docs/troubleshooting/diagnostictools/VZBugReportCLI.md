@@ -1,6 +1,5 @@
 ---
-title: Bug Reports
-linkTitle: Bug Reports
+title: Use the Bug Report Tool
 weight: 2
 description: Use the Bug Report command-line tool to capture and archive cluster information
 draft: false
