@@ -1,12 +1,12 @@
 ---
 title: "Authorization Policy"
-description: "Learn about authorization policy"
+description: "Learn about authorization policies"
 weight: 4
 draft: false
 ---
 
 An authorization policy enables access control on workloads in the mesh.
-Authorization policy supports both allow and deny policies. In the following example, authorization policy allows access from the listed service accounts that can access the Hello Helidon Greet application.
+Also, an authorization policy supports both allow and deny policies. In the following example, the authorization policy allows access from the listed service accounts that can access the Hello Helidon Greet application.
 
 {{< clipboard >}}
 <div class="highlight">
