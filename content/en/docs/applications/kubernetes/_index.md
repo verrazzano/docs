@@ -1,6 +1,6 @@
 ---
 title: "Deploy Applications Using Kubernetes Objects"
-weight: 5
+weight: 3
 draft: false
 ---
 
