@@ -1,6 +1,6 @@
 ---
 title: "Verrazzano Application Workloads"
-description: "Learn about Verrazzano application workloads"
+description: ""
 weight: 5
 draft: false
 ---

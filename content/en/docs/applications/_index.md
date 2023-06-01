@@ -1,6 +1,6 @@
 ---
 title: "Applications"
-description: "Learn how to develop applications with Verrazzano"
+description: "Develop and deploy applications in Verrazzano"
 weight: 8
 draft: false
 ---
