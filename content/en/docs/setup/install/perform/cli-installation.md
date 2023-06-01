@@ -1,5 +1,5 @@
 ---
-title: "Install with CLI"
+title: "Install With CLI"
 description: "Install Verrazzano using the `vz` CLI"
 weight: 1
 draft: false

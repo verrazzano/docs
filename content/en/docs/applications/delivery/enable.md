@@ -1,5 +1,5 @@
 ---
-title: "Configure Argo CD"
+title: "Enable and Configure Argo CD"
 description: "Enable and configure Argo CD to work with your Git repositories"
 weight: 5
 draft: false
