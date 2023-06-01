@@ -4,6 +4,9 @@ description: "Back up and restore Rancher"
 linkTitle: Rancher
 weight: 2
 draft: false
+aliases:
+  - /docs/uninstall/backup/backup
+  - /docs/uninstall/backup/restore
 ---
 
 Rancher maintains many configurations, like user credentials and cluster credentials, as ConfigMaps and namespace values. The
