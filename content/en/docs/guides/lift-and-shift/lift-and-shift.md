@@ -585,7 +585,7 @@ todo-mysql-service      Service         26s
 </div>
 {{< /clipboard >}}
 
-#### Deploy the ToDo List application and MySQL instance.
+#### Deploy the ToDo List application and MySQL instance
 
 Finally, run `kubectl apply` to apply the Verrazzano components and Verrazzano application configuration files to start your domain.
 {{< clipboard >}}
