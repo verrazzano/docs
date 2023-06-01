@@ -28,7 +28,7 @@ To install Verrazzano on each Kubernetes cluster, complete the following steps:
 1. On one cluster, install Verrazzano using the `dev` or `prod` profile; this will be the *admin* cluster.
 2. On the other cluster, install Verrazzano using the `managed-cluster` profile; this will be a managed cluster. The `managed-cluster` profile contains only the components that are required for a managed cluster.
 <br>**NOTE**: You also can use the `dev` or `prod` profile.
-3. Register managed clusters in a multicluster environment by following the instructions [here]({{< relref "/docs/setup/mc-install/register/_index.md" >}}).
+3. Then, register the managed clusters in a multicluster environment by following a registration method found [here]({{< relref "/docs/setup/mc-install/register/_index.md" >}}).
 
 For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
 see the [Installation Guide]({{< relref "/docs/setup/install/" >}}) and [Installation Profiles]({{< relref "/docs/setup/install/perform/profiles.md" >}}).
