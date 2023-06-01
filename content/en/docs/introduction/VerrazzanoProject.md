@@ -1,6 +1,6 @@
 ---
 title: "Verrazzano Projects"
-weight: 5
+weight: 3
 draft: false
 aliases:
   - /docs/concepts/verrazzanoproject
