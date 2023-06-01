@@ -47,7 +47,7 @@ spec:
   template:
     metadata:
       annotations:
-        verrazzano.io/metricsEnabled: "true" # This annotation is used in the ServiceMonitor YAML to replace whether metrics are enabled.
+        verrazzano.io/metricsEnabled: "true" # This annotation is used in the ServiceMonitor YAML to specify whether metrics are enabled.
         verrazzano.io/metricsPath: /metrics  # This annotation is used in the ServiceMonitor YAML to replace the metrics path.
         verrazzano.io/metricsPort: "8080"    # This annotation is used in the ServiceMonitor YAML to replace the metrics port.
       labels:
@@ -71,7 +71,7 @@ spec:
 </div>
 {{< /clipboard >}}
 
-3. Access to the Hello Helidon Greet application inside the Kubernetes cluster.
+3. Access the Hello Helidon Greet application inside the Kubernetes cluster.
 {{< clipboard >}}
 <div class="highlight">
 
