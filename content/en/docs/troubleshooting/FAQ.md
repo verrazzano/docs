@@ -1,7 +1,7 @@
 ---
 title: FAQ
 description: "Answers to commonly asked questions and known issues"
-weight: 12
+weight: 6
 draft: false
 ---
 
