@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (c) 2022, Oracle and/or its affiliates.
+# Copyright (c) 2022, 2023, Oracle and/or its affiliates.
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 # This script generates the docs for the verrazzano APIs.
@@ -62,7 +62,7 @@ checkoutvz() {
 
 genapidoc() {
   API=$1
-  OUTFILE=${REPO_ROOT}/content/en/docs/reference/API/$2.md
+  OUTFILE=${REPO_ROOT}/content/en/docs/reference/$2.md
   TITLE=$3
 	echo "+++ Generating API reference doc for ${API}"
 	"${GOBIN}/gen-crd-api-reference-docs" \
