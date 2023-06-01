@@ -1,6 +1,6 @@
 ---
 title: "Verify the Managed Cluster Registration"
-description: "Verify your multicluster Verrazzano environment set up"
+description: "Verify your multicluster Verrazzano environment setup"
 weight: 2
 draft: false
 aliases:
