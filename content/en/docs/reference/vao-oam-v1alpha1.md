@@ -1,8 +1,6 @@
 ---
 title: Traits and Workloads
 weight: 2
-aliases:
-  - /docs/reference/api/vao-oam-v1alpha1
 ---
 <p>Packages:</p>
 <ul>
@@ -1675,7 +1673,7 @@ int
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.MetricsTraitStatus">MetricsTraitStatus</a>,
+<a href="#oam.verrazzano.io/v1alpha1.MetricsTraitStatus">MetricsTraitStatus</a>, 
 <a href="#oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkloadStatus">VerrazzanoHelidonWorkloadStatus</a>)
 </p>
 <p>
