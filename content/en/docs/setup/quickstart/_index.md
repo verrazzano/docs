@@ -59,7 +59,7 @@ Verrazzano currently supports several [installation profiles]({{< relref "/docs/
 
 Using the Quick Start, you'll install the `dev` profile, which is suitable for evaluation.
 
-{{< alert title="NOTE" color="primary" >}}Because the `dev` profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: **Your connection is not private**. For a workaround, see this [FAQ]({{< relref "/docs/faq/_index.md#enable-google-chrome-to-accept-self-signed-verrazzano-certificates" >}}).
+{{< alert title="NOTE" color="primary" >}}Because the `dev` profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: **Your connection is not private**. For a workaround, see this [FAQ]({{< relref "/docs/troubleshooting/faq.md#enable-google-chrome-to-accept-self-signed-verrazzano-certificates" >}}).
 {{< /alert >}}
 
 
