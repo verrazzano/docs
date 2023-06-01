@@ -1,8 +1,7 @@
 ---
 title: "Coherence Workload"
-linkTitle: "Coherence"
 description: "Use a Coherence workload in an application"
-weight: 4
+weight: 3
 draft: false
 ---
 
