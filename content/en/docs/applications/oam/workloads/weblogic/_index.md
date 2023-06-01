@@ -1,8 +1,7 @@
 ---
 title: "WebLogic Workload"
-linktitle: "WebLogic"
 description: "Develop WebLogic applications with Verrazzano"
-weight: 6
+weight: 2
 draft: false
 ---
 
@@ -360,5 +359,5 @@ Then, you can access the endpoint using the Istio gateway, as described in Step 
 - [WebLogic Kubernetes Operator documentation](https://oracle.github.io/weblogic-kubernetes-operator/)
 - [WebLogic Kubernetes Operator GitHub repository](https://github.com/oracle/weblogic-kubernetes-operator/)
 - [WebLogic Domain CR](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md)
-- [Verrazzano Application Workloads]({{< relref "/docs/applications/workloads/" >}})
+- [Verrazzano Application Workloads]({{< relref "/docs/applications/oam/workloads/" >}})
 - [Lift-and-Shift Guide]({{< relref "/docs/guides/lift-and-shift/lift-and-shift.md" >}})

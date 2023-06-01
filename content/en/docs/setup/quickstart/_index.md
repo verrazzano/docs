@@ -93,7 +93,7 @@ Wait for the installation to complete.
    Installation logs will be streamed to the command window until the installation has completed
    or until the default timeout (30m) has been reached.
 
-**NOTE**: For some applications, the Kiali console may show warnings for objects that replicate hostname/port configurations across multiple IngressTraits. These warnings do not impact functionality and can be suppressed with the following [component override]({{< relref "docs/guides/app-deployment/application-deployment-guide.md#suppress-kiali-console-warnings" >}}).
+**NOTE**: For some applications, the Kiali console may show warnings for objects that replicate hostname/port configurations across multiple IngressTraits. These warnings do not impact functionality and can be suppressed with the following [component override]({{< relref "docs/applications/oam/deploy-app.md#suppress-kiali-console-warnings" >}}).
 
 ## 3. Deploy an application
 
