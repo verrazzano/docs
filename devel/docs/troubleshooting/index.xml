@@ -1,8 +1,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Verrazzano Enterprise Container Platform – Troubleshooting</title>
+    <title>Verrazzano Enterprise Container Platform – Troubleshoot and FAQ</title>
     <link>/docs/troubleshooting/</link>
-    <description>Recent content in Troubleshooting on Verrazzano Enterprise Container Platform</description>
+    <description>Recent content in Troubleshoot and FAQ on Verrazzano Enterprise Container Platform</description>
     <generator>Hugo -- gohugo.io</generator>
     
 	  <atom:link href="/docs/troubleshooting/index.xml" rel="self" type="application/rss+xml" />
@@ -1017,6 +1017,50 @@ mysql   OFFLINE   0        1           1         7m51s
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
 &lt;/div&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: FAQ</title>
+      <link>/docs/troubleshooting/faq/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/troubleshooting/faq/</guid>
+      <description>
+        
+        
+        &lt;h4 id=&#34;enable-google-chrome-to-accept-self-signed-verrazzano-certificates&#34;&gt;Enable Google Chrome to accept self-signed Verrazzano certificates&lt;/h4&gt;
+&lt;p&gt;There are some installation scenarios where Verrazzano generates SSL certificates that are not trusted by browsers:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The development (&lt;code&gt;dev&lt;/code&gt;) profile installation, which uses its own self-signed CA to issue certificates.&lt;/li&gt;
+&lt;li&gt;Using the &lt;a href=&#34;https://letsencrypt.org/docs/staging-environment&#34;&gt;Let&amp;rsquo;s Encrypt Staging&lt;/a&gt; authority, which uses untrusted CAs to sign certificates.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These are typical development or testing scenarios, not recommended for production.  When accessing Verrazzano sites
+using these certificates, some browsers like &lt;a href=&#34;https://www.mozilla.org/en-US/firefox/new/&#34;&gt;Firefox&lt;/a&gt; let you manually
+accept these certificates.  However, &lt;a href=&#34;https://www.google.com/chrome&#34;&gt;Google Chrome&lt;/a&gt; now prevents users from being able to accept
+self-signed certificates by default. This will prevent you from accessing Verrazzano consoles that are using untrusted
+certificates.&lt;/p&gt;
+&lt;p&gt;When this occurs, while trying to access Verrazzano services, you will see an error message like the following:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;opensearch.vmi.system.default.129.153.98.156.nip.io normally uses encryption to protect your information. When Chrome tried to connect to opensearch.vmi.system.default.129.153.98.156.nip.io this time, the website sent back unusual and incorrect credentials
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You can choose to import the certificate into your local trust chain, but this will have to be done for each Verrazzano
+instance. From a security perspective, this is not recommended.&lt;/p&gt;
+&lt;p&gt;As an alternative, you can enter a secret passphrase in Chrome to enable it to prompt you to accept these certificates, by doing the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;When you see an error such as the one shown previously, when the browser window has the keyboard focus, enter the phrase &lt;code&gt;thisisunsafe&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Reload the site.&lt;/li&gt;
+&lt;li&gt;Chrome will prompt you to accept the certificate.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: This should be used only when accessing sites that are known to be safe, such as in this situation.&lt;/p&gt;
+&lt;h4 id=&#34;related-articles&#34;&gt;Related articles&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://stackoverflow.com/questions/35274659/when-you-use-badidea-or-thisisunsafe-to-bypass-a-chrome-certificate-hsts-err&#34;&gt;https://stackoverflow.com/questions/35274659/when-you-use-badidea-or-thisisunsafe-to-bypass-a-chrome-certificate-hsts-err&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://miguelpiedrafita.com/chrome-thisisunsafe&#34;&gt;https://miguelpiedrafita.com/chrome-thisisunsafe&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 
       </description>
     </item>
