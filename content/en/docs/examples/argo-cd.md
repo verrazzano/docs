@@ -9,7 +9,7 @@ aliases:
 
 ### Before you begin
 
-Enabled and configure Argo CD using the instructions [here]({{< relref "/docs/applications/argo-cd/enable.md" >}}).
+Enabled and configure Argo CD using the instructions [here]({{< relref "/docs/applications/delivery/enable.md" >}}).
 
 ### Deploy a sample application
 

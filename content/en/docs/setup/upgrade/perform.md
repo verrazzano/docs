@@ -1,6 +1,5 @@
 ---
 title: "Perform the Verrazzano Upgrade"
-linkTitle: "Perform"
 description: "Upgrade Verrazzano"
 weight: 2
 draft: false

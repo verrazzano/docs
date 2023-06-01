@@ -1,5 +1,5 @@
 ---
-title: "Deregister Managed Clusters"
+title: "Deregister a Managed cluster"
 description: "Deregister managed clusters in your multicluster Verrazzano environment"
 weight: 3
 draft: false
@@ -7,7 +7,7 @@ aliases:
   - /docs/setup/install/mc-install/deregister-install
 ---
 
-**NOTE**: The following procedure is for a cluster in which Rancher is enabled on the admin cluster. If Rancher is not enabled, then additional steps are required to deregister a managed cluster, see [Deregister a managed cluster without Rancher]({{< relref "docs/setup/mc-install/multicluster-no-rancher.md#deregister-a-managed-cluster-without-rancher" >}}).
+**NOTE**: The following procedure is for a cluster in which Rancher is enabled on the admin cluster. If Rancher is not enabled, then additional steps are required to deregister a managed cluster, see [Deregister a managed cluster without Rancher]({{< relref "docs/setup/mc-install/advanced-mc-install.md#deregister-a-managed-cluster-without-rancher" >}}).
 
 If you want to deregister a managed cluster because you no longer want it to be part of a Verrazzano multicluster
 environment, then  log in to the Rancher console and delete the managed cluster. To delete a cluster in Rancher, see

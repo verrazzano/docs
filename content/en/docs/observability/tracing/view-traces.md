@@ -1,6 +1,5 @@
 ---
 title: "View Trace Records"
-linkTitle: View Traces
 description: "View trace records in the Jaeger console"
 weight: 5
 draft: false

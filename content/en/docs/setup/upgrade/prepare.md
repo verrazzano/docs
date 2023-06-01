@@ -1,6 +1,5 @@
 ---
 title: "Prepare to Upgrade Verrazzano"
-linkTitle: "Prepare"
 description: "Pre-upgrade information"
 weight: 1
 draft: false

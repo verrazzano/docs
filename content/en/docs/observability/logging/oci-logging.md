@@ -1,6 +1,5 @@
 ---
-title: "Use the Oracle Cloud Infrastructure Logging Service"
-linkTitle: OCI Logging Service
+title: "Oracle Cloud Infrastructure Logging Service"
 description: "Send Verrazzano logs to the Oracle Cloud Infrastructure Logging service"
 weight: 4
 draft: false

@@ -1,6 +1,5 @@
 ---
-title: "Understand Verrazzano Monitoring Components"
-linkTitle: Monitor Components
+title: "Understand Monitoring Components in Verrazzano"
 description: "Learn about Verrazzano metrics gathering and viewing"
 weight: 1
 draft: false
@@ -103,7 +102,10 @@ For example, for the previous metric source:
 
 Verrazzano supports enabling metric sources for Kubernetes workloads deployed without OAM Components.
 To enable metrics for Kubernetes workloads, you must create a Service Monitor or Pod Monitor, as applicable.
+
+Metrics Traits use Service Monitors which require [Services](https://kubernetes.io/docs/concepts/services-networking/service/) for metrics collection.<br>
 For details on Service Monitor and Pod Monitor, refer to the [Prometheus Operator documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md).
+
 
 When creating the Service Monitor or Pod Monitor for your workload, include the label `release`, with the value
 `prometheus-operator` on the monitor resource.
@@ -120,7 +122,6 @@ To verify that the metrics are being collected for your workload, follow these s
 7. Here, use the job name you copied to construct this expression: `{job="<job_name>"}`
 8. Use the graph to run this expression and verify that you see application metrics appear.
 
-Metrics Traits use Service Monitors which require [Services](https://kubernetes.io/docs/concepts/services-networking/service/) for metrics collection.
 If you are unable to verify metrics collection, you might need to manually create a Service for the workload.
 
 For more information on Prometheus solutions, see [Troubleshooting Prometheus]({{< relref "/docs/observability/monitoring/troubleshooting-prometheus.md" >}}).

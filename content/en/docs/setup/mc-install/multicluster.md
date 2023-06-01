@@ -9,12 +9,12 @@ aliases:
 
 ## Prerequisites
 
-- Before you begin, read this document, [Verrazzano in a multicluster environment]({{< relref "/docs/about/VerrazzanoMultiCluster.md" >}}).
+- Before you begin, read this document, [Verrazzano in a multicluster environment]({{< relref "/docs/introduction/VerrazzanoMultiCluster.md" >}}).
 - To set up a multicluster Verrazzano environment, you will need two or more Kubernetes clusters. One of these clusters
 will be *admin* cluster; the others will be *managed* clusters. For instructions on preparing Kubernetes platforms for installing Verrazzano, see [Platform Setup]({{< relref "/docs/setup/install/prepare/platforms/_index.md" >}}).
 
 {{< alert title="NOTE" color="primary" >}}
-If Rancher is not enabled, then refer to [Verrazzano multicluster installation without Rancher]({{< relref "docs/setup/mc-install/multicluster-no-rancher.md" >}})
+If Rancher is not enabled, then refer to [Advanced Multicluster Installation]({{< relref "docs/setup/mc-install/advanced-mc-install.md" >}})
 because additional steps are required to register a managed cluster.
 {{< /alert >}}
 
@@ -31,3 +31,7 @@ To install Verrazzano on each Kubernetes cluster, complete the following steps:
 
 For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
 see the [Installation Guide]({{< relref "/docs/setup/install/" >}}) and [Installation Profiles]({{< relref "/docs/setup/install/perform/profiles.md" >}}).
+
+## Next steps
+
+Register managed clusters in a multicluster environment by following the instructions [here]({{< relref "/docs/setup/mc-install/register/_index.md" >}}).

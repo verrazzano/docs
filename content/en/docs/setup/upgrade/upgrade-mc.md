@@ -1,6 +1,5 @@
 ---
 title: "Upgrade Verrazzano in a Multicluster Environment"
-linkTitle: "Upgrade Multicluster"
 description: "Upgrade a multicluster Verrazzano environment"
 weight: 6
 draft: false
