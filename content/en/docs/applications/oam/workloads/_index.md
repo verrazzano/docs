@@ -1,6 +1,6 @@
 ---
 title: "Verrazzano Application Workloads"
 description: ""
-weight: 5
+weight: 6
 draft: false
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Verrazzano Application Traits"
 description: ""
-weight: 4
+weight: 5
 draft: false
 ---

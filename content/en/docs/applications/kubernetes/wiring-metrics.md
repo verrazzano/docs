@@ -5,7 +5,7 @@ weight: 2
 draft: false
 ---
 
-Use Prometheus to collect system performance metrics and metrics for applications deployed or managed by Verrazzano. For information, see [Prometheus]({{< relref "/docs/observability/monitoring/prometheus.md" >}}).
+Use Prometheus to collect system performance metrics and metrics for applications deployed or managed by Verrazzano. For information, see [Prometheus]({{< relref "/docs/observability/monitoring/configure/prometheus.md" >}}).
 
 ### Gather metrics
 The following is an example of using Prometheus to scrape the metrics endpoint of the Hello Helidon Greet application.
