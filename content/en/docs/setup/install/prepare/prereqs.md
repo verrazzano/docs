@@ -58,3 +58,7 @@ See the Coherence versions supported [here](https://oracle.github.io/coherence-o
 ### Helidon
 Verrazzano supports all versions of Helidon.  For more information, see [Helidon](https://helidon.io) and
  [Helidon Commercial Offerings](https://support.oracle.com/knowledge/Middleware/2645279_1.html).
+
+### Verrazzano installed software
+
+For a detailed list of Verrazzano installed software, see [here]({{< relref "/docs/setup/install/verify/softwares.md" >}}).
