@@ -579,7 +579,7 @@ Deployed applications have metric collection enabled.
 Grafana can be used to access these metrics collected by Prometheus.
 Prometheus and Grafana are additional components Verrazzano creates as a result of
 applying an application configuration. For more information on visualizing Prometheus
-metrics data, see [Grafana]({{< relref "/docs/observability/monitoring/grafana.md" >}}).
+metrics data, see [Grafana]({{< relref "/docs/observability/monitoring/configure/grafana.md" >}}).
 
 Determine the URL to access Grafana:
 {{< clipboard >}}

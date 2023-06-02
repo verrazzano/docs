@@ -1,5 +1,5 @@
 ---
-title: "Install with kubectl"
+title: "Install With kubectl"
 description: "Install Verrazzano using `kubectl`"
 weight: 1
 draft: false

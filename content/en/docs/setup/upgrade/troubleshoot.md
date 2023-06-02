@@ -1,6 +1,5 @@
 ---
 title: "Troubleshoot Upgrade Issues"
-linkTitle: "Upgrade issues"
 description: "Solve some common upgrade issues"
 weight: 4
 draft: false
