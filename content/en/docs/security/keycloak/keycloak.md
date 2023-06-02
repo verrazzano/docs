@@ -1,16 +1,14 @@
 ---
-title: "Keycloak and SSO"
-description: "Learn about Keycloak user management and Single Sign-On (SSO)"
-weight: 3
+title: Customize Keycloak and MySQL
+description: Customize Verrazzano Keycloak and MySQL settings for high availability
+Weight: 9
 draft: false
 ---
 
-Verrazzano can be deployed to a number of different hosted and on-premises Kubernetes environments. Particularly in hosted environments, it may not be possible to choose the authentication providers configured for the Kubernetes API server, and Verrazzano may have no ability to view, manage, or authenticate users.
+* To scale the number of MySQL instances use the [Verrazzano Custom Resource]({{< relref "docs/reference/vpo-verrazzano-v1beta1.md" >}}), not the MySQL StatefulSet.
+Directly modifying the StatefulSet may change the status of the cluster to `ONLINE_PARTIAL`.
+* You must have at least one running `mysql-router` to access the MySQL [InnoDB Cluster](https://dev.mysql.com/doc/refman/8.0/en/mysql-innodb-cluster-introduction.html). Scaling the number of `mysql-router` instances to zero
+may result in the [MySQL Operator]({{< relref "docs/reference/vpo-verrazzano-v1beta1.md#install.verrazzano.io/v1beta1.MySQLOperatorComponent" >}}) permanently losing communication with the cluster and Keycloak being unable to communicate with MySQL.
+* There are limitations to MySQL group replication policy to provide distributed coordination between servers. See [MySQL Fault-tolerance](https://dev.mysql.com/doc/refman/8.0/en/group-replication-fault-tolerance.html).
 
-Verrazzano installs Keycloak to provide a common user store across all Kubernetes environments. The Verrazzano admin user can create and manage user accounts in Keycloak, and Verrazzano can authenticate and authorize Keycloak users.
-
-Also, you can configure Keycloak to delegate authentication to an external user store, such as Active Directory or an LDAP server.
-
-Because Keycloak is not configured as an authentication provider for the Kubernetes API, authenticating Keycloak users to Kubernetes requires the use of a proxy that impersonates Keycloak users when making Kubernetes API requests. For more information about the Verrazzano authentication proxy, see [Verrazzano Proxies]({{< relref "/docs/security/proxies/proxies.md" >}}).
-
-Keycloak is also used when authenticating to the Verrazzano Console and the various Verrazzano Monitoring Instance (VMI) logging and metrics consoles. The Verrazzano Console uses the OpenID Connect (OIDC) PKCE flow to authenticate users against Keycloak and obtain ID and access tokens. Authentication for VMI consoles is provided by the Verrazzano authentication proxy, which also uses PKCE to authenticate users, validates the resulting tokens, and authorizes incoming requests. For more information about the Verrazzano authentication proxy, see [Verrazzano Proxies]({{< relref "/docs/security/proxies/proxies.md" >}}).
+For instructions to customize persistent storage settings, see [Customize Persistent Storage]({{< relref "docs/observability/logging/configure-opensearch/storage.md " >}}).

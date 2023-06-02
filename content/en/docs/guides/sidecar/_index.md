@@ -10,7 +10,7 @@ You may want to add additional sidecars to Verrazzano workloads; you can use any
 
 Verrazzano creates and manages a Fluentd sidecar injection for each WebLogic pod. This allows application logs to interact with the cluster-wide Fluentd DaemonSet.
 However, these resources are not currently configurable and additional containers are required to customize the Fluentd configuration file and the container image.
-For more information on Fluentd sidecars and DaemonSet, see [Configure Fluentd for Log Collection]({{< relref "/docs/observability/logging/configure-fluentd.md" >}}).
+For more information on Fluentd sidecars and DaemonSet, see [Configure Fluentd for Log Collection]({{< relref "/docs/observability/logging/fluentd/_index.md" >}}).
 
 The following instructions use the [ToDo List]({{< relref "/docs/examples/wls-coh/todo-list" >}}) example application to demonstrate how to attach and deploy a custom Fluentd sidecar to a [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) component. Before deploying the application, you will need to edit the application and component YAML files.
 Run the following commands to create a local copy of them:
@@ -39,7 +39,7 @@ data:
 
 ```
 {{< /clipboard >}}
-To interact with the [Fluentd DaemonSet]({{< relref "/docs/observability/logging/configure-fluentd#fluentd-daemonset" >}}) that Verrazzano manages, the configuration must redirect logs to stdout, as shown in the match block at the end of the Fluentd configuration file.
+To interact with the [Fluentd DaemonSet]({{< relref "/docs/observability/logging/fluentd/_index.md#fluentd-daemonset" >}}) that Verrazzano manages, the configuration must redirect logs to stdout, as shown in the match block at the end of the Fluentd configuration file.
 This ConfigMap must be deployed before or with all other application resources.
 
 ## Create Fluentd custom sidecar volumes
@@ -232,5 +232,5 @@ To verify that a deployment successfully created a custom Fluentd sidecar:
 </div>
 {{< /clipboard >}}
 
-- Follow the instructions at [Verrazzano Logging]({{< relref "/docs/observability/logging" >}}) to ensure that the [Fluentd DaemonSet]({{< relref "/docs/observability/logging/configure-fluentd#fluentd-daemonset" >}}) collected the logs from stdout.
+- Follow the instructions at [Verrazzano Logging]({{< relref "/docs/observability/logging" >}}) to ensure that the [Fluentd DaemonSet]({{< relref "/docs/observability/logging/fluentd/_index.md#fluentd-daemonset" >}}) collected the logs from stdout.
   These logs will appear in the Verrazzano-managed [OpenSearch]({{< relref "/docs/observability/logging/configure-opensearch" >}}) and [OpenSearch Dashboards]({{< relref "/docs/observability/logging/configure-opensearch#opensearch-dashboards" >}}).

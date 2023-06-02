@@ -75,7 +75,7 @@ spec:
 </div>
 {{< /clipboard >}}
 
-For details on how to customize Verrazzano components, see [Customize an Installation]({{< relref "/docs/customize" >}}).
+For details on how to customize Verrazzano components, see [Modify Verrazzano Installations]({{< relref "/docs/setup/modify-installation.md" >}}).
 
 ## Profile configurations
 
@@ -150,5 +150,3 @@ all profiles unless overridden).
 | DNS |  Wildcard DNS provider [nip.io](https://nip.io).
 | Certificates | Uses the [cert-manager](https://cert-manager.io/) self-signed [ClusterIssuer](https://cert-manager.io/docs/reference-docs/#cert-manager.io/v1.ClusterIssuer) for certificates.
 | Ingress-type | Defaults to `LoadBalancer` service type for the ingress.
-
-For details on how to customize Verrazzano components, see [Customize an Installation]({{< relref "/docs/customize" >}}).

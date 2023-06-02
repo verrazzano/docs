@@ -24,10 +24,6 @@ inside and outside your Kubernetes cluster. This would include specifics of your
 It is possible to use a Kubernetes [Service of type NodePort](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) to test aspects of Verrazzano.
 This requires a good working knowledge of networking and has limited use cases.
 
-## Customizations
-
-Verrazzano is highly customizable.  If your Kubernetes implementation requires a custom configuration, see [Customize Verrazzano]({{< relref "/docs/customize" >}}).
-
 ## Next steps
 
 To continue, see the [Installation Guide]({{< relref "/docs/setup/install" >}}).
