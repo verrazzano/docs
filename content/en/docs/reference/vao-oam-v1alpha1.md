@@ -2,7 +2,7 @@
 title: Traits and Workloads
 weight: 2
 aliases:
-   - /docs/reference/api/vao-oam-v1alpha1
+  - /docs/reference/api/vao-oam-v1alpha1
 ---
 <p>Packages:</p>
 <ul>

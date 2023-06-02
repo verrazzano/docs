@@ -2,7 +2,7 @@
 title: Multicluster and Verrazzano Project
 weight: 1
 aliases:
-   - /docs/reference/apis/vao-clusters-v1alpha1
+  - /docs/reference/apis/vao-clusters-v1alpha1
 ---
 <p>Packages:</p>
 <ul>

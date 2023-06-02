@@ -2,7 +2,7 @@
 title: Verrazzano Managed Cluster
 weight: 3
 aliases:
-   - /docs/reference/api/vco-clusters-v1alpha1
+  - /docs/reference/api/vco-clusters-v1alpha1
 ---
 <p>Packages:</p>
 <ul>

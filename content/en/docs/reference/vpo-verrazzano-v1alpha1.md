@@ -2,7 +2,7 @@
 title: Verrazzano v1alpha1 APIs
 weight: 5
 aliases:
-   - /docs/reference/api/vpo-verrazzano-v1alpha1
+  - /docs/reference/api/vpo-verrazzano-v1alpha1
 ---
 <p>Packages:</p>
 <ul>
