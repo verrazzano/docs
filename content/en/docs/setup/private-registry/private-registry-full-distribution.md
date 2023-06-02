@@ -244,7 +244,7 @@ Use the Verrazzano CLI to install Verrazzano from your private registry.
 **NOTE**: The `--manifests` flag is used in this example to provide the location of the Verrazzano platform operator
 manifests file. If you omit this flag, the `vz` CLI will attempt to download the manifests file, which requires access to the Internet.
 
-Verrazzano supports customizing installation configurations. See [Customize Verrazzano]({{< relref "/docs/customize/_index.md" >}}).
+Verrazzano supports customizing installation configurations. See [Modify Verrazzano Installations]({{< relref "/docs/setup/modify-installation.md" >}}).
 
 For example, to install Verrazzano using the `prod` profile, run the following command:
 {{< clipboard >}}
