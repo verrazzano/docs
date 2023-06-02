@@ -1,6 +1,6 @@
 ---
-title: "Troubleshoot Prometheus"
-description: "Troubleshoot Prometheus issues"
+title: "Troubleshoot Prometheus Issues"
+description: "Common troubleshoot Prometheus issues that you"
 weight: 5
 draft: false
 aliases:
