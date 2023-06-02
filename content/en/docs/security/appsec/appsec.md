@@ -23,7 +23,7 @@ Verrazzano uses Istio to authenticate and authorize incoming network connections
 Enforcement of NetworkPolicy requires that a Kubernetes Container Network Interface (CNI) provider, such as Calico, be configured for the cluster.
 {{< /alert >}}
 
-For more information on how Verrazzano secures network traffic, see [Network Security]({{< relref "/docs/networking/security/net-security.md" >}}).
+For more information on how Verrazzano secures network traffic, see [Network Security]({{< relref "/docs/networking/security/_index.md" >}}).
 
 ## Pod security
 

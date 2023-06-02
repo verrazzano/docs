@@ -1,7 +1,6 @@
 ---
-title: "Istio"
+title: "Customize Istio"
 description: "Customize Istio Gateways"
-linkTitle: Istio
 weight: 8
 draft: false
 ---
