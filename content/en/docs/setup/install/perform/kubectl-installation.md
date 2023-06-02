@@ -77,7 +77,7 @@ This document shows how to create a basic Verrazzano installation using:
 * The development (`dev`) installation profile
 * Wildcard-DNS, where DNS is provided by [nip.io](https://nip.io) (the default)
 
-**NOTE**: Because the `dev` profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: **Your connection is not private**. For a workaround, see this [FAQ]({{< relref "/docs/faq/_index.md#enable-google-chrome-to-accept-self-signed-verrazzano-certificates" >}}).
+**NOTE**: Because the `dev` profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: **Your connection is not private**. For a workaround, see this [FAQ]({{< relref "/docs/troubleshooting/faq.md#enable-google-chrome-to-accept-self-signed-verrazzano-certificates" >}}).
 
 For a complete description of Verrazzano configuration options, see the
 [Verrazzano Custom Resource Definition]({{< relref "/docs/reference/vpo-verrazzano-v1beta1" >}}).

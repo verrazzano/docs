@@ -1,11 +1,9 @@
 ---
-title: Verrazzano Analysis Tools
-linkTitle: Verrazzano Analysis Tools
+title: Analyze Verrazzano Clusters
 weight: 1
 description: Use the Verrazzano analysis tools to analyze clusters and cluster snapshots
 draft: false
 ---
-
 
 Verrazzano provides the `vz analyze` command-line tool, which assists in troubleshooting issues in your environment. You can use it to analyze a cluster as well as, to analyze a cluster snapshot captured by the `vz bug-report` tool. For detailed information about `vz bug-report`, see [here]({{< relref "docs/troubleshooting/diagnostictools/VZBugReportCLI.md" >}}).
 
