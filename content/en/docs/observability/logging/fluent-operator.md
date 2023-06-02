@@ -1,43 +1,43 @@
 ---
-title: "Use Fluent-Operator and Fluent-Bit"
+title: "Use Fluent Operator and Fluent Bit"
 linkTitle: Fluent Operator
-description: "Configure Fluent-bit using Fluent-Operator"
+description: "Configure Fluent Bit using Fluent Operator"
 weight: 2
 draft: false
 ---
-From Verrazzano v1.6.0, Fluent-Operator is included as part of the logging stack. When enabled, via the Verrazzano custom resource, Fluent-operator configures and manages Fluent-bit, a logging agent that runs as a daemonset.
+From Verrazzano v1.6.0, Fluent Operator is included as part of the logging stack. When enabled, via the Verrazzano custom resource, Fluent Operator configures and manages Fluent Bit, a logging agent that runs as a daemonset.
 
-## Fluent-bit
+## Fluent Bit
 
-Fluent-bit is a logging agent that collects, processes, and sends logs from Kubernetes clusters to log stores.
+Fluent Bit is a logging agent that collects, processes, and sends logs from Kubernetes clusters to log stores.
 
-Using fluent-operator, Verrazzano deploys Fluent-bit daemonset which runs one Fluent-bit replica per node in the verrazzano-system namespace. Each instance pulls logs from the node's `/var/log/containers` directory and writes them to target OpenSearch data stream.
+Using Fluent Operator, Verrazzano deploys Fluent Bit daemonset which runs one Fluent Bit replica per node in the verrazzano-system namespace. Each instance reads logs from the node's `/var/log/containers` directory and writes them to a target OpenSearch data store.
 
-The four fundamental types of configurations in Fluent-bit are:
+The four fundamental types of configurations in Fluent Bit are:
 
 - Input: to collect data from a source.
 - Filter: to process data that was collected.
 - Output: to send collected and processed logs to a data store.
 - Parser: to parse data in a specific format. Inputs and filters make use of parser configs.
 
-## Fluent-Operator
+## Fluent Operator
 
-Verrazzano includes fluent-operator as an optional component. When enabled, via the Verrazzano custom resource, the operator is installed in the cluster in the `verrazzano-system` namespace and creates the Fluent-bit daemonset in the same namespace using the required custom resources.
+Verrazzano includes Fluent Operator as an optional component. When enabled, via the Verrazzano custom resource, the operator is installed in the cluster in the `verrazzano-system` namespace and creates the Fluent Bit daemonset in the same namespace using the required custom resources.
 
-For a list of custom resources that the operator supports to configure Fluent-bit, see [Fluent-bit resources](https://github.com/verrazzano/fluent-operator#fluent-bit)
+For a list of custom resources that the operator supports to configure Fluent Bit, see [Fluent Bit resources](https://github.com/verrazzano/Fluent Operator#Fluent Bit)
 
 All the CRDs with the prefix _Cluster_ are cluster-wide configurations that can be used to configure all the cluster logs.
 
 Like cluster-wide resources, the operator comes with namespaced resources which when created will process logs from the namespace in which these resources exist. The namespaced and cluster-wide configurations will run in conjunction and complement each other. Creating a namespaced resource doesn't override an existing cluster-wide resource.
 
-### Enable logging with Fluent-Operator
+### Enable logging with Fluent Operator
 
-Verrazzano resource defines two components to configure logging using fluent-operator:
+Verrazzano resource defines two components to configure logging using Fluent Operator:
 
-- fluentOperator: When enabled, installs fluent-operator and configures a Fluent-bit instance running as a daemonset in the cluster. The fluentOperator component creates ClusterInput CRs of type tail and systemd, and a set of ClusterFilters to enrich the collected logs with Kubernetes metadata.
+- fluentOperator: When enabled, installs Fluent Operator and configures a Fluent Bit instance running as a daemonset in the cluster. The fluentOperator component creates ClusterInput CRs of type tail and systemd, and a set of ClusterFilters to enrich the collected logs with Kubernetes metadata.
 - fluentbitOpensearchOutput: When enabled, creates two ClusterOutput resources to send logs from the cluster to OpenSearch. The two clusteroutputs are:
-    - opensearch-system-clusteroutput: A central output sink to send logs coming out of namespaces where the Verrazzano components reside to verrazzano-system data stream in OpenSearch.
-    - opensearch-application-clusteroutput: Send logs coming out of namespaces that are not system to verrazzano-application-<namespace_name> data stream.
+    - opensearch-system-clusteroutput: A central output sink to send logs coming from namespaces where the Verrazzano components reside to the verrazzano-system data stream in OpenSearch.
+    - opensearch-application-clusteroutput: Send logs coming from namespaces that are not system to the verrazzano-application-<namespace_name> data stream.
 
 By default, the above two components are disabled and need to be enabled in the Verrazzano custom resource. Following is an example of Verrazzano resource manifest with the two components enabled:
 
@@ -71,9 +71,9 @@ $ kubectl get cfbo
 You should see an opensearch-system-clusteroutput and an opensearch-application-clusteroutput.
 
 ### Uninstall Fluentd
-Fluentd is the default logging agent which runs as a daemonset that collects, processes, and sends logs to log stores. It is installed by default when Verrazzano is installed. With the inclusion of Fluent-bit via fluent-operator, you now have an option to run either of these components. These can co-exist, but if your log store is Verrazzano's OpenSearch, and you can uninstall Fluentd.
+Fluentd is the default logging agent which runs as a daemonset that collects, processes, and sends logs to log stores. It is installed by default when Verrazzano is installed. With the inclusion of Fluent Bit via Fluent Operator, you now have an option to run either of these components. These can co-exist, but if your log store is Verrazzano's OpenSearch, and you can uninstall Fluentd.
 
-**NOTE**: Fluent-bit does not support sending logs to OCI-Logging. Continue using Fluentd if your log store is OCI-Logging.
+**NOTE**: Fluent Bit does not support sending logs to OCI-Logging. Continue using Fluentd if your log store is OCI-Logging.
 
 To uninstall Fluentd use the following Verrazzano resource manifest.
 {{< clipboard >}}
@@ -145,7 +145,7 @@ EOF
 {{< /clipboard >}}
 
 Replace _host-url_, _port-number_, and _index-name_ with appropriate values.
-The secret containing the credentials for the OpenSearch cluster needs to be created in the same namespace as the Output, that is, the application namespace. Replace _your-secret-name_, _password-key_, and _username-key_ with appropriate values.
+For any namespaced Output resources, the secret containing the credentials for the OpenSearch cluster needs to be created in the same namespace as the Output, that is, the application namespace. Replace _your-secret-name_, _password-key_, and _username-key_ with appropriate values.
 
 For any ClusterOutput, create the secret containing the user credentials in the verrazzano-system namespace.
 
@@ -154,9 +154,9 @@ For any ClusterOutput, create the secret containing the user credentials in the 
 You must configure namespaced resources to process logs for an application namespace.
 
 ### FluentBitConfig
-Fluent-operator supports configurability at the namespace level that allows a namespace tenant to create Fluent-bit configs for logs from their application namespace.
+Fluent Operator supports configurability at the namespace level that allows a user to create Fluent Bit configs for logs from their application namespace.
 
-The FluentBitConfig custom resource is a namespaced resource which is used by the fluent-operator to select resources like Filters, Outputs, and Parsers via label selectors for the operator from the same namespace as itself. It can also select ClusterParser resource, again via label selectors.
+The FluentBitConfig custom resource is a namespaced resource which is used by the Fluent Operator to select resources like Filters, Outputs, and Parsers via label selectors. These resources will be checked in the same namespace where FluentBitConfig is. It can also select ClusterParser resource, again via label selectors.
 
 If you use namespace level configurability feature of the operator, then you must create a minimum of one FluentBitConfig resource in your namespace. The FluentBitConfig resource should contain the following label under `metadata.labels
 
@@ -360,7 +360,7 @@ spec:
   components:
     fluentOperator:
       enabled: true
-    fluentbitOpensearch:
+    fluentbitOpensearchOutput:
       enabled: true
       overrides:
         - values:
@@ -370,18 +370,18 @@ spec:
 </div>
 {{< /clipboard >}}
 
-After updating your Verrazzano custom resource, you can notice that the opensearch-application-clusteroutput is removed. The opensearch-system-clusteroutput will continue to exist and will send the Verrazzano component logs to Verrazzano's OpenSearch.
+After updating your Verrazzano custom resource, you can notice that the opensearch-application-clusteroutput ClusterOutput resource will be removed from the verrazzano-logging namespace. The opensearch-system-clusteroutput will continue to exist and will send the Verrazzano component logs to Verrazzano's OpenSearch.
 
-## Check Fluent-bit configurations
+## Check Fluent Bit configurations
 
-You can view the generated Fluent-bit configuration that the fluent-operator loads in a secret and mounts as a volume in a fluent-bit daemonset.
+You can view the generated Fluent Bit configuration that the Fluent Operator loads in a secret and mounts as a volume in a Fluent Bit daemonset.
 
 {{< clipboard >}}
 <div class="highlight">
 
 ```
-$ kubectl -n verrazzano-system get secrets fluent-bit-config -ojson | jq '.data."fluent-bit.conf"' | awk -F '"' '{printf $2}' | base64 --decode
-$ $ kubectl -n verrazzano-system get secrets fluent-bit-config -ojson | jq '.data."parsers.conf"' | awk -F '"' '{printf $2}' | base64 --decode
+$ kubectl -n verrazzano-system get secrets Fluent Bit-config -ojson | jq '.data."Fluent Bit.conf"' | awk -F '"' '{printf $2}' | base64 --decode
+$ $ kubectl -n verrazzano-system get secrets Fluent Bit-config -ojson | jq '.data."parsers.conf"' | awk -F '"' '{printf $2}' | base64 --decode
 ```
 </div>
 {{< /clipboard >}}
