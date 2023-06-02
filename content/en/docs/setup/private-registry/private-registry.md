@@ -5,6 +5,8 @@ Weight: 4
 draft: false
 ---
 
+**NOTE**: If you are running in a disconnected environment (without access to the Internet), then you will need to install Verrazzano using a private container registry.
+
 Installing Verrazzano using a private Docker-compliant container registry requires the following:
 
 * Loading all required Verrazzano container images into your own registry and repository.
