@@ -13,7 +13,7 @@ following ways:
 * Configure a CA that you provide.
 * Configure [LetsEncrypt](https://letsencrypt.org/) as the certificate issuer (requires [Oracle Cloud Infrastructure DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm)).
 
-In all cases, Verrazzano uses [cert-manager](https://cert-manager.io/) to manage the creation of certificates.
+In all cases, Verrazzano uses [cert-manager](https://cert-manager.io/) to manage the creation of certificates. 
 
 {{< alert title="NOTE" color="danger" >}}
 Self-signed certificate authorities generate certificates that are NOT signed by a trusted authority; typically, they are not used in production environments.
@@ -53,7 +53,11 @@ If you want to provide your own CA, you must:
 
   You can find more details on providing your own CA, in the cert-manager [CA](https://cert-manager.io/docs/configuration/ca/) documentation.
 
-* Save your signing key pair as a Kubernetes secret.
+* Save your signing key pair as a Kubernetes secret.  The secret must be created in the namespace corresponding to
+  the `clusterResourceNamespace` used by Cert-Manager (`cert-manager` by default).  
+  See the [Cert-Manager](https://cert-manager.io/docs/configuration/)
+  documentation for more information.
+
 {{< clipboard >}}
 <div class="highlight">
 
@@ -65,13 +69,13 @@ If you want to provide your own CA, you must:
 </div>
 {{< /clipboard >}}
 
-* Specify the secret name and namespace location in the Verrazzano custom resource.
+* Specify the secret name and namespace location in the Verrazzano custom resource. 
 
   The custom CA secret must be provided to cert-manager using the following fields in
   [`spec.components.certManager.certificate.ca`](/docs/reference/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.CA) in the Verrazzano custom resource:
 
-  * `spec.components.certManager.certificate.ca.secretName`
-  * `spec.components.certManager.certificate.ca.clusterResourceNamespace`
+  * `spec.components.clusterIssuer.ca.secretName`
+  * (If necessary) `spec.components.clusterIssuer.clusterResourceNamespace`
 
 For example, if you created a CA secret named `myca` in the namespace `mynamespace`, you would configure it as shown:
 {{< clipboard >}}
@@ -85,15 +89,17 @@ metadata:
 spec:
   profile: dev
   components:
-    certManager:
-      certificate:
-        ca:
-          secretName: myca
-          clusterResourceNamespace: mynamespace
+    clusterIssuer:
+      clusterResourceNamespace: mynamespace
+      ca:
+        secretName: myca
 ```
 
 </div>
 {{< /clipboard >}}
+
+In this example, `mynamespace` will be configured as the `clusterResourceNamespace` for the Verrazzano Cert-Manager
+instance when it is installed.
 
 ## Use LetsEncrypt certificates
 
@@ -108,12 +114,11 @@ Using LetsEncrypt for certificates also requires using Oracle Cloud Infrastructu
 For details, see the [Customize DNS]({{< relref "/docs/networking/traffic/dns.md" >}}) page.
 {{< /alert >}}
 
-To configure cert-manager to use LetsEncrypt as the certificates provider, you must configure a cert-manager
-ACME provider with the following values in the Verrazzano custom resource:
+To configure cert-manager to use LetsEncrypt as the certificates provider, you must configure the Verrazzano Let's Encrypt
+issuer with the following values in the Verrazzano custom resource:
 
-* Set the `spec.components.certManager.certificate.acme.provider` field to `letsEncrypt`.
-* Set the `spec.components.certManager.certificate.acme.emailAddress` field to a valid email address for the `letsEncrypt` account.
-* (Optional) Set the `spec.components.certManager.certificate.acme.environment` field to either `staging` or `production` (the default).
+* Set the `spec.components.clusterIssuer.letsEncrypt.emailAddress` field to a valid email address for the `letsEncrypt` account.
+* (Optional) Set the `spec.components.clusterIssuer.letsEncrypt.environment` field to either `staging` or `production` (the default).
 
 The following example configures Verrazzano to use the LetsEncrypt `production` environment by default, with Oracle Cloud Infrastructure DNS
 for DNS record management.
@@ -128,11 +133,9 @@ metadata:
 spec:
   profile: dev
   components:
-    certManager:
-      certificate:
-        acme:
-          provider: letsEncrypt
-          emailAddress: jane.doe@mycompany.com
+    clusterIssuer:
+      letsEncrypt:
+        emailAddress: jane.doe@mycompany.com
     dns:
       oci:
         ociConfigSecret: oci
@@ -156,12 +159,10 @@ metadata:
 spec:
   profile: dev
   components:
-    certManager:
-      certificate:
-        acme:
-          provider: letsEncrypt
-          emailAddress: jane.doe@mycompany.com
-          environment: staging
+    clusterIssuer:
+      letsEncrypt:
+        emailAddress: jane.doe@mycompany.com
+        environment: staging
     dns:
       oci:
         ociConfigSecret: oci
@@ -188,3 +189,80 @@ rate limit exceptions on certificate generation.
 In such environments, it is better to use the LetsEncrypt `staging` environment, which has much higher limits
 than the `production` environment.  For test environments, the self-signed CA also may be more appropriate to completely
 avoid LetsEncrypt rate limits.
+
+## Using your own Cert-Manager
+
+You can either use the Verrazzano-provided Cert-Manager, or use your own. To use your own Cert-Manager, disable the 
+`certManager` component in the Verrazzano CR as shown below:
+
+```
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: custom-ca-example
+spec:
+  profile: dev
+  components:
+    certManager:
+      certificate:
+        enabled: false
+```
+
+The Verrazzano certificates issuer is configured using the `clusterIssuer` component.  The Verrazzano default 
+`clusterIssuer` assumes that Cert-Manager is installed in the `cert-manager` namespace, and that the `clusterResourceNamespace`
+for Cert-Manager is `cert-manager`.
+
+If your Cert-Manager is installed into a different namespace, or uses a separate namespace for the `clusterResourceNamespace`,
+you can configure this on the Verrazzano `clusterIssuer` component.
+
+In the example below the `clusterIssuer` is configured to use the namespace `my-cm-resources` as the `clusterResourceNamespace`:
+
+```
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: custom-ca-example
+spec:
+  profile: dev
+  components:
+    certManager:
+      certificate:
+        enabled: false
+    clusterIssuer:
+      clusterResourceNamespace: my-cm-resources
+```
+
+### Using Let's Encrypt with OCI DNS with your own Cert-Manager
+
+Verrazzano uses a webhook component to support Let's Encrypt certificates with OCI DNS.  This webhook implements the
+[Cert-Manager solver webhook pattern](https://cert-manager.io/docs/configuration/acme/dns01/webhook/) to support
+out-of-tree DNS challenge solvers.  
+
+In most circumstances you will not need to configure this as it will automatically deploy when OCI DNS and Let's Encrypt
+certificates are in use.  However if you are using your own Cert-Manager installed in namespace other than `cert-manager`
+and/or the `clusterResourceNamespace` is something other than `cert-manager` you will need to configure this for the webhook.
+
+The following example configures the webhook to use the namespace `my-cm` for the Cert-Manager installation namespace and
+`my-cm-resources` for the `clusterResourceNamespace`:
+
+```
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: custom-ca-example
+spec:
+  profile: dev
+  components:
+    certManager:
+      certificate:
+        enabled: false
+    clusterIssuer:
+      clusterResourceNamespace: my-cm-resources
+    certManagerWebhookOCI:
+      overrides:
+      - values:
+          certManager:
+            namespace: my-cm
+            clusterResourceNamespace: my-cm-resources
+
+```
