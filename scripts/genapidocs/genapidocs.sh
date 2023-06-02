@@ -77,7 +77,7 @@ genapidoc() {
 }
 
 checkoutvz "$1"
-genapidoc "application-operator/apis/clusters/v1alpha1" "vao-clusters-v1alpha1" "Multicluster and Verrazzano Project" "1" "/docs/reference/apis/vao-clusters-v1alpha1"
+genapidoc "application-operator/apis/clusters/v1alpha1" "vao-clusters-v1alpha1" "Multicluster and Verrazzano Project" "1" "/docs/reference/api/vao-clusters-v1alpha1"
 genapidoc "application-operator/apis/oam/v1alpha1" "vao-oam-v1alpha1" "Traits and Workloads" "2" "/docs/reference/api/vao-oam-v1alpha1"
 genapidoc "cluster-operator/apis/clusters/v1alpha1" "vco-clusters-v1alpha1" "Verrazzano Managed Cluster" "3" "/docs/reference/api/vco-clusters-v1alpha1"
 genapidoc "platform-operator/apis/verrazzano/v1beta1" "vpo-verrazzano-v1beta1" "Verrazzano v1beta1 APIs" "4" "/docs/reference/api/vpo-verrazzano-v1beta1"
