@@ -71,7 +71,7 @@ $ kubectl get cfbo
 You should see an opensearch-system-clusteroutput and an opensearch-application-clusteroutput.
 
 ### Uninstall Fluentd
-Fluentd is the default logging agent which runs as a daemonset that collects, processes, and sends logs to log stores. It is installed by default when Verrazzano is installed. With the inclusion of Fluent Bit via Fluent Operator, you now have an option to run either of these components. These can co-exist, but if your log store is Verrazzano's OpenSearch, and you can uninstall Fluentd.
+Fluentd is the default logging agent which runs as a daemonset that collects, processes, and sends logs to log stores. It is installed by default when Verrazzano is installed. With the inclusion of Fluent Bit via Fluent Operator, you now have an option to run either of these components. These can co-exist, but if your log store is Verrazzano's OpenSearch, and you should uninstall Fluentd as otherwise both components will keep sending same logs to the Verrazzano's OpenSearch resulting into duplicate logs.
 
 **NOTE**: Fluent Bit does not support sending logs to OCI-Logging. Continue using Fluentd if your log store is OCI-Logging.
 
@@ -145,11 +145,11 @@ EOF
 {{< /clipboard >}}
 
 Replace _host-url_, _port-number_, and _index-name_ with appropriate values.
-For any namespaced Output resources, the secret containing the credentials for the OpenSearch cluster needs to be created in the same namespace as the Output, that is, the application namespace. Replace _your-secret-name_, _password-key_, and _username-key_ with appropriate values.
+Replace _your-secret-name_, _password-key_, and _username-key_ with appropriate values.
 
 For any ClusterOutput, create the secret containing the user credentials in the verrazzano-system namespace.
 
-## Configure namespaced resources
+## Configure custom namespaced resources
 
 You must configure namespaced resources to process logs for an application namespace.
 
@@ -337,7 +337,7 @@ EOF
 
 Replace _host-url_, _port-number_ and _index-name_ with appropriate values. The secret holding the credentials for the OpenSearch cluster needs to be created in the same namespace as the Output, that is, the application namespace. Replace _your-secret-name_, _password-key_ and _username-key_ with appropriate values.
 
-For any namespaced Output, create the secret containing the user credentials in the same namespace as the Output custom resource.
+For any namespaced Output resources, the secret containing the credentials for the OpenSearch cluster needs to be created in the same namespace as the Output, that is, the application namespace.
 
 Note that with this configuration, your applications logs will still continue to go to deafult cluster output as well.
 
