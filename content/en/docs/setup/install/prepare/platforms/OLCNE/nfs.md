@@ -1,6 +1,6 @@
 ---
-title: "Customize Network File System"
-description: "Configure NFS storage"
+title: "Configure NFS Storage"
+description: ""
 weight: 10
 draft: false
 ---
