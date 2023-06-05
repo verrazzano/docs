@@ -5,6 +5,8 @@ aliases:
 - /docs/customize/elasticsearch
 weight: 3
 draft: false
+aliases:
+  - /docs/customize/opensearch
 ---
 
 Verrazzano supports two cluster topologies for an OpenSearch cluster:

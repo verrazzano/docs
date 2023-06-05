@@ -3,6 +3,8 @@ title: Customize Grafana
 description: Customize Verrazzano Grafana settings
 Weight: 5
 draft: false
+aliases:
+  - /docs/customize/grafana
 ---
 
 ### Configure a Grafana database
