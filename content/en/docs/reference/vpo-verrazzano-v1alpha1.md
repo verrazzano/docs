@@ -199,7 +199,7 @@ VerrazzanoStatus
 <a href="#install.verrazzano.io/v1alpha1.Certificate">Certificate</a>)
 </p>
 <p>
-<p>Acme identifies the ACME cert issuer.</p>
+<p>Deprecated. Acme identifies the LetsEncrypt cert issuer.</p>
 </p>
 <table>
 <thead>
@@ -459,7 +459,7 @@ CommonKubernetesSpec
 <a href="#install.verrazzano.io/v1alpha1.Certificate">Certificate</a>)
 </p>
 <p>
-<p>CA identifies the Certificate Authority cert issuer.</p>
+<p>CA - Deprecated.  Identifies the Certificate Authority cert issuer.</p>
 </p>
 <table>
 <thead>
@@ -493,14 +493,14 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.CAPIComponent">CAPIComponent
+<h3 id="install.verrazzano.io/v1alpha1.CAIssuer">CAIssuer
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+<a href="#install.verrazzano.io/v1alpha1.IssuerConfig">IssuerConfig</a>)
 </p>
 <p>
-<p>CAPIComponent specifies the CAPI configuration.</p>
+<p>CAIssuer Identifies the configuration used for the Certificate Authority issuer</p>
 </p>
 <table>
 <thead>
@@ -512,14 +512,13 @@ string
 <tbody>
 <tr>
 <td>
-<code>enabled</code></br>
+<code>secretName</code></br>
 <em>
-bool
+string
 </em>
 </td>
 <td>
-<em>(Optional)</em>
-<p>If true, then CAPI Providers will be installed.</p>
+<p>The secret name.</p>
 </td>
 </tr>
 </tbody>
@@ -552,7 +551,7 @@ Certificate
 </td>
 <td>
 <em>(Optional)</em>
-<p>The certificate configuration.</p>
+<p>Deprecated.  Use the ClusterIssuerComponent to configure the Verrazzano ClusterIssuer instead</p>
 </td>
 </tr>
 <tr>
@@ -590,6 +589,96 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
+<h3 id="install.verrazzano.io/v1alpha1.CertManagerOCIDNSWebhookSolver">CertManagerOCIDNSWebhookSolver
+</h3>
+<p>
+<p>CertManagerOCIDNSWebhookSolver specifies installation overrides for the CertManager OCI DNS solver webhook; the
+webhook is automatically installed when OCI DNS is configured for the Verrazzano installation</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>InstallOverrides</code></br>
+<em>
+<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+InstallOverrides
+</a>
+</em>
+</td>
+<td>
+<p>
+(Members of <code>InstallOverrides</code> are embedded into this type.)
+</p>
+<em>(Optional)</em>
+<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
+find all possible values
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cert-manager-ocidns-webhook/values.yaml %}}">here</a>
+and invalid values will be ignored.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="install.verrazzano.io/v1alpha1.CertManagerWebhookOCIComponent">CertManagerWebhookOCIComponent
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+</p>
+<p>
+<p>CertManagerWebhookOCIComponent configures the CertManager OCI DNS solver webhook; the
+webhook is required for LetsEncrypt Certificates using OCI DNS</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Enabled will deploy the webhook if true, or if the LetsEncrypt issuer is configured with OCI DNS</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>InstallOverrides</code></br>
+<em>
+<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+InstallOverrides
+</a>
+</em>
+</td>
+<td>
+<p>
+(Members of <code>InstallOverrides</code> are embedded into this type.)
+</p>
+<em>(Optional)</em>
+<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
+find all possible values
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cert-manager-ocidns-webhook/values.yaml %}}">here</a>
+and invalid values will be ignored.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="install.verrazzano.io/v1alpha1.Certificate">Certificate
 </h3>
 <p>
@@ -597,7 +686,7 @@ and invalid values will be ignored.</p>
 <a href="#install.verrazzano.io/v1alpha1.CertManagerComponent">CertManagerComponent</a>)
 </p>
 <p>
-<p>Certificate represents the type of cert issuer for an installation.</p>
+<p>Certificate - Deprecated. Represents the type of cert issuer for an installation.</p>
 </p>
 <table>
 <thead>
@@ -618,7 +707,7 @@ Acme
 </td>
 <td>
 <em>(Optional)</em>
-<p>The ACME configuration. Either <code>acme</code> or <code>ca</code> must be specified.</p>
+<p>The LetsEncrypt configuration. Either <code>acme</code> or <code>ca</code> must be specified.</p>
 </td>
 </tr>
 <tr>
@@ -632,7 +721,150 @@ CA
 </td>
 <td>
 <em>(Optional)</em>
-<p>The ACME configuration. Either <code>acme</code> or <code>ca</code> must be specified.</p>
+<p>The LetsEncrypt configuration. Either <code>acme</code> or <code>ca</code> must be specified.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="install.verrazzano.io/v1alpha1.ClusterAPIComponent">ClusterAPIComponent
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+</p>
+<p>
+<p>ClusterAPIComponent specifies the Cluster API configuration.</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>If true, then Cluster API Providers will be installed.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="install.verrazzano.io/v1alpha1.ClusterAgentComponent">ClusterAgentComponent
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+</p>
+<p>
+<p>ClusterAgentComponent configures the Cluster Agent</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>If true, then Cluster Agent will be installed.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>InstallOverrides</code></br>
+<em>
+<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+InstallOverrides
+</a>
+</em>
+</td>
+<td>
+<p>
+(Members of <code>InstallOverrides</code> are embedded into this type.)
+</p>
+<em>(Optional)</em>
+<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
+find all possible values
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cluster-agent/values.yaml %}}">here</a>
+and invalid values will be ignored.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="install.verrazzano.io/v1alpha1.ClusterIssuerComponent">ClusterIssuerComponent
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+</p>
+<p>
+<p>ClusterIssuerComponent configures the Verrazzano ClusterIssuer</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Enabled indicates that Verrazzano ClusterIssuer shall be configured</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>clusterResourceNamespace</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<p>The clusterResourceNamespace configured for the Verrazzano Cert-Manager instance; if an externally-managed
+Cert-Manager is being used with a non-default location, this should point to the clusterResourceNamespace used by
+that installation. See the Cert-Manager documentation details on this namespace.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>IssuerConfig</code></br>
+<em>
+<a href="#install.verrazzano.io/v1alpha1.IssuerConfig">
+IssuerConfig
+</a>
+</em>
+</td>
+<td>
+<p>
+(Members of <code>IssuerConfig</code> are embedded into this type.)
+</p>
+<p>IssuerConfig contains the configuration for the Verrazzano Cert-Manager ClusterIssuer</p>
 </td>
 </tr>
 </tbody>
@@ -745,7 +977,7 @@ and invalid values will be ignored.</p>
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.AuthProxyKubernetesSection">AuthProxyKubernetesSection</a>,
+<a href="#install.verrazzano.io/v1alpha1.AuthProxyKubernetesSection">AuthProxyKubernetesSection</a>, 
 <a href="#install.verrazzano.io/v1alpha1.IstioKubernetesSection">IstioKubernetesSection</a>)
 </p>
 <p>
@@ -866,16 +1098,44 @@ AuthProxyComponent
 </tr>
 <tr>
 <td>
-<code>capi</code></br>
+<code>clusterAPI</code></br>
 <em>
-<a href="#install.verrazzano.io/v1alpha1.CAPIComponent">
-CAPIComponent
+<a href="#install.verrazzano.io/v1alpha1.ClusterAPIComponent">
+ClusterAPIComponent
 </a>
 </em>
 </td>
 <td>
 <em>(Optional)</em>
-<p>The CAPI component configuration.</p>
+<p>The ClusterAPI component configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>clusterAgent</code></br>
+<em>
+<a href="#install.verrazzano.io/v1alpha1.ClusterAgentComponent">
+ClusterAgentComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The ClusterAgent configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>clusterIssuer</code></br>
+<em>
+<a href="#install.verrazzano.io/v1alpha1.ClusterIssuerComponent">
+ClusterIssuerComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>ClusterIssuer defines the Cert-Manager ClusterIssuer configuration for Verrazzano</p>
 </td>
 </tr>
 <tr>
@@ -889,7 +1149,22 @@ CertManagerComponent
 </td>
 <td>
 <em>(Optional)</em>
-<p>The cert-manager component configuration.</p>
+<p>The Verrazzano-managed Cert-Manager component configuration; note that this is mutually exclusive of the
+ExternalCertManager component</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>certManagerWebhookOCI</code></br>
+<em>
+<a href="#install.verrazzano.io/v1alpha1.CertManagerWebhookOCIComponent">
+CertManagerWebhookOCIComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>CertManagerWebhookOCI configures the Verrazzano OCI DNS webhook plugin for Cert-Manager</p>
 </td>
 </tr>
 <tr>
@@ -1387,7 +1662,7 @@ string
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ComponentStatusDetails">ComponentStatusDetails</a>,
+<a href="#install.verrazzano.io/v1alpha1.ComponentStatusDetails">ComponentStatusDetails</a>, 
 <a href="#install.verrazzano.io/v1alpha1.VerrazzanoStatus">VerrazzanoStatus</a>)
 </p>
 <p>
@@ -2063,7 +2338,7 @@ key in NGINXInstallArgs. For sample usage, see
 (<code>string</code> alias)</p></h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.IngressNginxComponent">IngressNginxComponent</a>,
+<a href="#install.verrazzano.io/v1alpha1.IngressNginxComponent">IngressNginxComponent</a>, 
 <a href="#install.verrazzano.io/v1alpha1.IstioIngressSection">IstioIngressSection</a>)
 </p>
 <p>
@@ -2073,11 +2348,11 @@ key in NGINXInstallArgs. For sample usage, see
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ElasticsearchComponent">ElasticsearchComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.IngressNginxComponent">IngressNginxComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.IstioComponent">IstioComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.KeycloakComponent">KeycloakComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.MySQLComponent">MySQLComponent</a>,
+<a href="#install.verrazzano.io/v1alpha1.ElasticsearchComponent">ElasticsearchComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.IngressNginxComponent">IngressNginxComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.IstioComponent">IstioComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.KeycloakComponent">KeycloakComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.MySQLComponent">MySQLComponent</a>, 
 <a href="#install.verrazzano.io/v1alpha1.VerrazzanoComponent">VerrazzanoComponent</a>)
 </p>
 <p>
@@ -2145,33 +2420,36 @@ bool
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.ApplicationOperatorComponent">ApplicationOperatorComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.ArgoCDComponent">ArgoCDComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.AuthProxyComponent">AuthProxyComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.CertManagerComponent">CertManagerComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.ClusterOperatorComponent">ClusterOperatorComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.CoherenceOperatorComponent">CoherenceOperatorComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.ConsoleComponent">ConsoleComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.DNSComponent">DNSComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.FluentdComponent">FluentdComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.IngressNginxComponent">IngressNginxComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.IstioComponent">IstioComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.JaegerOperatorComponent">JaegerOperatorComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.KeycloakComponent">KeycloakComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.KialiComponent">KialiComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.KubeStateMetricsComponent">KubeStateMetricsComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.MySQLComponent">MySQLComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.MySQLOperatorComponent">MySQLOperatorComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.OAMComponent">OAMComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.PrometheusAdapterComponent">PrometheusAdapterComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.PrometheusNodeExporterComponent">PrometheusNodeExporterComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.PrometheusOperatorComponent">PrometheusOperatorComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.PrometheusPushgatewayComponent">PrometheusPushgatewayComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.RancherBackupComponent">RancherBackupComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.RancherComponent">RancherComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.ThanosComponent">ThanosComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.VeleroComponent">VeleroComponent</a>,
-<a href="#install.verrazzano.io/v1alpha1.VerrazzanoComponent">VerrazzanoComponent</a>,
+<a href="#install.verrazzano.io/v1alpha1.ApplicationOperatorComponent">ApplicationOperatorComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.ArgoCDComponent">ArgoCDComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.AuthProxyComponent">AuthProxyComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.CertManagerComponent">CertManagerComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.CertManagerOCIDNSWebhookSolver">CertManagerOCIDNSWebhookSolver</a>, 
+<a href="#install.verrazzano.io/v1alpha1.CertManagerWebhookOCIComponent">CertManagerWebhookOCIComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.ClusterAgentComponent">ClusterAgentComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.ClusterOperatorComponent">ClusterOperatorComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.CoherenceOperatorComponent">CoherenceOperatorComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.ConsoleComponent">ConsoleComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.DNSComponent">DNSComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.FluentdComponent">FluentdComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.IngressNginxComponent">IngressNginxComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.IstioComponent">IstioComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.JaegerOperatorComponent">JaegerOperatorComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.KeycloakComponent">KeycloakComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.KialiComponent">KialiComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.KubeStateMetricsComponent">KubeStateMetricsComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.MySQLComponent">MySQLComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.MySQLOperatorComponent">MySQLOperatorComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.OAMComponent">OAMComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.PrometheusAdapterComponent">PrometheusAdapterComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.PrometheusNodeExporterComponent">PrometheusNodeExporterComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.PrometheusOperatorComponent">PrometheusOperatorComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.PrometheusPushgatewayComponent">PrometheusPushgatewayComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.RancherBackupComponent">RancherBackupComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.RancherComponent">RancherComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.ThanosComponent">ThanosComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.VeleroComponent">VeleroComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.VerrazzanoComponent">VerrazzanoComponent</a>, 
 <a href="#install.verrazzano.io/v1alpha1.WebLogicOperatorComponent">WebLogicOperatorComponent</a>)
 </p>
 <p>
@@ -2352,6 +2630,53 @@ string
 <td>
 <p>The Thanos Query URL for this Verrazzano installation.
 The Thanos Query ingress gets forwarded to the Thanos Query Frontend service.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="install.verrazzano.io/v1alpha1.IssuerConfig">IssuerConfig
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1alpha1.ClusterIssuerComponent">ClusterIssuerComponent</a>)
+</p>
+<p>
+<p>IssuerConfig identifies the configuration for the Verrazzano ClusterIssuer.  Only one value may be set.</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>letsEncrypt</code></br>
+<em>
+<a href="#install.verrazzano.io/v1alpha1.LetsEncryptACMEIssuer">
+LetsEncryptACMEIssuer
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The certificate configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ca</code></br>
+<em>
+<a href="#install.verrazzano.io/v1alpha1.CAIssuer">
+CAIssuer
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The certificate configuration.</p>
 </td>
 </tr>
 </tbody>
@@ -2562,7 +2887,7 @@ IstioKubernetesSection
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1alpha1.IstioEgressSection">IstioEgressSection</a>,
+<a href="#install.verrazzano.io/v1alpha1.IstioEgressSection">IstioEgressSection</a>, 
 <a href="#install.verrazzano.io/v1alpha1.IstioIngressSection">IstioIngressSection</a>)
 </p>
 <p>
@@ -2881,6 +3206,49 @@ but in the event of conflicting fields, the last override in the list takes prec
 find all possible values
 <a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/kube-state-metrics/values.yaml %}}">here</a>
 and invalid values will be ignored.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="install.verrazzano.io/v1alpha1.LetsEncryptACMEIssuer">LetsEncryptACMEIssuer
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1alpha1.IssuerConfig">IssuerConfig</a>)
+</p>
+<p>
+<p>LetsEncryptACMEIssuer identifies the configuration used for the LetsEncrypt cert issuer</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>emailAddress</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Email address of the user.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>environment</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Environment can be &ldquo;staging&rdquo; or &ldquo;production&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -4528,3 +4896,8 @@ string
 <p><em>
 Generated with <code>gen-crd-api-reference-docs</code>
 </em></p>
+
+
+
+
+

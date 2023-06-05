@@ -62,8 +62,10 @@ checkoutvz() {
 
 genapidoc() {
   API=$1
-  OUTFILE=${REPO_ROOT}/content/en/docs/reference/API/$2.md
+  OUTFILE=${REPO_ROOT}/content/en/docs/reference/$2.md
   TITLE=$3
+  WEIGHT=$4
+  ALIAS=$5
 	echo "+++ Generating API reference doc for ${API}"
 	"${GOBIN}/gen-crd-api-reference-docs" \
 		-config "${REPO_ROOT}/scripts/genapidocs/config.json" \
@@ -71,21 +73,21 @@ genapidoc() {
 		-api-dir "github.com/verrazzano/verrazzano/${API}" \
 		-out-file "${OUTFILE}"
 	# Prepending header info to the generated file
-	printf '%s\n%s\n%s\n%s\n%s\n' "---" "title: ${TITLE}" "weight: 2" "---" "$(cat ${OUTFILE})" >${OUTFILE}
+	printf '%s\n%s\n%s\n%s\n%s\n%s\n' "---" "title: ${TITLE}" "weight: ${WEIGHT}" "aliases:" "  - ${ALIAS}" "---" "$(cat ${OUTFILE})" >${OUTFILE}
 }
 
 checkoutvz "$1"
-genapidoc "cluster-operator/apis/clusters/v1alpha1" "vco-clusters-v1alpha1" "Verrazzano Managed Cluster"
-genapidoc "platform-operator/apis/verrazzano/v1alpha1" "vpo-verrazzano-v1alpha1" "Verrazzano v1alpha1"
-genapidoc "platform-operator/apis/verrazzano/v1beta1" "vpo-verrazzano-v1beta1" "Verrazzano v1beta1"
-genapidoc "application-operator/apis/clusters/v1alpha1" "vao-clusters-v1alpha1" "Multicluster and Verrazzano Project"
-genapidoc "application-operator/apis/oam/v1alpha1" "vao-oam-v1alpha1" "Traits and Workloads"
+genapidoc "application-operator/apis/clusters/v1alpha1" "vao-clusters-v1alpha1" "Multicluster and Verrazzano Project" "1" "/docs/reference/api/vao-clusters-v1alpha1"
+genapidoc "application-operator/apis/oam/v1alpha1" "vao-oam-v1alpha1" "Traits and Workloads" "2" "/docs/reference/api/vao-oam-v1alpha1"
+genapidoc "cluster-operator/apis/clusters/v1alpha1" "vco-clusters-v1alpha1" "Verrazzano Managed Cluster" "3" "/docs/reference/api/vco-clusters-v1alpha1"
+genapidoc "platform-operator/apis/verrazzano/v1beta1" "vpo-verrazzano-v1beta1" "Verrazzano v1beta1 APIs" "4" "/docs/reference/api/vpo-verrazzano-v1beta1"
+genapidoc "platform-operator/apis/verrazzano/v1alpha1" "vpo-verrazzano-v1alpha1" "Verrazzano v1alpha1 APIs" "5" "/docs/reference/api/vpo-verrazzano-v1alpha1"
 
 cd ${REPO_ROOT}
 
 # Sometimes gen-crd-api-reference-docs generates the reference apis/meta instead of meta.
 # Fix them up if that is the case.
-sed -i -e 's,apis/meta,meta,g' content/en/docs/reference/API/*.md
+sed -i -e 's,apis/meta,meta,g' content/en/docs/reference/*.md
 
 # Check to see if any files are checked out of the docs repo.  Files will be checked out when there is a change in
 # the generated API reference docs.
