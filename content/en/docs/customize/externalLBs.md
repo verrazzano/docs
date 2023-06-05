@@ -4,6 +4,8 @@ description: "External load balancers for Verrazzano management and application 
 linkTitle: External Load Balancers
 weight: 4
 draft: false
+aliases:
+  - /docs/customize/externalLBs
 ---
 
 Verrazzano requires the following load balancers at installation:

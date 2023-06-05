@@ -4,6 +4,8 @@ description: "Customize load balancers on OCI for Verrazzano system and applicat
 linkTitle: OCI Load Balancers
 weight: 9
 draft: false
+aliases:
+  - /docs/customize/ociLoadBalancerIPs
 ---
 
 Verrazzano sets up the following load balancers on Kubernetes at installation:

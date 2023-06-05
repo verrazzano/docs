@@ -3,6 +3,8 @@ title: "Keycloak and SSO"
 description: "Learn about Keycloak user management and Single Sign-On (SSO)"
 weight: 3
 draft: false
+aliases:
+  - /docs/customize/keycloak
 ---
 
 Verrazzano can be deployed to a number of different hosted and on-premises Kubernetes environments. Particularly in hosted environments, it may not be possible to choose the authentication providers configured for the Kubernetes API server, and Verrazzano may have no ability to view, manage, or authenticate users.
