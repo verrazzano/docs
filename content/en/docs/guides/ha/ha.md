@@ -3,6 +3,8 @@ title: Customize High Availability
 description: Achieve high availability using the `prod` profile
 Weight: 6
 draft: false
+aliases:
+  - /docs/customize/ha
 ---
 
 High availability designs follow three main principles:

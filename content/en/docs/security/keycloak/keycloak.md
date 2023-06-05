@@ -3,6 +3,8 @@ title: Customize Keycloak and MySQL
 description: Customize Verrazzano Keycloak and MySQL settings for high availability
 Weight: 9
 draft: false
+aliases:
+  - /docs/customize/keycloak
 ---
 
 * To scale the number of MySQL instances use the [Verrazzano Custom Resource]({{< relref "docs/reference/vpo-verrazzano-v1beta1.md" >}}), not the MySQL StatefulSet.

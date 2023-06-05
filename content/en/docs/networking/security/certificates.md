@@ -3,6 +3,8 @@ title: "Customize Certificates"
 description: "Customize SSL certificate generation for Verrazzano system endpoints"
 weight: 2
 draft: false
+aliases:
+  - /docs/customize/certificates
 ---
 
 Verrazzano issues certificates to secure access from external clients to secure system endpoints.  
@@ -189,7 +191,7 @@ In such environments, it is better to use the LetsEncrypt `staging` environment,
 than the `production` environment.  For test environments, the self-signed CA also may be more appropriate to completely
 avoid LetsEncrypt rate limits.
 
-## Using your own cert-manager
+## Use your own cert-manager
 
 You can either use the Verrazzano-provided cert-manager or use your own. To use your own cert-manager, disable the
 `certManager` component in the Verrazzano CR as shown:
@@ -241,7 +243,7 @@ spec:
 </div>
 {{< /clipboard >}}
 
-### Using Let's Encrypt with OCI DNS with your own cert-manager
+### Use Let's Encrypt with OCI DNS with your own cert-manager
 
 Verrazzano uses a webhook component to support Let's Encrypt certificates with OCI DNS.  This webhook implements the
 [cert-manager solver webhook pattern](https://cert-manager.io/docs/configuration/acme/dns01/webhook/) to support
