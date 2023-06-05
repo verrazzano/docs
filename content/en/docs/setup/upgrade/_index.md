@@ -4,5 +4,6 @@ description: "Upgrade your Verrazzano installation"
 weight: 9
 draft: false
 aliases:
-  - \docs\upgrade\_index.md
+  - /docs/upgrade
+  - /docs/uninstall/upgrade
 ---

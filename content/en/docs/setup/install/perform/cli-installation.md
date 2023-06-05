@@ -4,8 +4,8 @@ description: "Install Verrazzano using the `vz` CLI"
 weight: 1
 draft: false
 aliases:
-- "/docs/setup/install/installation"
-- "/docs/setup/install/cli-installation"
+- /docs/setup/install/installation
+- /docs/setup/install/cli-installation
 ---
 
 The following instructions show you how to install Verrazzano in a
