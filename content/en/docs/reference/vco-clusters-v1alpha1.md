@@ -86,7 +86,7 @@ string
 <p>The name of a Secret that contains the CA certificate of the managed cluster. This is used to configure the
 admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. If Rancher is enabled on
 the admin cluster, this will be automatically populated by Verrazzano. Otherwise, if you disabled Rancher, see the pre-registration
-<a href="../../../../docs/setup/mc-install/advanced-mc-install/#preregistration-setup">instructions</a>
+<a href="../../../docs/setup/mc-install/advanced-mc-install/#preregistration-setup">instructions</a>
 for how to create this Secret.</p>
 </td>
 </tr>
@@ -396,7 +396,7 @@ string
 <p>The name of a Secret that contains the CA certificate of the managed cluster. This is used to configure the
 admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. If Rancher is enabled on
 the admin cluster, this will be automatically populated by Verrazzano. Otherwise, if you disabled Rancher, see the pre-registration
-<a href="../../../../docs/setup/mc-install/advanced-mc-install/#preregistration-setup">instructions</a>
+<a href="../../../docs/setup/mc-install/advanced-mc-install/#preregistration-setup">instructions</a>
 for how to create this Secret.</p>
 </td>
 </tr>
