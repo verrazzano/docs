@@ -1,10 +1,9 @@
 ---
-title: "OpenSearch"
-description: "Learn how to customize your OpenSearch cluster configuration"
+title: "Customize OpenSearch"
+description: "Customize your OpenSearch cluster configuration"
 aliases:
 - /docs/customize/elasticsearch
-linkTitle: OpenSearch
-weight: 10
+weight: 3
 draft: false
 ---
 
@@ -269,7 +268,7 @@ Both ISM policies have three states:
 ## Override default ISM policies
 The `vz-system` and `vz-application` policies are immutable and any change to these policies will be reverted immediately. However, the following two methods will override this behavior:
 - **Disable default policies**: You can disable the use of these default policies by setting the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) to `true` in the Verrazzano CR. This will delete the default ISM policies.
-- **Override default policies**: Both these default policies have a zero (`0`) priority. You can override the default policies by creating policies with `policy.ism_template.priority` greater than `0`. To create/configure your own policies, see [Configure ISM Policies](/docs/customize/opensearch/#configure-ism-policies).
+- **Override default policies**: Both these default policies have a zero (`0`) priority. You can override the default policies by creating policies with `policy.ism_template.priority` greater than `0`. To create/configure your own policies, see [Configure ISM Policies](/docs/observability/logging/configure-opensearch/opensearch/#configure-ism-policies).
 
 {{< alert title="NOTE" color="primary" >}}
 - Avoid creating policies with policy IDs `vz-system` or `vz-application` because they are reserved for Verrazzano default policies names. In the Verrazzano CR, by default, if the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) is set to `false`, then policies that are created with these names will be overridden with the default ISM policies, .

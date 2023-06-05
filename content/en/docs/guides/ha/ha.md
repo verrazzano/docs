@@ -1,7 +1,6 @@
 ---
-title: Configure High Availability
+title: Customize High Availability
 description: Achieve high availability using the `prod` profile
-linkTitle: High Availability
 Weight: 6
 draft: false
 ---
@@ -31,9 +30,9 @@ When using the [`ha.yaml`]({{< ghlink raw=true path="examples/ha/ha.yaml" >}}) f
 
 * It does not ensure a fault-tolerant environment. Your applications still must be designed and implemented as highly available.
 * Running additional replicas of components will increase resource requirements. At least four CPUs, 100 GB disk storage, and 64 GB RAM available on the Kubernetes worker nodes is required.
-* Additional customizations may be required for your environment, including other customizations described in [Customize Verrazzano]({{< relref "docs/customize/_index.md" >}}).
+* Additional customizations may be required for your environment, including other customizations described in individual sections.
 
-For the expected behavior of the [MySQL Component]({{< relref "docs/reference/vpo-verrazzano-v1beta1.md#install.verrazzano.io/v1beta1.MySQLComponent" >}}) in a highly available environment, see [Customize Keycloak and MySQL]({{< relref "docs/customize/keycloak.md" >}}).
+For the expected behavior of the [MySQL Component]({{< relref "docs/reference/vpo-verrazzano-v1beta1.md#install.verrazzano.io/v1beta1.MySQLComponent" >}}) in a highly available environment, see [Customize Keycloak and MySQL]({{< relref "docs/security/keycloak/keycloak.md" >}}).
 
 Follow these best practices for a highly available Verrazzano installation:
 * Size your Kubernetes cluster according to your node failure tolerance and workload requirements.
