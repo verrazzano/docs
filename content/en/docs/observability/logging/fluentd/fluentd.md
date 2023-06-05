@@ -3,6 +3,8 @@ title: Customize Fluentd
 description: Configure the Fluentd SELinux context type
 Weight: 5
 draft: false
+aliases:
+  - /docs/customize/fluentd
 ---
 
 
