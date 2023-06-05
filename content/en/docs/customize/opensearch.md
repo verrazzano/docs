@@ -6,6 +6,8 @@ aliases:
 linkTitle: OpenSearch
 weight: 10
 draft: false
+aliases:
+  - /docs/customize/opensearch
 ---
 
 Verrazzano supports two cluster topologies for an OpenSearch cluster:
