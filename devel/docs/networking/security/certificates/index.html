@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/networking/security/certificates/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-06-03T00:11:59+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-06-05T16:31:47+00:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Customize Certificates">
 <meta itemprop="description" content="Customize SSL certificate generation for Verrazzano system endpoints">
-<meta itemprop="dateModified" content="2023-06-03T00:11:59+05:30" />
-<meta itemprop="wordCount" content="1550">
+<meta itemprop="dateModified" content="2023-06-05T16:31:47+00:00" />
+<meta itemprop="wordCount" content="2377">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Customize Certificates"/>
 <meta name="twitter:description" content="Customize SSL certificate generation for Verrazzano system endpoints"/>
@@ -110,7 +110,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.30d15c8672e35ca3b102e0e52f83c431.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.d3d8a44ac019282982c1d71da90e0b88.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.30d15c8672e35ca3b102e0e52f83c431.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.d3d8a44ac019282982c1d71da90e0b88.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -1058,6 +1058,11 @@ if (!doNotTrack) {
             <li><a href="#letsencrypt-staging-versus-production">LetsEncrypt staging versus production</a></li>
           </ul>
         </li>
+        <li><a href="#using-your-own-cert-manager">Using your own cert-manager</a>
+          <ul>
+            <li><a href="#using-lets-encrypt-with-oci-dns-with-your-own-cert-manager">Using Let&rsquo;s Encrypt with OCI DNS with your own cert-manager</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -1253,7 +1258,10 @@ correct order.</p>
 <p>You can find more details on providing your own CA, in the cert-manager <a href="https://cert-manager.io/docs/configuration/ca/">CA</a> documentation.</p>
 </li>
 <li>
-<p>Save your signing key pair as a Kubernetes secret.
+<p>Save your signing key pair as a Kubernetes secret.  The secret must be created in the namespace corresponding to
+the <code>clusterResourceNamespace</code> used by cert-manager (<code>cert-manager</code> by default).<br>
+For more information, see the <a href="https://cert-manager.io/docs/configuration/">cert-manager</a>
+documentation.
 <style type="text/css">
     code {
         margin: 0;
@@ -1350,12 +1358,10 @@ $ kubectl create secret tls myca --namespace=mynamespace --cert=tls.crt --key=tl
 <li>
 <p>Specify the secret name and namespace location in the Verrazzano custom resource.</p>
 <p>The custom CA secret must be provided to cert-manager using the following fields in
-<a href="../../../../docs/reference/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.CA"><code>spec.components.certManager.certificate.ca</code></a> in the Verrazzano custom resource:</p>
+<a href="../../../../docs/reference/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.CAIssuer"><code>spec.components.clusterIssuer.ca</code></a> in the Verrazzano custom resource:</p>
 <ul>
-<li><code>spec.components.certManager.certificate.ca.secretName</code></li>
-<li><code>spec.components.certManager.certificate.ca.clusterResourceNamespace</code></li>
-</ul>
-</li>
+<li><code>spec.components.clusterIssuer.ca.secretName</code></li>
+<li>(If needed) <code>spec.components.clusterIssuer.clusterResourceNamespace</code></li>
 </ul>
 <p>For example, if you created a CA secret named <code>myca</code> in the namespace <code>mynamespace</code>, you would configure it as shown:
 <style type="text/css">
@@ -1395,11 +1401,10 @@ metadata:
 spec:
   profile: dev
   components:
-    certManager:
-      certificate:
-        ca:
-          secretName: myca
-          clusterResourceNamespace: mynamespace
+    clusterIssuer:
+      clusterResourceNamespace: mynamespace
+      ca:
+        secretName: myca
 </code></pre></div>
 
 </div>
@@ -1460,11 +1465,15 @@ spec:
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
+<p>In this example, <code>mynamespace</code> will be configured as the <code>clusterResourceNamespace</code> for the Verrazzano cert-manager
+instance when it is installed.</p>
+</li>
+</ul>
 <h2 id="use-letsencrypt-certificates">Use LetsEncrypt certificates</h2>
 <p>You can configure Verrazzano to use certificates generated by <a href="https://letsencrypt.org/">LetsEncrypt</a>.  LetsEncrypt
 implements the <a href="https://tools.ietf.org/html/rfc8555">ACME protocol</a>, which provides a standard protocol for the
 automated issuance of certificates signed by a trusted authority.  This is managed through the
-<a href="../../../../docs/reference/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.Acme"><code>spec.components.certManager.certificate.acme</code></a>
+<a href="../../../../docs/reference/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.LetsEncryptACMEIssuer"><code>spec.components.clusterIssuer.letsEncrypt</code></a>
 field in the Verrazzano custom resource.</p>
 
 
@@ -1476,12 +1485,11 @@ For details, see the <a href="../../../../docs/networking/traffic/dns/">Customiz
 
 </div>
 
-<p>To configure cert-manager to use LetsEncrypt as the certificates provider, you must configure a cert-manager
-ACME provider with the following values in the Verrazzano custom resource:</p>
+<p>To configure cert-manager to use LetsEncrypt as the certificates provider, you must configure the Verrazzano Let&rsquo;s Encrypt
+issuer with the following values in the Verrazzano custom resource:</p>
 <ul>
-<li>Set the <code>spec.components.certManager.certificate.acme.provider</code> field to <code>letsEncrypt</code>.</li>
-<li>Set the <code>spec.components.certManager.certificate.acme.emailAddress</code> field to a valid email address for the <code>letsEncrypt</code> account.</li>
-<li>(Optional) Set the <code>spec.components.certManager.certificate.acme.environment</code> field to either <code>staging</code> or <code>production</code> (the default).</li>
+<li>Set the <code>spec.components.clusterIssuer.letsEncrypt.emailAddress</code> field to a valid email address for the <code>letsEncrypt</code> account.</li>
+<li>(Optional) Set the <code>spec.components.clusterIssuer.letsEncrypt.environment</code> field to either <code>staging</code> or <code>production</code> (the default).</li>
 </ul>
 <p>The following example configures Verrazzano to use the LetsEncrypt <code>production</code> environment by default, with Oracle Cloud Infrastructure DNS
 for DNS record management.
@@ -1522,11 +1530,9 @@ metadata:
 spec:
   profile: dev
   components:
-    certManager:
-      certificate:
-        acme:
-          provider: letsEncrypt
-          emailAddress: jane.doe@mycompany.com
+    clusterIssuer:
+      letsEncrypt:
+        emailAddress: jane.doe@mycompany.com
     dns:
       oci:
         ociConfigSecret: oci
@@ -1631,12 +1637,10 @@ metadata:
 spec:
   profile: dev
   components:
-    certManager:
-      certificate:
-        acme:
-          provider: letsEncrypt
-          emailAddress: jane.doe@mycompany.com
-          environment: staging
+    clusterIssuer:
+      letsEncrypt:
+        emailAddress: jane.doe@mycompany.com
+        environment: staging
     dns:
       oci:
         ociConfigSecret: oci
@@ -1721,6 +1725,340 @@ rate limit exceptions on certificate generation.</p>
 <p>In such environments, it is better to use the LetsEncrypt <code>staging</code> environment, which has much higher limits
 than the <code>production</code> environment.  For test environments, the self-signed CA also may be more appropriate to completely
 avoid LetsEncrypt rate limits.</p>
+<h2 id="using-your-own-cert-manager">Using your own cert-manager</h2>
+<p>You can either use the Verrazzano-provided cert-manager or use your own. To use your own cert-manager, disable the
+<code>certManager</code> component in the Verrazzano CR as shown:</p>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: custom-cm-example
+spec:
+  profile: dev
+  components:
+    certManager:
+      enabled: false
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+<p>The Verrazzano certificates issuer is configured using the <a href="../../../../docs/reference/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.ClusterIssuerComponent"><code>spec.components.clusterIssuer</code></a>
+component.  The Verrazzano default <code>clusterIssuer</code> assumes that cert-manager is installed in the <code>cert-manager</code> namespace, and that the <code>clusterResourceNamespace</code>
+for cert-manager is <code>cert-manager</code>.</p>
+<p>If your cert-manager is installed into a different namespace or uses a separate namespace for the <code>clusterResourceNamespace</code>,
+you can configure this on the Verrazzano <code>clusterIssuer</code> component.</p>
+<p>In the following example, the <code>clusterIssuer</code> is configured to use the namespace <code>my-cm-resources</code> as the <code>clusterResourceNamespace</code>:</p>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: custom-cmres-example
+spec:
+  profile: dev
+  components:
+    certManager:
+      enabled: false
+    clusterIssuer:
+      clusterResourceNamespace: my-cm-resources
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+<h3 id="using-lets-encrypt-with-oci-dns-with-your-own-cert-manager">Using Let&rsquo;s Encrypt with OCI DNS with your own cert-manager</h3>
+<p>Verrazzano uses a webhook component to support Let&rsquo;s Encrypt certificates with OCI DNS.  This webhook implements the
+<a href="https://cert-manager.io/docs/configuration/acme/dns01/webhook/">cert-manager solver webhook pattern</a> to support
+solving <code>DNS01</code> challenges for OCI DNS.</p>
+<p>In most circumstances, you will not need to configure this because it will automatically deploy when OCI DNS and Let&rsquo;s Encrypt
+certificates are in use.  However, if you are using your own cert-manager installed in a namespace other than <code>cert-manager</code>
+and/or the <code>clusterResourceNamespace</code> is something other than <code>cert-manager</code>, you will need to configure this for the webhook.</p>
+<p>The following example configures the webhook to use the namespace <code>my-cm</code> for the cert-manager installation namespace and
+<code>my-cm-resources</code> for the <code>clusterResourceNamespace</code>:</p>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: custom-cm-letsencrypt-example
+spec:
+  profile: dev
+  components:
+    certManager:
+      enabled: false
+    clusterIssuer:
+      clusterResourceNamespace: my-cm-resources
+      letsEncrypt:
+        emailAddress: jane.doe@mycompany.com
+        environment: staging
+    dns:
+      oci:
+        ociConfigSecret: oci
+        dnsZoneCompartmentOCID: ocid1.compartment.oc1.....
+        dnsZoneOCID: ocid1.dns-zone.oc1.....
+        dnsZoneName: example.com
+    certManagerWebhookOCI:
+      overrides:
+      - values:
+          certManager:
+            namespace: my-cm
+            clusterResourceNamespace: my-cm-resources
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
 
 	
 		<style>
