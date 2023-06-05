@@ -7,7 +7,7 @@ aliases:
   - /docs/install/modify-installation
 ---
 
-This document shows how you can modify Verrazzano to add customizations to your installation.
+This document shows how you can modify Verrazzano to customize your installation.
 
 ## Verrazzano resource
 

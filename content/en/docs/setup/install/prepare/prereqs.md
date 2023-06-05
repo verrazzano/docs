@@ -30,7 +30,7 @@ You can install Verrazzano on the following Kubernetes versions.
 
 | Verrazzano | Release Date | Latest Patch Release | Latest Patch Release Date | End of Error Correction* | Kubernetes Versions    |
 |------------|--------------|----------------------|---------------------------|--------------------------|------------------------|
-| 1.6        | 2023-06-23   |                      |                           | 2024-06-30**             | 1.22, 1.23, 1.24, 1.25 |
+| 1.6        | 2023-06-23   |                      |                           | 2024-06-30**             | 1.24, 1.25, 1.26       |
 | 1.5        | 2023-02-15   | 1.5.3                | 2023-05-09                | 2024-02-28**             | 1.21, 1.22, 1.23, 1.24 |
 | 1.4        | 2022-09-30   | 1.4.5                | 2023-05-12                | 2023-10-31               | 1.21, 1.22, 1.23, 1.24 |
 | 1.3        | 2022-05-24   | 1.3.8                | 2022-11-17                | 2023-05-31               | 1.21, 1.22, 1.23       |
@@ -58,3 +58,7 @@ See the Coherence versions supported [here](https://oracle.github.io/coherence-o
 ### Helidon
 Verrazzano supports all versions of Helidon.  For more information, see [Helidon](https://helidon.io) and
  [Helidon Commercial Offerings](https://support.oracle.com/knowledge/Middleware/2645279_1.html).
+
+### Verrazzano installed software
+
+For a detailed list of Verrazzano installed software, see [here]({{< relref "/docs/setup/install/verify/softwares.md" >}}).

@@ -1,7 +1,6 @@
 ---
-title: Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)
+title: Prepare an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) Cluster
 description: Set up an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) cluster for Verrazzano
-linkTitle: OKE
 Weight: 2
 draft: false
 aliases:

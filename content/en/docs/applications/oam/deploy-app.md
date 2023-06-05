@@ -1,37 +1,14 @@
 ---
-title: "Application Deployment Guide"
-linkTitle: "Application Deployment"
-description: "A guide for deploying an example application on Verrazzano"
-weight: 1
+title: "Develop and Deploy Applications Using OAM"
+description: ""
+weight: 3
 draft: false
 ---
 
-
-## Overview
-
-Developing and deploying an application to [Verrazzano]({{< relref "/" >}}) consists of:
-1. Packaging the application as a Docker image.
-1. Publishing the application's Docker image to a container registry.
-1. Applying the application's Verrazzano components to the cluster.
-1. Applying the application's Verrazzano applications to the cluster.
-
-This guide does not provide the full details for the first two steps. An existing example application
-Docker image has been packaged and published for use.
-
-Verrazzano supports application definition using [Open Application Model (OAM)](https://oam.dev/).  Verrrazzano applications are
-composed of [components](https://github.com/oam-dev/spec/blob/master/3.component_model.md) and
-[application configurations](https://github.com/oam-dev/spec/blob/master/7.application.md).  This document
-demonstrates creating OAM resources that define an application as well as the steps required to deploy those resources.
-
-## What you need
-
-- About 10 minutes.
-
+## Prerequisites
 - Access to an existing Kubernetes cluster with Verrazzano [installed]({{< relref "/quickstart.md#install-verrazzano" >}}).
-
 - Access to the application's image in GitHub Container Registry.
-
-   Confirm access using this command to pull the example's Docker image:
+<br>  Confirm access using this command to pull the example's Docker image:
 {{< clipboard >}}
 <div class="highlight">
 
@@ -43,7 +20,7 @@ demonstrates creating OAM resources that define an application as well as the st
 {{< /clipboard >}}
 
 ## Application development
-This guide uses an example application which was written with Java and [Helidon](https://helidon.io).
+This section uses an example application which was written with Java and [Helidon](https://helidon.io).
 For the implementation details, see the [Helidon MP tutorial](https://helidon.io/docs/latest/#/mp/guides/10_mp-tutorial).
 See the application [source code](https://github.com/verrazzano/examples) in the Verrazzano examples repository.
 
@@ -602,7 +579,7 @@ Deployed applications have metric collection enabled.
 Grafana can be used to access these metrics collected by Prometheus.
 Prometheus and Grafana are additional components Verrazzano creates as a result of
 applying an application configuration. For more information on visualizing Prometheus
-metrics data, see [Grafana]({{< relref "/docs/observability/monitoring/grafana.md" >}}).
+metrics data, see [Grafana]({{< relref "/docs/observability/monitoring/configure/grafana.md" >}}).
 
 Determine the URL to access Grafana:
 {{< clipboard >}}

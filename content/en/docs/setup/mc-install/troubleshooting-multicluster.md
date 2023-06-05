@@ -1,6 +1,5 @@
 ---
 title: "Troubleshoot Multicluster Setup Issues"
-linkTitle: "Troubleshoot"
 description: "Troubleshoot issues with multicluster setup and applications"
 weight: 6
 draft: false

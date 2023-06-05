@@ -1,7 +1,6 @@
 ---
-title: Generic Kubernetes
+title: Prepare a Generic Kubernetes Cluster
 description: Set up a generic Kubernetes cluster for Verrazzano
-linkTitle: Generic
 Weight: 3
 draft: false
 aliases:

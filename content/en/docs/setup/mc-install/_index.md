@@ -1,7 +1,7 @@
 ---
-title: "Install Multicluster Verrazzano"
-description: "Install Verrazzano in a multicluster environment"
-weight: 2
+title: "Install Verrazzano in a Multicluster Environment"
+description: "Learn how to install Verrazzano in a multicluster environment"
+weight: 3
 draft: false
 aliases:
   - /docs/setup/install/mc-install

@@ -6,7 +6,7 @@ draft: false
 ---
 ### v1.6.0
 Features:
-- Added support for Kubernetes v1.25
+- Added support for Kubernetes v1.25 and v1.26
 
 Component version updates:
 - Jaeger v1.42.0

@@ -59,7 +59,7 @@ Verrazzano currently supports several [installation profiles]({{< relref "/docs/
 
 Using the Quick Start, you'll install the `dev` profile, which is suitable for evaluation.
 
-{{< alert title="NOTE" color="primary" >}}Because the `dev` profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: **Your connection is not private**. For a workaround, see this [FAQ]({{< relref "/docs/faq/_index.md#enable-google-chrome-to-accept-self-signed-verrazzano-certificates" >}}).
+{{< alert title="NOTE" color="primary" >}}Because the `dev` profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: **Your connection is not private**. For a workaround, see this [FAQ]({{< relref "/docs/troubleshooting/faq.md#enable-google-chrome-to-accept-self-signed-verrazzano-certificates" >}}).
 {{< /alert >}}
 
 
@@ -93,7 +93,7 @@ Wait for the installation to complete.
    Installation logs will be streamed to the command window until the installation has completed
    or until the default timeout (30m) has been reached.
 
-**NOTE**: For some applications, the Kiali console may show warnings for objects that replicate hostname/port configurations across multiple IngressTraits. These warnings do not impact functionality and can be suppressed with the following [component override]({{< relref "docs/guides/app-deployment/application-deployment-guide.md#suppress-kiali-console-warnings" >}}).
+**NOTE**: For some applications, the Kiali console may show warnings for objects that replicate hostname/port configurations across multiple IngressTraits. These warnings do not impact functionality and can be suppressed with the following [component override]({{< relref "docs/applications/oam/deploy-app.md#suppress-kiali-console-warnings" >}}).
 
 ## 3. Deploy an application
 

@@ -111,7 +111,7 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
 
 ## Recommended alarms
-You can [customize Prometheus]({{< relref "/docs/observability/monitoring/prometheus.md" >}}) to enable Alertmanager and configure recommended alarms (add alert rules) to get insight into your OpenSearch cluster and take some actions proactively.
+You can [customize Prometheus]({{< relref "/docs/observability/monitoring/configure/prometheus.md" >}}) to enable Alertmanager and configure recommended alarms (add alert rules) to get insight into your OpenSearch cluster and take some actions proactively.
 
 Use the `OSDataNodeFilesystemSpaceFillingUp` alert to indicate that the OpenSearch average disk usage has exceeded the specified threshold. Adjust the alert thresholds according to your needs.
    ```yaml

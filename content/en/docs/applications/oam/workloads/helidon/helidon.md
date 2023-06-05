@@ -1,7 +1,6 @@
 ---
 title: "Helidon Workload"
 description: Develop Helidon applications on Verrazzano
-linkTitle: "Helidon"
 Weight: 4
 draft: false
 ---
@@ -81,7 +80,7 @@ spec:
 
 {{< /clipboard >}}
 
-The [Application Development Guide]({{< relref "/docs/guides/app-deployment/application-deployment-guide.md" >}}) provides end-to-end instructions for
+The [Steps to Deploy using OAM]({{< relref "/docs/applications/oam/deploy-app.md" >}}) provides end-to-end instructions for
 developing and deploying the Verrazzano Helidon application.
 
 For more Verrazzano Helidon application examples, see [Examples]({{< relref "/docs/examples/_index.md" >}}).
