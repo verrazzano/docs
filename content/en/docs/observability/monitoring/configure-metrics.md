@@ -3,8 +3,6 @@ title: "Understand Monitoring Components in Verrazzano"
 description: "Learn about Verrazzano metrics gathering and viewing"
 weight: 1
 draft: false
-aliases:
-  - /docs/monitoring/metrics/metrics
 ---
 
 The Verrazzano metrics stack automates metrics aggregation and consists of Prometheus and Grafana components.
