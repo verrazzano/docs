@@ -1675,7 +1675,7 @@ int
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.MetricsTraitStatus">MetricsTraitStatus</a>,
+<a href="#oam.verrazzano.io/v1alpha1.MetricsTraitStatus">MetricsTraitStatus</a>, 
 <a href="#oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkloadStatus">VerrazzanoHelidonWorkloadStatus</a>)
 </p>
 <p>
@@ -2146,3 +2146,8 @@ structs.</p>
 <p><em>
 Generated with <code>gen-crd-api-reference-docs</code>
 </em></p>
+
+
+
+
+

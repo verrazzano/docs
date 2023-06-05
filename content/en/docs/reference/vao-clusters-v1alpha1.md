@@ -937,9 +937,9 @@ EmbeddedObjectMeta
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.ApplicationConfigurationTemplate">ApplicationConfigurationTemplate</a>,
-<a href="#clusters.verrazzano.io/v1alpha1.ComponentTemplate">ComponentTemplate</a>,
-<a href="#clusters.verrazzano.io/v1alpha1.ConfigMapTemplate">ConfigMapTemplate</a>,
+<a href="#clusters.verrazzano.io/v1alpha1.ApplicationConfigurationTemplate">ApplicationConfigurationTemplate</a>, 
+<a href="#clusters.verrazzano.io/v1alpha1.ComponentTemplate">ComponentTemplate</a>, 
+<a href="#clusters.verrazzano.io/v1alpha1.ConfigMapTemplate">ConfigMapTemplate</a>, 
 <a href="#clusters.verrazzano.io/v1alpha1.SecretTemplate">SecretTemplate</a>)
 </p>
 <p>
@@ -1155,10 +1155,10 @@ ConfigMapTemplate
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfiguration">MultiClusterApplicationConfiguration</a>,
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterComponent">MultiClusterComponent</a>,
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterConfigMap">MultiClusterConfigMap</a>,
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterSecret">MultiClusterSecret</a>,
+<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfiguration">MultiClusterApplicationConfiguration</a>, 
+<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterComponent">MultiClusterComponent</a>, 
+<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterConfigMap">MultiClusterConfigMap</a>, 
+<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterSecret">MultiClusterSecret</a>, 
 <a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoProject">VerrazzanoProject</a>)
 </p>
 <p>
@@ -1465,10 +1465,10 @@ This field is beta-level in 1.8</p>
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfigurationSpec">MultiClusterApplicationConfigurationSpec</a>,
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterComponentSpec">MultiClusterComponentSpec</a>,
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterConfigMapSpec">MultiClusterConfigMapSpec</a>,
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterSecretSpec">MultiClusterSecretSpec</a>,
+<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfigurationSpec">MultiClusterApplicationConfigurationSpec</a>, 
+<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterComponentSpec">MultiClusterComponentSpec</a>, 
+<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterConfigMapSpec">MultiClusterConfigMapSpec</a>, 
+<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterSecretSpec">MultiClusterSecretSpec</a>, 
 <a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoProjectSpec">VerrazzanoProjectSpec</a>)
 </p>
 <p>
@@ -1677,7 +1677,7 @@ Kubernetes core/v1.SecretType
 (<code>string</code> alias)</p></h3>
 <p>
 (<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.ClusterLevelStatus">ClusterLevelStatus</a>,
+<a href="#clusters.verrazzano.io/v1alpha1.ClusterLevelStatus">ClusterLevelStatus</a>, 
 <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterResourceStatus">MultiClusterResourceStatus</a>)
 </p>
 <p>
@@ -1732,3 +1732,8 @@ ProjectTemplate
 <p><em>
 Generated with <code>gen-crd-api-reference-docs</code>
 </em></p>
+
+
+
+
+
