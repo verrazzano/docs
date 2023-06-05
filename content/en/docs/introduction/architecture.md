@@ -36,7 +36,7 @@ One Verrazzano component that does not reside within the service mesh is the Ver
 
 With Verrazzano, you can manage a variety of application types. Depending on their type, applications are deployed from different spaces within the architecture of Verrazzano.
 
-Applications that conform to the [Open Application Model (OAM)]({{< relref "/docs/about/verrazzanooam/_index.md" >}}) specification are deployed within the service mesh. Their close proximity to other components allows for significant automation and configuration benefits.
+Applications that conform to the [Open Application Model (OAM)]({{< relref "/docs/introduction/verrazzanooam.md" >}}) specification are deployed within the service mesh. Their close proximity to other components allows for significant automation and configuration benefits.
 
 Other application types are deployed in the Kubernetes cluster. They can still use Verrazzano features but may require additional configuration. Whichever application types you use, they'll benefit from Verrazzano's comprehensive management solution.
 
