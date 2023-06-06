@@ -1,6 +1,6 @@
 ---
 title: Get Console Credentials
-description: "Get the credentials to access the consoles installed by Verrazzano"
+description: "Get the credentials to access the consoles that Verrazzano installs"
 weight: 3
 draft: false
 ---
