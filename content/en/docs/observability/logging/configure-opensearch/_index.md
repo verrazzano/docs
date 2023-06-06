@@ -1,5 +1,5 @@
 ---
-title: "Configure an OpenSearch Cluster"
+title: "Configure OpenSearch Clusters"
 description: "Configure OpenSearch clusters and access OpenSearch dashboards"
 weight: 2
 draft: false
@@ -67,7 +67,7 @@ spec:
 </div>
 {{< /clipboard >}}
 
-For information on OpenSearch, see the [Customize OpenSearch]({{< relref "/docs/customize/opensearch" >}}).
+For information on OpenSearch, see the [Customize OpenSearch]({{< relref "/docs/observability/logging/configure-opensearch/opensearch" >}}).
 
 ## OpenSearch Dashboards
 OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.

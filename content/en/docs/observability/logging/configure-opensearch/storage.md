@@ -1,9 +1,10 @@
 ---
-title: Persistent Storage
+title: Customize Persistent Storage
 description: Customize persistent storage settings
-linkTitle: Persistent Storage
 Weight: 11
 draft: false
+aliases:
+  - /docs/customize/storage
 ---
 
 The following components can use persistent storage:

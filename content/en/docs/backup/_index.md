@@ -3,6 +3,8 @@ title: "Back Up and Restore"
 description: "Learn how to back up and restore Verrazzano"
 weight: 7
 draft: false
+aliases:
+  - /docs/uninstall/backup
 ---
 
 The Verrazzano platform comprises a comprehensive set of open source components, linked together to provide a modern, reliable, and secure platform to deploy cloud native applications.

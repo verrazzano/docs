@@ -5,6 +5,7 @@ draft: false
 aliases:
   - /docs/concepts/verrazzanoproject
   - /docs/applications/projects
+  - /docs/about/verrazzanoproject
 ---
 
 A Verrazzano project provides a way to group application namespaces that are owned or administered by the same user or

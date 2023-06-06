@@ -1,9 +1,10 @@
 ---
-title: "Network File System"
-description: "Configure NFS storage"
-linkTitle: Network File System
+title: "Configure NFS Storage"
+description: ""
 weight: 10
 draft: false
+aliases:
+  - /docs/customize/nfs.md
 ---
 
 Complete the following steps to configure NFS storage in an Oracle Cloud Native Environment.

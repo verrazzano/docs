@@ -36,7 +36,7 @@ $ kubectl logs <fluentd-pod-name> -n verrazzano-system
 $ sudo getenforce
 ```
 {{< /clipboard >}}
-    If SELinux is in `enforcing` mode, then follow the advice found [here]({{< relref "/docs/customize/fluentd#update-the-selinux-context-type-for-fluentd" >}}).
+    If SELinux is in `enforcing` mode, then follow the advice found [here]({{< relref "/docs/observability/logging/fluentd/fluentd#update-the-selinux-context-type-for-fluentd" >}}).
 
 4. Verification.
     - Verify that Fluentd is able to read and push the logs to OpenSearch by reviewing the Fluentd logs.

@@ -4,8 +4,8 @@ description: "Install Verrazzano using the `vz` CLI"
 weight: 1
 draft: false
 aliases:
-- "/docs/setup/install/installation"
-- "/docs/setup/install/cli-installation"
+- /docs/setup/install/installation
+- /docs/setup/install/cli-installation
 ---
 
 The following instructions show you how to install Verrazzano in a
@@ -48,7 +48,7 @@ For an overview of how to configure Verrazzano, see [Modify Verrazzano Installat
 For a complete description of Verrazzano configuration options, see the
 [Verrazzano Custom Resource Definition]({{< relref "/docs/reference/vpo-verrazzano-v1beta1" >}}).
 
-To use other DNS options, see [Customizing DNS]({{< relref "/docs/customize/dns" >}}) for more details.
+To use other DNS options, see [Customizing DNS]({{< relref "/docs/networking/traffic/dns" >}}) for more details.
 
 #### Install Verrazzano
 

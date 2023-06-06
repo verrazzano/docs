@@ -4,7 +4,7 @@ description: "Install Verrazzano using `kubectl`"
 weight: 1
 draft: false
 aliases:
-- "/docs/setup/install/kubectl-installation"
+- /docs/setup/install/kubectl-installation
 ---
 
 The following instructions show you how to install Verrazzano in a
@@ -82,7 +82,7 @@ This document shows how to create a basic Verrazzano installation using:
 For a complete description of Verrazzano configuration options, see the
 [Verrazzano Custom Resource Definition]({{< relref "/docs/reference/vpo-verrazzano-v1beta1" >}}).
 
-To use other DNS options, see [Customzing DNS]({{< relref "/docs/customize/dns" >}}) for more details.
+To use other DNS options, see [Customzing DNS]({{< relref "/docs/networking/traffic/dns" >}}) for more details.
 
 #### Install Verrazzano
 

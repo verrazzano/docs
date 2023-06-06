@@ -1,9 +1,10 @@
 ---
-title: "DNS"
+title: "Customize DNS"
 description: "Customize DNS configurations for Verrazzano system and application endpoints"
-linkTitle: DNS
-weight: 3
+weight: 2
 draft: false
+aliases:
+  - /docs/customize/dns
 ---
 
 Verrazzano supports three DNS choices for Verrazzano services and applications:
