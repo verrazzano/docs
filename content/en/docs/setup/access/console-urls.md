@@ -1,6 +1,6 @@
 ---
-title: Get Consoles URLs
-description: "Get the endpoints for the consoles Verrazzano installs"
+title: Get Console URLs
+description: "Get the endpoints for the consoles that Verrazzano installs"
 weight: 2
 draft: false
 ---

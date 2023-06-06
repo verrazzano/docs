@@ -1,6 +1,5 @@
 ---
 title: "Perform the Uninstall"
-linkTitle: "Uninstall Verrazzano"
 description: "Uninstall Verrazzano"
 weight: 2
 draft: false

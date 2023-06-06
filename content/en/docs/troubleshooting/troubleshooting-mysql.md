@@ -1,6 +1,5 @@
 ---
-title: "MySQL"
-linkTitle: "MySQL"
+title: "MySQL Issues"
 description: "Troubleshoot MySQL issues"
 weight: 4
 draft: false
