@@ -1,8 +1,7 @@
 ---
-title: "Load Balancers on OCI"
+title: "Customize Load Balancers on OCI"
 description: "Customize load balancers on OCI for Verrazzano system and application endpoints"
-linkTitle: OCI Load Balancers
-weight: 9
+weight: 5
 draft: false
 aliases:
   - /docs/customize/ociLoadBalancerIPs

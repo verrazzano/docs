@@ -1,7 +1,6 @@
 ---
-title: AuthProxy
+title: Customize AuthProxy
 description: Customize Verrazzano AuthProxy settings
-linkTitle: AuthProxy
 Weight: 1
 draft: false
 aliases:

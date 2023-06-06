@@ -1,14 +1,13 @@
 ---
-title: "Istio"
-description: "Customize Istio Gateways"
-linkTitle: Istio
+title: "Customize Istio"
+description: "Customize Verrazzano Istio settings"
 weight: 8
 draft: false
 aliases:
   - /docs/customize/istio
 ---
 
-You can customize Verrazzano Istio component using settings in the Verrazzano custom resource.
+You can customize the Verrazzano Istio component using settings in the Verrazzano custom resource.
 
 The following table describes the fields in the Verrazzano custom resource pertaining to the [Istio component]({{< relref "/docs/reference/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.IstioComponent" >}}).
 

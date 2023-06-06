@@ -1,7 +1,6 @@
 ---
-title: Grafana
+title: Customize Grafana
 description: Customize Verrazzano Grafana settings
-linkTitle: Grafana
 Weight: 5
 draft: false
 ---
@@ -13,7 +12,7 @@ If you prefer to use your own Grafana database, complete the following steps:
 1. Create a secret named `grafana-db` in the `verrazzano-install` namespace which contains the login credentials. For example:
 {{< clipboard >}}
 <div class="highlight">
-  
+
    ```
    $ # Load the login credentials into variables
    $ ROOT_SECRET=$(echo <database root user secret> | base64)
