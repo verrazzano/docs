@@ -4,6 +4,8 @@ description: Customize Verrazzano AuthProxy settings
 linkTitle: AuthProxy
 Weight: 1
 draft: false
+aliases:
+  - /docs/customize/authproxy
 ---
 
 The Verrazzano AuthProxy component enables authentication and authorization for Keycloak users accessing Verrazzano resources.  You can customize the AuthProxy component using settings in the Verrazzano custom resource.

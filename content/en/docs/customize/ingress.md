@@ -4,6 +4,8 @@ description: Customize Verrazzano NGINX and Istio ingress settings
 linkTitle: Ingress
 Weight: 7
 draft: false
+aliases:
+  - /docs/customize/ingress
 ---
 
 Verrazzano uses NGINX for ingress to Verrazzano system components and Istio for application ingress.

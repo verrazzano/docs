@@ -4,6 +4,8 @@ description: "Customize Istio Gateways"
 linkTitle: Istio
 weight: 8
 draft: false
+aliases:
+  - /docs/customize/istio
 ---
 
 You can customize Verrazzano Istio component using settings in the Verrazzano custom resource.

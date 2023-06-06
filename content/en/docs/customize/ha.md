@@ -4,6 +4,8 @@ description: Achieve high availability using the `prod` profile
 linkTitle: High Availability
 Weight: 6
 draft: false
+aliases:
+  - /docs/customize/ha
 ---
 
 High availability designs follow three main principles:

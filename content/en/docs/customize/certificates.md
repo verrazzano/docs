@@ -4,6 +4,8 @@ description: "Customize SSL certificate generation for Verrazzano system endpoin
 linkTitle: Certificates
 weight: 2
 draft: false
+aliases:
+  - /docs/customize/certificates
 ---
 
 Verrazzano issues certificates to secure access from external clients to secure system endpoints.  
@@ -189,3 +191,103 @@ rate limit exceptions on certificate generation.
 In such environments, it is better to use the LetsEncrypt `staging` environment, which has much higher limits
 than the `production` environment.  For test environments, the self-signed CA also may be more appropriate to completely
 avoid LetsEncrypt rate limits.
+
+## Use your own cert-manager
+
+You can either use the Verrazzano-provided cert-manager or use your own. To use your own cert-manager, disable the
+`certManager` component in the Verrazzano CR as shown:
+
+{{< clipboard >}}
+<div class="highlight">
+
+```
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: custom-cm-example
+spec:
+  profile: dev
+  components:
+    certManager:
+      enabled: false
+```
+
+</div>
+{{< /clipboard >}}
+
+The Verrazzano certificates issuer is configured using the [`spec.components.clusterIssuer`](/docs/reference/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.ClusterIssuerComponent)
+component.  The Verrazzano default `clusterIssuer` assumes that cert-manager is installed in the `cert-manager` namespace, and that the `clusterResourceNamespace`
+for cert-manager is `cert-manager`.
+
+If your cert-manager is installed into a different namespace or uses a separate namespace for the `clusterResourceNamespace`,
+you can configure this on the Verrazzano `clusterIssuer` component.
+
+In the following example, the `clusterIssuer` is configured to use the namespace `my-cm-resources` as the `clusterResourceNamespace`:
+
+{{< clipboard >}}
+<div class="highlight">
+
+```
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: custom-cmres-example
+spec:
+  profile: dev
+  components:
+    certManager:
+      enabled: false
+    clusterIssuer:
+      clusterResourceNamespace: my-cm-resources
+```
+
+</div>
+{{< /clipboard >}}
+
+### Use Let's Encrypt with OCI DNS with your own cert-manager
+
+Verrazzano uses a webhook component to support Let's Encrypt certificates with OCI DNS.  This webhook implements the
+[cert-manager solver webhook pattern](https://cert-manager.io/docs/configuration/acme/dns01/webhook/) to support
+solving `DNS01` challenges for OCI DNS.
+
+In most circumstances, you will not need to configure this because it will automatically deploy when OCI DNS and Let's Encrypt
+certificates are in use.  However, if you are using your own cert-manager installed in a namespace other than `cert-manager`
+and/or the `clusterResourceNamespace` is something other than `cert-manager`, you will need to configure this for the webhook.
+
+The following example configures the webhook to use the namespace `my-cm` for the cert-manager installation namespace and
+`my-cm-resources` for the `clusterResourceNamespace`:
+
+{{< clipboard >}}
+<div class="highlight">
+
+```
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: custom-cm-letsencrypt-example
+spec:
+  profile: dev
+  components:
+    certManager:
+      enabled: false
+    clusterIssuer:
+      clusterResourceNamespace: my-cm-resources
+      letsEncrypt:
+        emailAddress: jane.doe@mycompany.com
+        environment: staging
+    dns:
+      oci:
+        ociConfigSecret: oci
+        dnsZoneCompartmentOCID: ocid1.compartment.oc1.....
+        dnsZoneOCID: ocid1.dns-zone.oc1.....
+        dnsZoneName: example.com
+    certManagerWebhookOCI:
+      overrides:
+      - values:
+          certManager:
+            namespace: my-cm
+            clusterResourceNamespace: my-cm-resources
+```
+
+</div>
+{{< /clipboard >}}

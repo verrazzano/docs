@@ -4,6 +4,8 @@ description: "Customize DNS configurations for Verrazzano system and application
 linkTitle: DNS
 weight: 3
 draft: false
+aliases:
+  - /docs/customize/dns
 ---
 
 Verrazzano supports three DNS choices for Verrazzano services and applications:
