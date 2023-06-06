@@ -1,6 +1,5 @@
 ---
 title: "Create a Kubernetes Deployment and Service"
-linkTitle: Kubernetes Deployment and Service
 description: "Use these instructions to create a Kubernetes deployment and service"
 weight: 1
 draft: false

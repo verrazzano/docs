@@ -1,6 +1,5 @@
 ---
-title: "Fluentd"
-linkTitle: "Fluentd"
+title: "Fluentd Issues"
 description: "Troubleshoot a Fluentd permission issue when SELinux is in `enforcing` mode"
 weight: 3
 draft: false
