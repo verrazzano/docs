@@ -5,6 +5,7 @@ weight: 2
 draft: false
 aliases:
   - /docs/concepts/features
+  - /docs/about/features
 ---
 
 The Verrazzano Enterprise Container Platform delivers a unified platform for standardizing application and cluster management across various hosting environments. It's built from many familiar open source projects, each working in concert on Kubernetes clusters to provide vital container management services.
