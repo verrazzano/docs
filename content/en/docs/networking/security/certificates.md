@@ -1,7 +1,6 @@
 ---
-title: "Certificates"
+title: "Customize Certificates"
 description: "Customize SSL certificate generation for Verrazzano system endpoints"
-linkTitle: Certificates
 weight: 2
 draft: false
 aliases:
@@ -108,7 +107,7 @@ field in the Verrazzano custom resource.
 
 {{< alert title="NOTE" color="primary" >}}
 Using LetsEncrypt for certificates also requires using Oracle Cloud Infrastructure DNS for DNS management.
-For details, see the [Customize DNS]({{< relref "/docs/customize/dns.md" >}}) page.
+For details, see the [Customize DNS]({{< relref "/docs/networking/traffic/dns.md" >}}) page.
 {{< /alert >}}
 
 To configure cert-manager to use LetsEncrypt as the certificates provider, you must configure a cert-manager

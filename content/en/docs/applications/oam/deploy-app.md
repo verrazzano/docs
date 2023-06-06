@@ -539,7 +539,7 @@ Deployed applications have log collection enabled.
 These logs are collected using OpenSearch and can be accessed using OpenSearch Dashboards.
 OpenSearch and OpenSearch Dashboards are examples of infrastructure Verrazzano creates in support of an application as a
 result of applying an application configuration. For more information on creating an index pattern
-and visualizing the log data collected in OpenSearch, see [OpenSearch Dashboards]({{< relref "/docs/observability/logging/configure-opensearch.md#opensearch-dashboards" >}}).
+and visualizing the log data collected in OpenSearch, see [OpenSearch Dashboards]({{< relref "/docs/observability/logging/configure-opensearch/_index.md#opensearch-dashboards" >}}).
 
 Determine the URL to access OpenSearch Dashboards:
 {{< clipboard >}}
@@ -579,7 +579,7 @@ Deployed applications have metric collection enabled.
 Grafana can be used to access these metrics collected by Prometheus.
 Prometheus and Grafana are additional components Verrazzano creates as a result of
 applying an application configuration. For more information on visualizing Prometheus
-metrics data, see [Grafana]({{< relref "/docs/observability/monitoring/configure/grafana.md" >}}).
+metrics data, see [Grafana]({{< relref "/docs/observability/monitoring/configure/grafana/_index.md" >}}).
 
 Determine the URL to access Grafana:
 {{< clipboard >}}

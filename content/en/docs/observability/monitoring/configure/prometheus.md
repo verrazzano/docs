@@ -1,6 +1,5 @@
 ---
 title: "Prometheus"
-linkTitle: Prometheus
 description: "Customize Prometheus to monitor Verrazzano"
 weight: 2
 draft: false
@@ -96,3 +95,5 @@ EOF
 {{< /clipboard >}}
 
 For more information, see [Deploying Prometheus rules](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules).
+
+For instructions to customize persistent storage settings, see [Customize Persistent Storage]({{< relref "docs/observability/logging/configure-opensearch/storage.md " >}}).

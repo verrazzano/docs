@@ -1,7 +1,6 @@
 ---
-title: "Network File System"
-description: "Configure NFS storage"
-linkTitle: Network File System
+title: "Configure NFS Storage"
+description: ""
 weight: 10
 draft: false
 aliases:

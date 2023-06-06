@@ -115,7 +115,6 @@ $ kubectl edit vz example-verrazzano
 ## Customization options
 
 Verrazzano supplies a variety of customization options.
-For details on specific customizations, see [Customize Verrazzano]({{< relref "/docs/customize/_index.md" >}}).
 
 The following section illustrates a generic overview of the customization options available using the
 [Verrazzano API]({{< relref "/docs/reference/vpo-verrazzano-v1beta1" >}}).
