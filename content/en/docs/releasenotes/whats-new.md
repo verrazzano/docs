@@ -1,17 +1,17 @@
 ---
-title: What’s New in this Release
+title: What’s New in This Release
 weight: 2
 draft: false
 ---
 ## v1.6.0
 
-#### Enhancements
+#### Enhancements:
 - Enhancement_1
 - Enhancement_2
 - ...
 - Enhancement_n
 
-#### Features
+#### Features:
 - Added support for Kubernetes v1.25 and v1.26
 
 #### Component version updates:
@@ -20,13 +20,13 @@ draft: false
 - WebLogic Kubernetes Operator v4.0.6
 - WebLogic Monitoring Exporter v2.1.3
 
-#### Fixes
+#### Fixes:
 - Fix_1
 - Fix_2
 - ...
 - Fix_n
 
-#### Known issues and workarounds
+#### Known issues and workarounds:
 - Known Issue_1
 - Known Issue_2
 - ...
