@@ -377,6 +377,7 @@ After updating your Verrazzano custom resource, you can notice that the opensear
 
 By default, systemd journal logs directory is set to /var/run/journal. However, depending on the environment, the directory may vary.
 is set to /var/run/journal. However, depending on the environment, the directory may vary.
+
 To override the default configuration and set the logs directory to some other path, you can do that by editing your Verrazzano custom resource as follows.
 {{< clipboard >}}
 <div class="highlight">
