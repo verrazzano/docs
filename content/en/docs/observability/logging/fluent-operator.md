@@ -372,6 +372,37 @@ spec:
 
 After updating your Verrazzano custom resource, you can notice that the opensearch-application-clusteroutput ClusterOutput resource will be removed from the verrazzano-logging namespace. The opensearch-system-clusteroutput will continue to exist and will send the Verrazzano component logs to Verrazzano's OpenSearch.
 
+
+## Configure Systemd Logs Directory 
+
+By default, systemd journal logs directory is set to /var/run/journal. However, depending on the environment, the directory may vary.
+is set to /var/run/journal. However, depending on the environment, the directory may vary.
+To override the default configuration and set the logs directory to some other path, you can do that by editing your Verrazzano custom resource as follows.
+{{< clipboard >}}
+<div class="highlight">
+
+```
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: example-verrazzano
+spec:
+  profile: dev
+  components:
+    fluentOperator:
+      enabled: true
+      overrides:
+        - values:
+            fluentbit:
+              input: 
+                systemd:
+                  path: <new-path>
+    fluentbitOpensearchOutput:
+      enabled: true
+```
+</div>
+{{< /clipboard >}}
+
 ## Check Fluent Bit configurations
 
 You can view the generated Fluent Bit configuration that the Fluent Operator loads in a secret and mounts as a volume in a Fluent Bit daemonset.
