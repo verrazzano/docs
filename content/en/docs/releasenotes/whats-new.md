@@ -26,7 +26,7 @@ draft: false
 - ...
 - Fix_n
 
-#### Known Issues and Workarounds
+#### Known issues and workarounds
 - Known Issue_1
 - Known Issue_2
 - ...
