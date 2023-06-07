@@ -3,6 +3,8 @@ title: "Troubleshoot Application Deployment Issues"
 description: "Troubleshoot issues deploying applications on Verrazzano"
 weight: 8
 draft: false
+aliases:
+  - /docs/troubleshooting/troubleshooting-application-deployment
 ---
 
 During application deployment, the `oam-kubernetes-runtime` and `verrazzano-application-operator` cooperate through the generation and update of Kubernetes resources.
