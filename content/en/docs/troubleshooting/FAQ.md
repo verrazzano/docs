@@ -3,6 +3,8 @@ title: FAQ
 description: "Answers to commonly asked questions and known issues"
 weight: 6
 draft: false
+aliases:
+  - /docs/faq
 ---
 
 
