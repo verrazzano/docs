@@ -79,7 +79,7 @@ The resulting output is similar to the following (abbreviated to show only the r
       grafanaUrl: https://grafana.vmi.system.default.11.22.33.44.nip.io
       keyCloakUrl: https://keycloak.default.11.22.33.44.nip.io
       kialiUrl: https://kiali.vmi.system.default.11.22.33.44.nip.io
-      opensearchDashboardsUrl: https://opensearchDashboards.vmi.system.default.11.22.33.44.nip.io
+      opensearchDashboardsUrl: https://osd.vmi.system.default.11.22.33.44.nip.io
       opensearchUrl: https://opensearch.vmi.system.default.11.22.33.44.nip.io
       prometheusUrl: https://prometheus.vmi.system.default.11.22.33.44.nip.io
       rancherUrl: https://rancher.default.11.22.33.44.nip.io
@@ -110,7 +110,7 @@ The following is an example of the output:
 "keyCloakUrl": "https://keycloak.default.11.22.33.44.nip.io",
 "kialiUrl": "https://kiali.vmi.system.default.11.22.33.44.nip.io",
 "opensearchUrl": "https://opensearch.vmi.system.default.11.22.33.44.nip.io",
-"opensearchDashboardsUrl": "https://opensearchDashboards.vmi.system.default.11.22.33.44.nip.io",
+"opensearchDashboardsUrl": "https://osd.vmi.system.default.11.22.33.44.nip.io",
 "prometheusUrl": "https://prometheus.vmi.system.default.11.22.33.44.nip.io",
 "rancherUrl": "https://rancher.default.11.22.33.44.nip.io"
 "thanosQueryUrl": "https://thanos-query.default.11.22.33.44.nip.io"

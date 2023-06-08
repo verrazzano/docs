@@ -182,11 +182,11 @@ spec:
             requests:
               memory: 1Gi
         # Override the default node groups because we are providing our own topology.
-        - name: os-master
+        - name: es-master
           replicas: 0
-        - name: os-data
+        - name: es-data
           replicas: 0
-        - name: os-ingest
+        - name: es-ingest
           replicas: 0
 ```
 {{< /clipboard >}}
@@ -201,9 +201,9 @@ $ kubectl get pvc,pod -l verrazzano-component=opensearch -n verrazzano-system
 
 # Sample output
 NAME                                                             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-persistentvolumeclaim/opensearch-master-vmi-system-master-0      Bound    pvc-9ace042a-dd68-4975-816d-f2ca0dc4d9d8   50Gi       RWO            standard       5m22s
-persistentvolumeclaim/opensearch-master-vmi-system-master-1      Bound    pvc-8bf68c2c-235e-4bd5-8741-5a5cd3453934   50Gi       RWO            standard       5m21s
-persistentvolumeclaim/opensearch-master-vmi-system-master-2      Bound    pvc-da8a48b1-5762-4669-98f0-8479f30043fc   50Gi       RWO            standard       5m21s
+persistentvolumeclaim/elasticsearch-master-vmi-system-master-0      Bound    pvc-9ace042a-dd68-4975-816d-f2ca0dc4d9d8   50Gi       RWO            standard       5m22s
+persistentvolumeclaim/elasticsearch-master-vmi-system-master-1      Bound    pvc-8bf68c2c-235e-4bd5-8741-5a5cd3453934   50Gi       RWO            standard       5m21s
+persistentvolumeclaim/elasticsearch-master-vmi-system-master-2      Bound    pvc-da8a48b1-5762-4669-98f0-8479f30043fc   50Gi       RWO            standard       5m21s
 persistentvolumeclaim/vmi-system-data-ingest                     Bound    pvc-7ad9f275-632b-4aac-b7bf-c5115215937c   100Gi      RWO            standard       5m23s
 persistentvolumeclaim/vmi-system-data-ingest-1                   Bound    pvc-8a293e51-2c20-4cae-916b-1ce46a780403   100Gi      RWO            standard       5m23s
 persistentvolumeclaim/vmi-system-data-ingest-2                   Bound    pvc-0025fcef-1d8c-4307-977c-3921545c6730   100Gi      RWO            standard       5m22s
@@ -221,7 +221,7 @@ pod/vmi-system-data-ingest-1-8d7db6489-kdhbv           2/2     Running    1     
 pod/vmi-system-data-ingest-2-699d6bdd9c-z7nzx          2/2     Running    0          5m21s
 pod/vmi-system-grafana-7947cdd84b-b7mks                2/2     Running    0          5m21s
 pod/vmi-system-kiali-6c7bd6658b-d2zq9                  2/2     Running    0          5m37s
-pod/vmi-system-opensearchDashboards-7d47f65dfc-zhjxp   2/2     Running    0          5m21s
+pod/vmi-system-osd-7d47f65dfc-zhjxp   2/2     Running    0          5m21s
 pod/vmi-system-master-0                                2/2     Running    0          5m21s
 pod/vmi-system-master-1                                2/2     Running    0          5m21s
 pod/vmi-system-master-2                                2/2     Running    0          5m21s
@@ -238,7 +238,7 @@ requested amount of memory.
 
 ```
 Containers:
-  os-data:
+  es-data:
     ...
     Requests:
       memory:   1Gi
