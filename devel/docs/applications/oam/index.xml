@@ -1357,10 +1357,10 @@ all OAM based applications within the cluster.&lt;/p&gt;
 
 # Sample output
 NAME                                               READY   STATUS    RESTARTS   AGE
-vmi-system-os-master-0                             2/2     Running   0          47m
+vmi-system-es-master-0                             2/2     Running   0          47m
 vmi-system-grafana-799d79648d-wsdp4                2/2     Running   0          47m
 vmi-system-kiali-574c6dd94d-f49jv                  2/2     Running   0          51m
-vmi-system-opensearchDashboards-77f8d998f4-zzvqr   2/2     Running   0          47m
+vmi-system-osd-77f8d998f4-zzvqr   2/2     Running   0          47m
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -1522,10 +1522,10 @@ prometheus-prometheus-operator-kube-p-prometheus-0     3/3     Running   0      
 monitoring stack created by Verrazzano for the deployed applications.&lt;/p&gt;
 &lt;p&gt;The monitoring infrastructure comprises several components:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;vmi-system-os&lt;/code&gt; - OpenSearch for log collection&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vmi-system-es&lt;/code&gt; - OpenSearch for log collection&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vmi-system-grafana&lt;/code&gt; - Grafana for metric visualization&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vms-system-kiali&lt;/code&gt; - Kiali for management console of &lt;code&gt;istio&lt;/code&gt; service mesh&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;vmi-system-opensearchDashboards&lt;/code&gt; - OpenSearch Dashboards for log visualization&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vmi-system-osd&lt;/code&gt; - OpenSearch Dashboards for log visualization&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;prometheus-prometheus-operator-kube-p-prometheus&lt;/code&gt; - Prometheus for metric collection&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p/&gt;
@@ -2468,7 +2468,7 @@ and visualizing the log data collected in OpenSearch, see &lt;a href=&#34;../../
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ OSD_HOST=$(kubectl get ingress \
-     -n verrazzano-system vmi-system-opensearchDashboards \
+     -n verrazzano-system vmi-system-osd \
      -o jsonpath=&amp;#39;{.spec.rules[0].host}&amp;#39;)
 $ OSD_URL=&amp;#34;https://${OSD_HOST}&amp;#34;
 $ echo &amp;#34;${OSD_URL}&amp;#34;
