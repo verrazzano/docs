@@ -341,10 +341,10 @@ and enabled for Istio.
 
    # Sample output
    NAME                                               READY   STATUS    RESTARTS   AGE
-   vmi-system-os-master-0                             2/2     Running   0          47m
+   vmi-system-es-master-0                             2/2     Running   0          47m
    vmi-system-grafana-799d79648d-wsdp4                2/2     Running   0          47m
    vmi-system-kiali-574c6dd94d-f49jv                  2/2     Running   0          51m
-   vmi-system-opensearchDashboards-77f8d998f4-zzvqr   2/2     Running   0          47m
+   vmi-system-osd-77f8d998f4-zzvqr   2/2     Running   0          47m
    ```
 
 </div>
@@ -369,10 +369,10 @@ and enabled for Istio.
    monitoring stack created by Verrazzano for the deployed applications.
 
    The monitoring infrastructure comprises several components:
-   * `vmi-system-os` - OpenSearch for log collection
+   * `vmi-system-es` - OpenSearch for log collection
    * `vmi-system-grafana` - Grafana for metric visualization
    * `vms-system-kiali` - Kiali for management console of `istio` service mesh
-   * `vmi-system-opensearchDashboards` - OpenSearch Dashboards for log visualization
+   * `vmi-system-osd` - OpenSearch Dashboards for log visualization
    * `prometheus-prometheus-operator-kube-p-prometheus` - Prometheus for metric collection
    <p/>
 
@@ -549,7 +549,7 @@ Determine the URL to access OpenSearch Dashboards:
 
  ```
 $ OSD_HOST=$(kubectl get ingress \
-      -n verrazzano-system vmi-system-opensearchDashboards \
+      -n verrazzano-system vmi-system-osd \
       -o jsonpath='{.spec.rules[0].host}')
 $ OSD_URL="https://${OSD_HOST}"
 $ echo "${OSD_URL}"

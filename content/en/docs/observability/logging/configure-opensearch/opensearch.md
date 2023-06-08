@@ -182,11 +182,11 @@ spec:
             requests:
               memory: 1Gi
         # Override the default node groups because we are providing our own topology.
-        - name: os-master
+        - name: es-master
           replicas: 0
-        - name: os-data
+        - name: es-data
           replicas: 0
-        - name: os-ingest
+        - name: es-ingest
           replicas: 0
 ```
 {{< /clipboard >}}
@@ -221,7 +221,7 @@ pod/vmi-system-data-ingest-1-8d7db6489-kdhbv           2/2     Running    1     
 pod/vmi-system-data-ingest-2-699d6bdd9c-z7nzx          2/2     Running    0          5m21s
 pod/vmi-system-grafana-7947cdd84b-b7mks                2/2     Running    0          5m21s
 pod/vmi-system-kiali-6c7bd6658b-d2zq9                  2/2     Running    0          5m37s
-pod/vmi-system-opensearchDashboards-7d47f65dfc-zhjxp   2/2     Running    0          5m21s
+pod/vmi-system-osd-7d47f65dfc-zhjxp   2/2     Running    0          5m21s
 pod/vmi-system-master-0                                2/2     Running    0          5m21s
 pod/vmi-system-master-1                                2/2     Running    0          5m21s
 pod/vmi-system-master-2                                2/2     Running    0          5m21s
@@ -238,7 +238,7 @@ requested amount of memory.
 
 ```
 Containers:
-  os-data:
+  es-data:
     ...
     Requests:
       memory:   1Gi
