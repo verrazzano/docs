@@ -259,7 +259,7 @@ This configuration consists of three resources: FluentBitConfig, Filter, and Par
 FluentBitConfig:
   - Name: `myapp-fluentbitconfig`
   - Namespace: `my-app`
-  - For accurate filtering and parsing, it uses a filterSelector and parserSelector to match labels with the value `myapp`.
+  - For accurate filtering and parsing, it uses a `filterSelector` and `parserSelector` to match labels with the value `myapp`.
 
 Filter:
  - Name: `myapp-filter`
