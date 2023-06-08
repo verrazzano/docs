@@ -1108,6 +1108,34 @@ FluentdComponent
 </tr>
 <tr>
 <td>
+<code>fluentOperator</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.FluentOperatorComponent">
+FluentOperatorComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The FluentOperator component configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>fluentbitOpensearchOutput</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.FluentbitOpensearchOutputComponent">
+FluentbitOpensearchOutputComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The FluentbitOpensearchOutput component configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>grafana</code></br>
 <em>
 <a href="#install.verrazzano.io/v1beta1.GrafanaComponent">
@@ -1887,6 +1915,109 @@ string
 </tr>
 </tbody>
 </table>
+<h3 id="install.verrazzano.io/v1beta1.FluentOperatorComponent">FluentOperatorComponent
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
+</p>
+<p>
+<p>FluentOperatorComponent specifies the Fluent Operator configuration.</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>If true, then the Fluent Operator will be installed.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>InstallOverrides</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
+InstallOverrides
+</a>
+</em>
+</td>
+<td>
+<p>
+(Members of <code>InstallOverrides</code> are embedded into this type.)
+</p>
+<em>(Optional)</em>
+<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
+find all possible values
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/fluent-operator/values.yaml %}}">here</a>
+and invalid values will be ignored.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="install.verrazzano.io/v1beta1.FluentbitOpensearchOutputComponent">FluentbitOpensearchOutputComponent
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
+</p>
+<p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>If true, then the FluentbitOpensearchOutput will be installed.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>InstallOverrides</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
+InstallOverrides
+</a>
+</em>
+</td>
+<td>
+<p>
+(Members of <code>InstallOverrides</code> are embedded into this type.)
+</p>
+<em>(Optional)</em>
+<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
+find all possible values
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/fluentbit-opensearch-output/values.yaml %}}">here</a>
+and invalid values will be ignored.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="install.verrazzano.io/v1beta1.FluentdComponent">FluentdComponent
 </h3>
 <p>
@@ -2162,7 +2293,7 @@ IngressType
 <p>The ingress type. Valid values are <code>LoadBalancer</code> and <code>NodePort</code>. The default value is <code>LoadBalancer</code>. If the ingress
 type is <code>NodePort</code>, then a valid and accessible IP address must be specified using the <code>controller.service.externalIPs</code>
 key in the <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. For sample usage, see
-<a href="../../../../docs/customize/externallbs/">External Load Balancers</a>.</p>
+<a href="../../../docs/networking/traffic/externallbs/">External Load Balancers</a>.</p>
 </td>
 </tr>
 </tbody>
@@ -2191,6 +2322,8 @@ key in the <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOver
 <a href="#install.verrazzano.io/v1beta1.ConsoleComponent">ConsoleComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.DNSComponent">DNSComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.DNSConfig">DNSConfig</a>, 
+<a href="#install.verrazzano.io/v1beta1.FluentOperatorComponent">FluentOperatorComponent</a>, 
+<a href="#install.verrazzano.io/v1beta1.FluentbitOpensearchOutputComponent">FluentbitOpensearchOutputComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.FluentdComponent">FluentdComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.IngressNginxComponent">IngressNginxComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.IstioComponent">IstioComponent</a>, 
@@ -3102,7 +3235,7 @@ bool
 <td>
 <em>(Optional)</em>
 <p>A list of OpenSearch node groups. For sample usage, see
-<a href="../../../../docs/customize/opensearch/">Customize OpenSearch</a>.</p>
+<a href="../../../docs/observability/logging/configure-opensearch/opensearch/">Customize OpenSearch</a>.</p>
 </td>
 </tr>
 <tr>
@@ -3358,7 +3491,7 @@ Kubernetes core/v1.ConfigMapKeySelector
 <em>(Optional)</em>
 <p>Selector for ConfigMap containing override data.
 For sample usage, see
-<a href="../../../../docs/customize/installationoverrides/#configmap">ConfigMapRef</a>.</p>
+<a href="../../../docs/setup/installationoverrides/#configmap">ConfigMapRef</a>.</p>
 </td>
 </tr>
 <tr>
@@ -3374,7 +3507,7 @@ Kubernetes core/v1.SecretKeySelector
 <em>(Optional)</em>
 <p>Selector for Secret containing override data.
 For sample usage, see
-<a href="../../../../docs/customize/installationoverrides/#secret">SecretRef</a>.</p>
+<a href="../../../docs/setup/installationoverrides/#secret">SecretRef</a>.</p>
 </td>
 </tr>
 <tr>
@@ -3390,7 +3523,7 @@ Kubernetes apiextensions/v1.JSON
 <em>(Optional)</em>
 <p>Configure overrides using inline YAML.
 For sample usage, see
-<a href="../../../../docs/customize/installationoverrides/#values">Values</a>.</p>
+<a href="../../../docs/setup/installationoverrides/#values">Values</a>.</p>
 </td>
 </tr>
 </tbody>
