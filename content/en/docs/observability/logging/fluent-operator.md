@@ -371,7 +371,7 @@ spec:
 </div>
 {{< /clipboard >}}
 
-After updating your Verrazzano custom resource, you will notice that the `opensearch-application-clusteroutput` ClusterOutput resource will be removed from the `verrazzano-logging` namespace. The `opensearch-system-clusteroutput` will continue to exist and will send the Verrazzano component logs to Verrazzano OpenSearch.
+After updating your Verrazzano custom resource, you will notice that the `opensearch-application-clusteroutput` ClusterOutput resource will be removed from the cluster. The `opensearch-system-clusteroutput` will continue to exist and will send the Verrazzano component logs to Verrazzano OpenSearch.
 
 
 ## Configure the systemd logs directory
@@ -412,7 +412,7 @@ View the generated Fluent Bit configuration that the Fluent Operator loads in a 
 <div class="highlight">
 
 ```
-$ kubectl -n verrazzano-system get secrets Fluent Bit-config -ojson | jq '.data."Fluent Bit.conf"' | awk -F '"' '{printf $2}' | base64 --decode
+$ kubectl -n verrazzano-system get secrets Fluent Bit-config -ojson | jq '.data."fluent-bit.conf"' | awk -F '"' '{printf $2}' | base64 --decode
 $ kubectl -n verrazzano-system get secrets Fluent Bit-config -ojson | jq '.data."parsers.conf"' | awk -F '"' '{printf $2}' | base64 --decode
 ```
 </div>
