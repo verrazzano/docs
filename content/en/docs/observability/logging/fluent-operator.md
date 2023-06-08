@@ -13,20 +13,16 @@ Fluent Bit is a logging agent that collects, processes, and sends logs from Kube
 
 Using Fluent Operator, Verrazzano deploys the Fluent Bit DaemonSet, which runs one Fluent Bit replica per node in the `verrazzano-system` namespace. Each instance reads logs from the node's `/var/log/containers` directory and writes them to a target OpenSearch data store.
 
-The four fundamental types of configurations in Fluent Bit are:
+In Fluent Bit, the four fundamental types of configurations are:
 
 - Input: to collect data from a source.
 - Filter: to process data that was collected.
 - Output: to send collected and processed logs to a data store.
-- Parser: to parse data in a specific format. Inputs and filters make use of parser configurations.
+- Parser: to parse data in a specific format. Inputs and Filters make use of parser configurations.
 
 ## Fluent Operator
 
-Verrazzano includes Fluent Operator as an optional component. When [enabled](#enable-logging-with-fluent-operator), the operator is installed in the cluster in the `verrazzano-system` namespace and creates the Fluent Bit DaemonSet in the same namespace, using the required custom resources.
-
-For a list of custom resources that the operator supports to configure Fluent Bit, see [Fluent Bit resources](https://github.com/verrazzano/fluent-operator#fluent-bit).
-
-All the CRDs with the prefix _Cluster_ are cluster-wide configurations that you can use to configure all the cluster logs.
+Verrazzano includes Fluent Operator as an optional component. When [enabled](#enable-logging-with-fluent-operator), the operator is installed in the cluster in the `verrazzano-system` namespace and creates the Fluent Bit DaemonSet in the same namespace, using the required custom resources. For a list of custom resources that the operator supports to configure Fluent Bit, see [Fluent Bit resources](https://github.com/verrazzano/fluent-operator#fluent-bit). All the CRDs with the prefix _Cluster_ are cluster-wide configurations that you can use to configure all the cluster logs.
 
 Like cluster-wide resources, the operator comes with namespaced resources, which when created will process logs from the namespace in which these resources exist. The namespaced and cluster-wide configurations will run in conjunction and complement each other. Creating a namespaced resource doesn't override an existing cluster-wide resource.
 
@@ -34,7 +30,7 @@ Like cluster-wide resources, the operator comes with namespaced resources, which
 
 The Verrazzano resource defines two components to configure logging using Fluent Operator:
 
-- `fluentOperator`: When enabled, installs Fluent Operator and configures a Fluent Bit instance running as a DaemonSet in the cluster. The `fluentOperator` component creates ClusterInput CRs of type tail and systemd, and a set of ClusterFilters to enrich the collected logs with Kubernetes metadata.
+- `fluentOperator`: When enabled, installs Fluent Operator and configures a Fluent Bit instance running as a DaemonSet in the cluster. The `fluentOperator` component creates ClusterInput custom resources of type tail and systemd, and a set of ClusterFilters to enrich the collected logs with Kubernetes metadata.
 - `fluentbitOpensearchOutput`: When enabled, creates two ClusterOutput resources to send logs from the cluster to OpenSearch. The two ClusterOutput resources are:
     - `opensearch-system-clusteroutput`: A central output sink to send logs coming from namespaces where the Verrazzano components reside to the `verrazzano-system` data stream in OpenSearch.
     - `opensearch-application-clusteroutput`: Sends logs coming from namespaces that are not system to the `verrazzano-application-<namespace_name>` data stream.
@@ -71,7 +67,7 @@ $ kubectl get cfbo
 You will see an `opensearch-system-clusteroutput` and an `opensearch-application-clusteroutput`.
 
 ### Uninstall Fluentd
-Fluentd is the default logging agent, which runs as a DaemonSet that collects, processes, and sends logs to log stores. When Verrazzano is installed, it is installed by default. With the inclusion of Fluent Bit via the Fluent Operator, you now have the option to run either of these components. These two, Fluentd and Fluent Bit, can co-exist, but if your log store is Verrazzano OpenSearch, then you should uninstall Fluentd because both components will send the same logs to Verrazzano OpenSearch, resulting in duplicate logs.
+Fluentd is the default logging agent, which runs as a DaemonSet that collects, processes, and sends logs to log stores. When Verrazzano is installed, Fluentd is installed by default. With the inclusion of Fluent Bit via the Fluent Operator, you now have the option to run either of these components. These two, Fluentd and Fluent Bit, can co-exist, but if your log store is Verrazzano OpenSearch, then you should uninstall Fluentd because both components will send the same logs to Verrazzano OpenSearch resulting in duplicate logs.
 
 **NOTE**: Fluent Bit does not support sending logs to OCI-Logging. If your log store is OCI-Logging, then continue using Fluentd.
 
@@ -151,14 +147,14 @@ For any ClusterOutput, create the secret containing the user credentials in the 
 
 ## Configure custom namespaced resources
 
-You must configure namespaced resources to process logs for an application namespace.
+To process logs for an application namespace, you must configure namespaced resources.
 
 ### FluentBitConfig
 The Fluent Operator supports configurability at the namespace level that lets you create Fluent Bit configurations for logs from your application namespace.
 
-The FluentBitConfig custom resource is a namespaced resource, which is used by the Fluent Operator to select resources, like Filters, Outputs, and Parsers using label selectors. These resources will be checked in the same namespace as FluentBitConfig. Using label selectors, it can also select ClusterParser resources.
+The FluentBitConfig custom resource is a namespaced resource, which is used by the Fluent Operator to select resources, like Filters, Outputs, and Parsers using label selectors. These resources will be checked in the same namespace as FluentBitConfig. Using label selectors, FluentBitConfig can also select ClusterParser resources.
 
-If you use the namespace-level configurability feature of the operator, then you must create a minimum of one FluentBitConfig resource in your namespace. The FluentBitConfig resource should contain the following label under `metadata.labels`.
+If you use the namespace level configurability feature of the operator, then you must create a minimum of one FluentBitConfig resource in your namespace. The FluentBitConfig resource should contain the following label under `metadata.labels`.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -268,13 +264,13 @@ FluentBitConfig:
 Filter:
  - Name: `myapp-filter`
  - Namespace: `my-app`
- - This filter is associated with the `myapp` application.
- - It applies a parser, called `myapp-parser`, to the logs and the filter is configured to match logs from the `kube` source.
+ - This Filter is associated with the `myapp` application.
+ - It applies a Parser, called `myapp-parser`, to the logs and the Filter is configured to match logs from the `kube` source.
 
 Parser:
  - Name: `myapp-parser`
  - Namespace: `my-app`
- - This parser defines the regular expression and formatting details for parsing logs. It extracts three fields from the log lines: `logtime`, `level`, and `message`.
+ - This Parser defines the regular expression and formatting details for parsing logs. It extracts three fields from the log lines: `logtime`, `level`, and `message`.
 
 After applying this configuration, you will observe that the logs emitted by the `myapp` application are now parsed according to the regex and enriched with the following fields:
 ```
@@ -344,9 +340,9 @@ Note that with this configuration, your applications logs still will continue to
 
 ### Disable application log collection in Verrazzano OpenSearch
 
-By default, the application ClusterOutput created by Verrazzano ensures that the logs for your applications are sent to the system OpenSearch. If you have configured an Output in your application namespace, your application logs will now be stored in two locations, the system OpenSearch, by using the application ClusterOutput and the custom destination, by using the Output resource you created in your application namespace.
+By default, the application ClusterOutput created by Verrazzano ensures that the logs for your applications are sent to the system OpenSearch. If you have configured an Output in your application namespace, your application logs will now be stored in two locations: the system OpenSearch, by using the application ClusterOutput, and the custom destination, by using the Output resource you created in your application namespace.
 
-If you want to opt out of the Verrazzano OpenSearch log collection, you can disable the application ClusterOutput by editing your Verrazzano custom resource as follows:
+If you want to opt out of the Verrazzano OpenSearch log collection, then disable the application ClusterOutput by editing your Verrazzano custom resource as follows:
 
 {{< clipboard >}}
 <div class="highlight">
@@ -376,7 +372,7 @@ After updating your Verrazzano custom resource, you will notice that the `opense
 
 ## Configure the systemd logs directory
 
-By default, the systemd journal logs directory is set to `/var/run/journal`. However, depending on the environment, the directory location may vary.
+By default, the systemd `journal` logs directory is set to `/var/run/journal`. However, depending on the environment, the directory location may vary.
 
 To override the default configuration and set the logs directory to a different path, edit your Verrazzano custom resource as follows:
 {{< clipboard >}}
