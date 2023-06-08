@@ -31,11 +31,12 @@ see the [Installation Guide]({{< relref "/docs/setup/install/" >}}) and [Install
 
 ## Set up the managed cluster
 
-The second cluster will be a managed cluster. On this cluster, you can install Verrazzano using the `managed-cluster` profile.
-The `managed-cluster` profile contains only the components that are required for a full-featured Verrazzano managed cluster. 
+The second cluster will be a managed cluster. On this cluster, install Verrazzano using the `managed-cluster` profile.
+The `managed-cluster` profile contains only the components that are required for a full-featured Verrazzano managed cluster.
+<br>**NOTE**: You also can use the `dev` or `prod` profile, which will install components not required for a managed cluster. 
 
-For managed cluster configurations that have a smaller footprint, with correspondingly limited features, see
-[Minimal Managed Cluster Configurations]({{< relref "#minimal-managed-cluster-configurations" >}})
+For managed cluster configurations that have a smaller footprint than the `managed-cluster` profile, with correspondingly
+limited features, see [Minimal Managed Cluster Configurations]({{< relref "#minimal-managed-cluster-configurations" >}})
 
 ## Register the managed cluster
 
