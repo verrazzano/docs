@@ -3,6 +3,8 @@ title: "Deploy Applications with Argo CD"
 description: "Use Argo CD to synchronize and deploy applications"
 weight: 6
 draft: false
+aliases:
+  - /docs/applications/argo-cd/deploy
 ---
 
 To deploy applications in a custom namespace, create Argo CD applications that specify the Git repository path, which Argo CD requires to synchronize and deploy the applications in the specified namespace.
