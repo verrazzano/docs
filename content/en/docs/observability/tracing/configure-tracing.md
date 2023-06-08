@@ -116,8 +116,8 @@ with a TLS CA certificate mounted from a volume and the user/password stored in 
 
    ```
    $ kubectl create secret generic jaeger-secret \
-    --from-literal=OS_PASSWORD=<OPENSEARCH PASSWORD> \
-    --from-literal=OS_USERNAME=<OPENSEARCH USERNAME> \
+    --from-literal=ES_PASSWORD=<OPENSEARCH PASSWORD> \
+    --from-literal=ES_USERNAME=<OPENSEARCH USERNAME> \
     --from-file=ca-bundle=<path to the file containing CA certs> \
     -n verrazzano-install
    ```
