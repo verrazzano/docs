@@ -25,11 +25,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/applications/oam/deploy-app/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-06-07T13:16:55-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-06-08T21:42:18+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Develop and Deploy Applications Using OAM">
 <meta itemprop="description" content="Prerequisites  Access to an existing Kubernetes cluster with Verrazzano installed. Access to the application&rsquo;s image in GitHub Container Registry. Confirm access using this command to pull the example&rsquo;s Docker image: code { margin: 0; padding: 0; } .copy-code-button { position: absolute; right: 0; top: -29px; font-size: 12px; line-height: 14px; width: 65px; color: white; background-color: #30638E; border: 1px solid #30638E; white-space: nowrap; padding: 6px 6px 7px 6px; } .copy-code-button:hover, .copy-code-button:focus{ background-color: gray; opacity: 1; }  $ docker pull ghcr.">
-<meta itemprop="dateModified" content="2023-06-07T13:16:55-04:00" />
+<meta itemprop="dateModified" content="2023-06-08T21:42:18+05:30" />
 <meta itemprop="wordCount" content="7309">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Develop and Deploy Applications Using OAM"/>
@@ -110,7 +110,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.32ec8c017f35fa8f7bde7fbc0c45a708.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.db0e8c5361531ce7609a05c2d59b92b9.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.32ec8c017f35fa8f7bde7fbc0c45a708.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.db0e8c5361531ce7609a05c2d59b92b9.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -2459,10 +2459,10 @@ all OAM based applications within the cluster.</p>
 
 # Sample output
 NAME                                               READY   STATUS    RESTARTS   AGE
-vmi-system-os-master-0                             2/2     Running   0          47m
+vmi-system-es-master-0                             2/2     Running   0          47m
 vmi-system-grafana-799d79648d-wsdp4                2/2     Running   0          47m
 vmi-system-kiali-574c6dd94d-f49jv                  2/2     Running   0          51m
-vmi-system-opensearchDashboards-77f8d998f4-zzvqr   2/2     Running   0          47m
+vmi-system-osd-77f8d998f4-zzvqr   2/2     Running   0          47m
 </code></pre></div>
 
 </div>
@@ -2624,10 +2624,10 @@ prometheus-prometheus-operator-kube-p-prometheus-0     3/3     Running   0      
 monitoring stack created by Verrazzano for the deployed applications.</p>
 <p>The monitoring infrastructure comprises several components:</p>
 <ul>
-<li><code>vmi-system-os</code> - OpenSearch for log collection</li>
+<li><code>vmi-system-es</code> - OpenSearch for log collection</li>
 <li><code>vmi-system-grafana</code> - Grafana for metric visualization</li>
 <li><code>vms-system-kiali</code> - Kiali for management console of <code>istio</code> service mesh</li>
-<li><code>vmi-system-opensearchDashboards</code> - OpenSearch Dashboards for log visualization</li>
+<li><code>vmi-system-osd</code> - OpenSearch Dashboards for log visualization</li>
 <li><code>prometheus-prometheus-operator-kube-p-prometheus</code> - Prometheus for metric collection</li>
 </ul>
 <p/>
@@ -3570,7 +3570,7 @@ and visualizing the log data collected in OpenSearch, see <a href="../../../../d
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ OSD_HOST=$(kubectl get ingress \
-     -n verrazzano-system vmi-system-opensearchDashboards \
+     -n verrazzano-system vmi-system-osd \
      -o jsonpath=&#39;{.spec.rules[0].host}&#39;)
 $ OSD_URL=&#34;https://${OSD_HOST}&#34;
 $ echo &#34;${OSD_URL}&#34;
