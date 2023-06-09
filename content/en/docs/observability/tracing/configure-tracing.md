@@ -3,6 +3,8 @@ title: "Configure Tracing Components"
 description: "Enable and configure Jaeger distributed tracing in Verrazzano"
 weight: 3
 draft: false
+aliases:
+  - /docs/monitoring/tracing/jaeger-tracing
 ---
 
 This document describes how to enable Jaeger and customize your Jaeger installation to address some common tracing needs.
