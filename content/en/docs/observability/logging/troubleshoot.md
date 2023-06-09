@@ -3,8 +3,6 @@ title: "Troubleshoot logging issues"
 description: ""
 weight: 6
 draft: false
-aliases:
-  - /docs/monitoring/oci-logging/oci-logging
 ---
 
 If you are not able to view Verrazzano logs in Oracle Cloud Infrastructure Logging, then check the Fluentd container logs in the cluster to see if there are errors.

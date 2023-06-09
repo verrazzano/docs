@@ -5,6 +5,7 @@ weight: 1
 draft: false
 aliases:
   - /docs/setup/install/mc-install/multicluster
+  - /docs/setup/install/multicluster
 ---
 
 ## Prerequisites
