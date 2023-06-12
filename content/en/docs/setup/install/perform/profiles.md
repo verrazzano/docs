@@ -18,6 +18,7 @@ The following table describes the Verrazzano installation profiles.
 | `prod`            | Full installation, production configuration.                                | Default profile:<br/>- Full installation.<br/>- Persistent storage. <br/>- Production OpenSearch cluster topology.
 | `dev`             | Development or evaluation configuration.                                    | Lightweight installation:<br/>- For evaluation purposes.<br/>- No persistence.<br/>- Single-node OpenSearch cluster topology.
 | `managed-cluster` | A specialized installation for managed clusters in a multicluster topology. | Minimal installation for a managed cluster:<br/>- Clusters must be registered with an admin cluster to use [multicluster]({{< relref "/docs/introduction/verrazzanomulticluster" >}}) features.
+| `none`            | A basic configuration is installed. No components are enabled.              | Simplest installation with no components enabled by default.
 
 ## Use an installation profile
 
@@ -40,7 +41,7 @@ spec:
 </div>
 {{< /clipboard >}}
 
-To use a different profile, replace `dev` with `prod`, or `managed-cluster`.
+To use a different profile, replace `dev` with `prod`, `managed-cluster`, or `none`.
 
 ## Customize an installation profile
 
@@ -82,38 +83,38 @@ For details on how to customize Verrazzano components, see [Modify Verrazzano In
 The following table lists the Verrazzano components that are enabled by default with each profile.  Note that you can
 customize any Verrazzano installation regardless of the profile.
 
-| Component                | dev | prod | managed-cluster |
-|--------------------------|:---:|:----:|:---------------:|
-| `applicationOperator`    | ✔️  |  ✔️  |       ✔️        |
-| `argoCD`                 |     |      |                 |
-| `authProxy`              | ✔️  |  ✔️  |       ✔️        |
-| `certManager`            | ✔️  |  ✔️  |       ✔️        |
-| `clusterOperator`        | ✔️  |  ✔️  |       ✔️        |
-| `coherenceOperator`      | ✔️  |  ✔️  |       ✔️        |
-| `console`                | ✔️  |  ✔️  |                 |
-| `dns`                    | ✔️  |  ✔️  |       ✔️        |
-| `fluentd`                | ✔️  |  ✔️  |       ✔️        |
-| `grafana`                | ✔️  |  ✔️  |                 |
-| `ingressNGINX`           | ✔️  |  ✔️  |       ✔️        |
-| `istio`                  | ✔️  |  ✔️  |       ✔️        |
-| `jaegerOperator`         |     |      |                 |
-| `keycloak`               | ✔️  |  ✔️  |                 |
-| `kiali`                  | ✔️  |  ✔️  |                 |
-| `kubeStateMetrics`       |     |      |                 |
-| `mySQLOperator`          | ✔️  |  ✔️  |       ✔️        |
-| `oam`                    | ✔️  |  ✔️  |       ✔️        |
-| `opensearch`             | ✔️  |  ✔️  |                 |
-| `opensearchDashboards`   | ✔️  |  ✔️  |                 |
-| `prometheus`             | ✔️  |  ✔️  |       ✔️        |
-| `prometheusAdapter`      |     |      |                 |
-| `prometheusNodeExporter` | ✔️  |  ✔️  |       ✔️        |
-| `prometheusOperator`     | ✔️  |  ✔️  |       ✔️        |
-| `prometheusPushgateway`  |     |      |                 |
-| `rancher`                | ✔️  |  ✔️  |                 |
-| `rancherBackup`          |     |      |                 |
-| `thanos`                 |     |      |                 |
-| `velero`                 |     |      |                 |
-| `weblogicOperator`       | ✔️  |  ✔️  |       ✔️        |
+| Component                | dev | prod | managed-cluster | none |
+|--------------------------|:---:|:----:|:---------------:|:----:|
+| `applicationOperator`    | ✔️  |  ✔️  |       ✔️        | |
+| `argoCD`                 |     |      |                 | |
+| `authProxy`              | ✔️  |  ✔️  |       ✔️        | |
+| `certManager`            | ✔️  |  ✔️  |       ✔️        | |
+| `clusterOperator`        | ✔️  |  ✔️  |       ✔️        | |
+| `coherenceOperator`      | ✔️  |  ✔️  |       ✔️        | |
+| `console`                | ✔️  |  ✔️  |                 | |
+| `dns`                    | ✔️  |  ✔️  |       ✔️        | |
+| `fluentd`                | ✔️  |  ✔️  |       ✔️        | |
+| `grafana`                | ✔️  |  ✔️  |                 | |
+| `ingressNGINX`           | ✔️  |  ✔️  |       ✔️        | |
+| `istio`                  | ✔️  |  ✔️  |       ✔️        | |
+| `jaegerOperator`         |     |      |                 | |
+| `kiali`                  | ✔️  |  ✔️  |                 | |
+| `keycloak`               | ✔️  |  ✔️  |                 | |
+| `kubeStateMetrics`       |     |      |                 | |
+| `mySQLOperator`          | ✔️  |  ✔️  |       ✔️        | |
+| `oam`                    | ✔️  |  ✔️  |       ✔️        | |
+| `opensearch`             | ✔️  |  ✔️  |                 | |
+| `opensearchDashboards`   | ✔️  |  ✔️  |                 | |
+| `prometheus`             | ✔️  |  ✔️  |       ✔️        | |
+| `prometheusAdapter`      |     |      |                 | |
+| `prometheusNodeExporter` | ✔️  |  ✔️  |       ✔️        | |
+| `prometheusOperator`     | ✔️  |  ✔️  |       ✔️        | |
+| `prometheusPushgateway`  |     |      |                 | |
+| `rancher`                | ✔️  |  ✔️  |                 | |
+| `rancherBackup`          |     |      |                 | |
+| `thanos`                 |     |      |                 | |
+| `velero`                 |     |      |                 | |
+| `weblogicOperator`       | ✔️  |  ✔️  |       ✔️        | |
 
 ### Prometheus and Grafana configurations
 
@@ -124,6 +125,7 @@ The following table describes the Prometheus and Grafana configurations in each 
 | `prod`            | One replica (128 MB memory, 50 Gi storage) | One replica (48 MB memory, 50 Gi storage)
 | `dev`             | One replica (128 MB memory, ephemeral storage) | One replica (48 MB memory, ephemeral storage)
 | `managed-cluster` | One replica (128 MB memory, 50 Gi storage) | Not installed
+| `none`            | One replica (128 MB memory, ephemeral storage) | Not installed
 
 ### OpenSearch Dashboards and OpenSearch configurations
 
@@ -134,6 +136,7 @@ The following table describes the OpenSearch Dashboards and OpenSearch cluster t
 | `prod`            | Three master replicas (1.4 Gi memory, 50 Gi storage each)<br/>One ingest replica (2.5 Gi memory, no storage)<br/>Three data replicas (4.8 Gi memory, 50 Gi storage each) | One replica (192 MB memory, ephemeral storage)
 | `dev`             | One master/data/ingest replica (1 Gi memory, ephemeral storage)                                                                                              | One replica (192 MB memory, ephemeral storage)
 | `managed-cluster` | Not installed                                                                                                                                             | Not installed
+| `none`            | Not installed                                                                                                                                             | Not installed  
 
 {{< alert title="NOTE" color="primary" >}}
 OpenSearch containers are configured to use 75% of the configured request memory for the Java min/max heap settings.
