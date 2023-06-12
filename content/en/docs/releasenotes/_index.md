@@ -14,6 +14,9 @@ Component version updates:
 - WebLogic Kubernetes Operator v4.0.6
 - WebLogic Monitoring Exporter v2.1.3
 
+Known Issues:
+- The fluentd plug-in used in verrazzano can not read the journal db logs in newer versions of systemd. This specifically impacts on community editions of kindset version 1.24.10 or more and Ubuntu 21.04, Oracle Linux 9 and any operating systems that has that has systemd version 246 or higher.
+
 ### v1.5.3
 Features:
 - The `vz` CLI `uninstall` command now prompts you to confirm before continuing with the uninstall operation.
