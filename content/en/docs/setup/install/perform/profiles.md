@@ -98,8 +98,8 @@ customize any Verrazzano installation regardless of the profile.
 | `ingressNGINX`           | ✔️  |  ✔️  |       ✔️        | |
 | `istio`                  | ✔️  |  ✔️  |       ✔️        | |
 | `jaegerOperator`         |     |      |                 | |
-| `kiali`                  | ✔️  |  ✔️  |                 | |
 | `keycloak`               | ✔️  |  ✔️  |                 | |
+| `kiali`                  | ✔️  |  ✔️  |                 | |
 | `kubeStateMetrics`       |     |      |                 | |
 | `mySQLOperator`          | ✔️  |  ✔️  |       ✔️        | |
 | `oam`                    | ✔️  |  ✔️  |       ✔️        | |
