@@ -64,7 +64,7 @@ In this configuration:
 
 ### Observability using Prometheus
 
-To get Prometheus federation of metrics, you can install Verrazzano on the managed cluster, with the minimum footprint, using the [`minimal-prometheus.yaml`]({{< ghlink raw=true path="examples/multicluster/managed-clusters/minimal-prometheus.yaml" >}}) file.
+Use the [`minimal-prometheus.yaml`]({{< ghlink raw=true path="examples/multicluster/managed-clusters/minimal-prometheus.yaml" >}}) file to install Verrazzano on the managed cluster, with the minimum footprint needed to get Prometheus federation of metrics.
 
 In this configuration:
 - The features of the minimum configuration will be available.
@@ -72,7 +72,8 @@ In this configuration:
 - Managed cluster metrics will be available in Prometheus on the admin cluster.
 
 ### Observability using Thanos
-To use Thanos to collect metrics, you can install Verrazzano on the managed cluster, with the minimum footprint, using the [`minimal-thanos.yaml`]({{< ghlink raw=true path="examples/multicluster/managed-clusters/minimal-thanos.yaml" >}}) file.
+
+Use the [`minimal-thanos.yaml`]({{< ghlink raw=true path="examples/multicluster/managed-clusters/minimal-thanos.yaml" >}}) file to install Verrazzano on the managed cluster, with the minimum footprint needed to use Thanos to collect metrics.
 
 To use Thanos to get managed cluster metrics, you also must enable Thanos on the admin cluster. For details,
 and additional Thanos configuration information, see the documentation on how to enable and configure [Thanos]({{< relref "/docs/observability/monitoring/configure/thanos.md" >}}).
