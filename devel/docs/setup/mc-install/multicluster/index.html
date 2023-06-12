@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/mc-install/multicluster/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-06-09T10:58:34-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-06-12T10:30:28-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Install Multicluster Verrazzano">
 <meta itemprop="description" content="Set up a multicluster Verrazzano environment">
-<meta itemprop="dateModified" content="2023-06-09T10:58:34-04:00" />
-<meta itemprop="wordCount" content="209">
+<meta itemprop="dateModified" content="2023-06-12T10:30:28-04:00" />
+<meta itemprop="wordCount" content="572">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Install Multicluster Verrazzano"/>
 <meta name="twitter:description" content="Set up a multicluster Verrazzano environment"/>
@@ -110,7 +110,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.d8e44440e3682180f5a22bfe1dad8d5e.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.1cb9a7ac08d1bd2d3006ae00d49f0e5a.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.d8e44440e3682180f5a22bfe1dad8d5e.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.1cb9a7ac08d1bd2d3006ae00d49f0e5a.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -1056,7 +1056,16 @@ if (!doNotTrack) {
     <li>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#install-verrazzano">Install Verrazzano</a></li>
+        <li><a href="#set-up-the-admin-cluster">Set up the admin cluster</a></li>
+        <li><a href="#set-up-the-managed-cluster">Set up the managed cluster</a></li>
+        <li><a href="#register-the-managed-cluster">Register the managed cluster</a></li>
+        <li><a href="#minimal-managed-cluster-configurations">Minimal managed cluster configurations</a>
+          <ul>
+            <li><a href="#minimum-configuration">Minimum configuration</a></li>
+            <li><a href="#observability-using-prometheus">Observability using Prometheus</a></li>
+            <li><a href="#observability-using-thanos">Observability using Thanos</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -1127,7 +1136,7 @@ if (!doNotTrack) {
 <ul>
 <li>Before you begin, read this document, <a href="../../../../docs/introduction/verrazzanomulticluster/">Verrazzano in a multicluster environment</a>.</li>
 <li>To set up a multicluster Verrazzano environment, you will need two or more Kubernetes clusters. One of these clusters
-will be <em>admin</em> cluster; the others will be <em>managed</em> clusters. For instructions on preparing Kubernetes platforms for installing Verrazzano, see <a href="../../../../docs/setup/install/prepare/platforms/">Platform Setup</a>.</li>
+will be the <em>admin</em> cluster; the others will be <em>managed</em> clusters. For instructions on preparing Kubernetes platforms for installing Verrazzano, see <a href="../../../../docs/setup/install/prepare/platforms/">Platform Setup</a>.</li>
 </ul>
 
 
@@ -1140,17 +1149,54 @@ because additional steps are required to register a managed cluster.
 </div>
 
 <p>The following instructions assume an admin cluster and a single managed cluster. For each additional managed
-cluster, simply repeat the managed cluster instructions.</p>
-<h2 id="install-verrazzano">Install Verrazzano</h2>
-<p>To install Verrazzano on each Kubernetes cluster, complete the following steps:</p>
-<ol>
-<li>On one cluster, install Verrazzano using the <code>dev</code> or <code>prod</code> profile; this will be the <em>admin</em> cluster.</li>
-<li>On the other cluster, install Verrazzano using the <code>managed-cluster</code> profile; this will be a managed cluster. The <code>managed-cluster</code> profile contains only the components that are required for a managed cluster.
-<br><strong>NOTE</strong>: You also can use the <code>dev</code> or <code>prod</code> profile.</li>
-<li>Then, register the managed clusters in a multicluster environment by following a registration method found <a href="../../../../docs/setup/mc-install/register/">here</a>.</li>
-</ol>
+cluster, simply repeat the managed cluster set up and registration instructions.</p>
+<h2 id="set-up-the-admin-cluster">Set up the admin cluster</h2>
+<p>One of your clusters will be designated as the <em>admin</em> cluster. This cluster will serve as the central management point for your <em>managed</em> clusters.
+On the admin cluster, install Verrazzano using the <code>dev</code> or <code>prod</code> profile.</p>
 <p>For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
 see the <a href="../../../../docs/setup/install/">Installation Guide</a> and <a href="../../../../docs/setup/install/perform/profiles/">Installation Profiles</a>.</p>
+<h2 id="set-up-the-managed-cluster">Set up the managed cluster</h2>
+<p>The second cluster will be a managed cluster. On this cluster, install Verrazzano using the <code>managed-cluster</code> profile.
+The <code>managed-cluster</code> profile contains only the components that are required for a full-featured Verrazzano managed cluster.
+<br><strong>NOTE</strong>: You also can use the <code>dev</code> or <code>prod</code> profile, which will install components not required for a managed cluster.</p>
+<p>For managed cluster configurations that have a smaller footprint than the <code>managed-cluster</code> profile, with correspondingly
+limited features, see <a href="#minimal-managed-cluster-configurations">Minimal managed cluster configurations</a>.</p>
+<h2 id="register-the-managed-cluster">Register the managed cluster</h2>
+<p>Register the managed clusters in a multicluster environment by following a registration method found <a href="../../../../docs/setup/mc-install/register/">here</a>.
+After registration is completed, your Verrazzano multicluster environment is ready to use.</p>
+<h2 id="minimal-managed-cluster-configurations">Minimal managed cluster configurations</h2>
+<p>You can use minimal Verrazzano managed cluster configurations in cases where managed clusters
+need to have a smaller footprint, such as in edge clusters. Note that using smaller managed cluster configurations results in
+limited multicluster features.</p>
+<p>These examples use Verrazzano with <code>profile: none</code>, which means that no Verrazzano components are enabled by default, and
+then individually enables the specific Verrazzano components needed.</p>
+<h3 id="minimum-configuration">Minimum configuration</h3>
+<p>To install Verrazzano on a managed cluster with the smallest possible configuration and the fewest features, you can use the <a href="https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/managed-clusters/minimal.yaml"><code>minimal.yaml</code></a>
+file.</p>
+<p>In this configuration:</p>
+<ul>
+<li>No metrics are collected for the managed cluster.</li>
+<li>You can view and interact with the managed cluster in the Verrazzano Dashboard on the admin cluster.</li>
+<li>If you have enabled the <code>argoCD</code> component on the admin cluster, you can use ArgoCD GitOps to distribute applications from the admin cluster to the managed cluster.</li>
+</ul>
+<h3 id="observability-using-prometheus">Observability using Prometheus</h3>
+<p>Use the <a href="https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/managed-clusters/minimal-prometheus.yaml"><code>minimal-prometheus.yaml</code></a> file to install Verrazzano on the managed cluster, with the minimum footprint needed to get Prometheus federation of metrics.</p>
+<p>In this configuration:</p>
+<ul>
+<li>The features of the minimum configuration will be available.</li>
+<li>Metrics will be collected on the managed cluster.</li>
+<li>Managed cluster metrics will be available in Prometheus on the admin cluster.</li>
+</ul>
+<h3 id="observability-using-thanos">Observability using Thanos</h3>
+<p>Use the <a href="https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/managed-clusters/minimal-thanos.yaml"><code>minimal-thanos.yaml</code></a> file to install Verrazzano on the managed cluster, with the minimum footprint needed to use Thanos to collect metrics.</p>
+<p>To use Thanos to get managed cluster metrics, you also must enable Thanos on the admin cluster. For details,
+and additional Thanos configuration information, see the documentation on how to enable and configure <a href="../../../../docs/observability/monitoring/configure/thanos/">Thanos</a>.</p>
+<p>In this configuration:</p>
+<ul>
+<li>The features of the minimum configuration are available.</li>
+<li>Metrics will be collected on the managed cluster.</li>
+<li>Managed cluster metrics will be available in Thanos on the admin cluster.</li>
+</ul>
 
 	
 		<style>
