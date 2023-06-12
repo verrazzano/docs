@@ -15,7 +15,7 @@ Component version updates:
 - WebLogic Monitoring Exporter v2.1.3
 
 Known Issues:
-- The fluentd plug-in used in verrazzano can not read the journal db logs in newer versions of systemd. This specifically impacts on community editions of kindset version 1.24.10 or more and Ubuntu 21.04, Oracle Linux 9 and any operating systems that has that has systemd version 246 or higher.
+- The Fluentd plug-in used in verrazzano cannot read the journal database logs in newer versions of systemd. This specifically impacts on community editions of kindset version 1.24.10 or later and Ubuntu 21.04, Oracle Linux 9 and any operating systems that have systemd version 246 or later.
 
 ### v1.5.3
 Features:
