@@ -730,8 +730,11 @@ Here are some pre-built plug-ins that are bundled with the OpenSearch image:
 - `ingest-attachment`
 - `mapper-murmur3`
 - `mapper-size`
+- `opensearch-alerting`
 - `opensearch-index-management`
 - `opensearch-job-scheduler`
+- `opensearch-notifications`
+- `opensearch-notifications-core`
 - `prometheus-exporter`
 - `repository-s3`
 
