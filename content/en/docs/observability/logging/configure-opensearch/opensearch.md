@@ -730,8 +730,11 @@ Here are some pre-built plug-ins that are bundled with the OpenSearch image:
 - `ingest-attachment`
 - `mapper-murmur3`
 - `mapper-size`
+- `opensearch-alerting`
 - `opensearch-index-management`
 - `opensearch-job-scheduler`
+- `opensearch-notifications`
+- `opensearch-notifications-core`
 - `prometheus-exporter`
 - `repository-s3`
 
@@ -777,7 +780,10 @@ There are three ways to specify a plug-in in the `plugins.installList`:
 For OpenSearch Dashboard, you can provide the plug-ins by defining the field [spec.components.opensearch-dashboards.plugins](/docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.v1beta1.OpenSearchDashboardsComponent) in the Verrazzano custom resource.
 
 #### Pre-built plug-ins for OpenSearch Dashboards
-Here is a pre-built plug-in that is bundled with the OpenSearch Dashboard image: `indexManagementDashboards`
+Here are pre-built plug-ins that are bundled with the OpenSearch Dashboard image:
+- `alertingDashboards`
+- `indexManagementDashboards`
+- `notificationsDashboards`
 
 Here is a Verrazzano custom resource example to install plug-ins for the OpenSearch Dashboards:
 {{< clipboard >}}
