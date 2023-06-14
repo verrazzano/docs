@@ -161,6 +161,12 @@ You must have the following software installed:
 
   Use the Verrazzano CLI to install Verrazzano from your private registry.
 
+{{< alert title="NOTE" color="primary" >}}
+To ensure that the host names used for the system console are resolvable, you must configure one of the following:
+* If running within a public cloud, use the cloud provider's DNS, for example, OCI DNS.
+* Use a custom DNS server within the disconnected environment that can resolve the host names.
+{{< /alert >}}
+
   1. To install Verrazzano, you will need the Verrazzano platform operator manifests file. This file is in the
 distribution at `${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.yaml`.
   3. Install Verrazzano using the Verrazzano CLI. You can find the CLI in the distribution archive at `${DISTRIBUTION_DIR}/bin/<platform>/vz`.
