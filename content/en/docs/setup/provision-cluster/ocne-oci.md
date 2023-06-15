@@ -1,6 +1,6 @@
 ---
-title: Create Oracle Cloud Native Environment clusters running on OCI
-description: "Add OCNE managed clusters running on OCI to your multicluster environment"
+title: Create OCNE Clusters running on OCI from Verrazzano
+description: "Add Oracle Cloud Native Environment self-managed clusters running on OCI to your multicluster environment"
 weight: 1
 draft: false
 ---
@@ -9,7 +9,9 @@ draft: false
 
 You'll need:
 
-* An Oracle Cloud Infrastructure (OCI) account with a compartment configured
+* An Oracle Cloud Infrastructure (OCI) account with 
+    * A compartment 
+    * A virtual cloud network (VCN), configured to allow bi-directional communication between the admin cluster and the managed cluster and to accept the [ports and protocols required by Kubernetes](https://kubernetes.io/docs/reference/networking/ports-and-protocols/)
 * An SSH key pair to use for cluster authentication
 
 ### Create a new OCNE cluster on OCI 
@@ -27,21 +29,22 @@ To provision new Oracle Cloud Native Environment (OCNE) managed clusters on OCI,
 1. Expand **Labels and Annotations** to configure Kubernetes [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) and [annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) for the cluster.
 1. Select the cloud credentials that you created. Ensure that the appropriate Region and Compartment are selected from their dropdown lists. 
 1. Click **Authenticate and Configure Cluster**.
-1. Set up your network. Choose **Quick Create** to build a new virtual cloud network (VCN) using default settings or **Existing Infrastructure** to use an already configured VCN. If you choose to use an existing VCN, make sure that it is configured to accept the [ports and protocols required by Kubernetes](https://kubernetes.io/docs/reference/networking/ports-and-protocols/).
+1. Set up your network. Select **Existing Infrastructure** to choose a virtual cloud network configured in your OCI account.
 1. Click **Configure Control plane and worker nodes**.
-1. Choose a Node Image from the dropdown list.
-1. Expand **OCNE Image Configuration** if you want to modify the default settings. You can add an optional custom image OCID to override the default settings of the node image and you can block the installation of OCNE dependencies on each node.
-1. Copy or upload an SSH public key to manage authentication of the cluster.
+1. Choose a Node Image from the dropdown list. 
+    
+    You can choose to override the default Node Image. Expand **OCNE Image Configuration** and provide a custom image OCID. If your custom image includes OCNE binaries, you can select **Skip OCNE Dependency** to avoid duplicates. 
+1. Copy or upload an SSH public key to manage authentication of the cluster. Your SSH public key is installed on the cluster nodes, enabling SSH after the cluster is created.
 1. Configure the Control Plane. Select the **OCNE Version** first as it determines which Kubernetes versions are available, then choose a **Kubernetes Version** and a **Control Plane Shape**. You can leave the rest of the options at their default setting or modify them as needed.
     
     Under **Advanced**, you can choose to edit image tags for **ETCD**, **CoreDNS**, and **Calico**, or whether to install **OCI CCM/CSI** and **Calico**.
-1. Configure Node Pools, if necessary for your environment.
-1. Install Verrazzano on the cluster. Choose a **Verrazzano version** from the dropdown list. You can also expand **Advanced** to make changes to the Verrazzano Resource YAML. By default, Verrazzano is installed using the `managed-cluster` profile which enables a limited set of components on the cluster.
+1. Add node pools to your cluster. Clusters without node pools will schedule pods on control plane nodes.
+1. (Optional) Install Verrazzano on the cluster. Choose a **Verrazzano version** from the dropdown list. You can also expand **Advanced** to make changes to the Verrazzano Resource YAML. By default, Verrazzano is installed using the `managed-cluster` profile which enables a limited set of components on the cluster.
 1. Expand **Advanced Settings** to make additional modifications to the default settings of your new cluster. 
-    * **YAML Manifests**: Specify post-provisioning installations. 
-    * **Cluster Networking**: configure networking and proxy settings for the cluster. 
+    * **YAML Manifests**: Supply additional YAML manifests that are automatically installed after cluster creation. The total size of all additional YAML manifests may not exceed 500 KB. 
+    * **Cluster Networking**: Configure cluster IP ranges and proxy settings. 
     * **Container Registry**: Specify a private registry for your container.
-1. Click **Create**. It will take a few minutes to provision all of the resources for your cluster.
+1. Click **Create**. It can take up to 30 minutes to provision all of the resources for your cluster, particularly for multi-node clusters.
 
 When your cluster finishes provisioning, you can access it from the main **Cluster Management** page.
 
