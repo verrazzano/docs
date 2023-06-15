@@ -15,7 +15,7 @@ Component version updates:
 - WebLogic Monitoring Exporter v2.1.3
 
 Known Issues:
-- Systemd journal logs are not collected on some platforms. The `fluentd systemd` plugin used in verrazzano cannot read the journal database logs in newer versions of systemd. This specifically impacts community editions of [kind](https://kind.sigs.k8s.io/) based kubernetes clusters and any kubernetes worker nodes running on Ubuntu 21.04 or later, Oracle Linux 9 and any operating systems that have systemd version 246 or later.
+- Systemd journal logs are not collected on some platforms. The [systemd plugin for Fluentd](https://github.com/fluent-plugin-systemd/fluent-plugin-systemd) cannot read systemd journal files on Kubernetes nodes that use newer versions of systemd. This is known to impact the default node images of [kind](https://kind.sigs.k8s.io/) for Kubernetes 1.24 and later, Oracle Linux 9 and any other Kubernetes cluster nodes running on an operating system that has systemd version 246 or higher.
 
 ### v1.5.3
 Features:
