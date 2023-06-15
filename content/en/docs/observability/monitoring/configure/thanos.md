@@ -57,11 +57,15 @@ spec:
 
 ## Enable long-term storage using OCI Object Storage
 
-Optionally, to enable long-term storage of metrics complete the following steps:
+Optionally, Thanos can be configured to use [OCI Object Storage](https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm) 
+for long-term storage of metrics.
+
+To enable this behavior complete the following steps:
 
 ### Step 1: Create a YAML configuration file
 
-Create a local file named `storage.yaml` with valid credentials for accessing your bucket in OCI Object Storage.
+Create a local file named `storage.yaml` that identifies your OCI Object Storage bucket name, the region and compartment
+where it is located within your OCI tenancy, and a valid set of credentials for Thanos to use when accessing it.
 
 {{< clipboard >}}
 <div class="highlight">
