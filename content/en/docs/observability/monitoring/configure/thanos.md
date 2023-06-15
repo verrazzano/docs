@@ -71,11 +71,11 @@ type: OCI
 config:
   provider: "raw"
   bucket: "thanos"
-  compartment_ocid: ocid1.compartment.oc1.....
-  region: us-ashburn-1
-  tenancy_ocid: ocid1.tenancy.oc1.....
-  user_ocid: ocid1.user.oc1.....
-  fingerprint: 12:d3:4c:gh:fd:9e:27:g8:b9:0d:9f:00:22:33:c3:gg
+  compartment_ocid: "ocid1.compartment.oc1....."
+  region: "us-ashburn-1"
+  tenancy_ocid: "ocid1.tenancy.oc1....."
+  user_ocid: "ocid1.user.oc1....."
+  fingerprint: "12:d3:4c:..."
   key: |
     -----BEGIN RSA PRIVATE KEY-----
     ...
