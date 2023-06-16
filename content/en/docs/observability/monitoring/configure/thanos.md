@@ -57,7 +57,7 @@ spec:
 
 ## Enable long-term storage using OCI Object Storage
 
-Optionally, Thanos can be configured to use [OCI Object Storage](https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm) 
+Optionally, you can configure Thanos to use [OCI Object Storage](https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm) 
 for long-term storage of metrics.
 
 To enable this behavior complete the following steps:
