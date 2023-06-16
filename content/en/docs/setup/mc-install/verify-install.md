@@ -28,12 +28,21 @@ You can perform all the verification steps on the admin cluster.
    status:
      apiUrl: https://verrazzano.default.172.18.0.211.nip.io
      conditions:
-     - lastTransitionTime: "2021-07-07T15:49:43Z"
+     - lastTransitionTime: "2023-06-16T07:00:00Z"
        message: Ready
        status: "True"
        type: Ready
-     lastAgentConnectTime: "2021-07-16T14:47:25Z"
+     - lastTransitionTime: "2023-06-16T07:04:20Z"
+       message: Managed cluster CA cert retrieved successfully
+       status: "True"
+       type: ManagedCARetrieved
+     lastAgentConnectTime: "2023-06-16T07:25:16Z"
      prometheusHost: prometheus.vmi.system.default.172.18.0.211.nip.io
+     rancherRegistration:
+       clusterID: c-xqstg
+       message: Registration of managed cluster completed successfully for cluster managed with ID c-xqstg
+     status: Completed
+     state: Active
    ```
 
 </div>
