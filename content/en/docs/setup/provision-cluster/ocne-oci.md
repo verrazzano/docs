@@ -29,11 +29,11 @@ To provision new Oracle Cloud Native Environment (OCNE) managed clusters on OCI,
 1. Expand **Labels and Annotations** to configure Kubernetes [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) and [annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) for the cluster.
 1. Select the cloud credentials that you created. Ensure that the appropriate Region and Compartment are selected from their dropdown lists. 
 1. Click **Authenticate and Configure Cluster**.
-1. Set up your network. Select **Existing Infrastructure** to choose a virtual cloud network configured in your OCI account.
+1. Set up your network. Choose the compartment where your VCN is located from the **VCN Compartment** dropdown list, then the VCN itself from the **Virtual Cloud Network** dropdown list. For **Cloud Plane Subnet**, **Load Balancer Subnet**, and **Worker Node Subnet**, choose subnets within the VCN.
 1. Click **Configure Control plane and worker nodes**.
 1. Choose a Node Image from the dropdown list. 
     
-    You can choose to override the default Node Image. Expand **OCNE Image Configuration** and provide a custom image OCID. If your custom image includes OCNE binaries, you can select **Skip OCNE Dependency** to avoid duplicates. 
+    You can choose to override the default Node Image. Expand **OCNE Image Configuration** and provide a custom image OCID. If your custom image includes OCNE binaries, you can select **Skip OCNE Dependency Installation** to avoid duplicates. 
 1. Copy or upload an SSH public key to manage authentication of the cluster. Your SSH public key is installed on the cluster nodes, enabling SSH after the cluster is created.
 1. Configure the Control Plane. Select the **OCNE Version** first as it determines which Kubernetes versions are available, then choose a **Kubernetes Version** and a **Control Plane Shape**. You can leave the rest of the options at their default setting or modify them as needed.
     
