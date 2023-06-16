@@ -32,10 +32,6 @@ You can perform all the verification steps on the admin cluster.
        message: Ready
        status: "True"
        type: Ready
-     - lastTransitionTime: "2023-06-16T07:04:20Z"
-       message: Managed cluster CA cert retrieved successfully
-       status: "True"
-       type: ManagedCARetrieved
      lastAgentConnectTime: "2023-06-16T07:25:16Z"
      prometheusHost: prometheus.vmi.system.default.172.18.0.211.nip.io
      rancherRegistration:
