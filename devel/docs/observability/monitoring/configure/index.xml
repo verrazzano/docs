@@ -512,10 +512,13 @@ spec:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-&lt;h2 id=&#34;enable-long-term-storage&#34;&gt;Enable long-term storage&lt;/h2&gt;
-&lt;p&gt;Optionally, to enable long-term storage of metrics complete the following steps:&lt;/p&gt;
+&lt;h2 id=&#34;enable-long-term-storage-using-oci-object-storage&#34;&gt;Enable long-term storage using OCI Object Storage&lt;/h2&gt;
+&lt;p&gt;Optionally, you can configure Thanos to use &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm&#34;&gt;OCI Object Storage&lt;/a&gt;
+for long-term storage of metrics.&lt;/p&gt;
+&lt;p&gt;To enable this behavior complete the following steps:&lt;/p&gt;
 &lt;h3 id=&#34;step-1-create-a-yaml-configuration-file&#34;&gt;Step 1: Create a YAML configuration file&lt;/h3&gt;
-&lt;p&gt;Create a &lt;code&gt;storage.yaml&lt;/code&gt; file using OCI object storage.&lt;/p&gt;
+&lt;p&gt;Create a local file named &lt;code&gt;storage.yaml&lt;/code&gt; that identifies your OCI Object Storage bucket name, the region and compartment
+where it is located within your OCI tenancy, and a valid set of credentials for Thanos to use when accessing it.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -549,13 +552,16 @@ spec:
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;type: OCI
 config:
   provider: &amp;#34;raw&amp;#34;
-  bucket: &amp;#34;&amp;lt;bucket name&amp;gt;&amp;#34;
-  compartment_ocid: &amp;#34;&amp;lt;bucket compartment OCID&amp;gt;&amp;#34;
-  tenancy_ocid: &amp;#34;&amp;lt;tenancy OCID&amp;gt;&amp;#34;
-  user_ocid: &amp;#34;&amp;lt;user OCID&amp;gt;&amp;#34;
-  region: &amp;#34;&amp;lt;region&amp;gt;&amp;#34;
-  fingerprint: &amp;#34;&amp;#34;
-  privatekey: &amp;#34;&amp;#34;
+  bucket: &amp;#34;thanos&amp;#34;
+  compartment_ocid: &amp;#34;ocid1.compartment.oc1.....&amp;#34;
+  region: &amp;#34;us-ashburn-1&amp;#34;
+  tenancy_ocid: &amp;#34;ocid1.tenancy.oc1.....&amp;#34;
+  user_ocid: &amp;#34;ocid1.user.oc1.....&amp;#34;
+  fingerprint: &amp;#34;12:d3:4c:...&amp;#34;
+  key: |
+    -----BEGIN RSA PRIVATE KEY-----
+    ...
+    -----END RSA PRIVATE KEY-----
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -617,8 +623,8 @@ config:
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
 &lt;h3 id=&#34;step-2-create-a-secret&#34;&gt;Step 2: Create a secret&lt;/h3&gt;
-&lt;p&gt;Create the secret for object storage configuration.&lt;/p&gt;
-&lt;p&gt;The following example uses the file name &lt;code&gt;storage.yaml&lt;/code&gt;. The Thanos Store Gateway requires the key in the secret to be &lt;code&gt;objstore.yml&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Create the secret for object storage configuration using the &lt;code&gt;storage.yaml&lt;/code&gt; file you created in Step 1.&lt;/p&gt;
+&lt;p&gt;The Thanos Store Gateway requires the key in the secret to be &lt;code&gt;objstore.yml&lt;/code&gt;.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -712,7 +718,9 @@ $ kubectl create secret generic objstore-config -n verrazzano-monitoring --from-
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
 &lt;h3 id=&#34;step-3-enable-storage-and-thanos-store-gateway&#34;&gt;Step 3: Enable storage and Thanos Store Gateway&lt;/h3&gt;
-&lt;p&gt;The following example enables storage, creates the required secret, and enables Thanos Store Gateway. It also configures the Thanos Sidecar to write to object storage and the Store Gateway to read from object storage.&lt;/p&gt;
+&lt;p&gt;The following example enables storage, creates the required secret, and enables Thanos Store Gateway in the Verrazzano
+custom resource. It also configures the Thanos Sidecar to write to object storage and the Store Gateway to read from
+object storage.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: &lt;code&gt;objstore-config&lt;/code&gt; is the secret that you created in Step 2.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {

@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/observability/monitoring/configure/thanos/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-06-01T23:20:05+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-06-16T10:28:31+00:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Thanos">
 <meta itemprop="description" content="Use Thanos to access and store metrics data">
-<meta itemprop="dateModified" content="2023-06-01T23:20:05+05:30" />
-<meta itemprop="wordCount" content="1084">
+<meta itemprop="dateModified" content="2023-06-16T10:28:31+00:00" />
+<meta itemprop="wordCount" content="1141">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Thanos"/>
 <meta name="twitter:description" content="Use Thanos to access and store metrics data"/>
@@ -110,7 +110,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.6eee706e091a187fa071faff49e5079e.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.8c91c00fefc9d91d7eedc38d4fe52be4.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.6eee706e091a187fa071faff49e5079e.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.8c91c00fefc9d91d7eedc38d4fe52be4.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1061,7 +1061,7 @@ if (!doNotTrack) {
       <ul>
         <li><a href="#thanos-components">Thanos components</a></li>
         <li><a href="#enable-thanos">Enable Thanos</a></li>
-        <li><a href="#enable-long-term-storage">Enable long-term storage</a>
+        <li><a href="#enable-long-term-storage-using-oci-object-storage">Enable long-term storage using OCI Object Storage</a>
           <ul>
             <li><a href="#step-1-create-a-yaml-configuration-file">Step 1: Create a YAML configuration file</a></li>
             <li><a href="#step-2-create-a-secret">Step 2: Create a secret</a></li>
@@ -1282,10 +1282,13 @@ spec:
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
-<h2 id="enable-long-term-storage">Enable long-term storage</h2>
-<p>Optionally, to enable long-term storage of metrics complete the following steps:</p>
+<h2 id="enable-long-term-storage-using-oci-object-storage">Enable long-term storage using OCI Object Storage</h2>
+<p>Optionally, you can configure Thanos to use <a href="https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm">OCI Object Storage</a>
+for long-term storage of metrics.</p>
+<p>To enable this behavior complete the following steps:</p>
 <h3 id="step-1-create-a-yaml-configuration-file">Step 1: Create a YAML configuration file</h3>
-<p>Create a <code>storage.yaml</code> file using OCI object storage.</p>
+<p>Create a local file named <code>storage.yaml</code> that identifies your OCI Object Storage bucket name, the region and compartment
+where it is located within your OCI tenancy, and a valid set of credentials for Thanos to use when accessing it.</p>
 <style type="text/css">
     code {
         margin: 0;
@@ -1319,13 +1322,16 @@ spec:
 <pre tabindex="0"><code>type: OCI
 config:
   provider: &#34;raw&#34;
-  bucket: &#34;&lt;bucket name&gt;&#34;
-  compartment_ocid: &#34;&lt;bucket compartment OCID&gt;&#34;
-  tenancy_ocid: &#34;&lt;tenancy OCID&gt;&#34;
-  user_ocid: &#34;&lt;user OCID&gt;&#34;
-  region: &#34;&lt;region&gt;&#34;
-  fingerprint: &#34;&#34;
-  privatekey: &#34;&#34;
+  bucket: &#34;thanos&#34;
+  compartment_ocid: &#34;ocid1.compartment.oc1.....&#34;
+  region: &#34;us-ashburn-1&#34;
+  tenancy_ocid: &#34;ocid1.tenancy.oc1.....&#34;
+  user_ocid: &#34;ocid1.user.oc1.....&#34;
+  fingerprint: &#34;12:d3:4c:...&#34;
+  key: |
+    -----BEGIN RSA PRIVATE KEY-----
+    ...
+    -----END RSA PRIVATE KEY-----
 </code></pre></div>
 
 </div>
@@ -1387,8 +1393,8 @@ config:
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
 <h3 id="step-2-create-a-secret">Step 2: Create a secret</h3>
-<p>Create the secret for object storage configuration.</p>
-<p>The following example uses the file name <code>storage.yaml</code>. The Thanos Store Gateway requires the key in the secret to be <code>objstore.yml</code>.</p>
+<p>Create the secret for object storage configuration using the <code>storage.yaml</code> file you created in Step 1.</p>
+<p>The Thanos Store Gateway requires the key in the secret to be <code>objstore.yml</code>.</p>
 <style type="text/css">
     code {
         margin: 0;
@@ -1482,7 +1488,9 @@ $ kubectl create secret generic objstore-config -n verrazzano-monitoring --from-
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
 <h3 id="step-3-enable-storage-and-thanos-store-gateway">Step 3: Enable storage and Thanos Store Gateway</h3>
-<p>The following example enables storage, creates the required secret, and enables Thanos Store Gateway. It also configures the Thanos Sidecar to write to object storage and the Store Gateway to read from object storage.</p>
+<p>The following example enables storage, creates the required secret, and enables Thanos Store Gateway in the Verrazzano
+custom resource. It also configures the Thanos Sidecar to write to object storage and the Store Gateway to read from
+object storage.</p>
 <p><strong>Note</strong>: <code>objstore-config</code> is the secret that you created in Step 2.</p>
 <style type="text/css">
     code {
