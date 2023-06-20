@@ -80,7 +80,7 @@ config:
   tenancy_ocid: "ocid1.tenancy.oc1....."
   user_ocid: "ocid1.user.oc1....."
   fingerprint: "12:d3:4c:..."
-  key: |
+  privatekey: |
     -----BEGIN RSA PRIVATE KEY-----
     ...
     -----END RSA PRIVATE KEY-----
