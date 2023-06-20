@@ -7,6 +7,11 @@ draft: false
 ### v1.6.0
 Features:
 - Added support for Kubernetes v1.25 and v1.26
+- Added a None profile that comes with all components disabled by default
+- Added Thanos, which supports high availability and long-term storage on top of Prometheus
+- Enhanced the Verrazzano CLI to support installing and upgrading from a private registry and in air-gapped environments
+- Added Fluent Operator to allow use of Fluent Bit for log processing, but it will be disabled by default
+- Customer-managed Cert-Manager instances can now be used with Verrazzano
 
 Component version updates:
 - Jaeger v1.42.0
@@ -14,6 +19,26 @@ Component version updates:
   - Rancher Partner charts and RKE2 charts are no longer bundled.
 - WebLogic Kubernetes Operator v4.0.6
 - WebLogic Monitoring Exporter v2.1.3
+- NGINX Ingress Controller v1.7.1
+- Prometheus Operator v0.64.1
+- Prometheus v2.44.0
+- kube-state-metrics v2.8.2
+- kube-prometheus-stack Helm chart v45.25.0
+- kube-state-metrics Helm chart v5.6.4
+
+Components added:
+
+- Thanos v0.30.2
+- Fluent Operator v2.2.0
+- FluentbitOpensearchOutput Helm chart v1.6.0
+- ACME webhook for Oracle Cloud Infrastructure v0.1.0
+- Cluster API v1.4.2
+
+Fixes:
+- Disabled the startupapicheck job in cert-manager startup.
+- Fixed an issue with Rancher SSO via Keycloak when using a custom CA for Verrazzano certificates
+- Fixed an issue where not defining the replicas for default OpenSearch node pools in the Verrazzano CR caused the pods to terminate.
+
 
 ### v1.5.3
 Features:
