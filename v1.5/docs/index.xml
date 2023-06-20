@@ -6673,11 +6673,20 @@ when the upgrade has completed.  There is no user involvement related to restart
         
         &lt;p&gt;Verrazzano requires the following:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;A Kubernetes cluster and a compatible &lt;code&gt;kubectl&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;dev&lt;/code&gt; profile - Each node in the cluster should contain at least two CPUs, 16 GB RAM, and 100 GB of disk storage. The entire cluster requires at least six CPUs, 48 GB RAM, and 100 GB of disk storage. In addition, about 52 GB of storage is required for the persistent volumes.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;prod&lt;/code&gt; profile - Each node in the cluster should contain at least four CPUs, 32 GB RAM, and 100 GB of disk storage. The entire cluster requires at least eight CPUs, 64 GB RAM, and 150 GB of disk storage. In addition, about 450 GB of storage is required for the persistent volumes.&lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;
+&lt;p&gt;A Kubernetes cluster and a compatible &lt;code&gt;kubectl&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;../docs/networking/#high-level-network-diagram&#34;&gt;Two load balancers&lt;/a&gt;. Note that in a Verrazzano multicluster environment, two load balancers are required for each cluster.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;dev&lt;/code&gt; profile - Each node in the cluster should contain at least two CPUs, 16 GB RAM, and 100 GB of disk storage. The entire cluster requires at least six CPUs, 48 GB RAM, and 100 GB of disk storage. In addition, about 52 GB of storage is required for the persistent volumes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;prod&lt;/code&gt; profile - Each node in the cluster should contain at least four CPUs, 32 GB RAM, and 100 GB of disk storage. The entire cluster requires at least eight CPUs, 64 GB RAM, and 150 GB of disk storage. In addition, about 450 GB of storage is required for the persistent volumes.&lt;/p&gt;
 &lt;p&gt;The persistent volumes are provisioned using the default &lt;a href=&#34;https://kubernetes.io/docs/tasks/administer-cluster/change-default-storage-class/&#34;&gt;StorageClass&lt;/a&gt; in the cluster. In case of a  local disk based PV &lt;a href=&#34;https://kubernetes.io/docs/concepts/storage/storage-classes/#provisioner&#34;&gt;provisioner&lt;/a&gt;, each node in the cluster should have a minimum of 80 GB of disk storage for both of the profiles.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 
 
 &lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
@@ -28672,8 +28681,11 @@ To install plug-ins for OpenSearch, you define the field &lt;a href=&#34;../docs
 &lt;li&gt;&lt;code&gt;ingest-attachment&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;mapper-murmur3&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;mapper-size&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;opensearch-alerting&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;opensearch-index-management&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;opensearch-job-scheduler&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;opensearch-notifications&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;opensearch-notifications-core&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;prometheus-exporter&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;repository-s3&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -28980,7 +28992,12 @@ To install plug-ins for OpenSearch, you define the field &lt;a href=&#34;../docs
 &lt;/ul&gt;
 &lt;p&gt;For OpenSearch Dashboard, you can provide the plug-ins by defining the field &lt;a href=&#34;../docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.v1beta1.OpenSearchDashboardsComponent&#34;&gt;spec.components.opensearch-dashboards.plugins&lt;/a&gt; in the Verrazzano custom resource.&lt;/p&gt;
 &lt;h4 id=&#34;pre-built-plug-ins-for-opensearch-dashboards&#34;&gt;Pre-built plug-ins for OpenSearch Dashboards&lt;/h4&gt;
-&lt;p&gt;Here is a pre-built plug-in that is bundled with the OpenSearch Dashboard image: &lt;code&gt;indexManagementDashboards&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Here are pre-built plug-ins that are bundled with the OpenSearch Dashboard image:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;alertingDashboards&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;indexManagementDashboards&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;notificationsDashboards&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;Here is a Verrazzano custom resource example to install plug-ins for the OpenSearch Dashboards:
 &lt;style type=&#34;text/css&#34;&gt;
     code {
