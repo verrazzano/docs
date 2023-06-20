@@ -26,7 +26,7 @@ spec:
       type: LoadBalancer
       overrides:
       - values:
-          contoller:
+          controller:
             service:
               annotations:
                 service.beta.kubernetes.io/oci-load-balancer-shape: flexible
