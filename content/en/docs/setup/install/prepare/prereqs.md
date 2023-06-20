@@ -10,7 +10,7 @@ aliases:
 
 Verrazzano requires the following:
 - A Kubernetes cluster and a compatible `kubectl`.
-- [Two load balancers]({{< relref "/docs/networking#high-level-network-diagram" >}}). Note that in a Verrazzano multicluster environment, two load balancers are required on each cluster.
+- [Two load balancers]({{< relref "/docs/networking#high-level-network-diagram" >}}). Note that in a Verrazzano multicluster environment, two load balancers are required for each cluster.
 - `dev` profile - Each node in the cluster should contain at least two CPUs, 16 GB RAM, and 100 GB of disk storage. The entire cluster requires at least six CPUs, 48 GB RAM, and 100 GB of disk storage. In addition, about 52 GB of storage is required for the persistent volumes.
 - `prod` profile - Each node in the cluster should contain at least four CPUs, 32 GB RAM, and 100 GB of disk storage. The entire cluster requires at least eight CPUs, 64 GB RAM, and 150 GB of disk storage. In addition, about 450 GB of storage is required for the persistent volumes.
 
