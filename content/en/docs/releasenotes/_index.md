@@ -13,12 +13,12 @@ draft: false
 
 #### Features:
 - Added support for Kubernetes v1.25 and v1.26.
-- Added support to create OCNE clusters from the Rancher UI.
-- Added Thanos, which supports high availability and long-term storage on top of Prometheus.
-- Added Fluent Operator to allow use of Fluent Bit for log processing, but it will be disabled by default.
-- Enhanced the Verrazzano CLI to support installing and upgrading from a private registry and in air-gapped environments.
-- Customer-managed Cert-Manager instances can now be used with Verrazzano.
-- Added a None profile that comes with all components disabled by default.
+- Added support to create OCNE clusters from the Rancher console.
+- Added Thanos, which supports high availability and long-term metrics storage on top of Prometheus.
+- Added Fluent Operator to allow use of Fluent Bit for log processing, if you enable it.
+- Enhanced the Verrazzano CLI to support installing and upgrading from a private registry and in disconnected environments.
+- Now, you can use customer-managed cert-manager instances with Verrazzano.
+- Added the `none` profile, which has all components disabled by default.
 
 #### Component version updates:
 - Jaeger v1.42.0
@@ -31,12 +31,13 @@ draft: false
 - Prometheus v2.44.0
 - kube-state-metrics v2.8.2
 - Coherence Operator v3.2.10
+- Argo CD v2.7.2
 
 #### Components added:
 - Thanos v0.30.2
 - Fluent Operator v2.2.0
 - FluentbitOpensearchOutput Helm chart v1.6.0
-- Cert-Manager webhook for Oracle Cloud Infrastructure DNS v0.1.0
+- cert-manager webhook for Oracle Cloud Infrastructure DNS v0.1.0
 - Cluster API v1.4.2
 
 #### Fixes:
