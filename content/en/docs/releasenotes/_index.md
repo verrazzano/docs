@@ -30,6 +30,7 @@ draft: false
 - Prometheus Operator v0.64.1
 - Prometheus v2.44.0
 - kube-state-metrics v2.8.2
+- Coherence Operator v3.2.10
 
 #### Components added:
 - Thanos v0.30.2
