@@ -6,6 +6,10 @@ draft: false
 ## v1.6.0
 
 #### Enhancements:
+- Enhancement_1
+- Enhancement_2
+- ...
+- Enhancement_n
 
 #### Features:
 - Added support for Kubernetes v1.25 and v1.26.
@@ -43,7 +47,10 @@ draft: false
 - Updated base image and other component images to resolve CVEs.
 
 #### Known issues and workarounds:
-
+- Known Issue_1
+- Known Issue_2
+- ...
+- Known Issue_n
 
 ## Previous Release Information
 
