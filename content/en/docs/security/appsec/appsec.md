@@ -203,10 +203,7 @@ specify a non-root user, using the `USER` instruction in the container image bui
 
 ## Pod security for applications using standard Kubernetes resources
 
-You can deploy applications using standard Kubernetes resources, as described in the [Standard Kubernetes Resources]({{< relref "/docs/examples/standard-kubernetes.md" >}})
-example.
-
-You configure security for these resources as you typically would for any Kubernetes `Deployment` resource.  
+You can deploy applications using standard Kubernetes resources. You configure security for these resources as you typically would for any Kubernetes `Deployment` resource.  
 
 For example:
 
