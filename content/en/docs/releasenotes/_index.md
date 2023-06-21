@@ -47,6 +47,7 @@ draft: false
 
 #### Known issues and workarounds:
 - Systemd journal logs are not collected on some platforms. The [systemd plugin for Fluentd](https://github.com/fluent-plugin-systemd/fluent-plugin-systemd) cannot read systemd journal files on Kubernetes nodes that use newer versions of systemd. This is known to impact the default node images of [kind](https://kind.sigs.k8s.io/) for Kubernetes 1.24 and later, Oracle Linux 9, and any other Kubernetes cluster nodes running on an operating system that has systemd version 246 or higher.**
+- Registration of managed clusters [via the Rancher console](../setup/mc-install/register/ui-register.md) is not working in [disconnected environments](../setup/private-registry/private-registry.md).  Use the [Kubernetes Custom Resources](../setup/mc-install/register/register-kubectl.md) method instead.
 - Known Issue_2
 - ...
 - Known Issue_n
