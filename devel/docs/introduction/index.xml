@@ -14,6 +14,45 @@
     
     
     <item>
+      <title>Docs: Verrazzano Architecture</title>
+      <link>/docs/introduction/architecture/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/introduction/architecture/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Each Verrazzano installation sits on top of a Kubernetes cluster (that can be hosted on a variety of environments). Verrazzano relies on the Kubernetes API to pull information from the cluster to its components and push instructions from its components down to the cluster. Specifically, Verrazzano uses &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/&#34;&gt;custom resources&lt;/a&gt;, extensions of the Kubernetes API to configure Kubernetes environments and provide additional functionality.&lt;/p&gt;
+&lt;p&gt;Because Verrazzano extends Kubernetes, you can continue to use many of the Kubernetes management tools you&amp;rsquo;re already familiar with, such as kubectl and kubeadm.&lt;/p&gt;
+&lt;p&gt;Each Kubernetes cluster must have both a Container Network Interface (CNI) and a Container Storage Interface (CSI) plugin.&lt;/p&gt;
+&lt;h2 id=&#34;inside-a-verrazzano-installation&#34;&gt;Inside a Verrazzano installation&lt;/h2&gt;
+&lt;p&gt;Verrazzano consists of many, discrete components. To coordinate between these components, Verrazzano engages the Istio service mesh - an infrastructure layer that manages the flow of information between services. Most Verrazzano components operate from within the Istio service mesh and rely on it to facilitate fast, reliable, and secure communication between them. Istio also provides useful features such as load balancing, traffic control, observability, and more.&lt;/p&gt;
+&lt;p&gt;Learn more about how Istio handles traffic and network security in Verrazzano at &lt;a href=&#34;../../docs/networking/&#34;&gt;Networking&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The components within the service mesh can broadly be organized into the following categories:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Backup and restore&lt;/li&gt;
+&lt;li&gt;Certificate management&lt;/li&gt;
+&lt;li&gt;Cluster management&lt;/li&gt;
+&lt;li&gt;GitOps&lt;/li&gt;
+&lt;li&gt;Identity management&lt;/li&gt;
+&lt;li&gt;Observability&lt;/li&gt;
+&lt;li&gt;Verrazzano operators&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;See &lt;a href=&#34;../../docs/setup/install/prepare/prereqs/#installed-software&#34;&gt;Installed Software&lt;/a&gt; for a list of the components included with Verrazzano. Depending on which &lt;a href=&#34;../../docs/setup/install/perform/profiles/&#34;&gt;installation profile&lt;/a&gt; you choose to apply, some components are not enabled by default.&lt;/p&gt;
+&lt;p&gt;One Verrazzano component that does not reside within the service mesh is the Verrazzano platform operator, a custom Kubernetes operator that handles the management of Verrazzano itself - including installation (and uninstallation), upgrades, and troubleshooting. The platform operator also works with the service mesh to synchronize actions between the components and Kubernetes clusters.&lt;/p&gt;
+&lt;h2 id=&#34;application-deployment&#34;&gt;Application deployment&lt;/h2&gt;
+&lt;p&gt;With Verrazzano, you can manage a variety of application types. Depending on their type, applications are deployed from different spaces within the architecture of Verrazzano.&lt;/p&gt;
+&lt;p&gt;Applications that conform to the &lt;a href=&#34;../../docs/introduction/verrazzanooam/&#34;&gt;Open Application Model (OAM)&lt;/a&gt; specification are deployed within the service mesh. Their close proximity to other components allows for significant automation and configuration benefits.&lt;/p&gt;
+&lt;p&gt;Other application types are deployed in the Kubernetes cluster. They can still use Verrazzano features but may require additional configuration. Whichever application types you use, they&amp;rsquo;ll benefit from Verrazzano&amp;rsquo;s comprehensive management solution.&lt;/p&gt;
+&lt;h2 id=&#34;multicluster-support&#34;&gt;Multicluster support&lt;/h2&gt;
+&lt;p&gt;You can use Verrazzano in single and multicluster Kubernetes environments. In a multicluster environment, there is an &lt;em&gt;admin&lt;/em&gt; cluster, which is the central management point for deploying and monitoring applications, and one or more &lt;em&gt;managed&lt;/em&gt; clusters, which look to the admin cluster for configurations.&lt;/p&gt;
+&lt;p&gt;Verrazzano is installed on every cluster; admin clusters are installed with either a &lt;code&gt;dev&lt;/code&gt; or &lt;code&gt;prod&lt;/code&gt; profile, while managed clusters use a &lt;code&gt;managed-cluster&lt;/code&gt; profile which has fewer components enabled by default and requires registration to an admin cluster. See &lt;a href=&#34;../../docs/setup/install/perform/profiles/&#34;&gt;Installation Profiles&lt;/a&gt; for details.&lt;/p&gt;
+&lt;p&gt;After registration, a managed cluster submits logging and metrics data to its admin cluster, and receives configuration instructions in turn, over HTTPS.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Verrazzano Features</title>
       <link>/docs/introduction/features/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
