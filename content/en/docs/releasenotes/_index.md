@@ -15,7 +15,7 @@ draft: false
 - Added support for Kubernetes v1.25 and v1.26.
 - Added support to create OCNE clusters from the Rancher console.
 - Added Thanos, which supports high availability and long-term metrics storage on top of Prometheus.
-- Added Fluent Operator to allow use of Fluent Bit for log processing, if you enable it.
+- Added Fluent Operator to allow the use of Fluent Bit for log processing, if you enable it.
 - Enhanced the Verrazzano CLI to support installing and upgrading from a private registry and in disconnected environments.
 - Now, you can use customer-managed cert-manager instances with Verrazzano.
 - Added the `none` profile, which has all components disabled by default.
@@ -47,11 +47,8 @@ draft: false
 - Updated base image and other component images to resolve CVEs.
 
 #### Known issues and workarounds:
-- Systemd journal logs are not collected on some platforms. The [systemd plugin for Fluentd](https://github.com/fluent-plugin-systemd/fluent-plugin-systemd) cannot read systemd journal files on Kubernetes nodes that use newer versions of systemd. This is known to impact the default node images of [kind](https://kind.sigs.k8s.io/) for Kubernetes 1.24 and later, Oracle Linux 9, and any other Kubernetes cluster nodes running on an operating system that has systemd version 246 or higher.**
+- Systemd journal logs are not collected on some platforms. The [systemd plugin for Fluentd](https://github.com/fluent-plugin-systemd/fluent-plugin-systemd) cannot read systemd journal files on Kubernetes nodes that use newer versions of systemd. This is known to impact the default node images of [kind](https://kind.sigs.k8s.io/) for Kubernetes 1.24 and later, Oracle Linux 9, and any other Kubernetes cluster nodes running on an operating system that has systemd version 246 or later.
 - Registration of managed clusters [via the Rancher console]({{< relref "/docs/setup/mc-install/register/ui-register.md" >}}) is not working in [disconnected environments]({{< relref "/docs/setup/private-registry/private-registry.md" >}}).  Use the [Kubernetes Custom Resources]({{< relref "/docs/setup/mc-install/register/register-kubectl.md" >}}) method instead.
-- Known Issue_2
-- ...
-- Known Issue_n
 
 ## Previous Release Information
 
