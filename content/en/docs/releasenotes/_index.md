@@ -6,13 +6,13 @@ draft: false
 ---
 ### v1.6.0
 Features:
-- Added support for Kubernetes v1.25 and v1.26
-- Added support to create OCNE clusters from the Rancher UI
-- Added Thanos, which supports high availability and long-term storage on top of Prometheus
-- Added Fluent Operator to allow use of Fluent Bit for log processing, but it will be disabled by default
-- Enhanced the Verrazzano CLI to support installing and upgrading from a private registry and in air-gapped environments
-- Customer-managed Cert-Manager instances can now be used with Verrazzano
-- Added a None profile that comes with all components disabled by default
+- Added support for Kubernetes v1.25 and v1.26.
+- Added support to create OCNE clusters from the Rancher UI.
+- Added Thanos, which supports high availability and long-term storage on top of Prometheus.
+- Added Fluent Operator to allow use of Fluent Bit for log processing, but it will be disabled by default.
+- Enhanced the Verrazzano CLI to support installing and upgrading from a private registry and in air-gapped environments.
+- Customer-managed Cert-Manager instances can now be used with Verrazzano.
+- Added a None profile that comes with all components disabled by default.
 
 Component version updates:
 - Jaeger v1.42.0
@@ -32,12 +32,12 @@ Components added:
 - Thanos v0.30.2
 - Fluent Operator v2.2.0
 - FluentbitOpensearchOutput Helm chart v1.6.0
-- Cert-Manager webhook for Oracle Clould Infrastructure DNS v0.1.0
+- Cert-Manager webhook for Oracle Cloud Infrastructure DNS v0.1.0
 - Cluster API v1.4.2
 
 Fixes:
 - Disabled the startupapicheck job in cert-manager startup.
-- Fixed an issue with Rancher SSO via Keycloak when using a custom CA for Verrazzano certificates
+- Fixed an issue with Rancher SSO via Keycloak when using a custom CA for Verrazzano certificates.
 - Fixed an issue where not defining the replicas for default OpenSearch node pools in the Verrazzano CR caused the pods to terminate.
 - Updated base image and other component images to resolve CVEs.
 
