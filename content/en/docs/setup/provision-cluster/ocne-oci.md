@@ -7,12 +7,13 @@ draft: false
 
 ### Before you begin
 
-You'll need:
+You'll need to:
 
-* An Oracle Cloud Infrastructure (OCI) account with 
+* [Enable the cluster API component]({{< relref "/docs/setup/modify-installation" >}})in the Verrazzano resource
+* Set up an Oracle Cloud Infrastructure (OCI) account with 
     * A compartment 
     * A virtual cloud network (VCN), configured to allow bi-directional communication between the admin cluster and the managed cluster and to accept the [ports and protocols required by Kubernetes](https://kubernetes.io/docs/reference/networking/ports-and-protocols/)
-* An SSH key pair to use for cluster authentication
+* Generate an SSH key pair to use for cluster authentication
 
 ### Create a new OCNE cluster on OCI 
 
@@ -30,6 +31,8 @@ To provision new Oracle Cloud Native Environment (OCNE) managed clusters on OCI,
 1. Select the cloud credentials that you created. Ensure that the appropriate Region and Compartment are selected from their dropdown lists. 
 1. Click **Authenticate and Configure Cluster**.
 1. Set up your network. Choose the compartment where your VCN is located from the **VCN Compartment** dropdown list, then the VCN itself from the **Virtual Cloud Network** dropdown list. For **Cloud Plane Subnet**, **Load Balancer Subnet**, and **Worker Node Subnet**, choose subnets within the VCN.
+    
+    The VCN compartment does not need to match the compartment specified in the cloud credential.
 1. Click **Configure Control plane and worker nodes**.
 1. Choose a Node Image from the dropdown list. 
     
