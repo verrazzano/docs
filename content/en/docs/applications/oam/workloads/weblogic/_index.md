@@ -3,6 +3,8 @@ title: "WebLogic Workload"
 description: "Develop WebLogic applications with Verrazzano"
 weight: 2
 draft: false
+aliases:
+  - /docs/applications/workloads/weblogic
 ---
 
 WebLogic Server is a widely-used enterprise application server for managing Java Enterprise Edition-based applications and is [certified](https://blogs.oracle.com/weblogicserver/weblogic-server-certification-on-kubernetes) to run on Kubernetes using the [WebLogic Kubernetes Operator](https://oracle.github.io/weblogic-kubernetes-operator/). The WebLogic Kubernetes Operator (the "operator") manages the WebLogic domain life cycle in Verrazzano. The WebLogic Domain custom resource (CR) specifies the configuration of the WebLogic domain. The operator monitors the WebLogic Domain CR and reconciles the domain by creating, updating, and deleting Kubernetes resources (Pods, Services, and such), as needed. Each pod is a WebLogic Server Administration Server or Managed Server.

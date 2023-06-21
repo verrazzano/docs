@@ -3,6 +3,8 @@ title: "Coherence Workload"
 description: "Use a Coherence workload in an application"
 weight: 3
 draft: false
+aliases:
+  - /docs/applications/workloads/coherence/coherence
 ---
 
 

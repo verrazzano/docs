@@ -3,6 +3,8 @@ title: "Configure Tracing Components"
 description: "Enable and configure Jaeger distributed tracing in Verrazzano"
 weight: 3
 draft: false
+aliases:
+  - /docs/monitoring/tracing/jaeger-tracing
 ---
 
 This document describes how to enable Jaeger and customize your Jaeger installation to address some common tracing needs.
@@ -116,8 +118,8 @@ with a TLS CA certificate mounted from a volume and the user/password stored in 
 
    ```
    $ kubectl create secret generic jaeger-secret \
-    --from-literal=OS_PASSWORD=<OPENSEARCH PASSWORD> \
-    --from-literal=OS_USERNAME=<OPENSEARCH USERNAME> \
+    --from-literal=ES_PASSWORD=<OPENSEARCH PASSWORD> \
+    --from-literal=ES_USERNAME=<OPENSEARCH USERNAME> \
     --from-file=ca-bundle=<path to the file containing CA certs> \
     -n verrazzano-install
    ```
