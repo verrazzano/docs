@@ -5,10 +5,12 @@ weight: 1
 draft: false
 ---
 
-The Verrazzano metrics stack automates metrics aggregation and consists of Prometheus and Grafana components.
+The Verrazzano metrics stack automates metrics aggregation and consists of Prometheus, Thanos, and Grafana components.
 Metrics sources expose system and application metrics.
-The Prometheus components retrieve and store the metrics and Grafana provides dashboards to
+The Prometheus and Thanos components retrieve and store the metrics and Grafana provides dashboards to
 visualize them.
+
+The following is a representation of metrics collection in a single cluster environment.
 
 ![Metrics](/docs/images/metrics.png)
 

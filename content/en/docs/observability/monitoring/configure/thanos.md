@@ -55,13 +55,17 @@ spec:
 </div>
 {{< /clipboard >}}
 
-## Enable long-term storage
+## Enable long-term storage using OCI Object Storage
 
-Optionally, to enable long-term storage of metrics complete the following steps:
+Optionally, you can configure Thanos to use [OCI Object Storage](https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm) 
+for long-term storage of metrics.
+
+To enable this behavior complete the following steps:
 
 ### Step 1: Create a YAML configuration file
 
-Create a `storage.yaml` file using OCI object storage.
+Create a local file named `storage.yaml` that identifies your OCI Object Storage bucket name, the region and compartment
+where it is located within your OCI tenancy, and a valid set of credentials for Thanos to use when accessing it.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -70,13 +74,16 @@ Create a `storage.yaml` file using OCI object storage.
 type: OCI
 config:
   provider: "raw"
-  bucket: "<bucket name>"
-  compartment_ocid: "<bucket compartment OCID>"
-  tenancy_ocid: "<tenancy OCID>"
-  user_ocid: "<user OCID>"
-  region: "<region>"
-  fingerprint: ""
-  privatekey: ""
+  bucket: "thanos"
+  compartment_ocid: "ocid1.compartment.oc1....."
+  region: "us-ashburn-1"
+  tenancy_ocid: "ocid1.tenancy.oc1....."
+  user_ocid: "ocid1.user.oc1....."
+  fingerprint: "12:d3:4c:..."
+  privatekey: |
+    -----BEGIN RSA PRIVATE KEY-----
+    ...
+    -----END RSA PRIVATE KEY-----
 ```
 
 </div>
@@ -84,9 +91,9 @@ config:
 
 ### Step 2: Create a secret
 
-Create the secret for object storage configuration.
+Create the secret for object storage configuration using the `storage.yaml` file you created in Step 1.
 
-The following example uses the file name `storage.yaml`. The Thanos Store Gateway requires the key in the secret to be `objstore.yml`.
+The Thanos Store Gateway requires the key in the secret to be `objstore.yml`.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -101,7 +108,9 @@ $ kubectl create secret generic objstore-config -n verrazzano-monitoring --from-
 
 ### Step 3: Enable storage and Thanos Store Gateway
 
-The following example enables storage, creates the required secret, and enables Thanos Store Gateway. It also configures the Thanos Sidecar to write to object storage and the Store Gateway to read from object storage.
+The following example enables storage, creates the required secret, and enables Thanos Store Gateway in the Verrazzano 
+custom resource. It also configures the Thanos Sidecar to write to object storage and the Store Gateway to read from 
+object storage.
 
 **Note**: `objstore-config` is the secret that you created in Step 2.
 
