@@ -6,42 +6,37 @@ draft: false
 ## v1.6.0
 
 #### Enhancements:
-- Enhancement_1
-- Enhancement_2
-- ...
-- Enhancement_n
+- Enhanced the Verrazzano CLI to support installing and upgrading from a private registry and in disconnected environments.
+- Now, you can use customer-managed cert-manager instances with Verrazzano.
 
 #### Features:
 - Added support for Kubernetes v1.25 and v1.26.
 - Added support to create OCNE clusters from the Rancher console.
 - Added Thanos, which supports high availability and long-term metrics storage on top of Prometheus.
 - Added Fluent Operator to allow the use of Fluent Bit for log processing, if you enable it.
-- Enhanced the Verrazzano CLI to support installing and upgrading from a private registry and in disconnected environments.
-- Now, you can use customer-managed cert-manager instances with Verrazzano.
-- Added the `none` profile, which has all components disabled by default.
 
 #### Component version updates:
+- Argo CD v2.7.2
+- Coherence Operator v3.2.10
 - Jaeger v1.42.0
-- Rancher v2.7.3
-  - Rancher Partner charts and RKE2 charts are no longer bundled.
-- WebLogic Kubernetes Operator v4.0.6
-- WebLogic Monitoring Exporter v2.1.3
+- kube-state-metrics v2.8.2
 - NGINX Ingress Controller v1.7.1
 - Prometheus Operator v0.64.1
 - Prometheus v2.44.0
-- kube-state-metrics v2.8.2
-- Coherence Operator v3.2.10
-- Argo CD v2.7.2
+- Rancher v2.7.3
+  - Rancher Partner charts and RKE2 charts are no longer bundled.
+- Rancher Backup Operator v3.1.0
+- WebLogic Kubernetes Operator v4.0.6
+- WebLogic Monitoring Exporter v2.1.3
 
 #### Components added:
-- Thanos v0.30.2
-- Fluent Operator v2.2.0
-- FluentbitOpensearchOutput Helm chart v1.6.0
 - cert-manager webhook for Oracle Cloud Infrastructure DNS v0.1.0
 - Cluster API v1.4.2
+- Fluent Operator v2.2.0
+- Thanos v0.30.2
 
 #### Fixes:
-- Disabled the startupapicheck job in cert-manager startup.
+- Disabled the `startupapicheck` job in cert-manager startup.
 - Fixed an issue with Rancher SSO via Keycloak when using a custom CA for Verrazzano certificates.
 - Fixed an issue where not defining the replicas for default OpenSearch node pools in the Verrazzano CR caused the pods to terminate.
 - Updated base image and other component images to resolve CVEs.
@@ -49,6 +44,7 @@ draft: false
 #### Known issues and workarounds:
 - Systemd journal logs are not collected on some platforms. The [systemd plugin for Fluentd](https://github.com/fluent-plugin-systemd/fluent-plugin-systemd) cannot read systemd journal files on Kubernetes nodes that use newer versions of systemd. This is known to impact the default node images of [kind](https://kind.sigs.k8s.io/) for Kubernetes 1.24 and later, Oracle Linux 9, and any other Kubernetes cluster nodes running on an operating system that has systemd version 246 or later.
 - Registration of managed clusters [via the Rancher console]({{< relref "/docs/setup/mc-install/register/ui-register.md" >}}) is not working in [disconnected environments]({{< relref "/docs/setup/private-registry/private-registry.md" >}}).  Use the [Kubernetes Custom Resources]({{< relref "/docs/setup/mc-install/register/register-kubectl.md" >}}) method instead.
+
 
 ## Previous Release Information
 
