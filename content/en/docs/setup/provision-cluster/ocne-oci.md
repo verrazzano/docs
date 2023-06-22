@@ -9,7 +9,6 @@ draft: false
 
 You'll need to:
 
-* [Enable the cluster API component]({{< relref "/docs/setup/modify-installation" >}})in the Verrazzano resource
 * Set up an Oracle Cloud Infrastructure (OCI) account with 
     * A compartment 
     * A virtual cloud network (VCN), configured to allow bi-directional communication between the admin cluster and the managed cluster and to accept the [ports and protocols required by Kubernetes](https://kubernetes.io/docs/reference/networking/ports-and-protocols/)
