@@ -1,5 +1,6 @@
 ---
 title: "Verrazzano Features"
+linkTitle: Features
 description: ""
 weight: 2
 draft: false
