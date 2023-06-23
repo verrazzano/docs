@@ -326,3 +326,18 @@ $ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/<log-
 ```
 {{< /clipboard >}}
 </details>
+
+## OpenSearch restore in an existing cluster
+To restore the OpenSearch data within an already existing cluster.
+
+If you have previously created a backup using Velero within the same cluster and wish to solely restore the data from that specific backup, execute the following command
+
+{{< clipboard >}}
+```shell
+# To restore the existing snapshot, run the following command
+POST _snapshot/<backup_repository_name>/<snapshot_name>/_restore
+```
+{{< clipboard >}}
+
+For more information, see [https://opensearch.org/docs/latest/tuning-your-cluster/availability-and-recovery/snapshots/snapshot-restore/#restore-snapshots] in the OpenSearch documentation.
+
