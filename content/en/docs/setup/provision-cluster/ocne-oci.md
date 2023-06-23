@@ -18,7 +18,7 @@ You'll need to:
 
 To provision new Oracle Cloud Native Environment (OCNE) managed clusters on OCI, complete the following steps:
 
-1. Log into the Rancher console. Find the Rancher console URL for your cluster at [Get console URLs]({{< relref "/docs/setup/access/console-urls.md" >}}).
+1. Log into the console. To find the console URL for your cluster, refer to [Get console URLs]({{< relref "/docs/setup/access/console-urls.md" >}}) and use the `rancherURL` value.
 1. Open the navigation menu and select **Cluster Management**.
 1. From the left menu, select **Cloud Credentials**, and then click **Create**. Cloud credentials store the credentials for your cloud infrastructure provider.
 1. Choose **Oracle**.
