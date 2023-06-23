@@ -6,7 +6,7 @@ draft: false
 ## v1.6.0
 
 #### Features:
-- Added support for creating OCNE clusters from the Rancher console.
+- Added support for creating OCNE clusters from the console.
 - Added Thanos, which supports high availability and long-term metrics storage on top of Prometheus.
 - Added Fluent Operator, which, if you enable it, allows the use of Fluent Bit for log processing.
 
