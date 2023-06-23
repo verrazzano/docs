@@ -670,6 +670,26 @@ bool
 <p>If true, then Cluster API Providers will be installed.</p>
 </td>
 </tr>
+<tr>
+<td>
+<code>InstallOverrides</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
+InstallOverrides
+</a>
+</em>
+</td>
+<td>
+<p>
+(Members of <code>InstallOverrides</code> are embedded into this type.)
+</p>
+<em>(Optional)</em>
+<p>Overrides are merged together, but in the event of conflicting fields, the last override in the list
+takes precedence over any others. You can find all possible values
+<a href="{{% release_source_url path=platform-operator/helm_config/overrides/cluster-api-values.yaml %}}">here</a>
+and invalid values will be ignored.</p>
+</td>
+</tr>
 </tbody>
 </table>
 <h3 id="install.verrazzano.io/v1beta1.ClusterAgentComponent">ClusterAgentComponent
@@ -2316,6 +2336,7 @@ key in the <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOver
 <a href="#install.verrazzano.io/v1beta1.AuthProxyComponent">AuthProxyComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.CertManagerComponent">CertManagerComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.CertManagerWebhookOCIComponent">CertManagerWebhookOCIComponent</a>, 
+<a href="#install.verrazzano.io/v1beta1.ClusterAPIComponent">ClusterAPIComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.ClusterAgentComponent">ClusterAgentComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.ClusterOperatorComponent">ClusterOperatorComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.CoherenceOperatorComponent">CoherenceOperatorComponent</a>, 
