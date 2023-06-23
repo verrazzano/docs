@@ -1,0 +1,114 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – Provision Additional Clusters</title>
+    <link>/docs/setup/provision-cluster/</link>
+    <description>Recent content in Provision Additional Clusters on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/setup/provision-cluster/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Create OCNE Clusters running on OCI from Verrazzano</title>
+      <link>/docs/setup/provision-cluster/ocne-oci/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/provision-cluster/ocne-oci/</guid>
+      <description>
+        
+        
+        &lt;h3 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h3&gt;
+&lt;p&gt;You&amp;rsquo;ll need to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Set up an Oracle Cloud Infrastructure (OCI) account with
+&lt;ul&gt;
+&lt;li&gt;A compartment&lt;/li&gt;
+&lt;li&gt;A virtual cloud network (VCN), configured to allow bi-directional communication between the admin cluster and the managed cluster and to accept the &lt;a href=&#34;https://kubernetes.io/docs/reference/networking/ports-and-protocols/&#34;&gt;ports and protocols required by Kubernetes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Generate an SSH key pair to use for cluster authentication&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;create-a-new-ocne-cluster-on-oci&#34;&gt;Create a new OCNE cluster on OCI&lt;/h3&gt;
+&lt;p&gt;To provision new Oracle Cloud Native Environment (OCNE) managed clusters on OCI, complete the following steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Log into the console. To find the console URL for your cluster, refer to &lt;a href=&#34;../../../docs/setup/access/console-urls/&#34;&gt;Get console URLs&lt;/a&gt; and use the &lt;code&gt;rancherURL&lt;/code&gt; value.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Open the navigation menu and select &lt;strong&gt;Cluster Management&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;From the left menu, select &lt;strong&gt;Cloud Credentials&lt;/strong&gt;, and then click &lt;strong&gt;Create&lt;/strong&gt;. Cloud credentials store the credentials for your cloud infrastructure provider.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Choose &lt;strong&gt;Oracle&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Provide a name for the cloud credential and then fill in the fields. You can find the required information in your &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#Required_Keys_and_OCIDs&#34;&gt;OCI configuration file&lt;/a&gt;. Click &lt;strong&gt;Create&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;From the left menu, select &lt;strong&gt;Clusters&lt;/strong&gt;, and then click &lt;strong&gt;Create&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Select &lt;strong&gt;Oracle OCNE on OCI&lt;/strong&gt; and provide a name for the cluster.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Expand &lt;strong&gt;Member Roles&lt;/strong&gt; to add any users that you want grant access to this cluster and their permissions.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Expand &lt;strong&gt;Labels and Annotations&lt;/strong&gt; to configure Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/&#34;&gt;labels&lt;/a&gt; and &lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/&#34;&gt;annotations&lt;/a&gt; for the cluster.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Select the cloud credentials that you created. Ensure that the appropriate Region and Compartment are selected from their dropdown lists.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Click &lt;strong&gt;Authenticate and Configure Cluster&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Set up your network. Choose the compartment where your VCN is located from the &lt;strong&gt;VCN Compartment&lt;/strong&gt; dropdown list, then the VCN itself from the &lt;strong&gt;Virtual Cloud Network&lt;/strong&gt; dropdown list. For &lt;strong&gt;Cloud Plane Subnet&lt;/strong&gt;, &lt;strong&gt;Load Balancer Subnet&lt;/strong&gt;, and &lt;strong&gt;Worker Node Subnet&lt;/strong&gt;, choose subnets within the VCN.&lt;/p&gt;
+&lt;p&gt;The VCN compartment does not need to match the compartment specified in the cloud credential.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Click &lt;strong&gt;Configure Control plane and worker nodes&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Choose a Node Image from the dropdown list.&lt;/p&gt;
+&lt;p&gt;You can choose to override the default Node Image. Expand &lt;strong&gt;OCNE Image Configuration&lt;/strong&gt; and provide a custom image OCID. If your custom image includes OCNE binaries, you can select &lt;strong&gt;Skip OCNE Dependency Installation&lt;/strong&gt; to avoid duplicates.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Copy or upload an SSH public key to manage authentication of the cluster. Your SSH public key is installed on the cluster nodes, enabling SSH after the cluster is created.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Configure the Control Plane. Select the &lt;strong&gt;OCNE Version&lt;/strong&gt; first as it determines which Kubernetes versions are available, then choose a &lt;strong&gt;Kubernetes Version&lt;/strong&gt; and a &lt;strong&gt;Control Plane Shape&lt;/strong&gt;. You can leave the rest of the options at their default setting or modify them as needed.&lt;/p&gt;
+&lt;p&gt;Under &lt;strong&gt;Advanced&lt;/strong&gt;, you can choose to edit image tags for &lt;strong&gt;ETCD&lt;/strong&gt;, &lt;strong&gt;CoreDNS&lt;/strong&gt;, and &lt;strong&gt;Calico&lt;/strong&gt;, or whether to install &lt;strong&gt;OCI CCM/CSI&lt;/strong&gt; and &lt;strong&gt;Calico&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Add node pools to your cluster. Clusters without node pools will schedule pods on control plane nodes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;(Optional) Install Verrazzano on the cluster. Choose a &lt;strong&gt;Verrazzano version&lt;/strong&gt; from the dropdown list. You can also expand &lt;strong&gt;Advanced&lt;/strong&gt; to make changes to the Verrazzano Resource YAML. By default, Verrazzano is installed using the &lt;code&gt;managed-cluster&lt;/code&gt; profile which enables a limited set of components on the cluster.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Expand &lt;strong&gt;Advanced Settings&lt;/strong&gt; to make additional modifications to the default settings of your new cluster.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;YAML Manifests&lt;/strong&gt;: Supply additional YAML manifests that are automatically installed after cluster creation. The total size of all additional YAML manifests may not exceed 500 KB.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cluster Networking&lt;/strong&gt;: Configure cluster IP ranges and proxy settings.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Container Registry&lt;/strong&gt;: Specify a private registry for your container.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Click &lt;strong&gt;Create&lt;/strong&gt;. It can take up to 30 minutes to provision all of the resources for your cluster, particularly for multi-node clusters.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;When your cluster finishes provisioning, you can access it from the main &lt;strong&gt;Cluster Management&lt;/strong&gt; page.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
