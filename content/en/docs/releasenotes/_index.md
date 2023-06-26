@@ -41,6 +41,18 @@ draft: false
 - Fixed an issue with Rancher SSO via Keycloak when using a custom CA for Verrazzano certificates.
 - Fixed an issue where not defining the replicas for default OpenSearch node pools in the Verrazzano CR caused the pods to terminate.
 - Updated the base image and other component images to resolve CVEs.
+- The following table lists **Fixed Security Vulnerabilities**.
+
+| CVEID | Component | Protocol | Remote Exploit Without Auth.? | Base Score* | Attack Vector* | Attack Complex* | Privs Req'd* | User Interact* | Scope* | Confidentiality* | Integrity* | Availability* | Supported Versions Affected |
+|-------|-----------|----------|-------------------------------|------------|---------------|----------------|-------------|---------------|-------|-----------------|-----------|--------------|-----------------------------|
+| CVE-2022-47629 | Configuration (libksba) | HTTP | Yes | 9.8 | Network | Low | None | None | Unchanged | High | High | High | 1.6.0 |
+| CVE-2023-25613 | Configuration (Apache Kerby) | HTTP | Yes | 9.8 | Network | Low | None | None | Unchanged | High | High | High | 1.6.0 |
+| CVE-2022-37434 | Core (zlib) | HTTP | Yes | 9.8 | Network | Low | None | None | Unchanged | High | High | High | 1.6.0 |
+| CVE-2022-23521 | Core(git) | HTTP | Yes | 9.8 | Network | Low | None | None | Unchanged | High | High | High | 1.6.0 |
+| CVE-2022-1996 | Third Party (go-restful) | HTTP | Yes | 9.1 | Network | Low | None | None | Unchanged | High | High | None | 1.6.0 |
+
+*_CVSS VERSION 3.1 RISK_, see [Risk Matrix Definitions](https://www.oracle.com/security-alerts/advisorymatrixglossary.html).
+
 
 #### Known issues and workarounds:
 - Systemd journal logs are not collected on some platforms. The [systemd plugin for Fluentd](https://github.com/fluent-plugin-systemd/fluent-plugin-systemd) cannot read systemd journal files on Kubernetes nodes that use newer versions of systemd. This is known to impact the default node images of [kind](https://kind.sigs.k8s.io/) for Kubernetes 1.24 and later, Oracle Linux 9, and any other Kubernetes cluster nodes running on an operating system that has systemd version 246 or later.
