@@ -43,12 +43,12 @@ draft: false
 - Updated the base image and other component images to resolve CVEs.
 - The following table lists **Fixed Security Vulnerabilities**.
 
-| CVEID | Component | Protocol | Remote Exploit Without Auth.? | Base Score* | Attack Vector* | Attack Complex* | Privs Req'd* | User Interact* | Scope* | Confidentiality* | Integrity* | Availability* | Supported Versions Affected |
+| CVE ID | Component | Protocol | Remote Exploit Without Auth.? | Base Score* | Attack Vector* | Attack Complex* | Privs Req'd* | User Interact* | Scope* | Confidentiality* | Integrity* | Availability* | Supported Versions Affected |
 |-------|-----------|----------|-------------------------------|------------|---------------|----------------|-------------|---------------|-------|-----------------|-----------|--------------|-----------------------------|
 | CVE-2022-47629 | Configuration (libksba) | HTTP | Yes | 9.8 | Network | Low | None | None | Unchanged | High | High | High | 1.6.0 |
 | CVE-2023-25613 | Configuration (Apache Kerby) | HTTP | Yes | 9.8 | Network | Low | None | None | Unchanged | High | High | High | 1.6.0 |
 | CVE-2022-37434 | Core (zlib) | HTTP | Yes | 9.8 | Network | Low | None | None | Unchanged | High | High | High | 1.6.0 |
-| CVE-2022-23521 | Core(git) | HTTP | Yes | 9.8 | Network | Low | None | None | Unchanged | High | High | High | 1.6.0 |
+| CVE-2022-23521 | Core (git) | HTTP | Yes | 9.8 | Network | Low | None | None | Unchanged | High | High | High | 1.6.0 |
 | CVE-2022-1996 | Third Party (go-restful) | HTTP | Yes | 9.1 | Network | Low | None | None | Unchanged | High | High | None | 1.6.0 |
 
 *_CVSS VERSION 3.1 RISK_, see [Risk Matrix Definitions](https://www.oracle.com/security-alerts/advisorymatrixglossary.html).
