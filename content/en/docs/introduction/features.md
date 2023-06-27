@@ -1,5 +1,6 @@
 ---
 title: "Verrazzano Features"
+linkTitle: Features
 description: ""
 weight: 2
 draft: false
@@ -26,7 +27,7 @@ Verrazzano understands that application management is a continuous and dynamic p
 
 With management occurring within a single platform, Verrazzano makes it easy to follow the principles of DevOps and GitOps. Coordination between diverse types of users becomes effortless, encouraging quick resolutions and creative innovations.
 
-For a list of the components that make up Verrazzano and what they do, see [Installed Components]({{< relref "/docs/setup/install/prepare/prereqs#installed-components" >}}).
+For a list of the software that make up Verrazzano and what they do, see [Installed Software]({{< relref "/docs/setup/install/verify/softwares.md" >}}).
 
 ## Dependable infrastructure management
 

@@ -1,6 +1,6 @@
 ---
 title: "Verrazzano and the Open Application Model"
-linkTitle: Verrazzano and the Open Application Model
+linkTitle: Open Application Model
 weight: 3
 draft: false
 aliases:
