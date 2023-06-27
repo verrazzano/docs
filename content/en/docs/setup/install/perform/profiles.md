@@ -89,7 +89,7 @@ customize any Verrazzano installation regardless of the profile.
 | `authProxy`                 | ✔️  |  ✔️  |       ✔️        |
 | `certManager`               | ✔️  |  ✔️  |       ✔️        |
 | `certManagerWebhookOCI`     |  ️  |  ️   |                 |
-| `clusterAPI`                |     |  ✔️  |                 |
+| `clusterAPI`                | ✔️  |  ✔️  |                 |
 | `clusterAgent`              | ✔️  |  ✔️  |       ✔️        |
 | `clusterIssuer`             | ✔️  |  ✔️  |       ✔️        |
 | `clusterOperator`           | ✔️  |  ✔️  |       ✔️        |
