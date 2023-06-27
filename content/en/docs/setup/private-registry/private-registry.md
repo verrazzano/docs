@@ -162,9 +162,9 @@ You must have the following software installed:
   Use the Verrazzano CLI to install Verrazzano from your private registry.
 
 {{< alert title="NOTE" color="primary" >}}
-To ensure that the host names used for the system console are resolvable, you must configure one of the following:
+To ensure that the [host names used for the system consoles]({{< relref "/docs/setup/access/console-urls" >}}) are resolvable, you must configure one of the following:
 * If running within a public cloud, use the cloud provider's DNS, for example, OCI DNS.
-* Use a custom DNS server within the disconnected environment that can resolve the host names.
+* If running within a disconnected environment, use a custom DNS server that can resolve the host names. See [Customize DNS]({{< relref "/docs/networking/traffic/dns" >}}) for more information.
 {{< /alert >}}
 
   1. To install Verrazzano, you will need the Verrazzano platform operator manifests file. This file is in the
