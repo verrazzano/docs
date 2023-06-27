@@ -16,11 +16,11 @@ You can upgrade the individual providers that make up the clusterAPI component. 
 
 This example customizes the clusterAPI component as follows:
 
-* Sets the `version` of both the OCNE bootstrap provider and the OCNE control plane provider to `1.0`
+* Sets the `version` of both the OCNE bootstrap provider and the OCNE control plane provider to `{{<capocne_version>}}`
 
-    **NOTE**: Since the OCNE bootstrap and OCNE control plane providers are bundled together, make sure to set their overrides to the same version or it may lead to unexpected behavior.
+    **NOTE**: Because the OCNE bootstrap and OCNE control plane providers are bundled together, make sure to set their overrides to the same version or it may lead to unexpected behavior.
 
-* Sets the `version` of the OCI infrastructure provider to `0.10.0`
+* Sets the `version` of the OCI infrastructure provider to `{{<capoci_version>}}`
 
 
 {{< clipboard >}}
@@ -40,11 +40,11 @@ This example customizes the clusterAPI component as follows:
         - values:
             defaultProviders:
                 ocneBootstrap:
-                    version: 1.0
+                    version: {{<capocne_version>}}
                 ocneControlPlane:
-                    version: 1.0
+                    version: {{<capocne_version>}}
                 oci:
-                    version: v0.10.0
+                    version: v{{<capoci_version>}}
  ```
 </div>
 {{< /clipboard >}}
@@ -52,10 +52,9 @@ This example customizes the clusterAPI component as follows:
 
 ## Use a private registry
 
-If you want to upgrade the clusterAPI providers but your Verrazzano instance is installed in disconnected environment, you can configure the clusterAPI component to retrieve the provider assets from another location, instead of the public repository.
+If you want to upgrade the clusterAPI providers but your Verrazzano instance is installed in a disconnected environment, you can configure the clusterAPI component to retrieve the provider assets from another location, instead of the public repository.
 
 1. Place the provider assets in a location that is accessible by your disconnected Verrazzano environment.
-1. In the Verrazzano custom resource, add a `global.registry` override and then enter a name for your private registry as its value. 
 1. For each provider that you want to upgrade, add a `url` override and then enter the path to the provider assets in the private registry for your environment. 
 
 For example:
@@ -74,15 +73,13 @@ For example:
         enabled: true
         overrides:
         - values:
-            global:
-                registry: my.registry
             defaultProviders:
                 ocneBootstrap:
-                    url: https://my.private.network/cluster-api-provider-ocne/releases/tag/v1.0.0
+                    url: https://my.private.network/cluster-api-provider-ocne/releases/tag/v{{<capocne_version>}}
                 ocneControlPlane:
-                    url: https://my.private.network/cluster-api-provider-ocne/releases/tag/v1.0.0
+                    url: https://my.private.network/cluster-api-provider-ocne/releases/tag/v{{<capocne_version>}}
                 oci:
-                    url: https://my.private.network/cluster-api-provider-oci/releases/tag/v0.10.0
+                    url: https://my.private.network/cluster-api-provider-oci/releases/tag/v{{<capoci_version>}}
  ```
 
 </div>
