@@ -88,6 +88,7 @@ customize any Verrazzano installation regardless of the profile.
 | `argoCD`                 |     |      |                 |
 | `authProxy`              | ✔️  |  ✔️  |       ✔️        |
 | `certManager`            | ✔️  |  ✔️  |       ✔️        |
+| `clusterAPI`             | ✔️  |  ✔️  |                |
 | `clusterOperator`        | ✔️  |  ✔️  |       ✔️        |
 | `coherenceOperator`      | ✔️  |  ✔️  |       ✔️        |
 | `console`                | ✔️  |  ✔️  |                 |
