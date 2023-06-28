@@ -1,0 +1,405 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – Provision Additional Clusters</title>
+    <link>/docs/setup/provision-cluster/</link>
+    <description>Recent content in Provision Additional Clusters on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/setup/provision-cluster/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Cluster API</title>
+      <link>/docs/setup/provision-cluster/capi/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/provision-cluster/capi/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Cluster API (CAPI) project was developed as a sub-project of Kubernetes and strives to standardize a set of Kubernetes-style APIs for cluster management. External organizations can then build upon these standard APIs to develop custom cluster management solutions.&lt;/p&gt;
+&lt;p&gt;Learn more about CAPI at &lt;a href=&#34;https://cluster-api.sigs.k8s.io/introduction.html&#34;&gt;Kubernetes Cluster API Documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Verrazzano incorporates CAPI functionality through the clusterAPI component, which provides the ability to quickly design and deploy clusters and then continue managing your clusters throughout their life cycle, all from within Verrazzano.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    The terminology around clusters differs between CAPI and Verrazzano though the underlying concepts are the same. What CAPI calls Management and Workload clusters are equivalent to admin and managed clusters, respectively, in Verrazzano.
+
+&lt;/div&gt;
+
+&lt;p&gt;CAPI splits cluster management responsibilities across three main components, which it calls providers:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Infrastructure&lt;/strong&gt; providers standardize the host environment by provisioning any infrastructure or computational resources required by the cluster or machine.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Bootstrap&lt;/strong&gt; providers streamline the node creation process by converting servers into Kubernetes nodes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Control plane&lt;/strong&gt; providers work with the Kubernetes API to regulate your clusters, ensuring that they always strive toward a desired state.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Currently, Verrazzano supports the CAPI provider for Oracle Cloud Native Environment (CAPOCNE) which bundles a bootstrap and a control plane provider together and works with the &lt;a href=&#34;https://github.com/oracle/cluster-api-provider-oci&#34;&gt;CAPOCI infrastructure provider&lt;/a&gt; offered by Oracle Cloud Infrastructure (OCI).&lt;/p&gt;
+&lt;p&gt;During the setup process, the bootstrap provider converts a cluster into an admin cluster - a Kubernetes cluster that controls any other, subordinate or managed clusters. It generates certificates, starts and manages the creation of additional nodes, and handles the addition of control plane and worker nodes to the cluster.&lt;/p&gt;
+&lt;p&gt;Next, a CAPI infrastructure provider will provision the first instance on the cloud provider and generate a provider ID, a unique identifier that any future nodes and clusters will use to associate with the instance. It will also create a kubeconfig file. The first control plane node is ready after these are created.&lt;/p&gt;
+&lt;p&gt;After the admin cluster is up and running, you can use the clusterAPI component to create additional managed clusters.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Create OCNE Clusters running on OCI</title>
+      <link>/docs/setup/provision-cluster/ocne-oci/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/provision-cluster/ocne-oci/</guid>
+      <description>
+        
+        
+        &lt;h3 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h3&gt;
+&lt;p&gt;You&amp;rsquo;ll need to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Set up an Oracle Cloud Infrastructure (OCI) account with
+&lt;ul&gt;
+&lt;li&gt;A compartment&lt;/li&gt;
+&lt;li&gt;A virtual cloud network (VCN), configured to allow bi-directional communication between the admin cluster and the managed cluster and to accept the &lt;a href=&#34;https://kubernetes.io/docs/reference/networking/ports-and-protocols/&#34;&gt;ports and protocols required by Kubernetes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Generate an SSH key pair to use for cluster authentication&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;create-a-new-ocne-cluster-on-oci&#34;&gt;Create a new OCNE cluster on OCI&lt;/h3&gt;
+&lt;p&gt;To provision new Oracle Cloud Native Environment (OCNE) managed clusters on OCI, complete the following steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Log into the console. To find the console URL for your cluster, refer to &lt;a href=&#34;../../../docs/setup/access/console-urls/&#34;&gt;Get console URLs&lt;/a&gt; and use the &lt;code&gt;rancherURL&lt;/code&gt; value.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Open the navigation menu and select &lt;strong&gt;Cluster Management&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;From the left menu, select &lt;strong&gt;Cloud Credentials&lt;/strong&gt;, and then click &lt;strong&gt;Create&lt;/strong&gt;. Cloud credentials store the credentials for your cloud infrastructure provider.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Choose &lt;strong&gt;Oracle&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Provide a name for the cloud credential and then fill in the fields. You can find the required information in your &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#Required_Keys_and_OCIDs&#34;&gt;OCI configuration file&lt;/a&gt;. Click &lt;strong&gt;Create&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;From the left menu, select &lt;strong&gt;Clusters&lt;/strong&gt;, and then click &lt;strong&gt;Create&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Select &lt;strong&gt;Oracle OCNE on OCI&lt;/strong&gt; and provide a name for the cluster.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Expand &lt;strong&gt;Member Roles&lt;/strong&gt; to add any users that you want grant access to this cluster and their permissions.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Expand &lt;strong&gt;Labels and Annotations&lt;/strong&gt; to configure Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/&#34;&gt;labels&lt;/a&gt; and &lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/&#34;&gt;annotations&lt;/a&gt; for the cluster.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Select the cloud credentials that you created. Ensure that the appropriate Region and Compartment are selected from their dropdown lists.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Click &lt;strong&gt;Authenticate and Configure Cluster&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Set up your network. Choose the compartment where your VCN is located from the &lt;strong&gt;VCN Compartment&lt;/strong&gt; dropdown list, then the VCN itself from the &lt;strong&gt;Virtual Cloud Network&lt;/strong&gt; dropdown list. For &lt;strong&gt;Cloud Plane Subnet&lt;/strong&gt;, &lt;strong&gt;Load Balancer Subnet&lt;/strong&gt;, and &lt;strong&gt;Worker Node Subnet&lt;/strong&gt;, choose subnets within the VCN.&lt;/p&gt;
+&lt;p&gt;The VCN compartment does not need to match the compartment specified in the cloud credential.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Click &lt;strong&gt;Configure Control plane and worker nodes&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Choose a Node Image from the dropdown list.&lt;/p&gt;
+&lt;p&gt;You can choose to override the default Node Image. Expand &lt;strong&gt;OCNE Image Configuration&lt;/strong&gt; and provide a custom image OCID. If your custom image includes OCNE binaries, you can select &lt;strong&gt;Skip OCNE Dependency Installation&lt;/strong&gt; to avoid duplicates.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Copy or upload an SSH public key to manage authentication of the cluster. Your SSH public key is installed on the cluster nodes, enabling SSH after the cluster is created.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Configure the Control Plane. Select the &lt;strong&gt;OCNE Version&lt;/strong&gt; first as it determines which Kubernetes versions are available, then choose a &lt;strong&gt;Kubernetes Version&lt;/strong&gt; and a &lt;strong&gt;Control Plane Shape&lt;/strong&gt;. You can leave the rest of the options at their default setting or modify them as needed.&lt;/p&gt;
+&lt;p&gt;Under &lt;strong&gt;Advanced&lt;/strong&gt;, you can choose to edit image tags for &lt;strong&gt;ETCD&lt;/strong&gt;, &lt;strong&gt;CoreDNS&lt;/strong&gt;, and &lt;strong&gt;Calico&lt;/strong&gt;, or whether to install &lt;strong&gt;OCI CCM/CSI&lt;/strong&gt; and &lt;strong&gt;Calico&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Add node pools to your cluster. Clusters without node pools will schedule pods on control plane nodes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;(Optional) Install Verrazzano on the cluster. Choose a &lt;strong&gt;Verrazzano version&lt;/strong&gt; from the dropdown list. You can also expand &lt;strong&gt;Advanced&lt;/strong&gt; to make changes to the Verrazzano Resource YAML. By default, Verrazzano is installed using the &lt;code&gt;managed-cluster&lt;/code&gt; profile which enables a limited set of components on the cluster.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Expand &lt;strong&gt;Advanced Settings&lt;/strong&gt; to make additional modifications to the default settings of your new cluster.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;YAML Manifests&lt;/strong&gt;: Supply additional YAML manifests that are automatically installed after cluster creation. The total size of all additional YAML manifests may not exceed 500 KB.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cluster Networking&lt;/strong&gt;: Configure cluster IP ranges and proxy settings.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Container Registry&lt;/strong&gt;: Specify a private registry for your container.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Click &lt;strong&gt;Create&lt;/strong&gt;. It can take up to 30 minutes to provision all of the resources for your cluster, particularly for multi-node clusters.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;When your cluster finishes provisioning, you can access it from the main &lt;strong&gt;Cluster Management&lt;/strong&gt; page.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Customize clusterAPI</title>
+      <link>/docs/setup/provision-cluster/clusterapi/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/provision-cluster/clusterapi/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The clusterAPI component allows you to quickly create managed clusters and manage them in the Verrazzano console. See &lt;a href=&#34;../../../docs/setup/provision-cluster/capi/&#34;&gt;Cluster API&lt;/a&gt; for more information.&lt;/p&gt;
+&lt;p&gt;You can customize the clusterAPI component using component overrides in the Verrazzano custom resource. Refer to the &lt;a href=&#34;../../../docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.ClusterAPIComponent&#34;&gt;clusterAPI reference&lt;/a&gt; to see which overrides are available.&lt;/p&gt;
+&lt;h2 id=&#34;upgrade-providers&#34;&gt;Upgrade providers&lt;/h2&gt;
+&lt;p&gt;You can upgrade the individual providers that make up the clusterAPI component. This allows you to take advantage of new features in the providers without upgrading your entire Verrazzano installation.&lt;/p&gt;
+&lt;p&gt;This example customizes the clusterAPI component as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Sets the &lt;code&gt;version&lt;/code&gt; of both the OCNE bootstrap provider and the OCNE control plane provider to &lt;code&gt;1.6.1&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Because the OCNE bootstrap and OCNE control plane providers are bundled together, make sure to set their overrides to the same version or it may lead to unexpected behavior.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Sets the &lt;code&gt;version&lt;/code&gt; of the OCI infrastructure provider to &lt;code&gt;0.9.0&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: example-verrazzano
+spec:
+  profile: dev
+  components:
+   clusterAPI:
+       enabled: true
+       overrides:
+       - values:
+           defaultProviders:
+               ocneBootstrap:
+                   version: 1.6.1
+               ocneControlPlane:
+                   version: 1.6.1
+               oci:
+                   version: v0.9.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;h2 id=&#34;use-a-private-registry&#34;&gt;Use a private registry&lt;/h2&gt;
+&lt;p&gt;If you want to upgrade the clusterAPI providers but your Verrazzano instance is installed in a disconnected environment, you can configure the clusterAPI component to retrieve the provider assets from another location, instead of the public repository.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Place the provider assets in a location that is accessible by your disconnected Verrazzano environment.&lt;/li&gt;
+&lt;li&gt;For each provider that you want to upgrade, add a &lt;code&gt;url&lt;/code&gt; override and then enter the path to the provider assets in the private registry for your environment.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;For example:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: example-verrazzano
+spec:
+  profile: dev
+  components:
+   clusterAPI:
+       enabled: true
+       overrides:
+       - values:
+           defaultProviders:
+               ocneBootstrap:
+                   url: https://my.private.network/cluster-api-provider-ocne/releases/tag/v1.6.1
+               ocneControlPlane:
+                   url: https://my.private.network/cluster-api-provider-ocne/releases/tag/v1.6.1
+               oci:
+                   url: https://my.private.network/cluster-api-provider-oci/releases/tag/v0.9.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -22,10 +22,11 @@
       <description>
         
         
-        &lt;p&gt;The Verrazzano metrics stack automates metrics aggregation and consists of Prometheus and Grafana components.
+        &lt;p&gt;The Verrazzano metrics stack automates metrics aggregation and consists of Prometheus, Thanos, and Grafana components.
 Metrics sources expose system and application metrics.
-The Prometheus components retrieve and store the metrics and Grafana provides dashboards to
+The Prometheus and Thanos components retrieve and store the metrics and Grafana provides dashboards to
 visualize them.&lt;/p&gt;
+&lt;p&gt;The following is a representation of metrics collection in a single cluster environment.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;../../../docs/images/metrics.png&#34; alt=&#34;Metrics&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;metrics-sources&#34;&gt;Metrics sources&lt;/h2&gt;
 &lt;p&gt;The following sections describe metrics sources that Verrazzano provides for OAM and standard Kubernetes applications.&lt;/p&gt;
@@ -565,6 +566,25 @@ that metrics continue to be scraped.&lt;/p&gt;
         
         
         
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Multicluster Monitoring</title>
+      <link>/docs/observability/monitoring/multicluster-metrics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/observability/monitoring/multicluster-metrics/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano federates metrics from managed clusters to the admin cluster. This ensures that metrics in managed clusters can be queried from the admin cluster.&lt;/p&gt;
+&lt;p&gt;If you enable Thanos on the managed clusters, Verrazzano installs the required set of Thanos components on the managed clusters. Then, on the admin cluster, Verrazzano automatically configures the managed cluster’s Thanos endpoint in Thanos Query. This allows you to query metrics across all clusters from Thanos Query on the admin cluster.&lt;/p&gt;
+&lt;p&gt;For Thanos to query metrics from managed clusters, you must enable Thanos on the admin cluster and managed clusters. If Thanos is disabled on either the admin or managed clusters, then Prometheus federation is used to scrape metrics from managed clusters.&lt;/p&gt;
+&lt;p&gt;When enabling long-term metric storage in object storage, it is recommended that you use a separate bucket for each managed cluster. This provides metric data isolation and improves overall query performance. For more information, see &lt;a href=&#34;../../../docs/observability/monitoring/configure/thanos/&#34;&gt;Thanos&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The following is a representation of metrics collection in a multicluster environment.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../../docs/images/multicluster-metrics.png&#34; alt=&#34;Metrics&#34;&gt;&lt;/p&gt;
+
       </description>
     </item>
     

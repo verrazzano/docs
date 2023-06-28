@@ -100,7 +100,7 @@ the original &lt;code&gt;Node&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Upgrade Verrazzano to v1.5.0 or later.   See &lt;a href=&#34;../../../docs/setup/upgrade/&#34;&gt;Upgrade Verrazzano&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/release-1.5/examples/ha/README.md&#34;&gt;examples/ha&lt;/a&gt; directory contains examples of highly available Verrazzano installations. The following example uses the &lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.5/examples/ha/ha.yaml&#34;&gt;ha.yaml&lt;/a&gt; file as an example of how to upgrade a default &lt;code&gt;prod&lt;/code&gt; installation to a highly available Verrazzano environment.&lt;/p&gt;
+&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/release-1.6/examples/ha/README.md&#34;&gt;examples/ha&lt;/a&gt; directory contains examples of highly available Verrazzano installations. The following example uses the &lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.6/examples/ha/ha.yaml&#34;&gt;ha.yaml&lt;/a&gt; file as an example of how to upgrade a default &lt;code&gt;prod&lt;/code&gt; installation to a highly available Verrazzano environment.&lt;/p&gt;
 &lt;p&gt;a. Create a patch file:&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
@@ -499,14 +499,14 @@ EOF
 &lt;li&gt;Reliable failover points&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Verrazzano provides a means to eliminate single points of failure among critical Verrazzano components. This is accomplished by increasing replica counts, anti-affinity rules, and implementing replicated data for components that rely on MySQL and OpenSearch.&lt;/p&gt;
-&lt;p&gt;The &lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.5/examples/ha/ha.yaml&#34;&gt;&lt;code&gt;ha.yaml&lt;/code&gt;&lt;/a&gt; file illustrates how the &lt;code&gt;prod&lt;/code&gt; profile can be extended to configure a highly available Verrazzano installation. The increased replica counts, along with the anti-affinity rules inherited from the &lt;code&gt;prod&lt;/code&gt; profile, ensure that the pods of each component are distributed across the Kubernetes cluster nodes.
+&lt;p&gt;The &lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.6/examples/ha/ha.yaml&#34;&gt;&lt;code&gt;ha.yaml&lt;/code&gt;&lt;/a&gt; file illustrates how the &lt;code&gt;prod&lt;/code&gt; profile can be extended to configure a highly available Verrazzano installation. The increased replica counts, along with the anti-affinity rules inherited from the &lt;code&gt;prod&lt;/code&gt; profile, ensure that the pods of each component are distributed across the Kubernetes cluster nodes.
 MySQL and OpenSearch are configured to replicate data among replicas to avoid data loss.&lt;/p&gt;
-&lt;p&gt;The &lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.5/examples/ha/ha-oci-ccm.yaml&#34;&gt;&lt;code&gt;ha-oci-ccm.yaml&lt;/code&gt;&lt;/a&gt; file configures a highly available Verrazzano installation on OCNE.&lt;/p&gt;
-&lt;p&gt;The &lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.5/examples/ha/ha-ext-lb.yaml&#34;&gt;&lt;code&gt;ha-ext-lb.yaml&lt;/code&gt;&lt;/a&gt; file configures a highly available Verrazzano installation using external load balancers.&lt;/p&gt;
+&lt;p&gt;The &lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.6/examples/ha/ha-oci-ccm.yaml&#34;&gt;&lt;code&gt;ha-oci-ccm.yaml&lt;/code&gt;&lt;/a&gt; file configures a highly available Verrazzano installation on OCNE.&lt;/p&gt;
+&lt;p&gt;The &lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.6/examples/ha/ha-ext-lb.yaml&#34;&gt;&lt;code&gt;ha-ext-lb.yaml&lt;/code&gt;&lt;/a&gt; file configures a highly available Verrazzano installation using external load balancers.&lt;/p&gt;
 &lt;p&gt;Fault detection is managed natively by using Kubernetes &lt;code&gt;Services&lt;/code&gt; and Istio &lt;code&gt;VirtualServices&lt;/code&gt; that detect failed pods and route traffic to the remaining replicas.&lt;/p&gt;
 &lt;p&gt;MySQL and OpenSearch provide reliable failover points for the replicated data.&lt;/p&gt;
 &lt;p&gt;The result of these measures would be no loss of service if a cluster node became unavailable. For more information regarding node failure and recovery, read the &lt;a href=&#34;../../../docs/guides/ha/node-failure/&#34;&gt;Node Failure Guide&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;When using the &lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.5/examples/ha/ha.yaml&#34;&gt;&lt;code&gt;ha.yaml&lt;/code&gt;&lt;/a&gt; file, consider the following:&lt;/p&gt;
+&lt;p&gt;When using the &lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.6/examples/ha/ha.yaml&#34;&gt;&lt;code&gt;ha.yaml&lt;/code&gt;&lt;/a&gt; file, consider the following:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;It does not ensure a fault-tolerant environment. Your applications still must be designed and implemented as highly available.&lt;/li&gt;
 &lt;li&gt;Running additional replicas of components will increase resource requirements. At least four CPUs, 100 GB disk storage, and 64 GB RAM available on the Kubernetes worker nodes is required.&lt;/li&gt;
@@ -550,7 +550,7 @@ MySQL and OpenSearch are configured to replicate data among replicas to avoid da
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ vz install -f https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.5/examples/ha/ha.yaml
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ vz install -f https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.6/examples/ha/ha.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -642,7 +642,7 @@ MySQL and OpenSearch are configured to replicate data among replicas to avoid da
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ vz install -f https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.5/examples/ha/ha-oci-ccm.yaml
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ vz install -f https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.6/examples/ha/ha-oci-ccm.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -734,7 +734,7 @@ MySQL and OpenSearch are configured to replicate data among replicas to avoid da
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ vz install -f https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.5/examples/ha/ha-ext-lb.yaml
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ vz install -f https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.6/examples/ha/ha-ext-lb.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
