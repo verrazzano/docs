@@ -328,16 +328,39 @@ $ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/<log-
 </details>
 
 ## OpenSearch restore in an existing cluster using OpenSearch API
-To restore the OpenSearch data within an already existing cluster.
 
-If you have previously created a backup using Velero within the same cluster and wish to solely restore the OpenSearch data from that specific backup, execute the following command
+`OpenSearch restore using Velero` mentioned above, is typically used for disaster recovery scenarios where you need to restore the entire cluster but if you wish to restore the OpenSearch data within an already existing cluster, you can utilize OpenSearch API.
 
+Assuming that you have previously created a backup using Velero within the same cluster that would have completed the repository registeration and wish to solely restore the OpenSearch data from that specific backup, execute the following command:
+
+To get the registered repositories
 {{< clipboard >}}
-```shell
-# To restore the existing snapshot, run the following command
-POST _snapshot/<backup_repository_name>/<snapshot_name>/_restore
+```yaml
+# To see all snapshot repositories
+GET _snapshot/_all
 ```
 {{< clipboard >}}
 
-For more information, see OpenSearch Restore[https://opensearch.org/docs/latest/tuning-your-cluster/availability-and-recovery/snapshots/snapshot-restore/#restore-snapshots] in the OpenSearch documentation.
+To get all the snapshots in the registered repository
+
+{{< clipboard >}}
+```yaml
+# To see all snapshots in a repository
+GET _snapshot/<backup_repository_name>/_all
+```
+{{< clipboard >}}
+
+Restore the specific snapshot
+{{< clipboard >}}
+```yaml
+# To restore the existing snapshot, run the following command
+POST _snapshot/<backup_repository_name>/<snapshot-name>/_restore
+```
+{{< clipboard >}}
+
+`<backup_repository_name>`: Name of the backup repository where your OpenSearch snapshot is stored. You should replace <backup_repository_name> with the actual name of your backup repository.
+
+`<snapshot-name>`: Name of the OpenSearch snapshot you want to restore. Replace <snapshot-name> with the actual name of your snapshot.
+
+For more information, see [OpenSearch Restore](https://opensearch.org/docs/latest/tuning-your-cluster/availability-and-recovery/snapshots/snapshot-restore/#restore-snapshots) in the OpenSearch documentation.
 
