@@ -35,7 +35,7 @@ This essentially means running the container within a pod as a non-root user wit
 escalate privileges.  Each container image also should define a non-root user identity that the container process will
 run, as by default, for added security.
 
-In the Kubernetes `Pod` specification, there is a [Pod SecurityContext](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#podsecuritycontext-v1-core)
+In the Kubernetes `Pod` specification, there is a [Pod SecurityContext](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#podsecuritycontext-v1-core)
 for defining security at the pod level and a
 [Container SecurityContext](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#securitycontext-v1-core) used
 to define security for containers.  Some fields are common between the two security contexts, and others are unique.  For details, see
