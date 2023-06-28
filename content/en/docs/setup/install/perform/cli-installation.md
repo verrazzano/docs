@@ -56,7 +56,8 @@ To create a Verrazzano installation as described in the previous section, run th
 
 1. Install Verrazzano with its `dev` profile.
 {{< clipboard >}}
-```bash
+<div class="highlight">
+
     $ vz install -f - <<EOF
     apiVersion: install.verrazzano.io/v1beta1
     kind: Verrazzano
@@ -75,7 +76,8 @@ To create a Verrazzano installation as described in the previous section, run th
               requests:
                 storage: 2Gi
     EOF
-```
+
+</div>
 {{< /clipboard >}}
 
 This command installs the Verrazzano platform operator and applies the Verrazzano custom resource.

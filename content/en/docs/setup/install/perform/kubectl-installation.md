@@ -89,23 +89,27 @@ To use other DNS options, see [Customzing DNS]({{< relref "/docs/networking/traf
 To create a Verrazzano installation as described in the previous section, run the following commands.
 
 {{< clipboard >}}
-```bash
-$ kubectl apply -f - <<EOF
-apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: example-verrazzano
-spec:
-  profile: ${VZ_PROFILE:-dev}
-EOF
-```
+<div class="highlight">
+
+    $ kubectl apply -f - <<EOF
+    apiVersion: install.verrazzano.io/v1beta1
+    kind: Verrazzano
+    metadata:
+      name: example-verrazzano
+    spec:
+      profile: ${VZ_PROFILE:-dev}
+    EOF
+
+</div>
 {{< /clipboard >}}
 
 {{< clipboard >}}
-```bash
-$ kubectl wait \
-    --timeout=20m \
-    --for=condition=InstallComplete verrazzano/example-verrazzano
+<div class="highlight">
+
+    $ kubectl wait \
+      --timeout=20m \
+      --for=condition=InstallComplete verrazzano/example-verrazzano
+</div>
 {{< /clipboard >}}
 
 To use a different profile with the previous example, set the `VZ_PROFILE` environment variable to the name of the profile
@@ -114,14 +118,15 @@ you want to install.
 If an error occurs, check the log output of the installation. You can view the logs with the following command.
 
 {{< clipboard >}}
-```bash
-$ kubectl logs -n verrazzano-install \
-    -f $(kubectl get pod \
-    -n verrazzano-install \
-    -l app=verrazzano-platform-operator \
-    -o jsonpath="{.items[0].metadata.name}") | grep '^{.*}$' \
-    | jq -r '."@timestamp" as $timestamp | "\($timestamp) \(.level) \(.message)"'
-```
+<div class="highlight">
+
+      $ kubectl logs -n verrazzano-install \
+          -f $(kubectl get pod \
+          -n verrazzano-install \
+          -l app=verrazzano-platform-operator \
+          -o jsonpath="{.items[0].metadata.name}") | grep '^{.*}$' \
+          | jq -r '."@timestamp" as $timestamp | "\($timestamp) \(.level) \(.message)"'
+</div>
 {{< /clipboard >}}
 
 ## Next steps
