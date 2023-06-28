@@ -25,11 +25,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/install/perform/kubectl-installation/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-06-05T14:53:12-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-06-28T14:18:20-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Install With kubectl">
 <meta itemprop="description" content="Install Verrazzano using `kubectl`">
-<meta itemprop="dateModified" content="2023-06-05T14:53:12-04:00" />
+<meta itemprop="dateModified" content="2023-06-28T14:18:20-04:00" />
 <meta itemprop="wordCount" content="1502">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Install With kubectl"/>
@@ -112,7 +112,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.1698a22a943b9cadd457fc21bbc4901d.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.43bbc8447187505c46b91c48875b63f1.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -138,7 +138,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.1698a22a943b9cadd457fc21bbc4901d.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.43bbc8447187505c46b91c48875b63f1.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1216,7 +1216,7 @@ custom resource, you can install, uninstall, and upgrade Verrazzano installation
 </style>
 
 <div class="clipboard">
-    <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/1.6.0/verrazzano-platform-operator.yaml
+    <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v1.6.0/verrazzano-platform-operator.yaml
 </span></span></code></pre></div>
 </div>
 
@@ -1511,15 +1511,18 @@ managed cluster (<code>managed-cluster</code>).  For more information, see
 </style>
 
 <div class="clipboard">
-    <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl apply -f - <span style="color:#4e9a06">&lt;&lt;EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">apiVersion: install.verrazzano.io/v1beta1
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">kind: Verrazzano
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">metadata:
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">  name: example-verrazzano
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">spec:
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">  profile: ${VZ_PROFILE:-dev}
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">EOF</span>
-</span></span></code></pre></div>
+    <div class="highlight">
+<pre><code>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: example-verrazzano
+spec:
+  profile: ${VZ_PROFILE:-dev}
+EOF
+</code></pre>
+</div>
+
 </div>
 
 <script>
@@ -1607,10 +1610,13 @@ managed cluster (<code>managed-cluster</code>).  For more information, see
 </style>
 
 <div class="clipboard">
-    <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl <span style="color:#204a87">wait</span> <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    --timeout<span style="color:#ce5c00;font-weight:bold">=</span>20m <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>InstallComplete verrazzano/example-verrazzano
-</span></span></code></pre></div>
+    <div class="highlight">
+<pre><code>$ kubectl wait \
+  --timeout=20m \
+  --for=condition=InstallComplete verrazzano/example-verrazzano
+</code></pre>
+</div>
+
 </div>
 
 <script>
@@ -1701,13 +1707,16 @@ you want to install.</p>
 </style>
 
 <div class="clipboard">
-    <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl logs -n verrazzano-install <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    -f <span style="color:#204a87;font-weight:bold">$(</span>kubectl get pod <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    -n verrazzano-install <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    -l <span style="color:#000">app</span><span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-platform-operator <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;{.items[0].metadata.name}&#34;</span><span style="color:#204a87;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">|</span> grep <span style="color:#4e9a06">&#39;^{.*}$&#39;</span> <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    <span style="color:#000;font-weight:bold">|</span> jq -r <span style="color:#4e9a06">&#39;.&#34;@timestamp&#34; as $timestamp | &#34;\($timestamp) \(.level) \(.message)&#34;&#39;</span>
-</span></span></code></pre></div>
+    <div class="highlight">
+<pre><code>  $ kubectl logs -n verrazzano-install \
+      -f $(kubectl get pod \
+      -n verrazzano-install \
+      -l app=verrazzano-platform-operator \
+      -o jsonpath=&quot;{.items[0].metadata.name}&quot;) | grep '^{.*}$' \
+      | jq -r '.&quot;@timestamp&quot; as $timestamp | &quot;\($timestamp) \(.level) \(.message)&quot;'
+</code></pre>
+</div>
+
 </div>
 
 <script>
