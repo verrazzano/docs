@@ -1,0 +1,2454 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – Examples</title>
+    <link>/docs/examples/</link>
+    <description>Recent content in Examples on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/examples/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Microservices</title>
+      <link>/docs/examples/microservices/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/examples/microservices/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: WebLogic and Coherence</title>
+      <link>/docs/examples/wls-coh/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/examples/wls-coh/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Multicluster</title>
+      <link>/docs/examples/multicluster/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/examples/multicluster/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
+&lt;p&gt;Prior to running the multicluster examples, complete the multicluster installation and managed cluster registration documented
+&lt;a href=&#34;../../docs/setup/mc-install/multicluster/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Continuous deployment example with Argo CD</title>
+      <link>/docs/examples/argo-cd/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/examples/argo-cd/</guid>
+      <description>
+        
+        
+        &lt;h3 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h3&gt;
+&lt;p&gt;Enabled and configure Argo CD using the instructions &lt;a href=&#34;../../docs/applications/delivery/enable/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;deploy-a-sample-application&#34;&gt;Deploy a sample application&lt;/h3&gt;
+&lt;p&gt;To deploy applications in a custom namespace, create Argo CD applications that specify the Git repository path, which Argo CD requires to synchronize and deploy the applications in the specified namespace.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: You can either pre-create a namespace and label it or auto-create a namespace when deploying an application. In this example, we will auto-create a namespace.&lt;/p&gt;
+&lt;p&gt;This example provides information about how to deploy the &lt;code&gt;Hello-helidon&lt;/code&gt; application. The &lt;code&gt;Hello-helidon&lt;/code&gt; application and component YAML files are available at &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/release-1.6/examples/helidon-config&#34;&gt;Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Log in to the Argo CD console.&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;New App&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Specify a name for the application.&lt;/li&gt;
+&lt;li&gt;For &lt;strong&gt;Project Name&lt;/strong&gt;, select &lt;strong&gt;default&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Select the &lt;strong&gt;Sync Policy&lt;/strong&gt; option &lt;code&gt;Automatic&lt;/code&gt;.
+&lt;br&gt;By default, every three minutes, Argo CD checks the specified Git repository and synchronizes the updates in Kubernetes to the Git repository&lt;/li&gt;
+&lt;li&gt;In the &lt;strong&gt;Sync Options&lt;/strong&gt; section, select &lt;strong&gt;Auto-Create Namespace&lt;/strong&gt;.
+&lt;br&gt;By auto-creating the namespace, the application will be deployed outside of the service mesh.&lt;/li&gt;
+&lt;li&gt;Under the &lt;strong&gt;Source&lt;/strong&gt; section, enter the following:
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Repository URL&lt;/strong&gt;: &lt;a href=&#34;https://github.com/verrazzano/verrazzano/&#34;&gt;https://github.com/verrazzano/verrazzano/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Revision&lt;/strong&gt;: &lt;code&gt;release-1.6&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Path&lt;/strong&gt;: Path in the repository where the Kubernetes resource definitions are listed. For example: &lt;code&gt;examples/helidon-config&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Under the &lt;strong&gt;Destination&lt;/strong&gt; section, do the following:
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Cluster URL&lt;/strong&gt;: Select the cluster to which you want to deploy the applications.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Namespace&lt;/strong&gt;: Specify the namespace in which you want to deploy the applications. The instructions in this sample use &lt;code&gt;hello-helidon&lt;/code&gt; as the namespace.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;Create&lt;/strong&gt;.
+&lt;br&gt; This creates the Argo CD application and a pictorial representation of the deployed applications is displayed.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;verify-the-deployed-application&#34;&gt;Verify the deployed application&lt;/h3&gt;
+&lt;p&gt;The Hello World Helidon microservices application implements a REST API endpoint, &lt;code&gt;/config&lt;/code&gt;, which returns a message &lt;code&gt;{&amp;quot;message&amp;quot;:&amp;quot;Hello World!&amp;quot;}&lt;/code&gt; when invoked.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;:  The following instructions assume that you are using a Kubernetes environment such as OKE. Other environments or deployments may require alternative mechanisms for retrieving addresses, ports, and such.&lt;/p&gt;
+&lt;p&gt;Follow these steps to test the endpoints.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-helidon-config-appconf-gw \
+     -n hello-helidon \
+     -o jsonpath=&amp;#39;{.spec.servers[0].hosts[0]}&amp;#39;)
+$ echo $HOST
+
+# Sample output
+helidon-config-appconf.hello-helidon.11.22.33.44.nip.io
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Get the &lt;code&gt;EXTERNAL_IP&lt;/code&gt; address of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ ADDRESS=$(kubectl get service \
+     -n istio-system istio-ingressgateway \
+     -o jsonpath=&amp;#39;{.status.loadBalancer.ingress[0].ip}&amp;#39;)
+$ echo $ADDRESS
+
+# Sample output
+11.22.33.44
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Access the application.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Using the command line&lt;/strong&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ curl -sk \
+   -X GET \
+   https://${HOST}/config \
+   --resolve ${HOST}:443:${ADDRESS}
+
+# Expected response output
+{&amp;#34;message&amp;#34;:&amp;#34;Hello World!&amp;#34;}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you do not need to include &lt;code&gt;--resolve&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Local testing with a browser&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Temporarily, modify the &lt;code&gt;/etc/hosts&lt;/code&gt; file (on Mac or Linux)
+or &lt;code&gt;c:\Windows\System32\Drivers\etc\hosts&lt;/code&gt; file (on Windows 10),
+to add an entry mapping the host name to the ingress gateway&amp;rsquo;s &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address.
+For example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;11.22.33.44 hello-helidon.example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then you can access the application in a browser at &lt;code&gt;https://&amp;lt;host&amp;gt;/config&lt;/code&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you can access the application in a browser using the &lt;code&gt;HOST&lt;/code&gt; variable (for example, &lt;code&gt;https://${HOST}/config&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;If you are going through a proxy, then you may need to add &lt;code&gt;*.nip.io&lt;/code&gt; to the &lt;code&gt;NO_PROXY&lt;/code&gt; list.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Using your own DNS name&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Point your own DNS name to the ingress gateway&amp;rsquo;s &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;In this case, you would need to edit the &lt;code&gt;hello-helidon-app.yaml&lt;/code&gt; file
+to use the appropriate value under the &lt;code&gt;hosts&lt;/code&gt; section (such as &lt;code&gt;yourhost.your.domain&lt;/code&gt;),
+before deploying the &lt;code&gt;hello-helidon&lt;/code&gt; application.&lt;/li&gt;
+&lt;li&gt;Then, you can use a browser to access the application at &lt;code&gt;https://&amp;lt;yourhost.your.domain&amp;gt;/config&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A variety of endpoints associated with the deployed application are available to further explore the logs, metrics, and such.
+You can access them according to the directions &lt;a href=&#34;../../docs/setup/access/#get-the-consoles-urls&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;undeploy-applications&#34;&gt;Undeploy applications&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Log in to the Argo CD console.&lt;/li&gt;
+&lt;li&gt;Select the application that you want to undeploy and then click &lt;strong&gt;Delete&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Enter the name of the application and then click &lt;strong&gt;OK&lt;/strong&gt;.
+&lt;br&gt;This deletes all the resources created by the specific application except for the namespaces.&lt;/li&gt;
+&lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: </title>
+      <link>/docs/examples/helidon-config/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/examples/helidon-config/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;hello-config-world-helidon&#34;&gt;Hello Config World Helidon&lt;/h1&gt;
+&lt;p&gt;This example is a Helidon-based service that returns a &amp;ldquo;HelloConfig World&amp;rdquo; response when invoked. The application configuration uses a Kubernetes ConfigMap, instead of the default, microprofile properties file.&lt;/p&gt;
+&lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
+&lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../../docs/setup/install/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The Hello World Helidon configuration example application deployment files are contained in the Verrazzano project located at &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/helidon-config&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
+&lt;h2 id=&#34;deploy-the-hello-config-world-helidon-application&#34;&gt;Deploy the Hello Config World Helidon application&lt;/h2&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    &lt;p&gt;To run this application in the default namespace:&lt;/p&gt;
+   &lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl label namespace default verrazzano-managed=true istio-injection=enabled
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;p&gt;If you chose the default namespace, you can skip Step 1 and ignore the &lt;code&gt;-n&lt;/code&gt; option in the rest of the commands.&lt;/p&gt;
+
+
+&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Create a namespace for the application and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl create namespace helidon-config
+$ kubectl label namespace helidon-config verrazzano-managed=true istio-injection=enabled
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To deploy the application, apply the &lt;code&gt;helidon-config&lt;/code&gt; OAM resources.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/1.6.0/examples/helidon-config/helidon-config-comp.yaml -n helidon-config
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/1.6.0/examples/helidon-config/helidon-config-app.yaml -n helidon-config
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the application to be ready.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl wait \
+   --for=condition=Ready pods \
+   --all -n helidon-config \
+   --timeout=300s
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;explore-the-application&#34;&gt;Explore the application&lt;/h2&gt;
+&lt;p&gt;The Hello World Helidon configuration example implements a REST API endpoint, &lt;code&gt;/config&lt;/code&gt;, which returns a message &lt;code&gt;{&amp;quot;message&amp;quot;:&amp;quot;HelloConfig World!&amp;quot;}&lt;/code&gt; when invoked.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;:  The following instructions assume that you are using a Kubernetes
+environment such as OKE.  Other environments or deployments may require alternative mechanisms for retrieving addresses,
+ports, and such.&lt;/p&gt;
+&lt;p&gt;Follow these steps to test the endpoints.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io helidon-config-helidon-config-appconf-gw \
+     -n helidon-config \
+     -o jsonpath={.spec.servers[0].hosts[0]})
+$ echo $HOST
+
+# Sample output
+helidon-config-appconf.helidon-config.11.22.33.44.nip.io
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Get the &lt;code&gt;EXTERNAL_IP&lt;/code&gt; address of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ ADDRESS=$(kubectl get service \
+     -n istio-system istio-ingressgateway \
+     -o jsonpath=&amp;#39;{.status.loadBalancer.ingress[0].ip}&amp;#39;)
+$ echo $ADDRESS
+
+# Sample output
+11.22.33.44
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Access the application.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Using the command line&lt;/strong&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ curl -sk \
+   -X GET \
+   https://${HOST}/config \
+   --resolve ${HOST}:443:${ADDRESS}
+
+# Expected response output
+{&amp;#34;message&amp;#34;:&amp;#34;HelloConfig World!&amp;#34;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you do not need to include &lt;code&gt;--resolve&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Local testing with a browser&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Temporarily, modify the &lt;code&gt;/etc/hosts&lt;/code&gt; file (on Mac or Linux)
+or &lt;code&gt;c:\Windows\System32\Drivers\etc\hosts&lt;/code&gt; file (on Windows 10),
+to add an entry mapping the host name to the ingress gateway&amp;rsquo;s &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address.
+For example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;11.22.33.44 helidon-config.example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then you can access the application in a browser at &lt;code&gt;https://&amp;lt;host&amp;gt;/config&lt;/code&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you can access the application in a browser using the &lt;code&gt;HOST&lt;/code&gt; variable (for example, &lt;code&gt;https://${HOST}/config&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;If you are going through a proxy, then you may need to add &lt;code&gt;*.nip.io&lt;/code&gt; to the &lt;code&gt;NO_PROXY&lt;/code&gt; list.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Using your own DNS name&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Point your own DNS name to the ingress gateway&amp;rsquo;s &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;In this case, you would need to edit the &lt;code&gt;helidon-config-app.yaml&lt;/code&gt; file
+to use the appropriate value under the &lt;code&gt;hosts&lt;/code&gt; section (such as &lt;code&gt;yourhost.your.domain&lt;/code&gt;),
+before deploying the &lt;code&gt;helidon-config&lt;/code&gt; application.&lt;/li&gt;
+&lt;li&gt;Then, you can use a browser to access the application at &lt;code&gt;https://&amp;lt;yourhost.your.domain&amp;gt;/config&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A variety of endpoints associated with the deployed application are available to further explore the logs, metrics, and such. You
+can access them according to the directions &lt;a href=&#34;../../docs/setup/access/#get-the-consoles-urls&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Verify that the application configuration, domain, and ingress trait all exist.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get ApplicationConfiguration -n helidon-config
+$ kubectl get IngressTrait -n helidon-config
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Verify that the &lt;code&gt;helidon-config&lt;/code&gt; service pods are successfully created and transition to the &lt;code&gt;READY&lt;/code&gt; state.
+Note that this may take a few minutes and that you may see some of the services terminate and restart.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ kubectl get pods -n helidon-config
+
+# Sample output
+ NAME                                         READY   STATUS    RESTARTS   AGE
+ helidon-config-deployment-676d97c7d4-wkrj2   3/3     Running   0          5m39s
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;undeploy-the-application&#34;&gt;Undeploy the application&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;To undeploy the application, delete the Hello Config World Helidon OAM resources.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/1.6.0/examples/helidon-config/helidon-config-app.yaml -n helidon-config
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/1.6.0/examples/helidon-config/helidon-config-comp.yaml -n helidon-config
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Delete the namespace &lt;code&gt;helidon-config&lt;/code&gt; after the application pod is terminated.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete namespace helidon-config
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: </title>
+      <link>/docs/examples/hello-helidon/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/examples/hello-helidon/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;hello-world-helidon&#34;&gt;Hello World Helidon&lt;/h1&gt;
+&lt;p&gt;This example is a Helidon-based service that returns a “Hello World” response when invoked. The application configuration uses the default, microprofile properties file.&lt;/p&gt;
+&lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
+&lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../../docs/setup/install/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The Hello World Helidon example application deployment files are contained in the Verrazzano project located at &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/hello-helidon&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
+&lt;h2 id=&#34;deploy-the-hello-world-helidon-application&#34;&gt;Deploy the Hello World Helidon application&lt;/h2&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    &lt;p&gt;To run this application in the default namespace:&lt;/p&gt;
+   &lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl label namespace default verrazzano-managed=true istio-injection=enabled
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;p&gt;If you chose the default namespace, you can skip Step 1 and ignore the &lt;code&gt;-n&lt;/code&gt; option in the rest of the commands.&lt;/p&gt;
+
+
+&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;To run the application in a namespace other than default namespace, create a namespace for the application and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl create namespace hello-helidon
+$ kubectl label namespace hello-helidon verrazzano-managed=true istio-injection=enabled
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To deploy the application, apply the &lt;code&gt;hello-helidon&lt;/code&gt; OAM resources.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/1.6.0/examples/hello-helidon/hello-helidon-comp.yaml -n hello-helidon
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/1.6.0/examples/hello-helidon/hello-helidon-app.yaml -n hello-helidon
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the application to be ready.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl wait \
+   --for=condition=Ready pods \
+   --all \
+   -n hello-helidon \
+   --timeout=300s
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;explore-the-application&#34;&gt;Explore the application&lt;/h2&gt;
+&lt;p&gt;The Hello World Helidon microservices application implements a REST API endpoint, &lt;code&gt;/greet&lt;/code&gt;, which returns a message &lt;code&gt;{&amp;quot;message&amp;quot;:&amp;quot;Hello World!&amp;quot;}&lt;/code&gt; when invoked.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;:  The following instructions assume that you are using a Kubernetes
+environment such as OKE.  Other environments or deployments may require alternative mechanisms for retrieving addresses,
+ports, and such.&lt;/p&gt;
+&lt;p&gt;Follow these steps to test the endpoints.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Get the generated host name for the application.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw \
+     -n hello-helidon \
+     -o jsonpath=&amp;#39;{.spec.servers[0].hosts[0]}&amp;#39;)
+$ echo $HOST
+
+# Sample output
+hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Get the &lt;code&gt;EXTERNAL_IP&lt;/code&gt; address of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+      &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ ADDRESS=$(kubectl get service \
+     -n istio-system istio-ingressgateway \
+     -o jsonpath=&amp;#39;{.status.loadBalancer.ingress[0].ip}&amp;#39;)
+$ echo $ADDRESS
+
+# Sample output
+11.22.33.44
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Access the application.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Using the command line&lt;/strong&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ curl -sk \
+   -X GET \
+   https://${HOST}/greet \
+   --resolve ${HOST}:443:${ADDRESS}
+
+# Expected response output
+{&amp;#34;message&amp;#34;:&amp;#34;Hello World!&amp;#34;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you do not need to include &lt;code&gt;--resolve&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Local testing with a browser&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Temporarily, modify the &lt;code&gt;/etc/hosts&lt;/code&gt; file (on Mac or Linux)
+or &lt;code&gt;c:\Windows\System32\Drivers\etc\hosts&lt;/code&gt; file (on Windows 10),
+to add an entry mapping the host name to the ingress gateway&amp;rsquo;s &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address.
+For example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;11.22.33.44 hello-helidon.example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then you can access the application in a browser at &lt;code&gt;https://&amp;lt;host&amp;gt;/greet&lt;/code&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you can access the application in a browser using the &lt;code&gt;HOST&lt;/code&gt; variable (for example, &lt;code&gt;https://${HOST}/greet&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;If you are going through a proxy, then you may need to add &lt;code&gt;*.nip.io&lt;/code&gt; to the &lt;code&gt;NO_PROXY&lt;/code&gt; list.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Using your own DNS name&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Point your own DNS name to the ingress gateway&amp;rsquo;s &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;In this case, you would need to edit the &lt;code&gt;hello-helidon-app.yaml&lt;/code&gt; file
+to use the appropriate value under the &lt;code&gt;hosts&lt;/code&gt; section (such as &lt;code&gt;yourhost.your.domain&lt;/code&gt;),
+before deploying the &lt;code&gt;hello-helidon&lt;/code&gt; application.&lt;/li&gt;
+&lt;li&gt;Then, you can use a browser to access the application at &lt;code&gt;https://&amp;lt;yourhost.your.domain&amp;gt;/greet&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A variety of endpoints associated with the deployed application are available to further explore the logs, metrics, and such.
+You can access them according to the directions &lt;a href=&#34;../../docs/setup/access/#get-the-consoles-urls&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Verify that the application configuration, domain, and ingress trait all exist.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get ApplicationConfiguration -n hello-helidon
+$ kubectl get IngressTrait -n hello-helidon
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Verify that the &lt;code&gt;hello-helidon&lt;/code&gt; service pods are successfully created and transition to the &lt;code&gt;READY&lt;/code&gt; state.
+Note that this may take a few minutes and that you may see some of the services terminate and restart.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ kubectl get pods -n hello-helidon
+
+# Sample output
+ NAME                                      READY   STATUS    RESTARTS   AGE
+ hello-helidon-workload-676d97c7d4-wkrj2   2/2     Running   0          5m39s
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;undeploy-the-application&#34;&gt;Undeploy the application&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;To undeploy the application, delete the Hello World Helidon OAM resources.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/1.6.0/examples/hello-helidon/hello-helidon-app.yaml -n hello-helidon
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/1.6.0/examples/hello-helidon/hello-helidon-comp.yaml -n hello-helidon
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Delete the namespace &lt;code&gt;hello-helidon&lt;/code&gt; after the application pod is terminated.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+       &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete namespace hello-helidon
+&lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,1719 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – Tracing Application Requests</title>
+    <link>/docs/observability/tracing/</link>
+    <description>Recent content in Tracing Application Requests on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/observability/tracing/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Understand Application Tracing Components in Verrazzano</title>
+      <link>/docs/observability/tracing/application-tracing/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/observability/tracing/application-tracing/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano provides Jaeger, a distributed tracing system used for monitoring and troubleshooting microservices.&lt;/p&gt;
+&lt;h3 id=&#34;about-distributed-tracing&#34;&gt;About distributed tracing&lt;/h3&gt;
+&lt;p&gt;Distributed tracing is a method for tracking application behavior as it propagates through distributed systems.
+You can track application requests as they flow from front end devices to back end services and databases.&lt;/p&gt;
+&lt;p&gt;Distributed tracing is useful for tracking and observability, in general, however, it can also help you identify
+the exact line of occurrence of a error in a complex architecture. You can use distributed tracing to troubleshoot
+requests that exhibit high latency or errors.&lt;/p&gt;
+&lt;p&gt;With distributed tracing, the application transactions are captured using request and response headers. A trace header gets added from the original request to subsequent requests and thus creating a link through out the entire transaction that can be traced back to the origin. A single trace typically shows the activity for an individual transaction or request within the application being monitored, from the browser or mobile device, down through to the database and back.&lt;/p&gt;
+&lt;p&gt;In distributed tracing, a single trace contains a series of tagged time intervals called &lt;em&gt;spans&lt;/em&gt;. A span can be thought of as a single unit of work. Spans have a start and end time, and optionally may include other metadata, like tags or events. Spans have relationships between one another, including parent-child relationships, which are used to show the specific path a particular transaction takes through the numerous services or components that make up the application.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A trace represents an end-to-end request; it&amp;rsquo;s made up of a single or multiple spans.&lt;/li&gt;
+&lt;li&gt;A span represents work done by a single-service with time intervals and associated metadata, such as tags and events:
+&lt;ul&gt;
+&lt;li&gt;Tags let you query your traces to filter the results and help with your collaboration and debugging efforts.&lt;/li&gt;
+&lt;li&gt;Events will show up as logs associated with the span that added the event.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;about-jaeger-tracing&#34;&gt;About Jaeger tracing&lt;/h3&gt;
+&lt;p&gt;As with most other distributed tracing systems, Jaeger works with spans and traces, as defined in the &lt;a href=&#34;https://github.com/opentracing/specification/blob/master/specification.md&#34;&gt;OpenTracing&lt;/a&gt; specification.&lt;/p&gt;
+&lt;p&gt;In Verrazzano, Jaeger is comprised of the following components:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Collector service, which receives traces from clients, processes them, and stores them in a storage back end.&lt;/li&gt;
+&lt;li&gt;Query service, which exposes the APIs for retrieving traces from storage and hosts the Jaeger console for searching and analyzing traces.&lt;/li&gt;
+&lt;li&gt;Storage, may be ephemeral or backed by OpenSearch.
+&lt;ul&gt;
+&lt;li&gt;Jaeger can be configured to use one of several choices for &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/deployment/#span-storage-backends&#34;&gt;storage back ends&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;In Verrazzano, trace records are stored in OpenSearch; OpenSearch must be enabled in Verrazzano for this to work.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Jaeger is very configurable. See the Jaeger documentation for detailed information about Jaeger &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/features/&#34;&gt;features&lt;/a&gt; and &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/architecture&#34;&gt;architecture&lt;/a&gt;. In Verrazzano, Jaeger does not include the Ingester service, Kafka, or Sparks jobs.&lt;/p&gt;
+&lt;h3 id=&#34;next-steps&#34;&gt;Next steps&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Enable Jaeger and customize your Verrazzano Jaeger installation. See &lt;a href=&#34;../../../docs/observability/tracing/configure-tracing/&#34;&gt;configure tracing&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Configure your applications to &lt;a href=&#34;../../../docs/observability/tracing/capture-traces/&#34;&gt;send traces to Jaeger&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Then, use the Verrazzano Jaeger console to &lt;a href=&#34;../../../docs/observability/tracing/view-traces/&#34;&gt;view traces&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Configure Tracing Components</title>
+      <link>/docs/observability/tracing/configure-tracing/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/observability/tracing/configure-tracing/</guid>
+      <description>
+        
+        
+        &lt;p&gt;This document describes how to enable Jaeger and customize your Jaeger installation to address some common tracing needs.&lt;/p&gt;
+&lt;h3 id=&#34;enable-jaeger&#34;&gt;Enable Jaeger&lt;/h3&gt;
+&lt;p&gt;To use Jaeger in Verrazzano, you must first enable the &lt;code&gt;jaegerOperator&lt;/code&gt; component in your Verrazzano custom resource. Here is
+an example YAML file that enables the Jaeger Operator. Verrazzano installs the Jaeger Operator in the
+&lt;code&gt;verrazzano-monitoring&lt;/code&gt; namespace. If OpenSearch and Keycloak components are enabled in the Verrazzano custom resource,
+then a default Jaeger instance is also created by the Jaeger Operator in the &lt;code&gt;verrazzano-monitoring&lt;/code&gt; namespace.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;install.verrazzano.io/v1beta1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;prod&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;jaegerOperator&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;enabled&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;The Jaeger Operator will create &lt;code&gt;Service&lt;/code&gt; custom resources for query and collection. After applying the Verrazzano
+custom resource, listing Jaeger resources will show output similar to the following.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get services,deployments -l app.kubernetes.io/instance=jaeger-operator-jaeger -n verrazzano-monitoring
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#sample output
+NAME                                                TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                                  AGE
+service/jaeger-operator-jaeger-collector            ClusterIP   10.96.120.223   &amp;lt;none&amp;gt;        9411/TCP,14250/TCP,14267/TCP,14268/TCP   79m
+service/jaeger-operator-jaeger-collector-headless   ClusterIP   None            &amp;lt;none&amp;gt;        9411/TCP,14250/TCP,14267/TCP,14268/TCP   79m
+service/jaeger-operator-jaeger-query                ClusterIP   10.96.209.196   &amp;lt;none&amp;gt;        16686/TCP,16685/TCP                      79m
+
+NAME                                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/jaeger-operator-jaeger-collector   1/1     1            1           79m
+deployment.apps/jaeger-operator-jaeger-query       1/1     1            1           79m
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Tracing port values will differ depending on the tracing endpoint:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Zipkin, &lt;code&gt;9411&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;GRPC, &lt;code&gt;14250&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;HTTP, &lt;code&gt;14267&lt;/code&gt; and &lt;code&gt;14268&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;use-jaeger-tracing-in-a-multicluster-verrazzano-environment&#34;&gt;Use Jaeger tracing in a multicluster Verrazzano environment&lt;/h3&gt;
+&lt;p&gt;If the Jaeger Operator component is enabled in the managed cluster, after successful registration with the admin cluster,
+a Jaeger collector service runs in the managed cluster, which exports the traces to the OpenSearch
+storage configured in the admin cluster.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTES&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Traces are exported to the admin cluster only when the Jaeger instance in the admin cluster is configured with OpenSearch storage.&lt;/li&gt;
+&lt;li&gt;If the admin cluster is unavailable or the storage backend, OpenSearch, is not operational, then Jaeger will start dropping traces because it cannot buffer much data. To buffer large amounts of data, you would need to set up an intermediary queue, such as &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/deployment/#kafka&#34;&gt;Kafka&lt;/a&gt;. This would prevent data loss from Jaeger collectors.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The following graphic illustrates managed clusters exporting data to the admin cluster, with Jaeger instances and OpenSearch backend storage.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../../docs/images/tracing/jaeger-mc-tracing.png&#34; alt=&#34;MC Tracing&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Listing Jaeger resources in the managed cluster shows output similar to the following.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get jaegers -n verrazzano-monitoring
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#sample output
+NAME                                STATUS    VERSION   STRATEGY     STORAGE         AGE
+jaeger-verrazzano-managed-cluster   Running   1.34.1    production   opensearch      11m
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;customize-jaeger&#34;&gt;Customize Jaeger&lt;/h3&gt;
+&lt;p&gt;Verrazzano installs the Jaeger Operator and Jaeger using the
+&lt;a href=&#34;https://github.com/jaegertracing/helm-charts/tree/jaeger-operator-2.41.0/charts/jaeger-operator&#34;&gt;jaeger-operator&lt;/a&gt; Helm chart.
+Using Helm overrides specified in the Verrazzano custom resource, you can customize the installation configuration.
+For more information about setting component overrides, see &lt;a href=&#34;https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing&#34;&gt;Customizing the Chart Before Installing&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The following sections describe some common customizations you might want to employ:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#customize-a-jaeger-instance-to-use-an-external-opensearch-for-storage&#34;&gt;Customize a Jaeger instance to use an external OpenSearch for storage&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#enable-jaeger-service-performance-monitoring&#34;&gt;Enable Jaeger Service Performance Monitoring&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#disable-default-jaeger-instance-creation&#34;&gt;Disable default Jaeger instance creation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#jaeger-operator-helm-chart-values-that-you-cannot-override&#34;&gt;Jaeger Operator Helm chart values that you cannot override&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#configure-the-istio-mesh-to-use-jaeger-tracing&#34;&gt;Configure the Istio mesh to use Jaeger tracing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#configure-the-istio-mesh-in-a-managed-cluster-to-export-jaeger-traces-to-the-admin-cluster&#34;&gt;Configure the Istio mesh in a managed cluster to export Jaeger traces to the admin cluster&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#manage-jaeger-indices-in-opensearch&#34;&gt;Manage Jaeger indices in OpenSearch&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;customize-a-jaeger-instance-to-use-an-external-opensearch-for-storage&#34;&gt;Customize a Jaeger instance to use an external OpenSearch for storage&lt;/h4&gt;
+&lt;p&gt;You can use the default Jaeger instance with an external OpenSearch cluster. The following example shows you how to
+configure Jaeger Operator Helm overrides in the Verrazzano custom resource to use an external OpenSearch cluster
+with a TLS CA certificate mounted from a volume and the user/password stored in a secret. For more details, see the
+&lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/operator/#external-elasticsearch&#34;&gt;Jaeger documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Prior to configuring the external OpenSearch for Jaeger in the Verrazzano custom resource, create a secret containing
+the OpenSearch credentials and certificates in the &lt;code&gt;verrazzano-install&lt;/code&gt; namespace. Jaeger will use these credentials
+to connect to OpenSearch.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl create secret generic jaeger-secret \
+ --from-literal=ES_PASSWORD=&amp;lt;OPENSEARCH PASSWORD&amp;gt; \
+ --from-literal=ES_USERNAME=&amp;lt;OPENSEARCH USERNAME&amp;gt; \
+ --from-file=ca-bundle=&amp;lt;path to the file containing CA certs&amp;gt; \
+ -n verrazzano-install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/li&gt;
+&lt;li&gt;Use the Verrazzano custom resource to update the Jaeger resource:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;install.verrazzano.io/v1beta1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;custom-jaeger-external-opensearch&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;prod&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;jaegerOperator&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;       &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;enabled&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;       &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;overrides&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;values&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;jaeger&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;create&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;strategy&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;production&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;storage&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;opensearch&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;options&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;es&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                      &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Enter your OpenSearch cluster endpoint here.&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;server-urls&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;lt;External OpenSearch URL&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;index-prefix&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;jaeger&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;tls&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ca&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;/verrazzano/certificates/ca-bundle&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;secretName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;jaeger-secret&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;volumeMounts&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                  &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;certificates&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;mountPath&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;/verrazzano/certificates/&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;readOnly&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;volumes&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                  &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;certificates&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;secret&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;secretName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;jaeger-secret&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;enable-jaeger-service-performance-monitoring&#34;&gt;Enable Jaeger Service Performance Monitoring&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The Service Performance Monitoring (SPM) feature is currently considered experimental.&lt;/p&gt;
+&lt;p&gt;To enable &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/spm/&#34;&gt;Service Performance Monitoring&lt;/a&gt;
+in the default Jaeger instance created by Verrazzano, use the following Verrazzano custom resource. Verrazzano
+sets &lt;code&gt;jaeger.spec.query.options.prometheus.server-url&lt;/code&gt; to the Prometheus server URL managed by Verrazzano, if it exists.
+To configure an external Prometheus server for your use case, override &lt;code&gt;jaeger.spec.query.options.prometheus.server-url&lt;/code&gt;,
+&lt;code&gt;jaeger.spec.query.options.prometheus.tls.enabled&lt;/code&gt;, and &lt;code&gt;jaeger.spec.query.options.prometheus.tls.ca&lt;/code&gt;, appropriately, in
+the Verrazzano custom resource. For more details, see the &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/deployment/#tls-support-1&#34;&gt;Jaeger documentation&lt;/a&gt;.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;install.verrazzano.io/v1beta1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;custom-jaeger&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;prod&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;jaegerOperator&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;       &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;enabled&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;       &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;overrides&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;values&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;jaeger&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;query&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metricsStorage&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;prometheus&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;h4 id=&#34;disable-default-jaeger-instance-creation&#34;&gt;Disable default Jaeger instance creation&lt;/h4&gt;
+&lt;p&gt;If you have a custom Jaeger instance and want to disable the default Jaeger instance created by Verrazzano, then use the following Verrazzano custom resource:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;install.verrazzano.io/v1beta1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;custom-jaeger&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;prod&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;jaegerOperator&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;       &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;enabled&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;       &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;overrides&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;values&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;jaeger&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;create&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;h4 id=&#34;jaeger-operator-helm-chart-values-that-you-cannot-override&#34;&gt;Jaeger Operator Helm chart values that you cannot override&lt;/h4&gt;
+&lt;p&gt;The following Jaeger Operator Helm values are &lt;em&gt;not&lt;/em&gt; supported to be overridden in the Verrazzano custom resource:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;nameOverride&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;fullnameOverride&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;serviceAccount.name&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ingress.enabled&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;jaeger.spec.storage.dependencies.enabled&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If you try to override these Helm values in the Verrazzano custom resource, the request will be rejected and an
+error message returned.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Verrazzano does not support &lt;a href=&#34;https://github.com/jaegertracing/spark-dependencies&#34;&gt;Jaeger Spark dependencies&lt;/a&gt;
+and hence, the Helm chart value &lt;code&gt;jaeger.spec.storage.dependencies.enabled&lt;/code&gt;, which is set to &lt;code&gt;false&lt;/code&gt; for the Jaeger
+instance managed by Verrazzano, cannot be overridden.&lt;/p&gt;
+&lt;h4 id=&#34;configure-the-istio-mesh-to-use-jaeger-tracing&#34;&gt;Configure the Istio mesh to use Jaeger tracing&lt;/h4&gt;
+&lt;p&gt;You can view Istio mesh traffic by enabling Istio&amp;rsquo;s distributed tracing integration. Traces from the Istio mesh provide observability on application traffic
+that passes through Istio&amp;rsquo;s ingress and egress gateways.&lt;/p&gt;
+&lt;p&gt;Istio tracing is disabled by default. To turn on traces, customize your Istio component like the following example:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;install.verrazzano.io/v1beta1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;prod&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;jaegerOperator&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;enabled&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;istio&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;overrides&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;values&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;install.istio.io/v1alpha1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;IstioOperator&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;meshConfig&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;enableTracing&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;After enabling tracing, Istio will automatically configure itself with the the Jaeger instance managed by Verrazzano in
+your cluster, and Istio-injected pods will begin exporting traces to Jaeger.&lt;/p&gt;
+&lt;p&gt;To export traces to a different Jaeger instance than the one managed by Verrazzano, set
+&lt;code&gt;meshConfig.defaultConfig.tracing.zipkin.address&lt;/code&gt; to the intended Jaeger Collector URL.
+Any new Istio-injected pods will begin exporting traces to the newly configured Jaeger instance. Existing pods require
+a restart to pull the new Istio configuration and start sending traces to the newly configured Jaeger instance.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;install.verrazzano.io/v1beta1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;prod&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;jaegerOperator&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;enabled&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;istio&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;overrides&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;values&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;install.istio.io/v1alpha1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;IstioOperator&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;meshConfig&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;enableTracing&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;defaultConfig&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;tracing&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;zipkin&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;address&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;lt;address:port of your Jaeger collector service&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;Istio&amp;rsquo;s default sampling rate is 1%, meaning 1 in 100 requests will be traced in Jaeger.
+If you want a different sampling rate, configure your desired rate using the &lt;code&gt;meshConfig.defaultConfig.tracing.sampling&lt;/code&gt; Istio installation argument.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;install.verrazzano.io/v1beta1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;prod&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;jaegerOperator&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;enabled&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;istio&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;overrides&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;values&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;install.istio.io/v1alpha1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;IstioOperator&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;meshConfig&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;enableTracing&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;defaultConfig&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;tracing&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;sampling&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;25.0&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;h4 id=&#34;configure-the-istio-mesh-in-a-managed-cluster-to-export-jaeger-traces-to-the-admin-cluster&#34;&gt;Configure the Istio mesh in a managed cluster to export Jaeger traces to the admin cluster&lt;/h4&gt;
+&lt;p&gt;To export the Istio mesh traces in the managed cluster to the admin cluster, set &lt;code&gt;meshConfig.defaultConfig.tracing.zipkin.address&lt;/code&gt;
+to the Jaeger Collector URL created in the managed cluster that exports the traces to the OpenSearch
+storage configured in the admin cluster.&lt;/p&gt;
+&lt;p&gt;Configure the Istio mesh on the managed cluster at the time of the Verrazzano installation, as follows:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;install.verrazzano.io/v1beta1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;managed-cluster&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;jaegerOperator&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;enabled&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;istio&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;overrides&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;values&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;install.istio.io/v1alpha1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;IstioOperator&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;meshConfig&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;enableTracing&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;defaultConfig&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;tracing&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;zipkin&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;address&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;jaeger-verrazzano-managed-cluster-collector.verrazzano-monitoring.svc.cluster.local.:9411&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;h4 id=&#34;manage-jaeger-indices-in-opensearch&#34;&gt;Manage Jaeger indices in OpenSearch&lt;/h4&gt;
+&lt;p&gt;To clean old Jaeger data from OpenSearch, Verrazzano uses the &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/operator/#elasticsearch-index-cleaner-job&#34;&gt;index management&lt;/a&gt;
+provided by Jaeger. By default, a cron job with the following default values is created to clean old traces. To
+configure it to your use case, override the following Jaeger spec values in the Verrazzano custom resource with your
+desired values.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: verrazzano
+spec:
+  profile: prod
+  components:
+    jaegerOperator:
+      enabled: true
+      overrides:
+        - values:
+            jaeger:
+              spec:
+                storage:
+                  type: opensearch
+                  esIndexCleaner:
+                    # turn the cron job deployment on and off
+                    enabled: true
+                    # number of days to wait before deleting a record        
+                    numberOfDays: 7
+                    # cron expression for it to run    
+                    schedule: &amp;#34;55 23 * * *&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Capture Trace Spans Generated by your Application</title>
+      <link>/docs/observability/tracing/capture-traces/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/observability/tracing/capture-traces/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Jaeger agent sidecar is injected to application pods by the
+&lt;code&gt;&amp;quot;sidecar.jaegertracing.io/inject&amp;quot;: &amp;quot;true&amp;quot;&lt;/code&gt; annotation. You may apply this annotation to namespaces or pod controllers,
+such as Deployments. The subsequent snippet shows how to annotate an OAM Component for Jaeger agent injection.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;core.oam.dev/v1alpha2&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Component&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;example-component&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;workload&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;core.oam.dev/v1alpha2&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;ContainerizedWorkload&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;example-workload&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;annotations&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# The component&amp;#39;s Deployment will carry the Jaeger annotation.&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;&amp;#34;sidecar.jaegertracing.io/inject&amp;#34;: &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;If you have multiple Jaeger instances in your cluster, specify the name of the Jaeger instance to which you intend to
+send the traces, as a value for the annotation &lt;code&gt;sidecar.jaegertracing.io/inject&lt;/code&gt;. For more details,
+see the &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/operator/#auto-injecting-jaeger-agent-sidecars&#34;&gt;Jaeger documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Using the Jaeger agent is not supported in Helidon 3.x. To use Jaeger tracing,
+the Helidon application should connect directly to the Jaeger collector. See the following example YAML file, where
+&lt;code&gt;&amp;quot;TRACING_HOST&amp;quot;&lt;/code&gt; is set to &lt;code&gt;&amp;quot;jaeger-operator-jaeger-collector.verrazzano-monitoring&amp;quot;&lt;/code&gt; and &lt;code&gt;&amp;quot;TRACING_PORT&amp;quot;&lt;/code&gt; to &lt;code&gt;&amp;quot;9411&amp;quot;&lt;/code&gt;.
+For &lt;a href=&#34;#jaeger-tracing-in-a-multicluster-verrazzano-environment&#34;&gt;Jaeger tracing in a multicluster Verrazzano environment&lt;/a&gt;,
+set the &lt;code&gt;&amp;quot;TRACING_HOST&amp;quot;&lt;/code&gt; to &lt;code&gt;&amp;quot;jaeger-verrazzano-managed-cluster-collector.verrazzano-monitoring.svc.cluster.local&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;core.oam.dev/v1alpha2&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Component&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;hello-helidon-component&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;workload&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;oam.verrazzano.io/v1alpha1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;VerrazzanoHelidonWorkload&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;hello-helidon-workload&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;labels&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;app&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;hello-helidon&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;version&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;v1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;deploymentTemplate&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;hello-helidon-deployment&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;podSpec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;containers&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;hello-helidon-container&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;image&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ghcr.io/verrazzano/example-helidon-greet-app-v1:1.0.0-1-20220513221156-7da0d32&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;env&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;TRACING_SERVICE&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;hello-helidon&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;TRACING_PORT&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;9411&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;TRACING_HOST&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;jaeger-operator-jaeger-collector.verrazzano-monitoring&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ports&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;containerPort&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;8080&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;http&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: View Trace Records</title>
+      <link>/docs/observability/tracing/view-traces/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/observability/tracing/view-traces/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Use the Verrazzano Jaeger console to view, query, and filter traces.
+For information on how to get the Verrazzano Jaeger console URL and credentials, see &lt;a href=&#34;../../../docs/setup/access/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;view-traces-in-the-jaeger-console&#34;&gt;View traces in the Jaeger console&lt;/h3&gt;
+&lt;p&gt;On the initial page, select the service name to display the traces that you want to evaluate, for example, &lt;code&gt;hello-helidon&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../../docs/images/tracing/hello-helidon-traces.png&#34; alt=&#34;Hello Helidon&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select a trace to see its details.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../../docs/images/tracing/hello-helidon-spans.png&#34; alt=&#34;Hello Helidon SPAN&#34;&gt;&lt;/p&gt;
+&lt;p&gt;To filter the number of responses, add a filtering option by specifying a tag element to be a part of the search criteria.&lt;/p&gt;
+&lt;p&gt;The Jaeger console shows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;All the spans that make up the trace.&lt;/li&gt;
+&lt;li&gt;Each span will contain all the tags, events, and timings for that span.&lt;/li&gt;
+&lt;li&gt;Each span can be expanded to see the values of the tags, events, and the start time, end time, and the overall duration of the span.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;view-managed-cluster-traces&#34;&gt;View managed cluster traces&lt;/h3&gt;
+&lt;p&gt;You can see the managed cluster traces from the Jaeger console in the admin cluster only. To find the Jaeger console URL for
+your admin cluster, follow the instructions for &lt;a href=&#34;../../../docs/setup/access/&#34;&gt;Accessing Verrazzano&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The following spans include the Process tag, &lt;code&gt;verrazzano_cluster&lt;/code&gt;, which has the name of the managed cluster. To see the traces
+for the managed cluster only, search based on the tag &lt;code&gt;verrazzano_cluster=&amp;lt;managed cluster name&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Sample output of Jager console screens&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Output filtered for the managed cluster, &lt;code&gt;managed1&lt;/code&gt; (arrow).&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../../docs/images/multicluster/jaeger-multicluster-filter-based-on-tag.png&#34; alt=&#34;Jaeger console&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The span details for &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../../docs/images/multicluster/jaeger-multicluster-span-details.png&#34; alt=&#34;Jaeger SPAN&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;store-traces-and-log-records&#34;&gt;Store traces and log records&lt;/h3&gt;
+&lt;p&gt;In Verrazzano, all the Jaeger traces are stored in OpenSearch; OpenSearch must be enabled in Verrazzano for this to work.
+The logs are also captured and stored in OpenSearch; this is done by Fluentd.&lt;/p&gt;
+&lt;p&gt;Read the blog, &lt;a href=&#34;https://medium.com/verrazzano/the-verrazzano-platform-includes-several-cloud-native-solutions-to-improve-an-enterprises-day-2-25212f01f5cc&#34;&gt;Jaeger, Fluentd, and OpenSearch with Verrazzano&lt;/a&gt; for a detailed look at how Verrazzano components work together to provide a complete observability stack.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

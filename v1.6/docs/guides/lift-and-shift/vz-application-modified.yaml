@@ -1,0 +1,105 @@
+# Copyright (c) 2020, 2021, Oracle and/or its affiliates.
+# Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
+
+apiVersion: core.oam.dev/v1alpha2
+kind: ApplicationConfiguration
+metadata:
+  name: tododomain-appconf
+  namespace: tododomain
+  annotations:
+    version: v1.0.0
+    description: "tododomain application configuration"
+spec:
+  components:
+    - componentName: tododomain-domain
+      traits:
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: MetricsTrait
+            spec:
+              scraper: verrazzano-system/vmi-system-prometheus-0
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: IngressTrait
+            spec:
+              rules:
+                - paths:
+                    # application todo
+                    - path: "/todo"
+                      pathType: Prefix
+    - componentName: tododomain-configmap
+    - componentName: todo-mysql-service
+    - componentName: todo-mysql-deployment
+    - componentName: todo-mysql-configmap
+---
+apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: tododomain-domain
+  namespace: tododomain
+spec:
+  workload:
+    apiVersion: oam.verrazzano.io/v1alpha1
+    kind: VerrazzanoWebLogicWorkload
+    spec:
+      template:
+        metadata:
+          name: tododomain-domain
+          namespace: tododomain
+        spec:
+          domainUID: tododomain
+
+          # WebLogic Image Tool provides domainHome, domainHomeSourceType, and imageName
+          domainHome: /u01/domains/base_domain
+          domainHomeSourceType: FromModel
+          image: your/repo/todo:1
+
+          imagePullSecrets:
+            - name: tododomain-registry-credentials
+          includeServerOutInPodLog: true
+          webLogicCredentialsSecret:
+            name: tododomain-weblogic-credentials
+          configuration:
+            introspectorJobActiveDeadlineSeconds: 900
+            model:
+              configMap: tododomain-configmap
+              domainType: WLS
+
+              # WebLogic Image Tool provides modelHome
+              modelHome: /u01/wdt/models
+
+              # encryption for the WDT model and the SystemSerializedIni.data file.
+              # used only for model-in-image deployment, can be removed for other types.
+              runtimeEncryptionSecret: tododomain-runtime-encryption-secret
+
+            secrets:
+              - tododomain-jdbc-tododb
+
+          serverPod:
+            env:
+              - name: JAVA_OPTIONS
+                value: "-Dweblogic.StdoutDebugEnabled=false"
+              - name: USER_MEM_ARGS
+                value: "-Djava.security.egd=file:/dev/./urandom -Xms64m -Xmx256m "
+---
+apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: tododomain-configmap
+  namespace: tododomain
+spec:
+  workload:
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: tododomain-configmap
+      namespace: tododomain
+    data:
+      wdt_jdbc.yaml: |
+        resources:
+          JDBCSystemResource:
+            'tododb':
+              JdbcResource:
+                JDBCDriverParams:
+                  # This is the URL of the database used by the WebLogic Server application
+                  URL: "jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb"

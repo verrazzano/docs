@@ -1,0 +1,419 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – Verrazzano Multicluster Resources</title>
+    <link>/docs/applications/multicluster/mcresources/</link>
+    <description>Recent content in Verrazzano Multicluster Resources on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/applications/multicluster/mcresources/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: MultiClusterApplicationConfiguration</title>
+      <link>/docs/applications/multicluster/mcresources/multiclusterapplicationconfiguration/multiclusterapplicationconfiguration/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/applications/multicluster/mcresources/multiclusterapplicationconfiguration/multiclusterapplicationconfiguration/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The &lt;a href=&#34;../../../../docs/reference/vao-clusters-v1alpha1/#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfiguration&#34;&gt;MultiClusterApplicationConfiguration&lt;/a&gt; custom resource is an envelope used to distribute &lt;code&gt;core.oam.dev/v1alpha2/ApplicationConfiguration&lt;/code&gt; resources in a multicluster environment.&lt;/p&gt;
+&lt;p&gt;Here is a sample MultiClusterApplicationConfiguration that specifies an ApplicationConfiguration resource to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.  To deploy an example application that demonstrates a MultiClusterApplicationConfiguration, see &lt;a href=&#34;../../../../docs/examples/multicluster/todo-list/&#34;&gt;Multicluster ToDo List&lt;/a&gt;.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
+kind: MultiClusterApplicationConfiguration
+metadata:
+  name: todo-appconf
+  namespace: mc-todo-list
+spec:
+  template:
+    metadata:
+      annotations:
+        version: v1.0.0
+        description: &amp;quot;ToDo List example application&amp;quot;
+    spec:
+      components:
+        - componentName: todo-domain
+          traits:
+            - trait:
+                apiVersion: oam.verrazzano.io/v1alpha1
+                kind: MetricsTrait
+            - trait:
+                apiVersion: oam.verrazzano.io/v1alpha1
+                kind: IngressTrait
+                spec:
+                  rules:
+                    - paths:
+                        - path: &amp;quot;/todo&amp;quot;
+                          pathType: Prefix
+        - componentName: todo-jdbc-config
+        - componentName: mysql-initdb-config
+        - componentName: todo-mysql-service
+        - componentName: todo-mysql-deployment
+  placement:
+    clusters:
+      - name: managed1
+  secrets:
+    - tododomain-repo-credentials
+    - tododomain-jdbc-tododb
+    - tododomain-weblogic-credentials
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: MultiClusterResourceStatus</title>
+      <link>/docs/applications/multicluster/mcresources/multiclusterresourcestatus/multiclusterresourcestatus/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/applications/multicluster/mcresources/multiclusterresourcestatus/multiclusterresourcestatus/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The &lt;a href=&#34;../../../../docs/reference/vao-clusters-v1alpha1/#clusters.verrazzano.io/v1alpha1.MultiClusterResourceStatus&#34;&gt;MultiClusterResourceStatus&lt;/a&gt; subresource is shared by multicluster custom resources.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Placement</title>
+      <link>/docs/applications/multicluster/mcresources/placement/placement/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/applications/multicluster/mcresources/placement/placement/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The &lt;a href=&#34;../../../../docs/reference/vao-clusters-v1alpha1/#clusters.verrazzano.io/v1alpha1.Placement&#34;&gt;Placement&lt;/a&gt; subresource is shared by multicluster custom resources.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: VerrazzanoManagedCluster</title>
+      <link>/docs/applications/multicluster/mcresources/managedcluster/verrazzanomanagedcluster/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/applications/multicluster/mcresources/managedcluster/verrazzanomanagedcluster/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The &lt;a href=&#34;../../../../docs/reference/vco-clusters-v1alpha1/#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster&#34;&gt;VerrazzanoManagedCluster&lt;/a&gt; custom resource is used to register a managed cluster with an admin cluster.  Here is a sample VerrazzanoManagedCluster that registers the cluster named &lt;code&gt;managed1&lt;/code&gt;.  To deploy an example application that demonstrates a VerrazzanoManagedCluster, see &lt;a href=&#34;../../../../docs/examples/multicluster/hello-helidon/&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt;.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
+kind: VerrazzanoManagedCluster
+metadata:
+  name: managed1
+  namespace: verrazzano-mc
+spec:
+  description: &amp;quot;Managed Cluster 1&amp;quot;
+  caSecret: ca-secret-managed1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: VerrazzanoProject</title>
+      <link>/docs/applications/multicluster/mcresources/project/verrazzanoproject/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/applications/multicluster/mcresources/project/verrazzanoproject/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The &lt;a href=&#34;../../../../docs/reference/vao-clusters-v1alpha1/#clusters.verrazzano.io/v1alpha1.VerrazzanoProject&#34;&gt;VerrazzanoProject&lt;/a&gt; custom resource is used to create the application namespaces and their associated security settings on one or more clusters.  The namespaces are always created on the admin cluster.  Here is a sample VerrazzanoProject that specifies a namespace to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
+kind: VerrazzanoProject
+metadata:
+  name: hello-helidon
+  namespace: verrazzano-mc
+spec:
+  template:
+    namespaces:
+      - metadata:
+          name: hello-helidon
+  placement:
+    clusters:
+      - name: managed1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

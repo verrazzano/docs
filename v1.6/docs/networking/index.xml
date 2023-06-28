@@ -1,0 +1,2234 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – Networking</title>
+    <link>/docs/networking/</link>
+    <description>Recent content in Networking on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/networking/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Network Security</title>
+      <link>/docs/networking/security/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/networking/security/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano manages and secures network traffic between Verrazzano system components and deployed applications.
+Verrazzano does not manage or secure traffic for the Kubernetes cluster itself, or for
+non-Verrazzano services or applications running in the cluster. Traffic is secured at two levels in the network stack:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ISO Layer 3/4: Using NetworkPolicies to control IP access to Pods.&lt;/li&gt;
+&lt;li&gt;ISO Layer 6: Using TLS and mutual TLS authentication (mTLS) to provide authentication, confidentiality,
+and integrity for connections within the cluster and for external connections.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;networkpolicies&#34;&gt;NetworkPolicies&lt;/h2&gt;
+&lt;p&gt;By default, all Pods in a Kubernetes cluster have network access to all other Pods in the cluster.
+Kubernetes has a NetworkPolicy resource that provides network level 3 and 4 security for Pods,
+restricting both ingress and egress IP traffic for a set of Pods in a namespace.  Verrazzano configures all
+system components with NetworkPolicies to control ingress.  Egress is not restricted.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: A NetworkPolicy resource needs a NetworkPolicy controller to implement the policy, otherwise the
+policy has no effect.  You must install a Kubernetes Container Network Interface (CNI) plug-in that provides a NetworkPolicy controller,
+such as Calico, before installing Verrazzano, or else the policies are ignored.&lt;/p&gt;
+&lt;h3 id=&#34;networkpolicies-for-system-components&#34;&gt;NetworkPolicies for system components&lt;/h3&gt;
+&lt;p&gt;Verrazzano installs a set of NetworkPolicies for system components to control ingress into the Pods.
+A policy is scoped to a namespace and uses selectors to specify the Pods that the policy applies to, along
+with the ingress and egress rules.  For example, the following policy applies to the Verrazzano API Pod in the
+&lt;code&gt;verrazzano-system&lt;/code&gt; namespace.  This policy allows network traffic from NGINX Ingress Controller on
+port 8775 and from Prometheus on port 15090.  No other Pods can reach those ports or any other ports of the
+Verrazzano API Pod.  Notice that namespace selectors need to be used; the NetworkPolicy resource does not support
+specifying the namespace name.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+...
+spec:
+  PodSelector:
+    matchLabels:
+      app: verrazzano-api
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: ingress-nginx
+      PodSelector:
+        matchLabels:
+          app.kubernetes.io/instance: ingress-controller
+    ports:
+    - port: 8775
+      protocol: TCP
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      PodSelector:
+        matchLabels:
+          app: system-prometheus
+    ports:
+    - port: 15090
+      protocol: TCP
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;The following table shows all of the ingresses that allow network traffic into system components.
+The ports shown are Pod ports, which is what NetworkPolicies require.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Component&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Pod Port&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;From&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Description&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Argo CD&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;443&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;NGINX Ingress&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Access from external client&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Argo CD&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;8080&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Argo CD Server, Internal&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Argo CD Server data port&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;cert-manager&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;9402&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus scraping&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Coherence Operator&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;9443&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Webhook entrypoint&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio control plane&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;15012&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy access to &lt;code&gt;istiod&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio control plane&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;15014&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus scraping.&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio control plane&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;15017&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Kubernetes API Server&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Webhook entrypoint&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio egress gateway&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;8443&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Mesh services&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Application egress&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio egress gateway&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;15090&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus scraping&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio ingress gateway&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;8443&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;External&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Application ingress&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio ingress gateway&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;15090&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus scraping&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Keycloak&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;8080&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;NGINX Ingress&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Access from external client&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Keycloak&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;15090&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus scraping&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;MySql&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;15090&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus scraping&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;MySql&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;3306&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Keycloak&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Keycloak datastore&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Node exporter&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;9100&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus scraping&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;OpenSearch&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;8775&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Fluentd&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Access from Fluentd&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;OpenSearch&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;9200&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;OpenSearch Dashboards, Internal&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;OpenSearch data port&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;OpenSearch&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;9300&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Internal&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;OpenSearch cluster port&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;OpenSearch&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;15090&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics scraping&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;OpenSearch&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;8775&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;NGINX Ingress&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Access from external client&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;8775&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;NGINX Ingress&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Access from external client&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;9090&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Grafana&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Access for Grafana console&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Rancher&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;80&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;NGINX Ingress&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Access from external client&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Rancher&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;9443&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Kubernetes API Server&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Webhook entrypoint&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Verrazzano Application Operator&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;9443&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Kubernetes API Server&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Webhook entrypoint&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Verrazzano Authentication Proxy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;8775&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;NGINX Ingress&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Access from external client&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Verrazzano Authentication Proxy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;15090&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus scraping&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Verrazzano Console&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;8000&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;NGINX Ingress&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Access from external client&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Verrazzano Console&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;15090&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus scraping&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Verrazzano Platform Operator&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;9443&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Kubernetes API Server&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Webhook entrypoint&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;networkpolicies-for-applications&#34;&gt;NetworkPolicies for applications&lt;/h3&gt;
+&lt;p&gt;By default, applications do not have NetworkPolicies that restrict ingress into the application or egress from it.
+You can configure them for the application namespaces using the NetworkPolicy section of a Verrazzano project.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    &lt;p&gt;Verrazzano requires specific ingress to and egress from application pods. If you add a NetworkPolicy for your application namespace or pods,
+you must add an additional policy to ensure that Verrazzano still has the required access it needs. The ingress policy is needed only if you restrict ingress.
+Likewise, the egress policy is needed only if you restrict egress. The following are the ingress and egress NetworkPolicies:&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;Ingress NetworkPolicies&lt;/summary&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istiod
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istio-ingressgateway
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: system-prometheus
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: coherence-operator
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: weblogic-operator
+&lt;/code&gt;&lt;/pre&gt;&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt;Egress NetworkPolicies&lt;/summary&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  egress:
+  - ports:
+    - port: 15012
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istiod
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istio-egressgateway
+  - ports:
+    - port: 53
+      protocol: TCP
+    - port: 53
+      protocol: UDP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: kube-system
+  - ports:
+    - port: 8000
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: coherence-operator
+&lt;/code&gt;&lt;/pre&gt;&lt;/details&gt;
+
+
+&lt;/div&gt;
+
+&lt;h3 id=&#34;networkpolicies-for-envoy-sidecar-proxies&#34;&gt;NetworkPolicies for Envoy sidecar proxies&lt;/h3&gt;
+&lt;p&gt;As mentioned, Envoy sidecar proxies run in both system component pods and application pods.  Each proxy sends requests
+to the Istio control plane pod, &lt;code&gt;istiod&lt;/code&gt;, for a variety of reasons. During installation, Verrazzano creates a NetworkPolicy
+named &lt;code&gt;istiod-access&lt;/code&gt; in the &lt;code&gt;istio-system&lt;/code&gt; namespace to give ingress to system component and application sidecar proxies.&lt;/p&gt;
+&lt;h2 id=&#34;mutual-tls-authentication-mtls&#34;&gt;Mutual TLS authentication (mTLS)&lt;/h2&gt;
+&lt;p&gt;Istio can be enabled to use mTLS between services in the mesh, and also between the Istio gateways and Envoy sidecar proxies.
+There are various options to customize mTLS usage, for example it can be disabled on a per-port level.  The Istio
+control plane, Istiod, is a CA and provides key and certificate rotation for the Envoy proxies, both gateways and sidecars.&lt;/p&gt;
+&lt;p&gt;Verrazzano configures Istio to have strict mTLS for the mesh.  All components and applications put into the mesh
+will use mTLS, with the exception of Coherence clusters, which are not in the mesh. Also, all traffic between the Istio
+ingress gateway and mesh sidecars use mTLS, and the same is true between the proxy sidecars and the egress gateway.&lt;/p&gt;
+&lt;p&gt;Verrazzano sets up mTLS during installation with the PeerAuthentication resource as follows:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: v1
+items:
+- apiVersion: security.istio.io/v1beta1
+  kind: PeerAuthentication
+  ...
+  spec:
+    mtls:
+      mode: STRICT
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;h2 id=&#34;tls&#34;&gt;TLS&lt;/h2&gt;
+&lt;p&gt;TLS is used by external clients to access the cluster, both through the NGINX Ingress Controller and the Istio ingress gateway.
+The certificate used by these TLS connections vary; see &lt;a href=&#34;../../docs/security/&#34;&gt;Verrazzano security&lt;/a&gt; for details.
+All TLS connections are terminated at the ingress proxy. Traffic between the two proxies and the internal cluster Pods
+always uses mTLS, because those Pods are all in the Istio mesh.&lt;/p&gt;
+&lt;h2 id=&#34;istio-mesh&#34;&gt;Istio mesh&lt;/h2&gt;
+&lt;p&gt;Istio provides extensive security protection for both authentication and authorization, as described in
+&lt;a href=&#34;HTTPS://istio.io/latest/docs/concepts/security&#34;&gt;Istio Security&lt;/a&gt;. Access control and mTLS are two security
+features that Verrazzano configures.  These security features are available in the context of a service mesh.&lt;/p&gt;
+&lt;p&gt;A service mesh is an infrastructure layer that provides certain capabilities like security, observability, load balancing,
+and such, for services.  Istio defines a service mesh &lt;a href=&#34;HTTPS://istio.io/latest/about/service-mesh/&#34;&gt;here&lt;/a&gt;.
+In the context of Istio on Kubernetes, a service in the mesh is a Kubernetes Service. Consider the Bob&amp;rsquo;s Books example application, which
+has several OAM Components defined.  At runtime, there is a Kubernetes Service for each component, and each Service is
+in the mesh, with one or more Pods associated with the service.  All services in the mesh have an Envoy proxy in
+front of their Pods, intercepting network traffic to and from the Pod.  In Kubernetes, that proxy happens to be a sidecar
+running in each Pod.&lt;/p&gt;
+&lt;p&gt;There are various ways to put a service in the mesh. Verrazzano uses the namespace label, &lt;code&gt;istio-injection: enabled&lt;/code&gt;,
+to designate that all Pods in a given namespace are in the mesh.  When a Pod is created in that namespace, the Istio control
+plane mutating webhook, changes the Pod spec to add the Envoy proxy sidecar container, causing the Pod to be in the mesh.&lt;/p&gt;
+&lt;h3 id=&#34;disabling-sidecar-injection&#34;&gt;Disabling sidecar injection&lt;/h3&gt;
+&lt;p&gt;In certain cases, Verrazzano needs to disable sidecar injection for specific Pods in a namespace.  This is done in two ways:
+first, during installation, Verrazzano modifies the &lt;code&gt;istio-sidecar-injector&lt;/code&gt; ConfigMap using a Helm override file for the Istio
+chart.  This excludes several components from the mesh, such as the Verrazzano application operator.  Second, certain Pods, such
+as Coherence Pods, are labeled at runtime with &lt;code&gt;sidecar.istio.io/inject=&amp;quot;false&amp;quot;&lt;/code&gt; to exclude them from the mesh.&lt;/p&gt;
+&lt;h2 id=&#34;components-in-the-mesh&#34;&gt;Components in the mesh&lt;/h2&gt;
+&lt;p&gt;The following Verrazzano components are in the mesh and use mTLS for all service to service communication.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Argo CD&lt;/li&gt;
+&lt;li&gt;Fluentd&lt;/li&gt;
+&lt;li&gt;Grafana&lt;/li&gt;
+&lt;li&gt;Kiali&lt;/li&gt;
+&lt;li&gt;Keycloak&lt;/li&gt;
+&lt;li&gt;MySQL&lt;/li&gt;
+&lt;li&gt;NGINX Ingress Controller&lt;/li&gt;
+&lt;li&gt;OpenSearch&lt;/li&gt;
+&lt;li&gt;OpenSearch Dashboards&lt;/li&gt;
+&lt;li&gt;Prometheus&lt;/li&gt;
+&lt;li&gt;Verrazzano Authentication Proxy&lt;/li&gt;
+&lt;li&gt;Verrazzano Console&lt;/li&gt;
+&lt;li&gt;WebLogic Kubernetes Operator&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Some of these components, have mesh-related details that are worth noting, as described in the following sections.&lt;/p&gt;
+&lt;h3 id=&#34;nginx&#34;&gt;NGINX&lt;/h3&gt;
+&lt;p&gt;The NGINX Ingress Controller listens for HTTPS traffic, and provides ingress into the cluster.  NGINX is
+configured to do TLS termination of client connections.  All traffic from NGINX to the mesh services
+use mTLS, which means that traffic is fully encrypted from the client to the target back-end services.&lt;/p&gt;
+&lt;h3 id=&#34;keycloak-and-mysql&#34;&gt;Keycloak and MySQL&lt;/h3&gt;
+&lt;p&gt;Keycloak and MySQL are also in the mesh and use mTLS for network traffic.  Because all of the components that use
+Keycloak are in the mesh, there is end to end mTLS security for all identity management handled by Keycloak.  The following components
+access Keycloak:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Verrazzano Authentication Proxy&lt;/li&gt;
+&lt;li&gt;Verrazzano Console&lt;/li&gt;
+&lt;li&gt;OpenSearch&lt;/li&gt;
+&lt;li&gt;Prometheus&lt;/li&gt;
+&lt;li&gt;Grafana&lt;/li&gt;
+&lt;li&gt;Kiali&lt;/li&gt;
+&lt;li&gt;OpenSearch Dashboards&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;prometheus&#34;&gt;Prometheus&lt;/h3&gt;
+&lt;p&gt;Although Prometheus is in the mesh, it is configured to use the Envoy sidecar and mTLS only when communicating with
+Keycloak.  All the traffic related to scraping metrics, bypasses the sidecar proxy, doesn&amp;rsquo;t use
+the service IP address, but rather connects to the scrape target using the Pod IP address.  If the scrape target is in the mesh,
+then HTTPS is used; otherwise, HTTP is used.  For Verrazzano multicluster, Prometheus also connects from the admin cluster
+to the Prometheus server in the managed cluster by using the managed cluster NGINX Ingress, using HTTPS.  Prometheus
+is in the managed cluster and never establishes connections to targets outside the cluster.&lt;/p&gt;
+&lt;p&gt;Because Prometheus is in the mesh, additional configuration is done to allow the Envoy sidecar to be bypassed when scraping Pods.
+This is done with the Prometheus Pod annotation &lt;code&gt;traffic.sidecar.istio.io/includeOutboundIPRanges: &amp;lt;keycloak-service-ip&amp;gt;&lt;/code&gt;.  This
+causes traffic bound for Keycloak to go through the Envoy sidecar, and all other traffic to bypass the sidecar.&lt;/p&gt;
+&lt;h3 id=&#34;weblogic-kubernetes-operator&#34;&gt;WebLogic Kubernetes Operator&lt;/h3&gt;
+&lt;p&gt;When the WebLogic Kubernetes Operator creates a domain, it needs to communicate with the Pods in the domain. Verrazzano puts the
+operator in the mesh so that it can communicate with the domain Pods using mTLS.  As a result, the WebLogic
+domain must be created in the mesh.&lt;/p&gt;
+&lt;h2 id=&#34;applications-in-the-mesh&#34;&gt;Applications in the mesh&lt;/h2&gt;
+&lt;p&gt;Before you create a Verrazzano application, you should decide if it should be in the mesh.  You control sidecar injection,
+for example, mesh inclusion, by labeling the application namespace with &lt;code&gt;istio-injection=enabled&lt;/code&gt; or &lt;code&gt;istio-injection=disabled&lt;/code&gt;.
+By default, applications will not be put in the mesh if that label is missing.  If your application uses a Verrazzano
+project, then Verrazzano will label the namespaces in the project to enable injection. If the application is in the mesh,
+then mTLS will be used.  You can change the PeerAuthentication mTLS mode as desired if you don&amp;rsquo;t want strict mTLS.
+Also, if you need to add mTLS port exceptions, you can do this with DestinationRules or by creating another PeerAuthentication
+resource in the application namespace.  Consult the Istio documentation for more information.&lt;/p&gt;
+&lt;h3 id=&#34;weblogic&#34;&gt;WebLogic&lt;/h3&gt;
+&lt;p&gt;When the WebLogic Kubernetes Operator creates a domain, it needs to communicate with the Pods in the domain. Verrazzano puts the operator
+in the mesh so that it can communicate with the domain Pods using mTLS.  Because of that, the WebLogic domain must be created in the mesh.
+Also, because mTLS is used, do not configure WebLogic to use TLS.  If you want to use a custom certificate for your application,
+you can specify that in the ApplicationConfiguration, but that TLS connection will be terminated at the Istio ingress gateway, which
+you configure using a Verrazzano IngressTrait.&lt;/p&gt;
+&lt;h3 id=&#34;coherence&#34;&gt;Coherence&lt;/h3&gt;
+&lt;p&gt;Coherence clusters are represented by the Coherence resource, and are not in the mesh.  When Verrazzano creates a Coherence
+cluster in a namespace that is annotated to do sidecar injection, it disables injection of the Coherence resource using the
+&lt;code&gt;sidecar.istio.io/inject=&amp;quot;false&amp;quot;&lt;/code&gt; label shown previously.  Furthermore, Verrazzano will create a DestinationRule in the application
+namespace to disable mTLS for the Coherence extend port &lt;code&gt;9000&lt;/code&gt;.  This allows a service in the mesh to call the Coherence
+extend proxy.  For an example, see &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/1.6.0/examples/bobs-books&#34;&gt;Bobs Books&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Here is an example of a DestinationRule created for the Bob&amp;rsquo;s Books application which includes a Coherence cluster.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;API Version:  networking.istio.io/v1beta1
+Kind:         DestinationRule
+...
+Spec:
+  Host:  *.bobs-books.svc.cluster.local
+  Traffic Policy:
+    Port Level Settings:
+      Port:
+        Number:  9000
+      Tls:
+    Tls:
+      Mode:  ISTIO_MUTUAL
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;h2 id=&#34;istio-access-control&#34;&gt;Istio access control&lt;/h2&gt;
+&lt;p&gt;Istio lets you control access to your workload in the mesh using the AuthorizationPolicy resource. This lets you
+control which services or Pods can access your workloads.  Some of these options require mTLS; for more information, see
+&lt;a href=&#34;HTTPS://istio.io/latest/docs/reference/config/security/authorization-policy/&#34;&gt;Authorization Policy&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Verrazzano always creates AuthorizationPolicies for applications but never for system components.  During application deployment,
+Verrazzano creates the policy in the application namespace and configures it to allow access from the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Other Pods in the application&lt;/li&gt;
+&lt;li&gt;Istio ingress gateway&lt;/li&gt;
+&lt;li&gt;Prometheus scraper&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This prevents other Pods in the cluster from gaining network access to the application Pods.
+Istio uses a service identity to determine the identity of the request&amp;rsquo;s origin; for Kubernetes
+this identity is a service account.  Verrazzano creates a per-application AuthorizationPolicy as follows:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;AuthorizationPolicy
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+...
+spec:
+  rules:
+    - from:
+    - source:
+  principals:
+    - cluster.local/ns/sales/sa/greeter
+    - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
+    - cluster.local/ns/verrazzano-system/sa/verrazzano-monitoring-operator
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;h2 id=&#34;weblogic-domain-access&#34;&gt;WebLogic domain access&lt;/h2&gt;
+&lt;p&gt;For WebLogic applications, the WebLogic Kubernetes Operator must have access to the domain Pods for two reasons.
+First, it must access the domain servers to get health status; second, it must inject configuration into
+the Monitoring Exporter sidecar running in the domain server Pods. When a WebLogic domain is created,
+Verrazzano adds an additional source, &lt;code&gt;cluster.local/ns/verrazzano-system/sa/weblogic-operator-sa&lt;/code&gt; to
+the &lt;code&gt;principals&lt;/code&gt; section to permit that access.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Network Traffic</title>
+      <link>/docs/networking/traffic/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/networking/traffic/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Network traffic refers to the data flowing across the network.  In the context of this
+document, it is useful to think of network traffic from two perspectives: traffic
+based on direction and traffic related to component types, system, or applications.
+Traffic direction is either north-south traffic, which enters and leaves the cluster,
+or east-west traffic, which stays within the cluster.&lt;/p&gt;
+&lt;p&gt;First is a description of getting traffic into the cluster, then how traffic flows after
+it is in the cluster.&lt;/p&gt;
+&lt;h2 id=&#34;ingress&#34;&gt;Ingress&lt;/h2&gt;
+&lt;p&gt;Ingress is an overloaded term, so it needs
+to be understood in context.  Sometimes the term means external access into the
+cluster, as in &amp;ldquo;ingress to the cluster.&amp;rdquo;  The term also refers to the Kubernetes
+Ingress resource. In addition, it might be used to mean network ingress to a container in a Pod.
+Here, it&amp;rsquo;s used to refer to both general ingress into the cluster and the Kubernetes
+Ingress resource.&lt;/p&gt;
+&lt;p&gt;During installation, Verrazzano creates the necessary network resources to access both
+system components and applications.  The following ingress and load balancers descriptions
+are in the context of a Verrazzano installation.&lt;/p&gt;
+&lt;h3 id=&#34;loadbalancer-services&#34;&gt;LoadBalancer Services&lt;/h3&gt;
+&lt;p&gt;To reach Pods from outside a cluster, an external IP address must be exposed using a LoadBalancer or NodePort
+service.  Verrazzano creates two LoadBalancer services, one for system component traffic
+and another for application traffic. The specifics of how the service gets traffic into the cluster
+depends on the underlying Kubernetes platform.  With Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE),
+creating a LoadBalancer type service will
+result in an Oracle Cloud Infrastructure load balancer being created and configured to load balance to a set of Pods.&lt;/p&gt;
+&lt;h3 id=&#34;ingress-for-system-components&#34;&gt;Ingress for system components&lt;/h3&gt;
+&lt;p&gt;To provide ingress to system components, Verrazzano installs a NGINX Ingress Controller,
+which includes a NGINX load balancer.  Verrazzano also creates Kubernetes
+Ingress resources to configure ingress for each system component that requires ingress.
+An Ingress resource is used is to specify HTTP/HTTPS routes to Kubernetes services, along
+with an endpoint host name and a TLS certificate. An Ingress by itself doesn&amp;rsquo;t do anything;
+it is just a resource. An ingress controller is needed to watch Ingress resources and
+reconcile them, configuring the underlying Kubernetes load balancer to handle the service
+routing. The NGINX Ingress Controller processes Ingress resources and configures NGINX with
+the ingress route information, and such.&lt;/p&gt;
+&lt;p&gt;The NGINX Ingress Controller is a LoadBalancer service, as seen here:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get service -n ingress-nginx
+
+# Sample output
+ingress-controller-ingress-nginx-controller           LoadBalancer
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;Using the OKE example, traffic entering the Oracle Cloud Infrastructure load balancer is routed to the NGINX load
+balancer, then routed from there to the Pods belonging to the services described in the Ingress.&lt;/p&gt;
+&lt;h3 id=&#34;ingress-for-applications&#34;&gt;Ingress for applications&lt;/h3&gt;
+&lt;p&gt;Verrazzano also provides ingress into applications, but uses an Istio ingress gateway, which is
+an Envoy proxy, instead of NGINX.  Istio has a Gateway resource that provides load balancer information,
+such as hosts, ports, and certificates for traffic coming into the mesh.
+For more information, see &lt;a href=&#34;HTTPS://istio.io/latest/docs/reference/config/networking/gateway/&#34;&gt;Istio Gateway&lt;/a&gt;.  Just as an
+Ingress needs a corresponding Ingress controller, the same is true for the Gateway resource, where there is a
+corresponding Istio ingress gateway controller. However, unlike the Ingress, the Gateway
+resource doesn&amp;rsquo;t have service routing information.  That is
+handled by the Istio VirtualService resource.  The combination of Gateway and VirtualService is
+basically a superset of Ingress, because the combination provides more features than Ingress.
+In summary, the Istio ingress gateway provides ingress to the cluster using information from both
+the Gateway and VirtualService resources.&lt;/p&gt;
+&lt;p&gt;Because Verrazzano doesn&amp;rsquo;t create any applications during installations, there is no need to
+create a Gateway and VirtualService at that time.  However, during installation, Verrazzano does
+create the Istio ingress gateway, which is a LoadBalancer service, along with the
+Istio egress gateway, which is a ClusterIP service.&lt;br&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get service -n istio-system
+
+# Sample output
+istio-ingressgateway   LoadBalancer
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;Again, referring to the OKE use case, this means that there will another Oracle Cloud Infrastructure load balancer created,
+routing traffic to the Istio ingress gateway Pod, for example, the Envoy proxy.&lt;/p&gt;
+&lt;h3 id=&#34;external-dns&#34;&gt;External DNS&lt;/h3&gt;
+&lt;p&gt;When you install Verrazzano, you can optionally specify an external DNS for your domain.  If you do that,
+Verrazzano will not only create the DNS records, using ExternalDNS, but also it will configure your host
+name in the Ingress resources. You can then use that host name to access the system components through the
+NGINX Ingress Controller.&lt;/p&gt;
+&lt;h2 id=&#34;system-traffic&#34;&gt;System traffic&lt;/h2&gt;
+&lt;p&gt;System traffic includes all traffic that enters and leaves system Pods.&lt;/p&gt;
+&lt;h3 id=&#34;north-south-system-traffic&#34;&gt;North-south system traffic&lt;/h3&gt;
+&lt;p&gt;North-south traffic includes all system traffic that enters or leaves a Kubernetes cluster.&lt;/p&gt;
+&lt;h4 id=&#34;ingress-1&#34;&gt;Ingress&lt;/h4&gt;
+&lt;p&gt;The following lists the Verrazzano system components which are accessed through the NGINX Ingress Controller
+from a client external to the cluster:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;argoCD&lt;/li&gt;
+&lt;li&gt;OpenSearch&lt;/li&gt;
+&lt;li&gt;Keycloak&lt;/li&gt;
+&lt;li&gt;OpenSearch Dashboards&lt;/li&gt;
+&lt;li&gt;Grafana&lt;/li&gt;
+&lt;li&gt;Prometheus&lt;/li&gt;
+&lt;li&gt;Rancher&lt;/li&gt;
+&lt;li&gt;Verrazzano Console&lt;/li&gt;
+&lt;li&gt;Verrazzano API&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;egress&#34;&gt;Egress&lt;/h4&gt;
+&lt;p&gt;The following table shows Verrazzano system components that initiate requests to a destination
+outside the cluster.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Component&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Destination&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;argoCD&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Git webhooks (GitHub, GitLab, Bitbucket)&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Argo CD connection to Git webhooks for connecting to Git repositories.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;cert-manager&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Let&amp;rsquo;s Encrypt&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Gets signed certificate.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ExternalDNS&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;External DNS&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Creates and deletes DNS entries in an external DNS.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Fluentd&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;OpenSearch&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Fluentd on the managed cluster calls OpenSearch on the admin cluster.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus on the admin cluster scrapes metrics from Prometheus on the managed cluster.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Rancher Agent&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Rancher&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Rancher agent on the managed cluster sends requests to Rancher on the admin cluster.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Verrazzano Authentication Proxy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Keycloak&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Calls Keycloak for authentication, which includes redirects.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Verrazzano Platform Operator&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Kubernetes API server&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Multicluster agent on the managed cluster calls API server on the admin cluster.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;east-west-system-traffic&#34;&gt;East-west system traffic&lt;/h3&gt;
+&lt;p&gt;The following tables show Verrazzano system components that send traffic to a destination
+inside the cluster, with the following exceptions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Usage of CoreDNS: It can be assumed that any Pod in the cluster can access CoreDNS for name resolution.&lt;/li&gt;
+&lt;li&gt;Envoy to Istiod: The Envoy proxies all make requests to the Istio control plane to get dynamic configuration, and such.
+This includes both the gateways and the mesh sidecar proxies. That traffic is not shown.&lt;/li&gt;
+&lt;li&gt;Traffic within a component is not shown, for example, traffic between
+OpenSearch Pods.&lt;/li&gt;
+&lt;li&gt;Prometheus scraping traffic is shown in the second table.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Component&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Destination&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;argoCD&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Kubernetes API server&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Performs CRUD operations on Kubernetes resources.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;cert-manager&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Kubernetes API server&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Performs CRUD operations on Kubernetes resources.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Fluentd&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;OpenSearch&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Fluentd sends data to OpenSearch.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Grafana&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Console for Prometheus data.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;OpenSearch Dashboards&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;OpenSearch&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Console for OpenSearch.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;NGINX Ingress Controller&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Kubernetes API server&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Performs CRUD operations on Kubernetes resources.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Kubernetes API server&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Performs CRUD operations on Kubernetes resources.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Rancher&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Kubernetes API server&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Performs CRUD operations on Kubernetes resources.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Verrazzano Authentication Proxy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Keycloak&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Calls Keycloak for token authentication.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Verrazzano Authentication Proxy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;VMI components&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Access consoles for OpenSearch Dashboards, Grafana, and such.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Verrazzano Authentication Proxy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Kubernetes API server&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Performs CRUD operations on Kubernetes resources.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Verrazzano Application Operator&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Kubernetes API server&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Performs CRUD operations on Kubernetes resources.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Verrazzano Monitoring Operator&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Kubernetes API server&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Performs CRUD operations on Kubernetes resources.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Verrazzano Operator&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Kubernetes API server&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Performs CRUD operations on Kubernetes resources.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Verrazzano Platform Operator&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Kubernetes API server&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Performs CRUD operations on Kubernetes resources.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Verrazzano Platform Operator&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Rancher&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Registers the managed cluster with Rancher.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;prometheus-scraping-traffic&#34;&gt;Prometheus scraping traffic&lt;/h4&gt;
+&lt;p&gt;This table shows Prometheus traffic for each system component scrape target.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Target&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;argoCD&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;cadvisor&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Kubernetes metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Grafana&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Istiod&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Istio control plane metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Istiod&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Istio egress gateway&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Istio ingress gateway&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Keycloak&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;MySQL&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;NGINX Ingress Controller&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;NGINX Ingress Controller&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;NGINX metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;NGINX default back end&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Node exporter&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Node metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;OpenSearch&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;OpenSearch Dashboards&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Verrazzano Console&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Verrazzano API&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;WebLogic operator&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;webhooks&#34;&gt;Webhooks&lt;/h4&gt;
+&lt;p&gt;Several of the system components are controllers and some of those have webhooks.
+Webhooks are called by the Kubernetes API server on a component HTTPS port
+to validate or mutate API payloads before they reach the API server.&lt;/p&gt;
+&lt;p&gt;The following components use webhooks:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;cert-manager&lt;/li&gt;
+&lt;li&gt;Coherence Operator&lt;/li&gt;
+&lt;li&gt;Istio&lt;/li&gt;
+&lt;li&gt;Rancher&lt;/li&gt;
+&lt;li&gt;Verrazzano Application Operator&lt;/li&gt;
+&lt;li&gt;Verrazzano Platform Operator&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;application-traffic&#34;&gt;Application traffic&lt;/h2&gt;
+&lt;p&gt;Application traffic includes all traffic to and from Verrazzano applications.&lt;/p&gt;
+&lt;h3 id=&#34;north-south-application-traffic&#34;&gt;North-south application traffic&lt;/h3&gt;
+&lt;p&gt;After Verrazzano is installed, you can deploy applications into the Istio mesh.  When doing so, you will
+likely need ingress into the application.  As previously mentioned, this can be done with
+Istio using the Gateway and VirtualService resources.  Verrazzano will create those resources
+for you when you use an IngressTrait in your ApplicationConfiguration.  The Istio
+ingress gateway created during installation will be shared by all applications in the mesh,
+and the Gateway resource is bound to the Istio ingress gateway that was created
+during installation.  This is done by the selector field in the Gateway.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;   selector:
+     istio: ingressgateway
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;Verrazzano creates a Gateway/VirtualService pair for each IngressTrait.
+Following is an example of those two resources created by Verrazzano.&lt;/p&gt;
+&lt;p&gt;Here is the Gateway; in this case both the host name and certificate were generated
+by Verrazzano.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: v1
+items:
+- apiVersion: networking.istio.io/v1beta1
+  kind: Gateway
+  metadata:
+   ...
+    name: hello-helidon-hello-helidon-gw
+    namespace: hello-helidon
+  ...
+  spec:
+    selector:
+      istio: ingressgateway
+    servers:
+    - hosts:
+      - hello-helidon-appconf.hello-helidon.1.2.3.4.nip.io
+      port:
+        name: HTTPS
+        number: 443
+        protocol: HTTPS
+      tls:
+        credentialName: hello-helidon-hello-helidon-appconf-cert-secret
+        mode: SIMPLE
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;Here is the VirtualService; notice that it refers back to the Gateway and
+that it contains the service routing information.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: v1
+items:
+- apiVersion: networking.istio.io/v1beta1
+  kind: VirtualService
+  metadata:
+  ...
+    name: hello-helidon-ingress-rule-0-vs
+    namespace: hello-helidon
+  spec:
+    gateways:
+    - hello-helidon-hello-helidon-gw
+    hosts:
+    - hello-helidon-appconf.hello-helidon.1.2.3.4.nip.io
+    HTTP:
+    - match:
+      - uri:
+          prefix: /greet
+      route:
+      - destination:
+          host: hello-helidon
+          port:
+            number: 8080
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;h3 id=&#34;east-west-application-traffic&#34;&gt;East-west application traffic&lt;/h3&gt;
+&lt;p&gt;To manage east-west traffic, each service in the mesh should be routed using a VirtualService and an optional
+DestinationRule.  You can still send east-west traffic without either of these resources, but you won’t get any custom
+routing or load balancing.  Verrazzano doesn&amp;rsquo;t configure east-west traffic.  Consider &lt;code&gt;bobbys-front-end&lt;/code&gt; in the Bob&amp;rsquo;s Books example at
+&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/1.6.0/examples/bobs-books/bobs-books-comp.yaml&#34;&gt;bobs-books-comp.yaml&lt;/a&gt;.
+When deploying Bob&amp;rsquo;s Books, a VirtualService is created for &lt;code&gt;bobbys-front-end&lt;/code&gt;, because of the IngressTrait, but there are
+no VirtualServices for the other services in the application.  When &lt;code&gt;bobbys-front-end&lt;/code&gt; sends requests to
+&lt;code&gt;bobbys-helidon-stock-application&lt;/code&gt;, this east-west traffic still goes to &lt;code&gt;bobbys-helidon-stock-application&lt;/code&gt; through
+the Envoy sidecar proxies in the source and destination Pods, but there is no VirtualService representing
+&lt;code&gt;bobbys-helidon-stock-application&lt;/code&gt; where you could specify a canary deployment or custom load balancing.  This
+is something you could configure manually, but it is not configured by Verrazzano.&lt;/p&gt;
+&lt;h2 id=&#34;proxies&#34;&gt;Proxies&lt;/h2&gt;
+&lt;p&gt;Verrazzano uses network proxies in multiple places.  The two proxy products are Envoy and NGINX.
+The following table shows which proxies are used and in which Pod they run.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Usage&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Proxy&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Pod&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Namespace&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;System ingress&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;NGINX&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;ingress-controller-ingress-nginx-controller-*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;ingress-nginx&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Provides external access to Verrazzano system components.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Verrazzano authentication proxy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;NGINX&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;verrazzano-authproxy-*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;verrazzano-system&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Verrazzano authentication proxy server for Kubernetes API and Single Sign-On (SSO).&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Application ingress&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;istio-ingressgateway-*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;istio-system&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Provides external access to Verrazzano applications.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Application egress&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;istio-egressgateway-*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;istio-system&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Provides control of application egress traffic.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio mesh sidecar&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;ingress-controller-ingress-nginx-controller-*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;ingress-nginx&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;NGINX Ingress Controller in the Istio mesh.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio mesh sidecar&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;ingress-controller-ingress-nginx-defaultbackend-*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;ingress-nginx&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;NGINX default backend in the Istio mesh.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio mesh sidecar&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;fluentd-*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;verrazzano-system&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Fluentd in the Istio mesh.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio mesh sidecar&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;keycloak-*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;keycloak&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Keycloak in the Istio mesh.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio mesh sidecar&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;mysql-*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;keycloak&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;MySQL used by Keycloak in the Istio mesh.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio mesh sidecar&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;verrazzano-api-*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;verrazzano-system&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Verrazzano API in the Istio mesh.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio mesh sidecar&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;verrazzano-console-*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;verrazzano-system&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Verrazzano Console in the Istio mesh.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio mesh sidecar&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;vmi-system-es-master-*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;verrazzano-system&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;OpenSearch in the Istio mesh.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio mesh sidecar&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;vmi-system-es-data-*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;verrazzano-system&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;OpenSearch in the Istio mesh.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio mesh sidecar&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;vmi-system-es-ingest-*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;verrazzano-system&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;OpenSearch in the Istio mesh.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio mesh sidecar&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;vmi-system-kibana-*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;verrazzano-system&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;OpenSearch Dashboards in the Istio mesh.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio mesh sidecar&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;vmi-system-grafana-*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;verrazzano-system&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Grafana in the Istio mesh.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio mesh sidecar&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;weblogic-operator-*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;verrazzano-system&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;WebLogic Kubernetes Operator in the Istio mesh.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio mesh sidecar&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;prometheus-prometheus-operator-kube-p-prometheus-*&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;verrazzano-monitoring&lt;/code&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus in the Istio mesh.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;multicluster&#34;&gt;Multicluster&lt;/h2&gt;
+&lt;p&gt;Some Verrazzano components send traffic between Kubernetes clusters. Those components are the Verrazzano agent,
+Verrazzano authentication proxy, and Prometheus.&lt;/p&gt;
+&lt;h3 id=&#34;multicluster-egress&#34;&gt;Multicluster egress&lt;/h3&gt;
+&lt;p&gt;The following table shows Verrazzano system components that initiate requests between the admin and managed clusters.
+All of these requests go through the NGINX Ingress Controller on the respective destination cluster.&lt;/p&gt;
+&lt;p&gt;Traffic on port 443 needs to be allowed in both directions, from managed clusters to the admin cluster, and from
+the admin cluster to managed clusters. Additionally, if Rancher is not enabled on the admin cluster, then managed
+clusters will also need access to the admin cluster&amp;rsquo;s Kubernetes API server port (typically, this is port 6443).&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Source Cluster&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Source Component&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Destination Cluster&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Destination Component&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Admin&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Managed&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Scrapes metrics on managed clusters.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Admin&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;argoCD&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Managed&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Rancher Proxy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Argo CD connects to the Rancher proxy for creating resources required for the Argo CD managed cluster registration.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Admin&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Verrazzano Console&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Managed&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Verrazzano Authentication Proxy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Admin cluster proxy sends Kubernetes API requests to managed cluster proxy.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Admin&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Verrazzano Cluster Operator&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Managed&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Rancher Proxy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Admin cluster sends registration updates to managed cluster, and retrieves managed cluster CA certificate.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Managed&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Fluentd&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Admin&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;OpenSearch&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Fluentd sends logs to OpenSearch.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Managed&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Rancher Agent&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Admin&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Rancher&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Rancher Agent sends requests Rancher.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Managed&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Verrazzano Authentication Proxy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Admin&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Keycloak&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Proxy sends requests to Keycloak.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Managed&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Verrazzano Agent&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Admin&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Rancher Proxy or Kubernetes API server&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Managed cluster agent, in the application operator, sends requests to the Rancher proxy if Rancher is enabled, or to the admin cluster Kubernetes API server.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;verrazzano-agent&#34;&gt;Verrazzano agent&lt;/h3&gt;
+&lt;p&gt;In the multicluster topology, the Verrazzano platform operator has an agent thread running on the managed cluster
+that sends requests to the Kubernetes API server on the admin cluster. The URL for the admin cluster Kubernetes
+API server is registered on the managed cluster by the user.&lt;/p&gt;
+&lt;h3 id=&#34;verrazzano-authentication-proxy&#34;&gt;Verrazzano authentication proxy&lt;/h3&gt;
+&lt;p&gt;In a multicluster topology, the Verrazzano authentication proxy runs on both the admin and managed clusters.
+On the admin cluster, the authentication proxy connects to in-cluster Keycloak, using the Keycloak Service.
+On the managed cluster, the authentication proxy connects to Keycloak on the admin cluster through the NGINX Ingress
+Controller running on the admin cluster.&lt;/p&gt;
+&lt;p&gt;For Single Sign-On (SSO), the authentication proxy also needs to send requests to Keycloak, either in-cluster or through the cluster ingress. When a
+request comes into the authentication proxy without an authentication header, the proxy sends a request to Keycloak
+through the NGINX Ingress Controller, so the request exits the cluster.  Otherwise, if the authentication proxy is on the admin cluster, then the request is
+sent directly to Keycloak within the cluster.  If the authentication proxy is on the managed
+cluster, then it must send requests to Keycloak on the admin cluster.&lt;/p&gt;
+&lt;h3 id=&#34;prometheus&#34;&gt;Prometheus&lt;/h3&gt;
+&lt;p&gt;A single Prometheus service in the cluster, scrapes metrics from Pods in system components and applications.
+It also scrapes Pods in the Istio mesh using HTTPS, and outside the mesh using HTTP. In the multicluster case,
+Prometheus on the admin cluster, scrapes metrics from Prometheus on the managed cluster, through
+the NGINX Ingress Controller on the managed cluster.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Customize Istio</title>
+      <link>/docs/networking/istio/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/networking/istio/</guid>
+      <description>
+        
+        
+        &lt;p&gt;You can customize the Verrazzano Istio component using settings in the Verrazzano custom resource.&lt;/p&gt;
+&lt;p&gt;The following table describes the fields in the Verrazzano custom resource pertaining to the &lt;a href=&#34;../../docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.IstioComponent&#34;&gt;Istio component&lt;/a&gt;.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Path to Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec.components.istio.egress.kubernetes.replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The number of pods to replicate.  The default is &lt;code&gt;2&lt;/code&gt; for the &lt;code&gt;prod&lt;/code&gt; profile and &lt;code&gt;1&lt;/code&gt; for all other profiles.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec.components.istio.egress.kubernetes.affinity&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The pod affinity definition expressed as a standard Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity&#34;&gt;affinity&lt;/a&gt; definition.  The default configuration spreads the Istio gateway pods across the available nodes. &lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;spec:&lt;br&gt;  components:&lt;br&gt;    istio:&lt;br&gt;      egress:&lt;br&gt;        kubernetes:&lt;br&gt;          affinity:&lt;br&gt;            podAntiAffinity:&lt;br&gt;              preferredDuringSchedulingIgnoredDuringExecution:&lt;br&gt;                - weight: 100&lt;br&gt;                  podAffinityTerm:&lt;br&gt;                    labelSelector:&lt;br&gt;                      matchExpressions:&lt;br&gt;                        - key: app&lt;br&gt;                          operator: In&lt;br&gt;                          values:&lt;br&gt;                            - istio-egressgateway&lt;br&gt;                    topologyKey: kubernetes.io/hostname&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec.components.istio.ingress.kubernetes.replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The number of pods to replicate.  The default is &lt;code&gt;2&lt;/code&gt; for the &lt;code&gt;prod&lt;/code&gt; profile and &lt;code&gt;1&lt;/code&gt; for all other profiles.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec.components.istio.ingress.kubernetes.affinity&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The pod affinity definition expressed as a standard Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity&#34;&gt;affinity&lt;/a&gt; definition.  The default configuration spreads the Istio gateway pods across the available nodes. &lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;spec:&lt;br&gt;  components:&lt;br&gt;    istio:&lt;br&gt;      ingress:&lt;br&gt;        kubernetes:&lt;br&gt;          affinity:&lt;br&gt;            podAntiAffinity:&lt;br&gt;              preferredDuringSchedulingIgnoredDuringExecution:&lt;br&gt;                - weight: 100&lt;br&gt;                  podAffinityTerm:&lt;br&gt;                    labelSelector:&lt;br&gt;                      matchExpressions:&lt;br&gt;                        - key: app&lt;br&gt;                          operator: In&lt;br&gt;                          values:&lt;br&gt;                            - istio-ingressgateway&lt;br&gt;                    topologyKey: kubernetes.io/hostname&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The following example customizes a Verrazzano &lt;code&gt;prod&lt;/code&gt; profile as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Increases the replicas count to &lt;code&gt;3&lt;/code&gt; for &lt;code&gt;istio-ingressgateway&lt;/code&gt; and &lt;code&gt;istio-egressgateway&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Changes the &lt;code&gt;podAffinity&lt;/code&gt; configuration to use &lt;code&gt;requiredDuringSchedulingIgnoredDuringExecution&lt;/code&gt; for &lt;code&gt;istio-ingressgateway&lt;/code&gt; and &lt;code&gt;istio-egressgateway&lt;/code&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: example-verrazzano
+spec:
+  profile: prod
+  components:
+    istio:
+      overrides:
+      - values:
+          apiVersion: install.istio.io/v1alpha1
+          kind: IstioOperator
+          spec:
+            components:
+              egressGateways:
+                - enabled: true
+                  k8s:
+                    affinity:
+                      podAntiAffinity:
+                        requiredDuringSchedulingIgnoredDuringExecution:
+                          - podAffinityTerm:
+                              labelSelector:
+                                matchExpressions:
+                                  - key: app
+                                    operator: In
+                                    values:
+                                      - istio-egressgateway
+                              topologyKey: kubernetes.io/hostname
+                            weight: 100
+                    replicaCount: 3
+                  name: istio-egressgateway
+              ingressGateways:
+                - enabled: true
+                  k8s:
+                    affinity:
+                      podAntiAffinity:
+                        requiredDuringSchedulingIgnoredDuringExecution:
+                          - podAffinityTerm:
+                              labelSelector:
+                                matchExpressions:
+                                  - key: app
+                                    operator: In
+                                    values:
+                                      - istio-ingressgateway
+                              topologyKey: kubernetes.io/hostname
+                            weight: 100
+                    replicaCount: 3
+                    service:
+                      type: LoadBalancer
+                  name: istio-ingressgateway
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

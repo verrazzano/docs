@@ -1,0 +1,102 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – Continuous Delivery</title>
+    <link>/docs/applications/delivery/</link>
+    <description>Recent content in Continuous Delivery on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/applications/delivery/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Enable and Configure Argo CD</title>
+      <link>/docs/applications/delivery/enable/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/applications/delivery/enable/</guid>
+      <description>
+        
+        
+        &lt;h3 id=&#34;enable-argo-cd&#34;&gt;Enable Argo CD&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Install Verrazzano and set up a multicluster environment by following these &lt;a href=&#34;../../../docs/setup/mc-install/multicluster/#install-verrazzano&#34;&gt;instructions&lt;/a&gt;.
+&lt;br&gt;
+a. Because Argo CD is &lt;em&gt;not&lt;/em&gt; enabled by default, you must first &lt;a href=&#34;../../../docs/setup/modify-installation/#pre-installation&#34;&gt;enable argoCD&lt;/a&gt; on the &lt;em&gt;admin&lt;/em&gt; cluster. &lt;br&gt;
+b. When you &lt;a href=&#34;../../../docs/setup/mc-install/multicluster/#register-the-managed-cluster&#34;&gt;register managed clusters&lt;/a&gt;, they are automatically registered in Argo CD.&lt;/li&gt;
+&lt;li&gt;Access the Argo CD console using the instructions at &lt;a href=&#34;../../../docs/setup/access/#the-argo-cd-console&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;After you set up your application in the Argo CD console, those registered clusters will be available for you to select, deploy, and manage applications.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;configure-repositories&#34;&gt;Configure repositories&lt;/h3&gt;
+&lt;p&gt;In the Argo CD console, configure repositories that will contain the Kubernetes resources for deploying an application.&lt;/p&gt;
+&lt;p&gt;The following is a sample procedure to configure a private Git repository through HTTPS.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Log in to the Argo CD console.&lt;/li&gt;
+&lt;li&gt;In the left navigation, click &lt;strong&gt;Settings&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;Repositories&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;Connect Repo&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Select &lt;strong&gt;VIA HTTPS&lt;/strong&gt; as the connection method.&lt;/li&gt;
+&lt;li&gt;For &lt;strong&gt;Project&lt;/strong&gt;, specify &lt;strong&gt;default&lt;/strong&gt;.
+&lt;br&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Unless they are grouped together, all the projects are defined in the &lt;code&gt;default&lt;/code&gt; level.&lt;/li&gt;
+&lt;li&gt;For &lt;strong&gt;Repository URL&lt;/strong&gt;, provide the required URL.&lt;/li&gt;
+&lt;li&gt;If it is a private repository and a user name and password is required to connect to the repository, enter the required credentials.
+&lt;br&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The other fields are optional and based on how the Git repository is configured.&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;Connect&lt;/strong&gt; and verify that the connection status displayed is &lt;code&gt;Successful&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Deploy Applications with Argo CD</title>
+      <link>/docs/applications/delivery/deploy/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/applications/delivery/deploy/</guid>
+      <description>
+        
+        
+        &lt;p&gt;To deploy applications in a custom namespace, create Argo CD applications that specify the Git repository path, which Argo CD requires to synchronize and deploy the applications in the specified namespace.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: You can either pre-create a namespace and label it or auto-create a namespace when deploying an application.&lt;/p&gt;
+&lt;p&gt;This example provides information about how to deploy the &lt;code&gt;Hello-helidon&lt;/code&gt; application. The &lt;code&gt;Hello-helidon&lt;/code&gt; application and component YAML files are available at &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/release-1.6/examples/helidon-config&#34;&gt;Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Log in to the Argo CD console.&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;New App&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Specify a name for the application.&lt;/li&gt;
+&lt;li&gt;For &lt;strong&gt;Project Name&lt;/strong&gt;, select &lt;strong&gt;default&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Select the required &lt;strong&gt;Sync Policy&lt;/strong&gt; option:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Automatic&lt;/code&gt; - By default, every three minutes, Argo CD checks the specified Git repository and synchronizes the updates in Kubernetes to the Git repository.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Manual&lt;/code&gt; - For manually synchronizing the updates to the Git repository, use the &lt;strong&gt;Manual&lt;/strong&gt; option.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;If you want to auto-create a namespace, in the &lt;strong&gt;Sync Options&lt;/strong&gt; section, select &lt;strong&gt;Auto-Create Namespace&lt;/strong&gt;.
+&lt;br&gt;By auto-creating the namespace, the application will be deployed outside of the service mesh. The best practice is to pre-create the namespace and label it.&lt;/li&gt;
+&lt;li&gt;Under the &lt;strong&gt;Source&lt;/strong&gt; section, enter the following:
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Repository URL&lt;/strong&gt;: &lt;a href=&#34;https://github.com/verrazzano/verrazzano/&#34;&gt;https://github.com/verrazzano/verrazzano/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Revision&lt;/strong&gt;: &lt;code&gt;release-1.6&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Path&lt;/strong&gt;: Path in the repository where the Kubernetes resource definitions are listed. For example: &lt;code&gt;examples/helidon-config&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Under the &lt;strong&gt;Destination&lt;/strong&gt; section, do the following:
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Cluster URL&lt;/strong&gt;: Select the cluster to which you want to deploy the applications.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Namespace&lt;/strong&gt;: Specify the namespace in which you want to deploy the applications. The instructions in this sample use &lt;code&gt;hello-helidon&lt;/code&gt; as the namespace.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;Create&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;If you selected &lt;code&gt;Manual&lt;/code&gt; as the &lt;strong&gt;Sync Policy&lt;/strong&gt; option, then click &lt;strong&gt;Sync&lt;/strong&gt;. In the &lt;strong&gt;Synchronize Resources&lt;/strong&gt; section, select all the resources, and then click &lt;strong&gt;Synchronize&lt;/strong&gt;.
+&lt;br&gt; This creates the Argo CD application and a pictorial representation of the deployed applications is displayed.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;To verify or undeploy the Argo CD application, see &lt;a href=&#34;../../../docs/examples/argo-cd/#verify-the-deployed-application&#34;&gt;Verify the deployed application&lt;/a&gt; and &lt;a href=&#34;../../../docs/examples/argo-cd/#undeploy-applications&#34;&gt;Undeploy applications&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

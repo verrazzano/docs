@@ -1,0 +1,831 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – Prepare to Install Verrazzano</title>
+    <link>/docs/setup/install/prepare/</link>
+    <description>Recent content in Prepare to Install Verrazzano on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/setup/install/prepare/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Prerequisites</title>
+      <link>/docs/setup/install/prepare/prereqs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/install/prepare/prereqs/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano requires the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;A Kubernetes cluster and a compatible &lt;code&gt;kubectl&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;../../../../docs/networking/#high-level-network-diagram&#34;&gt;Two load balancers&lt;/a&gt;. Note that in a Verrazzano multicluster environment, two load balancers are required for each cluster.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;dev&lt;/code&gt; profile - Each node in the cluster should contain at least two CPUs, 16 GB RAM, and 100 GB of disk storage. The entire cluster requires at least six CPUs, 48 GB RAM, and 100 GB of disk storage. In addition, about 52 GB of storage is required for the persistent volumes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;prod&lt;/code&gt; profile - Each node in the cluster should contain at least four CPUs, 32 GB RAM, and 100 GB of disk storage. The entire cluster requires at least eight CPUs, 64 GB RAM, and 150 GB of disk storage. In addition, about 450 GB of storage is required for the persistent volumes.&lt;/p&gt;
+&lt;p&gt;The persistent volumes are provisioned using the default &lt;a href=&#34;https://kubernetes.io/docs/tasks/administer-cluster/change-default-storage-class/&#34;&gt;StorageClass&lt;/a&gt; in the cluster. In case of a  local disk based PV &lt;a href=&#34;https://kubernetes.io/docs/concepts/storage/storage-classes/#provisioner&#34;&gt;provisioner&lt;/a&gt;, each node in the cluster should have a minimum of 80 GB of disk storage for both of the profiles.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    To avoid conflicts with Verrazzano system components, we recommend installing Verrazzano into an empty cluster. Also, depending on the resource requirements of the applications you deploy, the configurations previously suggested may or may not be sufficient.
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;supported-hardware&#34;&gt;Supported hardware&lt;/h2&gt;
+&lt;p&gt;Verrazzano requires x86-64; other architectures are not supported.&lt;/p&gt;
+&lt;h2 id=&#34;supported-software-versions&#34;&gt;Supported software versions&lt;/h2&gt;
+&lt;p&gt;Verrazzano supports the following software versions.&lt;/p&gt;
+&lt;h3 id=&#34;kubernetes&#34;&gt;Kubernetes&lt;/h3&gt;
+&lt;p&gt;You can install Verrazzano on the following Kubernetes versions.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Verrazzano&lt;/th&gt;
+&lt;th&gt;Release Date&lt;/th&gt;
+&lt;th&gt;Latest Patch Release&lt;/th&gt;
+&lt;th&gt;Latest Patch Release Date&lt;/th&gt;
+&lt;th&gt;End of Error Correction*&lt;/th&gt;
+&lt;th&gt;Kubernetes Versions&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1.6&lt;/td&gt;
+&lt;td&gt;2023-06-28&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;2024-06-30**&lt;/td&gt;
+&lt;td&gt;1.24, 1.25, 1.26&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1.5&lt;/td&gt;
+&lt;td&gt;2023-02-15&lt;/td&gt;
+&lt;td&gt;1.5.3&lt;/td&gt;
+&lt;td&gt;2023-05-09&lt;/td&gt;
+&lt;td&gt;2024-02-28**&lt;/td&gt;
+&lt;td&gt;1.21, 1.22, 1.23, 1.24&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1.4&lt;/td&gt;
+&lt;td&gt;2022-09-30&lt;/td&gt;
+&lt;td&gt;1.4.5&lt;/td&gt;
+&lt;td&gt;2023-05-12&lt;/td&gt;
+&lt;td&gt;2023-10-31&lt;/td&gt;
+&lt;td&gt;1.21, 1.22, 1.23, 1.24&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1.3&lt;/td&gt;
+&lt;td&gt;2022-05-24&lt;/td&gt;
+&lt;td&gt;1.3.8&lt;/td&gt;
+&lt;td&gt;2022-11-17&lt;/td&gt;
+&lt;td&gt;2023-05-31&lt;/td&gt;
+&lt;td&gt;1.21, 1.22, 1.23&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1.2&lt;/td&gt;
+&lt;td&gt;2022-03-14&lt;/td&gt;
+&lt;td&gt;1.2.2&lt;/td&gt;
+&lt;td&gt;2022-05-10&lt;/td&gt;
+&lt;td&gt;2022-11-30&lt;/td&gt;
+&lt;td&gt;1.19, 1.20, 1.21&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1.1&lt;/td&gt;
+&lt;td&gt;2021-12-16&lt;/td&gt;
+&lt;td&gt;1.1.2&lt;/td&gt;
+&lt;td&gt;2022-03-09&lt;/td&gt;
+&lt;td&gt;2022-09-30&lt;/td&gt;
+&lt;td&gt;1.19, 1.20, 1.21&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1.0&lt;/td&gt;
+&lt;td&gt;2021-08-02&lt;/td&gt;
+&lt;td&gt;1.0.4&lt;/td&gt;
+&lt;td&gt;2021-12-20&lt;/td&gt;
+&lt;td&gt;2022-06-30&lt;/td&gt;
+&lt;td&gt;1.18, 1.19, 1.20&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;*&lt;em&gt;End of error correction for Verrazzano releases.&lt;/em&gt;&lt;br&gt;
+**&lt;em&gt;Projected date. Actual date will be determined when the next minor or major release is available.&lt;/em&gt;&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;For more information, see &lt;a href=&#34;https://kubernetes.io/releases/&#34;&gt;Kubernetes Release Documentation&lt;/a&gt;.
+&lt;br&gt;For platform specific details, see &lt;a href=&#34;../../../../docs/setup/install/prepare/platforms/&#34;&gt;Verrazzano platform setup&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;weblogic-server&#34;&gt;WebLogic Server&lt;/h3&gt;
+&lt;p&gt;The supported versions of WebLogic Server are dependent on the &lt;a href=&#34;https://oracle.github.io/weblogic-kubernetes-operator/&#34;&gt;WebLogic Kubernetes Operator&lt;/a&gt; version.
+See the WebLogic Server versions supported &lt;a href=&#34;https://oracle.github.io/weblogic-kubernetes-operator/introduction/prerequisites/introduction/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;coherence&#34;&gt;Coherence&lt;/h3&gt;
+&lt;p&gt;The supported versions of Coherence are dependent on the &lt;a href=&#34;https://oracle.github.io/coherence-operator/docs/latest/#/about/01_overview&#34;&gt;Coherence Operator&lt;/a&gt; version.
+See the Coherence versions supported &lt;a href=&#34;https://oracle.github.io/coherence-operator/docs/latest/#/docs/installation/01_installation&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;helidon&#34;&gt;Helidon&lt;/h3&gt;
+&lt;p&gt;Verrazzano supports all versions of Helidon.  For more information, see &lt;a href=&#34;https://helidon.io&#34;&gt;Helidon&lt;/a&gt; and
+&lt;a href=&#34;https://support.oracle.com/knowledge/Middleware/2645279_1.html&#34;&gt;Helidon Commercial Offerings&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;verrazzano-installed-software&#34;&gt;Verrazzano installed software&lt;/h3&gt;
+&lt;p&gt;For a detailed list of Verrazzano installed software, see &lt;a href=&#34;../../../../docs/setup/install/verify/softwares/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: CLI Setup</title>
+      <link>/docs/setup/install/prepare/cli-setup/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/install/prepare/cli-setup/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Verrazzano command-line tool, &lt;code&gt;vz&lt;/code&gt;, is available for Linux and Mac systems.
+Download the binary you want from the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;Releases&lt;/a&gt; page.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    &lt;ul&gt;
+&lt;li&gt;Installing the command-line tool, &lt;code&gt;vz&lt;/code&gt;, is optional.&lt;/li&gt;
+&lt;li&gt;For optimal functionality, install or upgrade the CLI version to match the desired Verrazzano version.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;install-the-vz-cli&#34;&gt;Install the vz CLI&lt;/h2&gt;
+&lt;p&gt;These instructions demonstrate installing the CLI on Linux AMD64 machines.&lt;/p&gt;
+&lt;h3 id=&#34;download-the-latest-release&#34;&gt;Download the latest release&lt;/h3&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt; $ curl -LO https://github.com/verrazzano/verrazzano/releases/download/1.6.0/verrazzano-1.6.0-linux-amd64.tar.gz
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;h3 id=&#34;validate-the-binary-optional&#34;&gt;Validate the binary (optional)&lt;/h3&gt;
+&lt;p&gt;Download the &lt;code&gt;vz&lt;/code&gt; checksum file.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt; $ curl -LO https://github.com/verrazzano/verrazzano/releases/download/1.6.0/verrazzano-1.6.0-linux-amd64.tar.gz.sha256
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;Validate the &lt;code&gt;vz&lt;/code&gt; binary against the checksum file.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;$ sha256sum -c verrazzano-1.6.1-linux-amd64.tar.gz.sha256
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;h3 id=&#34;unpack-and-copy-the-vz-binary&#34;&gt;Unpack and copy the vz binary&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; $ tar xvf verrazzano-1.6.1-linux-amd64.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The following command needs to be run as root.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; $ sudo cp verrazzano-1.6.1/bin/vz /usr/local/bin
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;test-to-ensure-that-the-version-you-installed-is-up-to-date&#34;&gt;Test to ensure that the version you installed is up-to-date&lt;/h3&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt; $ vz version
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;p&gt;The resulting output should be similar to the following.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;Version: 1.6.0
+BuildDate: 2023-02-12T21:07:26Z
+GitCommit: cb0778bbf7a2cd90e1ae8458abd242f9da27a100
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;h2 id=&#34;use-the-vz-cli&#34;&gt;Use the vz CLI&lt;/h2&gt;
+&lt;p&gt;Verrazzano provides a command-line tool for managing a Verrazzano environment using the Verrazzano and Kubernetes API.&lt;/p&gt;
+&lt;p&gt;Common use cases include installing, upgrading, and uninstalling Verrazzano,
+as well as analyzing failures in a running Verrazzano environment.&lt;/p&gt;
+&lt;h3 id=&#34;usage-information&#34;&gt;Usage information&lt;/h3&gt;
+&lt;p&gt;Use the following syntax to run &lt;code&gt;vz&lt;/code&gt; commands from your terminal window.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;vz [command] [flags]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;h3 id=&#34;available-commands&#34;&gt;Available commands&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Command&lt;/th&gt;
+&lt;th&gt;Definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;analyze&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Analyze cluster&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;bug-report&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Collect information from the cluster to report an issue&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;completion&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Generate the autocompletion script for the specified shell&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;help&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Help about any command&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;install&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Install Verrazzano&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Status of the Verrazzano installation and access endpoints&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;uninstall&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Uninstall Verrazzano&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;upgrade&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Upgrade Verrazzano&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;version&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Verrazzano version information&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;available-flags&#34;&gt;Available Flags&lt;/h3&gt;
+&lt;p&gt;These flags apply to all the commands.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Flag&lt;/th&gt;
+&lt;th&gt;Definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;--context string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The name of the kubeconfig file context to use.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-h&lt;/code&gt;, &lt;code&gt;--help&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Help for &lt;code&gt;vz&lt;/code&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;--kubeconfig string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Path to the kubeconfig file to use.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Platform Setup</title>
+      <link>/docs/setup/install/prepare/platforms/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/install/prepare/platforms/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+  </channel>
+</rss>

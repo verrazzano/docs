@@ -1,0 +1,807 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – High Availability</title>
+    <link>/docs/guides/ha/</link>
+    <description>Recent content in High Availability on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/guides/ha/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Node Failure Guide</title>
+      <link>/docs/guides/ha/node-failure/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/guides/ha/node-failure/</guid>
+      <description>
+        
+        
+        &lt;p&gt;A &lt;code&gt;Node&lt;/code&gt; failure can occur for many reasons, including hardware failures and network outages. This guide provides information about what to
+expect when a &lt;code&gt;Node&lt;/code&gt; failure occurs and how to recover from a &lt;code&gt;Node&lt;/code&gt; failure. Recovery depends on the &lt;code&gt;Storage Provisioner&lt;/code&gt; and the type of storage that you use.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    This guide assumes that the storage provided in the cluster is physically
+separate from the &lt;code&gt;Node&lt;/code&gt; and is recoverable. It does not apply to a local storage on the &lt;code&gt;Node&lt;/code&gt;.
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;what-to-expect&#34;&gt;What to expect&lt;/h2&gt;
+&lt;p&gt;By default, when a &lt;code&gt;Node&lt;/code&gt; fails:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;It may take up to a minute for the failure to reflect in the Kubernetes API server and update the &lt;code&gt;Node&lt;/code&gt; status to
+&lt;code&gt;NotReady&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;After about five minutes of the &lt;code&gt;Node&lt;/code&gt; status being &lt;code&gt;NotReady&lt;/code&gt;, the status of the &lt;code&gt;Pods&lt;/code&gt; on that &lt;code&gt;Node&lt;/code&gt; will be changed to &lt;code&gt;Unknown&lt;/code&gt;
+or &lt;code&gt;NodeLost&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The status of the &lt;code&gt;Pods&lt;/code&gt; with controllers, like &lt;code&gt;Daemonsets&lt;/code&gt;, &lt;code&gt;Statefulsets&lt;/code&gt;, and &lt;code&gt;Deployments&lt;/code&gt;, will be changed to &lt;code&gt;Terminating&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: &lt;code&gt;Pods&lt;/code&gt; without a controller, started with a &lt;code&gt;PodSpec&lt;/code&gt;, will &lt;em&gt;not&lt;/em&gt; be terminated. They must be manually deleted and recreated.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;New &lt;code&gt;Pods&lt;/code&gt; will start on the &lt;code&gt;Nodes&lt;/code&gt; that remain with &lt;code&gt;Ready&lt;/code&gt; status.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: &lt;code&gt;Statefulsets&lt;/code&gt; are a special case. The &lt;code&gt;Statefulset&lt;/code&gt; controller maintains an ordinal list of &lt;code&gt;Pods&lt;/code&gt;, one each for a given name. The &lt;code&gt;Statefulset&lt;/code&gt; controller
+will not start a new &lt;code&gt;Pod&lt;/code&gt; with the name of an existing &lt;code&gt;Pod&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;code&gt;Pods&lt;/code&gt; that have associated &lt;code&gt;Persistent Volumes&lt;/code&gt; of type &lt;code&gt;ReadWriteOnce&lt;/code&gt;, do not become &lt;code&gt;Ready&lt;/code&gt;. This is because the &lt;code&gt;Pods&lt;/code&gt; try to attach to the existing volumes
+that are still attached to the old &lt;code&gt;Pod&lt;/code&gt;, which is still &lt;code&gt;Terminating&lt;/code&gt;. This happens because, at a given point, the &lt;code&gt;Persistent Volumes&lt;/code&gt; of type &lt;code&gt;ReadWriteOnce&lt;/code&gt;, can be associated
+only with a &lt;em&gt;single&lt;/em&gt; &lt;code&gt;Node&lt;/code&gt;, and the new &lt;code&gt;Pod&lt;/code&gt; resides on another &lt;code&gt;Node&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If multiple &lt;code&gt;Availability Domains&lt;/code&gt; are used in the Kubernetes cluster and the failed &lt;code&gt;Node&lt;/code&gt; is the last in that &lt;code&gt;Availability Domain&lt;/code&gt;, then
+the existing volumes will no longer be reachable by new &lt;code&gt;Pods&lt;/code&gt; in a separate &lt;code&gt;Availability Domain&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;about-recovery&#34;&gt;About recovery&lt;/h2&gt;
+&lt;p&gt;After a &lt;code&gt;Node&lt;/code&gt; fails, if the &lt;code&gt;Node&lt;/code&gt; can be recovered within five minutes, then the &lt;code&gt;Pods&lt;/code&gt; will return to a &lt;code&gt;Running&lt;/code&gt; state. If the &lt;code&gt;Node&lt;/code&gt; is not recovered after five minutes,
+then the &lt;code&gt;Pods&lt;/code&gt; will complete termination and are deleted from the Kubernetes API server. New &lt;code&gt;Pods&lt;/code&gt; that have &lt;code&gt;Persistent Volumes&lt;/code&gt; of type &lt;code&gt;ReadWriteOnce&lt;/code&gt;,
+will now be able to mount the &lt;code&gt;Persistent Volumes&lt;/code&gt; and change to &lt;code&gt;Running&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If a &lt;code&gt;Node&lt;/code&gt; cannot be recovered and is replaced, then deleting the &lt;code&gt;Node&lt;/code&gt; from the Kubernetes API server will terminate
+the old &lt;code&gt;Pods&lt;/code&gt; and release the &lt;code&gt;Persistent Volumes&lt;/code&gt; of type &lt;code&gt;ReadWriteOnce&lt;/code&gt;, to be mounted by any new &lt;code&gt;Pods&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If multiple &lt;code&gt;Availability Domains&lt;/code&gt; are used in the Kubernetes cluster, then the replacement &lt;code&gt;Node&lt;/code&gt; should be added to the same &lt;code&gt;Availability Domain&lt;/code&gt;
+that the deleted &lt;code&gt;Node&lt;/code&gt; occupied. This allows the &lt;code&gt;Pods&lt;/code&gt; to be scheduled on the replacement &lt;code&gt;Node&lt;/code&gt; that can reach the &lt;code&gt;Persistent Volumes&lt;/code&gt; in that
+&lt;code&gt;Availability Domain&lt;/code&gt;, and then the &lt;code&gt;Pod&lt;/code&gt; status is changed to &lt;code&gt;Running&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Do not forcefully delete &lt;code&gt;Pods&lt;/code&gt; or &lt;code&gt;Persistent Volumes&lt;/code&gt; in a failed &lt;code&gt;Node&lt;/code&gt; that you plan to recover or replace. If you force delete &lt;code&gt;Pods&lt;/code&gt; or &lt;code&gt;Persistent Volumes&lt;/code&gt; in a failed &lt;code&gt;Node&lt;/code&gt;,
+it may lead to loss of data and, in the case of &lt;code&gt;Statefulsets&lt;/code&gt;, it may lead to split-brain scenarios. For more information about &lt;code&gt;Statefulsets&lt;/code&gt;,
+see &lt;a href=&#34;https://kubernetes.io/docs/tasks/run-application/force-delete-stateful-set-pod/&#34;&gt;Force Delete StatefulSet Pods&lt;/a&gt; in the Kubernetes documentation.&lt;/p&gt;
+&lt;p&gt;You can force delete &lt;code&gt;Pods&lt;/code&gt; and &lt;code&gt;Persistent Volumes&lt;/code&gt; when a failed &lt;code&gt;Node&lt;/code&gt; cannot be recovered or replaced in the same &lt;code&gt;Availability Domain&lt;/code&gt; as
+the original &lt;code&gt;Node&lt;/code&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Upgrade prod Installation for High Availability</title>
+      <link>/docs/guides/ha/prod-upgrade/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/guides/ha/prod-upgrade/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The exact steps required to upgrade a Verrazzano environment to achieve high availability will vary based on the configuration of each environment.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Assess whether your Kubernetes configuration must be updated to support the level of high availability that you want to achieve.  See &lt;a href=&#34;../../../docs/guides/ha/ha/&#34;&gt;Configure High Availability&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Upgrade Verrazzano to v1.5.0 or later.   See &lt;a href=&#34;../../../docs/setup/upgrade/&#34;&gt;Upgrade Verrazzano&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/release-1.6/examples/ha/README.md&#34;&gt;examples/ha&lt;/a&gt; directory contains examples of highly available Verrazzano installations. The following example uses the &lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.6/examples/ha/ha.yaml&#34;&gt;ha.yaml&lt;/a&gt; file as an example of how to upgrade a default &lt;code&gt;prod&lt;/code&gt; installation to a highly available Verrazzano environment.&lt;/p&gt;
+&lt;p&gt;a. Create a patch file:&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ cat &amp;gt; patch.yaml &amp;lt;&amp;lt;EOF
+spec:
+  components:
+    authProxy:
+      overrides:
+      - values:
+          replicas: 2
+    certManager:
+      overrides:
+      - values:
+          replicaCount: 2
+          cainjector:
+            replicaCount: 2
+          webhook:
+            replicaCount: 2
+    console:
+      overrides:
+      - values:
+          replicas: 2
+    ingress:
+      overrides:
+      - values:
+          controller:
+            autoscaling:
+              enabled: true
+              minReplicas: 2
+          defaultBackend:
+            replicaCount: 2
+    istio:
+      overrides:
+      - values:
+          apiVersion: install.istio.io/v1alpha1
+          kind: IstioOperator
+          spec:
+            components:
+              pilot:
+                k8s:
+                  replicaCount: 2
+              ingressGateways:
+                - enabled: true
+                  k8s:
+                    affinity:
+                      podAntiAffinity:
+                        preferredDuringSchedulingIgnoredDuringExecution:
+                        - podAffinityTerm:
+                            labelSelector:
+                              matchExpressions:
+                              - key: app
+                                operator: In
+                                values:
+                                - istio-ingressgateway
+                            topologyKey: kubernetes.io/hostname
+                          weight: 100
+                    replicaCount: 2
+                    service:
+                      type: LoadBalancer
+                  name: istio-ingressgateway
+              egressGateways:
+                - enabled: true
+                  k8s:
+                    affinity:
+                      podAntiAffinity:
+                        preferredDuringSchedulingIgnoredDuringExecution:
+                        - podAffinityTerm:
+                            labelSelector:
+                              matchExpressions:
+                              - key: app
+                                operator: In
+                                values:
+                                - istio-egressgateway
+                            topologyKey: kubernetes.io/hostname
+                          weight: 100
+                    replicaCount: 2
+                  name: istio-egressgateway
+    keycloak:
+      overrides:
+      - values:
+          replicas: 2
+      mysql:
+        overrides:
+        - values:
+            serverInstances: 3
+            routerInstances: 2
+    opensearchDashboards:
+      replicas: 2
+    kiali:
+      overrides:
+      - values:
+          deployment:
+            replicas: 2
+    prometheusOperator:
+      overrides:
+      - values:
+          prometheus:
+            prometheusSpec:
+              replicas: 2
+    opensearch:
+      nodes:
+      - name: es-ingest
+        replicas: 2
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;p&gt;b. Apply the patch:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl patch verrazzano verrazzano --patch-file=patch.yaml --type=merge
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;c. Wait for the patch to be installed:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl wait --timeout=30m --for=jsonpath=&amp;#39;{.status.state}&amp;#39;=Ready verrazzano/verrazzano
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Customize High Availability</title>
+      <link>/docs/guides/ha/ha/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/guides/ha/ha/</guid>
+      <description>
+        
+        
+        &lt;p&gt;High availability designs follow three main principles:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Elimination of single points of failure&lt;/li&gt;
+&lt;li&gt;Fault detection&lt;/li&gt;
+&lt;li&gt;Reliable failover points&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Verrazzano provides a means to eliminate single points of failure among critical Verrazzano components. This is accomplished by increasing replica counts, anti-affinity rules, and implementing replicated data for components that rely on MySQL and OpenSearch.&lt;/p&gt;
+&lt;p&gt;The &lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.6/examples/ha/ha.yaml&#34;&gt;&lt;code&gt;ha.yaml&lt;/code&gt;&lt;/a&gt; file illustrates how the &lt;code&gt;prod&lt;/code&gt; profile can be extended to configure a highly available Verrazzano installation. The increased replica counts, along with the anti-affinity rules inherited from the &lt;code&gt;prod&lt;/code&gt; profile, ensure that the pods of each component are distributed across the Kubernetes cluster nodes.
+MySQL and OpenSearch are configured to replicate data among replicas to avoid data loss.&lt;/p&gt;
+&lt;p&gt;The &lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.6/examples/ha/ha-oci-ccm.yaml&#34;&gt;&lt;code&gt;ha-oci-ccm.yaml&lt;/code&gt;&lt;/a&gt; file configures a highly available Verrazzano installation on OCNE.&lt;/p&gt;
+&lt;p&gt;The &lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.6/examples/ha/ha-ext-lb.yaml&#34;&gt;&lt;code&gt;ha-ext-lb.yaml&lt;/code&gt;&lt;/a&gt; file configures a highly available Verrazzano installation using external load balancers.&lt;/p&gt;
+&lt;p&gt;Fault detection is managed natively by using Kubernetes &lt;code&gt;Services&lt;/code&gt; and Istio &lt;code&gt;VirtualServices&lt;/code&gt; that detect failed pods and route traffic to the remaining replicas.&lt;/p&gt;
+&lt;p&gt;MySQL and OpenSearch provide reliable failover points for the replicated data.&lt;/p&gt;
+&lt;p&gt;The result of these measures would be no loss of service if a cluster node became unavailable. For more information regarding node failure and recovery, read the &lt;a href=&#34;../../../docs/guides/ha/node-failure/&#34;&gt;Node Failure Guide&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;When using the &lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.6/examples/ha/ha.yaml&#34;&gt;&lt;code&gt;ha.yaml&lt;/code&gt;&lt;/a&gt; file, consider the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It does not ensure a fault-tolerant environment. Your applications still must be designed and implemented as highly available.&lt;/li&gt;
+&lt;li&gt;Running additional replicas of components will increase resource requirements. At least four CPUs, 100 GB disk storage, and 64 GB RAM available on the Kubernetes worker nodes is required.&lt;/li&gt;
+&lt;li&gt;Additional customizations may be required for your environment, including other customizations described in individual sections.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For the expected behavior of the &lt;a href=&#34;../../../docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.MySQLComponent&#34;&gt;MySQL Component&lt;/a&gt; in a highly available environment, see &lt;a href=&#34;../../../docs/security/keycloak/keycloak/&#34;&gt;Customize Keycloak and MySQL&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Follow these best practices for a highly available Verrazzano installation:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Size your Kubernetes cluster according to your node failure tolerance and workload requirements.&lt;/li&gt;
+&lt;li&gt;Set the default &lt;code&gt;Storage Class&lt;/code&gt; to one with a &lt;code&gt;VolumeBindingMode&lt;/code&gt; of &lt;code&gt;WaitForFirstConsumer&lt;/code&gt;. This is important for being able to recover from an &lt;code&gt;Availability Domain&lt;/code&gt; or zone failure.&lt;/li&gt;
+&lt;li&gt;Set the replica counts to values that correspond to your node failure tolerance.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To install the example high availability configuration using the Verrazzano CLI:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ vz install -f https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.6/examples/ha/ha.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;Using the Verrazzano CLI, install the example high availability configuration on OCNE as follows:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ vz install -f https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.6/examples/ha/ha-oci-ccm.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;Using the Verrazzano CLI, install the example high availability configuration with external load balancers as follows:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ vz install -f https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.6/examples/ha/ha-ext-lb.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;h3 id=&#34;upgrade-recommendations&#34;&gt;Upgrade recommendations&lt;/h3&gt;
+&lt;p&gt;An OKE in-place upgrade scales the cluster to N-1 nodes, where N is the original number of nodes, so you must scale the cluster back to N.
+This will start a new replacement node using the new node pool.
+For more information on in-place upgrades, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengupgradingk8sworkernode.htm#Performi&#34;&gt;Performing an In-Place Worker Node Kubernetes Upgrade by Updating an Existing Node Pool&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

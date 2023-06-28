@@ -1,0 +1,1198 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – Security</title>
+    <link>/docs/security/</link>
+    <description>Recent content in Security on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/security/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Application Security</title>
+      <link>/docs/security/appsec/appsec/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/security/appsec/appsec/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano provides the following support.&lt;/p&gt;
+&lt;h2 id=&#34;keycloak&#34;&gt;Keycloak&lt;/h2&gt;
+&lt;p&gt;Applications can use the Verrazzano Keycloak server as an Identity Provider. Keycloak supports SAML 2.0 and OpenID Connect (OIDC) authentication and authorization flows. Verrazzano does not provide any explicit integrations for applications.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-danger&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    If using Keycloak for application authentication and authorization, create a new realm to contain application users and clients. Do not use the verrazzano-system realm, or the default (Keycloak system) realm. The Keycloak root user account (&lt;code&gt;keycloakadmin&lt;/code&gt;) has privileges to create realms.
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;network-security&#34;&gt;Network security&lt;/h2&gt;
+&lt;p&gt;Verrazzano uses Istio to authenticate and authorize incoming network connections for applications. Verrazzano also provides support for configuring Kubernetes NetworkPolicy on Verrazzano projects. NetworkPolicy rules control where network connections can be made.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-danger&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    Enforcement of NetworkPolicy requires that a Kubernetes Container Network Interface (CNI) provider, such as Calico, be configured for the cluster.
+
+&lt;/div&gt;
+
+&lt;p&gt;For more information on how Verrazzano secures network traffic, see &lt;a href=&#34;../../docs/networking/security/&#34;&gt;Network Security&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;pod-security&#34;&gt;Pod security&lt;/h2&gt;
+&lt;p&gt;By default, all containers within a pod run as root (UID &lt;code&gt;0&lt;/code&gt;) within the container.  Most applications do not require this level of access and
+doing so is considered a security risk.&lt;/p&gt;
+&lt;p&gt;It is recommended that applications attempt to meet the requirements of the Kubernetes &lt;code&gt;restricted&lt;/code&gt;  &lt;a href=&#34;https://kubernetes.io/docs/concepts/security/pod-security-standards/&#34;&gt;Pod Security Standard&lt;/a&gt;.
+This essentially means running the container within a pod as a non-root user with minimal capabilities, and without the ability to
+escalate privileges.  Each container image also should define a non-root user identity that the container process will
+run, as by default, for added security.&lt;/p&gt;
+&lt;p&gt;In the Kubernetes &lt;code&gt;Pod&lt;/code&gt; specification, there is a &lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#podsecuritycontext-v1-core&#34;&gt;Pod SecurityContext&lt;/a&gt;
+for defining security at the pod level and a
+&lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#securitycontext-v1-core&#34;&gt;Container SecurityContext&lt;/a&gt; used
+to define security for containers.  Some fields are common between the two security contexts, and others are unique.  For details, see
+the API specifications for each.  Where there is overlap, settings defined at the container level override
+settings defined at the pod level.&lt;/p&gt;
+&lt;p&gt;The following sections describe implementing these standards in more detail.&lt;/p&gt;
+&lt;h3 id=&#34;specify-a-non-root-user-in-the-container-image&#34;&gt;Specify a non-root user in the container image&lt;/h3&gt;
+&lt;p&gt;Unless otherwise specified, all containers run as the root user.  It is recommended that each container image build explicitly creates
+an unprivileged, non-root user and group, and then uses that with the &lt;code&gt;USER&lt;/code&gt; instruction in the Dockerfile for the container.&lt;/p&gt;
+&lt;p&gt;To achieve this, modify the container&amp;rsquo;s image build and use the &lt;code&gt;USER &amp;lt;UID&amp;gt;&lt;/code&gt; instruction.&lt;/p&gt;
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# Run as user 1000
+USER 1000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;/div&gt;
+&lt;p&gt;This will make the process within the container run as UID &lt;code&gt;1000&lt;/code&gt;.  Even if there is no entry in &lt;code&gt;/etc/passwd&lt;/code&gt; matching the UID declared,
+the container will run as the specified UID with minimal privileges.&lt;/p&gt;
+&lt;p&gt;For example, this is illustrated by a running image using the &lt;code&gt;kubectl run&lt;/code&gt; command with the defaults:&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;% kubectl run -it --rm myol --image=ghcr.io/oracle/oraclelinux:7-slim --restart=Never -- bash
+If you don&amp;#39;t see a command prompt, try pressing enter.
+bash-4.2# whoami
+root
+bash-4.2# id
+uid=0(root) gid=0(root) groups=0(root)
+bash-4.2#
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;/div&gt;
+&lt;p&gt;To run the same image as a non-root user, you can override the default user and group for the container process, as shown:&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;% kubectl run -it --rm myol --image=ghcr.io/oracle/oraclelinux:7-slim --restart=Never --overrides=&amp;#39;{ &amp;#34;spec&amp;#34;: { &amp;#34;securityContext&amp;#34;: { &amp;#34;runAsUser&amp;#34;: 1000, &amp;#34;runAsGroup&amp;#34;: 1000, &amp;#34;runAsNonRoot&amp;#34;: true } } }&amp;#39; -- bash
+If you don&amp;#39;t see a command prompt, try pressing enter.
+bash-4.2$
+bash-4.2$ whoami
+whoami: cannot find name for user ID 1000
+bash-4.2$ id
+uid=1000 gid=1000 groups=1000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;/div&gt;
+&lt;p&gt;In the second example, the container is running as UID &lt;code&gt;1000&lt;/code&gt; with a GID of &lt;code&gt;1000&lt;/code&gt;.  Running &lt;code&gt;whoami&lt;/code&gt; from within the container returns an error
+because &lt;code&gt;USER 1000&lt;/code&gt; is not defined in &lt;code&gt;/etc/passwd&lt;/code&gt;, but running the &lt;code&gt;id&lt;/code&gt; command from the shell shows that the container process
+is indeed running as the desired UID (&lt;code&gt;1000&lt;/code&gt;).&lt;/p&gt;
+&lt;h3 id=&#34;specify-security-settings-for-the-pod&#34;&gt;Specify security settings for the Pod&lt;/h3&gt;
+&lt;p&gt;By default, containers within Kubernetes pods run as the image default user, which in turn defaults to the root user (UID &lt;code&gt;0&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;You can use the pod and container &lt;code&gt;securityContext&lt;/code&gt; fields to force containers within a pod to run as non-root
+and prevent the container from acquiring escalated privileges.  These will override any &lt;code&gt;USER&lt;/code&gt; setting within the image.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: apps/v1
+kind: Deployment
+spec:
+  ...
+  template:
+    ...
+    spec:
+      # Define a security context for all containers in the pod
+      securityContext:
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: some-container
+        ...
+        # Define a security context for the container; settings defined here have precedence over the pod securityContext
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+      ...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;/div&gt;
+&lt;p&gt;As mentioned previously, where there is overlap between the pod and container security settings, the settings defined at the container level
+override settings defined at the pod level.&lt;/p&gt;
+&lt;h2 id=&#34;helidon-pod-security&#34;&gt;Helidon pod security&lt;/h2&gt;
+&lt;p&gt;The following &lt;code&gt;YAML&lt;/code&gt; shows how to explicitly specify the pod security context for a Helidon application.  With these settings,
+the Helidon application will meet the requirements of the Kubernetes &lt;code&gt;restricted&lt;/code&gt; &lt;a href=&#34;https://kubernetes.io/docs/concepts/security/pod-security-standards/&#34;&gt;Pod Security Standard&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Note that the &lt;code&gt;runAsUser&lt;/code&gt; 2000 UID does not exist in the container, as described previously.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: hello-helidon-component
+spec:
+  workload:
+    apiVersion: oam.verrazzano.io/v1alpha1
+    kind: VerrazzanoHelidonWorkload
+    metadata:
+      name: hello-helidon-workload
+      labels:
+        app: hello-helidon
+        version: v1
+    spec:
+      deploymentTemplate:
+        metadata:
+          name: hello-helidon-deployment
+        podSpec:
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: hello-helidon-container
+...
+              securityContext:
+                runAsNonRoot: true
+                runAsGroup: 2000
+                runAsUser: 2000
+                privileged: false
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;pod-security-for-containerizedworkload-applications&#34;&gt;Pod security for ContainerizedWorkload applications&lt;/h2&gt;
+&lt;p&gt;The only means for controlling pod security for the &lt;a href=&#34;../../docs/applications/#oam-containerizedworkload&#34;&gt;ContainerizedWorkload&lt;/a&gt; type is to
+specify a non-root user, using the &lt;code&gt;USER&lt;/code&gt; instruction in the container image build, as described in this section, &lt;a href=&#34;#specify-a-non-root-user-in-the-container-image&#34;&gt;Specify a non-root user in the container image&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;pod-security-for-applications-using-standard-kubernetes-resources&#34;&gt;Pod security for applications using standard Kubernetes resources&lt;/h2&gt;
+&lt;p&gt;You can deploy applications using standard Kubernetes resources. You configure security for these resources as you typically would for any Kubernetes &lt;code&gt;Deployment&lt;/code&gt; resource.&lt;/p&gt;
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: example-deployment
+spec:
+  workload:
+    kind: Deployment
+    apiVersion: apps/v1
+    name: oam-kube-dep
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: oam-kube-app
+      template:
+        metadata:
+          labels:
+            app: oam-kube-app
+        spec:
+          securityContext:
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: oam-kube-cnt
+              image: hashicorp/http-echo
+              args:
+                - &amp;#34;-text=hello&amp;#34;
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                privileged: false
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;/div&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Default User Accounts</title>
+      <link>/docs/security/accounts/accounts/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/security/accounts/accounts/</guid>
+      <description>
+        
+        
+        &lt;p&gt;During installation, Verrazzano generates several default accounts.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;System&lt;/th&gt;
+&lt;th&gt;Account&lt;/th&gt;
+&lt;th&gt;Secret&lt;/th&gt;
+&lt;th&gt;Secret Namespace&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Keycloak&lt;/td&gt;
+&lt;td&gt;keycloakadmin&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;keycloak-http&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;keycloak&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Keycloak root user: full administrative privileges for Keycloak.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Keycloak&lt;/td&gt;
+&lt;td&gt;verrazzano&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;verrazzano-system&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Verrazzano root user: can manage the verrazzano-system realm in Keycloak, including managing users in that realm. This user is a member of the verrazzano-admins group, and, if default role bindings are used, has the verrazzano-admin role.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Rancher&lt;/td&gt;
+&lt;td&gt;admin&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;rancher-admin-secret&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;cattle-system&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Rancher root user: full administrative privileges for Rancher.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Keycloak and SSO</title>
+      <link>/docs/security/keycloak/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/security/keycloak/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano can be deployed to a number of different hosted and on-premises Kubernetes environments. Particularly in hosted environments, it may not be possible to choose the authentication providers configured for the Kubernetes API server, and Verrazzano may have no ability to view, manage, or authenticate users.&lt;/p&gt;
+&lt;p&gt;Verrazzano installs Keycloak to provide a common user store across all Kubernetes environments. The Verrazzano admin user can create and manage user accounts in Keycloak, and Verrazzano can authenticate and authorize Keycloak users.&lt;/p&gt;
+&lt;p&gt;Also, you can configure Keycloak to delegate authentication to an external user store, such as Active Directory or an LDAP server.&lt;/p&gt;
+&lt;p&gt;Because Keycloak is not configured as an authentication provider for the Kubernetes API, authenticating Keycloak users to Kubernetes requires the use of a proxy that impersonates Keycloak users when making Kubernetes API requests. For more information about the Verrazzano authentication proxy, see &lt;a href=&#34;../../docs/security/proxies/&#34;&gt;Verrazzano Proxies&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Keycloak is also used when authenticating to the Verrazzano Console and the various Verrazzano Monitoring Instance (VMI) logging and metrics consoles. The Verrazzano Console uses the OpenID Connect (OIDC) PKCE flow to authenticate users against Keycloak and obtain ID and access tokens. Authentication for VMI consoles is provided by the Verrazzano authentication proxy, which also uses PKCE to authenticate users, validates the resulting tokens, and authorizes incoming requests. For more information about the Verrazzano authentication proxy, see &lt;a href=&#34;../../docs/security/proxies/&#34;&gt;Verrazzano Proxies&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Kubernetes RBAC</title>
+      <link>/docs/security/rbac/rbac/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/security/rbac/rbac/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano uses Kubernetes Role-Based Access Control (RBAC) to protect Verrazzano resources.&lt;/p&gt;
+&lt;p&gt;Verrazzano includes a set of roles that can be granted to users, enabling access to Verrazzano resources managed by Kubernetes. In addition, Verrazzano creates a number of roles that grant permissions needed by various Verrazzano system components (operators and third-party components).&lt;/p&gt;
+&lt;p&gt;Verrazzano creates default role bindings during installation and for projects, at project creation or update.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    Kubernetes RBAC must be enabled in every cluster to which Verrazzano is deployed or access control will not work. RBAC is enabled by default in most Kubernetes environments.
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;verrazzano-user-roles&#34;&gt;Verrazzano user roles&lt;/h2&gt;
+&lt;p&gt;The following table lists the defined Verrazzano user roles. Each is a ClusterRole intended to be granted directly to users or groups. (In some scenarios, it may be appropriate to grant a user role to a service account.)&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Verrazzano Role&lt;/th&gt;
+&lt;th&gt;Binding Scope&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-admin&lt;/td&gt;
+&lt;td&gt;Cluster&lt;/td&gt;
+&lt;td&gt;Manage Verrazzano system components, clusters, and projects. Install and update Verrazzano.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-monitor&lt;/td&gt;
+&lt;td&gt;Cluster&lt;/td&gt;
+&lt;td&gt;View and monitor Verrazzano system components, clusters, and projects.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-project-admin&lt;/td&gt;
+&lt;td&gt;Namespace&lt;/td&gt;
+&lt;td&gt;Deploy and manage applications.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-project-monitor&lt;/td&gt;
+&lt;td&gt;Namespace&lt;/td&gt;
+&lt;td&gt;View and monitor applications.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;kubernetes-user-roles&#34;&gt;Kubernetes user roles&lt;/h2&gt;
+&lt;p&gt;Verrazzano roles do not include permissions for Kubernetes itself. Instead, it relies on the default user roles provided by Kubernetes. This allows Verrazzano to easily grant the Kubernetes access appropriate to a Verrazzano role, without having to maintain a long list of fine-grained Kubernetes permissions in the Verrazzano roles.&lt;/p&gt;
+&lt;p&gt;The following table shows the default Kubernetes roles that are granted by default for each Verrazzano role.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Verrazzano Role&lt;/th&gt;
+&lt;th&gt;Kubernetes Role&lt;/th&gt;
+&lt;th&gt;Binding Scope&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-admin&lt;/td&gt;
+&lt;td&gt;admin&lt;/td&gt;
+&lt;td&gt;Cluster&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-monitor&lt;/td&gt;
+&lt;td&gt;view&lt;/td&gt;
+&lt;td&gt;Cluster&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-project-admin&lt;/td&gt;
+&lt;td&gt;admin&lt;/td&gt;
+&lt;td&gt;Namespace&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-project-monitor&lt;/td&gt;
+&lt;td&gt;view&lt;/td&gt;
+&lt;td&gt;Namespace&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;default-role-bindings&#34;&gt;Default role bindings&lt;/h2&gt;
+&lt;p&gt;Verrazzano creates role bindings for the system and for projects, binding Verrazzano ClusterRoles to one or more Kubernetes Subjects. By default, each role is bound to a Keycloak group, so all Keycloak users who are members of that group will be granted the role.&lt;/p&gt;
+&lt;p&gt;Also, Verrazzano creates role bindings for the corresponding Kubernetes user roles. The Kubernetes role appropriate for a given Verrazzano role is bound to the same set of Subjects as the corresponding Verrazzano role.&lt;/p&gt;
+&lt;p&gt;The default bindings can be overridden by specifying one or more Kubernetes Subjects to which the role should be bound. Any valid Subject can be specified (user, group, or service account), but two caveats should be kept in mind:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It&amp;rsquo;s generally better to grant a role to a group, rather than a specific user, so that roles can be granted (or withdrawn) by editing a user&amp;rsquo;s group memberships, rather than deleting a role binding and creating a new one.&lt;/li&gt;
+&lt;li&gt;If you do want to grant a role directly to a specific user, then the user must be specified using its unique ID, not its user name. This is because the authentication proxy impersonates the &lt;code&gt;sub&lt;/code&gt; (subject) field from the user&amp;rsquo;s token, which contains the ID. Keycloak user IDs are guaranteed to be unique, unlike user names.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;default-system-role-bindings&#34;&gt;Default system role bindings&lt;/h3&gt;
+&lt;p&gt;Verrazzano creates role bindings for system users during installation. The default role bindings are listed as follows:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Role&lt;/th&gt;
+&lt;th&gt;Default Binding Subject&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-admin&lt;/td&gt;
+&lt;td&gt;group: verrazzano-admins&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-monitor&lt;/td&gt;
+&lt;td&gt;group: verrazzano-monitors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;default-project-role-bindings&#34;&gt;Default project role bindings&lt;/h3&gt;
+&lt;p&gt;Verrazzano creates role bindings for project users at project creation or update. The default role bindings are listed as follows:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Role&lt;/th&gt;
+&lt;th&gt;Default Binding Subject&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-project-admin&lt;/td&gt;
+&lt;td&gt;group: verrazzano-project-&lt;em&gt;&amp;lt;proj_name&amp;gt;&lt;/em&gt;-admins&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-project-monitor&lt;/td&gt;
+&lt;td&gt;group: verrazzano-project-&lt;em&gt;&amp;lt;proj_name&amp;gt;&lt;/em&gt;-monitors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    The role bindings for project roles are created automatically, but the project-specific groups that they refer to are not automatically created. You must create those groups using the Keycloak console or API, or specify different binding subjects for the project.
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;override-default-role-bindings&#34;&gt;Override default role bindings&lt;/h2&gt;
+&lt;p&gt;You can override the default role bindings that are created for system and project roles.&lt;/p&gt;
+&lt;h3 id=&#34;override-system-role-bindings&#34;&gt;Override system role bindings&lt;/h3&gt;
+&lt;p&gt;To override the set of subjects that are bound to Verrazzano (and Kubernetes) roles during installation, add the Subjects to the Verrazzano CR you use to install Verrazzano, as shown in the following example:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: example-verrazzano
+spec:
+  ...
+  security:
+    adminSubjects:
+    - name: admin-group
+      kind: Group
+    monitorSubjects:
+    - name: view-group
+      kind: Group
+  ...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+You can specify multiple subjects for both admin and monitor roles. You can also specify a subject or subjects for one role, but not the other. If no subjects are specified for a role, then the default binding subjects will be used.&lt;/p&gt;
+&lt;h3 id=&#34;override-project-role-bindings&#34;&gt;Override project role bindings&lt;/h3&gt;
+&lt;p&gt;To override the set of subjects that are bound to Verrazzano (and Kubernetes) roles for a project, add the Subjects to the VerrazzanoProject CR for the project, as shown in the following example.&lt;/p&gt;
+&lt;p&gt;Note that the generated role bindings will be updated if you update the VerrazzanoProject CR and change the subjects specified for either role.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1beta1
+kind: VerrazzanoProject
+metadata:
+  name: my-project
+spec:
+  ...
+  security:
+    projectAdminSubjects:
+    - name: my-project-admin-group
+      kind: Group
+    projectMonitorSubjects:
+    - name: my-project-view-group
+      kind: Group
+  ...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+As with the system role bindings, you can specify multiple subjects for both project-admin and project-monitor roles. You can also specify a subject or subjects for one role, but not the other. If no subjects are specified for a role, then the default binding subjects will be used.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Verrazzano Authentication Proxy</title>
+      <link>/docs/security/proxies/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/security/proxies/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano provides a proxy that enables authentication and authorization for Keycloak users accessing Verrazzano resources. This proxy is automatically configured and deployed.&lt;/p&gt;
+&lt;h2 id=&#34;kubernetes-api&#34;&gt;Kubernetes API&lt;/h2&gt;
+&lt;p&gt;The Verrazzano authentication proxy is used to authenticate and authorize Keycloak users, then impersonate them to the Kubernetes API, so that Keycloak users can access Kubernetes resources.&lt;/p&gt;
+&lt;p&gt;This capability is used primarily by the Verrazzano Console. The Console authenticates users against Keycloak, using the PKCE flow, obtains a bearer token, and then sends the token to the API along with the Kubernetes API request. The API proxy validates the token and, if valid, impersonates the user to the Kubernetes API server. This allows the Console to run Kubernetes API calls on behalf of Keycloak users, with Kubernetes enforcing role-based access control (RBAC) based on the impersonated identity.&lt;/p&gt;
+&lt;p&gt;In multicluster scenarios, the Console directs all Kubernetes API requests to the admin cluster&amp;rsquo;s authentication proxy. If a request refers to a resource in a different cluster, the authentication proxy forwards the request, along with the user&amp;rsquo;s authentication token, to the authentication proxy running in the remote cluster.&lt;/p&gt;
+&lt;h2 id=&#34;single-sign-on-sso&#34;&gt;Single Sign-On (SSO)&lt;/h2&gt;
+&lt;p&gt;The Verrazzano authentication proxy provides SSO across the Verrazzano Console and the Verrazzano Monitoring Instance (VMI) logging and metrics consoles. When an unauthenticated request is received by the proxy, it runs the OIDC PKCE authentication flow to obtain tokens for the user. If the user is already authenticated to Keycloak (because they have already accessed either the Verrazzano Console or another VMI component), Keycloak returns tokens based on the existing user session, and the process is transparent to the user. If not, Keycloak will authenticate the user, establishing a session, before returning tokens.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
