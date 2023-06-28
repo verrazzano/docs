@@ -1,5 +1,5 @@
 ---
-title: Create OCNE Clusters running on OCI from Verrazzano
+title: Create OCNE Clusters running on OCI
 description: "Add Oracle Cloud Native Environment self-managed clusters running on OCI to your multicluster environment"
 weight: 1
 draft: false
