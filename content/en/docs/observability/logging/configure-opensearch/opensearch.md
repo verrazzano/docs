@@ -259,9 +259,9 @@ To help you manage issues, such as low disk space, the following two ISM policie
 
   ![vz-ism-policy](/docs/images/vz-ism-policy.png)
 
-Both ISM policies have same configuration consisting of two states:
-- **Hot**: This is the default state. If the primary shard size is greater than 5 GB or the index age is greater than 21 days, then the index will be rolled over. 14 days after the index has rolled over, it will transition to `Delete` state.
-- **Delete**: In this state, the index will be deleted. The indices will take 14 days after being rolled over to reach this state.
+Both ISM policies have the same configuration, consisting of two states:
+- **Hot**: This is the default state. If the primary shard size is greater than 5 GB or the index age is greater than 21 days, then the index will be rolled over. Fourteen days after the index has rolled over, it will transition to the `Delete` state.
+- **Delete**: In this state, the index will be deleted. Fourteen days after being rolled over, the indices will reach this state.
 
 
 ## Override default ISM policies
