@@ -16,4 +16,4 @@ The root cause appears to be that Verrazzano custom resource provided an invalid
 2. Refer to the Oracle Cloud Infrastructure documentation, [Load Balancer Management](https://docs.oracle.com/en-us/iaas/Content/Balance/Tasks/managingloadbalancer.htm#console).
 
 ### Related information
-* [Customize Load Balancers on OKE]({{< relref "/docs/networking/traffic/ociloadbalancerips.md" >}})
+* [Customize Load Balancers on OKE]({{< relref "/docs/customize/ociloadbalancerips.md" >}})
