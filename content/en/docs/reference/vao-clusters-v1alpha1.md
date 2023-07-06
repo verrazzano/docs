@@ -11,8 +11,8 @@ aliases:
 </li>
 </ul>
 <h2 id="clusters.verrazzano.io/v1alpha1">clusters.verrazzano.io/v1alpha1</h2>
-<p>
-</p>
+<div>
+</div>
 Resource Types:
 <ul><li>
 <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfiguration">MultiClusterApplicationConfiguration</a>
@@ -27,9 +27,9 @@ Resource Types:
 </li></ul>
 <h3 id="clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfiguration">MultiClusterApplicationConfiguration
 </h3>
-<p>
+<div>
 <p>MultiClusterApplicationConfiguration specifies the multicluster application API.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -40,7 +40,7 @@ Resource Types:
 <tbody>
 <tr>
 <td>
-<code>apiVersion</code></br>
+<code>apiVersion</code><br/>
 string</td>
 <td>
 <code>
@@ -50,14 +50,14 @@ clusters.verrazzano.io/v1alpha1
 </tr>
 <tr>
 <td>
-<code>kind</code></br>
+<code>kind</code><br/>
 string
 </td>
 <td><code>MultiClusterApplicationConfiguration</code></td>
 </tr>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
 Kubernetes meta/v1.ObjectMeta
@@ -71,7 +71,7 @@ Refer to the Kubernetes API documentation for the fields of the
 </tr>
 <tr>
 <td>
-<code>spec</code></br>
+<code>spec</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfigurationSpec">
 MultiClusterApplicationConfigurationSpec
@@ -85,7 +85,7 @@ MultiClusterApplicationConfigurationSpec
 <table>
 <tr>
 <td>
-<code>placement</code></br>
+<code>placement</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.Placement">
 Placement
@@ -98,7 +98,7 @@ Placement
 </tr>
 <tr>
 <td>
-<code>secrets</code></br>
+<code>secrets</code><br/>
 <em>
 []string
 </em>
@@ -111,7 +111,7 @@ deploying a MultiClusterApplicationConfiguration resource.</p>
 </tr>
 <tr>
 <td>
-<code>template</code></br>
+<code>template</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.ApplicationConfigurationTemplate">
 ApplicationConfigurationTemplate
@@ -127,7 +127,7 @@ ApplicationConfigurationTemplate
 </tr>
 <tr>
 <td>
-<code>status</code></br>
+<code>status</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterResourceStatus">
 MultiClusterResourceStatus
@@ -142,9 +142,9 @@ MultiClusterResourceStatus
 </table>
 <h3 id="clusters.verrazzano.io/v1alpha1.MultiClusterComponent">MultiClusterComponent
 </h3>
-<p>
+<div>
 <p>MultiClusterComponent specifies the MultiCluster Component API.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -155,7 +155,7 @@ MultiClusterResourceStatus
 <tbody>
 <tr>
 <td>
-<code>apiVersion</code></br>
+<code>apiVersion</code><br/>
 string</td>
 <td>
 <code>
@@ -165,14 +165,14 @@ clusters.verrazzano.io/v1alpha1
 </tr>
 <tr>
 <td>
-<code>kind</code></br>
+<code>kind</code><br/>
 string
 </td>
 <td><code>MultiClusterComponent</code></td>
 </tr>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
 Kubernetes meta/v1.ObjectMeta
@@ -186,7 +186,7 @@ Refer to the Kubernetes API documentation for the fields of the
 </tr>
 <tr>
 <td>
-<code>spec</code></br>
+<code>spec</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterComponentSpec">
 MultiClusterComponentSpec
@@ -200,7 +200,7 @@ MultiClusterComponentSpec
 <table>
 <tr>
 <td>
-<code>placement</code></br>
+<code>placement</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.Placement">
 Placement
@@ -213,7 +213,7 @@ Placement
 </tr>
 <tr>
 <td>
-<code>template</code></br>
+<code>template</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.ComponentTemplate">
 ComponentTemplate
@@ -229,7 +229,7 @@ ComponentTemplate
 </tr>
 <tr>
 <td>
-<code>status</code></br>
+<code>status</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterResourceStatus">
 MultiClusterResourceStatus
@@ -244,9 +244,9 @@ MultiClusterResourceStatus
 </table>
 <h3 id="clusters.verrazzano.io/v1alpha1.MultiClusterConfigMap">MultiClusterConfigMap
 </h3>
-<p>
+<div>
 <p>MultiClusterConfigMap specifies the MultiCluster ConfigMap API.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -257,7 +257,7 @@ MultiClusterResourceStatus
 <tbody>
 <tr>
 <td>
-<code>apiVersion</code></br>
+<code>apiVersion</code><br/>
 string</td>
 <td>
 <code>
@@ -267,14 +267,14 @@ clusters.verrazzano.io/v1alpha1
 </tr>
 <tr>
 <td>
-<code>kind</code></br>
+<code>kind</code><br/>
 string
 </td>
 <td><code>MultiClusterConfigMap</code></td>
 </tr>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
 Kubernetes meta/v1.ObjectMeta
@@ -288,7 +288,7 @@ Refer to the Kubernetes API documentation for the fields of the
 </tr>
 <tr>
 <td>
-<code>spec</code></br>
+<code>spec</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterConfigMapSpec">
 MultiClusterConfigMapSpec
@@ -302,7 +302,7 @@ MultiClusterConfigMapSpec
 <table>
 <tr>
 <td>
-<code>placement</code></br>
+<code>placement</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.Placement">
 Placement
@@ -315,7 +315,7 @@ Placement
 </tr>
 <tr>
 <td>
-<code>template</code></br>
+<code>template</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.ConfigMapTemplate">
 ConfigMapTemplate
@@ -331,7 +331,7 @@ ConfigMapTemplate
 </tr>
 <tr>
 <td>
-<code>status</code></br>
+<code>status</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterResourceStatus">
 MultiClusterResourceStatus
@@ -346,9 +346,9 @@ MultiClusterResourceStatus
 </table>
 <h3 id="clusters.verrazzano.io/v1alpha1.MultiClusterSecret">MultiClusterSecret
 </h3>
-<p>
+<div>
 <p>MultiClusterSecret specifies the MultiCluster Secret API.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -359,7 +359,7 @@ MultiClusterResourceStatus
 <tbody>
 <tr>
 <td>
-<code>apiVersion</code></br>
+<code>apiVersion</code><br/>
 string</td>
 <td>
 <code>
@@ -369,14 +369,14 @@ clusters.verrazzano.io/v1alpha1
 </tr>
 <tr>
 <td>
-<code>kind</code></br>
+<code>kind</code><br/>
 string
 </td>
 <td><code>MultiClusterSecret</code></td>
 </tr>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
 Kubernetes meta/v1.ObjectMeta
@@ -390,7 +390,7 @@ Refer to the Kubernetes API documentation for the fields of the
 </tr>
 <tr>
 <td>
-<code>spec</code></br>
+<code>spec</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterSecretSpec">
 MultiClusterSecretSpec
@@ -404,7 +404,7 @@ MultiClusterSecretSpec
 <table>
 <tr>
 <td>
-<code>placement</code></br>
+<code>placement</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.Placement">
 Placement
@@ -417,7 +417,7 @@ Placement
 </tr>
 <tr>
 <td>
-<code>template</code></br>
+<code>template</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.SecretTemplate">
 SecretTemplate
@@ -433,7 +433,7 @@ SecretTemplate
 </tr>
 <tr>
 <td>
-<code>status</code></br>
+<code>status</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterResourceStatus">
 MultiClusterResourceStatus
@@ -448,9 +448,9 @@ MultiClusterResourceStatus
 </table>
 <h3 id="clusters.verrazzano.io/v1alpha1.VerrazzanoProject">VerrazzanoProject
 </h3>
-<p>
+<div>
 <p>VerrazzanoProject specifies the Verrazzano Projects API.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -461,7 +461,7 @@ MultiClusterResourceStatus
 <tbody>
 <tr>
 <td>
-<code>apiVersion</code></br>
+<code>apiVersion</code><br/>
 string</td>
 <td>
 <code>
@@ -471,14 +471,14 @@ clusters.verrazzano.io/v1alpha1
 </tr>
 <tr>
 <td>
-<code>kind</code></br>
+<code>kind</code><br/>
 string
 </td>
 <td><code>VerrazzanoProject</code></td>
 </tr>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
 Kubernetes meta/v1.ObjectMeta
@@ -492,7 +492,7 @@ Refer to the Kubernetes API documentation for the fields of the
 </tr>
 <tr>
 <td>
-<code>spec</code></br>
+<code>spec</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoProjectSpec">
 VerrazzanoProjectSpec
@@ -506,7 +506,7 @@ VerrazzanoProjectSpec
 <table>
 <tr>
 <td>
-<code>placement</code></br>
+<code>placement</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.Placement">
 Placement
@@ -519,7 +519,7 @@ Placement
 </tr>
 <tr>
 <td>
-<code>template</code></br>
+<code>template</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.ProjectTemplate">
 ProjectTemplate
@@ -535,7 +535,7 @@ ProjectTemplate
 </tr>
 <tr>
 <td>
-<code>status</code></br>
+<code>status</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterResourceStatus">
 MultiClusterResourceStatus
@@ -551,12 +551,11 @@ MultiClusterResourceStatus
 <h3 id="clusters.verrazzano.io/v1alpha1.ApplicationConfigurationTemplate">ApplicationConfigurationTemplate
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfigurationSpec">MultiClusterApplicationConfigurationSpec</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfigurationSpec">MultiClusterApplicationConfigurationSpec</a>)
 </p>
-<p>
+<div>
 <p>ApplicationConfigurationTemplate has the metadata and embedded spec of the OAM applicationConfiguration resource.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -567,7 +566,7 @@ MultiClusterResourceStatus
 <tbody>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.EmbeddedObjectMeta">
 EmbeddedObjectMeta
@@ -580,7 +579,7 @@ EmbeddedObjectMeta
 </tr>
 <tr>
 <td>
-<code>spec</code></br>
+<code>spec</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/crossplane/oam-kubernetes-runtime/apis/core/v1alpha2#ApplicationConfigurationSpec">
 OAM core/v1alpha2.ApplicationConfigurationSpec
@@ -594,7 +593,7 @@ OAM core/v1alpha2.ApplicationConfigurationSpec
 <table>
 <tr>
 <td>
-<code>components</code></br>
+<code>components</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/crossplane/oam-kubernetes-runtime/apis/core/v1alpha2#ApplicationConfigurationComponent">
 []OAM core/v1alpha2.ApplicationConfigurationComponent
@@ -614,12 +613,11 @@ component will be used to instantiate a workload.</p>
 <h3 id="clusters.verrazzano.io/v1alpha1.Cluster">Cluster
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.Placement">Placement</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.Placement">Placement</a>)
 </p>
-<p>
+<div>
 <p>Cluster contains the name of a single cluster.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -630,7 +628,7 @@ component will be used to instantiate a workload.</p>
 <tbody>
 <tr>
 <td>
-<code>name</code></br>
+<code>name</code><br/>
 <em>
 string
 </em>
@@ -644,12 +642,11 @@ string
 <h3 id="clusters.verrazzano.io/v1alpha1.ClusterLevelStatus">ClusterLevelStatus
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterResourceStatus">MultiClusterResourceStatus</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.MultiClusterResourceStatus">MultiClusterResourceStatus</a>)
 </p>
-<p>
+<div>
 <p>ClusterLevelStatus describes the status of the multicluster resource in a specific cluster.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -660,7 +657,7 @@ string
 <tbody>
 <tr>
 <td>
-<code>lastUpdateTime</code></br>
+<code>lastUpdateTime</code><br/>
 <em>
 string
 </em>
@@ -671,7 +668,7 @@ string
 </tr>
 <tr>
 <td>
-<code>message</code></br>
+<code>message</code><br/>
 <em>
 string
 </em>
@@ -682,7 +679,7 @@ string
 </tr>
 <tr>
 <td>
-<code>name</code></br>
+<code>name</code><br/>
 <em>
 string
 </em>
@@ -693,7 +690,7 @@ string
 </tr>
 <tr>
 <td>
-<code>state</code></br>
+<code>state</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.StateType">
 StateType
@@ -709,12 +706,11 @@ StateType
 <h3 id="clusters.verrazzano.io/v1alpha1.ComponentTemplate">ComponentTemplate
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterComponentSpec">MultiClusterComponentSpec</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.MultiClusterComponentSpec">MultiClusterComponentSpec</a>)
 </p>
-<p>
+<div>
 <p>ComponentTemplate has the metadata and embedded spec of the OAM component.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -725,7 +721,7 @@ StateType
 <tbody>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.EmbeddedObjectMeta">
 EmbeddedObjectMeta
@@ -738,7 +734,7 @@ EmbeddedObjectMeta
 </tr>
 <tr>
 <td>
-<code>spec</code></br>
+<code>spec</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/crossplane/oam-kubernetes-runtime/apis/core/v1alpha2#ComponentSpec">
 OAM core/v1alpha2.ComponentSpec
@@ -752,7 +748,7 @@ OAM core/v1alpha2.ComponentSpec
 <table>
 <tr>
 <td>
-<code>workload</code></br>
+<code>workload</code><br/>
 <em>
 <a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#RawExtension">
 Kubernetes runtime.RawExtension
@@ -768,7 +764,7 @@ the content of the workload with its workloadDefinition</p>
 </tr>
 <tr>
 <td>
-<code>parameters</code></br>
+<code>parameters</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/crossplane/oam-kubernetes-runtime/apis/core/v1alpha2#ComponentParameter">
 []OAM core/v1alpha2.ComponentParameter
@@ -790,12 +786,11 @@ will in turn be injected into the embedded workload.</p>
 <h3 id="clusters.verrazzano.io/v1alpha1.Condition">Condition
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterResourceStatus">MultiClusterResourceStatus</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.MultiClusterResourceStatus">MultiClusterResourceStatus</a>)
 </p>
-<p>
+<div>
 <p>Condition describes current state of a multicluster resource.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -806,7 +801,7 @@ will in turn be injected into the embedded workload.</p>
 <tbody>
 <tr>
 <td>
-<code>lastTransitionTime</code></br>
+<code>lastTransitionTime</code><br/>
 <em>
 string
 </em>
@@ -818,7 +813,7 @@ string
 </tr>
 <tr>
 <td>
-<code>message</code></br>
+<code>message</code><br/>
 <em>
 string
 </em>
@@ -830,7 +825,7 @@ string
 </tr>
 <tr>
 <td>
-<code>status</code></br>
+<code>status</code><br/>
 <em>
 <a href="https://pkg.go.dev/k8s.io/api/core/v1#ConditionStatus">
 Kubernetes core/v1.ConditionStatus
@@ -843,7 +838,7 @@ Kubernetes core/v1.ConditionStatus
 </tr>
 <tr>
 <td>
-<code>type</code></br>
+<code>type</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.ConditionType">
 ConditionType
@@ -857,23 +852,39 @@ ConditionType
 </tbody>
 </table>
 <h3 id="clusters.verrazzano.io/v1alpha1.ConditionType">ConditionType
-(<code>string</code> alias)</p></h3>
+(<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.Condition">Condition</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.Condition">Condition</a>)
 </p>
-<p>
+<div>
 <p>ConditionType identifies the condition of the multicluster resource which can be checked with <code>kubectl wait</code>.</p>
-</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;DeployComplete&#34;</p></td>
+<td><p>DeployComplete means deployment to the specified cluster completed successfully.</p>
+</td>
+</tr><tr><td><p>&#34;DeployFailed&#34;</p></td>
+<td><p>DeployFailed means the deployment to the specified cluster has failed.</p>
+</td>
+</tr><tr><td><p>&#34;DeployPending&#34;</p></td>
+<td><p>DeployPending means deployment to the specified cluster is in progress.</p>
+</td>
+</tr></tbody>
+</table>
 <h3 id="clusters.verrazzano.io/v1alpha1.ConfigMapTemplate">ConfigMapTemplate
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterConfigMapSpec">MultiClusterConfigMapSpec</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.MultiClusterConfigMapSpec">MultiClusterConfigMapSpec</a>)
 </p>
-<p>
+<div>
 <p>ConfigMapTemplate has the metadata and spec of the Kubernetes ConfigMap.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -884,7 +895,7 @@ ConditionType
 <tbody>
 <tr>
 <td>
-<code>binaryData</code></br>
+<code>binaryData</code><br/>
 <em>
 map[string][]byte
 </em>
@@ -896,7 +907,7 @@ map[string][]byte
 </tr>
 <tr>
 <td>
-<code>data</code></br>
+<code>data</code><br/>
 <em>
 map[string]string
 </em>
@@ -908,7 +919,7 @@ map[string]string
 </tr>
 <tr>
 <td>
-<code>immutable</code></br>
+<code>immutable</code><br/>
 <em>
 bool
 </em>
@@ -920,7 +931,7 @@ bool
 </tr>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.EmbeddedObjectMeta">
 EmbeddedObjectMeta
@@ -936,15 +947,11 @@ EmbeddedObjectMeta
 <h3 id="clusters.verrazzano.io/v1alpha1.EmbeddedObjectMeta">EmbeddedObjectMeta
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.ApplicationConfigurationTemplate">ApplicationConfigurationTemplate</a>, 
-<a href="#clusters.verrazzano.io/v1alpha1.ComponentTemplate">ComponentTemplate</a>, 
-<a href="#clusters.verrazzano.io/v1alpha1.ConfigMapTemplate">ConfigMapTemplate</a>, 
-<a href="#clusters.verrazzano.io/v1alpha1.SecretTemplate">SecretTemplate</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.ApplicationConfigurationTemplate">ApplicationConfigurationTemplate</a>, <a href="#clusters.verrazzano.io/v1alpha1.ComponentTemplate">ComponentTemplate</a>, <a href="#clusters.verrazzano.io/v1alpha1.ConfigMapTemplate">ConfigMapTemplate</a>, <a href="#clusters.verrazzano.io/v1alpha1.SecretTemplate">SecretTemplate</a>)
 </p>
-<p>
+<div>
 <p>EmbeddedObjectMeta is metadata describing a resource.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -955,7 +962,7 @@ EmbeddedObjectMeta
 <tbody>
 <tr>
 <td>
-<code>annotations</code></br>
+<code>annotations</code><br/>
 <em>
 map[string]string
 </em>
@@ -967,7 +974,7 @@ map[string]string
 </tr>
 <tr>
 <td>
-<code>labels</code></br>
+<code>labels</code><br/>
 <em>
 map[string]string
 </em>
@@ -979,7 +986,7 @@ map[string]string
 </tr>
 <tr>
 <td>
-<code>name</code></br>
+<code>name</code><br/>
 <em>
 string
 </em>
@@ -991,7 +998,7 @@ string
 </tr>
 <tr>
 <td>
-<code>namespace</code></br>
+<code>namespace</code><br/>
 <em>
 string
 </em>
@@ -1006,12 +1013,11 @@ string
 <h3 id="clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfigurationSpec">MultiClusterApplicationConfigurationSpec
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfiguration">MultiClusterApplicationConfiguration</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfiguration">MultiClusterApplicationConfiguration</a>)
 </p>
-<p>
+<div>
 <p>MultiClusterApplicationConfigurationSpec defines the desired state of a multicluster application.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1022,7 +1028,7 @@ string
 <tbody>
 <tr>
 <td>
-<code>placement</code></br>
+<code>placement</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.Placement">
 Placement
@@ -1035,7 +1041,7 @@ Placement
 </tr>
 <tr>
 <td>
-<code>secrets</code></br>
+<code>secrets</code><br/>
 <em>
 []string
 </em>
@@ -1048,7 +1054,7 @@ deploying a MultiClusterApplicationConfiguration resource.</p>
 </tr>
 <tr>
 <td>
-<code>template</code></br>
+<code>template</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.ApplicationConfigurationTemplate">
 ApplicationConfigurationTemplate
@@ -1064,12 +1070,11 @@ ApplicationConfigurationTemplate
 <h3 id="clusters.verrazzano.io/v1alpha1.MultiClusterComponentSpec">MultiClusterComponentSpec
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterComponent">MultiClusterComponent</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.MultiClusterComponent">MultiClusterComponent</a>)
 </p>
-<p>
+<div>
 <p>MultiClusterComponentSpec defines the desired state of a MultiCluster Component.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1080,7 +1085,7 @@ ApplicationConfigurationTemplate
 <tbody>
 <tr>
 <td>
-<code>placement</code></br>
+<code>placement</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.Placement">
 Placement
@@ -1093,7 +1098,7 @@ Placement
 </tr>
 <tr>
 <td>
-<code>template</code></br>
+<code>template</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.ComponentTemplate">
 ComponentTemplate
@@ -1109,12 +1114,11 @@ ComponentTemplate
 <h3 id="clusters.verrazzano.io/v1alpha1.MultiClusterConfigMapSpec">MultiClusterConfigMapSpec
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterConfigMap">MultiClusterConfigMap</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.MultiClusterConfigMap">MultiClusterConfigMap</a>)
 </p>
-<p>
+<div>
 <p>MultiClusterConfigMapSpec defines the desired state of a MultiCluster ConfigMap.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1125,7 +1129,7 @@ ComponentTemplate
 <tbody>
 <tr>
 <td>
-<code>placement</code></br>
+<code>placement</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.Placement">
 Placement
@@ -1138,7 +1142,7 @@ Placement
 </tr>
 <tr>
 <td>
-<code>template</code></br>
+<code>template</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.ConfigMapTemplate">
 ConfigMapTemplate
@@ -1154,16 +1158,11 @@ ConfigMapTemplate
 <h3 id="clusters.verrazzano.io/v1alpha1.MultiClusterResourceStatus">MultiClusterResourceStatus
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfiguration">MultiClusterApplicationConfiguration</a>, 
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterComponent">MultiClusterComponent</a>, 
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterConfigMap">MultiClusterConfigMap</a>, 
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterSecret">MultiClusterSecret</a>, 
-<a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoProject">VerrazzanoProject</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfiguration">MultiClusterApplicationConfiguration</a>, <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterComponent">MultiClusterComponent</a>, <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterConfigMap">MultiClusterConfigMap</a>, <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterSecret">MultiClusterSecret</a>, <a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoProject">VerrazzanoProject</a>)
 </p>
-<p>
+<div>
 <p>MultiClusterResourceStatus is the runtime status of a multicluster resource.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1174,7 +1173,7 @@ ConfigMapTemplate
 <tbody>
 <tr>
 <td>
-<code>clusters</code></br>
+<code>clusters</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.ClusterLevelStatus">
 []ClusterLevelStatus
@@ -1187,7 +1186,7 @@ ConfigMapTemplate
 </tr>
 <tr>
 <td>
-<code>conditions</code></br>
+<code>conditions</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.Condition">
 []Condition
@@ -1200,7 +1199,7 @@ ConfigMapTemplate
 </tr>
 <tr>
 <td>
-<code>state</code></br>
+<code>state</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.StateType">
 StateType
@@ -1217,12 +1216,11 @@ StateType
 <h3 id="clusters.verrazzano.io/v1alpha1.MultiClusterSecretSpec">MultiClusterSecretSpec
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterSecret">MultiClusterSecret</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.MultiClusterSecret">MultiClusterSecret</a>)
 </p>
-<p>
+<div>
 <p>MultiClusterSecretSpec defines the desired state of a MultiCluster Secret.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1233,7 +1231,7 @@ StateType
 <tbody>
 <tr>
 <td>
-<code>placement</code></br>
+<code>placement</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.Placement">
 Placement
@@ -1246,7 +1244,7 @@ Placement
 </tr>
 <tr>
 <td>
-<code>template</code></br>
+<code>template</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.SecretTemplate">
 SecretTemplate
@@ -1262,12 +1260,11 @@ SecretTemplate
 <h3 id="clusters.verrazzano.io/v1alpha1.NamespaceTemplate">NamespaceTemplate
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.ProjectTemplate">ProjectTemplate</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.ProjectTemplate">ProjectTemplate</a>)
 </p>
-<p>
+<div>
 <p>NamespaceTemplate contains the metadata and specification of a Kubernetes namespace.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1278,7 +1275,7 @@ SecretTemplate
 <tbody>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
 Kubernetes meta/v1.ObjectMeta
@@ -1293,7 +1290,7 @@ Refer to the Kubernetes API documentation for the fields of the
 </tr>
 <tr>
 <td>
-<code>spec</code></br>
+<code>spec</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#namespacespec-v1-core">
 Kubernetes core/v1.NamespaceSpec
@@ -1307,7 +1304,7 @@ Kubernetes core/v1.NamespaceSpec
 <table>
 <tr>
 <td>
-<code>finalizers</code></br>
+<code>finalizers</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#finalizername-v1-core">
 []Kubernetes core/v1.FinalizerName
@@ -1328,16 +1325,15 @@ More info: <a href="https://kubernetes.io/docs/tasks/administer-cluster/namespac
 <h3 id="clusters.verrazzano.io/v1alpha1.NetworkPolicyTemplate">NetworkPolicyTemplate
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.ProjectTemplate">ProjectTemplate</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.ProjectTemplate">ProjectTemplate</a>)
 </p>
-<p>
+<div>
 <p>NetworkPolicyTemplate contains the metadata and specification of a Kubernetes NetworkPolicy.
 <div class="alert alert-warning" role="alert">
 <h4 class="alert-heading">NOTE</h4>
-To add an application NetworkPolicy, see <a href="../../../../docs/networking/security/net-security/#networkpolicies-for-applications">NetworkPolicies for applications</a>.
+To add an application NetworkPolicy, see <a href="../../../docs/networking/security/#networkpolicies-for-applications">NetworkPolicies for applications</a>.
 </div></p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1348,7 +1344,7 @@ To add an application NetworkPolicy, see <a href="../../../../docs/networking/se
 <tbody>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
 Kubernetes meta/v1.ObjectMeta
@@ -1363,7 +1359,7 @@ Refer to the Kubernetes API documentation for the fields of the
 </tr>
 <tr>
 <td>
-<code>spec</code></br>
+<code>spec</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#networkpolicyspec-v1-networking-k8s-io">
 Kubernetes networking/v1.NetworkPolicySpec
@@ -1377,7 +1373,7 @@ Kubernetes networking/v1.NetworkPolicySpec
 <table>
 <tr>
 <td>
-<code>podSelector</code></br>
+<code>podSelector</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#labelselector-v1-meta">
 Kubernetes meta/v1.LabelSelector
@@ -1395,7 +1391,7 @@ namespace.</p>
 </tr>
 <tr>
 <td>
-<code>ingress</code></br>
+<code>ingress</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#networkpolicyingressrule-v1-networking-k8s-io">
 []Kubernetes networking/v1.NetworkPolicyIngressRule
@@ -1415,7 +1411,7 @@ solely to ensure that the pods it selects are isolated by default)</p>
 </tr>
 <tr>
 <td>
-<code>egress</code></br>
+<code>egress</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#networkpolicyegressrule-v1-networking-k8s-io">
 []Kubernetes networking/v1.NetworkPolicyEgressRule
@@ -1435,7 +1431,7 @@ This field is beta-level in 1.8</p>
 </tr>
 <tr>
 <td>
-<code>policyTypes</code></br>
+<code>policyTypes</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#policytype-v1-networking-k8s-io">
 []Kubernetes networking/v1.PolicyType
@@ -1464,16 +1460,11 @@ This field is beta-level in 1.8</p>
 <h3 id="clusters.verrazzano.io/v1alpha1.Placement">Placement
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfigurationSpec">MultiClusterApplicationConfigurationSpec</a>, 
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterComponentSpec">MultiClusterComponentSpec</a>, 
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterConfigMapSpec">MultiClusterConfigMapSpec</a>, 
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterSecretSpec">MultiClusterSecretSpec</a>, 
-<a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoProjectSpec">VerrazzanoProjectSpec</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfigurationSpec">MultiClusterApplicationConfigurationSpec</a>, <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterComponentSpec">MultiClusterComponentSpec</a>, <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterConfigMapSpec">MultiClusterConfigMapSpec</a>, <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterSecretSpec">MultiClusterSecretSpec</a>, <a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoProjectSpec">VerrazzanoProjectSpec</a>)
 </p>
-<p>
+<div>
 <p>Placement contains the name of each cluster where a resource will be located.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1484,7 +1475,7 @@ This field is beta-level in 1.8</p>
 <tbody>
 <tr>
 <td>
-<code>clusters</code></br>
+<code>clusters</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.Cluster">
 []Cluster
@@ -1500,12 +1491,11 @@ This field is beta-level in 1.8</p>
 <h3 id="clusters.verrazzano.io/v1alpha1.ProjectTemplate">ProjectTemplate
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoProjectSpec">VerrazzanoProjectSpec</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoProjectSpec">VerrazzanoProjectSpec</a>)
 </p>
-<p>
+<div>
 <p>ProjectTemplate contains the list of namespaces to create and the optional security configuration for each namespace.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1516,7 +1506,7 @@ This field is beta-level in 1.8</p>
 <tbody>
 <tr>
 <td>
-<code>namespaces</code></br>
+<code>namespaces</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.NamespaceTemplate">
 []NamespaceTemplate
@@ -1529,7 +1519,7 @@ This field is beta-level in 1.8</p>
 </tr>
 <tr>
 <td>
-<code>networkPolicies</code></br>
+<code>networkPolicies</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.NetworkPolicyTemplate">
 []NetworkPolicyTemplate
@@ -1543,7 +1533,7 @@ This field is beta-level in 1.8</p>
 </tr>
 <tr>
 <td>
-<code>security</code></br>
+<code>security</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.SecuritySpec">
 SecuritySpec
@@ -1560,12 +1550,11 @@ SecuritySpec
 <h3 id="clusters.verrazzano.io/v1alpha1.SecretTemplate">SecretTemplate
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterSecretSpec">MultiClusterSecretSpec</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.MultiClusterSecretSpec">MultiClusterSecretSpec</a>)
 </p>
-<p>
+<div>
 <p>SecretTemplate has the metadata and spec of the Kubernetes Secret.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1576,7 +1565,7 @@ SecuritySpec
 <tbody>
 <tr>
 <td>
-<code>data</code></br>
+<code>data</code><br/>
 <em>
 map[string][]byte
 </em>
@@ -1588,7 +1577,7 @@ map[string][]byte
 </tr>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.EmbeddedObjectMeta">
 EmbeddedObjectMeta
@@ -1601,7 +1590,7 @@ EmbeddedObjectMeta
 </tr>
 <tr>
 <td>
-<code>stringData</code></br>
+<code>stringData</code><br/>
 <em>
 map[string]string
 </em>
@@ -1613,7 +1602,7 @@ map[string]string
 </tr>
 <tr>
 <td>
-<code>type</code></br>
+<code>type</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#secrettype-v1-core">
 Kubernetes core/v1.SecretType
@@ -1629,12 +1618,11 @@ Kubernetes core/v1.SecretType
 <h3 id="clusters.verrazzano.io/v1alpha1.SecuritySpec">SecuritySpec
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.ProjectTemplate">ProjectTemplate</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.ProjectTemplate">ProjectTemplate</a>)
 </p>
-<p>
+<div>
 <p>SecuritySpec defines the security configuration for a Verrazzano Project.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1645,7 +1633,7 @@ Kubernetes core/v1.SecretType
 <tbody>
 <tr>
 <td>
-<code>projectAdminSubjects</code></br>
+<code>projectAdminSubjects</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#subject-v1-rbac-authorization-k8s-io">
 []Kubernetes rbac/v1.Subject
@@ -1659,7 +1647,7 @@ Kubernetes core/v1.SecretType
 </tr>
 <tr>
 <td>
-<code>projectMonitorSubjects</code></br>
+<code>projectMonitorSubjects</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#subject-v1-rbac-authorization-k8s-io">
 []Kubernetes rbac/v1.Subject
@@ -1674,24 +1662,39 @@ Kubernetes core/v1.SecretType
 </tbody>
 </table>
 <h3 id="clusters.verrazzano.io/v1alpha1.StateType">StateType
-(<code>string</code> alias)</p></h3>
+(<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.ClusterLevelStatus">ClusterLevelStatus</a>, 
-<a href="#clusters.verrazzano.io/v1alpha1.MultiClusterResourceStatus">MultiClusterResourceStatus</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.ClusterLevelStatus">ClusterLevelStatus</a>, <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterResourceStatus">MultiClusterResourceStatus</a>)
 </p>
-<p>
+<div>
 <p>StateType identifies the state of a multicluster resource.</p>
-</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Failed&#34;</p></td>
+<td><p>Failed is the state when deploy to specified cluster has failed.</p>
+</td>
+</tr><tr><td><p>&#34;Pending&#34;</p></td>
+<td><p>Pending is the state when deploy to specified cluster is in progress.</p>
+</td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td><p>Succeeded is the state when deploy to specified cluster is completed.</p>
+</td>
+</tr></tbody>
+</table>
 <h3 id="clusters.verrazzano.io/v1alpha1.VerrazzanoProjectSpec">VerrazzanoProjectSpec
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoProject">VerrazzanoProject</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoProject">VerrazzanoProject</a>)
 </p>
-<p>
+<div>
 <p>VerrazzanoProjectSpec defines the desired state of a Verrazzano Project.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1702,7 +1705,7 @@ Kubernetes core/v1.SecretType
 <tbody>
 <tr>
 <td>
-<code>placement</code></br>
+<code>placement</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.Placement">
 Placement
@@ -1715,7 +1718,7 @@ Placement
 </tr>
 <tr>
 <td>
-<code>template</code></br>
+<code>template</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.ProjectTemplate">
 ProjectTemplate
@@ -1731,6 +1734,7 @@ ProjectTemplate
 <hr/>
 <p><em>
 Generated with <code>gen-crd-api-reference-docs</code>
+on git commit <code>238db2c3e</code>.
 </em></p>
 
 

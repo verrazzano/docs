@@ -13,11 +13,11 @@ customized as needed.
 
 The following table describes the Verrazzano installation profiles.
 
-| Profile           | Description                                                                 | Characteristics
-|-------------------|:----------------------------------------------------------------------------|:-------------
-| `prod`            | Full installation, production configuration.                                | Default profile:<br/>- Full installation.<br/>- Persistent storage. <br/>- Production OpenSearch cluster topology.
-| `dev`             | Development or evaluation configuration.                                    | Lightweight installation:<br/>- For evaluation purposes.<br/>- No persistence.<br/>- Single-node OpenSearch cluster topology.
-| `managed-cluster` | A specialized installation for managed clusters in a multicluster topology. | Minimal installation for a managed cluster:<br/>- Clusters must be registered with an admin cluster to use [multicluster]({{< relref "/docs/introduction/verrazzanomulticluster" >}}) features.
+| Profile           | Description                                                                 | Characteristics                                                                                                                                                                                 |
+|-------------------|:----------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `prod`            | Full installation, production configuration.                                | Default profile:<br/>- Full installation.<br/>- Persistent storage. <br/>- Production OpenSearch cluster topology.                                                                              |
+| `dev`             | Development or evaluation configuration.                                    | Lightweight installation:<br/>- For evaluation purposes.<br/>- No persistence.<br/>- Single-node OpenSearch cluster topology.                                                                   |
+| `managed-cluster` | A specialized installation for managed clusters in a multicluster topology. | Minimal installation for a managed cluster:<br/>- Clusters must be registered with an admin cluster to use [multicluster]({{< relref "/docs/introduction/verrazzanomulticluster" >}}) features. |
 
 ## Use an installation profile
 
@@ -82,58 +82,64 @@ For details on how to customize Verrazzano components, see [Modify Verrazzano In
 The following table lists the Verrazzano components that are enabled by default with each profile.  Note that you can
 customize any Verrazzano installation regardless of the profile.
 
-| Component                | dev | prod | managed-cluster |
-|--------------------------|:---:|:----:|:---------------:|
-| `applicationOperator`    | ✔️  |  ✔️  |       ✔️        |
-| `argoCD`                 |     |      |                 |
-| `authProxy`              | ✔️  |  ✔️  |       ✔️        |
-| `certManager`            | ✔️  |  ✔️  |       ✔️        |
-| `clusterOperator`        | ✔️  |  ✔️  |       ✔️        |
-| `coherenceOperator`      | ✔️  |  ✔️  |       ✔️        |
-| `console`                | ✔️  |  ✔️  |                 |
-| `dns`                    | ✔️  |  ✔️  |       ✔️        |
-| `fluentd`                | ✔️  |  ✔️  |       ✔️        |
-| `grafana`                | ✔️  |  ✔️  |                 |
-| `ingressNGINX`           | ✔️  |  ✔️  |       ✔️        |
-| `istio`                  | ✔️  |  ✔️  |       ✔️        |
-| `jaegerOperator`         |     |      |                 |
-| `keycloak`               | ✔️  |  ✔️  |                 |
-| `kiali`                  | ✔️  |  ✔️  |                 |
-| `kubeStateMetrics`       |     |      |                 |
-| `mySQLOperator`          | ✔️  |  ✔️  |       ✔️        |
-| `oam`                    | ✔️  |  ✔️  |       ✔️        |
-| `opensearch`             | ✔️  |  ✔️  |                 |
-| `opensearchDashboards`   | ✔️  |  ✔️  |                 |
-| `prometheus`             | ✔️  |  ✔️  |       ✔️        |
-| `prometheusAdapter`      |     |      |                 |
-| `prometheusNodeExporter` | ✔️  |  ✔️  |       ✔️        |
-| `prometheusOperator`     | ✔️  |  ✔️  |       ✔️        |
-| `prometheusPushgateway`  |     |      |                 |
-| `rancher`                | ✔️  |  ✔️  |                 |
-| `rancherBackup`          |     |      |                 |
-| `thanos`                 |     |      |                 |
-| `velero`                 |     |      |                 |
-| `weblogicOperator`       | ✔️  |  ✔️  |       ✔️        |
+| Component                   | dev | prod | managed-cluster |
+|-----------------------------|:---:|:----:|:---------------:|
+| `applicationOperator`       | ✔️  |  ✔️  |       ✔️        |
+| `argoCD`                    |     |      |                 |
+| `authProxy`                 | ✔️  |  ✔️  |       ✔️        |
+| `certManager`               | ✔️  |  ✔️  |       ✔️        |
+| `certManagerWebhookOCI`     |  ️  |  ️   |                 |
+| `clusterAPI`                | ✔️  |  ✔️  |                 |
+| `clusterAgent`              | ✔️  |  ✔️  |       ✔️        |
+| `clusterIssuer`             | ✔️  |  ✔️  |       ✔️        |
+| `clusterOperator`           | ✔️  |  ✔️  |       ✔️        |
+| `coherenceOperator`         | ✔️  |  ✔️  |       ✔️        |
+| `console`                   | ✔️  |  ✔️  |                 |
+| `dns`                       | ✔️  |  ✔️  |       ✔️        |
+| `fluentbitOpensearchOutput` |     |      |                 |
+| `fluentd`                   | ✔️  |  ✔️  |       ✔️        |
+| `fluentOperator`            |  ️  |  ️   |        ️        |
+| `grafana`                   | ✔️  |  ✔️  |                 |
+| `ingressNGINX`              | ✔️  |  ✔️  |       ✔️        |
+| `istio`                     | ✔️  |  ✔️  |       ✔️        |
+| `jaegerOperator`            |     |      |                 |
+| `keycloak`                  | ✔️  |  ✔️  |                 |
+| `kiali`                     | ✔️  |  ✔️  |                 |
+| `kubeStateMetrics`          |     |      |                 |
+| `mySQLOperator`             | ✔️  |  ✔️  |       ✔️        |
+| `oam`                       | ✔️  |  ✔️  |       ✔️        |
+| `opensearch`                | ✔️  |  ✔️  |                 |
+| `opensearchDashboards`      | ✔️  |  ✔️  |                 |
+| `prometheus`                | ✔️  |  ✔️  |       ✔️        |
+| `prometheusAdapter`         |     |      |                 |
+| `prometheusNodeExporter`    | ✔️  |  ✔️  |       ✔️        |
+| `prometheusOperator`        | ✔️  |  ✔️  |       ✔️        |
+| `prometheusPushgateway`     |     |      |                 |
+| `rancher`                   | ✔️  |  ✔️  |                 |
+| `rancherBackup`             |     |      |                 |
+| `thanos`                    |     |      |                 |
+| `velero`                    |     |      |                 |
+| `weblogicOperator`          | ✔️  |  ✔️  |       ✔️        |
 
 ### Prometheus and Grafana configurations
 
 The following table describes the Prometheus and Grafana configurations in each profile.
 
-| Profile           | Prometheus | Grafana
-|-------------------|:------------- |:-------------
-| `prod`            | One replica (128 MB memory, 50 Gi storage) | One replica (48 MB memory, 50 Gi storage)
-| `dev`             | One replica (128 MB memory, ephemeral storage) | One replica (48 MB memory, ephemeral storage)
-| `managed-cluster` | One replica (128 MB memory, 50 Gi storage) | Not installed
+| Profile           | Prometheus                                     | Grafana                                       |
+|-------------------|:-----------------------------------------------|:----------------------------------------------|
+| `prod`            | One replica (128 MB memory, 50 Gi storage)     | One replica (48 MB memory, 50 Gi storage)     |
+| `dev`             | One replica (128 MB memory, ephemeral storage) | One replica (48 MB memory, ephemeral storage) |
+| `managed-cluster` | One replica (128 MB memory, 50 Gi storage)     | Not installed                                 |
 
 ### OpenSearch Dashboards and OpenSearch configurations
 
 The following table describes the OpenSearch Dashboards and OpenSearch cluster topology in each profile.
 
-| Profile           | OpenSearch                                                                                                                                                | OpenSearch Dashboards
-|-------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------
-| `prod`            | Three master replicas (1.4 Gi memory, 50 Gi storage each)<br/>One ingest replica (2.5 Gi memory, no storage)<br/>Three data replicas (4.8 Gi memory, 50 Gi storage each) | One replica (192 MB memory, ephemeral storage)
-| `dev`             | One master/data/ingest replica (1 Gi memory, ephemeral storage)                                                                                              | One replica (192 MB memory, ephemeral storage)
-| `managed-cluster` | Not installed                                                                                                                                             | Not installed
+| Profile           | OpenSearch                                                                                                                                                               | OpenSearch Dashboards                          |
+|-------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------|
+| `prod`            | Three master replicas (1.4 Gi memory, 50 Gi storage each)<br/>One ingest replica (2.5 Gi memory, no storage)<br/>Three data replicas (4.8 Gi memory, 50 Gi storage each) | One replica (192 MB memory, ephemeral storage) |
+| `dev`             | One master/data/ingest replica (1 Gi memory, ephemeral storage)                                                                                                          | One replica (192 MB memory, ephemeral storage) |
+| `managed-cluster` | Not installed                                                                                                                                                            | Not installed                                  |
 
 {{< alert title="NOTE" color="primary" >}}
 OpenSearch containers are configured to use 75% of the configured request memory for the Java min/max heap settings.
@@ -145,8 +151,8 @@ OpenSearch containers are configured to use 75% of the configured request memory
 The following table shows the settings for components that are profile-independent (consistent across
 all profiles unless overridden).
 
-| Component | Default
-| -------------|-------------
-| DNS |  Wildcard DNS provider [nip.io](https://nip.io).
-| Certificates | Uses the [cert-manager](https://cert-manager.io/) self-signed [ClusterIssuer](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.ClusterIssuer) for certificates.
-| Ingress-type | Defaults to `LoadBalancer` service type for the ingress.
+| Component    | Default                                                                                                                                                                            |
+|--------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| DNS          | Wildcard DNS provider [nip.io](https://nip.io).                                                                                                                                    |
+| Certificates | Uses the [cert-manager](https://cert-manager.io/) self-signed [ClusterIssuer](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.ClusterIssuer) for certificates. |
+| Ingress-type | Defaults to `LoadBalancer` service type for the ingress.                                                                                                                           |

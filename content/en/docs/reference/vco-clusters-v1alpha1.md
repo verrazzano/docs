@@ -11,17 +11,17 @@ aliases:
 </li>
 </ul>
 <h2 id="clusters.verrazzano.io/v1alpha1">clusters.verrazzano.io/v1alpha1</h2>
-<p>
-</p>
+<div>
+</div>
 Resource Types:
 <ul><li>
 <a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster">VerrazzanoManagedCluster</a>
 </li></ul>
 <h3 id="clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster">VerrazzanoManagedCluster
 </h3>
-<p>
+<div>
 <p>VerrazzanoManagedCluster specifies the Verrazzano Managed Cluster API.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -32,7 +32,7 @@ Resource Types:
 <tbody>
 <tr>
 <td>
-<code>apiVersion</code></br>
+<code>apiVersion</code><br/>
 string</td>
 <td>
 <code>
@@ -42,14 +42,14 @@ clusters.verrazzano.io/v1alpha1
 </tr>
 <tr>
 <td>
-<code>kind</code></br>
+<code>kind</code><br/>
 string
 </td>
 <td><code>VerrazzanoManagedCluster</code></td>
 </tr>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
 Kubernetes meta/v1.ObjectMeta
@@ -63,7 +63,7 @@ Refer to the Kubernetes API documentation for the fields of the
 </tr>
 <tr>
 <td>
-<code>spec</code></br>
+<code>spec</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterSpec">
 VerrazzanoManagedClusterSpec
@@ -77,7 +77,7 @@ VerrazzanoManagedClusterSpec
 <table>
 <tr>
 <td>
-<code>caSecret</code></br>
+<code>caSecret</code><br/>
 <em>
 string
 </em>
@@ -92,7 +92,7 @@ for how to create this Secret.</p>
 </tr>
 <tr>
 <td>
-<code>description</code></br>
+<code>description</code><br/>
 <em>
 string
 </em>
@@ -104,7 +104,7 @@ string
 </tr>
 <tr>
 <td>
-<code>managedClusterManifestSecret</code></br>
+<code>managedClusterManifestSecret</code><br/>
 <em>
 string
 </em>
@@ -117,7 +117,7 @@ This field is managed by a Verrazzano Kubernetes operator.</p>
 </tr>
 <tr>
 <td>
-<code>serviceAccount</code></br>
+<code>serviceAccount</code><br/>
 <em>
 string
 </em>
@@ -133,7 +133,7 @@ Verrazzano Kubernetes operator.</p>
 </tr>
 <tr>
 <td>
-<code>status</code></br>
+<code>status</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus">
 VerrazzanoManagedClusterStatus
@@ -149,12 +149,11 @@ VerrazzanoManagedClusterStatus
 <h3 id="clusters.verrazzano.io/v1alpha1.ArgoCDRegistration">ArgoCDRegistration
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus">VerrazzanoManagedClusterStatus</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus">VerrazzanoManagedClusterStatus</a>)
 </p>
-<p>
+<div>
 <p>ArgoCDRegistration defines the Argo CD registration state for a managed cluster.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -165,7 +164,7 @@ VerrazzanoManagedClusterStatus
 <tbody>
 <tr>
 <td>
-<code>status</code></br>
+<code>status</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.ArgoCDRegistrationStatus">
 ArgoCDRegistrationStatus
@@ -178,7 +177,7 @@ ArgoCDRegistrationStatus
 </tr>
 <tr>
 <td>
-<code>lastSetTimestamp</code></br>
+<code>lastSetTimestamp</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#time-v1-meta">
 Kubernetes meta/v1.Time
@@ -192,7 +191,7 @@ Kubernetes meta/v1.Time
 </tr>
 <tr>
 <td>
-<code>message</code></br>
+<code>message</code><br/>
 <em>
 string
 </em>
@@ -205,23 +204,36 @@ string
 </tbody>
 </table>
 <h3 id="clusters.verrazzano.io/v1alpha1.ArgoCDRegistrationStatus">ArgoCDRegistrationStatus
-(<code>string</code> alias)</p></h3>
+(<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.ArgoCDRegistration">ArgoCDRegistration</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.ArgoCDRegistration">ArgoCDRegistration</a>)
 </p>
-<p>
+<div>
 <p>ArgoCDRegistrationStatus identifies the status of an Argo CD registration.</p>
-</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Completed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PendingRancherClusterRegistration&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
 <h3 id="clusters.verrazzano.io/v1alpha1.Condition">Condition
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus">VerrazzanoManagedClusterStatus</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus">VerrazzanoManagedClusterStatus</a>)
 </p>
-<p>
+<div>
 <p>Condition describes a condition that occurred on the Verrazzano Managed Cluster.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -232,7 +244,7 @@ string
 <tbody>
 <tr>
 <td>
-<code>lastTransitionTime</code></br>
+<code>lastTransitionTime</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#time-v1-meta">
 Kubernetes meta/v1.Time
@@ -246,7 +258,7 @@ Kubernetes meta/v1.Time
 </tr>
 <tr>
 <td>
-<code>message</code></br>
+<code>message</code><br/>
 <em>
 string
 </em>
@@ -258,7 +270,7 @@ string
 </tr>
 <tr>
 <td>
-<code>status</code></br>
+<code>status</code><br/>
 <em>
 <a href="https://pkg.go.dev/k8s.io/api/core/v1#ConditionStatus">
 Kubernetes core/v1.ConditionStatus
@@ -271,7 +283,7 @@ Kubernetes core/v1.ConditionStatus
 </tr>
 <tr>
 <td>
-<code>type</code></br>
+<code>type</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.ConditionType">
 ConditionType
@@ -287,23 +299,41 @@ resources needed have been generated.</p>
 </tbody>
 </table>
 <h3 id="clusters.verrazzano.io/v1alpha1.ConditionType">ConditionType
-(<code>string</code> alias)</p></h3>
+(<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.Condition">Condition</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.Condition">Condition</a>)
 </p>
-<p>
+<div>
 <p>ConditionType identifies the condition of the Verrazzano Managed Cluster which can be checked with <code>kubectl wait</code>.</p>
-</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ManagedCARetrieved&#34;</p></td>
+<td><p>ManagedCARetrieved = true means that the managed cluster CA cert has been retrieved and
+populated. This is done by the VMC controller via the Rancher API proxy for the managed cluster.</p>
+</td>
+</tr><tr><td><p>&#34;ManifestPushed&#34;</p></td>
+<td><p>ConditionManifestPushed = true means the the agent and registration secrets have been successfully transferred
+to the managed cluster on a multicluster install</p>
+</td>
+</tr><tr><td><p>&#34;Ready&#34;</p></td>
+<td><p>Ready = true means the VMC is ready to be used and all resources needed have been generated</p>
+</td>
+</tr></tbody>
+</table>
 <h3 id="clusters.verrazzano.io/v1alpha1.RancherRegistration">RancherRegistration
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus">VerrazzanoManagedClusterStatus</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus">VerrazzanoManagedClusterStatus</a>)
 </p>
-<p>
+<div>
 <p>RancherRegistration defines the Rancher registration state for a managed cluster.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -314,7 +344,7 @@ resources needed have been generated.</p>
 <tbody>
 <tr>
 <td>
-<code>clusterID</code></br>
+<code>clusterID</code><br/>
 <em>
 string
 </em>
@@ -325,7 +355,7 @@ string
 </tr>
 <tr>
 <td>
-<code>message</code></br>
+<code>message</code><br/>
 <em>
 string
 </em>
@@ -337,7 +367,7 @@ string
 </tr>
 <tr>
 <td>
-<code>status</code></br>
+<code>status</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.RancherRegistrationStatus">
 RancherRegistrationStatus
@@ -351,32 +381,59 @@ RancherRegistrationStatus
 </tbody>
 </table>
 <h3 id="clusters.verrazzano.io/v1alpha1.RancherRegistrationStatus">RancherRegistrationStatus
-(<code>string</code> alias)</p></h3>
+(<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.RancherRegistration">RancherRegistration</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.RancherRegistration">RancherRegistration</a>)
 </p>
-<p>
+<div>
 <p>RancherRegistrationStatus identifies the status of a Rancher registration.</p>
-</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;DeleteFailed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Completed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
 <h3 id="clusters.verrazzano.io/v1alpha1.StateType">StateType
-(<code>string</code> alias)</p></h3>
+(<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus">VerrazzanoManagedClusterStatus</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus">VerrazzanoManagedClusterStatus</a>)
 </p>
-<p>
+<div>
 <p>StateType identifies the state of the Verrazzano Managed Cluster.</p>
-</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Active&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Inactive&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Pending&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
 <h3 id="clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterSpec">VerrazzanoManagedClusterSpec
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster">VerrazzanoManagedCluster</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster">VerrazzanoManagedCluster</a>)
 </p>
-<p>
+<div>
 <p>VerrazzanoManagedClusterSpec defines the desired state of a Verrazzano Managed Cluster.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -387,7 +444,7 @@ RancherRegistrationStatus
 <tbody>
 <tr>
 <td>
-<code>caSecret</code></br>
+<code>caSecret</code><br/>
 <em>
 string
 </em>
@@ -402,7 +459,7 @@ for how to create this Secret.</p>
 </tr>
 <tr>
 <td>
-<code>description</code></br>
+<code>description</code><br/>
 <em>
 string
 </em>
@@ -414,7 +471,7 @@ string
 </tr>
 <tr>
 <td>
-<code>managedClusterManifestSecret</code></br>
+<code>managedClusterManifestSecret</code><br/>
 <em>
 string
 </em>
@@ -427,7 +484,7 @@ This field is managed by a Verrazzano Kubernetes operator.</p>
 </tr>
 <tr>
 <td>
-<code>serviceAccount</code></br>
+<code>serviceAccount</code><br/>
 <em>
 string
 </em>
@@ -443,12 +500,11 @@ Verrazzano Kubernetes operator.</p>
 <h3 id="clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus">VerrazzanoManagedClusterStatus
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster">VerrazzanoManagedCluster</a>)
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster">VerrazzanoManagedCluster</a>)
 </p>
-<p>
+<div>
 <p>VerrazzanoManagedClusterStatus defines the observed state of a Verrazzano Managed Cluster.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -459,7 +515,7 @@ Verrazzano Kubernetes operator.</p>
 <tbody>
 <tr>
 <td>
-<code>apiUrl</code></br>
+<code>apiUrl</code><br/>
 <em>
 string
 </em>
@@ -470,7 +526,7 @@ string
 </tr>
 <tr>
 <td>
-<code>conditions</code></br>
+<code>conditions</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.Condition">
 []Condition
@@ -483,7 +539,7 @@ string
 </tr>
 <tr>
 <td>
-<code>lastAgentConnectTime</code></br>
+<code>lastAgentConnectTime</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#time-v1-meta">
 Kubernetes meta/v1.Time
@@ -496,7 +552,7 @@ Kubernetes meta/v1.Time
 </tr>
 <tr>
 <td>
-<code>prometheusHost</code></br>
+<code>prometheusHost</code><br/>
 <em>
 string
 </em>
@@ -507,7 +563,7 @@ string
 </tr>
 <tr>
 <td>
-<code>thanosQueryStore</code></br>
+<code>thanosQueryStore</code><br/>
 <em>
 string
 </em>
@@ -518,7 +574,7 @@ string
 </tr>
 <tr>
 <td>
-<code>rancherRegistration</code></br>
+<code>rancherRegistration</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.RancherRegistration">
 RancherRegistration
@@ -531,7 +587,7 @@ RancherRegistration
 </tr>
 <tr>
 <td>
-<code>argoCDRegistration</code></br>
+<code>argoCDRegistration</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.ArgoCDRegistration">
 ArgoCDRegistration
@@ -544,7 +600,7 @@ ArgoCDRegistration
 </tr>
 <tr>
 <td>
-<code>state</code></br>
+<code>state</code><br/>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.StateType">
 StateType
@@ -560,6 +616,7 @@ StateType
 <hr/>
 <p><em>
 Generated with <code>gen-crd-api-reference-docs</code>
+on git commit <code>238db2c3e</code>.
 </em></p>
 
 

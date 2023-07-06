@@ -45,7 +45,13 @@ GOBIN="${tmpdir}/bin"
 export GOBIN
 
 echo "+++ Installing gen-crd-api-reference-docs"
-go install github.com/ahmetb/gen-crd-api-reference-docs@v0.3.0
+mkdir -p "${GOPATH}/src/github.com"
+tooldir="${GOPATH}/src/github.com/gen-crd-api-reference-docs"
+git clone "https://github.com/verrazzano/gen-crd-api-reference-docs.git" "$tooldir"
+cd "$tooldir"
+git fetch origin master
+git reset --hard origin/master
+go install
 
 mkdir -p "${GOPATH}/src/github.com/verrazzano"
 gitdir="${GOPATH}/src/github.com/verrazzano/verrazzano"
@@ -69,9 +75,10 @@ genapidoc() {
 	echo "+++ Generating API reference doc for ${API}"
 	"${GOBIN}/gen-crd-api-reference-docs" \
 		-config "${REPO_ROOT}/scripts/genapidocs/config.json" \
-		-template-dir "${REPO_ROOT}/scripts/genapidocs/template" \
+		-template-dir "${GOPATH}/src/github.com/gen-crd-api-reference-docs/template" \
 		-api-dir "github.com/verrazzano/verrazzano/${API}" \
-		-out-file "${OUTFILE}"
+		-out-file "${OUTFILE}" \
+		-collapse-inline
 	# Prepending header info to the generated file
 	printf '%s\n%s\n%s\n%s\n%s\n%s\n' "---" "title: ${TITLE}" "weight: ${WEIGHT}" "aliases:" "  - ${ALIAS}" "---" "$(cat ${OUTFILE})" >${OUTFILE}
 }

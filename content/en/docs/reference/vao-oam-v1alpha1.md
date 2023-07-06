@@ -11,8 +11,8 @@ aliases:
 </li>
 </ul>
 <h2 id="oam.verrazzano.io/v1alpha1">oam.verrazzano.io/v1alpha1</h2>
-<p>
-</p>
+<div>
+</div>
 Resource Types:
 <ul><li>
 <a href="#oam.verrazzano.io/v1alpha1.IngressTrait">IngressTrait</a>
@@ -29,9 +29,9 @@ Resource Types:
 </li></ul>
 <h3 id="oam.verrazzano.io/v1alpha1.IngressTrait">IngressTrait
 </h3>
-<p>
+<div>
 <p>IngressTrait specifies the ingress traits API.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -42,7 +42,7 @@ Resource Types:
 <tbody>
 <tr>
 <td>
-<code>apiVersion</code></br>
+<code>apiVersion</code><br/>
 string</td>
 <td>
 <code>
@@ -52,14 +52,14 @@ oam.verrazzano.io/v1alpha1
 </tr>
 <tr>
 <td>
-<code>kind</code></br>
+<code>kind</code><br/>
 string
 </td>
 <td><code>IngressTrait</code></td>
 </tr>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
 Kubernetes meta/v1.ObjectMeta
@@ -73,7 +73,7 @@ Refer to the Kubernetes API documentation for the fields of the
 </tr>
 <tr>
 <td>
-<code>spec</code></br>
+<code>spec</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.IngressTraitSpec">
 IngressTraitSpec
@@ -86,7 +86,7 @@ IngressTraitSpec
 <table>
 <tr>
 <td>
-<code>rules</code></br>
+<code>rules</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.IngressRule">
 []IngressRule
@@ -99,7 +99,7 @@ IngressTraitSpec
 </tr>
 <tr>
 <td>
-<code>tls</code></br>
+<code>tls</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.IngressSecurity">
 IngressSecurity
@@ -114,7 +114,7 @@ This is required only if specific hosts are given in an <a href="#oam.verrazzano
 </tr>
 <tr>
 <td>
-<code>workloadRef</code></br>
+<code>workloadRef</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#TypedReference">
 OAM common/v1.TypedReference
@@ -136,7 +136,7 @@ original ApplicationConfiguration.</p>
 </tr>
 <tr>
 <td>
-<code>status</code></br>
+<code>status</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.IngressTraitStatus">
 IngressTraitStatus
@@ -151,9 +151,9 @@ IngressTraitStatus
 </table>
 <h3 id="oam.verrazzano.io/v1alpha1.LoggingTrait">LoggingTrait
 </h3>
-<p>
+<div>
 <p>LoggingTrait specifies the logging traits API.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -164,7 +164,7 @@ IngressTraitStatus
 <tbody>
 <tr>
 <td>
-<code>apiVersion</code></br>
+<code>apiVersion</code><br/>
 string</td>
 <td>
 <code>
@@ -174,14 +174,14 @@ oam.verrazzano.io/v1alpha1
 </tr>
 <tr>
 <td>
-<code>kind</code></br>
+<code>kind</code><br/>
 string
 </td>
 <td><code>LoggingTrait</code></td>
 </tr>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
 Kubernetes meta/v1.ObjectMeta
@@ -195,7 +195,7 @@ Refer to the Kubernetes API documentation for the fields of the
 </tr>
 <tr>
 <td>
-<code>spec</code></br>
+<code>spec</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.LoggingTraitSpec">
 LoggingTraitSpec
@@ -208,7 +208,7 @@ LoggingTraitSpec
 <table>
 <tr>
 <td>
-<code>imagePullPolicy</code></br>
+<code>imagePullPolicy</code><br/>
 <em>
 string
 </em>
@@ -220,7 +220,7 @@ string
 </tr>
 <tr>
 <td>
-<code>loggingConfig</code></br>
+<code>loggingConfig</code><br/>
 <em>
 string
 </em>
@@ -232,7 +232,7 @@ fluentd.conf: <code>&lt;source&gt;\n ... and so on ...\n</code>.</p>
 </tr>
 <tr>
 <td>
-<code>loggingImage</code></br>
+<code>loggingImage</code><br/>
 <em>
 string
 </em>
@@ -244,7 +244,7 @@ string
 </tr>
 <tr>
 <td>
-<code>workloadRef</code></br>
+<code>workloadRef</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#TypedReference">
 OAM common/v1.TypedReference
@@ -266,7 +266,7 @@ original ApplicationConfiguration.</p>
 </tr>
 <tr>
 <td>
-<code>status</code></br>
+<code>status</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.LoggingTraitStatus">
 LoggingTraitStatus
@@ -281,9 +281,9 @@ LoggingTraitStatus
 </table>
 <h3 id="oam.verrazzano.io/v1alpha1.MetricsTrait">MetricsTrait
 </h3>
-<p>
+<div>
 <p>MetricsTrait specifies the metrics trait API.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -294,7 +294,7 @@ LoggingTraitStatus
 <tbody>
 <tr>
 <td>
-<code>apiVersion</code></br>
+<code>apiVersion</code><br/>
 string</td>
 <td>
 <code>
@@ -304,14 +304,14 @@ oam.verrazzano.io/v1alpha1
 </tr>
 <tr>
 <td>
-<code>kind</code></br>
+<code>kind</code><br/>
 string
 </td>
 <td><code>MetricsTrait</code></td>
 </tr>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
 Kubernetes meta/v1.ObjectMeta
@@ -325,7 +325,7 @@ Refer to the Kubernetes API documentation for the fields of the
 </tr>
 <tr>
 <td>
-<code>spec</code></br>
+<code>spec</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.MetricsTraitSpec">
 MetricsTraitSpec
@@ -338,7 +338,7 @@ MetricsTraitSpec
 <table>
 <tr>
 <td>
-<code>enabled</code></br>
+<code>enabled</code><br/>
 <em>
 bool
 </em>
@@ -350,7 +350,7 @@ bool
 </tr>
 <tr>
 <td>
-<code>path</code></br>
+<code>path</code><br/>
 <em>
 string
 </em>
@@ -362,7 +362,7 @@ string
 </tr>
 <tr>
 <td>
-<code>port</code></br>
+<code>port</code><br/>
 <em>
 int
 </em>
@@ -374,7 +374,7 @@ int
 </tr>
 <tr>
 <td>
-<code>ports</code></br>
+<code>ports</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.PortSpec">
 []PortSpec
@@ -388,7 +388,7 @@ int
 </tr>
 <tr>
 <td>
-<code>scraper</code></br>
+<code>scraper</code><br/>
 <em>
 string
 </em>
@@ -401,7 +401,7 @@ Prometheus component is used to scrape the endpoint.</p>
 </tr>
 <tr>
 <td>
-<code>secret</code></br>
+<code>secret</code><br/>
 <em>
 string
 </em>
@@ -414,7 +414,7 @@ endpoint access.</p>
 </tr>
 <tr>
 <td>
-<code>workloadRef</code></br>
+<code>workloadRef</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#TypedReference">
 OAM common/v1.TypedReference
@@ -436,7 +436,7 @@ original ApplicationConfiguration.</p>
 </tr>
 <tr>
 <td>
-<code>status</code></br>
+<code>status</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.MetricsTraitStatus">
 MetricsTraitStatus
@@ -451,9 +451,9 @@ MetricsTraitStatus
 </table>
 <h3 id="oam.verrazzano.io/v1alpha1.VerrazzanoCoherenceWorkload">VerrazzanoCoherenceWorkload
 </h3>
-<p>
+<div>
 <p>VerrazzanoCoherenceWorkload specifies the Verrazzano Coherence workload API.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -464,7 +464,7 @@ MetricsTraitStatus
 <tbody>
 <tr>
 <td>
-<code>apiVersion</code></br>
+<code>apiVersion</code><br/>
 string</td>
 <td>
 <code>
@@ -474,14 +474,14 @@ oam.verrazzano.io/v1alpha1
 </tr>
 <tr>
 <td>
-<code>kind</code></br>
+<code>kind</code><br/>
 string
 </td>
 <td><code>VerrazzanoCoherenceWorkload</code></td>
 </tr>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
 Kubernetes meta/v1.ObjectMeta
@@ -495,7 +495,7 @@ Refer to the Kubernetes API documentation for the fields of the
 </tr>
 <tr>
 <td>
-<code>spec</code></br>
+<code>spec</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.VerrazzanoCoherenceWorkloadSpec">
 VerrazzanoCoherenceWorkloadSpec
@@ -509,7 +509,7 @@ VerrazzanoCoherenceWorkloadSpec
 <table>
 <tr>
 <td>
-<code>template</code></br>
+<code>template</code><br/>
 <em>
 <a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#RawExtension">
 Kubernetes runtime.RawExtension
@@ -526,7 +526,7 @@ Kubernetes runtime.RawExtension
 </tr>
 <tr>
 <td>
-<code>status</code></br>
+<code>status</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.VerrazzanoCoherenceWorkloadStatus">
 VerrazzanoCoherenceWorkloadStatus
@@ -541,9 +541,9 @@ VerrazzanoCoherenceWorkloadStatus
 </table>
 <h3 id="oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkload">VerrazzanoHelidonWorkload
 </h3>
-<p>
+<div>
 <p>VerrazzanoHelidonWorkload specifies the Verrazzano Helidon workload API.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -554,7 +554,7 @@ VerrazzanoCoherenceWorkloadStatus
 <tbody>
 <tr>
 <td>
-<code>apiVersion</code></br>
+<code>apiVersion</code><br/>
 string</td>
 <td>
 <code>
@@ -564,14 +564,14 @@ oam.verrazzano.io/v1alpha1
 </tr>
 <tr>
 <td>
-<code>kind</code></br>
+<code>kind</code><br/>
 string
 </td>
 <td><code>VerrazzanoHelidonWorkload</code></td>
 </tr>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
 Kubernetes meta/v1.ObjectMeta
@@ -585,7 +585,7 @@ Refer to the Kubernetes API documentation for the fields of the
 </tr>
 <tr>
 <td>
-<code>spec</code></br>
+<code>spec</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkloadSpec">
 VerrazzanoHelidonWorkloadSpec
@@ -599,7 +599,7 @@ VerrazzanoHelidonWorkloadSpec
 <table>
 <tr>
 <td>
-<code>deploymentTemplate</code></br>
+<code>deploymentTemplate</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.DeploymentTemplate">
 DeploymentTemplate
@@ -612,7 +612,7 @@ DeploymentTemplate
 </tr>
 <tr>
 <td>
-<code>serviceTemplate</code></br>
+<code>serviceTemplate</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.ServiceTemplate">
 ServiceTemplate
@@ -628,7 +628,7 @@ ServiceTemplate
 </tr>
 <tr>
 <td>
-<code>status</code></br>
+<code>status</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkloadStatus">
 VerrazzanoHelidonWorkloadStatus
@@ -643,9 +643,9 @@ VerrazzanoHelidonWorkloadStatus
 </table>
 <h3 id="oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload">VerrazzanoWebLogicWorkload
 </h3>
-<p>
+<div>
 <p>VerrazzanoWebLogicWorkload specifies the Verrazzano WebLogic workload API.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -656,7 +656,7 @@ VerrazzanoHelidonWorkloadStatus
 <tbody>
 <tr>
 <td>
-<code>apiVersion</code></br>
+<code>apiVersion</code><br/>
 string</td>
 <td>
 <code>
@@ -666,14 +666,14 @@ oam.verrazzano.io/v1alpha1
 </tr>
 <tr>
 <td>
-<code>kind</code></br>
+<code>kind</code><br/>
 string
 </td>
 <td><code>VerrazzanoWebLogicWorkload</code></td>
 </tr>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
 Kubernetes meta/v1.ObjectMeta
@@ -687,7 +687,7 @@ Refer to the Kubernetes API documentation for the fields of the
 </tr>
 <tr>
 <td>
-<code>spec</code></br>
+<code>spec</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkloadSpec">
 VerrazzanoWebLogicWorkloadSpec
@@ -701,7 +701,7 @@ VerrazzanoWebLogicWorkloadSpec
 <table>
 <tr>
 <td>
-<code>template</code></br>
+<code>template</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkloadTemplate">
 VerrazzanoWebLogicWorkloadTemplate
@@ -715,7 +715,7 @@ VerrazzanoWebLogicWorkloadTemplate
 </tr>
 <tr>
 <td>
-<code>clusters</code></br>
+<code>clusters</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkloadTemplate">
 []VerrazzanoWebLogicWorkloadTemplate
@@ -730,7 +730,7 @@ VerrazzanoWebLogicWorkloadTemplate
 </tr>
 <tr>
 <td>
-<code>status</code></br>
+<code>status</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkloadStatus">
 VerrazzanoWebLogicWorkloadStatus
@@ -746,12 +746,11 @@ VerrazzanoWebLogicWorkloadStatus
 <h3 id="oam.verrazzano.io/v1alpha1.AuthorizationPolicy">AuthorizationPolicy
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.IngressPath">IngressPath</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.IngressPath">IngressPath</a>)
 </p>
-<p>
+<div>
 <p>AuthorizationPolicy defines the set of rules for authorizing a request.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -762,10 +761,10 @@ VerrazzanoWebLogicWorkloadStatus
 <tbody>
 <tr>
 <td>
-<code>rules</code></br>
+<code>rules</code><br/>
 <em>
-<a href="#oam.verrazzano.io/v1alpha1.*github.com/verrazzano/verrazzano/application-operator/apis/oam/v1alpha1.AuthorizationRule">
-[]*github.com/verrazzano/verrazzano/application-operator/apis/oam/v1alpha1.AuthorizationRule
+<a href="#oam.verrazzano.io/v1alpha1.AuthorizationRule">
+[]AuthorizationRule
 </a>
 </em>
 </td>
@@ -778,9 +777,12 @@ VerrazzanoWebLogicWorkloadStatus
 <h3 id="oam.verrazzano.io/v1alpha1.AuthorizationRule">AuthorizationRule
 </h3>
 <p>
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.AuthorizationPolicy">AuthorizationPolicy</a>)
+</p>
+<div>
 <p>AuthorizationRule matches requests from a list of request principals that access a specific path subject to a
 list of conditions.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -791,7 +793,7 @@ list of conditions.</p>
 <tbody>
 <tr>
 <td>
-<code>from</code></br>
+<code>from</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.AuthorizationRuleFrom">
 AuthorizationRuleFrom
@@ -805,10 +807,10 @@ for example, if any request principal is found in the request.</p>
 </tr>
 <tr>
 <td>
-<code>when</code></br>
+<code>when</code><br/>
 <em>
-<a href="#oam.verrazzano.io/v1alpha1.*github.com/verrazzano/verrazzano/application-operator/apis/oam/v1alpha1.AuthorizationRuleCondition">
-[]*github.com/verrazzano/verrazzano/application-operator/apis/oam/v1alpha1.AuthorizationRuleCondition
+<a href="#oam.verrazzano.io/v1alpha1.AuthorizationRuleCondition">
+[]AuthorizationRuleCondition
 </a>
 </em>
 </td>
@@ -822,8 +824,11 @@ for example, if any request principal is found in the request.</p>
 <h3 id="oam.verrazzano.io/v1alpha1.AuthorizationRuleCondition">AuthorizationRuleCondition
 </h3>
 <p>
-<p>AuthorizationRuleCondition provides additional required attributes for authorization.</p>
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.AuthorizationRule">AuthorizationRule</a>)
 </p>
+<div>
+<p>AuthorizationRuleCondition provides additional required attributes for authorization.</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -834,7 +839,7 @@ for example, if any request principal is found in the request.</p>
 <tbody>
 <tr>
 <td>
-<code>key</code></br>
+<code>key</code><br/>
 <em>
 string
 </em>
@@ -845,7 +850,7 @@ string
 </tr>
 <tr>
 <td>
-<code>values</code></br>
+<code>values</code><br/>
 <em>
 []string
 </em>
@@ -859,12 +864,11 @@ string
 <h3 id="oam.verrazzano.io/v1alpha1.AuthorizationRuleFrom">AuthorizationRuleFrom
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.AuthorizationRule">AuthorizationRule</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.AuthorizationRule">AuthorizationRule</a>)
 </p>
-<p>
+<div>
 <p>AuthorizationRuleFrom includes a list of request principals.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -875,7 +879,7 @@ string
 <tbody>
 <tr>
 <td>
-<code>requestPrincipals</code></br>
+<code>requestPrincipals</code><br/>
 <em>
 []string
 </em>
@@ -889,12 +893,11 @@ string
 <h3 id="oam.verrazzano.io/v1alpha1.DeploymentTemplate">DeploymentTemplate
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkloadSpec">VerrazzanoHelidonWorkloadSpec</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkloadSpec">VerrazzanoHelidonWorkloadSpec</a>)
 </p>
-<p>
+<div>
 <p>DeploymentTemplate specifies the metadata and pod spec of a Helidon workload.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -905,7 +908,7 @@ string
 <tbody>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
 Kubernetes meta/v1.ObjectMeta
@@ -920,7 +923,7 @@ Refer to the Kubernetes API documentation for the fields of the
 </tr>
 <tr>
 <td>
-<code>podSpec</code></br>
+<code>podSpec</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#podspec-v1-core">
 Kubernetes core/v1.PodSpec
@@ -933,7 +936,7 @@ Kubernetes core/v1.PodSpec
 </tr>
 <tr>
 <td>
-<code>selector</code></br>
+<code>selector</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#labelselector-v1-meta">
 Kubernetes meta/v1.LabelSelector
@@ -947,7 +950,7 @@ Kubernetes meta/v1.LabelSelector
 </tr>
 <tr>
 <td>
-<code>strategy</code></br>
+<code>strategy</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#deploymentstrategy-v1-apps">
 Kubernetes apps/v1.DeploymentStrategy
@@ -964,17 +967,16 @@ Kubernetes apps/v1.DeploymentStrategy
 <h3 id="oam.verrazzano.io/v1alpha1.IngressDestination">IngressDestination
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.IngressRule">IngressRule</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.IngressRule">IngressRule</a>)
 </p>
-<p>
+<div>
 <p>IngressDestination specifies a specific destination host and port for the ingress paths.
 <div class="alert alert-warning" role="alert">
 <h4 class="alert-heading">NOTE</h4>
 If there are multiple ports defined for a service, then the destination port must be specified OR
 the service port name must have the prefix <code>http</code>.
 </div></p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -985,7 +987,7 @@ the service port name must have the prefix <code>http</code>.
 <tbody>
 <tr>
 <td>
-<code>host</code></br>
+<code>host</code><br/>
 <em>
 string
 </em>
@@ -997,7 +999,7 @@ string
 </tr>
 <tr>
 <td>
-<code>httpCookie</code></br>
+<code>httpCookie</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.IngressDestinationHTTPCookie">
 IngressDestinationHTTPCookie
@@ -1011,7 +1013,7 @@ IngressDestinationHTTPCookie
 </tr>
 <tr>
 <td>
-<code>port</code></br>
+<code>port</code><br/>
 <em>
 uint32
 </em>
@@ -1026,12 +1028,11 @@ uint32
 <h3 id="oam.verrazzano.io/v1alpha1.IngressDestinationHTTPCookie">IngressDestinationHTTPCookie
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.IngressDestination">IngressDestination</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.IngressDestination">IngressDestination</a>)
 </p>
-<p>
+<div>
 <p>IngressDestinationHTTPCookie specifies a session affinity cookie for an ingress trait.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1042,7 +1043,7 @@ uint32
 <tbody>
 <tr>
 <td>
-<code>name</code></br>
+<code>name</code><br/>
 <em>
 string
 </em>
@@ -1054,7 +1055,7 @@ string
 </tr>
 <tr>
 <td>
-<code>path</code></br>
+<code>path</code><br/>
 <em>
 string
 </em>
@@ -1066,7 +1067,7 @@ string
 </tr>
 <tr>
 <td>
-<code>ttl</code></br>
+<code>ttl</code><br/>
 <em>
 <a href="https://pkg.go.dev/time#Duration">
 time.Duration
@@ -1083,12 +1084,11 @@ time.Duration
 <h3 id="oam.verrazzano.io/v1alpha1.IngressPath">IngressPath
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.IngressRule">IngressRule</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.IngressRule">IngressRule</a>)
 </p>
-<p>
+<div>
 <p>IngressPath specifies a specific path to be exposed for an ingress trait.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1099,7 +1099,7 @@ time.Duration
 <tbody>
 <tr>
 <td>
-<code>path</code></br>
+<code>path</code><br/>
 <em>
 string
 </em>
@@ -1111,7 +1111,7 @@ string
 </tr>
 <tr>
 <td>
-<code>pathType</code></br>
+<code>pathType</code><br/>
 <em>
 string
 </em>
@@ -1125,7 +1125,7 @@ Defaults to <code>prefix</code> if <code>path</code> specified is <code>/</code>
 </tr>
 <tr>
 <td>
-<code>authorizationPolicy</code></br>
+<code>authorizationPolicy</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.AuthorizationPolicy">
 AuthorizationPolicy
@@ -1142,12 +1142,11 @@ AuthorizationPolicy
 <h3 id="oam.verrazzano.io/v1alpha1.IngressRule">IngressRule
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.IngressTraitSpec">IngressTraitSpec</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.IngressTraitSpec">IngressTraitSpec</a>)
 </p>
-<p>
+<div>
 <p>IngressRule specifies a rule for an ingress trait.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1158,7 +1157,7 @@ AuthorizationPolicy
 <tbody>
 <tr>
 <td>
-<code>destination</code></br>
+<code>destination</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.IngressDestination">
 IngressDestination
@@ -1172,7 +1171,7 @@ IngressDestination
 </tr>
 <tr>
 <td>
-<code>hosts</code></br>
+<code>hosts</code><br/>
 <em>
 []string
 </em>
@@ -1186,7 +1185,7 @@ is automatically generated and used.</p>
 </tr>
 <tr>
 <td>
-<code>paths</code></br>
+<code>paths</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.IngressPath">
 []IngressPath
@@ -1202,12 +1201,11 @@ is automatically generated and used.</p>
 <h3 id="oam.verrazzano.io/v1alpha1.IngressSecurity">IngressSecurity
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.IngressTraitSpec">IngressTraitSpec</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.IngressTraitSpec">IngressTraitSpec</a>)
 </p>
-<p>
+<div>
 <p>IngressSecurity specifies the secret containing the certificate securing the transport for an ingress trait.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1218,7 +1216,7 @@ is automatically generated and used.</p>
 <tbody>
 <tr>
 <td>
-<code>secretName</code></br>
+<code>secretName</code><br/>
 <em>
 string
 </em>
@@ -1233,12 +1231,11 @@ implies that a certificate was created for specific hosts, as specified in an <a
 <h3 id="oam.verrazzano.io/v1alpha1.IngressTraitSpec">IngressTraitSpec
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.IngressTrait">IngressTrait</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.IngressTrait">IngressTrait</a>)
 </p>
-<p>
+<div>
 <p>IngressTraitSpec specifies the desired state of an ingress trait.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1249,7 +1246,7 @@ implies that a certificate was created for specific hosts, as specified in an <a
 <tbody>
 <tr>
 <td>
-<code>rules</code></br>
+<code>rules</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.IngressRule">
 []IngressRule
@@ -1262,7 +1259,7 @@ implies that a certificate was created for specific hosts, as specified in an <a
 </tr>
 <tr>
 <td>
-<code>tls</code></br>
+<code>tls</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.IngressSecurity">
 IngressSecurity
@@ -1277,7 +1274,7 @@ This is required only if specific hosts are given in an <a href="#oam.verrazzano
 </tr>
 <tr>
 <td>
-<code>workloadRef</code></br>
+<code>workloadRef</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#TypedReference">
 OAM common/v1.TypedReference
@@ -1299,12 +1296,11 @@ original ApplicationConfiguration.</p>
 <h3 id="oam.verrazzano.io/v1alpha1.IngressTraitStatus">IngressTraitStatus
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.IngressTrait">IngressTrait</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.IngressTrait">IngressTrait</a>)
 </p>
-<p>
+<div>
 <p>IngressTraitStatus specifies the observed state of an ingress trait and related resources.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1315,7 +1311,7 @@ original ApplicationConfiguration.</p>
 <tbody>
 <tr>
 <td>
-<code>ConditionedStatus</code></br>
+<code>ConditionedStatus</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#ConditionedStatus">
 OAM common/v1.ConditionedStatus
@@ -1331,7 +1327,7 @@ OAM common/v1.ConditionedStatus
 </tr>
 <tr>
 <td>
-<code>resources</code></br>
+<code>resources</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#TypedReference">
 []OAM common/v1.TypedReference
@@ -1347,12 +1343,11 @@ OAM common/v1.ConditionedStatus
 <h3 id="oam.verrazzano.io/v1alpha1.LoggingTraitSpec">LoggingTraitSpec
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.LoggingTrait">LoggingTrait</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.LoggingTrait">LoggingTrait</a>)
 </p>
-<p>
+<div>
 <p>LoggingTraitSpec specifies the desired state of a logging trait.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1363,7 +1358,7 @@ OAM common/v1.ConditionedStatus
 <tbody>
 <tr>
 <td>
-<code>imagePullPolicy</code></br>
+<code>imagePullPolicy</code><br/>
 <em>
 string
 </em>
@@ -1375,7 +1370,7 @@ string
 </tr>
 <tr>
 <td>
-<code>loggingConfig</code></br>
+<code>loggingConfig</code><br/>
 <em>
 string
 </em>
@@ -1387,7 +1382,7 @@ fluentd.conf: <code>&lt;source&gt;\n ... and so on ...\n</code>.</p>
 </tr>
 <tr>
 <td>
-<code>loggingImage</code></br>
+<code>loggingImage</code><br/>
 <em>
 string
 </em>
@@ -1399,7 +1394,7 @@ string
 </tr>
 <tr>
 <td>
-<code>workloadRef</code></br>
+<code>workloadRef</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#TypedReference">
 OAM common/v1.TypedReference
@@ -1421,12 +1416,11 @@ original ApplicationConfiguration.</p>
 <h3 id="oam.verrazzano.io/v1alpha1.LoggingTraitStatus">LoggingTraitStatus
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.LoggingTrait">LoggingTrait</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.LoggingTrait">LoggingTrait</a>)
 </p>
-<p>
+<div>
 <p>LoggingTraitStatus specifies the observed state of a logging trait and related resources.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1437,7 +1431,7 @@ original ApplicationConfiguration.</p>
 <tbody>
 <tr>
 <td>
-<code>ConditionedStatus</code></br>
+<code>ConditionedStatus</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#ConditionedStatus">
 OAM common/v1.ConditionedStatus
@@ -1453,7 +1447,7 @@ OAM common/v1.ConditionedStatus
 </tr>
 <tr>
 <td>
-<code>resources</code></br>
+<code>resources</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#TypedReference">
 []OAM common/v1.TypedReference
@@ -1469,12 +1463,11 @@ OAM common/v1.ConditionedStatus
 <h3 id="oam.verrazzano.io/v1alpha1.MetricsTraitSpec">MetricsTraitSpec
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.MetricsTrait">MetricsTrait</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.MetricsTrait">MetricsTrait</a>)
 </p>
-<p>
+<div>
 <p>MetricsTraitSpec specifies the desired state of a metrics trait.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1485,7 +1478,7 @@ OAM common/v1.ConditionedStatus
 <tbody>
 <tr>
 <td>
-<code>enabled</code></br>
+<code>enabled</code><br/>
 <em>
 bool
 </em>
@@ -1497,7 +1490,7 @@ bool
 </tr>
 <tr>
 <td>
-<code>path</code></br>
+<code>path</code><br/>
 <em>
 string
 </em>
@@ -1509,7 +1502,7 @@ string
 </tr>
 <tr>
 <td>
-<code>port</code></br>
+<code>port</code><br/>
 <em>
 int
 </em>
@@ -1521,7 +1514,7 @@ int
 </tr>
 <tr>
 <td>
-<code>ports</code></br>
+<code>ports</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.PortSpec">
 []PortSpec
@@ -1535,7 +1528,7 @@ int
 </tr>
 <tr>
 <td>
-<code>scraper</code></br>
+<code>scraper</code><br/>
 <em>
 string
 </em>
@@ -1548,7 +1541,7 @@ Prometheus component is used to scrape the endpoint.</p>
 </tr>
 <tr>
 <td>
-<code>secret</code></br>
+<code>secret</code><br/>
 <em>
 string
 </em>
@@ -1561,7 +1554,7 @@ endpoint access.</p>
 </tr>
 <tr>
 <td>
-<code>workloadRef</code></br>
+<code>workloadRef</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#TypedReference">
 OAM common/v1.TypedReference
@@ -1583,12 +1576,11 @@ original ApplicationConfiguration.</p>
 <h3 id="oam.verrazzano.io/v1alpha1.MetricsTraitStatus">MetricsTraitStatus
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.MetricsTrait">MetricsTrait</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.MetricsTrait">MetricsTrait</a>)
 </p>
-<p>
+<div>
 <p>MetricsTraitStatus defines the observed state of a metrics trait and related resources.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1599,7 +1591,7 @@ original ApplicationConfiguration.</p>
 <tbody>
 <tr>
 <td>
-<code>ConditionedStatus</code></br>
+<code>ConditionedStatus</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#ConditionedStatus">
 OAM common/v1.ConditionedStatus
@@ -1615,7 +1607,7 @@ OAM common/v1.ConditionedStatus
 </tr>
 <tr>
 <td>
-<code>resources</code></br>
+<code>resources</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.QualifiedResourceRelation">
 []QualifiedResourceRelation
@@ -1631,12 +1623,11 @@ OAM common/v1.ConditionedStatus
 <h3 id="oam.verrazzano.io/v1alpha1.PortSpec">PortSpec
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.MetricsTraitSpec">MetricsTraitSpec</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.MetricsTraitSpec">MetricsTraitSpec</a>)
 </p>
-<p>
+<div>
 <p>PortSpec defines an HTTP port and path combination.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1647,7 +1638,7 @@ OAM common/v1.ConditionedStatus
 <tbody>
 <tr>
 <td>
-<code>path</code></br>
+<code>path</code><br/>
 <em>
 string
 </em>
@@ -1659,7 +1650,7 @@ string
 </tr>
 <tr>
 <td>
-<code>port</code></br>
+<code>port</code><br/>
 <em>
 int
 </em>
@@ -1674,13 +1665,11 @@ int
 <h3 id="oam.verrazzano.io/v1alpha1.QualifiedResourceRelation">QualifiedResourceRelation
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.MetricsTraitStatus">MetricsTraitStatus</a>, 
-<a href="#oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkloadStatus">VerrazzanoHelidonWorkloadStatus</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.MetricsTraitStatus">MetricsTraitStatus</a>, <a href="#oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkloadStatus">VerrazzanoHelidonWorkloadStatus</a>)
 </p>
-<p>
+<div>
 <p>QualifiedResourceRelation identifies a specific related resource.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1691,7 +1680,7 @@ int
 <tbody>
 <tr>
 <td>
-<code>apiversion</code></br>
+<code>apiversion</code><br/>
 <em>
 string
 </em>
@@ -1702,7 +1691,7 @@ string
 </tr>
 <tr>
 <td>
-<code>kind</code></br>
+<code>kind</code><br/>
 <em>
 string
 </em>
@@ -1713,7 +1702,7 @@ string
 </tr>
 <tr>
 <td>
-<code>name</code></br>
+<code>name</code><br/>
 <em>
 string
 </em>
@@ -1724,7 +1713,7 @@ string
 </tr>
 <tr>
 <td>
-<code>namespace</code></br>
+<code>namespace</code><br/>
 <em>
 string
 </em>
@@ -1735,7 +1724,7 @@ string
 </tr>
 <tr>
 <td>
-<code>role</code></br>
+<code>role</code><br/>
 <em>
 string
 </em>
@@ -1749,12 +1738,11 @@ string
 <h3 id="oam.verrazzano.io/v1alpha1.ServiceTemplate">ServiceTemplate
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkloadSpec">VerrazzanoHelidonWorkloadSpec</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkloadSpec">VerrazzanoHelidonWorkloadSpec</a>)
 </p>
-<p>
+<div>
 <p>ServiceTemplate specifies the metadata and pod spec of a Helidon workload.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1765,7 +1753,7 @@ string
 <tbody>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
 Kubernetes meta/v1.ObjectMeta
@@ -1781,7 +1769,7 @@ Refer to the Kubernetes API documentation for the fields of the
 </tr>
 <tr>
 <td>
-<code>serviceSpec</code></br>
+<code>serviceSpec</code><br/>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#servicespec-v1-core">
 Kubernetes core/v1.ServiceSpec
@@ -1798,12 +1786,11 @@ Kubernetes core/v1.ServiceSpec
 <h3 id="oam.verrazzano.io/v1alpha1.VerrazzanoCoherenceWorkloadSpec">VerrazzanoCoherenceWorkloadSpec
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.VerrazzanoCoherenceWorkload">VerrazzanoCoherenceWorkload</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.VerrazzanoCoherenceWorkload">VerrazzanoCoherenceWorkload</a>)
 </p>
-<p>
+<div>
 <p>VerrazzanoCoherenceWorkloadSpec wraps a Coherence resource.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1814,7 +1801,7 @@ Kubernetes core/v1.ServiceSpec
 <tbody>
 <tr>
 <td>
-<code>template</code></br>
+<code>template</code><br/>
 <em>
 <a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#RawExtension">
 Kubernetes runtime.RawExtension
@@ -1831,12 +1818,11 @@ Kubernetes runtime.RawExtension
 <h3 id="oam.verrazzano.io/v1alpha1.VerrazzanoCoherenceWorkloadStatus">VerrazzanoCoherenceWorkloadStatus
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.VerrazzanoCoherenceWorkload">VerrazzanoCoherenceWorkload</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.VerrazzanoCoherenceWorkload">VerrazzanoCoherenceWorkload</a>)
 </p>
-<p>
+<div>
 <p>VerrazzanoCoherenceWorkloadStatus defines the observed state of a Verrazzano Coherence workload.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1847,7 +1833,7 @@ Kubernetes runtime.RawExtension
 <tbody>
 <tr>
 <td>
-<code>lastGeneration</code></br>
+<code>lastGeneration</code><br/>
 <em>
 string
 </em>
@@ -1858,7 +1844,7 @@ string
 </tr>
 <tr>
 <td>
-<code>lastRestartVersion</code></br>
+<code>lastRestartVersion</code><br/>
 <em>
 string
 </em>
@@ -1872,12 +1858,11 @@ string
 <h3 id="oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkloadSpec">VerrazzanoHelidonWorkloadSpec
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkload">VerrazzanoHelidonWorkload</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkload">VerrazzanoHelidonWorkload</a>)
 </p>
-<p>
+<div>
 <p>VerrazzanoHelidonWorkloadSpec wraps a Helidon application deployment and service.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1888,7 +1873,7 @@ string
 <tbody>
 <tr>
 <td>
-<code>deploymentTemplate</code></br>
+<code>deploymentTemplate</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.DeploymentTemplate">
 DeploymentTemplate
@@ -1901,7 +1886,7 @@ DeploymentTemplate
 </tr>
 <tr>
 <td>
-<code>serviceTemplate</code></br>
+<code>serviceTemplate</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.ServiceTemplate">
 ServiceTemplate
@@ -1917,12 +1902,11 @@ ServiceTemplate
 <h3 id="oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkloadStatus">VerrazzanoHelidonWorkloadStatus
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkload">VerrazzanoHelidonWorkload</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkload">VerrazzanoHelidonWorkload</a>)
 </p>
-<p>
+<div>
 <p>VerrazzanoHelidonWorkloadStatus defines the observed state of Verrazzano Helidon workload.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1933,7 +1917,7 @@ ServiceTemplate
 <tbody>
 <tr>
 <td>
-<code>ConditionedStatus</code></br>
+<code>ConditionedStatus</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#ConditionedStatus">
 OAM common/v1.ConditionedStatus
@@ -1949,7 +1933,7 @@ OAM common/v1.ConditionedStatus
 </tr>
 <tr>
 <td>
-<code>resources</code></br>
+<code>resources</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.QualifiedResourceRelation">
 []QualifiedResourceRelation
@@ -1965,13 +1949,12 @@ OAM common/v1.ConditionedStatus
 <h3 id="oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkloadSpec">VerrazzanoWebLogicWorkloadSpec
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload">VerrazzanoWebLogicWorkload</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload">VerrazzanoWebLogicWorkload</a>)
 </p>
-<p>
+<div>
 <p>VerrazzanoWebLogicWorkloadSpec wraps a WebLogic resource. The WebLogic domain specified
 in the template must contain a spec field and it may include a metadata field.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1982,7 +1965,7 @@ in the template must contain a spec field and it may include a metadata field.</
 <tbody>
 <tr>
 <td>
-<code>template</code></br>
+<code>template</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkloadTemplate">
 VerrazzanoWebLogicWorkloadTemplate
@@ -1996,7 +1979,7 @@ VerrazzanoWebLogicWorkloadTemplate
 </tr>
 <tr>
 <td>
-<code>clusters</code></br>
+<code>clusters</code><br/>
 <em>
 <a href="#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkloadTemplate">
 []VerrazzanoWebLogicWorkloadTemplate
@@ -2011,12 +1994,11 @@ VerrazzanoWebLogicWorkloadTemplate
 <h3 id="oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkloadStatus">VerrazzanoWebLogicWorkloadStatus
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload">VerrazzanoWebLogicWorkload</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload">VerrazzanoWebLogicWorkload</a>)
 </p>
-<p>
+<div>
 <p>VerrazzanoWebLogicWorkloadStatus defines the observed state of a Verrazzano WebLogic workload.</p>
-</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -2027,7 +2009,7 @@ VerrazzanoWebLogicWorkloadTemplate
 <tbody>
 <tr>
 <td>
-<code>lastGeneration</code></br>
+<code>lastGeneration</code><br/>
 <em>
 string
 </em>
@@ -2038,7 +2020,7 @@ string
 </tr>
 <tr>
 <td>
-<code>lastRestartVersion</code></br>
+<code>lastRestartVersion</code><br/>
 <em>
 string
 </em>
@@ -2049,7 +2031,7 @@ string
 </tr>
 <tr>
 <td>
-<code>lastLifecycleAction</code></br>
+<code>lastLifecycleAction</code><br/>
 <em>
 string
 </em>
@@ -2063,11 +2045,10 @@ string
 <h3 id="oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkloadTemplate">VerrazzanoWebLogicWorkloadTemplate
 </h3>
 <p>
-(<em>Appears on:</em>
-<a href="#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkloadSpec">VerrazzanoWebLogicWorkloadSpec</a>)
+(<em>Appears on:</em><a href="#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkloadSpec">VerrazzanoWebLogicWorkloadSpec</a>)
 </p>
-<p>
-</p>
+<div>
+</div>
 <table>
 <thead>
 <tr>
@@ -2078,7 +2059,7 @@ string
 <tbody>
 <tr>
 <td>
-<code>apiVersion</code></br>
+<code>apiVersion</code><br/>
 <em>
 string
 </em>
@@ -2088,7 +2069,7 @@ string
 </tr>
 <tr>
 <td>
-<code>metadata</code></br>
+<code>metadata</code><br/>
 <em>
 <a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#RawExtension">
 Kubernetes runtime.RawExtension
@@ -2100,7 +2081,7 @@ Kubernetes runtime.RawExtension
 </tr>
 <tr>
 <td>
-<code>spec</code></br>
+<code>spec</code><br/>
 <em>
 <a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#RawExtension">
 Kubernetes runtime.RawExtension
@@ -2113,7 +2094,7 @@ Kubernetes runtime.RawExtension
 <table>
 <tr>
 <td>
-<code>-</code></br>
+<code>-</code><br/>
 <em>
 []byte
 </em>
@@ -2125,7 +2106,7 @@ Kubernetes runtime.RawExtension
 </tr>
 <tr>
 <td>
-<code>-</code></br>
+<code>-</code><br/>
 <em>
 <a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#Object">
 Kubernetes runtime.Object
@@ -2145,6 +2126,7 @@ structs.</p>
 <hr/>
 <p><em>
 Generated with <code>gen-crd-api-reference-docs</code>
+on git commit <code>238db2c3e</code>.
 </em></p>
 
 

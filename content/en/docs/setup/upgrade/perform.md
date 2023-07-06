@@ -84,12 +84,8 @@ In order to upgrade an existing Verrazzano installation, you must first update t
 <div class="highlight">
 
    ```
-   # To update to version v1.4.0:
+   # To update to the desired version:
    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/<version>/verrazzano-platform-operator.yaml
-   ```
-   ```
-   # To update to a version prior to v1.4.0:
-   $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/<version>/operator.yaml
    ```
 </div>
 {{< /clipboard >}}
