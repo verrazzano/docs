@@ -97,3 +97,36 @@ EOF
 For more information, see [Deploying Prometheus rules](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules).
 
 For instructions to customize persistent storage settings, see [Customize Persistent Storage]({{< relref "docs/observability/logging/configure-opensearch/storage.md " >}}).
+
+## Configure data retention settings
+
+Verrazzano configures Prometheus with a default data retention setting of 10 days. The rate of metrics data collected depends on many factors, including the number of monitors, the monitor scrape intervals, and the number of metrics returned by each monitor.
+
+When using persistent storage for Prometheus, it is possible to consume all storage. If Prometheus uses all available persistent storage, then queries return no data and new metrics cannot be saved.
+You can customize the persistent storage settings and change the data retention days and/or configure a maximum retention size. When configuring retention size, a good rule of thumb is to set the value
+to no more than 85% of the persistent storage size.
+
+The following example configures Prometheus to store at most three days or 40GB of metrics data.
+
+{{< clipboard >}}
+<div class="highlight">
+
+```
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: custom-prometheus
+spec:
+  profile: prod
+  components:
+    prometheusOperator:
+      overrides:
+        - values:
+            prometheus:
+              prometheusSpec:
+                retention: 3d
+                retentionSize: 40GB
+```
+
+</div>
+{{< /clipboard >}}
