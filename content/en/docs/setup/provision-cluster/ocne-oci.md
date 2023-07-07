@@ -12,6 +12,7 @@ You'll need to:
 * Set up an Oracle Cloud Infrastructure (OCI) account with 
     * A compartment 
     * A virtual cloud network (VCN), configured to allow bi-directional communication between the admin cluster and the managed cluster and to accept the [ports and protocols required by Kubernetes](https://kubernetes.io/docs/reference/networking/ports-and-protocols/)
+    * An [API signing key](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#two)
 * Generate an SSH key pair to use for cluster authentication
 
 ### Create a new OCNE cluster on OCI 
@@ -22,7 +23,20 @@ To provision new Oracle Cloud Native Environment (OCNE) managed clusters on OCI,
 1. Open the navigation menu and select **Cluster Management**.
 1. From the left menu, select **Cloud Credentials**, and then click **Create**. Cloud credentials store the credentials for your cloud infrastructure provider.
 1. Choose **Oracle**.
-1. Provide a name for the cloud credential and then fill in the fields. You can find the required information in your [OCI configuration file](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#Required_Keys_and_OCIDs). Click **Create**.
+1. Provide a name for the cloud credential and then fill in the rest of the fields with information from your OCI account and its API signing key.
+    * **fingerprint**: The fingerprint of the public API key. [Find your key's fingerprint](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#four).
+
+    * **passphrase**: The passphrase used for the API key, if it was encrypted.
+
+    * **privateKeyContents**: Copy the contents of the private key portion of the API key pair. [Generate an API Signing Key](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#two).
+    
+    * **region**: Enter the identifier for the current region of your tenancy. [Find your region identifier](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm#About).
+    
+    * **tenancyId**: Enter the OCID of your tenancy. [Find your tenancy OCID](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#five).
+    
+    * **userId**: Enter the OCID of the user. [Find your user OCID](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#five).
+    
+1. Click **Create** to save the new cloud credential.
 1. From the left menu, select **Clusters**, and then click **Create**.
 1. Select **Oracle OCNE on OCI** and provide a name for the cluster.
 1. Expand **Member Roles** to add any users that you want grant access to this cluster and their permissions.
