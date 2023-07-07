@@ -20574,7 +20574,8 @@ b. Edit the &lt;code&gt;Verrazzano&lt;/code&gt; resource directly using &lt;code
       <description>
         
         
-        &lt;p&gt;Prometheus is a system for monitoring cloud native applications and is used by Verrazzano to monitor applications. Prometheus is used in Verrazzano to collect system performance metrics and applications deployed or managed by Verrazzano. Prometheus analysis the metrics and provide a visualization using Grafana.&lt;/p&gt;
+        &lt;p&gt;Prometheus is a system for monitoring cloud native applications and is used by Verrazzano to monitor applications. Prometheus is used in Verrazzano to collect system performance metrics and metrics for applications deployed or managed by Verrazzano. Prometheus analyzes the metrics and provides visualization using Grafana.&lt;/p&gt;
+&lt;h2 id=&#34;customize-prometheus-configuration&#34;&gt;Customize Prometheus configuration&lt;/h2&gt;
 &lt;p&gt;Verrazzano installs Prometheus components, including Prometheus Operator and Prometheus, using the
 &lt;a href=&#34;https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack&#34;&gt;kube-prometheus-stack&lt;/a&gt; Helm chart.
 You can customize the installation configuration using Helm overrides specified in the
@@ -20907,6 +20908,116 @@ EOF
 &lt;/script&gt;&lt;/p&gt;
 &lt;p&gt;For more information, see &lt;a href=&#34;https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules&#34;&gt;Deploying Prometheus rules&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;For instructions to customize persistent storage settings, see &lt;a href=&#34;../docs/observability/logging/configure-opensearch/storage/&#34;&gt;Customize Persistent Storage&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;configure-data-retention-settings&#34;&gt;Configure data retention settings&lt;/h2&gt;
+&lt;p&gt;Verrazzano configures Prometheus with a default data retention setting of 10 days. The rate of metrics data collected depends on many factors, including the number of monitors, the monitor scrape intervals, and the number of metrics returned by each monitor.&lt;/p&gt;
+&lt;p&gt;When using persistent storage for Prometheus, it is possible to consume all storage. If Prometheus uses all available persistent storage, then queries return no data and new metrics cannot be saved.
+You can customize the persistent storage settings, and change the data retention days and configure a maximum retention size. When configuring retention size, a good rule of thumb is to set the value
+to no more than 85 percent of the persistent storage size.&lt;/p&gt;
+&lt;p&gt;The following example configures Prometheus to store at most three days or 40 GB of metrics data.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: custom-prometheus
+spec:
+  profile: prod
+  components:
+    prometheusOperator:
+      overrides:
+        - values:
+            prometheus:
+              prometheusSpec:
+                retention: 3d
+                retentionSize: 40GB
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
 
       </description>
     </item>
