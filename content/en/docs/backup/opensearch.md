@@ -339,16 +339,15 @@ To get the registered repositories
 # To see all snapshot repositories
 GET _snapshot/_all
 ```
-{{< clipboard >}}
+{{< /clipboard >}}
 
 To get all the snapshots in the registered repository
-
 {{< clipboard >}}
 ```yaml
 # To see all snapshots in a repository
 GET _snapshot/<backup_repository_name>/_all
 ```
-{{< clipboard >}}
+{{< /clipboard >}}
 
 Restore the specific snapshot
 {{< clipboard >}}
@@ -356,7 +355,7 @@ Restore the specific snapshot
 # To restore the existing snapshot, run the following command
 POST _snapshot/<backup_repository_name>/<snapshot-name>/_restore
 ```
-{{< clipboard >}}
+{{< /clipboard >}}
 
 `<backup_repository_name>`: Name of the backup repository where your OpenSearch snapshot is stored. You should replace <backup_repository_name> with the actual name of your backup repository.
 
