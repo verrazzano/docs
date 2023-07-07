@@ -104,3 +104,67 @@ spec:
 {{< /clipboard >}}
 
 After you've completed these steps, you can [verify metrics collection]({{< relref "/docs/observability/monitoring/configure-metrics.md#verify-metrics-collection" >}}) has succeeded.
+
+### Metrics queries no longer return metrics
+
+If Prometheus storage reaches capacity, then metrics queries will no longer return results. Check the Prometheus logs.
+
+{{< clipboard >}}
+<div class="highlight">
+
+```
+$ kubectl logs -l app.kubernetes.io/instance=prometheus-operator-kube-p-prometheus -n verrazzano-monitoring
+```
+
+</div>
+{{< /clipboard >}}
+
+If there are messages indicating that the disk is full, then it will be necessary to either expand the storage or free disk space. If the default storage class supports volume expansion,
+then you can attempt to expand the volume.
+
+Check if the default storage class allows volume expansion.
+
+{{< clipboard >}}
+<div class="highlight">
+
+```
+$ kubectl get storageclass
+```
+
+</div>
+{{< /clipboard >}}
+
+If the default storage class allows expansion, then modify the persistent volume claim and the Prometheus resource storage request to use the larger size.
+
+For example, to increase the storage to 100 Gi:
+
+{{< clipboard >}}
+<div class="highlight">
+
+```
+$ kubectl patch pvc prometheus-prometheus-operator-kube-p-prometheus-db-prometheus-prometheus-operator-kube-p-prometheus-0 -n verrazzano-monitoring \
+   --type=merge -p '{"spec":{"resources":{"requests":{"storage":"100Gi"}}}}'
+
+$ kubectl patch prometheus prometheus-operator-kube-p-prometheus -n verrazzano-monitoring \
+   --type=merge -p '{"spec":{"storage":{"volumeClaimTemplate":{"spec":{"resources":{"requests":{"storage":"100Gi"}}}}}}}'
+```
+
+</div>
+{{< /clipboard >}}
+
+Alternatively, delete existing metrics data in the Prometheus pods to free space.
+
+{{< clipboard >}}
+<div class="highlight">
+
+```
+$ kubectl exec statefulset.apps/prometheus-prometheus-operator-kube-p-prometheus -n verrazzano-monitoring -- rm -fr /prometheus/wal
+
+$ kubectl rollout restart statefulset.apps/prometheus-prometheus-operator-kube-p-prometheus -n verrazzano-monitoring
+```
+
+</div>
+{{< /clipboard >}}
+
+For information on how to configure Prometheus data retention settings to avoid filling up persistent storage in the Prometheus pods,
+see [Configure data retention settings]({{< relref "/docs/observability/monitoring/configure/prometheus#configure-data-retention-settings" >}}).
