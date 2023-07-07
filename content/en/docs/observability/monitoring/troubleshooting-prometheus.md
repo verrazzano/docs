@@ -113,7 +113,7 @@ If Prometheus storage reaches capacity, then metrics queries will no longer retu
 <div class="highlight">
 
 ```
-kubectl logs -l app.kubernetes.io/instance=prometheus-operator-kube-p-prometheus -n verrazzano-monitoring
+$ kubectl logs -l app.kubernetes.io/instance=prometheus-operator-kube-p-prometheus -n verrazzano-monitoring
 ```
 
 </div>
@@ -128,7 +128,7 @@ Check if the default storage class allows volume expansion.
 <div class="highlight">
 
 ```
-kubectl get storageclass
+$ kubectl get storageclass
 ```
 
 </div>
@@ -136,7 +136,7 @@ kubectl get storageclass
 
 If the default storage class allows expansion, then modify the persistent volume claim and the Prometheus resource storage request to use the larger size.
 
-For example, to increase the storage to 100Gi:
+For example, to increase the storage to 100 Gi:
 
 {{< clipboard >}}
 <div class="highlight">
@@ -152,7 +152,7 @@ $ kubectl patch prometheus prometheus-operator-kube-p-prometheus -n verrazzano-m
 </div>
 {{< /clipboard >}}
 
-Alternatively, delete existing metrics data in the Prometheus pods to free space:
+Alternatively, delete existing metrics data in the Prometheus pods to free space.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -166,5 +166,5 @@ $ kubectl rollout restart statefulset.apps/prometheus-prometheus-operator-kube-p
 </div>
 {{< /clipboard >}}
 
-See [Configure data retention settings]({{< relref "/docs/observability/monitoring/configure/prometheus#configure-data-retention-settings" >}}) for information on how to
-configure Prometheus data retention settings to avoid filling up persistent storage in the Prometheus pods.
+For information on how to configure Prometheus data retention settings to avoid filling up persistent storage in the Prometheus pods,
+see [Configure data retention settings]({{< relref "/docs/observability/monitoring/configure/prometheus#configure-data-retention-settings" >}}).
