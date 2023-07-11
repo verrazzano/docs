@@ -6,6 +6,7 @@ menu:
     weight: 20
 no_list: true
 type: list
+draft: true
 ---
 
 Documentation archive of verrazzano.io for each release.
