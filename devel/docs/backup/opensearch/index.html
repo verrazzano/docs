@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/backup/opensearch/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-03-28T09:33:54+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-07-11T11:57:05+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="OpenSearch">
 <meta itemprop="description" content="Back up and restore OpenSearch">
-<meta itemprop="dateModified" content="2023-03-28T09:33:54+05:30" />
-<meta itemprop="wordCount" content="3438">
+<meta itemprop="dateModified" content="2023-07-11T11:57:05+05:30" />
+<meta itemprop="wordCount" content="4134">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="OpenSearch"/>
 <meta name="twitter:description" content="Back up and restore OpenSearch"/>
@@ -112,7 +112,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.df0a5e0fe0da44347089cf5169ab65a0.json"
+    data-offline-search-index-json-src="../../../offline-search-index.6619413df5831199711a9bad042d19b9.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -138,7 +138,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.df0a5e0fe0da44347089cf5169ab65a0.json"
+    data-offline-search-index-json-src="../../../offline-search-index.6619413df5831199711a9bad042d19b9.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -1083,6 +1083,7 @@ if (!doNotTrack) {
           </ul>
         </li>
         <li><a href="#opensearch-restore-using-velero">OpenSearch restore using Velero</a></li>
+        <li><a href="#opensearch-restore-in-an-existing-cluster-using-opensearch-api">OpenSearch restore in an existing cluster using OpenSearch API</a></li>
       </ul>
     </li>
   </ul>
@@ -1153,6 +1154,7 @@ There are scenarios where you may want to back up your OpenSearch data and resto
 <li><a href="#velero-operator-prerequisites">Velero operator prerequisites</a></li>
 <li><a href="#opensearch-backup-using-velero">OpenSearch backup using Velero</a></li>
 <li><a href="#opensearch-restore-using-velero">OpenSearch restore using Velero</a></li>
+<li><a href="#opensearch-restore-in-an-existing-cluster-using-opensearch-api">OpenSearch restore in an existing cluster using OpenSearch API</a></li>
 </ul>
 <h2 id="velero-operator-prerequisites">Velero operator prerequisites</h2>
 <p>Before proceeding with an OpenSearch backup or restore operation, the following details should be kept handy:</p>
@@ -2467,6 +2469,291 @@ In this case, it&rsquo;s <code>statefulset.kubernetes.io/pod-name: vmi-system-es
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
 </details>
+<h2 id="opensearch-restore-in-an-existing-cluster-using-opensearch-api">OpenSearch restore in an existing cluster using OpenSearch API</h2>
+<p><a href="#opensearch-restore-using-velero">OpenSearch restore using Velero</a> typically is used for disaster recovery scenarios where you need to restore the entire cluster. But, if you want to restore the OpenSearch data within an already existing cluster, then you can use the OpenSearch API.</p>
+<p>Assuming that you have previously created a backup using Velero, within the same cluster that would have completed the repository registration, and want to solely restore the OpenSearch data from that specific backup, run the following commands.</p>
+<p>To get the registered repositories:
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># To see all snapshot repositories</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">$ GET _snapshot/_all</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div>
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script></p>
+<p>To get all the snapshots in the registered repository:
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># To see all snapshots in a repository</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">$ GET _snapshot/&lt;backup_repository_name&gt;/_all</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div>
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script></p>
+<p>To restore the specific snapshot:
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># To restore the existing snapshot, run the following command</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">$ POST _snapshot/&lt;backup_repository_name&gt;/&lt;snapshot-name&gt;/_restore</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div>
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script></p>
+<ul>
+<li>
+<p><code>&lt;backup_repository_name&gt;</code>: The name of the backup repository where your OpenSearch snapshot is stored. Replace <code>&lt;backup_repository_name&gt;</code> with the name of your backup repository.</p>
+</li>
+<li>
+<p><code>&lt;snapshot-name&gt;</code>: The name of the OpenSearch snapshot you want to restore. Replace <code>&lt;snapshot-name&gt;</code> with the name of your snapshot.</p>
+</li>
+</ul>
+<p>For more information, see <a href="https://opensearch.org/docs/latest/tuning-your-cluster/availability-and-recovery/snapshots/snapshot-restore/#restore-snapshots">OpenSearch Restore</a> in the OpenSearch documentation.</p>
 
 	
 		<style>
