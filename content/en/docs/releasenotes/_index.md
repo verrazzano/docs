@@ -43,7 +43,7 @@ draft: false
 - Updated the base image and other component images to resolve CVEs.
 
 #### Known issues and workarounds:
-- Systemd journal logs are not collected on some platforms because the [systemd plugin for Fluentd](https://github.com/fluent-plugin-systemd/fluent-plugin-systemd) cannot read systemd journal files on Kubernetes nodes that use newer versions of systemd. This is known to impact the default node images of [kind](https://kind.sigs.k8s.io/) for Kubernetes 1.24 and later, Oracle Linux 9, and any other Kubernetes cluster nodes running on an operating system that has systemd version 246 or later. As a workaround, uninstall Fluentd and use Fluent Bit({{< relref "/docs/observability/logging/fluent-operator.md" >}}) instead.
+- Systemd journal logs are not collected on some platforms because the [systemd plugin for Fluentd](https://github.com/fluent-plugin-systemd/fluent-plugin-systemd) cannot read systemd journal files on Kubernetes nodes that use newer versions of systemd. This is known to impact the default node images of [kind](https://kind.sigs.k8s.io/) for Kubernetes 1.24 and later, Oracle Linux 9, and any other Kubernetes cluster nodes running on an operating system that has systemd version 246 or later. As a workaround, uninstall Fluentd and use [Fluent Bit]({{< relref "/docs/observability/logging/fluent-operator.md" >}}) instead.
 - Registration of managed clusters [using the Verrazzano console]({{< relref "/docs/setup/mc-install/register/ui-register.md" >}}) is not working in [disconnected environments]({{< relref "/docs/setup/private-registry/private-registry.md" >}}).  Use the [Kubernetes Custom Resources]({{< relref "/docs/setup/mc-install/register/register-kubectl.md" >}}) method instead.
 
 
