@@ -35,9 +35,11 @@ spec:
 </div>
 {{< /clipboard >}}
 
-For more information about setting component overrides, see [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing).
+For more information about setting component overrides, see [Installation Overrides]({{< relref "docs/setup/installationOverrides.md " >}}).
 
-For instructions to customize persistent storage settings, see [Customize Persistent Storage]({{< relref "docs/observability/logging/configure-opensearch/storage.md " >}}).
+For information about all the overrides supported by kube-prometheus-stack chart in Verrazzano, see [values.yaml](https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/prometheus-community/kube-prometheus-stack/values.yaml).
+
+For instructions to customize persistent storage settings for Prometheus, see [Customize Persistent Storage]({{< relref "docs/observability/logging/configure-opensearch/storage.md " >}}).
 
 ## Configure Alertmanager
 
@@ -81,7 +83,6 @@ To configure Alertmanager to send alerts as SMTP notifications, complete the fol
                    - smtp-secret
                  config:
                    global:
-                     resolve_timeout: 15m
                      smtp_auth_password_file: /etc/alertmanager/secrets/smtp-secret/password
                      smtp_auth_username: "<smtp server username>"
                      smtp_from: "<e-mail address used when sending out emails>"
@@ -94,8 +95,6 @@ To configure Alertmanager to send alerts as SMTP notifications, complete the fol
                  route:
                    group_by:
                    - alertname
-                   - datacenter
-                   - app
                    receiver: email-notifications
                    routes:
                    - matchers:
