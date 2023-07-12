@@ -108,6 +108,34 @@ $ kubectl wait \
     --for=condition=InstallComplete verrazzano/example-verrazzano
 {{< /clipboard >}}
 
+
+**NOTE**: If you are installing Verrazzano in an Azure Kubernetes Service (AKS) cluster, add the following annotation for `ingressNGINX` to access Verrazzano endpoints on Azure.
+
+{{< clipboard >}}
+<div class="highlight">
+
+    $ kubectl apply -f - <<EOF
+    apiVersion: install.verrazzano.io/v1beta1
+    kind: Verrazzano
+    metadata:
+      name: example-verrazzano
+    spec:
+      profile: dev
+      components:
+        ingressNGINX:
+          overrides:
+          - values:
+              controller:
+                service:
+                  annotations:
+                    service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+        dns:
+          wildcard:
+            domain: nip.io
+    EOF
+</div>
+{{< /clipboard >}}
+
 To use a different profile with the previous example, set the `VZ_PROFILE` environment variable to the name of the profile
 you want to install.
 
