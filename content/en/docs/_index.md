@@ -25,4 +25,4 @@ The timeline for Verrazzano releases and the date of their end of error correcti
 | [1.0](https://github.com/verrazzano/verrazzano/releases/tag/v1.0.0)        | 2021-08-02   | [1.0.4](https://github.com/verrazzano/verrazzano/releases/tag/v1.0.4)                | 2021-12-20                | 2022-06-30               |
 
 <br>
-*_Projected date. Actual date will be determined when the next minor or major release is available._
+*Projected date. Actual date will be determined when the next minor or major release is available.
