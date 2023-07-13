@@ -7,7 +7,7 @@ draft: false
 ---
 
 ### Summary
-Analysis detected that a cluster managed by Rancher is not ready.  The state of the cluster will display Active on the home screen when it is available to be managed via Rancher.
+Analysis detected that a cluster managed by Rancher is not ready.  The state of the cluster will display Active on the home screen when it is available to be managed by Rancher.
 
 There are interim states, such as Provisioning and Waiting, that may be displayed before a cluster becomes Active. The interim states typically show additional information, such as Waiting for cluster to be ready.
 
