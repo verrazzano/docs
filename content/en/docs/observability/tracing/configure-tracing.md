@@ -90,7 +90,7 @@ jaeger-verrazzano-managed-cluster   Running   1.34.1    production   opensearch 
 ### Customize Jaeger
 
 Verrazzano installs the Jaeger Operator and Jaeger using the
-[jaeger-operator](https://github.com/verrazzano/verrazzano/tree/{{<release_version>}}/platform-operator/thirdparty/charts/jaegertracing/jaeger-operator) Helm chart.
+[jaeger-operator]({{% release_source_url path=platform-operator/thirdparty/charts/jaegertracing/jaeger-operator %}}) Helm chart.
 Using Helm overrides specified in the Verrazzano custom resource, you can customize the installation configuration.
 For more information about setting component overrides, see [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing).
 

@@ -11,7 +11,7 @@ Prometheus is a system for monitoring cloud native applications and is used by V
 ## Customize Prometheus configuration
 
 Verrazzano installs Prometheus components, including Prometheus Operator and Prometheus, using the
-[kube-prometheus-stack](https://github.com/verrazzano/verrazzano/tree/{{<release_version>}}/platform-operator/thirdparty/charts/prometheus-community/kube-prometheus-stack) Helm chart.
+[kube-prometheus-stack]({{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/kube-prometheus-stack %}}) Helm chart.
 You can customize the installation configuration using Helm overrides specified in the
 Verrazzano custom resource. For example, the following Verrazzano custom resource overrides the number of Prometheus replicas.
 {{< clipboard >}}
