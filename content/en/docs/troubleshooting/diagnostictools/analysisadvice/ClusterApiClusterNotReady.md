@@ -7,7 +7,7 @@ draft: false
 ---
 
 ### Summary
-Analysis detected that a Cluster API cluster.cluster.x-k8s.io resource was not in a ready state.
+Analysis detected that a Cluster API `cluster.cluster.x-k8s.io` resource was not in a ready state.
 A ready cluster resource will have a status with condition types all set to `True`.
 
 ### Steps
