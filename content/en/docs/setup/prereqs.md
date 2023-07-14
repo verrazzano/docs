@@ -5,7 +5,6 @@ weight: 1
 draft: false
 ---
 
-
 Verrazzano requires the following:
 - A Kubernetes cluster and a compatible `kubectl`.
 - `dev` profile - At least two CPUs, 100 GB disk storage, and 16 GB RAM available on the Kubernetes worker nodes. Depending on the resource requirements of the applications you deploy, this may or may not be sufficient.
@@ -37,7 +36,7 @@ You can install Verrazzano on the following Kubernetes versions.
 <br>
 
 For more information, see [Kubernetes Release Documentation](https://kubernetes.io/releases/).
-For platform specific details, see [Verrazzano platform setup]({{< relref "/docs/setup/platforms/_index.md" >}}).
+
 
 ### WebLogic Server
 The supported versions of WebLogic Server are dependent on the [WebLogic Kubernetes Operator](https://oracle.github.io/weblogic-kubernetes-operator/) version.
