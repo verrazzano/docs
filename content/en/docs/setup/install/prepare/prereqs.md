@@ -10,15 +10,11 @@ aliases:
 
 Verrazzano requires the following:
 - A Kubernetes cluster and a compatible `kubectl`.
-- [Two load balancers]({{< relref "/docs/networking#high-level-network-diagram" >}}). Note that in a Verrazzano multicluster environment, two load balancers are required for each cluster.
-- `dev` profile - Each node in the cluster should contain at least two CPUs, 16 GB RAM, and 100 GB of disk storage. The entire cluster requires at least six CPUs, 48 GB RAM, and 100 GB of disk storage. In addition, about 52 GB of storage is required for the persistent volumes.
-- `prod` profile - Each node in the cluster should contain at least four CPUs, 32 GB RAM, and 100 GB of disk storage. The entire cluster requires at least eight CPUs, 64 GB RAM, and 150 GB of disk storage. In addition, about 450 GB of storage is required for the persistent volumes.
+- `dev` profile - At least two CPUs, 100 GB disk storage, and 16 GB RAM available on the Kubernetes worker nodes. Depending on the resource requirements of the applications you deploy, this may or may not be sufficient.
+- `prod` profile - At least four CPUs, 100 GB disk storage, and 32 GB RAM available on the Kubernetes worker nodes.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient.
 
-   The `storageClassName` is not available for all the components where you configure persistent volumes, therefore, when it is not specified, the default [StorageClass](https://kubernetes.io/docs/tasks/administer-cluster/change-default-storage-class/) from the cluster is used.
-
-
-{{< alert title="NOTE" color="primary" >}}
-To avoid conflicts with Verrazzano system components, we recommend installing Verrazzano into an empty cluster. Also, depending on the resource requirements of the applications you deploy, the configurations previously suggested may or may not be sufficient.
+{{< alert title="NOTE" color="warning" >}}
+To avoid conflicts with Verrazzano system components, we recommend installing Verrazzano into an empty cluster.
 {{< /alert >}}
 
 ## Supported hardware
@@ -56,6 +52,4 @@ See the Coherence versions supported [here](https://oracle.github.io/coherence-o
 Verrazzano supports all versions of Helidon.  For more information, see [Helidon](https://helidon.io) and
  [Helidon Commercial Offerings](https://support.oracle.com/knowledge/Middleware/2645279_1.html).
 
-### Verrazzano installed software
 
-For a detailed list of Verrazzano installed software, see [here]({{< relref "/docs/setup/install/verify/softwares.md" >}}).
