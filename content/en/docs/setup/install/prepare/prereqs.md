@@ -32,7 +32,6 @@ You can install Verrazzano on the following Kubernetes versions.
 
 | Verrazzano | Kubernetes Versions    |
 |------------|------------------------|
-| 1.6        | 1.24, 1.25, 1.26       |
 | 1.5        | 1.21, 1.22, 1.23, 1.24 |
 | 1.4        | 1.21, 1.22, 1.23, 1.24 |
 | 1.3        | 1.21, 1.22, 1.23       |
