@@ -8,7 +8,7 @@ draft: false
 
 ### Summary
 Analysis detected that a Rancher KontainerDriver resource was not in a ready state.
-A ready KontainerDriver resource will have a status with condition types Active, Downloaded, and Installed set the `True`.
+A ready KontainerDriver resource will have a status with condition types Active, Downloaded, and Installed set to `True`.
 
 ### Steps
 Review the Rancher logs in the `cattle-system` namespace for additional details as to why the KontainerDriver resource is
