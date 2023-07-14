@@ -18,8 +18,8 @@ images with newer versions.
 If Verrazzano has a new version of Istio, then all the pods with Istio proxy sidecars
 need to be restarted. This is done so that the new version of the proxy sidecar can be injected into the pods.
 All Verrazzano system pods containing Istio proxy sidecars will be restarted.
-Additionally, application workloads with old versions of the Istio proxy sidecar will be restarted as well.
-Verrazzano will perform a rolling restart of all application workloads except WebLogic workloads with an istio proxy sidecar
+Additionally, OAM application workloads with old versions of the Istio proxy sidecar will be restarted as well.
+Verrazzano will perform a rolling restart of all OAM workloads except WebLogic workloads with an istio proxy sidecar
 that is out of date by two minor version or more. For these workloads, Verrazzano will stop the WebLogic Domain prior to upgrade
 and restart it once the upgrade has been completed. This may result in downtime during upgrade for these WebLogic workloads.
-There is no user involvement related to restarting applications; it is done automatically during upgrade.
+There is no user involvement related to restarting OAM applications; it is done automatically during upgrade.
