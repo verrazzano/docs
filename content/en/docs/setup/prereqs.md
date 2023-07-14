@@ -24,17 +24,15 @@ Verrazzano supports the following software versions.
 ### Kubernetes
 You can install Verrazzano on the following Kubernetes versions.
 
-| Verrazzano | End of Error Correction*|
+| Verrazzano | Kubernetes Versions     |
 |------------|-------------------------|
-| 1.4        | 2023-10-31              |
-| 1.3        | 2023-05-31              |
-| 1.2        | 2022-11-30              |
-| 1.1        | 2022-09-30              |
-| 1.0        | 2022-06-30              |
+| 1.4        | 1.21, 1.22, 1.23, 1.24  |
+| 1.3        | 1.21, 1.22, 1.23        |
+| 1.2        | 1.19, 1.20, 1.21        |
+| 1.1        | 1.19, 1.20, 1.21        |
+| 1.0        | 1.18, 1.19, 1.20        |
 
-*_End of error correction for Verrazzano releases._<br>
 
-<br>
 
 For more information, see [Kubernetes Release Documentation](https://kubernetes.io/releases/).
 For platform specific details, see [Verrazzano platform setup]({{< relref "/docs/setup/platforms/_index.md" >}}).
