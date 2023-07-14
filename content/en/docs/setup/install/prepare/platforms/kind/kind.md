@@ -34,7 +34,7 @@ Kind images are prebuilt for each release.  To find images suitable for a given 
 [release notes](https://github.com/kubernetes-sigs/kind/releases) for your Kind version (check with `kind version`).
 There you'll find a complete listing of images created for a Kind release.
 
-The following example references a Kubernetes v1.21.1-based image built for Kind v0.11.1.  Replace that image
+The following example references a Kubernetes v1.26-based image built for Kind v0.11.1.  Replace that image
 with one suitable for the Kind release you are using. For the supported Kubernetes versions, see the listing [here]({{< relref "/docs/setup/install/prepare/prereqs#kubernetes" >}}).
 {{< clipboard >}}
 <div class="highlight">
@@ -44,7 +44,7 @@ with one suitable for the Kind release you are using. For the supported Kubernet
     apiVersion: kind.x-k8s.io/v1alpha4
     nodes:
       - role: control-plane
-        image: kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
+        image: kindest/node:v1.26@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
         kubeadmConfigPatches:
           - |
             kind: ClusterConfiguration
@@ -95,7 +95,7 @@ because they will not need to pull the images again.
     apiVersion: kind.x-k8s.io/v1alpha4
     nodes:
       - role: control-plane
-        image: kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
+        image: kindest/node:v1.26@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
         kubeadmConfigPatches:
           - |
             kind: ClusterConfiguration
