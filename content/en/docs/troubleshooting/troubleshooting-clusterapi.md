@@ -23,7 +23,7 @@ To view the clusterAPI controller log file, use the following command:
 <div class="highlight">
 
 ```
-kubectl logs -n verrazzano-capi capi-controller-manager-<nnnn>
+$ kubectl logs -n verrazzano-capi capi-controller-manager-<nnnn>
 ```
 {{< /clipboard >}}
 </div>
@@ -34,7 +34,7 @@ To view the clusterAPI OCI provider log file, use the following command:
 <div class="highlight">
 
 ```
-kubectl logs -n verrazzano-capi capoci-controller-manager-<nnnn>
+$ kubectl logs -n verrazzano-capi capoci-controller-manager-<nnnn>
 ```
 {{< /clipboard >}}
 </div>
@@ -45,7 +45,7 @@ To view the clusterAPI control plane provider log file, use the following comman
 <div class="highlight">
 
 ```
-kubectl logs -n verrazzano-capi capi-ocne-control-plane-controller-manager-<nnnn>
+$ kubectl logs -n verrazzano-capi capi-ocne-control-plane-controller-manager-<nnnn>
 ```
 {{< /clipboard >}}
 </div>
@@ -56,14 +56,14 @@ To view the clusterAPI bootstrap provider log file, use the following command:
 <div class="highlight">
 
 ```
-kubectl logs -n verrazzano-capi capi-ocne-bootstrap-controller-manager-<nnnn>
+$ kubectl logs -n verrazzano-capi capi-ocne-bootstrap-controller-manager-<nnnn>
 ```
 {{< /clipboard >}}
 </div>
 
 **Review clusterAPI Kubernetes custom resources**
 
-On the admin cluster, use `kubectl` to check the status of the clusterAPI custom resource:
+On the admin cluster, use `kubectl` to check the status of the clusterAPI custom resource.
 
 To see the status of the clusterAPI Kubernetes custom resource cluster, use the following command:
 
@@ -71,7 +71,7 @@ To see the status of the clusterAPI Kubernetes custom resource cluster, use the 
 <div class="highlight">
 
 ```
-kubectl get clusters.cluster.x-k8s.io -A
+$ kubectl get clusters.cluster.x-k8s.io -A
 ```
 {{< /clipboard >}}
 
@@ -83,7 +83,7 @@ To see the status of the clusterAPI Kubernetes custom resource machine, use the 
 <div class="highlight">
 
 ```
-kubectl get machines -A
+$ kubectl get machines -A
 ```
 {{< /clipboard >}}
 
@@ -107,25 +107,25 @@ Causes may include:
 * Connectivity issues: Make sure your virtual cloud network is configured properly.
 
 * The network load balancer is in a critical state: The network load balancer may temporarily enter a critical state during initial cluster creation until the Kubernetes API server is up. If it remains in a critical state, then one of the following issues may have occurred:
-    * Traffic between the network load balancer and the OCNE control plane node is blocked over port 6443
+    * Traffic between the network load balancer and the OCNE control plane node is blocked over port 6443.
 
-    * The OCNE API server did not start, possibly because OCNE dependencies failed to install
+    * The OCNE API server did not start, possibly because OCNE dependencies failed to install.
 
 * Node creation failed:
     * The OCI credentials are invalid: Check for errors under Kubernetes events in the namespace where cluster objects are present or in the OCI provider log files.
 
     * The Image ID used to deploy templates is invalid.
 
-    * Worker nodes only: Worker nodes began provisioning after the control node plane entered `Running` state.
-        * If OCNE dependencies failed to install on the control plane node, worker nodes remain in Pending state and do not get created. Check the `cloud-init` log files on control plane nodes to determine the cause.
+    * Worker nodes only: Worker nodes began provisioning after the control node plane entered the `Running` state.
+        * If OCNE dependencies failed to install on the control plane node, worker nodes remain in the `Pending` state and do not get created. Check the `cloud-init` log files on the control plane nodes to determine the cause.
 
-You should also confirm that pods are running on the workload cluster. From the console, download the kubeconfig file for the workload cluster and run the following command:
+Also, you should confirm that pods are running on the workload cluster. From the console, download the kubeconfig file for the workload cluster and run the following command:
 
 {{< clipboard >}}
 <div class="highlight">
 
 ```
-kubectl --kubeconfig <workload-cluster-kubeconfig> get pods -A
+$ kubectl --kubeconfig <workload-cluster-kubeconfig> get pods -A
 ```
 {{< /clipboard >}}
 </div>
@@ -136,7 +136,7 @@ If the pod status is not `Running`, run the following command to identify the er
 <div class="highlight">
 
 ```
-kubectl describe pod <pod-name>
+$ kubectl describe pod <pod-name>
 ```
 {{< /clipboard >}}
 </div>
