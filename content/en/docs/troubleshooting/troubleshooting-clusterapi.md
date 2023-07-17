@@ -5,7 +5,7 @@ weight: 5
 draft: false
 ---
 
-If you encounter a problem with the clusterAPI component, or with clusters created by the clusterAPI component, here are some techniques you can use to diagnose and solve the issue.
+If you encounter a problem with the OCNE clusters created using the clusterAPI component, here are some techniques you can use to diagnose and solve the issue.
 
 ### Assess the condition of the clusterAPI component
 
