@@ -50,6 +50,8 @@ To provision new Oracle Cloud Native Environment (OCNE) managed clusters on OCI,
 
 When your cluster finishes provisioning, you can access it from the main **Cluster Management** page.
 
+For installation troubleshooting help, see the [Cluster API Issues]({{< relref "/docs/troubleshooting/troubleshooting-clusterapi" >}}).
+
 
 
 
