@@ -9,7 +9,6 @@ draft: false
 - WebLogic Monitoring Exporter v2.1.4
 
 ## v1.6.0
-
 #### Features:
 - Added support for creating OCNE clusters from the console.
 - Added Thanos, which supports high availability and long-term metrics storage on top of Prometheus.
