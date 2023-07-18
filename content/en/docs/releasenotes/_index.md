@@ -4,7 +4,6 @@ weight: 2
 draft: false
 ---
 ## v1.6.0
-
 #### Features:
 - Added support for creating OCNE clusters from the console.
 - Added Thanos, which supports high availability and long-term metrics storage on top of Prometheus.
@@ -14,7 +13,6 @@ draft: false
 - Enhanced the Verrazzano CLI to support installing and upgrading from a private registry and in disconnected environments.
 - Now, you can use customer-managed cert-manager instances with Verrazzano.
 - Added support for Kubernetes v1.25 and v1.26.
-
 
 #### Component version updates:
 - Argo CD v2.7.2
@@ -48,6 +46,16 @@ draft: false
 
 
 ## Previous Release Information
+### v1.5.4
+**Component version updates**:
+- Rancher v2.7.3
+- WebLogic Kubernetes Operator v4.0.7
+- WebLogic Monitoring Exporter v2.1.4
+
+**Fixes**:
+- Fixed an issue with Argo CD to allow the `policy.csv` field in the `argocd-rbac-cm` ConfigMap to be overridden.
+- Fixed an issue with Rancher SSO using Keycloak when using a custom CA for Verrazzano certificates.
+- Fixed an issue where not defining the replicas for default OpenSearch node pools in the Verrazzano CR caused the pods to terminate.
 
 ### v1.5.3
 **Features**:
@@ -62,7 +70,7 @@ draft: false
 **Fixes**:
 - Disabled the `startupapicheck` job during cert-manager startup.
 - Fixed an installation issue related to incorrect ingress names in certain configurations.
-- Fixed an ArgoCD issue to reuse Rancher auth tokens when applicable.
+- Fixed an Argo CD issue to reuse Rancher auth tokens when applicable.
 
 ### v1.5.2
 **Component version updates**:
