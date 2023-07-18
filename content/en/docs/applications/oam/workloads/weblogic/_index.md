@@ -280,12 +280,14 @@ For detailed instructions, see the [Lift-and-Shift]({{< relref "/docs/guides/lif
 
 Step 1. Create a WebLogic domain image.
    - To deploy a WebLogic domain in Kubernetes, first you need to create a Docker image for the WebLogic domain.
-   - To create a WebLogic domain image using [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling) (WDT), follow the instructions in [Example Image with a WLS Domain](https://github.com/oracle/docker-images/tree/main/OracleWebLogic/samples/12213-domain-home-in-image-wdt).
+   - To create a WebLogic domain image using [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling) (WDT), follow the instructions at:
+      - For a Model in Image domain home (recommended), see [Model in Image](https://oracle.github.io/weblogic-kubernetes-operator/managing-domains/model-in-image/).
+      - For a Domain home on a persistent volume (Domain on PV), see [Domain on Persistent Volume (PV)](https://oracle.github.io/weblogic-kubernetes-operator/managing-domains/domain-on-pv/).
 
 Step 2. Create a VerrazzanoWebLogicWorkload component.
    - To deploy and run the WebLogic domain image in Verrazzano, create the VerrazzanoWebLogicWorkload component that specifies the definition and parameters for the WebLogic domain contained in the image.
    - For an example VerrazzanoWebLogicWorkload Component resource created for a sample WebLogic domain, see the [todo-domain](https://github.com/verrazzano/examples/tree/master/todo-list) example.
-   - For all the options supported by the WebLogic domain configuration, see [Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md).
+   - For all the options supported by the WebLogic domain configuration, see [Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/release/4.1/documentation/domains/Domain.md).
 
 Step 3. Create an ApplicationConfiguration for the WebLogic application.
    - Next, create an ApplicationConfiguration that uses the VerrazzanoWebLogicWorkload component you created for the WebLogic domain.
@@ -293,8 +295,11 @@ Step 3. Create an ApplicationConfiguration for the WebLogic application.
 
 Step 4. Verify the domain.
    - Verrazzano creates the underlying domain Kubernetes resource from the VerrazzanoWebLogicWorkload component, which is then processed by the WebLogic Kubernetes Operator to create the Administration and Managed Server pods, and deploy the applications and resources associated with the WebLogic domain.
-   - To verify that the WebLogic domain is up and running, follow the steps found [here](https://oracle.github.io/weblogic-kubernetes-operator/3.4/samples/domains/domain-home-in-image/#verify-the-results).
+   - To verify that the WebLogic domain is up and running, follow the steps found [here]({{< relref "/docs/examples/wls-coh/todo-list#verify-the-deployed-application" >}}).
 
+{{< alert title="NOTE" color="primary" >}}
+Oracle recommends that you use the [WebLogic Toolkit UI](https://github.com/oracle/weblogic-toolkit-ui/releases) (WKTUI) for deploying WebLogic applications in Verrazzano. Follow the WKTUI documentation found [here](https://oracle.github.io/weblogic-toolkit-ui/).
+{{< /alert >}}
 
 ## Database connections
 
