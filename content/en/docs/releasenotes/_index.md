@@ -4,6 +4,16 @@ linkTitle: Release Notes
 weight: 2
 draft: false
 ---
+### v1.5.4
+**Component version updates**:
+- Rancher v2.7.3
+- WebLogic Kubernetes Operator v4.0.7
+- WebLogic Monitoring Exporter v2.1.4
+
+**Fixes**:
+- Fixed an issue with Argo CD to allow the `policy.csv` field in the `argocd-rbac-cm` ConfigMap to be overridden.
+- Fixed an issue with Rancher SSO using Keycloak when using a custom CA for Verrazzano certificates.
+- Fixed an issue where not defining the replicas for default OpenSearch node pools in the Verrazzano CR caused the pods to terminate.
 
 ### v1.5.3
 Features:
@@ -18,7 +28,7 @@ Component version updates:
 Fixes:
 - Disabled the `startupapicheck` job during cert-manager startup.
 - Fixed an installation issue related to incorrect ingress names in certain configurations.
-- Fixed an ArgoCD issue to reuse Rancher auth tokens when applicable.
+- Fixed an Argo CD issue to reuse Rancher auth tokens when applicable.
 
 ### v1.5.2
 Component version updates:
