@@ -1,11 +1,11 @@
 ---
-title: "ClusterAPI Issues"
-description: "Troubleshoot ClusterAPI issues"
+title: "OCNE Cluster Creation Issues"
+description: "Troubleshoot issues when creating OCNE clusters"
 weight: 5
 draft: false
 ---
 
-If you encounter a problem with the OCNE clusters created using the clusterAPI component, here are some techniques you can use to diagnose and solve the issue.
+If you encounter a problem with the OCNE clusters created in the console (using the [clusterAPI component]({{< relref "/docs/setup/provision-cluster/capi" >}})), here are some techniques you can use to diagnose and solve the issue.
 
 ### Assess the condition of the clusterAPI component
 
@@ -13,7 +13,7 @@ You can gather information about the clusterAPI component by reviewing its log f
 
 **Review clusterAPI log files**
 
-The clusterAPI component creates four clusterAPI pods within the `verrazzano-capi` namespace and each pod generates a separate log file. Review the log files to determine the location of the issue.
+The clusterAPI component creates four clusterAPI pods within the `verrazzano-capi` namespace and each pod generates a separate log file. Review the log files to determine the cause of the issue.
 
 Where `nnnn` is the unique ID for the pod.
 
@@ -98,7 +98,7 @@ When creating clusters, Verrazzano creates the following resources in the associ
 
 If one of these resources was not created, or was created but is now experiencing issues, it can affect the rest of the cluster.
 
-You can check the status of the required OCI resources in the OCI console or by reviewing the log files for the clusterAPI controller.
+You can check the status of the required OCI resources in the OCI console or by [reviewing the log files](#assess-the-condition-of-the-clusterapi-component) for the clusterAPI controller.
 
 Causes may include:
 
@@ -112,7 +112,7 @@ Causes may include:
     * The OCNE API server did not start, possibly because OCNE dependencies failed to install.
 
 * Node creation failed:
-    * The OCI credentials are invalid: Check for errors under Kubernetes events in the namespace where cluster objects are present or in the OCI provider log files.
+    * The OCI credentials are invalid: Check for errors under Kubernetes events in the namespace where cluster objects are present or in the OCI provider log file.
 
     * The Image ID used to deploy templates is invalid.
 
