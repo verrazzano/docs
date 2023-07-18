@@ -286,7 +286,7 @@ Step 1. Create a WebLogic domain image.
 
 Step 2. Create a VerrazzanoWebLogicWorkload component.
    - To deploy and run the WebLogic domain image in Verrazzano, create the VerrazzanoWebLogicWorkload component that specifies the definition and parameters for the WebLogic domain contained in the image.
-   - For an example VerrazzanoWebLogicWorkload Component resource created for a sample WebLogic domain, see the [todo-domain](https://github.com/verrazzano/examples/tree/master/todo-list) example.
+   - For an example VerrazzanoWebLogicWorkload Component resource created for a sample WebLogic domain, see the [todo-domain]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) example.
    - For all the options supported by the WebLogic domain configuration, see [Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/release/4.1/documentation/domains/Domain.md).
 
 Step 3. Create an ApplicationConfiguration for the WebLogic application.
