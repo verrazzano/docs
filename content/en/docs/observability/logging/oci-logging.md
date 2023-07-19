@@ -90,9 +90,8 @@ you can point at an existing Oracle Cloud Infrastructure configuration file and 
 override the default configuration file location, profile name, and the name of the secret.
 
 
-## Install Verrazzano
-Oracle Cloud Infrastructure Logging is enabled in your cluster when installing Verrazzano. The Verrazzano installation custom resource has fields
-for specifying two custom logs: one for system logs and one for application logs. Here is an example Verrazzano
+## Specify custom logs
+Oracle Cloud Infrastructure Logging is enabled in your cluster when installing Verrazzano. The Verrazzano installation custom resource has fields for specifying two custom logs: one for system logs and one for application logs. Here is an example Verrazzano
 installation YAML file for each type of credential.
 - [Instance principal credentials](#instance-principal-credentials)
 - [User API credentials](#user-api-credentials)

@@ -27,6 +27,9 @@ Verrazzano currently supports the following Thanos components:
 | Query          | Implements Prometheus API to aggregate data from the underlying components and provides a user interface for querying across all Prometheus stores. |
 | Query Frontend | Implements Prometheus API and proxies it to Query while caching the response and optionally splits queries.                                        |
 
+Verrazzano installs these Thanos components using a [Helm chart]({{% release_source_url path=platform-operator/thirdparty/charts/thanos %}}).
+You can customize the installation configuration using Helm overrides specified in the Verrazzano custom resource.
+
 ## Enable Thanos
 
 To enable Thanos in Verrazzano, add the following:
