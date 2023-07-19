@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/provision-cluster/ocne-oci/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-06-28T09:32:53-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-07-19T15:51:11-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Create OCNE Clusters running on OCI">
 <meta itemprop="description" content="Add Oracle Cloud Native Environment self-managed clusters running on OCI to your multicluster environment">
-<meta itemprop="dateModified" content="2023-06-28T09:32:53-04:00" />
-<meta itemprop="wordCount" content="601">
+<meta itemprop="dateModified" content="2023-07-19T15:51:11-04:00" />
+<meta itemprop="wordCount" content="616">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Create OCNE Clusters running on OCI"/>
 <meta name="twitter:description" content="Add Oracle Cloud Native Environment self-managed clusters running on OCI to your multicluster environment"/>
@@ -95,7 +95,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.ab7a24b844463be7f0f850f7c137bebc.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.87be3847488f63b50488b6cd6490470e.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -121,7 +121,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.ab7a24b844463be7f0f850f7c137bebc.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.87be3847488f63b50488b6cd6490470e.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -1112,19 +1112,14 @@ if (!doNotTrack) {
 	<h3 id="before-you-begin">Before you begin</h3>
 <p>You&rsquo;ll need to:</p>
 <ul>
-<li>Set up an Oracle Cloud Infrastructure (OCI) account with
-<ul>
-<li>A compartment</li>
-<li>A virtual cloud network (VCN), configured to allow bi-directional communication between the admin cluster and the managed cluster and to accept the <a href="https://kubernetes.io/docs/reference/networking/ports-and-protocols/">ports and protocols required by Kubernetes</a></li>
-</ul>
-</li>
+<li>Set up an Oracle Cloud Infrastructure (OCI) account with a compartment</li>
 <li>Generate an SSH key pair to use for cluster authentication</li>
 </ul>
 <h3 id="create-a-new-ocne-cluster-on-oci">Create a new OCNE cluster on OCI</h3>
 <p>To provision new Oracle Cloud Native Environment (OCNE) managed clusters on OCI, complete the following steps:</p>
 <ol>
 <li>
-<p>Log into the console. To find the console URL for your cluster, refer to <a href="../../../../docs/setup/access/console-urls/">Get console URLs</a> and use the <code>rancherURL</code> value.</p>
+<p>Log in to the console. To find the console URL for your cluster, refer to <a href="../../../../docs/setup/access/console-urls/">Get console URLs</a> and use the <code>rancherURL</code> value.</p>
 </li>
 <li>
 <p>Open the navigation menu and select <strong>Cluster Management</strong>.</p>
@@ -1151,34 +1146,41 @@ if (!doNotTrack) {
 <p>Expand <strong>Labels and Annotations</strong> to configure Kubernetes <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/">labels</a> and <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/">annotations</a> for the cluster.</p>
 </li>
 <li>
-<p>Select the cloud credentials that you created. Ensure that the appropriate Region and Compartment are selected from their dropdown lists.</p>
+<p>Select the cloud credentials that you created. Ensure that the appropriate Region and Compartment are selected from their drop-down lists.</p>
 </li>
 <li>
-<p>Click <strong>Authenticate and Configure Cluster</strong>.</p>
+<p>Click <strong>Next</strong>.</p>
 </li>
 <li>
-<p>Set up your network. Choose the compartment where your VCN is located from the <strong>VCN Compartment</strong> dropdown list, then the VCN itself from the <strong>Virtual Cloud Network</strong> dropdown list. For <strong>Cloud Plane Subnet</strong>, <strong>Load Balancer Subnet</strong>, and <strong>Worker Node Subnet</strong>, choose subnets within the VCN.</p>
+<p>Set up your network. Choose <strong>Quick Create</strong> to create a new virtual cloud network (VCN) configured to the specifications required for an OCNE cluster or <strong>Existing Infrastructure</strong> to use a VCN that&rsquo;s already configured in your OCI account.</p>
+<ul>
+<li>
+<p>If you choose the <strong>Existing Infrastructure</strong> option, then select the compartment where your VCN is located from the <strong>VCN Compartment</strong> drop-down list, then the VCN itself from the <strong>Virtual Cloud Network</strong> drop-down list. Next, select subnets within the VCN for each of the <strong>Cloud Plane Subnet</strong>, <strong>Load Balancer Subnet</strong>, and <strong>Worker Node Subnet</strong> drop-down lists.</p>
+</li>
+<li>
 <p>The VCN compartment does not need to match the compartment specified in the cloud credential.</p>
 </li>
-<li>
-<p>Click <strong>Configure Control plane and worker nodes</strong>.</p>
+</ul>
 </li>
 <li>
-<p>Choose a Node Image from the dropdown list.</p>
-<p>You can choose to override the default Node Image. Expand <strong>OCNE Image Configuration</strong> and provide a custom image OCID. If your custom image includes OCNE binaries, you can select <strong>Skip OCNE Dependency Installation</strong> to avoid duplicates.</p>
+<p>Click <strong>Next</strong>.</p>
+</li>
+<li>
+<p>Choose a Node Image from the drop-down list.</p>
+<p>You can choose to override the default Node Image. Expand <strong>OCNE Image Configuration</strong> and provide a custom image OCID. If your custom image includes OCNE binaries, then you can select <strong>Skip OCNE Dependency Installation</strong> to avoid duplicates.</p>
 </li>
 <li>
 <p>Copy or upload an SSH public key to manage authentication of the cluster. Your SSH public key is installed on the cluster nodes, enabling SSH after the cluster is created.</p>
 </li>
 <li>
-<p>Configure the Control Plane. Select the <strong>OCNE Version</strong> first as it determines which Kubernetes versions are available, then choose a <strong>Kubernetes Version</strong> and a <strong>Control Plane Shape</strong>. You can leave the rest of the options at their default setting or modify them as needed.</p>
+<p>Configure the cluster control plane. Select the <strong>OCNE Version</strong> first because it determines which Kubernetes versions are available, then choose a <strong>Kubernetes Version</strong> and a <strong>Control Plane Shape</strong>. You can leave the rest of the options at their default setting or modify them as needed.</p>
 <p>Under <strong>Advanced</strong>, you can choose to edit image tags for <strong>ETCD</strong>, <strong>CoreDNS</strong>, and <strong>Calico</strong>, or whether to install <strong>OCI CCM/CSI</strong> and <strong>Calico</strong>.</p>
 </li>
 <li>
 <p>Add node pools to your cluster. Clusters without node pools will schedule pods on control plane nodes.</p>
 </li>
 <li>
-<p>(Optional) Install Verrazzano on the cluster. Choose a <strong>Verrazzano version</strong> from the dropdown list. You can also expand <strong>Advanced</strong> to make changes to the Verrazzano Resource YAML. By default, Verrazzano is installed using the <code>managed-cluster</code> profile which enables a limited set of components on the cluster.</p>
+<p>(Optional) Install Verrazzano on the cluster. Choose a <strong>Verrazzano version</strong> from the drop-down list. You can also expand <strong>Advanced</strong> to make changes to the Verrazzano Resource YAML. By default, Verrazzano is installed using the <code>managed-cluster</code> profile which enables a limited set of components on the cluster.</p>
 </li>
 <li>
 <p>Expand <strong>Advanced Settings</strong> to make additional modifications to the default settings of your new cluster.</p>
