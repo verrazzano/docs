@@ -4,8 +4,8 @@ weight: 2
 draft: false
 ---
 ## v1.6.1
-#### Enhancements
-- Now, you can quickly create a new virtual cloud network when creating OCNE clusters from the console.
+#### Enhancements:
+- Now, you can create a new virtual cloud network when creating OCNE clusters from the console.
 
 #### Component version updates:
 - WebLogic Kubernetes Operator v4.1.0
