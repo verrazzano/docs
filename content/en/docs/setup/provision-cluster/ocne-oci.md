@@ -9,7 +9,9 @@ draft: false
 
 You'll need to:
 
-* Set up an Oracle Cloud Infrastructure (OCI) account with a compartment
+* Set up an Oracle Cloud Infrastructure (OCI) account with 
+    * A compartment
+    * An [API signing key](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#two)
 * Generate an SSH key pair to use for cluster authentication
 
 ### Create a new OCNE cluster on OCI
