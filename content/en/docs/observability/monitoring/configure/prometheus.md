@@ -37,7 +37,7 @@ spec:
 
 For more information about setting component overrides, see [Installation Overrides]({{< relref "docs/setup/installationOverrides.md " >}}).
 
-For information about all the overrides supported by kube-prometheus-stack chart in Verrazzano, see [values.yaml](https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/prometheus-community/kube-prometheus-stack/values.yaml).
+For information about all the overrides supported by the kube-prometheus-stack chart in Verrazzano, see [values.yaml](https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/prometheus-community/kube-prometheus-stack/values.yaml).
 
 For instructions to customize persistent storage settings for Prometheus, see [Customize Persistent Storage]({{< relref "docs/observability/logging/configure-opensearch/storage.md " >}}).
 
@@ -45,7 +45,7 @@ For instructions to customize persistent storage settings for Prometheus, see [C
 
 To configure Alertmanager to send alerts as SMTP notifications, complete the following steps:
 
-1. Create a secret named `smtp-secret` in the `verrazzano-monitoring` namespace which contains the SMTP server credentials. For example:
+1. Create a secret named `smtp-secret` in the `verrazzano-monitoring` namespace that contains the SMTP server credentials. For example:
 {{< clipboard >}}
 <div class="highlight">
 
@@ -107,7 +107,7 @@ To configure Alertmanager to send alerts as SMTP notifications, complete the fol
 
 For more information about Alertmanager configurations, see the [Alertmanager Documentation](https://prometheus.io/docs/alerting/latest/configuration/).
 
-After you have enabled Alertmanager, you can deploy alert rules to get proactive alerts.
+After you have enabled Alertmanager in Step 2, you can deploy alert rules to get proactive alerts.
 To create a `TestAlertRule`, run the following command.
 {{< clipboard >}}
 <div class="highlight">
@@ -140,7 +140,7 @@ EOF
 </div>
 {{< /clipboard >}}
 
-For more information, see [Deploying Prometheus rules](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules).
+For more information, see [Deploying Prometheus Rules](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules).
 
 ## Configure data retention settings
 
