@@ -286,8 +286,58 @@ Step 1. Create a WebLogic domain image.
 
 Step 2. Create a VerrazzanoWebLogicWorkload component.
    - To deploy and run the WebLogic domain image in Verrazzano, create the VerrazzanoWebLogicWorkload component that specifies the definition and parameters for the WebLogic domain contained in the image.
-   - For an example VerrazzanoWebLogicWorkload Component resource created for a sample WebLogic domain, see the [todo-domain]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) example.
    - For all the options supported by the WebLogic domain configuration, see [Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/release/4.1/documentation/domains/Domain.md).
+   - See the following example VerrazzanoWebLogicWorkload Component resource created for a sample WebLogic domain.
+
+{{< clipboard >}}
+
+   ```yaml
+   apiVersion: core.oam.dev/v1alpha2
+   kind: Component
+   metadata:
+     name: todo-domain
+     namespace: todo-list
+   spec:
+     workload:
+       apiVersion: oam.verrazzano.io/v1alpha1
+       kind: VerrazzanoWebLogicWorkload
+       spec:
+         template:
+           metadata:
+             name: todo-domain
+             namespace: todo-list
+           spec:
+             domainUID: tododomain
+             domainHome: /u01/domains/tododomain
+             image: container-registry.oracle.com/verrazzano/example-todo:0.8.0
+             imagePullSecrets:
+               - name: tododomain-repo-credentials
+             domainHomeSourceType: "FromModel"
+             includeServerOutInPodLog: true
+             replicas: 1
+             webLogicCredentialsSecret:
+               name: tododomain-weblogic-credentials
+             configuration:
+               introspectorJobActiveDeadlineSeconds: 900
+               model:
+                 configMap: tododomain-jdbc-config
+                 domainType: WLS
+                 modelHome: /u01/wdt/models
+                 runtimeEncryptionSecret: tododomain-runtime-encrypt-secret
+               secrets:
+                 - tododomain-jdbc-tododb
+             serverPod:
+               env:
+                 - name: JAVA_OPTIONS
+                   value: "-Dweblogic.StdoutDebugEnabled=false"
+                 - name: USER_MEM_ARGS
+                   value: "-Djava.security.egd=file:/dev/./urandom -Xms64m -Xmx256m "
+                 - name: WL_HOME
+                   value: /u01/oracle/wlserver
+                 - name: MW_HOME
+                   value: /u01/oracle
+   ```
+{{< /clipboard >}}
 
 Step 3. Create an ApplicationConfiguration for the WebLogic application.
    - Next, create an ApplicationConfiguration that uses the VerrazzanoWebLogicWorkload component you created for the WebLogic domain.
