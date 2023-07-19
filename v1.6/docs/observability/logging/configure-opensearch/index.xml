@@ -381,7 +381,7 @@ pod/vmi-system-data-ingest-1-8d7db6489-kdhbv           2/2     Running    1     
 pod/vmi-system-data-ingest-2-699d6bdd9c-z7nzx          2/2     Running    0          5m21s
 pod/vmi-system-grafana-7947cdd84b-b7mks                2/2     Running    0          5m21s
 pod/vmi-system-kiali-6c7bd6658b-d2zq9                  2/2     Running    0          5m37s
-pod/vmi-system-osd-7d47f65dfc-zhjxp   2/2     Running    0          5m21s
+pod/vmi-system-osd-7d47f65dfc-zhjxp                    2/2     Running    0          5m21s
 pod/vmi-system-master-0                                2/2     Running    0          5m21s
 pod/vmi-system-master-1                                2/2     Running    0          5m21s
 pod/vmi-system-master-2                                2/2     Running    0          5m21s
@@ -551,24 +551,23 @@ cluster from running out of disk space.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;code&gt;vz-system&lt;/code&gt;: Manages the data in the Verrazzano system index.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../../../../docs/images/vz-system-ism-policy.png&#34; alt=&#34;vz-system&#34;&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;code&gt;vz-application&lt;/code&gt;: Manages the data in the application-related indices having the pattern, &lt;code&gt;verrazzano-application*&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../../../../docs/images/vz-application-ism-policy.png&#34; alt=&#34;vz-application&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../../../docs/images/vz-ism-policy.png&#34; alt=&#34;vz-ism-policy&#34;&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Both ISM policies have three states:&lt;/p&gt;
+&lt;p&gt;Both ISM policies have the same configuration, consisting of two states:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Hot&lt;/strong&gt;: This is the default state. If the primary shard size is greater than the defined size (5 GB for &lt;code&gt;vz-system&lt;/code&gt; and 1 GB for &lt;code&gt;vz-application&lt;/code&gt;) or the index age is greater than the defined number of days (30 days for &lt;code&gt;vz-system&lt;/code&gt; and 7 days for &lt;code&gt;vz-application&lt;/code&gt;), then the index will be rolled over.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Cold&lt;/strong&gt;:  In this state, the index will be closed if the index age is greater than the defined number of days (30 days for &lt;code&gt;vz-system&lt;/code&gt; and 7 days for &lt;code&gt;vz-application&lt;/code&gt;). A closed index is blocked for read or write operations and does not allow any operations that the opened indices allow.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Delete&lt;/strong&gt;: In this state, the index will be deleted if the index age is greater than the defined number of days (35 days for &lt;code&gt;vz-system&lt;/code&gt; and 12 days for &lt;code&gt;vz-application&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Hot&lt;/strong&gt;: This is the default state. If the primary shard size is greater than 5 GB or the index age is greater than 21 days, then the index will be rolled over. Fourteen days after the index has rolled over, it will transition to the &lt;code&gt;Delete&lt;/code&gt; state.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Delete&lt;/strong&gt;: In this state, the index will be deleted. Fourteen days after being rolled over, the indices will reach this state.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;override-default-ism-policies&#34;&gt;Override default ISM policies&lt;/h2&gt;
+&lt;p&gt;The default ISM policies may not be suitable depending on the rate at which your OpenSearch cluster is ingesting data. Therefore, you may need to override the default ISM policies to meet your requirements.&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;vz-system&lt;/code&gt; and &lt;code&gt;vz-application&lt;/code&gt; policies are immutable and any change to these policies will be reverted immediately. However, the following two methods will override this behavior:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Disable default policies&lt;/strong&gt;: You can disable the use of these default policies by setting the flag &lt;a href=&#34;../../../../docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent&#34;&gt;spec.components.opensearch.disableDefaultPolicy&lt;/a&gt; to &lt;code&gt;true&lt;/code&gt; in the Verrazzano CR. This will delete the default ISM policies.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Override default policies&lt;/strong&gt;: Both these default policies have a zero (&lt;code&gt;0&lt;/code&gt;) priority. You can override the default policies by creating policies with &lt;code&gt;policy.ism_template.priority&lt;/code&gt; greater than &lt;code&gt;0&lt;/code&gt;. To create/configure your own policies, see &lt;a href=&#34;../../../../docs/observability/logging/configure-opensearch/opensearch/#configure-ism-policies&#34;&gt;Configure ISM Policies&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Disable default policies&lt;/strong&gt;: You can disable the default policies by setting the flag &lt;a href=&#34;../../../../docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent&#34;&gt;spec.components.opensearch.disableDefaultPolicy&lt;/a&gt; to &lt;code&gt;true&lt;/code&gt; in the Verrazzano CR. This will delete the default ISM policies and remove the policies from indices that are ingesting data. However, the deleted policies are not removed from older indices. To manually remove the policies from older indices, see &lt;a href=&#34;https://opensearch.org/docs/latest/im-plugin/ism/api/#remove-policy-from-index&#34;&gt;Remove policy from index&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Override default policies&lt;/strong&gt;: Both these default policies have a zero (&lt;code&gt;0&lt;/code&gt;) priority. You can override the default policies by creating policies with &lt;code&gt;policy.ism_template.priority&lt;/code&gt; greater than &lt;code&gt;0&lt;/code&gt; for same index pattern. To configure your own policies, see &lt;a href=&#34;../../../../docs/observability/logging/configure-opensearch/opensearch/#configure-ism-policies&#34;&gt;Configure ISM Policies&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
 
@@ -577,7 +576,7 @@ cluster from running out of disk space.&lt;/p&gt;
 
     &lt;ul&gt;
 &lt;li&gt;Avoid creating policies with policy IDs &lt;code&gt;vz-system&lt;/code&gt; or &lt;code&gt;vz-application&lt;/code&gt; because they are reserved for Verrazzano default policies names. In the Verrazzano CR, by default, if the flag &lt;a href=&#34;../../../../docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent&#34;&gt;spec.components.opensearch.disableDefaultPolicy&lt;/a&gt; is set to &lt;code&gt;false&lt;/code&gt;, then policies that are created with these names will be overridden with the default ISM policies, .&lt;/li&gt;
-&lt;li&gt;The default policy will be applied only to the newly created indices. To manually attach the new policies to the older indices, see &lt;a href=&#34;https://opensearch.org/docs/latest/im-plugin/ism/index/#step-2-attach-policies-to-indexes&#34;&gt;Step 2: Attach policies to indexes&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;The default policy will be applied to the newly created indices and the indices which are ingesting data. To manually attach the new policies to the older indices, see &lt;a href=&#34;https://opensearch.org/docs/latest/im-plugin/ism/index/#step-2-attach-policies-to-indexes&#34;&gt;Step 2: Attach policies to indexes&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
 
