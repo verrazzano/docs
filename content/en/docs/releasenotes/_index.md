@@ -4,6 +4,9 @@ weight: 2
 draft: false
 ---
 ## v1.6.1
+#### Features
+- Added option to quickly create a new virtual cloud network when creating OCNE clusters from the console
+
 #### Component version updates:
 - WebLogic Kubernetes Operator v4.1.0
 - WebLogic Monitoring Exporter v2.1.4
