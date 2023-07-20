@@ -35,35 +35,79 @@ spec:
 </div>
 {{< /clipboard >}}
 
-To enable Alertmanager, use the following Verrazzano custom resource:
+For more information about setting component overrides, see [Installation Overrides]({{< relref "docs/setup/installationOverrides.md " >}}).
+
+For information about all the overrides supported by the kube-prometheus-stack chart in Verrazzano, see [values.yaml](https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/prometheus-community/kube-prometheus-stack/values.yaml).
+
+For instructions to customize persistent storage settings for Prometheus, see [Customize Persistent Storage]({{< relref "docs/observability/logging/configure-opensearch/storage.md " >}}).
+
+## Configure Alertmanager
+
+To configure Alertmanager to send alerts as SMTP notifications, complete the following steps:
+
+1. Create a secret named `smtp-secret` in the `verrazzano-monitoring` namespace that contains the SMTP server credentials. For example:
 {{< clipboard >}}
 <div class="highlight">
 
-```
-apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: custom-prometheus
-spec:
-  profile: prod
-  components:
-    prometheusOperator:
-      overrides:
-        - values:
-            alertmanager:
-              enabled: true
-              alertmanagerSpec:
-                podMetadata:
-                  annotations:
-                    sidecar.istio.io/inject: "false"
-```
+   ```
+   $ kubectl -n verrazzano-monitoring create secret generic smtp-secret \
+    --from-literal=username="<smtp server username>" \
+    --from-literal=password="<smtp server password>"
+   ```
 
 </div>
 {{< /clipboard >}}
 
-For more information about setting component overrides, see [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing).
+1. Configure the Prometheus Operator component of the Verrazzano custom resource. For example:
+{{< clipboard >}}
+<div class="highlight">
 
-After you have enabled Alertmanager, you can deploy alert rules to get proactive alerts.
+   ```
+   apiVersion: install.verrazzano.io/v1beta1
+   kind: Verrazzano
+   metadata:
+     name: custom-prometheus
+   spec:
+     profile: prod
+     components:
+       prometheusOperator:
+         overrides:
+           - values:
+               alertmanager:
+                 enabled: true
+                 alertmanagerSpec:
+                   podMetadata:
+                     annotations:
+                       sidecar.istio.io/inject: "false"
+                   secrets:
+                   - smtp-secret
+                 config:
+                   global:
+                     smtp_auth_password_file: /etc/alertmanager/secrets/smtp-secret/password
+                     smtp_auth_username: "<smtp server username>"
+                     smtp_from: "<e-mail address used when sending out emails>"
+                     smtp_smarthost: "<host or host:port for the smtp server>"
+                 receivers:
+                 - email_configs:
+                   - send_resolved: true
+                     to: "<e-mail address of the receiver>"
+                   name: email-notifications
+                 route:
+                   group_by:
+                   - alertname
+                   receiver: email-notifications
+                   routes:
+                   - matchers:
+                     - alertname =~ "InfoInhibitor|Watchdog"
+                     receiver: email-notifications
+   ```
+
+</div>
+{{< /clipboard >}}
+
+For more information about Alertmanager configurations, see the [Alertmanager Documentation](https://prometheus.io/docs/alerting/latest/configuration/).
+
+After you have enabled Alertmanager in Step 2, you can deploy alert rules to get proactive alerts.
 To create a `TestAlertRule`, run the following command.
 {{< clipboard >}}
 <div class="highlight">
@@ -96,9 +140,7 @@ EOF
 </div>
 {{< /clipboard >}}
 
-For more information, see [Deploying Prometheus rules](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules).
-
-For instructions to customize persistent storage settings, see [Customize Persistent Storage]({{< relref "docs/observability/logging/configure-opensearch/storage.md " >}}).
+For more information, see [Deploying Prometheus Rules](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules).
 
 ## Configure data retention settings
 
