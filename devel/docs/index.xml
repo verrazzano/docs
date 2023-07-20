@@ -21048,7 +21048,14 @@ spec:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;To enable Alertmanager, use the following Verrazzano custom resource:
+&lt;p&gt;For more information about setting component overrides, see &lt;a href=&#34;../docs/setup/installationoverrides/&#34;&gt;Installation Overrides&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For information about all the overrides supported by the kube-prometheus-stack chart in Verrazzano, see &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/prometheus-community/kube-prometheus-stack/values.yaml&#34;&gt;values.yaml&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For instructions to customize persistent storage settings for Prometheus, see &lt;a href=&#34;../docs/observability/logging/configure-opensearch/storage/&#34;&gt;Customize Persistent Storage&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;configure-alertmanager&#34;&gt;Configure Alertmanager&lt;/h2&gt;
+&lt;p&gt;To configure Alertmanager to send alerts as SMTP notifications, complete the following steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Create a secret named &lt;code&gt;smtp-secret&lt;/code&gt; in the &lt;code&gt;verrazzano-monitoring&lt;/code&gt; namespace that contains the SMTP server credentials. For example:
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -21079,22 +21086,9 @@ spec:
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: custom-prometheus
-spec:
-  profile: prod
-  components:
-    prometheusOperator:
-      overrides:
-        - values:
-            alertmanager:
-              enabled: true
-              alertmanagerSpec:
-                podMetadata:
-                  annotations:
-                    sidecar.istio.io/inject: &amp;#34;false&amp;#34;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-monitoring create secret generic smtp-secret \
+ --from-literal=username=&amp;#34;&amp;lt;smtp server username&amp;gt;&amp;#34; \
+ --from-literal=password=&amp;#34;&amp;lt;smtp server password&amp;gt;&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -21155,8 +21149,140 @@ spec:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;For more information about setting component overrides, see &lt;a href=&#34;https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing&#34;&gt;Customizing the Chart Before Installing&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;After you have enabled Alertmanager, you can deploy alert rules to get proactive alerts.
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Configure the Prometheus Operator component of the Verrazzano custom resource. For example:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: custom-prometheus
+spec:
+  profile: prod
+  components:
+    prometheusOperator:
+      overrides:
+        - values:
+            alertmanager:
+              enabled: true
+              alertmanagerSpec:
+                podMetadata:
+                  annotations:
+                    sidecar.istio.io/inject: &amp;#34;false&amp;#34;
+                secrets:
+                - smtp-secret
+              config:
+                global:
+                  smtp_auth_password_file: /etc/alertmanager/secrets/smtp-secret/password
+                  smtp_auth_username: &amp;#34;&amp;lt;smtp server username&amp;gt;&amp;#34;
+                  smtp_from: &amp;#34;&amp;lt;e-mail address used when sending out emails&amp;gt;&amp;#34;
+                  smtp_smarthost: &amp;#34;&amp;lt;host or host:port for the smtp server&amp;gt;&amp;#34;
+              receivers:
+              - email_configs:
+                - send_resolved: true
+                  to: &amp;#34;&amp;lt;e-mail address of the receiver&amp;gt;&amp;#34;
+                name: email-notifications
+              route:
+                group_by:
+                - alertname
+                receiver: email-notifications
+                routes:
+                - matchers:
+                  - alertname =~ &amp;#34;InfoInhibitor|Watchdog&amp;#34;
+                  receiver: email-notifications
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;For more information about Alertmanager configurations, see the &lt;a href=&#34;https://prometheus.io/docs/alerting/latest/configuration/&#34;&gt;Alertmanager Documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;After you have enabled Alertmanager in Step 2, you can deploy alert rules to get proactive alerts.
 To create a &lt;code&gt;TestAlertRule&lt;/code&gt;, run the following command.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -21271,8 +21397,7 @@ EOF
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;For more information, see &lt;a href=&#34;https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules&#34;&gt;Deploying Prometheus rules&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;For instructions to customize persistent storage settings, see &lt;a href=&#34;../docs/observability/logging/configure-opensearch/storage/&#34;&gt;Customize Persistent Storage&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For more information, see &lt;a href=&#34;https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules&#34;&gt;Deploying Prometheus Rules&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;configure-data-retention-settings&#34;&gt;Configure data retention settings&lt;/h2&gt;
 &lt;p&gt;Verrazzano configures Prometheus with a default data retention setting of 10 days. The rate of metrics data collected depends on many factors, including the number of monitors, the monitor scrape intervals, and the number of metrics returned by each monitor.&lt;/p&gt;
 &lt;p&gt;When using persistent storage for Prometheus, it is possible to consume all storage. If Prometheus uses all available persistent storage, then queries return no data and new metrics cannot be saved.
