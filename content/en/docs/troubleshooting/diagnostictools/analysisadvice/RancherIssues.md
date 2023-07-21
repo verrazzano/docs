@@ -16,7 +16,7 @@ Analysis detected an issue with the deployment of a Helm chart.
 Analysis detected that a Helm repository has not successfully downloaded.
 
 ### Fleet Bundle (bundle.fleet.cattle.io)
-Analysis detected an issue with the status of a Fleet bundle. The Fleet bundle resources are automatically created when a Fleet Git repository resource is created.
+Analysis detected an issue with the status of a Fleet bundle. The Fleet bundle resources are automatically created when a [Fleet Git repository](#fleet-git-repository-gitrepofleetcattleio) resource is created.
 
 ### Fleet Bundled Deployment (bundledeployment.fleet.cattle.io)
 Analysis detected an issue with the status of a Fleet bundled deployment.
@@ -28,13 +28,13 @@ Analysis detected an issue with the status of a cluster managed with Fleet.
 Analysis detected an issue with the status of a cluster group managed with Fleet.
 
 ### Fleet Cluster Registration (clusterregistration.fleet.cattle.io)
-Analsys detected an issue with the registration status of a cluster managed with Fleet.
+Analysis detected an issue with the registration status of a cluster managed with Fleet.
 
 ### Fleet Git Repository (gitrepo.fleet.cattle.io)
-Analysis detected an issue with the configuration of a Git repository under Continuous Delivery.
+Analysis detected an issue with the configuration of a Git repository for continuous delivery.
 
 ### Git Jobs (gitjob.gitjob.cattle.io)
-Analysis detected an issue with the status of a Kubernetes job that is configured to be launched based on a Git event.
+Analysis detected an issue with the status of a Kubernetes job that is configured to be launched based on a git event.
 
 ### Catalogs (catalog.management.cattle.io)
 Analysis detected an issue with the configuration of a catalog of application templates.
@@ -47,7 +47,8 @@ There are interim states, such as Provisioning and Waiting, that may be displaye
 ### Cluster Drivers (kontainerdriver.management.cattle.io)
 Analysis detected that a KontainerDriver resource was not in a ready state. A ready KontainerDriver resource will have a status with condition types Active, Downloaded, and Installed set to `True`.
 
-### managedchart.management.cattle.io
+### Managed Charts (managedchart.management.cattle.io)
+Analysis detected an issue with the status of a managed chart.
 
 ### Nodes (node.management.cattle.io)
 Analysis detected that a node within the cluster is not ready.
