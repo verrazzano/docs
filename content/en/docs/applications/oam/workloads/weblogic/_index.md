@@ -288,7 +288,7 @@ Step 2. Create a VerrazzanoWebLogicWorkload component.
    - To deploy and run the WebLogic domain image in Verrazzano, create the VerrazzanoWebLogicWorkload component that specifies the definition and parameters for the WebLogic domain contained in the image.
    - See the following example VerrazzanoWebLogicWorkload Component resource created for a sample WebLogic domain.
       - For all the options supported by the WebLogic domain configuration, see [Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/release/4.1/documentation/domains/Domain.md).
-      - Find the VerazzanoWebLogicWorkload specification [here]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}). 
+      - Find the VerazzanoWebLogicWorkload specification [here]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}).
 
 {{< clipboard >}}
 
@@ -342,7 +342,7 @@ Step 2. Create a VerrazzanoWebLogicWorkload component.
 
 Step 3. Create an ApplicationConfiguration for the WebLogic application.
    - Next, create an ApplicationConfiguration that uses the VerrazzanoWebLogicWorkload component you created for the WebLogic domain.
-   - For an example ApplicationConfiguration using a VerrazzanoWebLogicWorkload component, see the [ToDo List]({{< relref "/docs/examples/wls-coh/todo-list.md" >}}) example application.
+   - For an example ApplicationConfiguration using a VerrazzanoWebLogicWorkload component, see the [ToDo List](https://github.com/verrazzano/verrazzano/blob/master/examples/todo-list/todo-list-application.yaml) example application.
 
 Step 4. Verify the domain.
    - Verrazzano creates the underlying domain Kubernetes resource from the VerrazzanoWebLogicWorkload component, which is then processed by the WebLogic Kubernetes Operator to create the Administration and Managed Server pods, and deploy the applications and resources associated with the WebLogic domain.
