@@ -14,6 +14,112 @@
     
     
     <item>
+      <title>Docs: Configure a VCN for OCNE</title>
+      <link>/docs/setup/install/prepare/platforms/olcne/vcn/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/install/prepare/platforms/olcne/vcn/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Before you can create Oracle Cloud Native Environment (OCNE) clusters on Oracle Cloud Infrastructure (OCI), you&amp;rsquo;ll need to configure a virtual cloud network (VCN) in your OCI compartment. VCNs are software-defined networks that manage access to your cloud resources.&lt;/p&gt;
+&lt;p&gt;See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm#network_landing&#34;&gt;Networking Overview&lt;/a&gt; in the OCI documentation for more information.&lt;/p&gt;
+&lt;p&gt;You can use the VCN Wizard in the OCI Console to automatically create most of the required network infrastructure. Additional subnets and security rules (described below) must be added manually.&lt;/p&gt;
+&lt;p&gt;Within your VCN, you&amp;rsquo;ll need:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Subnets (with security rules)&lt;/li&gt;
+&lt;li&gt;Gateways&lt;/li&gt;
+&lt;li&gt;Route tables&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    In addition to the specifications listed, make sure that the VCN is configured to accept the ports and protocols required by Kubernetes. See &lt;a href=&#34;https://kubernetes.io/docs/reference/networking/ports-and-protocols/&#34;&gt;Ports and Protocols&lt;/a&gt; in the Kubernetes documentation for more information.
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;subnets&#34;&gt;Subnets&lt;/h2&gt;
+&lt;p&gt;Subnets are subdivisions within a VCN that help to organize configuration settings. All instances within a subnet use the same route table, security lists, and DHCP options. Subnets can be either public or private. For an OCNE cluster, you&amp;rsquo;ll need both public and private subnets, with four subnets in total.&lt;/p&gt;
+&lt;p&gt;See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/Overview_of_VCNs_and_Subnets.htm#Overview&#34;&gt;Overview of VCNs and Subnets&lt;/a&gt; in the OCI documentation for more information.&lt;/p&gt;
+&lt;p&gt;Each subnet requires its own set of security rules that establish rules for virtual firewalls. These ingress and egress rules specify the types of traffic (protocol and port) that are allowed in and out of the instances.&lt;/p&gt;
+&lt;p&gt;See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/securityrules.htm#Security_Rules&#34;&gt;Security Rules&lt;/a&gt; in the OCI documentation for more information.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: You can use either Network Security Groups (NSGs) or security lists to add security rules to your VCN. We recommend using NSGs whenever possible. See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/securityrules.htm#comparison&#34;&gt;Comparison of Security Lists and Network Security Groups&lt;/a&gt; in the OCI documentation.&lt;/p&gt;
+&lt;h3 id=&#34;subnet-1-control-plane-endpoint&#34;&gt;Subnet 1: control plane endpoint&lt;/h3&gt;
+&lt;p&gt;A public subnet for the control plane endpoint that houses an OCI load balancer. The load balancer acts as a reverse proxy for the Kubernetes API server.&lt;/p&gt;
+&lt;p&gt;In this subnet, create security rules that cover the following traffic:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Egress: control plane traffic&lt;/li&gt;
+&lt;li&gt;Ingress: external access to the Kubernetes API endpoint&lt;/li&gt;
+&lt;li&gt;Ingress: ICMP path discovery&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;subnet-2-control-plane-nodes&#34;&gt;Subnet 2: control plane nodes&lt;/h3&gt;
+&lt;p&gt;A private subnet that houses the control plane nodes that run Kubernetes control plane components such as the API Server and the control plane pods.&lt;/p&gt;
+&lt;p&gt;In this subnet, create security rules that cover the following traffic:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Egress: node internet access&lt;/li&gt;
+&lt;li&gt;Ingress: east-west traffic, originating from within the VCN&lt;/li&gt;
+&lt;li&gt;Ingress: control plane endpoint to control plane node access on API endpoint&lt;/li&gt;
+&lt;li&gt;Ingress: worker nodes to control plane node access on API endpoint&lt;/li&gt;
+&lt;li&gt;Ingress: ETCD client and peer&lt;/li&gt;
+&lt;li&gt;Ingress: SSH traffic&lt;/li&gt;
+&lt;li&gt;Ingress: control plane to control plane kubelet communication&lt;/li&gt;
+&lt;li&gt;Ingress:&lt;/li&gt;
+&lt;li&gt;Ingress: Calico rules for control plane and worker nodes for
+&lt;ul&gt;
+&lt;li&gt;BGP&lt;/li&gt;
+&lt;li&gt;IP-in-IP&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;subnet-3-service-load-balancers&#34;&gt;Subnet 3: service load balancers&lt;/h3&gt;
+&lt;p&gt;A public subnet that houses the service load balancers.&lt;/p&gt;
+&lt;p&gt;In this subnet, create security rules that cover the following traffic:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Egress: service load balancer to NodePort on worker nodes&lt;/li&gt;
+&lt;li&gt;Ingress: ICMP path discovery&lt;/li&gt;
+&lt;li&gt;Ingress: HTTP and HTTPS traffic&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;subnet-4-worker-nodes&#34;&gt;Subnet 4: worker nodes&lt;/h3&gt;
+&lt;p&gt;A private subnet that houses the worker nodes.&lt;/p&gt;
+&lt;p&gt;In this subnet, create security rules that cover the following traffic:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Egress: node internet access&lt;/li&gt;
+&lt;li&gt;Ingress: east-west traffic, originating from within the VCN&lt;/li&gt;
+&lt;li&gt;Ingress: SSH traffic&lt;/li&gt;
+&lt;li&gt;Ingress: ICMP path discovery&lt;/li&gt;
+&lt;li&gt;Ingress: control plane to kubelet on worker nodes&lt;/li&gt;
+&lt;li&gt;Ingress: worker node to worker node&lt;/li&gt;
+&lt;li&gt;Ingress: Calico rules for control plane and worker nodes for
+&lt;ul&gt;
+&lt;li&gt;BGP&lt;/li&gt;
+&lt;li&gt;IP-in-IP&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Ingress: worker nodes to default NodePort ingress&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;gateways&#34;&gt;Gateways&lt;/h2&gt;
+&lt;p&gt;Gateways control access from your VCN to other networks. You&amp;rsquo;ll need to configure three different types of gateways:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingIGs.htm&#34;&gt;An internet gateway&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/NATgateway.htm#NAT_Gateway&#34;&gt;A NAT gateway&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/servicegateway.htm#Access_to_Oracle_Services_Service_Gateway&#34;&gt;A service gateway&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You may need to perform some additional configuration to expose the VCN&amp;rsquo;s subnets directly to the internet. See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm#Private&#34;&gt;Access to the Internet&lt;/a&gt; in the OCI documentation for details.&lt;/p&gt;
+&lt;h2 id=&#34;route-tables&#34;&gt;Route tables&lt;/h2&gt;
+&lt;p&gt;Route tables send traffic out of the VCN (for example, to the internet, to your on-premises network, or to a peered VCN) using rules that are similar to traditional network route rules.&lt;/p&gt;
+&lt;p&gt;See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingroutetables.htm#Route2&#34;&gt;VCN Route Tables&lt;/a&gt; in the OCI documentation for more information.&lt;/p&gt;
+&lt;p&gt;For OCNE clusters, you&amp;rsquo;ll need to create two route tables:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A route table for public subnets that will route stateful traffic to and from the internet gateway. Assign this route table to &lt;em&gt;both&lt;/em&gt; public subnets.&lt;/li&gt;
+&lt;li&gt;A route table for private subnets that will route stateful traffic to and from the NAT and service gateways. Assign this route table to &lt;em&gt;both&lt;/em&gt; private subnets.&lt;/li&gt;
+&lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Configure NFS Storage</title>
       <link>/docs/setup/install/prepare/platforms/olcne/nfs/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
