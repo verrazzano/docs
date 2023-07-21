@@ -29,7 +29,7 @@ To provision new Oracle Cloud Native Environment (OCNE) managed clusters on OCI,
 1. Click **Next**.
 1. Set up your network. Choose **Quick Create** to create a new virtual cloud network (VCN) configured to the specifications required for an OCNE cluster or **Existing Infrastructure** to use a VCN that's already configured in your OCI account.
 
-    * If you choose the **Existing Infrastructure** option, then select the compartment where your VCN is located from the **VCN Compartment** drop-down list, then the VCN itself from the **Virtual Cloud Network** drop-down list. Next, select subnets within the VCN for each of the **Cloud Plane Subnet**, **Load Balancer Subnet**, and **Worker Node Subnet** drop-down lists.
+    * If you choose the **Existing Infrastructure** option, then select the compartment where your VCN is located from the **VCN Compartment** drop-down list, then the VCN itself from the **Virtual Cloud Network** drop-down list. Next, select subnets within the VCN for each of the **Cloud Plane Subnet**, **Load Balancer Subnet**, and **Worker Node Subnet** drop-down lists. See [Configure a VCN for OCNE]({{< relref "/docs/setup/install/prepare/platforms/olcne/vcn" >}}) for requirements.
 
     * The VCN compartment does not need to match the compartment specified in the cloud credential.
 1. Click **Next**.

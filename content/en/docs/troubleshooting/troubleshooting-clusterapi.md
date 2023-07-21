@@ -130,7 +130,7 @@ $ kubectl --kubeconfig <workload-cluster-kubeconfig> get pods -A
 {{< /clipboard >}}
 </div>
 
-If the pod status is not `Running`, run the following command to identify the error:
+If the status of any of the pods is not `Running`, run the following command to identify the error:
 
 {{< clipboard >}}
 <div class="highlight">
