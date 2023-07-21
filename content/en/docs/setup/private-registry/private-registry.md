@@ -170,14 +170,13 @@ To ensure that the [host names used for the system consoles]({{< relref "/docs/s
 
   1. To install Verrazzano, you will need the Verrazzano platform operator manifests file. This file is in the
 distribution at `${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.yaml`.
-  3. Install Verrazzano using the Verrazzano CLI. You can find the CLI in the distribution archive at `${DISTRIBUTION_DIR}/bin/<platform>/vz`.
-For example, for the Linux operating system on AMD architecture, the path to the CLI is `${DISTRIBUTION_DIR}/bin/linux-amd64/vz`.
+  3. Install Verrazzano using the Verrazzano CLI. You can find the CLI in the distribution archive at `${DISTRIBUTION_DIR}/bin/vz`.
 This path is used in all the sample commands.
      {{< clipboard >}}
 <div class="highlight">
 
   ```
-  $ ${DISTRIBUTION_DIR}/bin/linux-amd64/vz install --image-registry "${MYREG}" --image-prefix "${MYPREFIX}" --manifests ${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.yaml
+  $ ${DISTRIBUTION_DIR}/bin/vz install --image-registry "${MYREG}" --image-prefix "${MYPREFIX}" --manifests ${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.yaml
   ```  
 </div>
 {{< /clipboard >}}
@@ -192,12 +191,12 @@ For example, to install Verrazzano using the `prod` profile, run the following c
 <div class="highlight">
 
   ```
-  $ ${DISTRIBUTION_DIR}/bin/linux-amd64/vz install --set profile=prod --image-registry "${MYREG}" --image-prefix "${MYPREFIX}" --manifests ${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.yaml
+  $ ${DISTRIBUTION_DIR}/bin/vz install --set profile=prod --image-registry "${MYREG}" --image-prefix "${MYPREFIX}" --manifests ${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.yaml
   ```  
 </div>
 {{< /clipboard >}}
 
-For a complete description of Verrazzano CLI options, run `${DISTRIBUTION_DIR}/bin/linux-amd64/vz -h`.
+For a complete description of Verrazzano CLI options, run `${DISTRIBUTION_DIR}/bin/vz -h`.
 
 ## Configuring access to an insecure private registry
 
