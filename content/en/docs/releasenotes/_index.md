@@ -3,6 +3,15 @@ title: Release Notes
 weight: 2
 draft: false
 ---
+## 1.6.2
+### Features:
+- Analyze tool enhancements
+
+### Fixes:
+- Fixed issue with vz upgrade requiring --version when manifest was specified
+- Fixed issue with vz install/upgrade processing CAPI image in air-gap environment
+- Fixed issue with image format on pulls that prevented installation on AKS from working
+
 ## v1.6.1
 #### Enhancements:
 - Now, you can create a new virtual cloud network when creating OCNE clusters from the console.
