@@ -34,7 +34,7 @@ Kind images are prebuilt for each release.  To find images suitable for a given 
 [release notes](https://github.com/kubernetes-sigs/kind/releases) for your Kind version (check with `kind version`).
 There you'll find a complete listing of images created for a Kind release.
 
-The following example references a Kubernetes v1.26-based image built for Kind v0.11.1.  Replace that image
+The following example references a Kubernetes v1.26-based image built for Kind v0.20.0.  Replace that image
 with one suitable for the Kind release you are using. For the supported Kubernetes versions, see the listing [here]({{< relref "/docs/setup/install/prepare/prereqs#kubernetes" >}}).
 {{< clipboard >}}
 <div class="highlight">
@@ -130,6 +130,8 @@ To install MetalLB:
 
 </div>
 {{< /clipboard >}}
+
+**NOTE**: When using MetalLB on Kubernetes v1.26, install MetalLB v0.11.0, which you can do with manifest files or a Helm chart.
 
 Wait for MetalLB to be ready, as shown:
 {{< clipboard >}}
