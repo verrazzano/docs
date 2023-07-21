@@ -9,7 +9,8 @@ draft: false
 ### Summary
 Analysis detected that one or more Rancher resources are in a failure state.
 
-### app.catalog.cattle.io
+### Applications (app.catalog.cattle.io)
+Analysis detected an issue with the deployment of a Helm chart.
 
 ### Helm Repositories (clusterrepo.catalog.cattle.io)
 Analysis detected that a Helm repository has not successfully downloaded.
@@ -35,7 +36,8 @@ Analysis detected an issue with the configuration of a Git repository under Cont
 ### Git Jobs (gitjob.gitjob.cattle.io)
 Analysis detected an issue with the status of a Kubernetes job that is configured to be launched based on a Git event.
 
-### catalog.management.cattle.io
+### Catalogs (catalog.management.cattle.io)
+Analysis detected an issue with the configuration of a catalog of application templates.
 
 ### Managed Clusters (cluster.management.cattle.io)
 Analysis detected that a cluster managed by Rancher is not ready. The state of the cluster will display Active on the home screen when it is available to be managed with Rancher.
@@ -47,7 +49,10 @@ Analysis detected that a KontainerDriver resource was not in a ready state. A re
 
 ### managedchart.management.cattle.io
 
-### node.management.cattle.io
+### Nodes (node.management.cattle.io)
+Analysis detected that a node within the cluster is not ready.
+
+There are interim states, such as Provisioning and Updating, that may be displayed before a node becomes Active.
 
 ### Provisioning Clusters (cluster.provisioning.cattle.io)
 Analysis detected that a cluster being provisioned by Rancher is not ready. Clusters are provisioned by [cluster drivers]({{< relref "#cluster-drivers-kontainerdrivermanagementcattleio" >}}). The state of the cluster will display Active on the home screen when it is available to be managed with Rancher.
