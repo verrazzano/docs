@@ -9,7 +9,7 @@ aliases:
 
 WebLogic Server is a widely-used enterprise application server for managing Java Enterprise Edition-based applications and is [certified](https://blogs.oracle.com/weblogicserver/weblogic-server-certification-on-kubernetes) to run on Kubernetes using the [WebLogic Kubernetes Operator](https://oracle.github.io/weblogic-kubernetes-operator/). The WebLogic Kubernetes Operator (the "operator") manages the WebLogic domain life cycle in Verrazzano. The WebLogic Domain custom resource (CR) specifies the configuration of the WebLogic domain. The operator monitors the WebLogic Domain CR and reconciles the domain by creating, updating, and deleting Kubernetes resources (Pods, Services, and such), as needed. Each pod is a WebLogic Server Administration Server or Managed Server.
 
-The operator is installed in the `verrazzano-system` namespace and is also part of the [istio-mesh](https://istio.io/latest/about/service-mesh/) deployed by Verrazzano.
+The operator is installed in the `verrazzano-system` namespace and is also part of the [Istio mesh](https://istio.io/latest/about/service-mesh/) deployed by Verrazzano.
 
 {{< alert title="NOTE" color="primary" >}}
 Verrazzano installs an instance of the WebLogic Kubernetes Operator. If you have a pre-existing instance of the operator, namespaces managed by each instance must be mutually exclusive.
@@ -18,7 +18,7 @@ Do not label a namespace which is managed by the pre-existing WebLogic Kubernete
 
 ## WebLogic OAM Component
 
-In Verrazzano, WebLogic workloads are specified as a [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) OAM Component and one component specifies exactly one WebLogic domain. An `ApplicationConfiguration` can contain multiple `VerrazzanoWebLogicWorkload` components and therefore, multiple WebLogic domains. You can specify `Traits` for one or more `VerrazzanoWebLogicWorkload` components. All WebLogic Domain CR fields can be specified in the `VerrazzanoWebLogicWorkload`.
+In Verrazzano, WebLogic workloads are specified as a [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) OAM Component and one component specifies exactly one WebLogic domain. An ApplicationConfiguration can contain multiple VerrazzanoWebLogicWorkload components and therefore, multiple WebLogic domains. You can specify Traits for one or more VerrazzanoWebLogicWorkload components. All WebLogic Domain CR fields can be specified in the VerrazzanoWebLogicWorkload.
 
 
 The following is an example WebLogic OAM Component.
@@ -38,7 +38,7 @@ spec:
     name: todo-domain
  spec:
            domainUID: tododomain
-           omainHome: /u01/domains/tododomain          …
+           domainHome: /u01/domains/tododomain          …
 
 ```
 
@@ -47,12 +47,12 @@ spec:
 
 ## Verrazzano application operator
 
-The Verrazzano application operator monitors the `VerrazzanoWebLogicWorkload` custom resource (CR) and creates, updates, and deletes the `Domain` CR based on the specification provided in the `VerrazzanoWebLogicWorkload` CR. Also, it modifies the WebLogic Domain CR to add Fluentd sidecar injection for logging and a Monitoring Exporter configuration for metrics, if they do not already exist. The WebLogic Kubernetes Operator creates the WebLogic domain based on the WebLogic Domain CR.
+The Verrazzano application operator monitors the VerrazzanoWebLogicWorkload custom resource (CR) and creates, updates, and deletes the `Domain` CR based on the specification provided in the VerrazzanoWebLogicWorkload CR. Also, it modifies the WebLogic Domain CR to add Fluentd sidecar injection for logging and a WebLogic Monitoring Exporter configuration for metrics, if they do not already exist. The WebLogic Kubernetes Operator creates the WebLogic domain based on the WebLogic Domain CR.
 
 
 ## WebLogic domain life cycle
 
-The following are the life cycle stages of a WebLogic domain:
+The following are the life cycle stages of a WebLogic domain.
 
 1. Create a WebLogic domain.
    - Application containing WebLogic component is created.
@@ -61,9 +61,9 @@ The following are the life cycle stages of a WebLogic domain:
    - Application containing WebLogic component is deleted.
    - WebLogic component removed from an existing application.
 3. Scale a WebLogic domain.
-   - Modify the `replicas` field in the WebLogic Domain CR within the OAM Component spec.
+   - Modify the `replicas` field in the WebLogic Domain CR within the OAM Component specification.
 4. Update a WebLogic domain.
-   - Modify the other `fields` field in the WebLogic Domain CR within the OAM Component spec.
+   - Modify the other `fields` field in the WebLogic Domain CR within the OAM Component specification.
 
 Scale-in and scale-out a WebLogic domain by modifying the OAM Component replicas count. Delete the WebLogic domain by deleting the OAM application or removing the component from the application.
 
@@ -78,7 +78,7 @@ The Envoy proxy sidecar exists in front of workloads for each service providing 
 
 
 
-If the namespace is labeled `istio-injection=enabled`, then Istio puts the WebLogic domain in the Istio mesh. You should label all the namespaces `istio-injection=enabled` where the WebLogic domain is to be created, or WebLogic domain creation will fail. Also, you can label the namespaces when using `VerrazzanoProject`, which by default, assigns the label to all the namespaces associated with the project. In the WebLogic Domain CR, the Verrazzano application operator sets the Istio enabled field.
+If the namespace is labeled `istio-injection=enabled`, then Istio puts the WebLogic domain in the Istio mesh. You should label all the namespaces `istio-injection=enabled` where the WebLogic domain is to be created, or WebLogic domain creation will fail. Also, you can label the namespaces when using a VerrazzanoProject, which by default, assigns the label to all the namespaces associated with the project. In the WebLogic Domain CR, the Verrazzano application operator sets the Istio enabled field.
 {{< clipboard >}}
 
 ```yaml
@@ -96,16 +96,16 @@ items:
 
 ### Istio mesh ingress and egress
 
-The Verrazzano installer creates the ingress gateway service. The Ingress gateway is a `LoadBalancer` service; TLS is terminated at the Istio ingress gateway. Ingress to the WebLogic domain is optional; you can use an `IngressTrait` to enable it.
+The Verrazzano installer creates the ingress gateway service. The ingress gateway is a `LoadBalancer` service; TLS is terminated at the Istio ingress gateway. Ingress to the WebLogic domain is optional; you can use an IngressTrait to enable it.
 
 
 #### Istio ingress and routing for a single WebLogic domain
 
-The Istio Gateway resource describes a proxy providing ingress to the Kubernetes cluster and the Istio mesh. The Gateway specifies the host, port, protocol, and so on, and is bound to a gateway service (LoadBalancer/NodePort). `VirtualService` specifies routes to services and load balancing.
+The Istio Gateway resource describes a proxy providing ingress to the Kubernetes cluster and the Istio mesh. The Gateway specifies the host, port, protocol, and so on, and is bound to a gateway service (`LoadBalancer`/`NodePort`). The VirtualService specifies routes to services and load balancing.
 
 
 
-Example of an Istio `Gateway` resource
+Example of an Istio Gateway resource:
 {{< clipboard >}}
 
 ```yaml
@@ -129,7 +129,7 @@ apiVersion: networking.istio.io/v1beta1
 ```
 {{< /clipboard >}}
 
-Example of an Istio `VirtualService` resource
+Example of an Istio VirtualService resource:
 
 {{< clipboard >}}
 
@@ -141,14 +141,14 @@ apiVersion: networking.istio.io/v1beta1
     gateways:
     - todo-list-todo-appconf-gw #Gateway resource reference
     hosts:
-    - todo-appconf.todo-list.172.18.0.230.nip.io #Host that this VS applies to.  Gateway resource can have multiple hosts
+    - todo-appconf.todo-list.172.18.0.230.nip.io #Host that this VirtualService applies to.  A Gateway resource can have multiple hosts.
     http:
     - match:
       - uri:
           prefix: /todo
       route:
       - destination:
-          host: tododomain-adminserver #Back-end Kubernetes Service
+          host: tododomain-adminserver #Back end Kubernetes service.
           port:
             number: 7001
 
@@ -157,16 +157,16 @@ apiVersion: networking.istio.io/v1beta1
 
 #### Istio ingress and routing for multiple WebLogic domains
 
-Multiple `Gateway` resources use the same Istio ingress gateway service. Verrazzano creates a single `Gateway` and `VirtualService` per `IngressTrait` specified on the OAM Component.
+Multiple Gateway resources use the same Istio ingress gateway service. Verrazzano creates a single Gateway and VirtualService per IngressTrait specified on the OAM Component.
 
 
 
 ### Istio authorization policy
 
-The Istio `AuthorizationPolicy` resource specifies access controls for WebLogic pods, other pods in the application, the Ingress gateway, and Prometheus.
+The Istio AuthorizationPolicy resource specifies access controls for WebLogic pods, other pods in the application, the Ingress gateway, and Prometheus.
 
 
-Example Istio authorization policy
+Example Istio authorization policy:
 {{< clipboard >}}
 
 ```yaml
@@ -194,12 +194,12 @@ spec:
 Prometheus scrapes each WebLogic pod on the metrics port periodically.
 
 
-If the trait doesn’t exist, Verrazzano will inject the `MetricsTrait` into the `ApplicationConfiguration`. The WebLogic Monitoring Exporter sidecar provides the metrics endpoint. If it doesn’t already exist, Verrazzano will inject the default Monitoring Exporter configuration into the WebLogic Domain CR. The Verrazzano application operator creates Prometheus Service Monitors with WebLogic targets and Verrazzano installs Grafana dashboards to view WebLogic metrics. The WebLogic Kubernetes Operator configures the Monitoring Exporter using a REST API and labels the pods with metrics-related labels. Metrics are scraped at `/metrics` on port 8080.
+If the trait doesn’t exist, Verrazzano will inject the MetricsTrait into the ApplicationConfiguration. The WebLogic Monitoring Exporter sidecar provides the metrics endpoint. If it doesn’t already exist, Verrazzano will inject the default Monitoring Exporter configuration into the WebLogic Domain CR. The Verrazzano application operator creates Prometheus Service Monitors with WebLogic targets and Verrazzano installs Grafana dashboards to view WebLogic metrics. The WebLogic Kubernetes Operator configures the Monitoring Exporter using a REST API and labels the pods with metrics-related labels. Metrics are scraped at `/metrics` on port 8080.
 
 
 ### AppConfig default injection
 
-Review the following example `MetricsTrait` from the Todo List `ApplicationConfiguration`. If it's missing from `ApplicationConfiguration`, Verrazzano will inject the default `MetricsTrait`.
+Review the following example MetricsTrait from the Todo List ApplicationConfiguration. If it's missing from ApplicationConfiguration, Verrazzano will inject the default MetricsTrait.
 
 {{< clipboard >}}
 
@@ -245,9 +245,9 @@ monitoringExporter:
 ### Pod annotations
 
 The following annotations can be used for enabling metrics on pods:
-- `prometheus.io/metricsEnabled: "true”` - Enables metrics scraping.
+- `prometheus.io/metricsEnabled: "true"` - Enables metrics scraping.
 - `prometheus.io/metricsPath: /metrics` - Specifies metrics scraping path.
-- `prometheus.io/metricsPort: ”8080"` - Specifies metrics scraping port.
+- `prometheus.io/metricsPort: "8080"` - Specifies metrics scraping port.
 
 Example:
 
@@ -266,7 +266,7 @@ metadata:
 {{< /clipboard >}}
 ## Logging
 
-WebLogic logs are sent to OpenSearch, which is installed in the Verrazzano cluster. The Fluentd sidecar is injected into each WebLogic pod to send server logs to stdout. The Fluentd `DaemonSet` in the `verrazzano-system` namespace sends logs to OpenSearch. In OpenSearch, logs are indexed by namespace.
+WebLogic logs are sent to OpenSearch, which is installed in the Verrazzano cluster. The Fluentd sidecar is injected into each WebLogic pod to send server logs to stdout. The Fluentd DaemonSet in the `verrazzano-system` namespace sends logs to OpenSearch. In OpenSearch, logs are indexed by namespace.
 
 
 ## Lift-and-Shift WebLogic applications
@@ -280,21 +280,77 @@ For detailed instructions, see the [Lift-and-Shift]({{< relref "/docs/guides/lif
 
 Step 1. Create a WebLogic domain image.
    - To deploy a WebLogic domain in Kubernetes, first you need to create a Docker image for the WebLogic domain.
-   - To create a WebLogic domain image using [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling) (WDT), follow the instructions in [Example Image with a WLS Domain](https://github.com/oracle/docker-images/tree/main/OracleWebLogic/samples/12213-domain-home-in-image-wdt).
+   - To create a WebLogic domain image using [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling) (WDT), follow the instructions at:
+      - For a Model in Image domain home (recommended), see [Model in Image](https://oracle.github.io/weblogic-kubernetes-operator/managing-domains/model-in-image/).
+      - For a Domain home on a persistent volume (Domain on PV), see [Domain on Persistent Volume (PV)](https://oracle.github.io/weblogic-kubernetes-operator/managing-domains/domain-on-pv/).
 
 Step 2. Create a VerrazzanoWebLogicWorkload component.
    - To deploy and run the WebLogic domain image in Verrazzano, create the VerrazzanoWebLogicWorkload component that specifies the definition and parameters for the WebLogic domain contained in the image.
-   - For an example VerrazzanoWebLogicWorkload Component resource created for a sample WebLogic domain, see the [todo-domain]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) example.
-   - For all the options supported by the WebLogic domain configuration, see [Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md).
+   - See the following example VerrazzanoWebLogicWorkload Component resource created for a sample WebLogic domain.
+      - For all the options supported by the WebLogic domain configuration, see [Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/release/4.1/documentation/domains/Domain.md).
+      - Find the VerazzanoWebLogicWorkload specification [here]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}).
+
+{{< clipboard >}}
+
+   ```yaml
+   apiVersion: core.oam.dev/v1alpha2
+   kind: Component
+   metadata:
+     name: todo-domain
+     namespace: todo-list
+   spec:
+     workload:
+       apiVersion: oam.verrazzano.io/v1alpha1
+       kind: VerrazzanoWebLogicWorkload
+       spec:
+         template:
+           metadata:
+             name: todo-domain
+             namespace: todo-list
+           spec:
+             domainUID: tododomain
+             domainHome: /u01/domains/tododomain
+             image: container-registry.oracle.com/verrazzano/example-todo:0.8.0
+             imagePullSecrets:
+               - name: tododomain-repo-credentials
+             domainHomeSourceType: "FromModel"
+             includeServerOutInPodLog: true
+             replicas: 1
+             webLogicCredentialsSecret:
+               name: tododomain-weblogic-credentials
+             configuration:
+               introspectorJobActiveDeadlineSeconds: 900
+               model:
+                 configMap: tododomain-jdbc-config
+                 domainType: WLS
+                 modelHome: /u01/wdt/models
+                 runtimeEncryptionSecret: tododomain-runtime-encrypt-secret
+               secrets:
+                 - tododomain-jdbc-tododb
+             serverPod:
+               env:
+                 - name: JAVA_OPTIONS
+                   value: "-Dweblogic.StdoutDebugEnabled=false"
+                 - name: USER_MEM_ARGS
+                   value: "-Djava.security.egd=file:/dev/./urandom -Xms64m -Xmx256m "
+                 - name: WL_HOME
+                   value: /u01/oracle/wlserver
+                 - name: MW_HOME
+                   value: /u01/oracle
+   ```
+{{< /clipboard >}}
 
 Step 3. Create an ApplicationConfiguration for the WebLogic application.
    - Next, create an ApplicationConfiguration that uses the VerrazzanoWebLogicWorkload component you created for the WebLogic domain.
-   - For an example ApplicationConfiguration using a VerrazzanoWebLogicWorkload component, see the [ToDo List]({{< relref "/docs/examples/wls-coh/todo-list.md" >}}) example application.
+   - For an example ApplicationConfiguration using a VerrazzanoWebLogicWorkload component, see the [ToDo List](https://github.com/verrazzano/verrazzano/blob/master/examples/todo-list/todo-list-application.yaml) example application.
 
 Step 4. Verify the domain.
    - Verrazzano creates the underlying domain Kubernetes resource from the VerrazzanoWebLogicWorkload component, which is then processed by the WebLogic Kubernetes Operator to create the Administration and Managed Server pods, and deploy the applications and resources associated with the WebLogic domain.
-   - To verify that the WebLogic domain is up and running, follow the steps found [here](https://oracle.github.io/weblogic-kubernetes-operator/samples/domains/domain-home-in-image/#verify-the-domain).
+   - To verify that the WebLogic domain is up and running, follow the steps found [here]({{< relref "/docs/examples/wls-coh/todo-list#verify-the-deployed-application" >}}).
 
+{{< alert title="NOTE" color="primary" >}}
+Oracle recommends that you use the [WebLogic Toolkit UI](https://github.com/oracle/weblogic-toolkit-ui/releases) (WKTUI) for deploying WebLogic applications in Verrazzano. Follow the WKTUI documentation found [here](https://oracle.github.io/weblogic-toolkit-ui/).
+{{< /alert >}}
 
 ## Database connections
 
