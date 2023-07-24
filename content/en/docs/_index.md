@@ -16,7 +16,7 @@ The timeline for Verrazzano releases and the date of their end of error correcti
 
 | Verrazzano                                                          | Release Date | Latest Patch Release                                                  | Latest Patch Release Date | End of Error Correction |
 |---------------------------------------------------------------------|--------------|-----------------------------------------------------------------------|---------------------------|-------------------------|
-| [1.6](https://github.com/verrazzano/verrazzano/releases/tag/v1.6.0) | 2023-06-28   | [1.6.1](https://github.com/verrazzano/verrazzano/releases/tag/v1.6.1) | 2023-07-18                | 2024-06-30*             |
+| [1.6](https://github.com/verrazzano/verrazzano/releases/tag/v1.6.0) | 2023-06-28   | [1.6.2](https://github.com/verrazzano/verrazzano/releases/tag/v1.6.2) | 2023-07-24                | 2024-06-30*             |
 | [1.5](https://github.com/verrazzano/verrazzano/releases/tag/v1.5.0) | 2023-02-15   | [1.5.4](https://github.com/verrazzano/verrazzano/releases/tag/v1.5.4) | 2023-07-18                | 2024-02-28              |
 | [1.4](https://github.com/verrazzano/verrazzano/releases/tag/v1.4.0) | 2022-09-30   | [1.4.5](https://github.com/verrazzano/verrazzano/releases/tag/v1.4.5) | 2023-05-12                | 2023-10-31              |
 | [1.3](https://github.com/verrazzano/verrazzano/releases/tag/v1.3.0) | 2022-05-24   | [1.3.8](https://github.com/verrazzano/verrazzano/releases/tag/v1.3.8) | 2022-11-17                | 2023-05-31              |
