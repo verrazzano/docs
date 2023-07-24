@@ -290,8 +290,3 @@ For example, to install Verrazzano using the `prod` profile, run the following c
 {{< /clipboard >}}
 
 For a complete description of Verrazzano CLI options, run `${DISTRIBUTION_DIR}/bin/linux-amd64/vz -h`.
-
-## References
-
-- [Configuring Access to an Insecure Private Registry]({{< relref "/docs/setup/install/prepare/platforms/olcne/private-registry.md" >}})
-- [Specify container registry secret for WebLogic applications]({{< relref "/docs/applications/oam/workloads/weblogic/#weblogic-applications" >}})
