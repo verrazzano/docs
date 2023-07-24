@@ -4,13 +4,13 @@ weight: 2
 draft: false
 ---
 ## 1.6.2
-### Features:
-- Analyze tool enhancements
+### Enhancements:
+- Verrazzano analysis tooling enhancements.
 
 ### Fixes:
-- Fixed issue with vz upgrade requiring --version when manifest was specified
-- Fixed issue with vz install/upgrade processing CAPI image in air-gap environment
-- Fixed issue with image format on pulls that prevented installation on AKS from working
+- Fixed an issue with `vz upgrade` requiring `--version` when a manifest file was specified.
+- Fixed an issue with `vz` install and upgrade processing CAPI images in a disconnected environment.
+- Fixed an issue with image format on pulls that prevented Verrazzano installation on AKS.
 
 ## v1.6.1
 #### Enhancements:
