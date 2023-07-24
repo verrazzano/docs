@@ -3,6 +3,15 @@ title: Release Notes
 weight: 2
 draft: false
 ---
+## 1.6.2
+### Enhancements:
+- Verrazzano analysis tooling enhancements.
+
+### Fixes:
+- Fixed an issue with `vz upgrade` requiring `--version` when a manifest file was specified.
+- Fixed an issue with `vz` install and upgrade processing CAPI images in a disconnected environment.
+- Fixed an issue with image format on pulls that prevented Verrazzano installation on AKS.
+
 ## v1.6.1
 #### Enhancements:
 - Now, you can create a new virtual cloud network when creating OCNE clusters from the console.
