@@ -1,4 +1,4 @@
- // Copyright (c) 2020, 2021 Oracle and/or its affiliates. 
+ // Copyright (c) 2020, 2023 Oracle and/or its affiliates.
 
 pipeline {
     options {
@@ -71,12 +71,7 @@ pipeline {
         stage('Creating production documentation zip') {
             steps {
                 sh """
-                    # This is a workaround to include the documentation to setup private registry using both lite and
-                    # full distribution
-                    mkdir -p public
-                    cp content/en/docs/setup/private-registry/private-registry-full-distribution.md content/en/docs/setup/private-registry/private-registry.md
-                    env HUGO_ENV=production hugo --source . --destination public --environment production
-                    zip -r verrazzano-production-docs.zip public
+                    zip -r verrazzano-production-docs.zip production
                 """
             }
         }
@@ -85,7 +80,6 @@ pipeline {
             steps {
                archiveArtifacts artifacts: 'staging/**'
                archiveArtifacts artifacts: 'production/**'
-               archiveArtifacts artifacts: 'public/**'
                archiveArtifacts artifacts: 'verrazzano-production-docs.zip'
             }
         }
