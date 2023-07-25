@@ -1,6 +1,5 @@
 ---
 title: Customize Keycloak and MySQL
-description: Customize Verrazzano Keycloak and MySQL settings for high availability
 Weight: 9
 draft: false
 aliases:

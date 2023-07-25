@@ -1,6 +1,5 @@
 ---
 title: IngressTrait
-description: "A trait supporting the generation of an ingress for application access"
 weight: 4
 draft: false
 ---

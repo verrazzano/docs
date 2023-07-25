@@ -1,6 +1,5 @@
 ---
 title: "Develop and Deploy Applications Using OAM"
-description: ""
 weight: 3
 draft: false
 aliases:

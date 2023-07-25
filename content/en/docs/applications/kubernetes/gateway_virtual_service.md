@@ -1,6 +1,5 @@
 ---
 title: "Istio Gateway and Virtual Service"
-description: "Learn about Istio gateway and virtual service"
 weight: 4
 draft: false
 ---

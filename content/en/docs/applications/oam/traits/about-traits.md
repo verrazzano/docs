@@ -1,6 +1,5 @@
 ---
 title: "About Verrazzano Traits"
-description: "Learn about Verrazzano traits"
 weight: 2
 draft: false
 ---

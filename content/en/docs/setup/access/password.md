@@ -1,6 +1,5 @@
 ---
 title: Change Verrazzano Passwords
-description: "Change the Verrazzano and Keycloak administrator passwords"
 weight: 4
 draft: false
 ---

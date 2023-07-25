@@ -1,6 +1,5 @@
 ---
 title: "Security"
-description: ""
 weight: 9
 draft: false
 ---

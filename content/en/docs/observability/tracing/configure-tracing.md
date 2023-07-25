@@ -1,6 +1,5 @@
 ---
 title: "Configure Tracing Components"
-description: "Enable and configure Jaeger distributed tracing in Verrazzano"
 weight: 3
 draft: false
 aliases:

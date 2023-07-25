@@ -2,7 +2,6 @@
 title: CLI Setup
 linkTitle:
 weight: 2
-description: Install the Verrazzano command-line tool (optional)
 draft: false
 aliases:
   - /docs/setup/cli

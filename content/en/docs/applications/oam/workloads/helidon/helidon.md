@@ -1,6 +1,5 @@
 ---
 title: "Helidon Workload"
-description: Develop Helidon applications on Verrazzano
 Weight: 4
 draft: false
 aliases:

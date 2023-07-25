@@ -1,7 +1,6 @@
 ---
 title: Istio Ingress Gateway No External IP
 linkTitle: Istio Ingress Gateway No External IP
-description: Analysis detected Istio ingress gateway is missing an external IP address
 weight: 5
 draft: false
 ---

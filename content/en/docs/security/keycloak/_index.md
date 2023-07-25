@@ -1,6 +1,5 @@
 ---
 title: "Keycloak and SSO"
-description: "Learn about Keycloak user management and Single Sign-On (SSO)"
 weight: 3
 draft: false
 ---

@@ -1,7 +1,6 @@
 ---
 title: Install, Upgrade, or Uninstall Failure
 linkTitle: Install, Upgrade, or Uninstall Failure
-description: Analysis detected a failure while installing, upgrading, or uninstalling Verrazzano
 weight: 5
 draft: false
 ---
@@ -10,7 +9,7 @@ draft: false
 Analysis detected a failure while installing, upgrading, or uninstalling Verrazzano; however, it did not isolate the exact reason for the failure.
 
 ### Steps
-Review the analysis data, which can help identify the issue. Upon failure, a bug-report archive file will be generated automatically and the filepath will be printed to the console. 
+Review the analysis data, which can help identify the issue. Upon failure, a bug-report archive file will be generated automatically and the filepath will be printed to the console.
 
 ### Related information
 * [Installation Guide]({{< relref "/docs/setup/install/" >}})

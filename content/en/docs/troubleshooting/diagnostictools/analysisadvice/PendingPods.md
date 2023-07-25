@@ -1,7 +1,6 @@
 ---
 title: Pending Pods
 linkTitle: Pending Pods
-description: Analysis detected pods in a pending state
 weight: 5
 draft: false
 ---

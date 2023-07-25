@@ -1,6 +1,5 @@
 ---
 title: "Configure OpenSearch Clusters"
-description: "Configure OpenSearch clusters and access OpenSearch dashboards"
 weight: 2
 draft: false
 aliases:

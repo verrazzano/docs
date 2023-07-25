@@ -1,8 +1,6 @@
 ---
 title: Install Verrazzano in a Disconnected Environment
-description:
 weight: 5
-description: Set up Verrazzano in environments without direct connection to the Internet
 draft: false
 ---
 

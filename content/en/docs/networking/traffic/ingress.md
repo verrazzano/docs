@@ -1,6 +1,5 @@
 ---
 title: Customize Ingress
-description: Customize Verrazzano NGINX and Istio ingress settings
 Weight: 4
 draft: false
 aliases:

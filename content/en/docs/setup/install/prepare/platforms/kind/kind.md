@@ -1,6 +1,5 @@
 ---
 title: Prepare a Kind Cluster
-description: Set up a Kind cluster for Verrazzano
 Weight: 4
 draft: false
 aliases:

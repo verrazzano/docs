@@ -1,7 +1,6 @@
 ---
 title: NGINX Ingress Controller Load Balancer Creation Issue
 linkTitle: NGINX Ingress Controller Load Balancer Creation Issue
-description: Analysis detected NGINX Ingress Controller load balancer was not created successfully
 weight: 5
 draft: false
 ---

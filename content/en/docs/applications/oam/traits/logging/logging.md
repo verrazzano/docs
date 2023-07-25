@@ -1,6 +1,5 @@
 ---
 title: LoggingTrait
-description: "A trait supporting the definition of application logging parameters"
 weight: 4
 draft: false
 ---
@@ -60,4 +59,3 @@ For example, when the [ToDo-List]({{< relref "/docs/examples/wls-coh/todo-list" 
 {{< /clipboard >}}
 
 In this example, the `logging-stdout` container will run the image given in the LoggingTrait and a ConfigMap named `logging-stdout-todo-domain-domain` will be created with the custom Fluentd configuration file.
-

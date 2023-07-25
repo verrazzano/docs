@@ -1,6 +1,5 @@
 ---
 title: Customize High Availability
-description: Achieve high availability using the `prod` profile
 Weight: 6
 draft: false
 aliases:

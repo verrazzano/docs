@@ -1,6 +1,5 @@
 ---
 title: "Customize DNS"
-description: "Customize DNS configurations for Verrazzano system and application endpoints"
 weight: 2
 draft: false
 aliases:

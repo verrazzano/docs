@@ -1,6 +1,5 @@
 ---
 title: "Customize Load Balancers on OCI"
-description: "Customize load balancers on OCI for Verrazzano system and application endpoints"
 weight: 5
 draft: false
 aliases:

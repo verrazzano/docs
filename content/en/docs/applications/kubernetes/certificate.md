@@ -1,6 +1,5 @@
 ---
 title: "Certificate Management"
-description: "Secure public access for your applications"
 weight: 3
 draft: false
 ---

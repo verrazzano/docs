@@ -1,6 +1,5 @@
 ---
 title: "Deploy Applications with Argo CD"
-description: "Use Argo CD to synchronize and deploy applications"
 weight: 6
 draft: false
 aliases:

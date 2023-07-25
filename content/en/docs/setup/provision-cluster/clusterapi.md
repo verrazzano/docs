@@ -1,7 +1,6 @@
 ---
 title: Customize clusterAPI
 linkTitle: Customize clusterAPI
-description: Customize clusterAPI settings
 weight: 6
 draft: false
 ---
@@ -55,7 +54,7 @@ This example customizes the clusterAPI component as follows:
 If you want to upgrade the clusterAPI providers but your Verrazzano instance is installed in a disconnected environment, you can configure the clusterAPI component to retrieve the provider assets from another location, instead of the public repository.
 
 1. Place the provider assets in a location that is accessible by your disconnected Verrazzano environment.
-1. For each provider that you want to upgrade, add a `url` override and then enter the path to the provider assets in the private registry for your environment. 
+1. For each provider that you want to upgrade, add a `url` override and then enter the path to the provider assets in the private registry for your environment.
 
 For example:
 {{< clipboard >}}

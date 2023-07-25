@@ -1,6 +1,5 @@
 ---
 title: Customize Grafana
-description: Customize Verrazzano Grafana settings
 Weight: 5
 draft: false
 aliases:

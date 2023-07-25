@@ -1,6 +1,5 @@
 ---
 title: "Configure Fluentd for Log Collection"
-description: "Configure Fluentd for log collection"
 weight: 3
 draft: false
 aliases:

@@ -1,7 +1,6 @@
 ---
 title: "Multicluster Hello World Helidon"
 linktitle: "Hello World Helidon"
-description: "Hello World Helidon example appplication deployed to a multicluster environment."
 weight: 1
 aliases:
   - /docs/samples/multicluster/hello-helidon

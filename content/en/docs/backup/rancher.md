@@ -1,6 +1,5 @@
 ---
 title: "Rancher"
-description: "Back up and restore Rancher"
 linkTitle: Rancher
 weight: 2
 draft: false

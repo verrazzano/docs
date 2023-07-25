@@ -1,7 +1,6 @@
 ---
 title: "Grafana"
 linkTitle: Grafana
-description: "Use Grafana to view monitoring metrics"
 weight: 4
 draft: false
 aliases:

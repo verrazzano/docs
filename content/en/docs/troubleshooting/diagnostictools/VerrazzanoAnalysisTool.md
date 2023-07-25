@@ -1,7 +1,6 @@
 ---
 title: Analyze Verrazzano Clusters
 weight: 1
-description: Use the Verrazzano analysis tools to analyze clusters and cluster snapshots
 draft: false
 ---
 

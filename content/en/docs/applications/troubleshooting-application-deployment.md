@@ -1,6 +1,5 @@
 ---
 title: "Troubleshoot Application Deployment Issues"
-description: "Troubleshoot issues deploying applications on Verrazzano"
 weight: 8
 draft: false
 aliases:

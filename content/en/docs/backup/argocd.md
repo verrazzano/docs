@@ -1,6 +1,5 @@
 ---
 title: "Argo CD"
-description: "Back up and restore Argo CD"
 linkTitle: Argo CD
 weight: 2
 draft: false

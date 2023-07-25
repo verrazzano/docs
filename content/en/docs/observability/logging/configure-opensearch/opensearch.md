@@ -1,6 +1,5 @@
 ---
 title: "Customize OpenSearch"
-description: "Customize your OpenSearch cluster configuration"
 aliases:
 - /docs/customize/elasticsearch
 weight: 3

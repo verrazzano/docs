@@ -1,7 +1,6 @@
 ---
 title: Problem Pods
 linkTitle: Problem Pods
-description: Analysis detected pods with potential issues
 weight: 5
 draft: false
 ---

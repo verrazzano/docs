@@ -1,7 +1,6 @@
 ---
 title: Install Ingress Controller Failure
 linkTitle: Install Ingress Controller Failure
-description: Analysis detected an install ingress controller failure
 weight: 5
 draft: false
 ---

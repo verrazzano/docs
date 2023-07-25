@@ -1,6 +1,5 @@
 ---
 title: "Application Security"
-description: "Learn about securing applications in Verrazzano"
 weight: 1
 draft: false
 ---

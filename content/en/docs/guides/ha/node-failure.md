@@ -1,7 +1,6 @@
 ---
 title: "Node Failure Guide"
 linkTitle: "Node Failure"
-description: "A guide for managing node failure"
 weight: 2
 draft: false
 ---

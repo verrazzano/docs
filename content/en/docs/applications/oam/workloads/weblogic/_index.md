@@ -1,6 +1,5 @@
 ---
 title: "WebLogic Workload"
-description: "Develop WebLogic applications with Verrazzano"
 weight: 2
 draft: false
 aliases:

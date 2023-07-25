@@ -1,7 +1,6 @@
 ---
 title: VerrazzanoManagedCluster
 linkTitle: "VerrazzanoManagedCluster"
-description: "Registers a managed cluster with an administrative cluster"
 weight: 4
 draft: false
 ---

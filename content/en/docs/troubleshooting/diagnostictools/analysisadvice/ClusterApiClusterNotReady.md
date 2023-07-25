@@ -1,7 +1,6 @@
 ---
 title: Cluster API Resource Not Ready
 linkTitle: Cluster API Resource Not Ready
-description: Analysis detected a Cluster API resource that is not in a ready state.
 weight: 5
 draft: false
 ---

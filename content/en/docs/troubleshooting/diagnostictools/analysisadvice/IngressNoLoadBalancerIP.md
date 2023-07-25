@@ -1,7 +1,6 @@
 ---
 title: Ingress Controller No Load Balancer IP
 linkTitle: Ingress Controller No Load Balancer IP
-description: Analysis detected load balancer missing ingress IP address
 weight: 5
 draft: false
 ---

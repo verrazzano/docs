@@ -1,6 +1,5 @@
 ---
 title: "Installed Software"
-description: "Verrazzano installed software"
 weight: 1
 draft: false
 ---

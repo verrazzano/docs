@@ -1,6 +1,5 @@
 ---
 title: "Customize Certificates"
-description: "Customize SSL certificate generation for Verrazzano system endpoints"
 weight: 2
 draft: false
 aliases:

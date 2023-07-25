@@ -1,6 +1,5 @@
 ---
 title: "Default User Accounts"
-description: "Learn about default user accounts"
 weight: 2
 draft: false
 ---

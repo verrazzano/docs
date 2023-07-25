@@ -1,6 +1,5 @@
 ---
 title: "Multicluster Application Deployment"
-description: "Understand application deployment in a multicluster environment"
 weight: 1
 draft: false
 ---

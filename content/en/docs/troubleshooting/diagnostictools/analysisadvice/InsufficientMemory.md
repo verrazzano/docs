@@ -1,7 +1,6 @@
 ---
 title: Insufficient Memory
 linkTitle: Insufficient Memory
-description: Analysis detected nodes reporting insufficient memory
 weight: 5
 draft: false
 ---
@@ -16,7 +15,7 @@ Analysis detected that there were nodes reporting insufficient memory.
    a. Are the nodes sized correctly for the workload?
       - For the minimum resources required for installing Verrazzano, see the [Prerequisites]({{< relref "/docs/setup/install/prepare/prereqs.md" >}}).
       - Make sure to take into account the resource guidelines of all the applications that you are deploying.
-      
+
    b. Is something unexpected running on the nodes or consuming more memory than expected?
 
 ### Related information

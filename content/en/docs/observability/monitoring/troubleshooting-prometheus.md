@@ -1,6 +1,5 @@
 ---
 title: "Troubleshoot Prometheus Issues"
-description: "Troubleshoot Prometheus issues"
 weight: 5
 draft: false
 aliases:

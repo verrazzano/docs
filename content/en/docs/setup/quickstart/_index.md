@@ -1,6 +1,5 @@
 ---
 title: "Quick Start"
-description: "Get started using Verrazzano"
 weight: 1
 aliases:
   - /docs/quickstart

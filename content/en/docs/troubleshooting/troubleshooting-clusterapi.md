@@ -1,6 +1,5 @@
 ---
 title: "OCNE Cluster Creation Issues"
-description: "Troubleshoot issues when creating OCNE clusters"
 weight: 5
 draft: false
 ---
@@ -87,7 +86,7 @@ $ kubectl get machines -A
 ```
 {{< /clipboard >}}
 
-The status of each machine should be `Running`. 
+The status of each machine should be `Running`.
 
 ### Verify the status of OCI resources
 

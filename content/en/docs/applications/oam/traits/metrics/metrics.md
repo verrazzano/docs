@@ -1,6 +1,5 @@
 ---
 title: MetricsTrait
-description: "A trait supporting the publication of application metrics"
 weight: 4
 draft: false
 ---
@@ -65,4 +64,3 @@ With the sample application configuration successfully deployed, you can query f
 
 </div>
 {{< /clipboard >}}
-

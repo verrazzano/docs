@@ -1,6 +1,5 @@
 ---
 title: "Understand Application Tracing Components in Verrazzano"
-description: "Learn how application tracing components work in Verrazzano"
 weight: 1
 draft: false
 ---

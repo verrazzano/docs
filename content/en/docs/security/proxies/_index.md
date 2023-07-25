@@ -1,6 +1,5 @@
 ---
 title: "Verrazzano Authentication Proxy"
-description: "Learn about the Verrazzano authentication proxy"
 weight: 5
 draft: false
 ---

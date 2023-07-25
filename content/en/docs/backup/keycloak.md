@@ -1,6 +1,5 @@
 ---
 title: "Keycloak"
-description: "Back up and restore Keycloak data"
 linkTitle: Keycloak
 weight: 2
 draft: false

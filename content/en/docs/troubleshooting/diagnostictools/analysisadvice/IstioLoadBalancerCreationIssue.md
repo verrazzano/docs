@@ -1,7 +1,6 @@
 ---
 title: Istio Ingress Load Balancer Creation Issue  
 linkTitle: Istio Ingress Load Balancer Creation Issue
-description: Analysis detected Istio ingress load balancer was not created successfully
 weight: 5
 draft: false
 ---

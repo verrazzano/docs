@@ -1,6 +1,5 @@
 ---
 title: "Prometheus"
-description: "Customize Prometheus to monitor Verrazzano"
 weight: 2
 draft: false
 aliases:

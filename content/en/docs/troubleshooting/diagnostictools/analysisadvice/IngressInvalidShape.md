@@ -1,7 +1,6 @@
 ---
 title: Ingress Controller Invalid Shape
 linkTitle: Ingress Controller Invalid Shape
-description: Analysis detected an invalid shape for Oracle Cloud Infrastructure load balancer
 weight: 5
 draft: false
 ---

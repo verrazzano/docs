@@ -1,6 +1,5 @@
 ---
 title: "Authorization Policy"
-description: "Learn about authorization policies"
 weight: 4
 draft: false
 ---

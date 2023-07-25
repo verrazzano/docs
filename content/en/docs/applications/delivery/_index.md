@@ -1,6 +1,5 @@
 ---
 title: "Continuous Delivery"
-description: "Use Argo CD to manage application life cycle and deployment"
 weight: 8
 draft: false
 aliases:

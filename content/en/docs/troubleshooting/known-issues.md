@@ -1,6 +1,5 @@
 ---
 title: Known Issues
-description: "Issues associated with Verrazzano"
 weight: 3
 draft: true
 ---

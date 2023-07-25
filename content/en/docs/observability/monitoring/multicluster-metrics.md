@@ -1,6 +1,5 @@
 ---
 title: "Multicluster Monitoring"
-description: "Learn about Verrazzano metrics in a multicluster environment"
 weight: 3
 draft: false
 ---

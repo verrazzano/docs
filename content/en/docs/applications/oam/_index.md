@@ -1,6 +1,5 @@
 ---
 title: "Deploy Applications With the Open Application Model"
-description: ""
 weight: 2
 draft: false
 ---

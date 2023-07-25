@@ -1,7 +1,6 @@
 ---
 title: VerrazzanoProject
 linkTitle: "VerrazzanoProject"
-description: "Defines the namespaces and security resources for a set of multicluster applications"
 weight: 4
 draft: false
 ---

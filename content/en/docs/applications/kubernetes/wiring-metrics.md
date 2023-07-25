@@ -1,6 +1,5 @@
 ---
 title: "Gather Metrics and Collect Logs"
-description: "Learn about collecting metrics and logs"
 weight: 2
 draft: false
 ---

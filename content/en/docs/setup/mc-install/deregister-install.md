@@ -1,6 +1,5 @@
 ---
 title: "Deregister a Managed cluster"
-description: "Deregister managed clusters in your multicluster Verrazzano environment"
 weight: 3
 draft: false
 aliases:

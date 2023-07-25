@@ -1,7 +1,6 @@
 ---
 title: MultiClusterResourceStatus
 linkTitle: "MultiClusterResourceStatus"
-description: "Presents the status for multicluster resources"
 weight: 4
 draft: false
 ---

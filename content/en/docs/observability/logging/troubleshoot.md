@@ -1,6 +1,5 @@
 ---
 title: "Troubleshoot logging issues"
-description: ""
 weight: 6
 draft: false
 ---

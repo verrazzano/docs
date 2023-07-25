@@ -1,7 +1,6 @@
 ---
 title: Rancher Issues
 linkTitle: Rancher Issues
-description: Analysis detected a Rancher issue
 weight: 5
 draft: false
 ---

@@ -1,7 +1,6 @@
 ---
 title: MultiClusterApplicationConfiguration
 linkTitle: "MultiClusterApplicationConfiguration"
-description: "Defines the resources associated with a multicluster application"
 weight: 4
 draft: false
 ---
@@ -52,4 +51,3 @@ Here is a sample MultiClusterApplicationConfiguration that specifies an Applicat
 
 </div>
 {{< /clipboard >}}
-

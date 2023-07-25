@@ -1,7 +1,6 @@
 ---
 title: Insufficient CPU
 linkTitle: Insufficient CPU
-description: Analysis detected nodes reporting insufficient CPU
 weight: 5
 draft: false
 ---

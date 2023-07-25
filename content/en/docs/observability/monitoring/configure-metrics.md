@@ -1,6 +1,5 @@
 ---
 title: "Understand Monitoring Components in Verrazzano"
-description: "Learn about Verrazzano metrics gathering and viewing"
 weight: 1
 draft: false
 ---

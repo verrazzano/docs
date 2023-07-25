@@ -1,6 +1,5 @@
 ---
 title: "Troubleshoot Upgrade Issues"
-description: "Solve some common upgrade issues"
 weight: 4
 draft: false
 ---

@@ -1,7 +1,6 @@
 ---
 title: Configure a VCN for OCNE
 linkTitle: Configure a VCN for OCNE
-description: Set up a virtual cloud network for OCNE clusters on OCI
 weight: 3
 draft: false
 ---

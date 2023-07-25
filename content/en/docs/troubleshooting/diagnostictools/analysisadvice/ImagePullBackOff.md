@@ -1,7 +1,6 @@
 ---
 title: Image Pull Back Off
 linkTitle: Image Pull Back Off
-description: Analysis detected an image pull back off issue
 weight: 5
 draft: false
 ---

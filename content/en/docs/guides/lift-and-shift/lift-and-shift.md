@@ -1,7 +1,6 @@
 ---
 title: "Lift-and-Shift Guide"
 linkTitle: "Lift-and-Shift"
-description: "A guide for moving WebLogic Server domains to Verrazzano"
 weight: 4
 draft: false
 ---

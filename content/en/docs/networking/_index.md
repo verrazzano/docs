@@ -1,6 +1,5 @@
 ---
 title: "Networking"
-description: ""
 weight: 10
 draft: false
 ---

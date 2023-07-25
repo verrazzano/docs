@@ -1,7 +1,6 @@
 ---
 title: Cluster API
 linkTitle: Cluster API
-description: Use Verrazzano to create and manage new clusters
 weight: 1
 draft: false
 ---
@@ -16,13 +15,13 @@ Verrazzano incorporates CAPI functionality through the clusterAPI component, whi
 The terminology around clusters differs between CAPI and Verrazzano though the underlying concepts are the same. What CAPI calls Management and Workload clusters are equivalent to admin and managed clusters, respectively, in Verrazzano.
 {{% /alert %}}
 
-CAPI splits cluster management responsibilities across three main components, which it calls providers: 
+CAPI splits cluster management responsibilities across three main components, which it calls providers:
 
-* **Infrastructure** providers standardize the host environment by provisioning any infrastructure or computational resources required by the cluster or machine. 
+* **Infrastructure** providers standardize the host environment by provisioning any infrastructure or computational resources required by the cluster or machine.
 
-* **Bootstrap** providers streamline the node creation process by converting servers into Kubernetes nodes. 
+* **Bootstrap** providers streamline the node creation process by converting servers into Kubernetes nodes.
 
-* **Control plane** providers work with the Kubernetes API to regulate your clusters, ensuring that they always strive toward a desired state. 
+* **Control plane** providers work with the Kubernetes API to regulate your clusters, ensuring that they always strive toward a desired state.
 
 Currently, Verrazzano supports the CAPI provider for Oracle Cloud Native Environment (CAPOCNE) which bundles a bootstrap and a control plane provider together and works with the [CAPOCI infrastructure provider](https://github.com/oracle/cluster-api-provider-oci) offered by Oracle Cloud Infrastructure (OCI).
 

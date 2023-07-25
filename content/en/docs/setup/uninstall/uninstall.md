@@ -1,6 +1,5 @@
 ---
 title: "Perform the Uninstall"
-description: "Uninstall Verrazzano"
 weight: 2
 draft: false
 aliases:

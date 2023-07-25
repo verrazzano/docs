@@ -1,7 +1,6 @@
 ---
 title: Image Pull Service Issue
 linkTitle: Image Pull Service Issue
-description: Analysis detected an image pull service issue
 weight: 5
 draft: false
 ---

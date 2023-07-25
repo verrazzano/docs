@@ -1,6 +1,5 @@
 ---
 title: "Configure Access to a Private Registry"
-description: ""
 weight: 15
 draft: false
 ---

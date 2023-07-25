@@ -1,6 +1,5 @@
 ---
 title: "Verify Using CLI"
-description: "Verify installed Verrazzano using the `vz` CLI"
 weight: 1
 draft: false
 ---

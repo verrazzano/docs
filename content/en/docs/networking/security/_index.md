@@ -1,6 +1,5 @@
 ---
 title: "Network Security"
-description: "Learn about Verrazzano network security"
 weight: 2
 draft: false
 ---

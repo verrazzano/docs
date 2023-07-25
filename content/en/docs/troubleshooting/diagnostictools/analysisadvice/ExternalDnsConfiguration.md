@@ -1,7 +1,6 @@
 ---
 title: External DNS Configuration
 linkTitle: External DNS Configuration
-description: Analysis detected an external DNS configuration issue
 weight: 5
 draft: false
 ---

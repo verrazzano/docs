@@ -1,7 +1,6 @@
 ---
 title: "Uninstall Considerations"
 linkTitle: "Uninstall Considerations"
-description: "Items to consider before uninstalling Verrazzano"
 weight: 1
 draft: false
 ---

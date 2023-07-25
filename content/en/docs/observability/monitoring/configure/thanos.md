@@ -1,7 +1,6 @@
 ---
 title: "Thanos"
 linkTitle: Thanos
-description: "Use Thanos to access and store metrics data"
 weight: 3
 draft: false
 ---
@@ -60,7 +59,7 @@ spec:
 
 ## Enable long-term storage using OCI Object Storage
 
-Optionally, you can configure Thanos to use [OCI Object Storage](https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm) 
+Optionally, you can configure Thanos to use [OCI Object Storage](https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm)
 for long-term storage of metrics.
 
 To enable this behavior complete the following steps:
@@ -111,8 +110,8 @@ $ kubectl create secret generic objstore-config -n verrazzano-monitoring --from-
 
 ### Step 3: Enable storage and Thanos Store Gateway
 
-The following example enables storage, creates the required secret, and enables Thanos Store Gateway in the Verrazzano 
-custom resource. It also configures the Thanos Sidecar to write to object storage and the Store Gateway to read from 
+The following example enables storage, creates the required secret, and enables Thanos Store Gateway in the Verrazzano
+custom resource. It also configures the Thanos Sidecar to write to object storage and the Store Gateway to read from
 object storage.
 
 **Note**: `objstore-config` is the secret that you created in Step 2.

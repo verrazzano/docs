@@ -2,7 +2,6 @@
 title: "Continuous deployment example with Argo CD"
 linkTitle: Argo CD
 weight: 4
-description: "Use Argo CD to deploy and undeploy applications"
 aliases:
   - /docs/samples/argo-cd
 ---
