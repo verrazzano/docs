@@ -162,8 +162,7 @@ Load the product images into your private registry.
    $ MYREG=myreg.io
    $ MYREPO=myrepo/v8o
    $ VPO_IMAGE=$(cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json \
-      | jq -r '.components[].subcomponents[] | select(.name == "verrazzano-platform-operator") \
-      | "\(.repository)/\(.images[].image):\(.images[].tag)"')
+      | jq -r '.components[].subcomponents[] | select(.name == "verrazzano-platform-operator") | "\(.repository)/\(.images[].image):\(.images[].tag)"')
    ```
 </div>
 {{< /clipboard >}}
@@ -186,8 +185,7 @@ Load the product images into your private registry.
 
    ```
    $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json \
-    | jq -r '.components[].subcomponents[] | select(.name == "rancher") \
-    | .images[] | select(.image == "rancher-agent") | "\(.image):\(.tag)"'
+    | jq -r '.components[].subcomponents[] | select(.name == "rancher") | .images[] | select(.image == "rancher-agent") | "\(.image):\(.tag)"'
    ```
 </div>
 {{< /clipboard >}}
@@ -198,8 +196,7 @@ Load the product images into your private registry.
 
    ```
    $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json \
-    | jq -r '.components[].subcomponents[] | select(.name == "additional-rancher") \
-    | .images[] | "\(.image):\(.tag)"'
+    | jq -r '.components[].subcomponents[] | select(.name == "additional-rancher") | .images[] | "\(.image):\(.tag)"'
    ```
 </div>
 {{< /clipboard >}}
