@@ -258,17 +258,17 @@ distribution at `${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.
     * If you downloaded Verrazzano from the Oracle Software Delivery Cloud, then you can find the CLI in the distribution archive at `${DISTRIBUTION_DIR}/bin/<platform>/vz`.
    <br>For example, for the Linux operating system on AMD architecture, the path to the CLI is `${DISTRIBUTION_DIR}/bin/linux-amd64/vz`. This path is used in all the sample commands.
 
-{{< clipboard >}}
-<div class="highlight">
+   {{< clipboard >}}
+   <div class="highlight">
 
-  ```
-  $ ${DISTRIBUTION_DIR}/bin/linux-amd64/vz install \
+```
+$ ${DISTRIBUTION_DIR}/bin/linux-amd64/vz install \
      --image-registry "${MYREG}" \
      --image-prefix "${MYPREFIX}" \
      --manifests ${DISTRIBUTION_DIR}/manifests/k8s/verrazzano-platform-operator.yaml
-  ```  
-</div>
-{{< /clipboard >}}
+```
+   </div>
+   {{< /clipboard >}}
 
 
 **NOTE**:
