@@ -18,8 +18,8 @@ You must have the following software installed:
 
  Installing Verrazzano using a private Docker-compliant container registry requires the following:
 
- * Loading all required Verrazzano container images into your own registry and repository.
- * Installing the Verrazzano platform operator with the private registry and repository used to load the images.
+ * Loading all the required Verrazzano container images into your own registry and repositories.
+ * Installing Verrazzano with the private registry and a common prefix for all the repositories used to load the images.
 
 ## Get Verrazzano
 
