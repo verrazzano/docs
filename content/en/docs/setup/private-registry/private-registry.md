@@ -274,7 +274,7 @@ $ ${DISTRIBUTION_DIR}/bin/linux-amd64/vz install \
 **NOTE**:
 * The `--manifests` flag is used in this example to provide the location of the Verrazzano platform operator
 manifests file. If you omit this flag, the `vz` CLI will attempt to download the manifests file, which requires access to the Internet.
-* The `--filename` flag is used to specify a Verrazzano custom resource. See [Verrazzano resource]({{< relref "/docs/setup/modify-installation#verrazzano-resource" >}}).
+* The `--filename` flag is used to specify a Verrazzano custom resource. See [Edit the Verrazzano resource]({{< relref "/docs/setup/modify-installation#edit-the-verrazzano-resource" >}}).
 
 For the complete list of flags supported by `vz install` command, run `${DISTRIBUTION_DIR}/bin/linux-amd64/vz/install -h`.
 
