@@ -197,8 +197,7 @@ Oracle Software Delivery Cloud. Follow the respective download instructions:
 
    ```
    $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json \
-    | jq -r '.components[].subcomponents[] | select(.name == "rancher")  \
-    | .images[] | select(.image == "rancher-agent") | "\(.image):\(.tag)"'
+    | jq -r '.components[].subcomponents[] | select(.name == "rancher") | .images[] | select(.image == "rancher-agent") | "\(.image):\(.tag)"'
    ```
 </div>
 {{< /clipboard >}}
@@ -209,8 +208,7 @@ Oracle Software Delivery Cloud. Follow the respective download instructions:
 
    ```
    $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json \
-    | jq -r '.components[].subcomponents[] | select(.name == "additional-rancher")  \
-    | .images[] | "\(.image):\(.tag)"'
+    | jq -r '.components[].subcomponents[] | select(.name == "additional-rancher") | .images[] | "\(.image):\(.tag)"'
    ```
 </div>
 {{< /clipboard >}}
@@ -221,8 +219,7 @@ Oracle Software Delivery Cloud. Follow the respective download instructions:
 
    ```
    $ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json \
-    | jq -r '.components[].subcomponents[] | select(.name | startswith("capi-"))  \
-    | .images[] | "\(.image):\(.tag)"'
+    | jq -r '.components[].subcomponents[] | select(.name | startswith("capi-")) | .images[] | "\(.image):\(.tag)"'
    ```
 </div>
 {{< /clipboard >}}
