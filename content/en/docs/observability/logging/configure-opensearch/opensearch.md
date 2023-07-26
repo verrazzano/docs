@@ -1,12 +1,13 @@
 ---
 title: "Customize OpenSearch"
 description: "Customize your OpenSearch cluster configuration"
-aliases:
-- /docs/customize/elasticsearch
 weight: 3
 draft: false
 aliases:
+  - /docs/customize/elasticsearch
   - /docs/customize/opensearch
+  - /docs/setup/customizing/opensearch
+  - /docs/observability/logging/configure-opensearch/opensearch
 ---
 
 Verrazzano supports two cluster topologies for an OpenSearch cluster:
