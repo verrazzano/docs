@@ -1439,25 +1439,6 @@ data:
     </item>
     
     <item>
-      <title>Docs: KontainerDriver Resource Not Ready</title>
-      <link>/docs/troubleshooting/diagnostictools/analysisadvice/kontainerdrivernotready/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/troubleshooting/diagnostictools/analysisadvice/kontainerdrivernotready/</guid>
-      <description>
-        
-        
-        &lt;h3 id=&#34;summary&#34;&gt;Summary&lt;/h3&gt;
-&lt;p&gt;Analysis detected that a Rancher KontainerDriver resource was not in a ready state.
-A ready KontainerDriver resource will have a status with condition types Active, Downloaded, and Installed set to &lt;code&gt;True&lt;/code&gt;.&lt;/p&gt;
-&lt;h3 id=&#34;steps&#34;&gt;Steps&lt;/h3&gt;
-&lt;p&gt;Review the Rancher logs in the &lt;code&gt;cattle-system&lt;/code&gt; namespace for additional details as to why the KontainerDriver resource is
-not ready.&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
       <title>Docs: NGINX Ingress Controller Load Balancer Creation Issue</title>
       <link>/docs/troubleshooting/diagnostictools/analysisadvice/nginxloadbalancercreationissue/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -1525,22 +1506,102 @@ The root cause might be obvious from the supporting data, but the analysis tool 
     </item>
     
     <item>
-      <title>Docs: Rancher Cluster Not Ready</title>
-      <link>/docs/troubleshooting/diagnostictools/analysisadvice/rancherclusternotready/</link>
+      <title>Docs: Rancher Issues</title>
+      <link>/docs/troubleshooting/diagnostictools/analysisadvice/rancherissues/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/troubleshooting/diagnostictools/analysisadvice/rancherclusternotready/</guid>
+      <guid>/docs/troubleshooting/diagnostictools/analysisadvice/rancherissues/</guid>
       <description>
         
         
-        &lt;h3 id=&#34;summary&#34;&gt;Summary&lt;/h3&gt;
-&lt;p&gt;Analysis detected that a cluster managed by Rancher is not ready.  The state of the cluster will display Active on the home screen when it is available to be managed with Rancher.&lt;/p&gt;
+        &lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;Analysis detected that one or more Rancher resources are in a failure state. See the following sections for details:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#applications&#34;&gt;Applications&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#catalogs&#34;&gt;Catalogs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#cluster-drivers&#34;&gt;Cluster Drivers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#fleet-bundle&#34;&gt;Fleet Bundle&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#fleet-bundled-deployment&#34;&gt;Fleet Bundled Deployment&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#fleet-clusters&#34;&gt;Fleet Clusters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#fleet-cluster-groups&#34;&gt;Fleet Cluster Groups&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#fleet-cluster-registration&#34;&gt;Fleet Cluster Registration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#fleet-git-repository&#34;&gt;Fleet Git Repository&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#git-jobs&#34;&gt;Git Jobs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#helm-repositories&#34;&gt;Helm Repositories&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#managed-charts&#34;&gt;Managed Charts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#managed-clusters&#34;&gt;Managed Clusters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#nodes&#34;&gt;Nodes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#provisioning-clusters&#34;&gt;Provisioning Clusters&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;applications&#34;&gt;Applications&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;app.catalog.cattle.io&lt;/code&gt;
+&lt;br&gt;
+Analysis detected an issue with the deployment of a Helm chart.&lt;/p&gt;
+&lt;h3 id=&#34;catalogs&#34;&gt;Catalogs&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;catalog.management.cattle.io&lt;/code&gt;
+&lt;br&gt;
+Analysis detected an issue with the configuration of a catalog of application templates.&lt;/p&gt;
+&lt;h3 id=&#34;cluster-drivers&#34;&gt;Cluster Drivers&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;kontainerdriver.management.cattle.io&lt;/code&gt;
+&lt;br&gt;
+Analysis detected that a KontainerDriver resource was not in a ready state. A ready KontainerDriver resource will have a status with condition types Active, Downloaded, and Installed set to &lt;code&gt;True&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;fleet-bundle&#34;&gt;Fleet Bundle&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;bundle.fleet.cattle.io&lt;/code&gt;
+&lt;br&gt;
+Analysis detected an issue with the status of a Fleet bundle. The Fleet bundle resources are automatically created when a &lt;a href=&#34;#fleet-git-repository&#34;&gt;Fleet Git repository&lt;/a&gt; resource is created.&lt;/p&gt;
+&lt;h3 id=&#34;fleet-bundled-deployment&#34;&gt;Fleet Bundled Deployment&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;bundledeployment.fleet.cattle.io&lt;/code&gt;
+&lt;br&gt;
+Analysis detected an issue with the status of a Fleet bundled deployment.&lt;/p&gt;
+&lt;h3 id=&#34;fleet-clusters&#34;&gt;Fleet Clusters&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;cluster.fleet.cattle.io&lt;/code&gt;
+&lt;br&gt;
+Analysis detected an issue with the status of a cluster managed with Fleet.&lt;/p&gt;
+&lt;h3 id=&#34;fleet-cluster-groups&#34;&gt;Fleet Cluster Groups&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;clustergroup.fleet.cattle.io&lt;/code&gt;
+&lt;br&gt;
+Analysis detected an issue with the status of a cluster group managed with Fleet.&lt;/p&gt;
+&lt;h3 id=&#34;fleet-cluster-registration&#34;&gt;Fleet Cluster Registration&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;clusterregistration.fleet.cattle.io&lt;/code&gt;
+&lt;br&gt;
+Analysis detected an issue with the registration status of a cluster managed with Fleet.&lt;/p&gt;
+&lt;h3 id=&#34;fleet-git-repository&#34;&gt;Fleet Git Repository&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;gitrepo.fleet.cattle.io&lt;/code&gt;
+&lt;br&gt;
+Analysis detected an issue with the configuration of a Git repository for continuous delivery.&lt;/p&gt;
+&lt;h3 id=&#34;git-jobs&#34;&gt;Git Jobs&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;gitjob.gitjob.cattle.io&lt;/code&gt;
+&lt;br&gt;
+Analysis detected an issue with the status of a Kubernetes job that is configured to be launched based on a Git event.&lt;/p&gt;
+&lt;h3 id=&#34;helm-repositories&#34;&gt;Helm Repositories&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;clusterrepo.catalog.cattle.io&lt;/code&gt;
+&lt;br&gt;
+Analysis detected that a Helm repository has not successfully downloaded.&lt;/p&gt;
+&lt;h3 id=&#34;managed-charts&#34;&gt;Managed Charts&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;managedchart.management.cattle.io&lt;/code&gt;
+&lt;br&gt;
+Analysis detected an issue with the status of a managed chart.&lt;/p&gt;
+&lt;h3 id=&#34;managed-clusters&#34;&gt;Managed Clusters&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;cluster.management.cattle.io&lt;/code&gt;
+&lt;br&gt;
+Analysis detected that a cluster managed by Rancher is not ready. The state of the cluster will display Active on the home screen when it is available to be managed with Rancher.&lt;/p&gt;
 &lt;p&gt;There are interim states, such as Provisioning and Waiting, that may be displayed before a cluster becomes Active. The interim states typically show additional information, such as Waiting for cluster to be ready.&lt;/p&gt;
-&lt;h3 id=&#34;steps&#34;&gt;Steps&lt;/h3&gt;
-&lt;p&gt;Review the Rancher logs in the &lt;code&gt;cattle-system&lt;/code&gt; namespace for additional details as to why the cluster is not ready.&lt;/p&gt;
-&lt;h3 id=&#34;related-information&#34;&gt;Related information&lt;/h3&gt;
+&lt;h3 id=&#34;nodes&#34;&gt;Nodes&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;node.management.cattle.io&lt;/code&gt;
+&lt;br&gt;
+Analysis detected that a node within the cluster is not ready.&lt;/p&gt;
+&lt;p&gt;There are interim states, such as Provisioning and Updating, that may be displayed before a node becomes Active.&lt;/p&gt;
+&lt;h3 id=&#34;provisioning-clusters&#34;&gt;Provisioning Clusters&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;cluster.provisioning.cattle.io&lt;/code&gt;
+&lt;br&gt;
+Analysis detected that a cluster being provisioned by Rancher is not ready. Clusters are provisioned by &lt;a href=&#34;#cluster-drivers&#34;&gt;cluster drivers&lt;/a&gt;. The state of the cluster will display Active on the home screen when it is available to be managed with Rancher.&lt;/p&gt;
+&lt;p&gt;There are interim states, such as Provisioning and Waiting, that may be displayed before a cluster becomes Active. The interim states typically show additional information, such as Waiting for cluster to be ready.&lt;/p&gt;
+&lt;h2 id=&#34;steps&#34;&gt;Steps&lt;/h2&gt;
+&lt;p&gt;Review the Rancher logs in the &lt;code&gt;cattle-system&lt;/code&gt; namespace for additional details about why there is a Rancher issue.&lt;/p&gt;
+&lt;h2 id=&#34;related-information&#34;&gt;Related information&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://ranchermanager.docs.rancher.com/troubleshooting/&#34;&gt;Rancher Troubleshooting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://fleet.rancher.io/troubleshooting&#34;&gt;Rancher Fleet Troubleshooting&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
