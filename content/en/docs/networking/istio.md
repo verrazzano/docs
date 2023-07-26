@@ -5,6 +5,7 @@ weight: 8
 draft: false
 aliases:
   - /docs/customize/istio
+  - /docs/networking/istio
 ---
 
 You can customize the Verrazzano Istio component using settings in the Verrazzano custom resource.

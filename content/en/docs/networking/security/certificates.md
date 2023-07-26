@@ -5,6 +5,7 @@ weight: 2
 draft: false
 aliases:
   - /docs/customize/certificates
+  - /docs/networking/security/certificates
 ---
 
 Verrazzano issues certificates to secure access from external clients to secure system endpoints.  

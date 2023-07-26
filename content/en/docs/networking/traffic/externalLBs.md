@@ -5,6 +5,7 @@ weight: 3
 draft: false
 aliases:
   - /docs/customize/externalLBs
+  - /docs/networking/traffic/externalLBs
 ---
 
 Verrazzano requires the following load balancers at installation:

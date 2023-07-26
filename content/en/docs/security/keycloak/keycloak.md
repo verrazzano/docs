@@ -5,6 +5,7 @@ Weight: 9
 draft: false
 aliases:
   - /docs/customize/keycloak
+  - /docs/security/keycloak/keycloak
 ---
 
 * To scale the number of MySQL instances use the [Verrazzano Custom Resource]({{< relref "docs/reference/vpo-verrazzano-v1beta1.md" >}}), not the MySQL StatefulSet.
