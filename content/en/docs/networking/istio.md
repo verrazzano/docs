@@ -5,6 +5,7 @@ weight: 8
 draft: false
 aliases:
   - /docs/customize/istio
+  - /docs/setup/customizing/istio
   - /docs/networking/istio
 ---
 

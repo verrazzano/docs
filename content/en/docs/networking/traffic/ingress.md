@@ -5,6 +5,7 @@ Weight: 4
 draft: false
 aliases:
   - /docs/customize/ingress
+  - /docs/setup/customizing/ingress
   - /docs/networking/traffic/ingress
 ---
 

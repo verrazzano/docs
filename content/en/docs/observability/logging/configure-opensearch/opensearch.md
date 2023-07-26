@@ -6,6 +6,7 @@ draft: false
 aliases:
   - /docs/customize/elasticsearch
   - /docs/customize/opensearch
+  - /docs/setup/customizing/opensearch
   - /docs/observability/logging/configure-opensearch/opensearch
 ---
 

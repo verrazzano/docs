@@ -5,6 +5,7 @@ weight: 5
 draft: false
 aliases:
   - /docs/customize/ociLoadBalancerIPs
+  - /docs/setup/customizing/ociloadbalancerips
   - /docs/networking/traffic/ociLoadBalancerIPs
 ---
 

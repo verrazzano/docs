@@ -5,6 +5,7 @@ weight: 3
 draft: false
 aliases:
   - /docs/customize/externalLBs
+  - /docs/setup/customizing/externalLBs
   - /docs/networking/traffic/externalLBs
 ---
 

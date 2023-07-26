@@ -5,6 +5,7 @@ weight: 2
 draft: false
 aliases:
   - /docs/customize/certificates
+  - /docs/setup/customizing/certificates
   - /docs/networking/security/certificates
 ---
 

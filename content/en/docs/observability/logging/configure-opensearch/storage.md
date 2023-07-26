@@ -5,6 +5,7 @@ Weight: 11
 draft: false
 aliases:
   - /docs/customize/storage
+  - /docs/setup/customizing/storage
   - /docs/observability/logging/configure-opensearch/storage
 ---
 
