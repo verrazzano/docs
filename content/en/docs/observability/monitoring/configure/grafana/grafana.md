@@ -5,6 +5,7 @@ Weight: 5
 draft: false
 aliases:
   - /docs/customize/grafana
+  - /docs/observability/monitoring/configure/grafana/grafana
 ---
 
 ### Configure a Grafana database
