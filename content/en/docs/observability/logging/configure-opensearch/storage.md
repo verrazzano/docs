@@ -40,7 +40,7 @@ You can set the global `defaultVolumeSource` and component-level `volumeSource` 
 | Value | Storage
 | ------------- |:-------------
 | [`emptyDir`](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir) | Ephemeral storage; should not be used for production scenarios.
-| [`persistentVolumeClaim`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#persistentvolumeclaimvolumesource-v1-core) | A `PersistentVolumeClaimVolumeSource` where the `claimSource` field references a named `volumeClaimSpecTemplate`.
+| [`persistentVolumeClaim`](https://kubernetes.io/docs/reference/generated/kubernetes-api/{{<kubernetes_api_version>}}/#persistentvolumeclaimvolumesource-v1-core) | A `PersistentVolumeClaimVolumeSource` where the `claimSource` field references a named `volumeClaimSpecTemplate`.
 
 When you want to use a `persistentVolumeClaim` to override the storage settings for components, you must do the following:
 
