@@ -27,7 +27,7 @@ Analysis detected an issue applying one or more resources specified with the Clu
 ### Clusters
 `cluster.cluster.x-k8s.io`
 <br>
-Analysis detected an issue creating or updating a Cluster-API cluster.
+Analysis detected an issue creating or updating a Cluster API cluster.
 
 ### Machine Deployments
 `machinedeployment.cluster.x-k8s.io`
