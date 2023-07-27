@@ -18,22 +18,22 @@
 <link rel="icon" type="image/png" href="../../../../../favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="../../../../../favicons/android-192x192.png" sizes="192x192">
 
-<title>Cluster API Resource Not Ready | Verrazzano Enterprise Container Platform</title>
-<meta name="description" content="Analysis detected a Cluster API resource that is not in a ready state.">
-<meta property="og:title" content="Cluster API Resource Not Ready" />
-<meta property="og:description" content="Analysis detected a Cluster API resource that is not in a ready state." />
+<title>Cluster API (CAPI) Issues | Verrazzano Enterprise Container Platform</title>
+<meta name="description" content="Analysis detected a Cluster API issue">
+<meta property="og:title" content="Cluster API (CAPI) Issues" />
+<meta property="og:description" content="Analysis detected a Cluster API issue" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/docs/troubleshooting/diagnostictools/analysisadvice/clusterapiclusternotready/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="/docs/troubleshooting/diagnostictools/analysisadvice/clusterapiclusterissues/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-07-14T10:10:26-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-07-27T10:27:43-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
-<meta itemprop="name" content="Cluster API Resource Not Ready">
-<meta itemprop="description" content="Analysis detected a Cluster API resource that is not in a ready state.">
-<meta itemprop="dateModified" content="2023-07-14T10:10:26-04:00" />
-<meta itemprop="wordCount" content="50">
+<meta itemprop="name" content="Cluster API (CAPI) Issues">
+<meta itemprop="description" content="Analysis detected a Cluster API issue">
+<meta itemprop="dateModified" content="2023-07-27T10:27:43-04:00" />
+<meta itemprop="wordCount" content="245">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Cluster API Resource Not Ready"/>
-<meta name="twitter:description" content="Analysis detected a Cluster API resource that is not in a ready state."/>
+<meta name="twitter:title" content="Cluster API (CAPI) Issues"/>
+<meta name="twitter:description" content="Analysis detected a Cluster API issue"/>
 
 
 
@@ -95,7 +95,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.3b73adfe629ea9df2555fa63953a181e.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.642f556101b937fd864e1ff3c322aad2.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -121,7 +121,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.3b73adfe629ea9df2555fa63953a181e.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.642f556101b937fd864e1ff3c322aad2.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -825,9 +825,9 @@ if (!doNotTrack) {
   <label for="m-docstroubleshootingdiagnostictoolsanalysisadvice-check"><a href="../../../../../docs/troubleshooting/diagnostictools/analysisadvice/" class="align-left ps-0  td-sidebar-link td-sidebar-link__section" id="m-docstroubleshootingdiagnostictoolsanalysisadvice"><span class="">Analyze Tool Findings and Reports</span></a></label>
   
   <ul class="ul-4 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docstroubleshootingdiagnostictoolsanalysisadviceclusterapiclusternotready-li">
-  <input type="checkbox" id="m-docstroubleshootingdiagnostictoolsanalysisadviceclusterapiclusternotready-check" checked/>
-  <label for="m-docstroubleshootingdiagnostictoolsanalysisadviceclusterapiclusternotready-check"><a href="../../../../../docs/troubleshooting/diagnostictools/analysisadvice/clusterapiclusternotready/" class="align-left ps-0  active td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceclusterapiclusternotready"><span class="td-sidebar-nav-active-item">Cluster API Resource Not Ready</span></a></label>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docstroubleshootingdiagnostictoolsanalysisadviceclusterapiclusterissues-li">
+  <input type="checkbox" id="m-docstroubleshootingdiagnostictoolsanalysisadviceclusterapiclusterissues-check" checked/>
+  <label for="m-docstroubleshootingdiagnostictoolsanalysisadviceclusterapiclusterissues-check"><a href="../../../../../docs/troubleshooting/diagnostictools/analysisadvice/clusterapiclusterissues/" title="Cluster API (CAPI) Issues" class="align-left ps-0  active td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceclusterapiclusterissues"><span class="td-sidebar-nav-active-item">Cluster API Issues</span></a></label>
   
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docstroubleshootingdiagnostictoolsanalysisadviceexternaldnsconfiguration-li">
   <input type="checkbox" id="m-docstroubleshootingdiagnostictoolsanalysisadviceexternaldnsconfiguration-check"/>
@@ -1082,9 +1082,18 @@ if (!doNotTrack) {
         <li>
           <ul>
             <li><a href="#summary">Summary</a></li>
-            <li><a href="#steps">Steps</a></li>
+            <li><a href="#cluster-resource-sets">Cluster Resource Sets</a></li>
+            <li><a href="#clusters">Clusters</a></li>
+            <li><a href="#machine-deployments">Machine Deployments</a></li>
+            <li><a href="#machines">Machines</a></li>
+            <li><a href="#machine-sets">Machine Sets</a></li>
+            <li><a href="#oci-clusters">OCI Clusters</a></li>
+            <li><a href="#oci-machines">OCI Machines</a></li>
+            <li><a href="#ocne-configs">OCNE Configs</a></li>
+            <li><a href="#ocne-control-planes">OCNE Control Planes</a></li>
           </ul>
         </li>
+        <li><a href="#related-information">Related information</a></li>
       </ul>
     </li>
   </ul>
@@ -1109,22 +1118,75 @@ if (!doNotTrack) {
   <li class="breadcrumb-item">
     <a href="../../../../../docs/troubleshooting/diagnostictools/analysisadvice/">Analyze Tool Findings and Reports</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Cluster API Resource Not Ready</li>
+    Cluster API Issues</li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Cluster API Resource Not Ready</h1>
-	<div class="lead">Analysis detected a Cluster API resource that is not in a ready state.</div>
+	<h1>Cluster API (CAPI) Issues</h1>
+	<div class="lead">Analysis detected a Cluster API issue</div>
 	<header class="article-meta">
 		
 </header>
 	<h3 id="summary">Summary</h3>
-<p>Analysis detected that a Cluster API <code>cluster.cluster.x-k8s.io</code> resource was not in a ready state.
-A ready cluster resource will have a status with condition types all set to <code>True</code>.</p>
-<h3 id="steps">Steps</h3>
-<p>Review the logs in the <code>verrazzano-capi</code> namespace for additional details as to why the cluster resource is
-not ready.</p>
+<p>Analysis detected that one or more Cluster API (CAPI) resources are in a failure state. See the following sections for details:</p>
+<ul>
+<li><a href="#cluster-resource-sets">Cluster Resource Sets</a></li>
+<li><a href="#clusters">Clusters</a></li>
+<li><a href="#machine-deployments">Machine Deployments</a></li>
+<li><a href="#machines">Machines</a></li>
+<li><a href="#machine-sets">Machine Sets</a></li>
+<li><a href="#oci-clusters">OCI Clusters</a></li>
+<li><a href="#oci-machines">OCI Machines</a></li>
+<li><a href="#ocne-configs">OCNE Configs</a></li>
+<li><a href="#ocne-control-planes">OCNE Control Planes</a></li>
+</ul>
+<h3 id="cluster-resource-sets">Cluster Resource Sets</h3>
+<p><code>clusterresourceset.addons.cluster.x-k8s.io</code>
+<br>
+Analysis detected an issue applying one or more resources specified with the ClusterResourceSet resource.</p>
+<h3 id="clusters">Clusters</h3>
+<p><code>cluster.cluster.x-k8s.io</code>
+<br>
+Analysis detected an issue creating or updating a Cluster API cluster.</p>
+<h3 id="machine-deployments">Machine Deployments</h3>
+<p><code>machinedeployment.cluster.x-k8s.io</code>
+<br>
+Analysis detected an issue with a MachineDeployment resource for a specific cluster. A MachineDeployment orchestrates
+deployments over a fleet of MachineSets.</p>
+<h3 id="machines">Machines</h3>
+<p><code>machine.cluster.x-k8s.io</code>
+<br>
+Analysis detected an issue with a Machine resource for a specific cluster.  A Machine represents one node in the
+workload cluster created.</p>
+<h3 id="machine-sets">Machine Sets</h3>
+<p><code>machineset.cluster.x-k8s.io</code>
+<br>
+Analysis detected an issue with a MachineSet resource for a specific cluster.  A MachineSet is an
+abstraction over Machines.</p>
+<h3 id="oci-clusters">OCI Clusters</h3>
+<p><code>ocicluster.infrastructure.cluster.x-k8s.io</code>
+<br>
+Analysis detected an issue with an OCICluster resource for a specific cluster.  An OCICluster resource represents
+a workload cluster created in Oracle Cloud Infrastructure.</p>
+<h3 id="oci-machines">OCI Machines</h3>
+<p><code>ocimachine.infrastructure.cluster.x-k8s.io</code>
+<br>
+Analysis detected an issue with an OCIMachine resource for a specific cluster.  An OCIMachine resource represents one
+node in the workload cluster created in Oracle Cloud Infrastructure.</p>
+<h3 id="ocne-configs">OCNE Configs</h3>
+<p><code>ocneconfig.bootstrap.cluster.x-k8s.io</code>
+<br>
+Analysis detected an issue with an OCNEConfig resource for a specific cluster.</p>
+<h3 id="ocne-control-planes">OCNE Control Planes</h3>
+<p><code>ocnecontrolplane.controlplane.cluster.x-k8s.io</code>
+<br>
+Analysis detected an issue with an OCNEControlPlane resource for a specific cluster.  An OCNEControlPlane resource
+represents the configuration for the OCNE Control Plane.</p>
+<h2 id="related-information">Related information</h2>
+<ul>
+<li><a href="../../../troubleshooting-clusterapi">Cluster API Troubleshooting</a></li>
+</ul>
 
 	<style>
   .feedback--answer {
