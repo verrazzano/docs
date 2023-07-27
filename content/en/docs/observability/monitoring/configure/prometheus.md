@@ -44,22 +44,11 @@ For instructions to customize persistent storage settings for Prometheus, see [C
 
 ## Configure Alertmanager
 
-To configure Alertmanager to send alerts as SMTP notifications, complete the following steps:
+Alertmanager can be configured to send alerts about problems occuring in the cluster. 
+You can configure email, Slack, PagerDuty, or other supported notification services to act as alert receivers.
 
-1. Create a secret named `smtp-secret` in the `verrazzano-monitoring` namespace that contains the SMTP server credentials. For example:
-{{< clipboard >}}
-<div class="highlight">
-
-   ```
-   $ kubectl -n verrazzano-monitoring create secret generic smtp-secret \
-    --from-literal=username="<smtp server username>" \
-    --from-literal=password="<smtp server password>"
-   ```
-
-</div>
-{{< /clipboard >}}
-
-1. Configure the Prometheus Operator component of the Verrazzano custom resource. For example:
+To enable Alertmanager, configure it form the Prometheus Operator component
+in the Verrazzano custom resources.  For example:
 {{< clipboard >}}
 <div class="highlight">
 
@@ -76,39 +65,23 @@ To configure Alertmanager to send alerts as SMTP notifications, complete the fol
            - values:
                alertmanager:
                  enabled: true
-                 alertmanagerSpec:
-                   podMetadata:
-                     annotations:
-                       sidecar.istio.io/inject: "false"
-                   secrets:
-                   - smtp-secret
-                 config:
-                   global:
-                     smtp_auth_password_file: /etc/alertmanager/secrets/smtp-secret/password
-                     smtp_auth_username: "<smtp server username>"
-                     smtp_from: "<e-mail address used when sending out emails>"
-                     smtp_smarthost: "<host or host:port for the smtp server>"
-                 receivers:
-                 - email_configs:
-                   - send_resolved: true
-                     to: "<e-mail address of the receiver>"
-                   name: email-notifications
-                 route:
-                   group_by:
-                   - alertname
-                   receiver: email-notifications
-                   routes:
-                   - matchers:
-                     - alertname =~ "InfoInhibitor|Watchdog"
-                     receiver: email-notifications
    ```
 
 </div>
 {{< /clipboard >}}
 
+Next, access the Rancher console and navigate to `Monitoring` > `Alerting` > `AlertmanagerConfigs`
+to configure receivers and routes.
+
+When Alertmanager is enabled, Verrazzano installs an AlertmanagerConfig called `alertmanager-config` in the `verrazzano-monitoring`
+namespace and preconfigures the integration with the Alertmanager instance. Receivers and Routes configured
+in this AlertmanagerConfig will automatically begin receiving alerts. The status of alerts and
+configured receivers can be viewed in the Alertmanager console.
+
 For more information about Alertmanager configurations, see the [Alertmanager Documentation](https://prometheus.io/docs/alerting/latest/configuration/).
 
-After you have enabled Alertmanager in Step 2, you can deploy alert rules to get proactive alerts.
+After you have enabled Alertmanager and configured a receiver and route,
+you can deploy rules to get alerted on.
 To create a `TestAlertRule`, run the following command.
 {{< clipboard >}}
 <div class="highlight">
