@@ -5,6 +5,7 @@ Weight: 6
 draft: false
 aliases:
   - /docs/customize/ha
+  - /docs/guides/ha/ha
 ---
 
 High availability designs follow three main principles:

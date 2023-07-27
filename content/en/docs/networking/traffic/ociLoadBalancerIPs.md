@@ -5,6 +5,8 @@ weight: 5
 draft: false
 aliases:
   - /docs/customize/ociLoadBalancerIPs
+  - /docs/setup/customizing/ociloadbalancerips
+  - /docs/networking/traffic/ociLoadBalancerIPs
 ---
 
 Verrazzano sets up the following load balancers on Kubernetes at installation:
