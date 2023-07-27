@@ -229,9 +229,9 @@ monitoringExporter:
 ### Pod annotations
 
 The following annotations can be used for enabling metrics on pods:
-- `prometheus.io/metricsEnabled: "true”` - Enables metrics scraping.
+- `prometheus.io/metricsEnabled: "true"` - Enables metrics scraping.
 - `prometheus.io/metricsPath: /metrics` - Specifies metrics scraping path.
-- `prometheus.io/metricsPort: ”8080"` - Specifies metrics scraping port.
+- `prometheus.io/metricsPort: "8080"` - Specifies metrics scraping port.
 
 Example:
 
@@ -275,7 +275,7 @@ Step 3. Create an ApplicationConfiguration for the WebLogic application.
 
 Step 4. Verify the domain.
    - Verrazzano creates the underlying domain Kubernetes resource from the VerrazzanoWebLogicWorkload component, which is then processed by the WebLogic Kubernetes Operator to create the Administration and Managed Server pods, and deploy the applications and resources associated with the WebLogic domain.
-   - To verify that the WebLogic domain is up and running, follow the steps found [here](https://oracle.github.io/weblogic-kubernetes-operator/samples/domains/domain-home-in-image/#verify-the-domain).
+   - To verify that the WebLogic domain is up and running, follow the steps found [here]({{< relref "/docs/samples/todo-list#verify-the-deployed-application" >}}).
 
 
 ## Database connections
