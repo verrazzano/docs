@@ -71,4 +71,4 @@ Analysis detected an issue with an OCNEControlPlane resource for a specific clus
 represents the configuration for the OCNE Control Plane.
 
 ## Related information
-* [Cluster API Troubleshooting](../../troubleshooting-clusterapi.md)
+* [Cluster API Troubleshooting](../../../troubleshooting-clusterapi)
