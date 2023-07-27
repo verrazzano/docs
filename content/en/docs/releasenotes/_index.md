@@ -6,7 +6,9 @@ draft: false
 ---
 ### v1.5.4
 Component version updates:
+- Argo CD v2.7.2
 - Rancher v2.7.3
+- Rancher Backup Operator v3.1.0
 - WebLogic Kubernetes Operator v4.0.7
 - WebLogic Monitoring Exporter v2.1.4
 
