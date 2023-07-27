@@ -124,8 +124,8 @@ DeploymentTemplate specifies the metadata and pod spec of the underlying deploym
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  No |
-| `strategy` | [DeploymentStrategy](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#deploymentstrategy-v1-apps) | The replacement strategy of the underlying deployment. | No |
-| `podSpec` | [PodSpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#podspec-v1-core) | The pod spec of the underlying deployment. | Yes |
+| `strategy` | [DeploymentStrategy](https://kubernetes.io/docs/reference/generated/kubernetes-api/{{<kubernetes_api_version>}}/#deploymentstrategy-v1-apps) | The replacement strategy of the underlying deployment. | No |
+| `podSpec` | [PodSpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/{{<kubernetes_api_version>}}/#podspec-v1-core) | The pod spec of the underlying deployment. | Yes |
 
 
 ### VerrazzanoWebLogicWorkload
