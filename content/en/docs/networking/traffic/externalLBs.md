@@ -37,7 +37,7 @@ The following is an example of using external load balancers for both management
 
     **NOTE**: If the ingress type is `NodePort`, then a valid and accessible IP address **must** be specified using the `controller.service.externalIPs` key in NGINXInstallArgs.
 
-  - Set `ports` in the [Ingress Component]({{< relref "/docs/reference/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.IngressNginxComponent" >}}) with a [PortConfig](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#serviceport-v1-core) that has `443` as `port`, `31443` as `nodePort`, `https` as `targetPort`, and `TCP` as `protocol`.
+  - Set `ports` in the [Ingress Component]({{< relref "/docs/reference/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.IngressNginxComponent" >}}) with a [PortConfig](https://kubernetes.io/docs/reference/generated/kubernetes-api/{{<kubernetes_api_version>}}/#serviceport-v1-core) that has `443` as `port`, `31443` as `nodePort`, `https` as `targetPort`, and `TCP` as `protocol`.
 
 * External load balancer for application ingress using the Istio ingress gateway overrides:
 
