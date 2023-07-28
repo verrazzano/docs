@@ -44,10 +44,11 @@ For instructions to customize persistent storage settings for Prometheus, see [C
 
 ## Configure Alertmanager
 
-Alertmanager can be configured to send alerts about problems occuring in the cluster. 
-You can configure email, Slack, PagerDuty, or other supported notification services to act as alert receivers.
+You can configure Alertmanager to send alerts about problems occurring in the cluster. 
+Alertmanager provides integrations for email, Slack, PagerDuty,
+and other popular notification services to receiver alerts.
 
-To enable Alertmanager, configure it form the Prometheus Operator component
+To enable Alertmanager, configure it from the Prometheus Operator component
 in the Verrazzano custom resources.  For example:
 {{< clipboard >}}
 <div class="highlight">
@@ -70,18 +71,18 @@ in the Verrazzano custom resources.  For example:
 </div>
 {{< /clipboard >}}
 
-Next, access the Rancher console and navigate to `Monitoring` > `Alerting` > `AlertmanagerConfigs`
+Next, access the Rancher console and navigate to **Monitoring** > **Alerting** > **AlertmanagerConfigs**
 to configure receivers and routes.
 
 When Alertmanager is enabled, Verrazzano installs an AlertmanagerConfig called `alertmanager-config` in the `verrazzano-monitoring`
-namespace and preconfigures the integration with the Alertmanager instance. Receivers and Routes configured
-in this AlertmanagerConfig will automatically begin receiving alerts. The status of alerts and
-configured receivers can be viewed in the Alertmanager console.
+namespace and preconfigures the integration with the Alertmanager instance. Receivers and routes configured
+in this AlertmanagerConfig will begin receiving alerts automatically.
+You can view the status of alerts and configured receivers in the Alertmanager console.
 
 For more information about Alertmanager configurations, see the [Alertmanager Documentation](https://prometheus.io/docs/alerting/latest/configuration/).
 
 After you have enabled Alertmanager and configured a receiver and route,
-you can deploy rules to get alerted on.
+you can deploy rules on which to receive alerts.
 To create a `TestAlertRule`, run the following command.
 {{< clipboard >}}
 <div class="highlight">
