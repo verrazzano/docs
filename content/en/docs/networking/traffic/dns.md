@@ -6,7 +6,6 @@ draft: false
 aliases:
   - /docs/customize/dns
   - /docs/setup/customizing/dns
-  - /docs/networking/traffic/dns
 ---
 
 Verrazzano supports three DNS choices for Verrazzano services and applications:
