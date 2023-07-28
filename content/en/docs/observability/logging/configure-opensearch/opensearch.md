@@ -7,7 +7,6 @@ aliases:
   - /docs/customize/elasticsearch
   - /docs/customize/opensearch
   - /docs/setup/customizing/opensearch
-  - /docs/observability/logging/configure-opensearch/opensearch
 ---
 
 Verrazzano supports two cluster topologies for an OpenSearch cluster:

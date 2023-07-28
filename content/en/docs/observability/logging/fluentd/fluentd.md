@@ -5,7 +5,6 @@ Weight: 5
 draft: false
 aliases:
   - /docs/customize/fluentd
-  - /docs/observability/logging/fluentd/fluentd
 ---
 
 
