@@ -11,7 +11,7 @@ However, you may choose to install Verrazzano using a private registry even if y
 
 ## Prerequisites
   * Your environment must connect to the Internet to download the Verrazzano images and Verrazzano distribution.
-  * Your environment must connect to your private registry to load the downloaded images
+  * Your environment must connect to your private registry to load the downloaded images.
   * You must copy the downloaded Verrazzano distribution to the disconnected environment.
   * Your workstation must have at least 20 GB of disk space.
   * You must have the following software installed:
