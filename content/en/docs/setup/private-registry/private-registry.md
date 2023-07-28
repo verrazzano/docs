@@ -10,9 +10,8 @@ If you are running in a disconnected environment (without access to the Internet
 However, you may choose to install Verrazzano using a private registry even if you are not running in a disconnected environment.
 
 ## Prerequisites
-  * Your environment must connect to the Internet to download the Verrazzano images and Verrazzano distribution.
-  * Your environment must connect to your private registry to load the downloaded images.
-  * You must copy the downloaded Verrazzano distribution to the disconnected environment.
+  * You will need to connect to the Internet to download the Verrazzano images and Verrazzano distribution.
+  * You will need a way to transfer the images and distribution to your private registry.
   * Your workstation must have at least 20 GB of disk space.
   * You must have the following software installed:
        - [Docker](https://docs.docker.com/get-docker/)
@@ -29,7 +28,7 @@ However, you may choose to install Verrazzano using a private registry even if y
 You can download Verrazzano from the Verrazzano GitHub releases page. Oracle customers also can get Verrazzano from the
 Oracle Software Delivery Cloud. Follow the respective download instructions:
 
-**NOTE:** Your environment must connect to the internet to be able to download the Verrazzano images and Verrazzano distribution.
+**NOTE:** You will need to connect to the Internet to download the Verrazzano images and Verrazzano distribution.
 
 - [From GitHub](#from-github)
 - [From the Oracle Software Delivery Cloud](#from-the-oracle-software-delivery-cloud)
@@ -167,7 +166,7 @@ Oracle Software Delivery Cloud. Follow the respective download instructions:
 
 Load the product images into your private registry.
 
-**NOTE**: Your environment must connect to your private registry to load the downloaded images.
+**NOTE**: You will need a way to transfer the images and distribution to your private registry.
 
   1. To log in to the Docker registry, run `docker login <SERVER>` with your credentials.
 
@@ -249,10 +248,10 @@ Load the product images into your private registry.
 Use the Verrazzano CLI to install Verrazzano from your private registry.
 
 {{< alert title="NOTE" color="primary" >}}
-To ensure that the [host names used for the system consoles]({{< relref "/docs/setup/access/console-urls" >}}) are resolvable, you must configure one of the following:
-* If running within a public cloud, use the cloud provider's DNS, for example, OCI DNS.
-* If running within a disconnected environment, use a custom DNS server that can resolve the host names. See [Customize DNS]({{< relref "/docs/networking/traffic/dns" >}}) for more information.
 * You must copy the downloaded Verrazzano distribution to the disconnected environment.
+* To ensure that the [host names used for the system consoles]({{< relref "/docs/setup/access/console-urls" >}}) are resolvable, you must configure one of the following:
+    -  If running within a public cloud, use the cloud provider's DNS, for example, OCI DNS.
+    -  If running within a disconnected environment, use a custom DNS server that can resolve the host names. See [Customize DNS]({{< relref "/docs/networking/traffic/dns" >}}) for more information.
 {{< /alert >}}
 
 1. To install Verrazzano, you will need the Verrazzano platform operator manifests file. This file is in the
