@@ -6,7 +6,6 @@ draft: false
 aliases:
   - /docs/customize/storage
   - /docs/setup/customizing/storage
-  - /docs/observability/logging/configure-opensearch/storage
 ---
 
 The following components can use persistent storage:

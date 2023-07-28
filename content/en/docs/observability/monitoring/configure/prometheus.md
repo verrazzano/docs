@@ -5,7 +5,6 @@ weight: 2
 draft: false
 aliases:
   - /docs/customize/prometheus
-  - /docs/observability/monitoring/configure/prometheus
 ---
 Prometheus is a system for monitoring cloud native applications and is used by Verrazzano to monitor applications. Prometheus is used in Verrazzano to collect system performance metrics and metrics for applications deployed or managed by Verrazzano. Prometheus analyzes the metrics and provides visualization using Grafana.
 
