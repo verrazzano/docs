@@ -150,6 +150,15 @@ draft: false
 - Fixed IngressTrait JWT so that `RequestPrincipals` with no paths are allowed.
 - Fixed IngressTrait related `AuthorizationPolicy` cleanup when an application is deleted.
 
+## 1.4.6
+### Enhancements:
+- Verrazzano CLI tool validates that commands are entered correctly.
+
+### Fixes:
+- Fixed issues that occurred when Let's Encrypt was being used with Rancher.
+- Fixed issues regarding Rancher certificates that were out of sync or expired.
+- Fixed issues relating to noisy Keycloak logs.
+
 ### v1.4.5
 **Fixes**:
 - Updated base and other images for issues and security.
