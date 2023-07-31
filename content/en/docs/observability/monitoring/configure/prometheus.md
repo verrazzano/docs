@@ -46,10 +46,10 @@ For instructions to customize persistent storage settings for Prometheus, see [C
 
 You can configure Alertmanager to send alerts about problems occurring in the cluster. 
 Alertmanager provides integrations for email, Slack, PagerDuty,
-and other popular notification services to receiver alerts.
+and other popular notification services to receive alerts.
 
 To enable Alertmanager, configure it from the Prometheus Operator component
-in the Verrazzano custom resources.  For example:
+in the Verrazzano custom resources.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -71,17 +71,41 @@ in the Verrazzano custom resources.  For example:
 </div>
 {{< /clipboard >}}
 
-Next, access the Rancher console and navigate to **Monitoring** > **Alerting** > **AlertmanagerConfigs**
-to configure receivers and routes.
+Next, create an AlertmanagerConfig to configure the receivers that Alertmanager will send alerts to. 
+To create the AlertmanagerConfig, access the Verrazzano console 
+and navigate to **Monitoring** > **Alerting** > **AlertmanagerConfigs**.
+Alertmanager will automatically discover AlertmanagerConfigs in the same namespace,
+which by default in Verrazzano is `verrazzano-monitoring`. If you would prefer to create the AlertmanagerConfig
+in a different namespace, you can configure Alertmanager to discover AlertmanagerConfig resouces
+in other namespaces using labels.
+{{< clipboard >}}
+<div class="highlight">
 
-When Alertmanager is enabled, Verrazzano installs an AlertmanagerConfig called `alertmanager-config` in the `verrazzano-monitoring`
-namespace and preconfigures the integration with the Alertmanager instance. Receivers and routes configured
-in this AlertmanagerConfig will begin receiving alerts automatically.
-You can view the status of alerts and configured receivers in the Alertmanager console.
+   ```
+   apiVersion: install.verrazzano.io/v1beta1
+   kind: Verrazzano
+   metadata:
+     name: custom-prometheus
+   spec:
+     profile: prod
+     components:
+       prometheusOperator:
+         overrides:
+           - values:
+               alertmanager:
+                 enabled: true
+                 alertmanagerSpec:
+                   alertmanagerConfigNamespaceSelector:
+                     matchLabels:
+                       namespace-label: my-app
+   ```
+
+</div>
+{{< /clipboard >}}
 
 For more information about Alertmanager configurations, see the [Alertmanager Documentation](https://prometheus.io/docs/alerting/latest/configuration/).
 
-After you have enabled Alertmanager and configured a receiver and route,
+After you have enabled Alertmanager and configured an AlertmanagerConfig with a receiver and route,
 you can deploy rules on which to receive alerts.
 To create a `TestAlertRule`, run the following command.
 {{< clipboard >}}
