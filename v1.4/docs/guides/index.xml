@@ -211,14 +211,14 @@ $ kubectl label namespace hello-helidon verrazzano-managed=true istio-injection=
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Apply the application&amp;rsquo;s component.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/hello-helidon/hello-helidon-comp.yaml -n hello-helidon
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/hello-helidon/hello-helidon-comp.yaml -n hello-helidon
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This step causes the validation and creation of the Component resource.
 No other resources or objects are created as a result.
 Application configurations applied in the future may reference this Component resource.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Apply the application configuration.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/hello-helidon/hello-helidon-app.yaml -n hello-helidon
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/hello-helidon/hello-helidon-app.yaml -n hello-helidon
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This step causes the validation and creation of the application configuration resource.
 This operation triggers the activation of a number of Verrazzano operators.
 These operators create other Kubernetes objects (for example, Deployments, ReplicaSets, Pods, Services, Ingresses)
@@ -445,13 +445,13 @@ $ open &amp;#34;${PROMETHEUS_URL}&amp;#34;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Delete the application configuration.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/hello-helidon/hello-helidon-app.yaml
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/hello-helidon/hello-helidon-app.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The deletion of the application configuration will result in the destruction
 of all application-specific Kubernetes objects.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;(Optional) Delete the application&amp;rsquo;s component.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/hello-helidon/hello-helidon-comp.yaml
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/hello-helidon/hello-helidon-comp.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: This step is not required if other application configurations for this component will be applied in the future.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -478,8 +478,8 @@ However, these resources are not currently configurable and additional container
 For more information on Fluentd sidecars and DaemonSet, see &lt;a href=&#34;../../docs/monitoring/logs/&#34;&gt;Logging&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The following instructions use the &lt;a href=&#34;../../docs/samples/todo-list/&#34;&gt;ToDo List&lt;/a&gt; example application to demonstrate how to attach and deploy a custom Fluentd sidecar to a &lt;a href=&#34;../../docs/reference/api/oam/workloads/#verrazzanoweblogicworkload&#34;&gt;VerrazzanoWebLogicWorkload&lt;/a&gt; component. Before deploying the application, you will need to edit the application and component YAML files.
 Run the following commands to create a local copy of them:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ curl https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/todo-list/todo-list-components.yaml --output todo-list-components.yaml
-$ curl https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/todo-list/todo-list-application.yaml --output todo-list-application.yaml
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ curl https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/todo-list/todo-list-components.yaml --output todo-list-components.yaml
+$ curl https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/todo-list/todo-list-application.yaml --output todo-list-application.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;code&gt;todo-list-components.yaml&lt;/code&gt; file contains the &lt;a href=&#34;../../docs/reference/api/oam/workloads/#verrazzanoweblogicworkload&#34;&gt;VerrazzanoWebLogicWorkload&lt;/a&gt;, which is where you will modify the deployment.&lt;/p&gt;
 &lt;h2 id=&#34;create-a-fluentd-custom-sidecar-configuration-file&#34;&gt;Create a Fluentd custom sidecar configuration file&lt;/h2&gt;
 &lt;p&gt;Before deploying the &lt;a href=&#34;../../docs/reference/api/oam/workloads/#verrazzanoweblogicworkload&#34;&gt;VerrazzanoWebLogicWorkload&lt;/a&gt; component, create a &lt;a href=&#34;https://kubernetes.io/docs/concepts/configuration/configmap/&#34;&gt;ConfigMap&lt;/a&gt; that contains the Fluentd config file.&lt;/p&gt;

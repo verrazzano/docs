@@ -33,15 +33,15 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 &lt;h2 id=&#34;create-the-application-namespace&#34;&gt;Create the application namespace&lt;/h2&gt;
 &lt;p&gt;Apply the VerrazzanoProject resource on the admin cluster that defines the namespace for the application.  The namespaces defined in the VerrazzanoProject resource will be created on the admin cluster and all the managed clusters.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/hello-helidon/verrazzano-project.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/hello-helidon/verrazzano-project.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;deploy-the-application&#34;&gt;Deploy the application&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Apply the &lt;code&gt;hello-helidon&lt;/code&gt; multicluster application configuration resource to deploy the application.  The multicluster resource is an envelope that contains an OAM resource and a list of clusters to which to deploy.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/hello-helidon/hello-helidon-comp.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/hello-helidon/hello-helidon-comp.yaml
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the application to be ready on the managed cluster.&lt;/p&gt;
@@ -71,7 +71,7 @@ $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
 &lt;li&gt;
 &lt;p&gt;To change the application&amp;rsquo;s location to the admin cluster, specify the change placement patch file.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# To change the placement to the admin cluster
-$ export CHANGE_PLACEMENT_PATCH_FILE=&amp;#34;https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/hello-helidon/patch-change-placement-to-admin.yaml&amp;#34;
+$ export CHANGE_PLACEMENT_PATCH_FILE=&amp;#34;https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/hello-helidon/patch-change-placement-to-admin.yaml&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This environment variable is used in subsequent steps.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -122,7 +122,7 @@ ready on the managed cluster.&lt;/p&gt;
 &lt;p&gt;Now, you can test the example application running in its new location.&lt;/p&gt;
 &lt;p&gt;To return the application to the managed cluster named &lt;code&gt;managed1&lt;/code&gt;, set the value of the &lt;code&gt;CHANGE_PLACEMENT_PATCH_FILE&lt;/code&gt; environment variable to the patch file provided for that purpose, then repeat the previous numbered steps.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# To change the placement back to the managed cluster named managed1
-$ export CHANGE_PLACEMENT_PATCH_FILE=&amp;#34;https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/hello-helidon/patch-return-placement-to-managed1.yaml&amp;#34;
+$ export CHANGE_PLACEMENT_PATCH_FILE=&amp;#34;https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/hello-helidon/patch-return-placement-to-managed1.yaml&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;undeploy-the-application&#34;&gt;Undeploy the application&lt;/h2&gt;
@@ -133,14 +133,14 @@ Undeploy affects all clusters in which the application is located.&lt;/p&gt;
 &lt;li&gt;
 &lt;p&gt;To undeploy the application, delete the Hello World Helidon OAM resources.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/hello-helidon/hello-helidon-comp.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/hello-helidon/hello-helidon-comp.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Delete the project.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/hello-helidon/verrazzano-project.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/hello-helidon/verrazzano-project.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Delete the namespace &lt;code&gt;hello-helidon&lt;/code&gt; after the application pod is terminated.&lt;/p&gt;
@@ -180,14 +180,14 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 &lt;li&gt;
 &lt;p&gt;Create a namespace for the Sock Shop application by deploying the Verrazzano project.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/sock-shop/verrazzano-project.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/sock-shop/verrazzano-project.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Apply the Sock Shop OAM resources to deploy the application.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/sock-shop/sock-shop-comp.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/sock-shop/sock-shop-comp.yaml
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/sock-shop/sock-shop-app.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/sock-shop/sock-shop-app.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the Sock Shop application to be ready.  It may take a few minutes for the pod resources to start appearing on the managed cluster.&lt;/p&gt;
@@ -332,14 +332,14 @@ Undeploy affects all clusters in which the application is located.&lt;/p&gt;
 &lt;li&gt;
 &lt;p&gt;To undeploy the application, delete the Sock Shop OAM resources:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
-  -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/sock-shop/sock-shop-app.yaml
+  -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/sock-shop/sock-shop-app.yaml
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
-  -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/sock-shop/sock-shop-comp.yaml
+  -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/sock-shop/sock-shop-comp.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Delete the project.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
- -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/sock-shop/verrazzano-project.yaml
+ -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/sock-shop/verrazzano-project.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Delete the namespace &lt;code&gt;mc-sockshop&lt;/code&gt; after the application pods are terminated.&lt;/p&gt;
@@ -392,7 +392,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 &lt;li&gt;
 &lt;p&gt;Create a namespace for the multicluster ToDo List example by applying the Verrazzano project file.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/todo-list/verrazzano-project.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/todo-list/verrazzano-project.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Create a &lt;code&gt;docker-registry&lt;/code&gt; secret to enable pulling the ToDo List example image from the registry.&lt;/p&gt;
@@ -427,10 +427,10 @@ For the source code of this application, see the &lt;a href=&#34;https://github.
 &lt;li&gt;
 &lt;p&gt;Apply the component and multicluster application resources to deploy the ToDo List application.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/todo-list/todo-list-components.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/todo-list/todo-list-components.yaml
 
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/todo-list/mc-todo-list-application.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/todo-list/mc-todo-list-application.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the ToDo List example application to be ready.
@@ -540,14 +540,14 @@ Undeploy affects all clusters in which the application is located.&lt;/p&gt;
 &lt;li&gt;
 &lt;p&gt;To undeploy the application, delete the ToDo List OAM resources.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
- -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/todo-list/mc-todo-list-application.yaml
+ -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/todo-list/mc-todo-list-application.yaml
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
- -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/todo-list/todo-list-components.yaml
+ -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/todo-list/todo-list-components.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Delete the project.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
- -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.5/examples/multicluster/todo-list/verrazzano-project.yaml
+ -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/todo-list/verrazzano-project.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Delete the namespace &lt;code&gt;mc-todo-list&lt;/code&gt; after the application pods are terminated. The secrets created for the WebLogic domain also will be deleted.&lt;/p&gt;
