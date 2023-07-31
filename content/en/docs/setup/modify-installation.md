@@ -112,6 +112,10 @@ $ kubectl edit vz example-verrazzano
 </div>
 {{< /clipboard >}}
 
+{{< alert title="NOTE" color="primary" >}}
+Enabling components post-installation is supported, whereas disabling components post-installation is not supported.
+{{< /alert >}}
+
 ## Customization options
 
 Verrazzano supplies a variety of customization options.
