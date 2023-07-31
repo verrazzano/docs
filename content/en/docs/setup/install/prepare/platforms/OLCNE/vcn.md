@@ -47,7 +47,7 @@ In this subnet, create security rules that cover the following traffic:
 * Ingress: ICMP path discovery
 
 <details>
-<summary>Security rule examples</summary>
+<summary>Security rules examples</summary>
 
 {{< alert title="NOTE" color="primary" >}}
 These examples are provided for reference *only*. Customize your security rules as needed for your environment.
@@ -86,7 +86,7 @@ In this subnet, create security rules that cover the following traffic:
     * IP-in-IP
 
 <details>
-<summary>Security rule examples</summary>
+<summary>Security rules examples</summary>
 
 {{< alert title="NOTE" color="primary" >}}
 These examples are provided for reference *only*. Customize your security rules as needed for your environment.
@@ -128,7 +128,7 @@ In this subnet, create security rules that cover the following traffic:
 * Ingress: HTTP and HTTPS traffic
 
 <details>
-<summary>Security rule examples</summary>
+<summary>Security rules examples</summary>
 
 {{< alert title="NOTE" color="primary" >}}
 These examples are provided for reference *only*. Customize your security rules as needed for your environment.
@@ -166,7 +166,7 @@ In this subnet, create security rules that cover the following traffic:
 * Ingress: worker nodes to default NodePort ingress
 
 <details>
-<summary>Security rule examples</summary>
+<summary>Security rules examples</summary>
 
 {{< alert title="NOTE" color="primary" >}}
 These examples are provided for reference *only*. Customize your security rules as needed for your environment.
