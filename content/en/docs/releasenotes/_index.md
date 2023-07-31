@@ -3,15 +3,6 @@ title: Release Notes
 weight: 2
 draft: false
 ---
-## 1.4.6
-### Enhancements:
-- Verrazzano CLI tool validates commands.
-
-### Fixes:
-- Fixed some issues that occurred when Let's Encrypt was being used with Rancher.
-- Fixed issues regarding Rancher certificates that were out of sync/expired.
-- Fixed issues relating to noisy logs regarding Keycloak.
-
 ## 1.6.2
 ### Enhancements:
 - Verrazzano analysis tooling enhancements.
@@ -158,6 +149,15 @@ draft: false
 - Fixed IngressTrait JWT related issues to allow multiple paths where one path has `RequestPrincipals` and the other doesn't.
 - Fixed IngressTrait JWT so that `RequestPrincipals` with no paths are allowed.
 - Fixed IngressTrait related `AuthorizationPolicy` cleanup when an application is deleted.
+
+## 1.4.6
+### Enhancements:
+- Verrazzano CLI tool validates that commands are entered correctly.
+
+### Fixes:
+- Fixed issues that occurred when Let's Encrypt was being used with Rancher.
+- Fixed issues regarding Rancher certificates that were out of sync or expired.
+- Fixed issues relating to noisy Keycloak logs.
 
 ### v1.4.5
 **Fixes**:
