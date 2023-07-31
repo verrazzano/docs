@@ -1,6 +1,6 @@
 ---
 title: "Alertmanager"
-description: "Customize Alertmnager to alert on Verrazzano"
+description: "Customize Alertmanager to alert on Verrazzano"
 weight: 2
 draft: false
 aliases:
