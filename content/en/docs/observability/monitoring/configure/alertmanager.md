@@ -14,7 +14,7 @@ Alertmanager provides integrations for email, Slack, PagerDuty, and other popula
 ## Enable Alertmanager
 
 To enable Alertmanager, configure it from the Prometheus Operator component
-in the Verrazzano custom resources.
+in the Verrazzano custom resource.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -42,7 +42,7 @@ in the Verrazzano custom resources.
 Next, create an AlertmanagerConfig to configure the receivers that Alertmanager will send alerts to.
 To create the AlertmanagerConfig, access the Verrazzano console and navigate to the following location.
 
-**Monitoring** > **Alerting** > **AlertmanagerConfigs**.
+**Monitoring** > **Alerting** > **AlertmanagerConfigs**
 
 Alertmanager will automatically discover AlertmanagerConfigs in the same namespace,
 which by default in Verrazzano is `verrazzano-monitoring`.
@@ -50,7 +50,7 @@ which by default in Verrazzano is `verrazzano-monitoring`.
 ## Customize the AlertmanagerConfig namespace
 
 If you would prefer to create the AlertmanagerConfig
-in a different namespace, you can configure Alertmanager to discover AlertmanagerConfig resouces
+in a different namespace, you can configure Alertmanager to discover AlertmanagerConfig resources
 in other namespaces using labels.
 {{< clipboard >}}
 <div class="highlight">
