@@ -31,7 +31,10 @@ Each subnet requires its own set of security rules that establish rules for virt
 
 See [Security Rules](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/securityrules.htm#Security_Rules) in the OCI documentation for more information.
 
-**NOTE**: You can use either Network Security Groups (NSGs) or security lists to add security rules to your VCN. We recommend using NSGs whenever possible. See [Comparison of Security Lists and Network Security Groups](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/securityrules.htm#comparison) in the OCI documentation.
+
+{{< alert title="NOTE" color="primary" >}}
+You can use either Network Security Groups (NSGs) or security lists to add security rules to your VCN. We recommend using NSGs whenever possible. See [Comparison of Security Lists and Network Security Groups](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/securityrules.htm#comparison) in the OCI documentation.
+{{< /alert >}}
 
 ### Subnet 1: control plane endpoint
 
@@ -42,6 +45,27 @@ In this subnet, create security rules that cover the following traffic:
 * Egress: control plane traffic
 * Ingress: external access to the Kubernetes API endpoint
 * Ingress: ICMP path discovery
+
+<details>
+<summary>Security rule examples</summary>
+
+{{< alert title="NOTE" color="primary" >}}
+These examples are provided for reference only. Customize your security rules as needed for your environment.
+{{< /alert >}}
+
+#### Egress rules
+
+| Destination Type | Destination | Destination Port | Protocol | Description |
+|------------------|-------------|------------------|----------|-------------|
+| CIDR Block       | 10.0.0.0/29 | 6443             | TCP      | HTTPS traffic to control plane for Kubernetes API server access |
+
+#### Ingress rules
+
+| Destination Type | Destination | Destination Port | Protocol | Description |
+|------------------|-------------|------------------|----------|-------------|
+| CIDR Block       | 0.0.0.0/0   | 6443             | TCP      | Public access to endpoint OCI load balancer |
+| CIDR Block       | 10.0.0.0/16 |                  | ICMP Type 3, Code 4 | Path MTU discovery |
+</details>
 
 ### Subnet 2: control plane nodes
 
@@ -61,6 +85,38 @@ In this subnet, create security rules that cover the following traffic:
     * BGP
     * IP-in-IP
 
+<details>
+<summary>Security rule examples</summary>
+
+{{< alert title="NOTE" color="primary" >}}
+These examples are provided for reference only. Customize your security rules as needed for your environment.
+{{< /alert >}}
+
+#### Egress rules
+
+| Destination Type | Destination | Destination Port | Protocol | Description |
+|------------------|-------------|------------------|----------|-------------|
+| CIDR Block       | 0.0.0.0/0   | All              | All      | Control plane node access to the internet to pull images |
+
+#### Ingress rules
+
+| Destination Type | Destination  | Destination Port | Protocol | Description |
+|------------------|--------------|------------------|----------|-------------|
+| CIDR Block       | 10.0.0.8/29  | 6443             | TCP      | Kubernetes API endpoint to Kubernetes control plane communication |
+| CIDR Block       | 10.0.0.0/29  | 6443             | TCP      | Control plane to control plane (API server port) communication |
+| CIDR Block       | 10.0.64.0/20 | 6443             | TCP      | Worker node to Kubernetes control plane (API Server) communication |
+| CIDR Block       | 10.0.0.0/29  | 10250            | TCP      | Control plane to control plane node kubelet communication |
+| CIDR Block       | 10.0.0.0/29  | 2379             | TCP      | etcd client communication |
+| CIDR Block       | 10.0.0.0/29  | 2380             | TCP      | etcd peer communication |
+| CIDR Block       | 10.0.0.0/29  | 179              | TCP      | Calico networking (BGP) |
+| CIDR Block       | 10.0.64.0/20 | 179              | TCP      | Calico networking (BGP) |
+| CIDR Block       | 10.0.0.0/29  |                  | IP-in-IP | Calico networking with IP-in-IP enabled |
+| CIDR Block       | 10.0.64.0/20 |                  | IP-in-IP | Calico networking with IP-in-IP enabled |
+| CIDR Block       | 10.0.0.0/16  |                  | ICMP Type 3, Code 4 | Path MTU discovery |
+| CIDR Block       | 0.0.0.0/0    | 22               | TCP      | Inbound SSH traffic to worker nodes |
+| CIDR Block       | 10.0.0.0/16  | All              | TCP      | East-West communication for Kubernetes API server access / DNS access |
+</details>
+
 ### Subnet 3: service load balancers
 
 A public subnet that houses the service load balancers.
@@ -70,6 +126,27 @@ In this subnet, create security rules that cover the following traffic:
 * Egress: service load balancer to NodePort on worker nodes
 * Ingress: ICMP path discovery
 * Ingress: HTTP and HTTPS traffic
+
+<details>
+<summary>Security rule examples</summary>
+
+{{< alert title="NOTE" color="primary" >}}
+These examples are provided for reference only. Customize your security rules as needed for your environment.
+{{< /alert >}}
+
+#### Egress rules
+
+| Destination Type | Destination  | Destination Port | Protocol | Description |
+|------------------|--------------|------------------|----------|-------------|
+| CIDR Block       | 10.0.64.0/20 | 32000-32767      | TCP      | Access to NodePort services from service load balancers |
+
+#### Ingress rules
+
+| Destination Type | Destination | Destination Port | Protocol | Description |
+|------------------|-------------|------------------|----------|-------------|
+| CIDR Block       | 0.0.0.0/0   | 80, 443           | TCP      | Incoming traffic to services |
+| CIDR Block       | 10.0.0.0/16 |                  | ICMP Type 3, Code 4 | Path MTU discovery |
+</details>
 
 ### Subnet 4: worker nodes
 
@@ -87,6 +164,35 @@ In this subnet, create security rules that cover the following traffic:
     * BGP
     * IP-in-IP
 * Ingress: worker nodes to default NodePort ingress
+
+<details>
+<summary>Security rule examples</summary>
+
+{{< alert title="NOTE" color="primary" >}}
+These examples are provided for reference only. Customize your security rules as needed for your environment.
+{{< /alert >}}
+
+#### Egress rules
+
+| Destination Type | Destination | Destination Port | Protocol | Description |
+|------------------|-------------|------------------|----------|-------------|
+| CIDR Block       | 0.0.0.0/0   | All              | All      | Worker node access to the internet to pull images |
+
+#### Ingress rules
+
+| Destination Type | Destination  | Destination Port | Protocol | Description |
+|------------------|------------- |------------------|----------|-------------|
+| CIDR Block       | 10.0.0.32/27 | 32000-32767      | TCP      | Incoming traffic from service load balancers (NodePort communication) |
+| CIDR Block       | 10.0.0.0/29  | 10250            | TCP      | Control plane node to worker node (kubelet communication) |
+| CIDR Block       | 10.0.64.0/20 | 10250            | TCP      | Worker node to worker node (kubelet communication) |
+| CIDR Block       | 10.0.0.0/29  | 179              | TCP      | Calico networking (BGP) |
+| CIDR Block       | 10.0.64.0/20 | 179              | TCP      | Calico networking (BGP) |
+| CIDR Block       | 10.0.0.0/29  |                  | IP-in-IP | Calico networking with IP-in-IP enabled |
+| CIDR Block       | 10.0.64.0/20 |                  | IP-in-IP | Calico networking with IP-in-IP enabled |
+| CIDR Block       | 10.0.0.0/16  |                  | ICMP Type 3, Code 4 | Path MTU discovery |
+| CIDR Block       | 0.0.0.0/0    | 22               | 22       | Inbound SSH traffic to worker nodes |
+| CIDR Block       | 10.0.0.0/16  | All              | TCP      | East-West communication for Kubernetes API server access / DNS access |
+</details>
 
 ## Gateways
 
