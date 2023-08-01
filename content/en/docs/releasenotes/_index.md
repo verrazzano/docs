@@ -3,7 +3,11 @@ title: Release Notes
 weight: 2
 draft: false
 ---
-## 1.6.2
+## v2.0.0
+#### Component version updates:
+- Istio v1.17.2
+
+## v1.6.2
 ### Enhancements:
 - Verrazzano analysis tooling enhancements.
 
