@@ -1042,7 +1042,6 @@ mysql   OFFLINE   0        1           1         7m51s
 &lt;p&gt;You can gather information about the clusterAPI component by reviewing its log files and by checking the status of clusterAPI custom resources on the admin cluster. In the console, the admin cluster is the &lt;em&gt;local&lt;/em&gt; cluster.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Review clusterAPI log files&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;The clusterAPI component creates four clusterAPI pods within the &lt;code&gt;verrazzano-capi&lt;/code&gt; namespace and each pod generates a separate log file. Review the log files to determine the cause of the issue.&lt;/p&gt;
-&lt;p&gt;Where &lt;code&gt;nnnn&lt;/code&gt; is the unique ID for the pod.&lt;/p&gt;
 &lt;p&gt;To view the clusterAPI controller log file, use the following command:&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -1074,7 +1073,7 @@ mysql   OFFLINE   0        1           1         7m51s
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-capi capi-controller-manager-&amp;lt;nnnn&amp;gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=cluster-api
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -1166,7 +1165,7 @@ mysql   OFFLINE   0        1           1         7m51s
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-capi capoci-controller-manager-&amp;lt;nnnn&amp;gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=infrastructure-oci
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -1258,7 +1257,7 @@ mysql   OFFLINE   0        1           1         7m51s
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-capi capi-ocne-control-plane-controller-manager-&amp;lt;nnnn&amp;gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=control-plane-ocne
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -1350,7 +1349,7 @@ mysql   OFFLINE   0        1           1         7m51s
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-capi capi-ocne-bootstrap-controller-manager-&amp;lt;nnnn&amp;gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=bootstrap-ocne
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 

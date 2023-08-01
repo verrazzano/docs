@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/troubleshooting/troubleshooting-clusterapi/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-08-01T13:28:49-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-08-01T13:31:36-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="OCNE Cluster Creation Issues">
 <meta itemprop="description" content="Troubleshoot issues when creating OCNE clusters">
-<meta itemprop="dateModified" content="2023-08-01T13:28:49-04:00" />
-<meta itemprop="wordCount" content="2061">
+<meta itemprop="dateModified" content="2023-08-01T13:31:36-04:00" />
+<meta itemprop="wordCount" content="2056">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="OCNE Cluster Creation Issues"/>
 <meta name="twitter:description" content="Troubleshoot issues when creating OCNE clusters"/>
@@ -95,7 +95,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.04812c43ca4c5599403b49be0090946d.json"
+    data-offline-search-index-json-src="../../../offline-search-index.6d45860ebc2bb0cbf9b70ee312a4729c.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -121,7 +121,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.04812c43ca4c5599403b49be0090946d.json"
+    data-offline-search-index-json-src="../../../offline-search-index.6d45860ebc2bb0cbf9b70ee312a4729c.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -1128,7 +1128,6 @@ if (!doNotTrack) {
 <p>You can gather information about the clusterAPI component by reviewing its log files and by checking the status of clusterAPI custom resources on the admin cluster. In the console, the admin cluster is the <em>local</em> cluster.</p>
 <p><strong>Review clusterAPI log files</strong></p>
 <p>The clusterAPI component creates four clusterAPI pods within the <code>verrazzano-capi</code> namespace and each pod generates a separate log file. Review the log files to determine the cause of the issue.</p>
-<p>Where <code>nnnn</code> is the unique ID for the pod.</p>
 <p>To view the clusterAPI controller log file, use the following command:</p>
 <style type="text/css">
     code {
@@ -1160,7 +1159,7 @@ if (!doNotTrack) {
 
 <div class="clipboard">
     <div class="highlight">
-<pre tabindex="0"><code>$ kubectl logs -n verrazzano-capi capi-controller-manager-&lt;nnnn&gt;
+<pre tabindex="0"><code>$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=cluster-api
 </code></pre>
 </div>
 
@@ -1252,7 +1251,7 @@ if (!doNotTrack) {
 
 <div class="clipboard">
     <div class="highlight">
-<pre tabindex="0"><code>$ kubectl logs -n verrazzano-capi capoci-controller-manager-&lt;nnnn&gt;
+<pre tabindex="0"><code>$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=infrastructure-oci
 </code></pre>
 </div>
 
@@ -1344,7 +1343,7 @@ if (!doNotTrack) {
 
 <div class="clipboard">
     <div class="highlight">
-<pre tabindex="0"><code>$ kubectl logs -n verrazzano-capi capi-ocne-control-plane-controller-manager-&lt;nnnn&gt;
+<pre tabindex="0"><code>$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=control-plane-ocne
 </code></pre>
 </div>
 
@@ -1436,7 +1435,7 @@ if (!doNotTrack) {
 
 <div class="clipboard">
     <div class="highlight">
-<pre tabindex="0"><code>$ kubectl logs -n verrazzano-capi capi-ocne-bootstrap-controller-manager-&lt;nnnn&gt;
+<pre tabindex="0"><code>$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=bootstrap-ocne
 </code></pre>
 </div>
 
