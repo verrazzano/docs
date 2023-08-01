@@ -15,15 +15,13 @@ You can gather information about the clusterAPI component by reviewing its log f
 
 The clusterAPI component creates four clusterAPI pods within the `verrazzano-capi` namespace and each pod generates a separate log file. Review the log files to determine the cause of the issue.
 
-Where `nnnn` is the unique ID for the pod.
-
 To view the clusterAPI controller log file, use the following command:
 
 {{< clipboard >}}
 <div class="highlight">
 
 ```
-$ kubectl logs -n verrazzano-capi capi-controller-manager-<nnnn>
+$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=cluster-api
 ```
 {{< /clipboard >}}
 </div>
@@ -34,7 +32,7 @@ To view the clusterAPI OCI provider log file, use the following command:
 <div class="highlight">
 
 ```
-$ kubectl logs -n verrazzano-capi capoci-controller-manager-<nnnn>
+$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=infrastructure-oci
 ```
 {{< /clipboard >}}
 </div>
@@ -45,7 +43,7 @@ To view the clusterAPI control plane provider log file, use the following comman
 <div class="highlight">
 
 ```
-$ kubectl logs -n verrazzano-capi capi-ocne-control-plane-controller-manager-<nnnn>
+$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=control-plane-ocne
 ```
 {{< /clipboard >}}
 </div>
@@ -56,7 +54,7 @@ To view the clusterAPI bootstrap provider log file, use the following command:
 <div class="highlight">
 
 ```
-$ kubectl logs -n verrazzano-capi capi-ocne-bootstrap-controller-manager-<nnnn>
+$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=bootstrap-ocne
 ```
 {{< /clipboard >}}
 </div>
