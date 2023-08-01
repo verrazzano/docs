@@ -1,10 +1,12 @@
 ---
 title: Customize Persistent Storage
 description: Customize persistent storage settings
-Weight: 11
+Weight: 4
 draft: false
 aliases:
   - /docs/customize/storage
+  - /docs/setup/customizing/storage
+  - /docs/observability/logging/configure-opensearch/storage
 ---
 
 The following components can use persistent storage:
