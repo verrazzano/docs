@@ -7,6 +7,15 @@ draft: false
 
 If you encounter a problem with the OCNE clusters created in the console (using the [clusterAPI component]({{< relref "/docs/setup/provision-cluster/capi" >}})), here are some techniques you can use to diagnose and solve the issue.
 
+### Analyze the cluster
+
+Use the `vz analyze` command-line tool to analyze the cluster or cluster snapshot and receive reports on any issues. For more information on `vz analyze`, see [Analyze Verrazzano Clusters]({{< relref "/docs/troubleshooting/diagnostictools/verrazzanoanalysistool" >}}).
+
+Issues related to the clusterAPI component will appear in these reports:
+
+* [Cluster API (CAPI) Issues]({{< relref "/docs/troubleshooting/diagnostictools/analysisadvice/clusterapiclusterissues" >}})
+* [Rancher Issues]({{< relref "/docs/troubleshooting/diagnostictools/analysisadvice/rancherissues" >}}) (some Rancher issues are not clusterAPI related)
+
 ### Assess the condition of the clusterAPI component
 
 You can gather information about the clusterAPI component by reviewing its log files and by checking the status of clusterAPI custom resources on the admin cluster. In the console, the admin cluster is the *local* cluster.
