@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/install/prepare/platforms/olcne/vcn/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-07-21T11:55:35-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-08-01T15:15:11-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Configure a VCN for OCNE">
 <meta itemprop="description" content="Set up a virtual cloud network for OCNE clusters on OCI">
-<meta itemprop="dateModified" content="2023-07-21T11:55:35-04:00" />
-<meta itemprop="wordCount" content="719">
+<meta itemprop="dateModified" content="2023-08-01T15:15:11-04:00" />
+<meta itemprop="wordCount" content="1225">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Configure a VCN for OCNE"/>
 <meta name="twitter:description" content="Set up a virtual cloud network for OCNE clusters on OCI"/>
@@ -95,7 +95,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../../../offline-search-index.6d45860ebc2bb0cbf9b70ee312a4729c.json"
+    data-offline-search-index-json-src="../../../../../../../offline-search-index.b42a6963cba198bcbf3878f06acc6356.json"
     data-offline-search-base-href="../../../../../../../"
     data-offline-search-max-results="10"
   >
@@ -121,7 +121,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../../../offline-search-index.6d45860ebc2bb0cbf9b70ee312a4729c.json"
+    data-offline-search-index-json-src="../../../../../../../offline-search-index.b42a6963cba198bcbf3878f06acc6356.json"
     data-offline-search-base-href="../../../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1150,7 +1150,15 @@ if (!doNotTrack) {
 <p>See <a href="https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/Overview_of_VCNs_and_Subnets.htm#Overview">Overview of VCNs and Subnets</a> in the OCI documentation for more information.</p>
 <p>Each subnet requires its own set of security rules that establish rules for virtual firewalls. These ingress and egress rules specify the types of traffic (protocol and port) that are allowed in and out of the instances.</p>
 <p>See <a href="https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/securityrules.htm#Security_Rules">Security Rules</a> in the OCI documentation for more information.</p>
-<p><strong>NOTE</strong>: You can use either Network Security Groups (NSGs) or security lists to add security rules to your VCN. We recommend using NSGs whenever possible. See <a href="https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/securityrules.htm#comparison">Comparison of Security Lists and Network Security Groups</a> in the OCI documentation.</p>
+
+
+<div class="alert alert-primary" role="alert">
+<h4 class="alert-heading">NOTE</h4>
+
+    You can use either Network Security Groups (NSGs) or security lists to add security rules to your VCN. We recommend using NSGs whenever possible. For more information, see <a href="https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/securityrules.htm#comparison">Comparison of Security Lists and Network Security Groups</a> in the OCI documentation.
+
+</div>
+
 <h3 id="subnet-1-control-plane-endpoint">Subnet 1: control plane endpoint</h3>
 <p>A public subnet for the control plane endpoint that houses an OCI load balancer. The load balancer acts as a reverse proxy for the Kubernetes API server.</p>
 <p>In this subnet, create security rules that cover the following traffic:</p>
@@ -1159,11 +1167,72 @@ if (!doNotTrack) {
 <li>Ingress: external access to the Kubernetes API endpoint</li>
 <li>Ingress: ICMP path discovery</li>
 </ul>
+<details>
+<summary>Security rules examples</summary>
+
+
+<div class="alert alert-primary" role="alert">
+<h4 class="alert-heading">NOTE</h4>
+
+    These examples are provided for reference <em>only</em>. Customize your security rules as needed for your environment.
+
+</div>
+
+<h4 id="egress-rules">Egress rules</h4>
+<table>
+<thead>
+<tr>
+<th>Destination Type</th>
+<th>Destination</th>
+<th>Destination Port</th>
+<th>Protocol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.0.0/29</td>
+<td>6443</td>
+<td>TCP</td>
+<td>HTTPS traffic to control plane for Kubernetes API server access</td>
+</tr>
+</tbody>
+</table>
+<h4 id="ingress-rules">Ingress rules</h4>
+<table>
+<thead>
+<tr>
+<th>Destination Type</th>
+<th>Destination</th>
+<th>Destination Port</th>
+<th>Protocol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CIDR Block</td>
+<td>0.0.0.0/0</td>
+<td>6443</td>
+<td>TCP</td>
+<td>Public access to endpoint OCI load balancer</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.0.0/16</td>
+<td></td>
+<td>ICMP Type 3, Code 4</td>
+<td>Path MTU discovery</td>
+</tr>
+</tbody>
+</table>
+</details>
 <h3 id="subnet-2-control-plane-nodes">Subnet 2: control plane nodes</h3>
-<p>A private subnet that houses the control plane nodes that run Kubernetes control plane components such as the API Server and the control plane pods.</p>
+<p>A private subnet that houses the control plane nodes that run Kubernetes control plane components, such as the API Server and the control plane pods.</p>
 <p>In this subnet, create security rules that cover the following traffic:</p>
 <ul>
-<li>Egress: node internet access</li>
+<li>Egress: node Internet access</li>
 <li>Ingress: east-west traffic, originating from within the VCN</li>
 <li>Ingress: control plane endpoint to control plane node access on API endpoint</li>
 <li>Ingress: worker nodes to control plane node access on API endpoint</li>
@@ -1178,6 +1247,144 @@ if (!doNotTrack) {
 </ul>
 </li>
 </ul>
+<details>
+<summary>Security rules examples</summary>
+
+
+<div class="alert alert-primary" role="alert">
+<h4 class="alert-heading">NOTE</h4>
+
+    These examples are provided for reference <em>only</em>. Customize your security rules as needed for your environment.
+
+</div>
+
+<h4 id="egress-rules-1">Egress rules</h4>
+<table>
+<thead>
+<tr>
+<th>Destination Type</th>
+<th>Destination</th>
+<th>Destination Port</th>
+<th>Protocol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CIDR Block</td>
+<td>0.0.0.0/0</td>
+<td>All</td>
+<td>All</td>
+<td>Control plane node access to the Internet to pull images</td>
+</tr>
+</tbody>
+</table>
+<h4 id="ingress-rules-1">Ingress rules</h4>
+<table>
+<thead>
+<tr>
+<th>Destination Type</th>
+<th>Destination</th>
+<th>Destination Port</th>
+<th>Protocol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.0.8/29</td>
+<td>6443</td>
+<td>TCP</td>
+<td>Kubernetes API endpoint to Kubernetes control plane communication</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.0.0/29</td>
+<td>6443</td>
+<td>TCP</td>
+<td>Control plane to control plane (API server port) communication</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.64.0/20</td>
+<td>6443</td>
+<td>TCP</td>
+<td>Worker node to Kubernetes control plane (API Server) communication</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.0.0/29</td>
+<td>10250</td>
+<td>TCP</td>
+<td>Control plane to control plane node kubelet communication</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.0.0/29</td>
+<td>2379</td>
+<td>TCP</td>
+<td>etcd client communication</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.0.0/29</td>
+<td>2380</td>
+<td>TCP</td>
+<td>etcd peer communication</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.0.0/29</td>
+<td>179</td>
+<td>TCP</td>
+<td>Calico networking (BGP)</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.64.0/20</td>
+<td>179</td>
+<td>TCP</td>
+<td>Calico networking (BGP)</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.0.0/29</td>
+<td></td>
+<td>IP-in-IP</td>
+<td>Calico networking with IP-in-IP enabled</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.64.0/20</td>
+<td></td>
+<td>IP-in-IP</td>
+<td>Calico networking with IP-in-IP enabled</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.0.0/16</td>
+<td></td>
+<td>ICMP Type 3, Code 4</td>
+<td>Path MTU discovery</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>0.0.0.0/0</td>
+<td>22</td>
+<td>TCP</td>
+<td>Inbound SSH traffic to worker nodes</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.0.0/16</td>
+<td>All</td>
+<td>TCP</td>
+<td>East-West communication for Kubernetes API server access / DNS access</td>
+</tr>
+</tbody>
+</table>
+</details>
 <h3 id="subnet-3-service-load-balancers">Subnet 3: service load balancers</h3>
 <p>A public subnet that houses the service load balancers.</p>
 <p>In this subnet, create security rules that cover the following traffic:</p>
@@ -1186,11 +1393,72 @@ if (!doNotTrack) {
 <li>Ingress: ICMP path discovery</li>
 <li>Ingress: HTTP and HTTPS traffic</li>
 </ul>
+<details>
+<summary>Security rules examples</summary>
+
+
+<div class="alert alert-primary" role="alert">
+<h4 class="alert-heading">NOTE</h4>
+
+    These examples are provided for reference <em>only</em>. Customize your security rules as needed for your environment.
+
+</div>
+
+<h4 id="egress-rules-2">Egress rules</h4>
+<table>
+<thead>
+<tr>
+<th>Destination Type</th>
+<th>Destination</th>
+<th>Destination Port</th>
+<th>Protocol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.64.0/20</td>
+<td>32000-32767</td>
+<td>TCP</td>
+<td>Access to NodePort services from service load balancers</td>
+</tr>
+</tbody>
+</table>
+<h4 id="ingress-rules-2">Ingress rules</h4>
+<table>
+<thead>
+<tr>
+<th>Destination Type</th>
+<th>Destination</th>
+<th>Destination Port</th>
+<th>Protocol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CIDR Block</td>
+<td>0.0.0.0/0</td>
+<td>80, 443</td>
+<td>TCP</td>
+<td>Incoming traffic to services</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.0.0/16</td>
+<td></td>
+<td>ICMP Type 3, Code 4</td>
+<td>Path MTU discovery</td>
+</tr>
+</tbody>
+</table>
+</details>
 <h3 id="subnet-4-worker-nodes">Subnet 4: worker nodes</h3>
 <p>A private subnet that houses the worker nodes.</p>
 <p>In this subnet, create security rules that cover the following traffic:</p>
 <ul>
-<li>Egress: node internet access</li>
+<li>Egress: node Internet access</li>
 <li>Ingress: east-west traffic, originating from within the VCN</li>
 <li>Ingress: SSH traffic</li>
 <li>Ingress: ICMP path discovery</li>
@@ -1204,20 +1472,137 @@ if (!doNotTrack) {
 </li>
 <li>Ingress: worker nodes to default NodePort ingress</li>
 </ul>
+<details>
+<summary>Security rules examples</summary>
+
+
+<div class="alert alert-primary" role="alert">
+<h4 class="alert-heading">NOTE</h4>
+
+    These examples are provided for reference <em>only</em>. Customize your security rules as needed for your environment.
+
+</div>
+
+<h4 id="egress-rules-3">Egress rules</h4>
+<table>
+<thead>
+<tr>
+<th>Destination Type</th>
+<th>Destination</th>
+<th>Destination Port</th>
+<th>Protocol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CIDR Block</td>
+<td>0.0.0.0/0</td>
+<td>All</td>
+<td>All</td>
+<td>Worker node access to the Internet to pull images</td>
+</tr>
+</tbody>
+</table>
+<h4 id="ingress-rules-3">Ingress rules</h4>
+<table>
+<thead>
+<tr>
+<th>Destination Type</th>
+<th>Destination</th>
+<th>Destination Port</th>
+<th>Protocol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.0.32/27</td>
+<td>32000-32767</td>
+<td>TCP</td>
+<td>Incoming traffic from service load balancers (NodePort communication)</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.0.0/29</td>
+<td>10250</td>
+<td>TCP</td>
+<td>Control plane node to worker node (kubelet communication)</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.64.0/20</td>
+<td>10250</td>
+<td>TCP</td>
+<td>Worker node to worker node (kubelet communication)</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.0.0/29</td>
+<td>179</td>
+<td>TCP</td>
+<td>Calico networking (BGP)</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.64.0/20</td>
+<td>179</td>
+<td>TCP</td>
+<td>Calico networking (BGP)</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.0.0/29</td>
+<td></td>
+<td>IP-in-IP</td>
+<td>Calico networking with IP-in-IP enabled</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.64.0/20</td>
+<td></td>
+<td>IP-in-IP</td>
+<td>Calico networking with IP-in-IP enabled</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.0.0/16</td>
+<td></td>
+<td>ICMP Type 3, Code 4</td>
+<td>Path MTU discovery</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>0.0.0.0/0</td>
+<td>22</td>
+<td>22</td>
+<td>Inbound SSH traffic to worker nodes</td>
+</tr>
+<tr>
+<td>CIDR Block</td>
+<td>10.0.0.0/16</td>
+<td>All</td>
+<td>TCP</td>
+<td>East-West communication for Kubernetes API server access / DNS access</td>
+</tr>
+</tbody>
+</table>
+</details>
 <h2 id="gateways">Gateways</h2>
 <p>Gateways control access from your VCN to other networks. You&rsquo;ll need to configure three different types of gateways:</p>
 <ul>
-<li><a href="https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingIGs.htm">An internet gateway</a></li>
+<li><a href="https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingIGs.htm">An Internet gateway</a></li>
 <li><a href="https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/NATgateway.htm#NAT_Gateway">A NAT gateway</a></li>
 <li><a href="https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/servicegateway.htm#Access_to_Oracle_Services_Service_Gateway">A service gateway</a></li>
 </ul>
-<p>You may need to perform some additional configuration to expose the VCN&rsquo;s subnets directly to the internet. See <a href="https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm#Private">Access to the Internet</a> in the OCI documentation for details.</p>
+<p>You may need to perform some additional configuration to expose the VCN&rsquo;s subnets directly to the Internet. See <a href="https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm#Private">Access to the Internet</a> in the OCI documentation for details.</p>
 <h2 id="route-tables">Route tables</h2>
-<p>Route tables send traffic out of the VCN (for example, to the internet, to your on-premises network, or to a peered VCN) using rules that are similar to traditional network route rules.</p>
+<p>Route tables send traffic out of the VCN (for example, to the Internet, to your on-premises network, or to a peered VCN) using rules that are similar to traditional network route rules.</p>
 <p>See <a href="https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingroutetables.htm#Route2">VCN Route Tables</a> in the OCI documentation for more information.</p>
 <p>For OCNE clusters, you&rsquo;ll need to create two route tables:</p>
 <ol>
-<li>A route table for public subnets that will route stateful traffic to and from the internet gateway. Assign this route table to <em>both</em> public subnets.</li>
+<li>A route table for public subnets that will route stateful traffic to and from the Internet gateway. Assign this route table to <em>both</em> public subnets.</li>
 <li>A route table for private subnets that will route stateful traffic to and from the NAT and service gateways. Assign this route table to <em>both</em> private subnets.</li>
 </ol>
 
