@@ -1,15 +1,16 @@
 ---
 title: "Alertmanager"
-description: "Customize Alertmanager to alert on Verrazzano"
+description: "Customize Alertmanager alerting"
 weight: 2
 draft: false
 aliases:
 - /docs/customize/alertmanager
 - /docs/observability/monitoring/configure/alertmanager
 ---
-Alertmanager is used in conjunction with Prometheus to send alerts about the state of your clusters.
-You can create PrometheusRules that will trigger alerts based on the value of metrics.
-Alertmanager provides integrations for email, Slack, PagerDuty, and other popular notification services to receive alerts.
+Alertmanager sends alerts that are firing in Prometheus to configured receivers. PrometheusRules installed in the cluster
+will trigger alerts based on the value of metrics. Alertmanager will group, route, and silence
+these alerts according to its installed configuration.
+Alertmanager provides receiver integrations for email, Slack, PagerDuty, and other popular notification services.
 
 ## Enable Alertmanager
 
@@ -24,7 +25,6 @@ in the Verrazzano custom resource.
    metadata:
      name: custom-prometheus
    spec:
-     profile: prod
      components:
        prometheusOperator:
          overrides:
@@ -49,10 +49,9 @@ which by default in Verrazzano is `verrazzano-monitoring`.
 
 ## Customize the AlertmanagerConfig namespace
 
-If you would prefer to create the AlertmanagerConfig
-in a other namespaces, you can configure Alertmanager to discover AlertmanagerConfig resources
-in other namespaces using labels. In the example below, all AlertmanagerConfigs will be discovered
-in any namespace with the label `namespace-label: my-app`.
+You can also configure AlertmanagerConfig discovery by specifying namespace labels.
+In the example below, AlertmanagerConfigs will be discovered
+in any namespace with the label `namespace-label: my-app`, rather than the default `verrazzano-monitoring` namespace.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -62,7 +61,6 @@ in any namespace with the label `namespace-label: my-app`.
    metadata:
      name: custom-prometheus
    spec:
-     profile: prod
      components:
        prometheusOperator:
          overrides:
@@ -85,6 +83,7 @@ For more information about Alertmanager configurations, see the [Alertmanager Do
 After you have enabled Alertmanager and configured an AlertmanagerConfig with a receiver and route,
 you can deploy rules that will trigger alerts.
 To create a `TestAlertRule`, run the following command.
+This PrometheusRule will alert if the last config reload in the Prometheus pod was unsuccessful.
 {{< clipboard >}}
 <div class="highlight">
 
