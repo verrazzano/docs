@@ -104,7 +104,7 @@ Causes may include:
 
 * OCI resource limits were reached: Cluster creation will fail if it needs to create more resources than allowed by your OCI tenancy. Check your OCI service limits to see if you exceeded its limits. If you need to request a service limit increase, see [Requesting a Service Limit Increase](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm#Requesti).
 
-* Connectivity issues: Make sure your virtual cloud network is configured properly.
+* Connectivity issues: Make sure your virtual cloud network is configured properly. See [Configure a VCN for OCNE]({{< relref "/docs/setup/install/prepare/platforms/olcne/vcn" >}}) for recommendations.
 
 * The network load balancer is in a critical state: The network load balancer may temporarily enter a critical state during initial cluster creation until the Kubernetes API server is up. If it remains in a critical state, then one of the following issues may have occurred:
     * Traffic between the network load balancer and the OCNE control plane node is blocked over port 6443.
