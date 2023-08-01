@@ -47,35 +47,6 @@ To create the AlertmanagerConfig, access the Verrazzano console and navigate to 
 Alertmanager will automatically discover AlertmanagerConfigs in the same namespace where it is deployed,
 which by default in Verrazzano is `verrazzano-monitoring`.
 
-## Customize the AlertmanagerConfig namespace
-
-You can also configure AlertmanagerConfig discovery by specifying namespace labels.
-In the example below, AlertmanagerConfigs will be discovered
-in any namespace with the label `namespace-label: my-app`, rather than the default `verrazzano-monitoring` namespace.
-{{< clipboard >}}
-<div class="highlight">
-
-   ```
-   apiVersion: install.verrazzano.io/v1beta1
-   kind: Verrazzano
-   metadata:
-     name: custom-prometheus
-   spec:
-     components:
-       prometheusOperator:
-         overrides:
-           - values:
-               alertmanager:
-                 enabled: true
-                 alertmanagerSpec:
-                   alertmanagerConfigNamespaceSelector:
-                     matchLabels:
-                       namespace-label: my-app
-   ```
-
-</div>
-{{< /clipboard >}}
-
 For more information about Alertmanager configurations, see the [Alertmanager Documentation](https://prometheus.io/docs/alerting/latest/configuration/).
 
 ## Deploy a PrometheusRule
