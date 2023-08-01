@@ -44,14 +44,15 @@ To create the AlertmanagerConfig, access the Verrazzano console and navigate to 
 
 **Monitoring** > **Alerting** > **AlertmanagerConfigs**
 
-Alertmanager will automatically discover AlertmanagerConfigs in the same namespace,
+Alertmanager will automatically discover AlertmanagerConfigs in the same namespace where it is deployed,
 which by default in Verrazzano is `verrazzano-monitoring`.
 
 ## Customize the AlertmanagerConfig namespace
 
 If you would prefer to create the AlertmanagerConfig
-in a different namespace, you can configure Alertmanager to discover AlertmanagerConfig resources
-in other namespaces using labels.
+in a other namespaces, you can configure Alertmanager to discover AlertmanagerConfig resources
+in other namespaces using labels. In the example below, all AlertmanagerConfigs will be discovered
+in any namespace with the label `namespace-label: my-app`.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -82,7 +83,7 @@ For more information about Alertmanager configurations, see the [Alertmanager Do
 ## Deploy a PrometheusRule
 
 After you have enabled Alertmanager and configured an AlertmanagerConfig with a receiver and route,
-you can deploy rules on which to receive alerts.
+you can deploy rules that will trigger alerts.
 To create a `TestAlertRule`, run the following command.
 {{< clipboard >}}
 <div class="highlight">
