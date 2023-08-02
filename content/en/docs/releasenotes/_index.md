@@ -4,11 +4,11 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
-## 1.4.6
-### Enhancements:
+## #1.4.6
+Enhancements:
 - Verrazzano CLI tool validates that commands are entered correctly.
 
-### Fixes:
+Fixes:
 - Fixed issues that occurred when Let's Encrypt was being used with Rancher.
 - Fixed issues regarding Rancher certificates that were out of sync or expired.
 - Fixed issues relating to noisy Keycloak logs.
