@@ -11,7 +11,7 @@ However, you may choose to install Verrazzano using a private registry even if y
 
 ## Prerequisites
   * You will need to connect to the Internet to download the Verrazzano images and Verrazzano distribution.
-  * You will need a way to transfer the images and distribution to your private registry.
+  * You will need a way to transfer the images to your private registry and the distribution to the disconnected environment.
   * Your workstation must have at least 20 GB of disk space.
   * You must have the following software installed:
        - [Docker](https://docs.docker.com/get-docker/)
@@ -166,7 +166,7 @@ Oracle Software Delivery Cloud. Follow the respective download instructions:
 
 Load the product images into your private registry.
 
-**NOTE**: You will need a way to transfer the images and distribution to your private registry.
+**NOTE**: You will need a way to transfer the images to your private registry and the distribution to the disconnected environment.
 
   1. To log in to the Docker registry, run `docker login <SERVER>` with your credentials.
 
