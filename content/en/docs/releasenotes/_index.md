@@ -3,6 +3,13 @@ title: Release Notes
 weight: 2
 draft: false
 ---
+## 1.6.3
+### Enhancements:
+- Verrazzano analysis tooling enhancements.
+
+### Fixes:
+- Fixed an issue with Fluent Bit Parser not getting registered.
+
 ## 1.6.2
 ### Enhancements:
 - Verrazzano analysis tooling enhancements.
