@@ -5,8 +5,8 @@ draft: false
 ---
 ## 1.6.3
 #### Enhancements:
-- `vz` bug-report now captures Cluster API resources and Rancher cluster related resources.
-- `vz` analyze now checks for issues with Cluster API resources and Rancher cluster related resources.
+- `vz bug-report` now captures Cluster API resources and Rancher cluster-related resources.
+- `vz analyze` now checks for issues with Cluster API resources and Rancher cluster-related resources.
 
 #### Fixes:
 - Fixed an issue with Fluent Bit Parser not getting registered correctly.
