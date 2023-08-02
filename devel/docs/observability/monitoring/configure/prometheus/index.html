@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/observability/monitoring/configure/prometheus/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-08-01T08:46:19-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-08-02T09:58:35-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Prometheus">
 <meta itemprop="description" content="Customize Prometheus to monitor Verrazzano">
-<meta itemprop="dateModified" content="2023-08-01T08:46:19-04:00" />
-<meta itemprop="wordCount" content="1369">
+<meta itemprop="dateModified" content="2023-08-02T09:58:35-04:00" />
+<meta itemprop="wordCount" content="638">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Prometheus"/>
 <meta name="twitter:description" content="Customize Prometheus to monitor Verrazzano"/>
@@ -95,7 +95,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.b42a6963cba198bcbf3878f06acc6356.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.dc583b5953cac3de4c7a0493700140e4.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -121,7 +121,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.b42a6963cba198bcbf3878f06acc6356.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.dc583b5953cac3de4c7a0493700140e4.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -607,7 +607,11 @@ if (!doNotTrack) {
   <label for="m-docsobservabilitymonitoringconfigure-check"><a href="../../../../../docs/observability/monitoring/configure/" class="align-left ps-0  td-sidebar-link td-sidebar-link__section" id="m-docsobservabilitymonitoringconfigure"><span class="">Configure Monitoring Components</span></a></label>
   
   <ul class="ul-4 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsobservabilitymonitoringconfigureprometheus-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsobservabilitymonitoringconfigurealertmanager-li">
+  <input type="checkbox" id="m-docsobservabilitymonitoringconfigurealertmanager-check"/>
+  <label for="m-docsobservabilitymonitoringconfigurealertmanager-check"><a href="../../../../../docs/observability/monitoring/configure/alertmanager/" class="align-left ps-0  td-sidebar-link td-sidebar-link__page" id="m-docsobservabilitymonitoringconfigurealertmanager"><span class="">Alertmanager</span></a></label>
+  
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsobservabilitymonitoringconfigureprometheus-li">
   <input type="checkbox" id="m-docsobservabilitymonitoringconfigureprometheus-check" checked/>
   <label for="m-docsobservabilitymonitoringconfigureprometheus-check"><a href="../../../../../docs/observability/monitoring/configure/prometheus/" class="align-left ps-0  active td-sidebar-link td-sidebar-link__page" id="m-docsobservabilitymonitoringconfigureprometheus"><span class="td-sidebar-nav-active-item">Prometheus</span></a></label>
   
@@ -1080,7 +1084,6 @@ if (!doNotTrack) {
     <li>
       <ul>
         <li><a href="#customize-prometheus-configuration">Customize Prometheus configuration</a></li>
-        <li><a href="#configure-alertmanager">Configure Alertmanager</a></li>
         <li><a href="#configure-data-retention-settings">Configure data retention settings</a></li>
       </ul>
     </li>
@@ -1228,353 +1231,6 @@ spec:
 <p>For more information about setting component overrides, see <a href="../../../../../docs/setup/installationoverrides/">Installation Overrides</a>.</p>
 <p>For information about all the overrides supported by the kube-prometheus-stack chart in Verrazzano, see <a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/prometheus-community/kube-prometheus-stack/values.yaml">values.yaml</a>.</p>
 <p>For instructions to customize persistent storage settings for Prometheus, see <a href="../../../../../docs/observability/storage/">Customize Persistent Storage</a>.</p>
-<h2 id="configure-alertmanager">Configure Alertmanager</h2>
-<p>To configure Alertmanager to send alerts as SMTP notifications, complete the following steps:</p>
-<ol>
-<li>
-<p>Create a secret named <code>smtp-secret</code> in the <code>verrazzano-monitoring</code> namespace that contains the SMTP server credentials. For example:
-<style type="text/css">
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-</style>
-
-<div class="clipboard">
-    <div class="highlight">
-<pre tabindex="0"><code>$ kubectl -n verrazzano-monitoring create secret generic smtp-secret \
- --from-literal=username=&#34;&lt;smtp server username&gt;&#34; \
- --from-literal=password=&#34;&lt;smtp server password&gt;&#34;
-</code></pre></div>
-
-</div>
-
-<script>
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement("button");
-        button.innerText = "Copy";
-        button.className = "copy-code-button";
-        button.addEventListener("click", () =>
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement("div");
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
-        
-        let codeBlock = codeToCopy.split("\n");
-        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join("\n");
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement('textarea');
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = "Copied";
-        setTimeout(function () {
-            button.innerText = "Copy";
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(".highlight")
-        .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script></p>
-</li>
-<li>
-<p>Configure the Prometheus Operator component of the Verrazzano custom resource. For example:
-<style type="text/css">
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-</style>
-
-<div class="clipboard">
-    <div class="highlight">
-<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: custom-prometheus
-spec:
-  profile: prod
-  components:
-    prometheusOperator:
-      overrides:
-        - values:
-            alertmanager:
-              enabled: true
-              alertmanagerSpec:
-                podMetadata:
-                  annotations:
-                    sidecar.istio.io/inject: &#34;false&#34;
-                secrets:
-                - smtp-secret
-              config:
-                global:
-                  smtp_auth_password_file: /etc/alertmanager/secrets/smtp-secret/password
-                  smtp_auth_username: &#34;&lt;smtp server username&gt;&#34;
-                  smtp_from: &#34;&lt;e-mail address used when sending out emails&gt;&#34;
-                  smtp_smarthost: &#34;&lt;host or host:port for the smtp server&gt;&#34;
-              receivers:
-              - email_configs:
-                - send_resolved: true
-                  to: &#34;&lt;e-mail address of the receiver&gt;&#34;
-                name: email-notifications
-              route:
-                group_by:
-                - alertname
-                receiver: email-notifications
-                routes:
-                - matchers:
-                  - alertname =~ &#34;InfoInhibitor|Watchdog&#34;
-                  receiver: email-notifications
-</code></pre></div>
-
-</div>
-
-<script>
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement("button");
-        button.innerText = "Copy";
-        button.className = "copy-code-button";
-        button.addEventListener("click", () =>
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement("div");
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
-        
-        let codeBlock = codeToCopy.split("\n");
-        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join("\n");
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement('textarea');
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = "Copied";
-        setTimeout(function () {
-            button.innerText = "Copy";
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(".highlight")
-        .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script></p>
-</li>
-</ol>
-<p>For more information about Alertmanager configurations, see the <a href="https://prometheus.io/docs/alerting/latest/configuration/">Alertmanager Documentation</a>.</p>
-<p>After you have enabled Alertmanager in Step 2, you can deploy alert rules to get proactive alerts.
-To create a <code>TestAlertRule</code>, run the following command.
-<style type="text/css">
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-</style>
-
-<div class="clipboard">
-    <div class="highlight">
-<pre tabindex="0"><code>$ kubectl apply -f - &lt;&lt;EOF
-apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
-metadata:
-  labels:
-    release: prometheus-operator
-  name: prometheus-operator-test
-  namespace: verrazzano-monitoring
-spec:
-  groups:
-    - name: test
-      rules:
-        - alert: TestAlertRule
-          annotations:
-            description: Test alert rule
-            runbook_url: test-runbook-url
-            summary: Test alert rule
-          expr: |-
-            prometheus_config_last_reload_successful{job=&#34;prometheus-operator-kube-p-prometheus&#34;,namespace=&#34;verrazzano-monitoring&#34;} == 0
-          for: 10m
-          labels:
-            severity: critical
-EOF
-</code></pre></div>
-
-</div>
-
-<script>
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement("button");
-        button.innerText = "Copy";
-        button.className = "copy-code-button";
-        button.addEventListener("click", () =>
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement("div");
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
-        
-        let codeBlock = codeToCopy.split("\n");
-        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join("\n");
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement('textarea');
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = "Copied";
-        setTimeout(function () {
-            button.innerText = "Copy";
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(".highlight")
-        .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script></p>
-<p>For more information, see <a href="https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules">Deploying Prometheus Rules</a>.</p>
 <h2 id="configure-data-retention-settings">Configure data retention settings</h2>
 <p>Verrazzano configures Prometheus with a default data retention setting of 10 days. The rate of metrics data collected depends on many factors, including the number of monitors, the monitor scrape intervals, and the number of metrics returned by each monitor.</p>
 <p>When using persistent storage for Prometheus, it is possible to consume all storage. If Prometheus uses all available persistent storage, then queries return no data and new metrics cannot be saved.
