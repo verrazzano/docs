@@ -8,7 +8,7 @@ draft: false
 - Verrazzano analysis tooling enhancements.
 
 ### Fixes:
-- Fixed an issue with Fluent Bit Parser not getting registered.
+- Fixed an issue with Fluent Bit Parser not getting registered correctly.
 
 ## 1.6.2
 ### Enhancements:
