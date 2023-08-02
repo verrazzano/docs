@@ -168,10 +168,10 @@ draft: false
 - Fixed IngressTrait related `AuthorizationPolicy` cleanup when an application is deleted.
 
 ## 1.4.6
-### Enhancements:
+**Enhancements**:
 - Verrazzano CLI tool validates that commands are entered correctly.
 
-### Fixes:
+**Fixes**:
 - Fixed issues that occurred when Let's Encrypt was being used with Rancher.
 - Fixed issues regarding Rancher certificates that were out of sync or expired.
 - Fixed issues relating to noisy Keycloak logs.
