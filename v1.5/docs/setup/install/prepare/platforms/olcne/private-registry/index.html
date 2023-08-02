@@ -18,22 +18,22 @@
 <link rel="icon" type="image/png" href="../../../../../../../favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="../../../../../../../favicons/android-192x192.png" sizes="192x192">
 
-<title>Prepare an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) Cluster | Verrazzano Enterprise Container Platform</title>
-<meta name="description" content="Set up an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) cluster for Verrazzano">
-<meta property="og:title" content="Prepare an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) Cluster" />
-<meta property="og:description" content="Set up an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) cluster for Verrazzano" />
+<title>Configure Access to a Private Registry | Verrazzano Enterprise Container Platform</title>
+<meta name="description" content="A private Docker registry is called an insecure registry when it is configured for access using a self-signed certificate or over an unencrypted HTTP connection. For example, for the Oracle Cloud Native Environment platform, insecure registries must be configured in /etc/containers/registries.conf as follows on the worker nodes: code { margin: 0; padding: 0; } .copy-code-button { position: absolute; right: 0; top: -29px; font-size: 12px; line-height: 14px; width: 65px; color: white; background-color: #30638E; border: 1px solid #30638E; white-space: nowrap; padding: 6px 6px 7px 6px; } .">
+<meta property="og:title" content="Configure Access to a Private Registry" />
+<meta property="og:description" content="A private Docker registry is called an insecure registry when it is configured for access using a self-signed certificate or over an unencrypted HTTP connection. For example, for the Oracle Cloud Native Environment platform, insecure registries must be configured in /etc/containers/registries.conf as follows on the worker nodes: code { margin: 0; padding: 0; } .copy-code-button { position: absolute; right: 0; top: -29px; font-size: 12px; line-height: 14px; width: 65px; color: white; background-color: #30638E; border: 1px solid #30638E; white-space: nowrap; padding: 6px 6px 7px 6px; } ." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/docs/setup/install/prepare/platforms/oci/oci/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="/docs/setup/install/prepare/platforms/olcne/private-registry/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-06-02T22:01:53+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-08-02T10:55:56+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
-<meta itemprop="name" content="Prepare an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) Cluster">
-<meta itemprop="description" content="Set up an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) cluster for Verrazzano">
-<meta itemprop="dateModified" content="2023-06-02T22:01:53+05:30" />
-<meta itemprop="wordCount" content="327">
+<meta itemprop="name" content="Configure Access to a Private Registry">
+<meta itemprop="description" content="A private Docker registry is called an insecure registry when it is configured for access using a self-signed certificate or over an unencrypted HTTP connection. For example, for the Oracle Cloud Native Environment platform, insecure registries must be configured in /etc/containers/registries.conf as follows on the worker nodes: code { margin: 0; padding: 0; } .copy-code-button { position: absolute; right: 0; top: -29px; font-size: 12px; line-height: 14px; width: 65px; color: white; background-color: #30638E; border: 1px solid #30638E; white-space: nowrap; padding: 6px 6px 7px 6px; } .">
+<meta itemprop="dateModified" content="2023-08-02T10:55:56+05:30" />
+<meta itemprop="wordCount" content="219">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Prepare an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) Cluster"/>
-<meta name="twitter:description" content="Set up an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) cluster for Verrazzano"/>
+<meta name="twitter:title" content="Configure Access to a Private Registry"/>
+<meta name="twitter:description" content="A private Docker registry is called an insecure registry when it is configured for access using a self-signed certificate or over an unencrypted HTTP connection. For example, for the Oracle Cloud Native Environment platform, insecure registries must be configured in /etc/containers/registries.conf as follows on the worker nodes: code { margin: 0; padding: 0; } .copy-code-button { position: absolute; right: 0; top: -29px; font-size: 12px; line-height: 14px; width: 65px; color: white; background-color: #30638E; border: 1px solid #30638E; white-space: nowrap; padding: 6px 6px 7px 6px; } ."/>
 
 
 
@@ -207,8 +207,8 @@ if (!doNotTrack) {
   <label for="m-docssetupinstallprepareplatforms-check"><a href="../../../../../../../docs/setup/install/prepare/platforms/" class="align-left pl-0  td-sidebar-link td-sidebar-link__section" id="m-docssetupinstallprepareplatforms"><span class="">Platform Setup</span></a></label>
   
   <ul class="ul-5 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docssetupinstallprepareplatformsolcne-li">
-  <input type="checkbox" id="m-docssetupinstallprepareplatformsolcne-check"/>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docssetupinstallprepareplatformsolcne-li">
+  <input type="checkbox" id="m-docssetupinstallprepareplatformsolcne-check" checked/>
   <label for="m-docssetupinstallprepareplatformsolcne-check"><a href="../../../../../../../docs/setup/install/prepare/platforms/olcne/" class="align-left pl-0  td-sidebar-link td-sidebar-link__section" id="m-docssetupinstallprepareplatformsolcne"><span class="">Prepare an Oracle Cloud Native Environment Cluster</span></a></label>
   
   <ul class="ul-6 foldable">
@@ -216,15 +216,15 @@ if (!doNotTrack) {
   <input type="checkbox" id="m-docssetupinstallprepareplatformsolcnenfs-check"/>
   <label for="m-docssetupinstallprepareplatformsolcnenfs-check"><a href="../../../../../../../docs/setup/install/prepare/platforms/olcne/nfs/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallprepareplatformsolcnenfs"><span class="">Configure NFS Storage</span></a></label>
   
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupinstallprepareplatformsolcneprivate-registry-li">
-  <input type="checkbox" id="m-docssetupinstallprepareplatformsolcneprivate-registry-check"/>
-  <label for="m-docssetupinstallprepareplatformsolcneprivate-registry-check"><a href="../../../../../../../docs/setup/install/prepare/platforms/olcne/private-registry/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallprepareplatformsolcneprivate-registry"><span class="">Configure Access to a Private Registry</span></a></label>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docssetupinstallprepareplatformsolcneprivate-registry-li">
+  <input type="checkbox" id="m-docssetupinstallprepareplatformsolcneprivate-registry-check" checked/>
+  <label for="m-docssetupinstallprepareplatformsolcneprivate-registry-check"><a href="../../../../../../../docs/setup/install/prepare/platforms/olcne/private-registry/" class="align-left pl-0  active td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallprepareplatformsolcneprivate-registry"><span class="td-sidebar-nav-active-item">Configure Access to a Private Registry</span></a></label>
   
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docssetupinstallprepareplatformsocioci-li">
-  <input type="checkbox" id="m-docssetupinstallprepareplatformsocioci-check" checked/>
-  <label for="m-docssetupinstallprepareplatformsocioci-check"><a href="../../../../../../../docs/setup/install/prepare/platforms/oci/oci/" class="align-left pl-0  active td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallprepareplatformsocioci"><span class="td-sidebar-nav-active-item">Prepare an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) Cluster</span></a></label>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupinstallprepareplatformsocioci-li">
+  <input type="checkbox" id="m-docssetupinstallprepareplatformsocioci-check"/>
+  <label for="m-docssetupinstallprepareplatformsocioci-check"><a href="../../../../../../../docs/setup/install/prepare/platforms/oci/oci/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallprepareplatformsocioci"><span class="">Prepare an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) Cluster</span></a></label>
   
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupinstallprepareplatformsgenericgeneric-li">
   <input type="checkbox" id="m-docssetupinstallprepareplatformsgenericgeneric-check"/>
@@ -1040,19 +1040,7 @@ if (!doNotTrack) {
 
 </div>
 
-            <div class="td-toc">
-        <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#prepare-for-the-oracle-cloud-infrastructure-installation">Prepare for the Oracle Cloud Infrastructure installation</a></li>
-        <li><a href="#next-steps">Next steps</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-      </div>
-    
+            
             
 
 	
@@ -1095,15 +1083,18 @@ if (!doNotTrack) {
   <li class="breadcrumb-item">
     <a href="../../../../../../../docs/setup/install/prepare/platforms/">Platform Setup</a>
   </li>
+  <li class="breadcrumb-item">
+    <a href="../../../../../../../docs/setup/install/prepare/platforms/olcne/">Prepare an Oracle Cloud Native Environment Cluster</a>
+  </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="../../../../../../../docs/setup/install/prepare/platforms/oci/oci/" aria-disabled="true" class="btn-link disabled">Prepare an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) Cluster</a>
+    <a href="../../../../../../../docs/setup/install/prepare/platforms/olcne/private-registry/" aria-disabled="true" class="btn-link disabled">Configure Access to a Private Registry</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Prepare an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) Cluster</h1>
-	<div class="lead">Set up an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) cluster for Verrazzano</div>
+	<h1>Configure Access to a Private Registry</h1>
+	
 	<header class="article-meta">
 		
 
@@ -1119,13 +1110,8 @@ if (!doNotTrack) {
 
 		
 	</header>    
-	<h2 id="prepare-for-the-oracle-cloud-infrastructure-installation">Prepare for the Oracle Cloud Infrastructure installation</h2>
-<ul>
-<li>
-<p>Create the <a href="https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm">OKE</a> cluster using the Oracle Cloud Infrastructure Console or by some other means.</p>
-</li>
-<li>
-<p>Follow the instructions provided by OKE to download the Kubernetes configuration file for your cluster, and set the following <code>ENV</code> variable:
+	<p>A private Docker registry is called an <a href="https://docs.docker.com/registry/insecure/">insecure registry</a> when it is configured for access using a self-signed certificate or over an unencrypted HTTP connection.
+For example, for the <a href="../../../../../../../docs/setup/install/prepare/platforms/olcne/">Oracle Cloud Native Environment platform</a>, insecure registries must be configured in <code>/etc/containers/registries.conf</code> as follows on the worker nodes:
 <style type="text/css">
     code {
         margin: 0;
@@ -1156,9 +1142,10 @@ if (!doNotTrack) {
 
 <div class="clipboard">
     <div class="highlight">
-<pre><code>$ export KUBECONFIG=&lt;path to valid Kubernetes config&gt;
-</code></pre>
-</div>
+<pre tabindex="0"><code> [registries]
+    [registries.insecure]
+      registries = [&#34;insecure-registry-1:1001/registry1&#34;,&#34;insecure-registry-2:1001/registry2&#34;]
+</code></pre></div>
 
 </div>
 
@@ -1218,23 +1205,6 @@ if (!doNotTrack) {
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-</li>
-<li>
-<p>Optional, if your organization requires the use of a private registry to the Docker images installed by Verrazzano, see <a href="../../../../../../../docs/setup/private-registry/private-registry/">Use a Private Registry</a>.</p>
-</li>
-</ul>
-<p><strong>NOTE</strong>: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For an example on OKE, see <a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengsettingupcalico.htm">Installing Calico and Setting Up Network Policies</a>.</p>
-
-
-<div class="alert alert-primary" role="alert">
-<h4 class="alert-heading">NOTE</h4>
-
-    OKE clusters using only the flannel overlay network is supported. OCI VCN-Native Pod Networking will not work.
-
-</div>
-
-<h2 id="next-steps">Next steps</h2>
-<p>To continue, see the <a href="../../../../../../../docs/setup/install/">Installation Guide</a>.</p>
 
 	
 		<style>
