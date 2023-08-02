@@ -9,11 +9,14 @@ draft: false
 If you are running in a disconnected environment (without access to the Internet), then you will need to install Verrazzano using a private container registry.
 However, you may choose to install Verrazzano using a private registry even if you are not running in a disconnected environment.
 
-You must have the following software installed:
-
- - [Docker](https://docs.docker.com/get-docker/)
- - [kubectl](https://kubernetes.io/docs/tasks/tools/)
- - [jq](https://github.com/stedolan/jq/wiki/Installation)
+## Prerequisites
+  * You will need to connect to the Internet to download the Verrazzano images and Verrazzano distribution.
+  * You will need a way to transfer the images to your private registry and the distribution to the disconnected environment.
+  * Your workstation must have at least 20 GB of disk space.
+  * You must have the following software installed:
+       - [Docker](https://docs.docker.com/get-docker/)
+       - [kubectl](https://kubernetes.io/docs/tasks/tools/)
+       - [jq](https://github.com/stedolan/jq/wiki/Installation)
 
  Installing Verrazzano using a private Docker-compliant container registry requires the following:
 
@@ -25,9 +28,10 @@ You must have the following software installed:
 You can download Verrazzano from the Verrazzano GitHub releases page. Oracle customers also can get Verrazzano from the
 Oracle Software Delivery Cloud. Follow the respective download instructions:
 
+**NOTE:** You will need to connect to the Internet to download the Verrazzano images and Verrazzano distribution.
+
 - [From GitHub](#from-github)
 - [From the Oracle Software Delivery Cloud](#from-the-oracle-software-delivery-cloud)
-
 
  ### From GitHub
 
@@ -90,7 +94,6 @@ Oracle Software Delivery Cloud. Follow the respective download instructions:
    The previous command downloads all the images to the `${DISTRIBUTION_DIR}/images` directory. 		 
 
 ### From the Oracle Software Delivery Cloud
-
 
 1. Download the Verrazzano ZIP file.
     * Download the Verrazzano ZIP file from the Oracle Software Delivery Cloud for major or minor releases.
@@ -161,11 +164,13 @@ Oracle Software Delivery Cloud. Follow the respective download instructions:
 
 ## Load the images
 
-1. Load the product images into your private registry.
+Load the product images into your private registry.
 
-    a. To log in to the Docker registry, run `docker login <SERVER>` with your credentials.
+**NOTE**: You will need a way to transfer the images to your private registry and the distribution to the disconnected environment.
 
-    b. For use with the examples in this document, define the following variables with respect to your target registry and image prefix: `MYREG`, `MYPREFIX`.
+  1. To log in to the Docker registry, run `docker login <SERVER>` with your credentials.
+
+  2. For use with the examples in this document, define the following variables with respect to your target registry and image prefix: `MYREG`, `MYPREFIX`.
 
      These identify the target Docker registry and image prefix. For example, using a target registry of `myreg.io` and a target image prefix of `myrepo/v8o`:
 {{< clipboard >}}
@@ -178,7 +183,7 @@ Oracle Software Delivery Cloud. Follow the respective download instructions:
 </div>
 {{< /clipboard >}}
 
-    c. Run the `${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh` script to push the images to the registry:
+  3. Run the `${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh` script to push the images to the registry:
 {{< clipboard >}}
 <div class="highlight">
 
@@ -189,7 +194,7 @@ Oracle Software Delivery Cloud. Follow the respective download instructions:
 </div>
 {{< /clipboard >}}
 
-     d. Although most images can be protected using credentials stored in an image pull secret, some images _must_ be public. Use the following commands to get the list of public images:
+  4. Although most images can be protected using credentials stored in an image pull secret, some images _must_ be public. Use the following commands to get the list of public images:
 
       * The Rancher Agent image.
 {{< clipboard >}}
@@ -243,9 +248,10 @@ Oracle Software Delivery Cloud. Follow the respective download instructions:
 Use the Verrazzano CLI to install Verrazzano from your private registry.
 
 {{< alert title="NOTE" color="primary" >}}
-To ensure that the [host names used for the system consoles]({{< relref "/docs/setup/access/console-urls" >}}) are resolvable, you must configure one of the following:
-* If running within a public cloud, use the cloud provider's DNS, for example, OCI DNS.
-* If running within a disconnected environment, use a custom DNS server that can resolve the host names. See [Customize DNS]({{< relref "/docs/networking/traffic/dns" >}}) for more information.
+* You must copy the downloaded Verrazzano distribution to the disconnected environment.
+* To ensure that the [host names used for the system consoles]({{< relref "/docs/setup/access/console-urls" >}}) are resolvable, you must configure one of the following:
+    -  If running within a public cloud, use the cloud provider's DNS, for example, OCI DNS.
+    -  If running within a disconnected environment, use a custom DNS server that can resolve the host names. See [Customize DNS]({{< relref "/docs/networking/traffic/dns" >}}) for more information.
 {{< /alert >}}
 
 1. To install Verrazzano, you will need the Verrazzano platform operator manifests file. This file is in the
