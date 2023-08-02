@@ -3,7 +3,7 @@ title: Release Notes
 weight: 2
 draft: false
 ---
-## v2.0.0
+## v1.6.4
 #### Component version updates:
 - Istio v1.17.2
 
