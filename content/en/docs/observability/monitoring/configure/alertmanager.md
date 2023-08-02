@@ -1,20 +1,20 @@
 ---
 title: "Alertmanager"
-description: "Customize Alertmanager alerting"
+description: "Customize Alertmanager alert handling"
 weight: 2
 draft: false
 aliases:
 - /docs/customize/alertmanager
 - /docs/observability/monitoring/configure/alertmanager
 ---
-Alertmanager sends alerts that are firing in Prometheus to configured receivers. PrometheusRules installed in the cluster
-will trigger alerts based on the value of metrics. Alertmanager will group, route, and silence
-these alerts according to its installed configuration.
+Alertmanager sends alerts that are firing in Prometheus to configured receivers.
+PrometheusRules will trigger alerts based on the value of metrics.
+Alertmanager groups, routes, and silences these alerts according to its configuration.
 Alertmanager provides receiver integrations for email, Slack, PagerDuty, and other popular notification services.
 
 ## Enable Alertmanager
 
-To enable Alertmanager, configure it from the Prometheus Operator component
+First, enable Alertmanager by configuring it in the Prometheus Operator component
 in the Verrazzano custom resource.
 {{< clipboard >}}
 <div class="highlight">
@@ -38,23 +38,22 @@ in the Verrazzano custom resource.
 
 ## Create an AlertmanagerConfig
 
-
-Next, create an AlertmanagerConfig to configure the receivers that Alertmanager will send alerts to.
-To create the AlertmanagerConfig, access the Verrazzano console and navigate to the following location.
+Next, create an AlertmanagerConfig to configure the receivers to which Alertmanager will send alerts.
+To create the AlertmanagerConfig, access the Verrazzano console and navigate to the following location:
 
 **Monitoring** > **Alerting** > **AlertmanagerConfigs**
 
 Alertmanager will automatically discover AlertmanagerConfigs in the same namespace where it is deployed,
-which by default in Verrazzano is `verrazzano-monitoring`.
+which is `verrazzano-monitoring`, by default.
 
 For more information about Alertmanager configurations, see the [Alertmanager Documentation](https://prometheus.io/docs/alerting/latest/configuration/).
 
 ## Deploy a PrometheusRule
 
 After you have enabled Alertmanager and configured an AlertmanagerConfig with a receiver and route,
-you can deploy rules that will trigger alerts.
+you can deploy rules that trigger alerts.
 To create a `TestAlertRule`, run the following command.
-This PrometheusRule will alert if the last config reload in the Prometheus pod was unsuccessful.
+This PrometheusRule will send an alert if the last configuration reload in the Prometheus pod was unsuccessful.
 {{< clipboard >}}
 <div class="highlight">
 
