@@ -63,6 +63,14 @@ draft: false
 
 
 ## Previous Release Information
+## v1.5.5
+### Fixes:
+- Fixed issues regarding Rancher certificates that were out of sync or expired.
+- Fixed issues regarding certificates in Multicluster environments.
+- Fixed issue where Istio was incorrectly waiting for disabled deployments.
+- Fixed upgrade issues in the CLI tool.
+- Fixed issues in the Verrazzano validating webhook.
+
 ### v1.5.4
 **Component version updates**:
 - Rancher v2.7.3
