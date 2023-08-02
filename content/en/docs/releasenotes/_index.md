@@ -66,9 +66,9 @@ draft: false
 ### v1.5.5
 **Fixes**:
 - Fixed issues with Rancher certificates that were out of sync or expired.
-- Fixed issues with certificates in Multicluster environments.
+- Fixed issues with certificates in multicluster environments.
 - Fixed issue where Istio was incorrectly waiting for disabled deployments.
-- Fixed upgrade issues in the command-line tool (CLI) tool.
+- Fixed upgrade issues in the command-line tool (CLI).
 - Fixed issues in the Verrazzano validating webhook.
 
 ### v1.5.4
