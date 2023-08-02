@@ -4,7 +4,7 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
-## #1.4.6
+### v1.4.6
 Enhancements:
 - Verrazzano CLI tool validates that commands are entered correctly.
 
