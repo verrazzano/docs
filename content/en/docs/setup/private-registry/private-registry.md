@@ -9,12 +9,15 @@ draft: false
 If you are running in a disconnected environment (without access to the Internet), then you will need to install Verrazzano using a private container registry.
 However, you may choose to install Verrazzano using a private registry even if you are not running in a disconnected environment.
 
-You must have the following software installed:
-
- - [Docker](https://docs.docker.com/get-docker/)
- - [kubectl](https://kubernetes.io/docs/tasks/tools/)
- - [Helm](https://helm.sh/docs/intro/install/) (version 3.x+)
- - [jq](https://github.com/stedolan/jq/wiki/Installation)
+## Prerequisites
+  * You will need to connect to the Internet to download the Verrazzano images and Verrazzano distribution.
+  * You will need a way to transfer the images to your private registry and the distribution to the disconnected environment.
+  * Your workstation must have at least 20 GB of disk space.
+  * You must have the following software installed:
+       - [Docker](https://docs.docker.com/get-docker/)
+       - [kubectl](https://kubernetes.io/docs/tasks/tools/)
+       - [Helm](https://helm.sh/docs/intro/install/) (version 3.x+)
+       - [jq](https://github.com/stedolan/jq/wiki/Installation)
 
  Installing Verrazzano using a private Docker-compliant container registry requires the following:
 
@@ -23,8 +26,9 @@ You must have the following software installed:
 
 ## Get Verrazzano
 
-You can download Verrazzano from the Verrazzano GitHub releases page. Oracle customers also can get Verrazzano from the
-Oracle Software Delivery Cloud. Follow the respective download instructions:
+You can download Verrazzano from the Verrazzano GitHub releases page. Oracle customers also can get Verrazzano from the Oracle Software Delivery Cloud. Follow the respective download instructions:
+
+**NOTE:** You will need to connect to the Internet to download the Verrazzano images and Verrazzano distribution.
 
 - [From GitHub](#from-github)
 - [From the Oracle Software Delivery Cloud](#from-the-oracle-software-delivery-cloud)
@@ -149,6 +153,8 @@ Oracle Software Delivery Cloud. Follow the respective download instructions:
 ## Load the images
 
 Load the product images into your private registry.
+
+**NOTE**: You will need a way to transfer the images to your private registry and the distribution to the disconnected environment.
 
 1. To log in to the Docker registry, run `docker login <SERVER>` with your credentials.
 
