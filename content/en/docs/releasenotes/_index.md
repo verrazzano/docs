@@ -4,6 +4,14 @@ linkTitle: Release Notes
 weight: 2
 draft: false
 ---
+### v1.5.5
+Fixes:
+- Fixed issues with Rancher certificates that were out of sync or expired.
+- Fixed issues with certificates in multicluster environments.
+- Fixed issue where Istio was incorrectly waiting for disabled deployments.
+- Fixed upgrade issues in the command-line tool (CLI).
+- Fixed issues in the Verrazzano validating webhook.
+
 ### v1.5.4
 Component version updates:
 - Argo CD v2.7.2
@@ -92,6 +100,26 @@ Fixes:
 - Fixed IngressTrait JWT related issues to allow multiple paths where one path has `RequestPrincipals` and the other doesn't.
 - Fixed IngressTrait JWT so that `RequestPrincipals` with no paths are allowed.
 - Fixed IngressTrait related `AuthorizationPolicy` cleanup when an application is deleted.
+### v1.4.6
+Enhancements:
+
+- Verrazzano CLI tool validates that commands are entered correctly.
+
+Fixes:
+
+- Fixed issues that occurred when Let's Encrypt was being used with Rancher
+- Fixed issues regarding Rancher certificates that were out of sync or expired.
+- Fixed issues relating to noisy Keycloak logs.
+
+### v1.4.5
+Fixes:
+
+- Updated base and other images for issues and security.
+
+Component version updates:
+
+- WebLogic Kubernetes Operator v4.0.6
+- WebLogic Monitoring Exporter v2.1.3
 
 ### v1.4.4
 Fixes:
@@ -109,6 +137,7 @@ Component version updates:
 
 ### v1.4.3
 Fixes:
+
 - Fixed unnecessary restart of user applications during upgrade from a previous Verrazzano release.
 - Fixed Fluentd configuration to prevent duplication of logs in OpenSearch on Fluentd restart or upgrade.
 - Fixed WebLogic Grafana dashboards to get the service label value correctly and display data properly.
@@ -121,6 +150,7 @@ Fixes:
 - Added support for the `javaOpts` argument for the OpenSearch JVM.
 
 Component version updates:
+
 - Grafana v7.5.17
 - WebLogic Kubernetes Operator v3.4.5
 - WebLogic Monitoring Exporter v2.1.1
