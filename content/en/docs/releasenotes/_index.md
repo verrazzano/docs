@@ -166,7 +166,7 @@ draft: false
 - Fixed IngressTrait JWT so that `RequestPrincipals` with no paths are allowed.
 - Fixed IngressTrait related `AuthorizationPolicy` cleanup when an application is deleted.
 
-### 1.4.6
+### v1.4.6
 **Enhancements**:
 - Verrazzano CLI tool validates that commands are entered correctly.
 
