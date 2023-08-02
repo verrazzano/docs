@@ -982,11 +982,18 @@ namespace to be ready.&lt;/p&gt;
         
         &lt;p&gt;If you are running in a disconnected environment (without access to the Internet), then you will need to install Verrazzano using a private container registry.
 However, you may choose to install Verrazzano using a private registry even if you are not running in a disconnected environment.&lt;/p&gt;
-&lt;p&gt;You must have the following software installed:&lt;/p&gt;
+&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;You will need to connect to the Internet to download the Verrazzano images and Verrazzano distribution.&lt;/li&gt;
+&lt;li&gt;You will need a way to transfer the images to your private registry and the distribution to the disconnected environment.&lt;/li&gt;
+&lt;li&gt;Your workstation must have at least 20 GB of disk space.&lt;/li&gt;
+&lt;li&gt;You must have the following software installed:
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://docs.docker.com/get-docker/&#34;&gt;Docker&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/tools/&#34;&gt;kubectl&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/stedolan/jq/wiki/Installation&#34;&gt;jq&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Installing Verrazzano using a private Docker-compliant container registry requires the following:&lt;/p&gt;
 &lt;ul&gt;
@@ -996,6 +1003,7 @@ However, you may choose to install Verrazzano using a private registry even if y
 &lt;h2 id=&#34;get-verrazzano&#34;&gt;Get Verrazzano&lt;/h2&gt;
 &lt;p&gt;You can download Verrazzano from the Verrazzano GitHub releases page. Oracle customers also can get Verrazzano from the
 Oracle Software Delivery Cloud. Follow the respective download instructions:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You will need to connect to the Internet to download the Verrazzano images and Verrazzano distribution.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#from-github&#34;&gt;From GitHub&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#from-the-oracle-software-delivery-cloud&#34;&gt;From the Oracle Software Delivery Cloud&lt;/a&gt;&lt;/li&gt;
@@ -1613,11 +1621,14 @@ verrazzano-1.6.2.tar.gz: OK
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;load-the-images&#34;&gt;Load the images&lt;/h2&gt;
+&lt;p&gt;Load the product images into your private registry.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: You will need a way to transfer the images to your private registry and the distribution to the disconnected environment.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Load the product images into your private registry.&lt;/p&gt;
-&lt;p&gt;a. To log in to the Docker registry, run &lt;code&gt;docker login &amp;lt;SERVER&amp;gt;&lt;/code&gt; with your credentials.&lt;/p&gt;
-&lt;p&gt;b. For use with the examples in this document, define the following variables with respect to your target registry and image prefix: &lt;code&gt;MYREG&lt;/code&gt;, &lt;code&gt;MYPREFIX&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;To log in to the Docker registry, run &lt;code&gt;docker login &amp;lt;SERVER&amp;gt;&lt;/code&gt; with your credentials.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;For use with the examples in this document, define the following variables with respect to your target registry and image prefix: &lt;code&gt;MYREG&lt;/code&gt;, &lt;code&gt;MYPREFIX&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;These identify the target Docker registry and image prefix. For example, using a target registry of &lt;code&gt;myreg.io&lt;/code&gt; and a target image prefix of &lt;code&gt;myrepo/v8o&lt;/code&gt;:
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -1711,7 +1722,9 @@ $ MYPREFIX=myrepo/v8o
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;c. Run the &lt;code&gt;${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh&lt;/code&gt; script to push the images to the registry:
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Run the &lt;code&gt;${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh&lt;/code&gt; script to push the images to the registry:
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -1804,7 +1817,9 @@ $ MYPREFIX=myrepo/v8o
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;d. Although most images can be protected using credentials stored in an image pull secret, some images &lt;em&gt;must&lt;/em&gt; be public. Use the following commands to get the list of public images:&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Although most images can be protected using credentials stored in an image pull secret, some images &lt;em&gt;must&lt;/em&gt; be public. Use the following commands to get the list of public images:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;The Rancher Agent image.
@@ -2199,10 +2214,14 @@ $ kubectl create secret docker-registry verrazzano-container-registry -n verrazz
 &lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
 
-    &lt;p&gt;To ensure that the &lt;a href=&#34;../../docs/setup/access/console-urls/&#34;&gt;host names used for the system consoles&lt;/a&gt; are resolvable, you must configure one of the following:&lt;/p&gt;
+    &lt;ul&gt;
+&lt;li&gt;You must copy the downloaded Verrazzano distribution to the disconnected environment.&lt;/li&gt;
+&lt;li&gt;To ensure that the &lt;a href=&#34;../../docs/setup/access/console-urls/&#34;&gt;host names used for the system consoles&lt;/a&gt; are resolvable, you must configure one of the following:
 &lt;ul&gt;
 &lt;li&gt;If running within a public cloud, use the cloud provider&amp;rsquo;s DNS, for example, OCI DNS.&lt;/li&gt;
 &lt;li&gt;If running within a disconnected environment, use a custom DNS server that can resolve the host names. See &lt;a href=&#34;../../docs/networking/traffic/dns/&#34;&gt;Customize DNS&lt;/a&gt; for more information.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 
 

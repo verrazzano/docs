@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/troubleshooting/troubleshooting-clusterapi/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-07-21T12:40:58-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-08-01T17:16:46-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="OCNE Cluster Creation Issues">
 <meta itemprop="description" content="Troubleshoot issues when creating OCNE clusters">
-<meta itemprop="dateModified" content="2023-07-21T12:40:58-04:00" />
-<meta itemprop="wordCount" content="2005">
+<meta itemprop="dateModified" content="2023-08-01T17:16:46-04:00" />
+<meta itemprop="wordCount" content="2064">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="OCNE Cluster Creation Issues"/>
 <meta name="twitter:description" content="Troubleshoot issues when creating OCNE clusters"/>
@@ -112,7 +112,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.538fa5d2800f23b7f46dc6ca17a3f43b.json"
+    data-offline-search-index-json-src="../../../offline-search-index.2589ee1ff22c614ff8c4dba3ebd3d16f.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -138,7 +138,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.538fa5d2800f23b7f46dc6ca17a3f43b.json"
+    data-offline-search-index-json-src="../../../offline-search-index.2589ee1ff22c614ff8c4dba3ebd3d16f.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -846,9 +846,9 @@ if (!doNotTrack) {
   <label for="m-docstroubleshootingdiagnostictoolsanalysisadvice-check"><a href="../../../docs/troubleshooting/diagnostictools/analysisadvice/" class="align-left pl-0  td-sidebar-link td-sidebar-link__section" id="m-docstroubleshootingdiagnostictoolsanalysisadvice"><span class="">Analyze Tool Findings and Reports</span></a></label>
   
   <ul class="ul-4 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docstroubleshootingdiagnostictoolsanalysisadviceclusterapiclusternotready-li">
-  <input type="checkbox" id="m-docstroubleshootingdiagnostictoolsanalysisadviceclusterapiclusternotready-check"/>
-  <label for="m-docstroubleshootingdiagnostictoolsanalysisadviceclusterapiclusternotready-check"><a href="../../../docs/troubleshooting/diagnostictools/analysisadvice/clusterapiclusternotready/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceclusterapiclusternotready"><span class="">Cluster API Resource Not Ready</span></a></label>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docstroubleshootingdiagnostictoolsanalysisadviceclusterapiclusterissues-li">
+  <input type="checkbox" id="m-docstroubleshootingdiagnostictoolsanalysisadviceclusterapiclusterissues-check"/>
+  <label for="m-docstroubleshootingdiagnostictoolsanalysisadviceclusterapiclusterissues-check"><a href="../../../docs/troubleshooting/diagnostictools/analysisadvice/clusterapiclusterissues/" title="Cluster API (CAPI) Issues" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceclusterapiclusterissues"><span class="">Cluster API Issues</span></a></label>
   
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docstroubleshootingdiagnostictoolsanalysisadviceexternaldnsconfiguration-li">
   <input type="checkbox" id="m-docstroubleshootingdiagnostictoolsanalysisadviceexternaldnsconfiguration-check"/>
@@ -1102,6 +1102,7 @@ if (!doNotTrack) {
       <ul>
         <li>
           <ul>
+            <li><a href="#analyze-the-cluster">Analyze the cluster</a></li>
             <li><a href="#assess-the-condition-of-the-clusterapi-component">Assess the condition of the clusterAPI component</a></li>
             <li><a href="#verify-the-status-of-oci-resources">Verify the status of OCI resources</a></li>
           </ul>
@@ -1170,11 +1171,17 @@ if (!doNotTrack) {
 		
 	</header>    
 	<p>If you encounter a problem with the OCNE clusters created in the console (using the <a href="../../../docs/setup/provision-cluster/capi/">clusterAPI component</a>), here are some techniques you can use to diagnose and solve the issue.</p>
+<h3 id="analyze-the-cluster">Analyze the cluster</h3>
+<p>Use the <code>vz analyze</code> command-line tool to analyze the cluster or cluster snapshot and receive reports on any issues. For more information on <code>vz analyze</code>, see <a href="../../../docs/troubleshooting/diagnostictools/verrazzanoanalysistool/">Analyze Verrazzano Clusters</a>.</p>
+<p>Issues related to the clusterAPI component will appear in these reports:</p>
+<ul>
+<li><a href="../../../docs/troubleshooting/diagnostictools/analysisadvice/clusterapiclusterissues/">Cluster API (CAPI) Issues</a></li>
+<li><a href="../../../docs/troubleshooting/diagnostictools/analysisadvice/rancherissues/">Rancher Issues</a> (some Rancher issues are not clusterAPI related)</li>
+</ul>
 <h3 id="assess-the-condition-of-the-clusterapi-component">Assess the condition of the clusterAPI component</h3>
 <p>You can gather information about the clusterAPI component by reviewing its log files and by checking the status of clusterAPI custom resources on the admin cluster. In the console, the admin cluster is the <em>local</em> cluster.</p>
 <p><strong>Review clusterAPI log files</strong></p>
 <p>The clusterAPI component creates four clusterAPI pods within the <code>verrazzano-capi</code> namespace and each pod generates a separate log file. Review the log files to determine the cause of the issue.</p>
-<p>Where <code>nnnn</code> is the unique ID for the pod.</p>
 <p>To view the clusterAPI controller log file, use the following command:</p>
 <style type="text/css">
     code {
@@ -1206,7 +1213,7 @@ if (!doNotTrack) {
 
 <div class="clipboard">
     <div class="highlight">
-<pre tabindex="0"><code>$ kubectl logs -n verrazzano-capi capi-controller-manager-&lt;nnnn&gt;
+<pre tabindex="0"><code>$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=cluster-api
 </code></pre>
 </div>
 
@@ -1298,7 +1305,7 @@ if (!doNotTrack) {
 
 <div class="clipboard">
     <div class="highlight">
-<pre tabindex="0"><code>$ kubectl logs -n verrazzano-capi capoci-controller-manager-&lt;nnnn&gt;
+<pre tabindex="0"><code>$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=infrastructure-oci
 </code></pre>
 </div>
 
@@ -1390,7 +1397,7 @@ if (!doNotTrack) {
 
 <div class="clipboard">
     <div class="highlight">
-<pre tabindex="0"><code>$ kubectl logs -n verrazzano-capi capi-ocne-control-plane-controller-manager-&lt;nnnn&gt;
+<pre tabindex="0"><code>$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=control-plane-ocne
 </code></pre>
 </div>
 
@@ -1482,7 +1489,7 @@ if (!doNotTrack) {
 
 <div class="clipboard">
     <div class="highlight">
-<pre tabindex="0"><code>$ kubectl logs -n verrazzano-capi capi-ocne-bootstrap-controller-manager-&lt;nnnn&gt;
+<pre tabindex="0"><code>$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=bootstrap-ocne
 </code></pre>
 </div>
 
@@ -1743,7 +1750,7 @@ if (!doNotTrack) {
 <p>OCI resource limits were reached: Cluster creation will fail if it needs to create more resources than allowed by your OCI tenancy. Check your OCI service limits to see if you exceeded its limits. If you need to request a service limit increase, see <a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm#Requesti">Requesting a Service Limit Increase</a>.</p>
 </li>
 <li>
-<p>Connectivity issues: Make sure your virtual cloud network is configured properly.</p>
+<p>Connectivity issues: Make sure your virtual cloud network is configured properly. See <a href="../../../docs/setup/install/prepare/platforms/olcne/vcn/">Configure a VCN for OCNE</a> for recommendations.</p>
 </li>
 <li>
 <p>The network load balancer is in a critical state: The network load balancer may temporarily enter a critical state during initial cluster creation until the Kubernetes API server is up. If it remains in a critical state, then one of the following issues may have occurred:</p>
