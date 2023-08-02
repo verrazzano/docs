@@ -72,6 +72,14 @@ draft: false
 
 
 ## Previous Release Information
+### v1.5.5
+**Fixes**:
+- Fixed issues with Rancher certificates that were out of sync or expired.
+- Fixed issues with certificates in multicluster environments.
+- Fixed issue where Istio was incorrectly waiting for disabled deployments.
+- Fixed upgrade issues in the command-line tool (CLI).
+- Fixed issues in the Verrazzano validating webhook.
+
 ### v1.5.4
 **Component version updates:**
 - Rancher v2.7.3
@@ -158,6 +166,15 @@ draft: false
 - Fixed IngressTrait JWT related issues to allow multiple paths where one path has `RequestPrincipals` and the other doesn't.
 - Fixed IngressTrait JWT so that `RequestPrincipals` with no paths are allowed.
 - Fixed IngressTrait related `AuthorizationPolicy` cleanup when an application is deleted.
+
+### v1.4.6
+**Enhancements**:
+- Verrazzano CLI tool validates that commands are entered correctly.
+
+**Fixes**:
+- Fixed issues that occurred when Let's Encrypt was being used with Rancher.
+- Fixed issues regarding Rancher certificates that were out of sync or expired.
+- Fixed issues relating to noisy Keycloak logs.
 
 ### v1.4.5
 **Fixes**:
