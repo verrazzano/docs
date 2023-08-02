@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/private-registry/private-registry/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-08-02T10:55:56+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-08-02T21:56:44+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Install Verrazzano in a Disconnected Environment">
 <meta itemprop="description" content="Set up Verrazzano in environments without direct connection to the Internet">
-<meta itemprop="dateModified" content="2023-08-02T10:55:56+05:30" />
-<meta itemprop="wordCount" content="3231">
+<meta itemprop="dateModified" content="2023-08-02T21:56:44+05:30" />
+<meta itemprop="wordCount" content="3317">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Install Verrazzano in a Disconnected Environment"/>
 <meta name="twitter:description" content="Set up Verrazzano in environments without direct connection to the Internet"/>
@@ -112,7 +112,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.09db6eace82cd57abf5d8f9141730239.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.58fdee519dc757c382847d9ea180f02b.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -138,7 +138,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.09db6eace82cd57abf5d8f9141730239.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.58fdee519dc757c382847d9ea180f02b.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -1045,6 +1045,7 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#get-verrazzano">Get Verrazzano</a>
           <ul>
             <li><a href="#from-github">From GitHub</a></li>
@@ -1118,12 +1119,19 @@ if (!doNotTrack) {
 	</header>    
 	<p>If you are running in a disconnected environment (without access to the Internet), then you will need to install Verrazzano using a private container registry.
 However, you may choose to install Verrazzano using a private registry even if you are not running in a disconnected environment.</p>
-<p>You must have the following software installed:</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>You will need to connect to the Internet to download the Verrazzano images and Verrazzano distribution.</li>
+<li>You will need a way to transfer the images to your private registry and the distribution to the disconnected environment.</li>
+<li>Your workstation must have at least 20 GB of disk space.</li>
+<li>You must have the following software installed:
 <ul>
 <li><a href="https://docs.docker.com/get-docker/">Docker</a></li>
 <li><a href="https://kubernetes.io/docs/tasks/tools/">kubectl</a></li>
 <li><a href="https://helm.sh/docs/intro/install/">Helm</a> (version 3.x+)</li>
 <li><a href="https://github.com/stedolan/jq/wiki/Installation">jq</a></li>
+</ul>
+</li>
 </ul>
 <p>Installing Verrazzano using a private Docker-compliant container registry requires the following:</p>
 <ul>
@@ -1131,8 +1139,8 @@ However, you may choose to install Verrazzano using a private registry even if y
 <li>Installing Verrazzano with the private registry and a common prefix for all the repositories used to load the images.</li>
 </ul>
 <h2 id="get-verrazzano">Get Verrazzano</h2>
-<p>You can download Verrazzano from the Verrazzano GitHub releases page. Oracle customers also can get Verrazzano from the
-Oracle Software Delivery Cloud. Follow the respective download instructions:</p>
+<p>You can download Verrazzano from the Verrazzano GitHub releases page. Oracle customers also can get Verrazzano from the Oracle Software Delivery Cloud. Follow the respective download instructions:</p>
+<p><strong>NOTE:</strong> You will need to connect to the Internet to download the Verrazzano images and Verrazzano distribution.</p>
 <ul>
 <li><a href="#from-github">From GitHub</a></li>
 <li><a href="#from-the-oracle-software-delivery-cloud">From the Oracle Software Delivery Cloud</a></li>
@@ -1144,7 +1152,7 @@ Oracle Software Delivery Cloud. Follow the respective download instructions:</p>
 <p>a. In your browser, go to <a href="https://github.com/verrazzano/verrazzano/releases">Verrazzano releases</a>.</p>
 <p>b. Download the distribution TAR file, <code>verrazzano-&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;-&lt;operating system&gt;-&lt;architecture&gt;.tar.gz</code>, and the corresponding checksum file.</p>
 <p>c. In the downloaded directory, validate that the checksum and TAR files match.
-For example, if you have downloaded <code>verrazzano-1.5.4-linux-amd64.tar.gz</code>:
+For example, if you have downloaded <code>verrazzano-1.5.5-linux-amd64.tar.gz</code>:
 <style type="text/css">
     code {
         margin: 0;
@@ -1175,9 +1183,9 @@ For example, if you have downloaded <code>verrazzano-1.5.4-linux-amd64.tar.gz</c
 
 <div class="clipboard">
     <div class="highlight">
-<pre tabindex="0"><code>$ sha256sum -c verrazzano-1.5.4-linux-amd64.tar.gz.sha256
+<pre tabindex="0"><code>$ sha256sum -c verrazzano-1.5.5-linux-amd64.tar.gz.sha256
 # Sample output
-verrazzano-1.5.4-linux-amd64.tar.gz: OK
+verrazzano-1.5.5-linux-amd64.tar.gz: OK
 </code></pre></div>
 
 </div>
@@ -1240,7 +1248,7 @@ verrazzano-1.5.4-linux-amd64.tar.gz: OK
 </script>
 <strong>NOTE</strong>: Use the <code>sha256sum</code> command on Linux and <code>shasum</code> on MacOS.</p>
 <p>d. Expand the TAR file to access the release artifacts.</p>
-<p>The following example, extracts the distribution archive <code>verrazzano-1.5.4-linux-amd64.tar.gz</code> into the current directory.
+<p>The following example, extracts the distribution archive <code>verrazzano-1.5.5-linux-amd64.tar.gz</code> into the current directory.
 <style type="text/css">
     code {
         margin: 0;
@@ -1271,7 +1279,7 @@ verrazzano-1.5.4-linux-amd64.tar.gz: OK
 
 <div class="clipboard">
     <div class="highlight">
-<pre tabindex="0"><code>$ tar xvf verrazzano-1.5.4-linux-amd64.tar.gz
+<pre tabindex="0"><code>$ tar xvf verrazzano-1.5.5-linux-amd64.tar.gz
 </code></pre></div>
 
 </div>
@@ -1332,7 +1340,7 @@ verrazzano-1.5.4-linux-amd64.tar.gz: OK
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
-After a successful extraction, the release artifacts will be under the <code>verrazzano-1.5.4</code> directory.</p>
+After a successful extraction, the release artifacts will be under the <code>verrazzano-1.5.5</code> directory.</p>
 <p>e. Define an environment variable <code>DISTRIBUTION_DIR</code>.
 <style type="text/css">
     code {
@@ -1364,7 +1372,7 @@ After a successful extraction, the release artifacts will be under the <code>ver
 
 <div class="clipboard">
     <div class="highlight">
-<pre tabindex="0"><code> $ DISTRIBUTION_DIR=&lt;path to the current directory&gt;/verrazzano-1.5.4
+<pre tabindex="0"><code> $ DISTRIBUTION_DIR=&lt;path to the current directory&gt;/verrazzano-1.5.5
 </code></pre></div>
 
 </div>
@@ -1561,16 +1569,17 @@ After a successful extraction, the release artifacts will be under the <code>ver
 <p>Prepare to do the private registry installation.</p>
 <p>a. Extract the ZIP archive to a desired directory location. There will be two files: a compressed TAR file containing the product files and a checksum file.</p>
 <p>b. Define an environment variable <code>DISTRIBUTION_DIR</code>.</p>
-<pre tabindex="0"><code>$ DISTRIBUTION_DIR=&lt;path to the current directory&gt;/verrazzano-1.5.4
+<pre tabindex="0"><code>$ DISTRIBUTION_DIR=&lt;path to the current directory&gt;/verrazzano-1.5.5
 </code></pre><p>c. In the expanded archive directory, validate that the checksum and TAR files match. For example,</p>
-<pre tabindex="0"><code>$ sha256sum -c verrazzano-1.5.4.tar.gz.sha256
+<pre tabindex="0"><code>$ sha256sum -c verrazzano-1.5.5.tar.gz.sha256
 # Sample output
-verrazzano-1.5.4.tar.gz: OK
+verrazzano-1.5.5.tar.gz: OK
 </code></pre><p><strong>NOTE</strong>: Use the <code>sha256sum</code> command on Linux and <code>shasum</code> on MacOS.</p>
 </li>
 </ol>
 <h2 id="load-the-images">Load the images</h2>
 <p>Load the product images into your private registry.</p>
+<p><strong>NOTE</strong>: You will need a way to transfer the images to your private registry and the distribution to the disconnected environment.</p>
 <ol>
 <li>
 <p>To log in to the Docker registry, run <code>docker login &lt;SERVER&gt;</code> with your credentials.</p>
