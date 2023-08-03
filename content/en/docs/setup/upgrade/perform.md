@@ -3,8 +3,6 @@ title: "Perform the Verrazzano Upgrade"
 description: "Upgrade Verrazzano"
 weight: 2
 draft: false
-aliases:
-  - \docs\upgrade\upgrade
 ---
 
 
