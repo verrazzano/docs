@@ -79,8 +79,11 @@ For details on how to customize Verrazzano components, see [Modify Verrazzano In
 
 ## Profile configurations
 
-The following table lists the Verrazzano components that are enabled by default with each profile.  Note that you can
-customize any Verrazzano installation regardless of the profile.
+The following table lists the Verrazzano components that are enabled by default with each profile.
+Some components are disabled by default; to access these features, you must first enable them. In general, if they are initially disabled upon installation,
+then you can enable them post-installation. For information on how to do this, see [Edit the Verrazzano resource]({{< relref "/docs/setup/modify-installation#edit-the-verrazzano-resource" >}}).
+
+Note that you can customize any Verrazzano installation regardless of the profile.
 
 | Component                   | dev | prod | managed-cluster |
 |-----------------------------|:---:|:----:|:---------------:|
@@ -120,6 +123,8 @@ customize any Verrazzano installation regardless of the profile.
 | `thanos`                    |     |      |                 |
 | `velero`                    |     |      |                 |
 | `weblogicOperator`          | ✔️  |  ✔️  |       ✔️        |
+
+
 
 ### Prometheus and Grafana configurations
 
