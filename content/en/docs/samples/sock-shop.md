@@ -98,7 +98,7 @@ Follow these steps to test the endpoints.
    ```
    $ HOST=$(kubectl get gateways.networking.istio.io \
         -n sockshop \
-        -o jsonpath={.items[0].spec.servers[0].hosts[0]})
+        -o jsonpath='{.items[0].spec.servers[0].hosts[0]}')
    $ echo $HOST
 
    # Sample output
