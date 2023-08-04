@@ -1,10 +1,10 @@
 ---
-title: Support Information
+title: Get Help
 weight: 3
 draft: false
 ---
 
-Following are some of the help and support available for Verrazzano.
+See the following support information, learning channels, and Verrazzano release history:
 
 * Verrazzano Community Support - [Join Verrazzano on Slack!](https://bit.ly/verrazzano-slack)
 * [Verrazzano GitHub Project](https://github.com/verrazzano/verrazzano/issues)
