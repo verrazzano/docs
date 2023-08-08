@@ -264,7 +264,7 @@ spec:
 ```
 {{< /clipboard >}}
 
-After enabling tracing, Istio will automatically configure itself with the the Jaeger instance managed by Verrazzano in
+After enabling tracing, Istio will automatically configure itself with the Jaeger instance managed by Verrazzano in
 your cluster, and Istio-injected pods will begin exporting traces to Jaeger.
 
 To export traces to a different Jaeger instance than the one managed by Verrazzano, set
