@@ -176,9 +176,9 @@ Note that in this configuration, Prometheus will not fire alerts to Alertmanager
 apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
-name: example-verrazzano
+  name: example-verrazzano
 spec:
-components:
+  components:
     prometheusOperator:
       enabled: true
       overrides:
