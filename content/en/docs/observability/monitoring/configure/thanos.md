@@ -167,6 +167,9 @@ storage is shared among all Thanos components.
 
 Note that in this configuration, Prometheus will not fire alerts to Alertmanager, since Thanos Ruler does so.
 
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
@@ -187,6 +190,9 @@ components:
           ruler:
             enabled: true
 ```
+
+</div>
+{{< /clipboard >}}
 
 Verrazzano configures several alerting rules by default, which can be viewed in the Thanos Ruler console.
 You can configure additional alerts by creating your own PrometheusRules. For more information,
