@@ -162,10 +162,8 @@ spec:
 The following example shows how to enable Thanos Ruler and Alertmanager in the Verrazzano resource. It also configures
 the Thanos Ruler to send alerts to Alertmanager.
 
-Optionally, you can also configure storage as discussed in the section on enabling storage. If configured, the object
-storage is shared among all Thanos components.
-
-**NOTE**: You must also enable Alertmanager for the Thanos Ruler to work.
+**NOTE**: For the Thanos Ruler to work, you must configure storage as discussed in
+<a href="#step-3-enable-storage-thanos-store-gateway-and-compactor">Enable Storage</a>, and you must also enable Alertmanager.
 
 Note that in this configuration, Prometheus will not fire alerts to Alertmanager, since the Thanos Ruler does so.
 
@@ -189,6 +187,7 @@ spec:
       enabled: true
       overrides:
       - values:
+          existingObjstoreSecret: objstore-config
           ruler:
             enabled: true
 ```
