@@ -41,6 +41,7 @@ Verrazzano Status
     prometheusUrl: https://prometheus.vmi.system.default.11.22.33.44.nip.io
     rancherUrl: https://rancher.default.11.22.33.44.nip.io
     thanosQueryUrl: https://thanos-query.default.11.22.33.44.nip.io
+    thanosRulerUrl: https://thanos-ruler.default.11.22.33.44.nip.io
 ```
 
 ### kubectl
