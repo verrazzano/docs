@@ -60,7 +60,7 @@ spec:
 </div>
 {{< /clipboard >}}
 
-Query is the only Thanos component enabled by default.
+Query and Query Frontend are the only Thanos components enabled by default.
 
 ## Enable long-term storage using OCI Object Storage
 
@@ -113,7 +113,7 @@ $ kubectl create secret generic objstore-config -n verrazzano-monitoring --from-
 </div>
 {{< /clipboard >}}
 
-### Step 3: Enable storage, Thanos Store Gateway and Compactor
+### Step 3: Enable storage, Thanos Store Gateway, and Compactor
 
 The following example enables storage, creates the required secret, and enables Thanos Store Gateway and Compactor
 in the Verrazzano custom resource. It also configures the Thanos Sidecar to write to object storage and the Store Gateway to read from
@@ -160,10 +160,12 @@ spec:
 ## Alerting with Thanos Ruler
 
 The following example shows how to enable Thanos Ruler and Alertmanager in the Verrazzano resource. It also configures
-Thanos Ruler to send alerts to Alertmanager.
+Thanos Ruler to send alerts to Alertmanager. 
 
 Optionally, you can also configure storage as discussed in the section on enabling storage. If configured, the object
 storage is shared among all Thanos components.
+
+**NOTE**: You must also enable Alertmanager for Thanos Ruler to work.
 
 Note that in this configuration, Prometheus will not fire alerts to Alertmanager, since Thanos Ruler does so.
 
