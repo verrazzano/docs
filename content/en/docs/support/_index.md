@@ -1,5 +1,5 @@
 ---
-title: Get Help
+title: Support Information
 weight: 3
 draft: false
 ---
