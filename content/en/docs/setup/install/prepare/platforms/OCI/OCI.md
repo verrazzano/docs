@@ -27,7 +27,7 @@ aliases:
 {{< alert title="NOTE" color="primary" >}} OCI VCN-Native Pod Networking is now supported with Verrazzano for Kubernetes v1.26 and up. 
 The pod network must be in a private subnet to enable egress.
 Either place the worker nodes in a private subnet, or place the pod network in a private subnet separate from the worker nodes.
-For Kubernetes v1.25 and below, use the flannel overlay network.
+For Kubernetes v1.25 and below, you must use the flannel overlay network.
 {{< /alert >}}
 
 ## Next steps
