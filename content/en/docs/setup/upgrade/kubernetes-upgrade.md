@@ -12,10 +12,15 @@ Consult your cluster provider's upgrade documentation if it does not appear on t
 - [OLCNE Kubernetes Upgrade](https://docs.oracle.com/en/operating-systems/olcne/1.5/upgrade/update.html#update).
 - [kubeadm Kubernetes Upgrade](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/).
 
-## Upgrading a single node cluster
+## Upgrading a multi-node cluster
 
 For a typical multi-node Kubernetes cluster, it is recommended to keep one or more nodes present and available while upgrading nodes.
-However, for a single node cluster, this is not possible.
+This allows the cordoned nodes to distribute the pods to available nodes to eliminate downtime during an upgrade.
+Your cluster provider should have information on maintaining node availability for an in-place upgrade.
+
+## Upgrading a single node cluster
+
+For a single node cluster upgrade, there will be downtime in the cluster to allow the node to cordon while it is upgraded.
 For this reason, there are a few manual workarounds that may need be done to be able to fully drain the Kubernetes node.
 
 ### Disable the MySQL pod disruption budget
