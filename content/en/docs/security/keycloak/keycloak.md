@@ -45,8 +45,16 @@ spec:
 {{< /clipboard >}}
 
 The MySQL Operator only supports my.cnf configuration overrides on an installation.  The following steps are required to make changes to the my.cnf configuration after the initial installation.
+1. Edit the Verrazzano custom resource and set the overrides for `serverConfig.mycnf` as shown above in the `max_connections` example.  For example:
+{{< clipboard >}}
+<div class="highlight">
 
-1. Edit the Verrazzano custom resource and set the overrides for `serverConfig.mycnf` as shown above in the `max_connections` example.
+```
+$ kubectl patch verrazzano verrazzano -p '{"spec":{"components":{"keycloak":{"mysql":{"overrides":[{"values": {"serverConfig": {"mycnf": "max_connections = 250\n"}}}]}}}}}' --type=merge
+```
+
+</div>
+{{< /clipboard >}}
 2. Wait for the Verrazzano platform operator to reconcile the changes made to the Verrazzano custom resource.
 {{< clipboard >}}
 <div class="highlight">
@@ -67,17 +75,17 @@ $ kubectl get innodbcluster -n keycloak mysql -o yaml
 
 </div>
 {{< /clipboard >}}
-4. Edit the ConfigMap named `mysql-initconf` in namespace `keycloak` and update the settings in the `99-extra.cnf` section.
+4. Edit the ConfigMap named `mysql-initconf` in namespace `keycloak` and update the settings in the `99-extra.cnf` section. For example:
 {{< clipboard >}}
 <div class="highlight">
 
 ```
-$ kubectl edit configmap -n keycloak mysql-initconf
+$ kubectl patch configmap -n keycloak mysql-initconf -p '{"data":{"99-extra.cnf": "# Additional user configurations taken from spec.mycnf in InnoDBCluster.\n# Do not edit directly.\n[mysqld]\nmax_connections = 250\n"}}' --type=merge
 ```
 
 </div>
 {{< /clipboard >}}
-Example snippet of the `99-extra.cnf` portion of the ConfigMap.
+Example snippet of the `99-extra.cnf` portion of the ConfigMap after the patch.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -96,7 +104,17 @@ Example snippet of the `99-extra.cnf` portion of the ConfigMap.
 <div class="highlight">
 
 ```
-$ kubectl rollout restart -n keycloak sts mysql
+$ kubectl rollout restart -n keycloak statefulset mysql
+```
+
+</div>
+{{< /clipboard >}}
+6. Wait for the rollout restart of the MySQL StatefulSet to complete.
+{{< clipboard >}}
+<div class="highlight">
+
+```
+$ kubectl -n keycloak rollout status statefulset/mysql
 ```
 
 </div>
