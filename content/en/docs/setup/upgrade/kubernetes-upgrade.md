@@ -31,23 +31,41 @@ for the MySQL database pods.
 This Pod Disruption Budget will prevent the node from being drained.
 To change this, you can patch the Pod Disruption budget to allow the MySQL replicas to be drained from the node.
 
-```shell
-kubectl patch poddisruptionbudgets.policy -n keycloak mysql-pdb -p '{"spec":{"minAvailable":0, "maxUnavailable":null}}' --type=merge
+{{< clipboard >}}
+<div class="highlight">
+
 ```
+$ kubectl patch poddisruptionbudgets.policy -n keycloak mysql-pdb -p '{"spec":{"minAvailable":0, "maxUnavailable":null}}' --type=merge
+```
+
+</div>
+{{< /clipboard >}}
 
 ### Remove the MySQL pod finalizers
 It is possible that the MySQL pods will be stuck in the `Terminating` state while the node is being drained.
 If you find that the MySQL pod will not complete termination, then you can remove the finalizers to manually terminate these pods.
 
-```shell
-kubectl patch pod -n keycloak mysql-0 -p '{"metadata":{"finalizers":null}}' --type=merge
+{{< clipboard >}}
+<div class="highlight">
+
 ```
+$ kubectl patch pod -n keycloak mysql-0 -p '{"metadata":{"finalizers":null}}' --type=merge
+```
+
+</div>
+{{< /clipboard >}}
 
 ### Delete the Rancher Helm pods
 Rancher spins up Helm pods for cluster operations.
 Because these pods are not managed by any parent resources, they can prevent the node from being drained.
 If this is the case, then you can delete these pods with the following command.
 
-```shell
-kubectl get pods --no-headers=true -n cattle-system | awk '{print $1}' | grep helm | xargs kubectl delete pod --ignore-not-found -n cattle-system
+{{< clipboard >}}
+<div class="highlight">
+
 ```
+$ kubectl get pods --no-headers=true -n cattle-system | awk '{print $1}' | grep helm | xargs kubectl delete pod --ignore-not-found -n cattle-system
+```
+
+</div>
+{{< /clipboard >}}
