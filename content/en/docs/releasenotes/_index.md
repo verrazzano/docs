@@ -8,7 +8,7 @@ draft: false
 - Istio v1.17.2
 - Rancher v2.7.5
 - Kiali v1.66.1
-- capi-OCNE v1.7.0
+- CAPOCNE v1.7.0
 
 #### Fixes:
 - Fixed an issue with provisioning OCNE workload clusters with the Rancher UI when using Let's Encrypt staging certificates.
