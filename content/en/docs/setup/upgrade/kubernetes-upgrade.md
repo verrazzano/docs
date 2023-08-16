@@ -47,7 +47,6 @@ kubectl patch pod -n keycloak mysql-0 -p '{"metadata":{"finalizers":null}}' --ty
 Rancher spins up Helm pods for cluster operations.
 Because these pods are not managed by any parent resources, they can prevent the node from being drained.
 If this is the case, you can delete these pods with the following command.
-This must be done for each Rancher Helm pod.
 
 ```shell
 kubectl get pods --no-headers=true -n cattle-system | awk '{print $1}' | grep helm | xargs kubectl delete pod --ignore-not-found -n cattle-system
