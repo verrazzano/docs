@@ -3,6 +3,18 @@ title: Release Notes
 weight: 2
 draft: false
 ---
+## v1.6.4
+### Component version updates:
+- Istio v1.17.2
+- Rancher v2.7.5
+- Kiali v1.66.1
+- capi-OCNE v1.7.0
+
+### Fixes:
+- Fixed issue provisioning OCNE workload clusters via Rancher UI when using Let's Encrypt Staging certs.
+- Fixed issues where upgrade would not successfully occur if pods had errors.
+- Fixed an issue with upgrading Verrazzano resource in Reconciling state.
+
 ## 1.6.3
 #### Enhancements:
 - `vz bug-report` now captures Cluster API resources and Rancher cluster-related resources.
