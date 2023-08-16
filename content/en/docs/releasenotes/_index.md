@@ -13,7 +13,7 @@ draft: false
 #### Fixes:
 - Fixed an issue with provisioning OCNE workload clusters with the Rancher UI when using Let's Encrypt staging certificates.
 - Fixed issues where upgrade would not successfully occur if pods had errors.
-- Fixed an issue with upgrading Verrazzano resource in Reconciling state.
+- Fixed an issue with upgrading the Verrazzano resource in the Reconciling state.
 
 ## 1.6.3
 #### Enhancements:
