@@ -6,6 +6,8 @@ draft: false
 ---
 
 After Verrazzano is installed onto a cluster, you may want to upgrade the Kubernetes version of that cluster.
+Refer to the [Prerequisites]({{< relref "/docs/setup/install/prepare/prereqs.md#kubernetes" >}}) 
+document for more information on the Kubernetes versions that Verrazzano supports.
 The following list links to documentation sources for Kubernetes cluster updates.
 Consult your cluster provider's upgrade documentation if it does not appear on this list.
 - [OKE Kubernetes Upgrade](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengupgradingk8smasternode.htm).
@@ -41,3 +43,12 @@ If you find that the MySQL pod will not complete termination, you can remove the
 kubectl patch pod -n keycloak mysql-0 -p '{"metadata":{"finalizers":null}}' --type=merge
 ```
 
+### Delete the Rancher Helm pods
+Rancher spins up Helm pods for cluster operations.
+Because these pods are not managed by any parent resources, they can prevent the node from being drained.
+If this is the case, you can delete these pods with the following command.
+This must be done for each Rancher Helm pod.
+
+```shell
+kubectl delete pod -n cattle-system helm-operation-12345
+```
