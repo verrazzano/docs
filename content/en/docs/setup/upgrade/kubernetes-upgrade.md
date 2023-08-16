@@ -50,5 +50,5 @@ If this is the case, you can delete these pods with the following command.
 This must be done for each Rancher Helm pod.
 
 ```shell
-kubectl delete pod -n cattle-system helm-operation-12345
+kubectl get pods --no-headers=true -n cattle-system | awk '{print $1}' | grep helm | xargs kubectl delete pod --ignore-not-found -n cattle-system
 ```
