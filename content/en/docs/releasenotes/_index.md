@@ -15,7 +15,7 @@ draft: false
 - Fixed issues where upgrade would not successfully occur if pods had errors.
 - Fixed an issue with upgrading the Verrazzano resource in the Reconciling state.
 
-## 1.6.3
+## v1.6.3
 #### Enhancements:
 - `vz bug-report` now captures Cluster API resources and Rancher cluster-related resources.
 - `vz analyze` now checks for issues with Cluster API resources and Rancher cluster-related resources.
@@ -23,7 +23,7 @@ draft: false
 #### Fixes:
 - Fixed an issue with Fluent Bit Parser not getting registered correctly.
 
-## 1.6.2
+## v1.6.2
 #### Enhancements:
 - Verrazzano analysis tooling enhancements.
 
@@ -38,7 +38,6 @@ draft: false
 
 #### Component version updates:
 - WebLogic Kubernetes Operator v4.1.0
-- WebLogic Monitoring Exporter v2.1.4
 
 ## v1.6.0
 #### Features:
