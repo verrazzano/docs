@@ -1,6 +1,6 @@
 ---
 title: minikube
-description: Set up a minikube cluster for Verrazzano
+description: 
 linkTitle: minikube
 Weight: 3
 draft: true

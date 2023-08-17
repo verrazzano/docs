@@ -1,6 +1,6 @@
 ---
 title: "Modify Verrazzano Installations"
-description: "Modify and customize Verrazzano installations"
+description: ""
 weight: 5
 draft: false
 aliases:

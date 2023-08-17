@@ -1,6 +1,6 @@
 ---
 title: "Use the Verrazzano Console"
-description: "Register managed clusters using the Verrazzano Console"
+description: ""
 weight: 1
 draft: false
 ---

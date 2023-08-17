@@ -1,6 +1,6 @@
 ---
 title: "Upgrade Verrazzano in a Multicluster Environment"
-description: "Upgrade a multicluster Verrazzano environment"
+description: ""
 weight: 6
 draft: false
 aliases:

@@ -1,6 +1,6 @@
 ---
 title: "Customize Istio"
-description: "Customize Verrazzano Istio settings"
+description: ""
 weight: 8
 draft: false
 aliases:

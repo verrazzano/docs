@@ -1,6 +1,6 @@
 ---
 title: "Back Up and Restore"
-description: "Learn how to back up and restore Verrazzano"
+description: ""
 weight: 6
 draft: false
 aliases:

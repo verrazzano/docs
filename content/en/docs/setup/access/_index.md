@@ -1,6 +1,6 @@
 ---
 title: Access Verrazzano
-description: "Information and tools to support operating Verrazzano"
+description: ""
 weight: 8
 draft: false
 aliases:

@@ -1,6 +1,6 @@
 ---
 title: "Troubleshoot Multicluster Setup Issues"
-description: "Troubleshoot issues with multicluster setup and applications"
+description: ""
 weight: 6
 draft: false
 aliases:

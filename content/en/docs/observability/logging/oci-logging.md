@@ -1,6 +1,6 @@
 ---
 title: "Oracle Cloud Infrastructure Logging Service"
-description: "Send Verrazzano logs to the Oracle Cloud Infrastructure Logging service"
+description: ""
 weight: 4
 draft: false
 aliases:

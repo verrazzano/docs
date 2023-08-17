@@ -1,6 +1,6 @@
 ---
-title: "Use Kubernetes Custom Resources"
-description: "Register managed clusters using `kubectl`"
+title: "Use Kubernetes Custom Resource"
+description: ""
 weight: 2
 draft: false
 aliases:

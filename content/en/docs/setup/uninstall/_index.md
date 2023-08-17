@@ -1,6 +1,6 @@
 ---
 title: "Uninstall Verrazzano"
-description: "Uninstall Verrazzano"
+description: ""
 weight: 10
 draft: false
 aliases:

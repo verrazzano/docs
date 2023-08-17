@@ -1,7 +1,7 @@
 ---
-title: "Installed Software"
-description: "Verrazzano installed software"
-weight: 1
+title: "Verrazzano Installed Software"
+description: ""
+weight: 3
 draft: false
 ---
 
