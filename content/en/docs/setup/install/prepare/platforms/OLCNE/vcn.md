@@ -73,7 +73,7 @@ A private subnet that houses the control plane nodes that run Kubernetes control
 
 In this subnet, create security rules that cover the following traffic:
 
-* Egress: node Internet access
+* Egress: node internet access
 * Ingress: east-west traffic, originating from within the VCN
 * Ingress: control plane endpoint to control plane node access on API endpoint
 * Ingress: worker nodes to control plane node access on API endpoint
@@ -96,7 +96,7 @@ These examples are provided for reference *only*. Customize your security rules 
 
 | Destination Type | Destination | Destination Port | Protocol | Description |
 |------------------|-------------|------------------|----------|-------------|
-| CIDR Block       | 0.0.0.0/0   | All              | All      | Control plane node access to the Internet to pull images |
+| CIDR Block       | 0.0.0.0/0   | All              | All      | Control plane node access to the internet to pull images |
 
 #### Ingress rules
 
@@ -154,7 +154,7 @@ A private subnet that houses the worker nodes.
 
 In this subnet, create security rules that cover the following traffic:
 
-* Egress: node Internet access
+* Egress: node internet access
 * Ingress: east-west traffic, originating from within the VCN
 * Ingress: SSH traffic
 * Ingress: ICMP path discovery
@@ -176,7 +176,7 @@ These examples are provided for reference *only*. Customize your security rules 
 
 | Destination Type | Destination | Destination Port | Protocol | Description |
 |------------------|-------------|------------------|----------|-------------|
-| CIDR Block       | 0.0.0.0/0   | All              | All      | Worker node access to the Internet to pull images |
+| CIDR Block       | 0.0.0.0/0   | All              | All      | Worker node access to the internet to pull images |
 
 #### Ingress rules
 
@@ -198,19 +198,19 @@ These examples are provided for reference *only*. Customize your security rules 
 
 Gateways control access from your VCN to other networks. You'll need to configure three different types of gateways:
 
-* [An Internet gateway](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingIGs.htm)
+* [An internet gateway](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingIGs.htm)
 * [A NAT gateway](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/NATgateway.htm#NAT_Gateway)
 * [A service gateway](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/servicegateway.htm#Access_to_Oracle_Services_Service_Gateway)
 
-You may need to perform some additional configuration to expose the VCN's subnets directly to the Internet. See [Access to the Internet](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm#Private) in the OCI documentation for details.
+You may need to perform some additional configuration to expose the VCN's subnets directly to the internet. See [Access to the Internet](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm#Private) in the OCI documentation for details.
 
 ## Route tables
 
-Route tables send traffic out of the VCN (for example, to the Internet, to your on-premises network, or to a peered VCN) using rules that are similar to traditional network route rules.
+Route tables send traffic out of the VCN (for example, to the internet, to your on-premises network, or to a peered VCN) using rules that are similar to traditional network route rules.
 
 See [VCN Route Tables](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingroutetables.htm#Route2) in the OCI documentation for more information.
 
 For OCNE clusters, you'll need to create two route tables:
 
-1. A route table for public subnets that will route stateful traffic to and from the Internet gateway. Assign this route table to *both* public subnets.
+1. A route table for public subnets that will route stateful traffic to and from the internet gateway. Assign this route table to *both* public subnets.
 1. A route table for private subnets that will route stateful traffic to and from the NAT and service gateways. Assign this route table to *both* private subnets.
