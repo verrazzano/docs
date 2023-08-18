@@ -1,41 +1,41 @@
 ---
-title: Prepare a Kind Cluster
-description: Set up a Kind cluster for Verrazzano
+title: Prepare a kind Cluster
+description: Set up a kind cluster for Verrazzano
 Weight: 4
 draft: false
 aliases:
   - /docs/setup/platforms/kind/kind
 ---
 
-[Kind](https://kind.sigs.k8s.io/) is a tool for running local Kubernetes clusters using Docker container “nodes”.  Follow
-these instructions to prepare a Kind cluster for running Verrazzano.
+[kind](https://kind.sigs.k8s.io/) is a tool for running local Kubernetes clusters using Docker container “nodes”.  Follow
+these instructions to prepare a kind cluster for running Verrazzano.
 
 {{% alert title="NOTE" color="primary" %}}
-Kind is not recommended for use on macOS and Windows because the Docker network is not directly exposed
+kind is not recommended for use on macOS and Windows because the Docker network is not directly exposed
 to the host.
 {{% /alert %}}
 
 ## Prerequisites
 
 - Install [Docker](https://docs.docker.com/install/)
-- Install [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
+- Install [kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
 
-## Prepare the Kind cluster
+## Prepare the kind cluster
 
-To prepare the Kind cluster for use with Verrazzano, you must create the cluster and then install and configure
+To prepare the kind cluster for use with Verrazzano, you must create the cluster and then install and configure
 [MetalLB](https://metallb.universe.tf/) in that cluster.
 
-You can create the Kind cluster in two ways: with or without image caching; image caching can speed up your
+You can create the kind cluster in two ways: with or without image caching; image caching can speed up your
 installation time.
 
-### Create a Kind cluster
+### Create a kind cluster
 
-Kind images are prebuilt for each release.  To find images suitable for a given release, check the
-[release notes](https://github.com/kubernetes-sigs/kind/releases) for your Kind version (check with `kind version`).
-There you'll find a complete listing of images created for a Kind release.
+kind images are prebuilt for each release.  To find images suitable for a given release, check the
+[release notes](https://github.com/kubernetes-sigs/kind/releases) for your kind version (check with `kind version`).
+There you'll find a complete listing of images created for a kind release.
 
-The following example references a Kubernetes v1.26-based image built for Kind v0.20.0.  Replace that image
-with one suitable for the Kind release you are using. For the supported Kubernetes versions, see the listing [here]({{< relref "/docs/setup/install/prepare/prereqs#kubernetes" >}}).
+The following example references a Kubernetes v1.26-based image built for kind v0.20.0.  Replace that image
+with one suitable for the kind release you are using. For the supported Kubernetes versions, see the listing [here]({{< relref "/docs/setup/install/prepare/prereqs#kubernetes" >}}).
 {{< clipboard >}}
 <div class="highlight">
 
@@ -57,11 +57,11 @@ with one suitable for the Kind release you are using. For the supported Kubernet
 </div>
 {{< /clipboard >}}
 
-### Create a Kind cluster with image caching
+### Create a kind cluster with image caching
 
-While developing or experimenting with Verrazzano, you might destroy and re-create your Kind cluster multiple
+While developing or experimenting with Verrazzano, you might destroy and re-create your kind cluster multiple
 times.  To speed up Verrazzano installation, follow these steps to ensure that the image cache used by
-containerd inside a Kind cluster, is preserved across clusters. Subsequent installations will be faster
+containerd inside a kind cluster, is preserved across clusters. Subsequent installations will be faster
 because they will not need to pull the images again.
 
 1\. Create a named Docker volume that will be used for the image cache and note its `mountPoint` path. In this example, the volume is named `containerd`.
@@ -86,7 +86,7 @@ because they will not need to pull the images again.
 </div>
 {{< /clipboard >}}
 
-2\. Specify the `mountPoint` path obtained, as the `hostPath` under `extraMounts` in your Kind configuration file, with a `containerPath` of `/var/lib/containerd`, which is the default containerd image caching location inside the Kind container. An example of the modified Kind configuration is shown in the following `create cluster` command.
+2\. Specify the `mountPoint` path obtained, as the `hostPath` under `extraMounts` in your kind configuration file, with a `containerPath` of `/var/lib/containerd`, which is the default containerd image caching location inside the kind container. An example of the modified kind configuration is shown in the following `create cluster` command.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -105,17 +105,17 @@ because they will not need to pull the images again.
                 "service-account-signing-key-file": "/etc/kubernetes/pki/sa.key"
         extraMounts:
           - hostPath: /var/lib/docker/volumes/containerd/_data
-            containerPath: /var/lib/containerd #This is the location of the image cache inside the Kind container
+            containerPath: /var/lib/containerd #This is the location of the image cache inside the kind container
     EOF
 
 </div>
 {{< /clipboard >}}
 
-**NOTE**: When using a private container registry or experiencing rate-limiting of container image pulls, refer to the [Kind documentation](https://kind.sigs.k8s.io/docs/user/private-registries/).
+**NOTE**: When using a private container registry or experiencing rate-limiting of container image pulls, refer to the [kind documentation](https://kind.sigs.k8s.io/docs/user/private-registries/).
 
 ## Install and configure MetalLB
 
-By default, Kind does not provide an implementation of network load balancers ([Services of type LoadBalancer](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/)).
+By default, kind does not provide an implementation of network load balancers ([Services of type LoadBalancer](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/)).
 [MetalLB](https://metallb.universe.tf/) offers a network load balancer implementation.
 
 To install MetalLB:
@@ -148,9 +148,9 @@ Wait for MetalLB to be ready, as shown:
 For further details, see the MetalLB [installation guide](https://metallb.universe.tf/installation/#installation-by-manifest).
 
 MetalLB is idle until configured.  Configure MetalLB in Layer 2 mode and give it control over a range of IP addresses in the `kind` Docker network.
-In versions v0.7.0 and earlier, Kind uses Docker's default bridge network; in versions v0.8.0 and later, it creates its own bridge network in Kind.
+In versions v0.7.0 and earlier, kind uses Docker's default bridge network; in versions v0.8.0 and later, it creates its own bridge network in kind.
 
-To determine the subnet of the `kind` Docker network in Kind v0.8.0 and later:
+To determine the subnet of the `kind` Docker network in kind v0.8.0 and later:
 {{< clipboard >}}
 <div class="highlight">
 
@@ -162,7 +162,7 @@ To determine the subnet of the `kind` Docker network in Kind v0.8.0 and later:
 </div>
 {{< /clipboard >}}
 
-To determine the subnet of the `kind` Docker network in Kind v0.7.0 and earlier:
+To determine the subnet of the `kind` Docker network in kind v0.7.0 and earlier:
 {{< clipboard >}}
 <div class="highlight">
 
