@@ -1,5 +1,5 @@
 ---
-title: "Installation Overrides"
+title: "Configure Installation Overrides"
 description: ""
 weight: 6
 draft: false

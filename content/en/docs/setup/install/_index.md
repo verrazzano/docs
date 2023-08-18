@@ -1,6 +1,6 @@
 ---
-title: "Install Verrazzano"
-description: "Install Verrazzano in a single cluster environment"
+title: "Install Verrazzano in a Single Cluster"
+description: ""
 weight: 2
 draft: false
 ---

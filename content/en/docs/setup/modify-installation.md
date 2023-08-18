@@ -98,7 +98,7 @@ default     example-verrazzano   24/24       InstallComplete   1.5.0
 
 After you have the name of the Verrazzano resource, you can edit its manifest file.
 The `kubectl edit` command lets you directly edit any API resource on the cluster.
-For more information on `kubectl edit`, see the [kubectl edit documentation](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#edit).
+For more information on `kubectl edit`, see the [kubectl edit](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#edit) documentation.
 
 The following example edits the Verrazzano resource found in the previous sample output.
 

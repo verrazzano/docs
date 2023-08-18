@@ -1,5 +1,5 @@
 ---
-title: "Oracle Cloud Infrastructure Logging Service"
+title: "Use Oracle Cloud Infrastructure Logging Service"
 description: ""
 weight: 4
 draft: false

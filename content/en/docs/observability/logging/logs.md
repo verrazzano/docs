@@ -1,5 +1,5 @@
 ---
-title: "Logging Components in Verrazzano"
+title: "About Logging Components in Verrazzano"
 description: ""
 weight: 1
 draft: false

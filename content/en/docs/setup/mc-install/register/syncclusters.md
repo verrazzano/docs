@@ -1,6 +1,6 @@
 ---
 title: "Synchronize Managed Clusters Registration"
-description: ""
+description: "Register and synchronize cluster registration automatically"
 weight: 3
 draft: false
 aliases:
