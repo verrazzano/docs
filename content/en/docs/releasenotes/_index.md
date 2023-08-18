@@ -682,7 +682,7 @@ draft: false
 
 ### v0.9.0
 - **Features**:
-  - Added platform support for installing Verrazzano on Kind clusters.
+  - Added platform support for installing Verrazzano on kind clusters.
   - Log records are indexed from the OAM `appconfig` and `component` definitions using the following pattern: `namespace-appconfig-component`.
   - All system and curated components are now patchable.
   - More updates to Open Application Model (OAM) support.
