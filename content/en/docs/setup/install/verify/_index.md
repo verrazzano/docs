@@ -1,6 +1,6 @@
 ---
 title: "Verify the Installation"
-description: "Verify your Verrazzano installation"
+description: ""
 weight: 2
 draft: false
 ---

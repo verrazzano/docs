@@ -1,7 +1,7 @@
 ---
 title: "Use Fluent Operator and Fluent Bit"
 linkTitle: Fluent Operator
-description: "Configure Fluent Bit using Fluent Operator"
+description: ""
 weight: 2
 draft: false
 ---

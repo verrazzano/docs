@@ -1,6 +1,6 @@
 ---
 title: "Configure Monitoring Components"
-description: "Learn about configuring the monitoring components"
+description: ""
 weight: 2
 draft: false
 ---

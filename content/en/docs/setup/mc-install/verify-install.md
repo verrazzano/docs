@@ -1,13 +1,13 @@
 ---
 title: "Verify Managed Cluster Registration"
-description: "Verify your multicluster Verrazzano environment setup"
+description: ""
 weight: 2
 draft: false
 aliases:
   - /docs/setup/install/mc-install/verify-install
 ---
 
-## Verify that managed cluster registration has completed
+### Verify that managed cluster registration has completed
 You can perform all the verification steps on the admin cluster.
 
 1. Verify that the managed cluster can connect to the admin cluster. View the status of the `VerrazzanoManagedCluster`
@@ -50,7 +50,7 @@ You can perform all the verification steps on the admin cluster.
    listed in Rancher's list of clusters, and will be in the `Active` state. You can find the Rancher console URL for your
    cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/setup/access#the-rancher-console" >}}).
 
-## Verify that managed cluster metrics are being collected
+### Verify that managed cluster metrics are being collected
 
 Verify that the admin cluster is collecting metrics from the managed cluster.  The Prometheus output will include
 records that contain the name of the Verrazzano cluster (labeled as `verrazzano_cluster`).
@@ -79,7 +79,7 @@ An alternative approach to using the Prometheus console is to query metrics from
 </div>
 {{< /clipboard >}}
 
-## Verify that managed cluster logs are being collected
+### Verify that managed cluster logs are being collected
 
 Verify that the admin cluster is collecting logs from the managed cluster.  The output will include records which have the name of the managed cluster in the `cluster_name` field.
 
