@@ -18,7 +18,7 @@ Remember to not overlap network Classless Inter-Domain Routing (CIDR) blocks whe
 {{% /alert %}}
 
 You can install a load balancer, such as [MetalLB](https://metallb.universe.tf/). This setup requires knowledge of networking both
-inside and outside your Kubernetes cluster. This would include specifics of your [Container Network Interface](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/) (CNI) implementation, IP address allocation schemes, and routing that goes beyond the scope of this documentation. For a Kind implementation, see [Install and configure MetalLB]({{< relref "/docs/setup/install/prepare/platforms/kind/kind.md#install-and-configure-metallb" >}}).
+inside and outside your Kubernetes cluster. This would include specifics of your [Container Network Interface](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/) (CNI) implementation, IP address allocation schemes, and routing that goes beyond the scope of this documentation. For a kind implementation, see [Install and configure MetalLB]({{< relref "/docs/setup/install/prepare/platforms/kind/kind.md#install-and-configure-metallb" >}}).
 
 
 It is possible to use a Kubernetes [Service of type NodePort](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) to test aspects of Verrazzano.

@@ -6,11 +6,11 @@ description:
 draft: false
 ---
 
-If you are running in a disconnected environment (without access to the Internet), then you will need to install Verrazzano using a private container registry.
+If you are running in a disconnected environment (without access to the internet), then you will need to install Verrazzano using a private container registry.
 However, you may choose to install Verrazzano using a private registry even if you are not running in a disconnected environment.
 
 ## Prerequisites
-  * You will need to connect to the Internet to download the Verrazzano images and Verrazzano distribution.
+  * You will need to connect to the internet to download the Verrazzano images and Verrazzano distribution.
   * You will need a way to transfer the images to your private registry and the distribution to the disconnected environment.
   * Your workstation must have at least 20 GB of disk space.
   * You must have the following software installed:
@@ -28,7 +28,7 @@ However, you may choose to install Verrazzano using a private registry even if y
 You can download Verrazzano from the Verrazzano GitHub releases page. Oracle customers also can get Verrazzano from the
 Oracle Software Delivery Cloud. Follow the respective download instructions:
 
-**NOTE:** You will need to connect to the Internet to download the Verrazzano images and Verrazzano distribution.
+**NOTE:** You will need to connect to the internet to download the Verrazzano images and Verrazzano distribution.
 
 - [From GitHub](#from-github)
 - [From the Oracle Software Delivery Cloud](#from-the-oracle-software-delivery-cloud)
@@ -276,7 +276,7 @@ $ ${DISTRIBUTION_DIR}/bin/linux-amd64/vz install \
 
 **NOTE**:
 * The `--manifests` flag is used in this example to provide the location of the Verrazzano platform operator
-manifests file. If you omit this flag, the `vz` CLI will attempt to download the manifests file, which requires access to the Internet.
+manifests file. If you omit this flag, the `vz` CLI will attempt to download the manifests file, which requires access to the internet.
 * The `--filename` flag is used to specify a Verrazzano custom resource. See [Edit the Verrazzano resource]({{< relref "/docs/setup/modify-installation#edit-the-verrazzano-resource" >}}).
 
 For the complete list of flags supported by `vz install` command, run `${DISTRIBUTION_DIR}/bin/linux-amd64/vz/install -h`.
