@@ -1,6 +1,6 @@
 ---
 title: "Deploy and Manage Applications"
-description: "Develop and deploy applications in Verrazzano"
+description: ""
 weight: 7
 draft: false
 ---

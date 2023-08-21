@@ -1,6 +1,6 @@
 ---
 title: "Prepare to Upgrade Verrazzano"
-description: "Pre-upgrade information"
+description: ""
 weight: 1
 draft: false
 ---

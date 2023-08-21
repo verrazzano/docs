@@ -17,4 +17,4 @@ Select [Quick Start]({{< relref "/docs/setup/quickstart/_index.md" >}}) to get s
 Verrazzano [release versions](https://github.com/verrazzano/verrazzano/releases/) and source code are available at [https://github.com/verrazzano/verrazzano](https://github.com/verrazzano/verrazzano).
 This repository contains a Kubernetes operator for installing Verrazzano and example applications for use with Verrazzano. Find the Verrazzano release history [here]({{< relref "/docs/support/_index.md" >}}).
 
-For documentation from all releases, use the Documentation version menu at the top of this page. For developers' perspectives, [check us out on Medium](https://medium.com/verrazzano).
+For documentation from all releases, use the Documentation version menu at the top of this page. For developers' perspectives, check us out on [Medium](https://medium.com/verrazzano).

@@ -1,5 +1,5 @@
 ---
-title: "Use Kubernetes Custom Resources"
+title: "Use Kubernetes Custom Resource"
 description: "Register managed clusters using `kubectl`"
 weight: 2
 draft: false

@@ -1,6 +1,6 @@
 ---
 title: "Install Verrazzano in a Multicluster Environment"
-description: "Learn how to install Verrazzano in a multicluster environment"
+description: ""
 weight: 3
 draft: false
 aliases:

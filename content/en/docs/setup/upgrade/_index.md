@@ -1,6 +1,6 @@
 ---
 title: "Upgrade Verrazzano"
-description: "Upgrade your Verrazzano installation"
+description: ""
 weight: 9
 draft: false
 aliases:

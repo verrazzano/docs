@@ -1,6 +1,6 @@
 ---
-title: "Perform the Installation"
-description: "Install Verrazzano"
+title: "Install Verrazzano"
+description: ""
 weight: 2
 draft: false
 ---

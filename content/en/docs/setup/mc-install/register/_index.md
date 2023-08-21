@@ -1,6 +1,6 @@
 ---
 title: "Register Managed Clusters"
-description: "Register managed clusters in a multicluster environment"
+description: ""
 weight: 2
 draft: false
 ---

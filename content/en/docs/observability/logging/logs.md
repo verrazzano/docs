@@ -1,6 +1,6 @@
 ---
-title: "Logging Components in Verrazzano"
-description: "Learn about Verrazzano logging components"
+title: "About Logging Components in Verrazzano"
+description: ""
 weight: 1
 draft: false
 ---
