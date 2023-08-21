@@ -1,6 +1,6 @@
 ---
 title: Provision Additional Clusters
-description: "Add clusters to your environment using the console"
+description: ""
 weight: 6
 draft: false
 ---

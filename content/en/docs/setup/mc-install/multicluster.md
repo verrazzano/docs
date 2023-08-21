@@ -1,6 +1,6 @@
 ---
 title: "Install Multicluster Verrazzano"
-description: "Set up a multicluster Verrazzano environment"
+description: ""
 weight: 1
 draft: false
 aliases:

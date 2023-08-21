@@ -1,6 +1,6 @@
 ---
 title: "Network Traffic"
-description: "Understand Verrazzano network traffic"
+description: ""
 weight: 3
 draft: false
 ---

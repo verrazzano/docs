@@ -1,6 +1,6 @@
 ---
 title: "Verify the Upgrade"
-description: "Verify the upgrade installation"
+description: ""
 weight: 3
 draft: false
 ---

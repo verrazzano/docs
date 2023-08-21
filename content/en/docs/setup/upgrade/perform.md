@@ -1,6 +1,6 @@
 ---
-title: "Perform the Verrazzano Upgrade"
-description: "Upgrade Verrazzano"
+title: "Upgrade Verrazzano"
+description: ""
 weight: 2
 draft: false
 ---

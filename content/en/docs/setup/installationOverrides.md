@@ -1,6 +1,6 @@
 ---
-title: "Installation Overrides"
-description: "Customize installation overrides"
+title: "Configure Installation Overrides"
+description: ""
 weight: 6
 draft: false
 ---

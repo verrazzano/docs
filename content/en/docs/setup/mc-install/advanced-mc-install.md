@@ -1,6 +1,6 @@
 ---
 title: "Advanced Multicluster Installation"
-description: "Set up a multicluster Verrazzano environment when Rancher is disabled"
+description: ""
 weight: 12
 draft: false
 aliases:

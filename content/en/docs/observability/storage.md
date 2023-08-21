@@ -1,6 +1,6 @@
 ---
 title: Customize Persistent Storage
-description: Customize persistent storage settings
+description: 
 Weight: 4
 draft: false
 aliases:
