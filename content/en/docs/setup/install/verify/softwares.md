@@ -1,5 +1,5 @@
 ---
-title: "Verrazzano Installed Software"
+title: "View Verrazzano Installed Software"
 description: ""
 weight: 3
 draft: false
