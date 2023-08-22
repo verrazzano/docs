@@ -56,7 +56,7 @@ There is no user involvement related to restarting OAM applications; it is done 
 The platform operator contains the newer component charts and image versions, so it must be updated prior to upgrading the installation.
 Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade.
 Currently, there is no way to roll back either the platform operator update or the Verrazzano installation upgrade.&lt;/p&gt;
-&lt;p&gt;You can upgrade Verrazzano using the  &lt;a href=&#34;../../../docs/setup/install/&#34;&gt;Verrazzano CLI&lt;/a&gt; or with &lt;a href=&#34;https://kubernetes.io/docs/reference/kubectl/kubectl/&#34;&gt;kubectl&lt;/a&gt;.
+&lt;p&gt;You can upgrade Verrazzano using the Verrazzano &lt;a href=&#34;../../../docs/setup/install/prepare/cli-setup/&#34;&gt;CLI&lt;/a&gt; or with &lt;a href=&#34;https://kubernetes.io/docs/reference/kubectl/kubectl/&#34;&gt;kubectl&lt;/a&gt;.
 See the following respective sections.&lt;/p&gt;
 
 
@@ -69,7 +69,7 @@ See the following respective sections.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#upgrade-verrazzano-using-the-cli&#34;&gt;Upgrade Verrazzano using the CLI&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#upgrade-using-kubectl&#34;&gt;Upgrade using kubectl&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#upgrade-using-kubectl&#34;&gt;Upgrade using &lt;code&gt;kubectl&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;upgrade-verrazzano-using-the-cli&#34;&gt;Upgrade Verrazzano using the CLI&lt;/h2&gt;
 &lt;p&gt;In one simple step, you can upgrade to a specified version of Verrazzano using this command.&lt;/p&gt;
@@ -267,10 +267,10 @@ Upgrade logs will be streamed to the command window until the upgrade has comple
 or until the default timeout (30m) has been reached.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;upgrade-using-kubectl&#34;&gt;Upgrade using kubectl&lt;/h2&gt;
-&lt;p&gt;Upgrading an existing Verrazzano installation is a two-step process:&lt;/p&gt;
+&lt;h2 id=&#34;upgrade-using-kubectl&#34;&gt;Upgrade using &lt;code&gt;kubectl&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;Upgrading an existing Verrazzano installation using &lt;code&gt;kubectl&lt;/code&gt; is a two-step process:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Update the Verrazzano platform operator to the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;Verrazzano release version&lt;/a&gt; to which you want to upgrade.&lt;/li&gt;
+&lt;li&gt;Update the Verrazzano platform operator to the Verrazzano &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;release version&lt;/a&gt; to which you want to upgrade.&lt;/li&gt;
 &lt;li&gt;Upgrade the Verrazzano installation.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;update-the-verrazzano-platform-operator&#34;&gt;Update the Verrazzano platform operator&lt;/h3&gt;
@@ -278,7 +278,7 @@ or until the default timeout (30m) has been reached.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Update the Verrazzano platform operator.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: If you are using a private container registry, then to update the platform operator, follow the instructions at &lt;a href=&#34;../../../docs/setup/private-registry/private-registry/&#34;&gt;Use a Private Registry&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: If you are using a private container registry, then to update the platform operator, follow the instructions at &lt;a href=&#34;../../../docs/setup/private-registry/private-registry/&#34;&gt;Install Verrazzano in a Disconnected Environment&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;To update to the latest version:
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -759,10 +759,10 @@ Verrazzano platform operator.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Update the &lt;code&gt;Verrazzano&lt;/code&gt; resource to the desired version.&lt;/p&gt;
-&lt;p&gt;To upgrade the Verrazzano components, you must update the &lt;code&gt;version&lt;/code&gt; field in your &lt;code&gt;Verrazzano&lt;/code&gt; resource spec to
+&lt;p&gt;To upgrade the Verrazzano components, you must update the &lt;code&gt;version&lt;/code&gt; field in your &lt;code&gt;Verrazzano&lt;/code&gt; resource specification to
 match the version supported by the platform operator to which you upgraded and apply it to the cluster.&lt;/p&gt;
-&lt;p&gt;The value of the &lt;code&gt;version&lt;/code&gt; field in the resource spec must be a &lt;a href=&#34;https://semver.org/&#34;&gt;Semantic Versioning&lt;/a&gt; value
-corresponding to a valid &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;Verrazzano release version&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The value of the &lt;code&gt;version&lt;/code&gt; field in the resource specification must be a &lt;a href=&#34;https://semver.org/&#34;&gt;Semantic Versioning&lt;/a&gt; value
+corresponding to a valid Verrazzano &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;release version&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;To update the resource, do one of the following:&lt;/p&gt;
 &lt;p&gt;a. Edit the YAML file you used to install Verrazzano and set the &lt;code&gt;version&lt;/code&gt; field to the latest version.&lt;/p&gt;
 &lt;p&gt;For example, to upgrade to &lt;code&gt;master&lt;/code&gt;, your YAML file should be edited to add or update the &lt;code&gt;version&lt;/code&gt; field.
@@ -1157,7 +1157,104 @@ b. Edit the &lt;code&gt;Verrazzano&lt;/code&gt; resource directly using &lt;code
       <description>
         
         
-        &lt;p&gt;Check that all the pods in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace are in the &lt;code&gt;Running&lt;/code&gt; state.  While the upgrade is in progress,
+        &lt;p&gt;To see detailed progress of the upgrade, view the logs with the following command.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-install \
+    -f $(kubectl get pod \
+    -n verrazzano-install \
+    -l app=verrazzano-platform-operator \
+    -o jsonpath=&amp;#34;{.items[0].metadata.name}&amp;#34;) | grep &amp;#39;^{.*}$&amp;#39; \
+    | jq -r &amp;#39;.&amp;#34;@timestamp&amp;#34; as $timestamp | &amp;#34;\($timestamp) \(.level) \(.message)&amp;#34;&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;Check that all the pods in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace are in the &lt;code&gt;Running&lt;/code&gt; state.  While the upgrade is in progress,
 you may see some pods terminating and restarting as newer versions of components are applied, for example:
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -1369,139 +1466,6 @@ tododomain-adminserver   4/4     Running   0          39h
     </item>
     
     <item>
-      <title>Docs: Troubleshoot Upgrade Issues</title>
-      <link>/docs/setup/upgrade/troubleshoot/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/setup/upgrade/troubleshoot/</guid>
-      <description>
-        
-        
-        &lt;p&gt;In Verrazzano 1.3 and later, upgrade will continue to run until it succeeds or until you delete the Verrazzano CR.  In previous versions,
-upgrade could fail and transition to the &lt;code&gt;UpgradeFailed&lt;/code&gt; state.  If that happens, and you updated the Verrazzano platform operator to 1.3+,
-then the Verrazzano CR will transition to &lt;code&gt;UpgradePaused&lt;/code&gt;.  To continue with the upgrade, you must change the CR version to the current
-version of the Verrazzano platform operator.  The following steps illustrate this scenario:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;You install Verrazzano 1.1.2.&lt;/li&gt;
-&lt;li&gt;You upgrade to 1.2.0 by changing the Verrazzano CR version field to v1.2.0.
-&lt;ul&gt;
-&lt;li&gt;For some reason, the upgrade failed and the Verrazzano CR state transitions to &lt;code&gt;UpgradeFailed&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;You update the Verrazzano platform operator to 1.3.0.
-&lt;ul&gt;
-&lt;li&gt;The Verrazzano CR state transitions to &lt;code&gt;UpgradePaused&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;You change the Verrazzano CR version field to v1.3.0.
-&lt;ul&gt;
-&lt;li&gt;The Verrazzano CR state transitions to &lt;code&gt;Upgrading&lt;/code&gt; and stays in that state until it completes, then it transitions to &lt;code&gt;UpgradeComplete&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;To see detailed progress of the upgrade, view the logs with the following command.
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-install \
-    -f $(kubectl get pod \
-    -n verrazzano-install \
-    -l app=verrazzano-platform-operator \
-    -o jsonpath=&amp;#34;{.items[0].metadata.name}&amp;#34;) | grep &amp;#39;^{.*}$&amp;#39; \
-    | jq -r &amp;#39;.&amp;#34;@timestamp&amp;#34; as $timestamp | &amp;#34;\($timestamp) \(.level) \(.message)&amp;#34;&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;For additional troubleshooting help, see &lt;a href=&#34;../../../docs/troubleshooting/diagnostictools/analysisadvice/&#34;&gt;Analysis Advice&lt;/a&gt;.&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
       <title>Docs: Upgrade Verrazzano in a Multicluster Environment</title>
       <link>/docs/setup/upgrade/upgrade-mc/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -1510,7 +1474,7 @@ version of the Verrazzano platform operator.  The following steps illustrate thi
       <description>
         
         
-        &lt;p&gt;Each cluster of a multicluster environment is upgraded separately. Start with the admin cluster, and then for each managed cluster, follow the &lt;a href=&#34;../../../docs/setup/upgrade/perform/&#34;&gt;Upgrade Verrazzano&lt;/a&gt; instructions.&lt;/p&gt;
+        &lt;p&gt;Each cluster of a multicluster environment is upgraded separately. Follow the &lt;a href=&#34;../../../docs/setup/upgrade/perform/&#34;&gt;Upgrade Verrazzano&lt;/a&gt; instructions, starting with the admin cluster and then for each managed cluster.&lt;/p&gt;
 &lt;h2 id=&#34;verify-the-upgrade-of-each-managed-cluster&#34;&gt;Verify the upgrade of each managed cluster&lt;/h2&gt;
 &lt;p&gt;For each managed cluster, follow the instructions in each of the following sections:&lt;/p&gt;
 &lt;ul&gt;
