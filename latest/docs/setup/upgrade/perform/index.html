@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/upgrade/perform/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-08-21T13:22:17-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-08-22T16:09:12-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Upgrade Verrazzano">
 <meta itemprop="description" content="It is important to distinguish between updating the Verrazzano platform operator versus upgrading the Verrazzano installation. The platform operator contains the newer component charts and image versions, so it must be updated prior to upgrading the installation. Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade. Currently, there is no way to roll back either the platform operator update or the Verrazzano installation upgrade.">
-<meta itemprop="dateModified" content="2023-08-21T13:22:17-04:00" />
-<meta itemprop="wordCount" content="2482">
+<meta itemprop="dateModified" content="2023-08-22T16:09:12-04:00" />
+<meta itemprop="wordCount" content="2486">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Upgrade Verrazzano"/>
 <meta name="twitter:description" content="It is important to distinguish between updating the Verrazzano platform operator versus upgrading the Verrazzano installation. The platform operator contains the newer component charts and image versions, so it must be updated prior to upgrading the installation. Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade. Currently, there is no way to roll back either the platform operator update or the Verrazzano installation upgrade."/>
@@ -110,7 +110,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.94a23f1e46e1d2c22aa850ea73b91a23.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.8c76589ca2b89fd1dfe7f212d72fd7d1.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.94a23f1e46e1d2c22aa850ea73b91a23.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.8c76589ca2b89fd1dfe7f212d72fd7d1.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -404,10 +404,6 @@ if (!doNotTrack) {
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupupgradeverify-li">
   <input type="checkbox" id="m-docssetupupgradeverify-check"/>
   <label for="m-docssetupupgradeverify-check"><a href="../../../../docs/setup/upgrade/verify/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docssetupupgradeverify"><span class="">Verify the Upgrade</span></a></label>
-  
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupupgradetroubleshoot-li">
-  <input type="checkbox" id="m-docssetupupgradetroubleshoot-check"/>
-  <label for="m-docssetupupgradetroubleshoot-check"><a href="../../../../docs/setup/upgrade/troubleshoot/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docssetupupgradetroubleshoot"><span class="">Troubleshoot Upgrade Issues</span></a></label>
   
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupupgradeupgrade-mc-li">
   <input type="checkbox" id="m-docssetupupgradeupgrade-mc-check"/>
@@ -1092,7 +1088,7 @@ if (!doNotTrack) {
     <li>
       <ul>
         <li><a href="#upgrade-verrazzano-using-the-cli">Upgrade Verrazzano using the CLI</a></li>
-        <li><a href="#upgrade-using-kubectl">Upgrade using kubectl</a>
+        <li><a href="#upgrade-using-kubectl">Upgrade using <code>kubectl</code></a>
           <ul>
             <li><a href="#update-the-verrazzano-platform-operator">Update the Verrazzano platform operator</a></li>
             <li><a href="#upgrade-verrazzano">Upgrade Verrazzano</a></li>
@@ -1168,7 +1164,7 @@ if (!doNotTrack) {
 The platform operator contains the newer component charts and image versions, so it must be updated prior to upgrading the installation.
 Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade.
 Currently, there is no way to roll back either the platform operator update or the Verrazzano installation upgrade.</p>
-<p>You can upgrade Verrazzano using the  <a href="../../../../docs/setup/install/">Verrazzano CLI</a> or with <a href="https://kubernetes.io/docs/reference/kubectl/kubectl/">kubectl</a>.
+<p>You can upgrade Verrazzano using the Verrazzano <a href="../../../../docs/setup/install/prepare/cli-setup/">CLI</a> or with <a href="https://kubernetes.io/docs/reference/kubectl/kubectl/">kubectl</a>.
 See the following respective sections.</p>
 
 
@@ -1181,7 +1177,7 @@ See the following respective sections.</p>
 
 <ul>
 <li><a href="#upgrade-verrazzano-using-the-cli">Upgrade Verrazzano using the CLI</a></li>
-<li><a href="#upgrade-using-kubectl">Upgrade using kubectl</a></li>
+<li><a href="#upgrade-using-kubectl">Upgrade using <code>kubectl</code></a></li>
 </ul>
 <h2 id="upgrade-verrazzano-using-the-cli">Upgrade Verrazzano using the CLI</h2>
 <p>In one simple step, you can upgrade to a specified version of Verrazzano using this command.</p>
@@ -1379,10 +1375,10 @@ Upgrade logs will be streamed to the command window until the upgrade has comple
 or until the default timeout (30m) has been reached.</p>
 </li>
 </ol>
-<h2 id="upgrade-using-kubectl">Upgrade using kubectl</h2>
-<p>Upgrading an existing Verrazzano installation is a two-step process:</p>
+<h2 id="upgrade-using-kubectl">Upgrade using <code>kubectl</code></h2>
+<p>Upgrading an existing Verrazzano installation using <code>kubectl</code> is a two-step process:</p>
 <ul>
-<li>Update the Verrazzano platform operator to the <a href="https://github.com/verrazzano/verrazzano/releases/">Verrazzano release version</a> to which you want to upgrade.</li>
+<li>Update the Verrazzano platform operator to the Verrazzano <a href="https://github.com/verrazzano/verrazzano/releases/">release version</a> to which you want to upgrade.</li>
 <li>Upgrade the Verrazzano installation.</li>
 </ul>
 <h3 id="update-the-verrazzano-platform-operator">Update the Verrazzano platform operator</h3>
@@ -1390,7 +1386,7 @@ or until the default timeout (30m) has been reached.</p>
 <ol>
 <li>
 <p>Update the Verrazzano platform operator.</p>
-<p><strong>NOTE</strong>: If you are using a private container registry, then to update the platform operator, follow the instructions at <a href="../../../../docs/setup/private-registry/private-registry/">Use a Private Registry</a>.</p>
+<p><strong>NOTE</strong>: If you are using a private container registry, then to update the platform operator, follow the instructions at <a href="../../../../docs/setup/private-registry/private-registry/">Install Verrazzano in a Disconnected Environment</a>.</p>
 <p>To update to the latest version:
 <style type="text/css">
     code {
@@ -1871,10 +1867,10 @@ Verrazzano platform operator.</p>
 <ol>
 <li>
 <p>Update the <code>Verrazzano</code> resource to the desired version.</p>
-<p>To upgrade the Verrazzano components, you must update the <code>version</code> field in your <code>Verrazzano</code> resource spec to
+<p>To upgrade the Verrazzano components, you must update the <code>version</code> field in your <code>Verrazzano</code> resource specification to
 match the version supported by the platform operator to which you upgraded and apply it to the cluster.</p>
-<p>The value of the <code>version</code> field in the resource spec must be a <a href="https://semver.org/">Semantic Versioning</a> value
-corresponding to a valid <a href="https://github.com/verrazzano/verrazzano/releases/">Verrazzano release version</a>.</p>
+<p>The value of the <code>version</code> field in the resource specification must be a <a href="https://semver.org/">Semantic Versioning</a> value
+corresponding to a valid Verrazzano <a href="https://github.com/verrazzano/verrazzano/releases/">release version</a>.</p>
 <p>To update the resource, do one of the following:</p>
 <p>a. Edit the YAML file you used to install Verrazzano and set the <code>version</code> field to the latest version.</p>
 <p>For example, to upgrade to <code>v1.6.4</code>, your YAML file should be edited to add or update the <code>version</code> field.
