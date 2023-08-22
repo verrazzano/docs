@@ -5,6 +5,21 @@ weight: 3
 draft: false
 ---
 
+To see detailed progress of the upgrade, view the logs with the following command.
+{{< clipboard >}}
+<div class="highlight">
+
+```
+$ kubectl logs -n verrazzano-install \
+    -f $(kubectl get pod \
+    -n verrazzano-install \
+    -l app=verrazzano-platform-operator \
+    -o jsonpath="{.items[0].metadata.name}") | grep '^{.*}$' \
+    | jq -r '."@timestamp" as $timestamp | "\($timestamp) \(.level) \(.message)"'
+```
+</div>
+{{< /clipboard >}}
+
 Check that all the pods in the `verrazzano-system` namespace are in the `Running` state.  While the upgrade is in progress,
 you may see some pods terminating and restarting as newer versions of components are applied, for example:
 {{< clipboard >}}
