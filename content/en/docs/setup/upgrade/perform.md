@@ -11,14 +11,14 @@ The platform operator contains the newer component charts and image versions, so
 Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade.
 Currently, there is no way to roll back either the platform operator update or the Verrazzano installation upgrade.  
 
-You can upgrade Verrazzano using the  [Verrazzano CLI]({{< relref "/docs/setup/install" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/).
+You can upgrade Verrazzano using the Verrazzano [CLI]({{< relref "/docs/setup/install/prepare/cli-setup.md" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/).
 See the following respective sections.
 
 {{< alert title="NOTE" color="primary" >}}For optimal functionality, be sure to install or upgrade the CLI version to match the Verrazzano version to which you are upgrading.   
 {{< /alert >}}
 
 - [Upgrade Verrazzano using the CLI](#upgrade-verrazzano-using-the-cli)
-- [Upgrade using kubectl](#upgrade-using-kubectl)
+- [Upgrade using `kubectl`](#upgrade-using-kubectl)
 
 ## Upgrade Verrazzano using the CLI
 
@@ -52,11 +52,11 @@ In one simple step, you can upgrade to a specified version of Verrazzano using t
    Upgrade logs will be streamed to the command window until the upgrade has completed
    or until the default timeout (30m) has been reached.
 
-## Upgrade using kubectl
+## Upgrade using `kubectl`
 
-Upgrading an existing Verrazzano installation is a two-step process:
+Upgrading an existing Verrazzano installation using `kubectl` is a two-step process:
 
-* Update the Verrazzano platform operator to the [Verrazzano release version](https://github.com/verrazzano/verrazzano/releases/) to which you want to upgrade.
+* Update the Verrazzano platform operator to the Verrazzano [release version](https://github.com/verrazzano/verrazzano/releases/) to which you want to upgrade.
 * Upgrade the Verrazzano installation.  
 
 ### Update the Verrazzano platform operator
@@ -64,7 +64,7 @@ In order to upgrade an existing Verrazzano installation, you must first update t
 
 1. Update the Verrazzano platform operator.
 
-   **NOTE**: If you are using a private container registry, then to update the platform operator, follow the instructions at [Use a Private Registry]({{< relref "/docs/setup/private-registry/private-registry.md" >}}).
+   **NOTE**: If you are using a private container registry, then to update the platform operator, follow the instructions at [Install Verrazzano in a Disconnected Environment]({{< relref "/docs/setup/private-registry/private-registry.md" >}}).
 
    To update to the latest version:
   {{< clipboard >}}
@@ -136,11 +136,11 @@ In one simple step, you can upgrade to a specified version of Verrazzano using t
 Alternatively, you can upgrade the Verrazzano installation using the following steps.
 1. Update the `Verrazzano` resource to the desired version.
 
-      To upgrade the Verrazzano components, you must update the `version` field in your `Verrazzano` resource spec to
+      To upgrade the Verrazzano components, you must update the `version` field in your `Verrazzano` resource specification to
       match the version supported by the platform operator to which you upgraded and apply it to the cluster.
 
-      The value of the `version` field in the resource spec must be a [Semantic Versioning](https://semver.org/) value
-      corresponding to a valid [Verrazzano release version](https://github.com/verrazzano/verrazzano/releases/).
+      The value of the `version` field in the resource specification must be a [Semantic Versioning](https://semver.org/) value
+      corresponding to a valid Verrazzano [release version](https://github.com/verrazzano/verrazzano/releases/).
 
       To update the resource, do one of the following:
 
