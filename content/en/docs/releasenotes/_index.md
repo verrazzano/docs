@@ -4,6 +4,10 @@ linkTitle: Release Notes
 weight: 2
 draft: false
 ---
+### v1.5.6
+Component version updates:
+- Istio v1.15.7
+
 ### v1.5.5
 Fixes:
 - Fixed issues with Rancher certificates that were out of sync or expired.
