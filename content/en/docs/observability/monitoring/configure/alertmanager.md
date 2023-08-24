@@ -85,4 +85,8 @@ EOF
 </div>
 {{< /clipboard >}}
 
+You can configure additional alerts by creating your own PrometheusRules. By default, Verrazzano configures several alerting rules,
+which can be viewed in the Thanos Ruler console. For more information, see
+[Alerting with Thanos Ruler]({{< relref "/docs/observability/monitoring/configure/thanos#alerting-with-thanos-ruler" >}}).
+
 For more information, see [Deploying Prometheus Rules](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules).
