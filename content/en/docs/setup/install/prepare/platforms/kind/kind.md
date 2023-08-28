@@ -1,7 +1,7 @@
 ---
 
 title: Prepare a kind Cluster
-description: Set up a kind cluster for Verrazzano
+description: 
 Weight: 4
 draft: false
 aliases:
