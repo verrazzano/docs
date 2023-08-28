@@ -7,7 +7,7 @@ draft: false
 #### Enhancements:
 - Reduced NGINX Ingress controller image size.
 - Reduced Fluentd image size.
-- ClusterClass Support expanded.
+- ClusterClass support expanded.
 - Updated to the Rancher 2.75 console.
 - Published publicly available VPO Helm charts.
 
