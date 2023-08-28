@@ -5,16 +5,16 @@ draft: false
 ---
 ## v1.6.5
 #### Enhancements:
-- Reduced nginx-ingress controller image size.
+- Reduced NGINX Ingress controller image size.
 - Reduced Fluentd image size.
-- Cluster Class Support expanded.
-- Uptake Rancher 2.7.5 Dashboard.
-- Published publicly available VPO Helm Charts.
+- ClusterClass Support expanded.
+- Updated to the Rancher 2.75 console.
+- Published publicly available VPO Helm charts.
 
 #### Fixes:
-- Fixed bug to tolerate the absence of the VMC caSecret field.
-- Fixed issue where authproxy wouldn't automatically pick up a new configuration.
-- Fixed bug where Verrazzano CR wouldn't allow for empty volume fields on update.
+- Fixed an issue that prevented tolerating an empty VMC `caSecret` field.
+- Fixed an issue where authproxy wouldn't automatically pick up a new configuration.
+- Fixed an issue where Verrazzano CR wouldn't allow for empty volume fields on update.
 - Fixed verrazzano-cluster-operator VMC reconcile error counting.
 
 ## v1.6.4
