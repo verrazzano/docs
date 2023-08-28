@@ -3,6 +3,20 @@ title: Release Notes
 weight: 2
 draft: false
 ---
+## v1.6.5
+#### Enhancements:
+- Reduced NGINX Ingress controller image size.
+- Reduced Fluentd image size.
+- ClusterClass support expanded.
+- Updated to the Rancher 2.75 console.
+- Published publicly available VPO Helm charts.
+
+#### Fixes:
+- Fixed an issue that prevented tolerating an empty VMC `caSecret` field.
+- Fixed an issue where authproxy wouldn't automatically pick up a new configuration.
+- Fixed an issue where Verrazzano CR wouldn't allow for empty volume fields on update.
+- Fixed verrazzano-cluster-operator VMC reconcile error counting.
+
 ## v1.6.4
 #### Component version updates:
 - Istio v1.17.2
