@@ -4,6 +4,11 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+### v1.4.7
+Fixes:
+- Fixed issues where upgrade would not successfully occur if pods had errors.
+- CVE fixes for Istio 1.14.3.
+
 ### v1.4.6
 Enhancements:
 - Verrazzano CLI tool validates that commands are entered correctly.
