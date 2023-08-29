@@ -106,7 +106,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.1b96a34ccc44db031ba4e4629ead4514.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.22ea7fb26de9fea28cf8a109a43dcc78.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -132,7 +132,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.1b96a34ccc44db031ba4e4629ead4514.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.22ea7fb26de9fea28cf8a109a43dcc78.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -556,15 +556,15 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 <h2 id="create-the-application-namespace">Create the application namespace</h2>
 <p>Apply the VerrazzanoProject resource on the admin cluster that defines the namespace for the application.  The namespaces defined in the VerrazzanoProject resource will be created on the admin cluster and all the managed clusters.</p>
 <pre tabindex="0"><code>$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/hello-helidon/verrazzano-project.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.7/examples/multicluster/hello-helidon/verrazzano-project.yaml
 </code></pre><h2 id="deploy-the-application">Deploy the application</h2>
 <ol>
 <li>
 <p>Apply the <code>hello-helidon</code> multicluster application configuration resource to deploy the application.  The multicluster resource is an envelope that contains an OAM resource and a list of clusters to which to deploy.</p>
 <pre tabindex="0"><code>$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/hello-helidon/hello-helidon-comp.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.7/examples/multicluster/hello-helidon/hello-helidon-comp.yaml
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.7/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
 </code></pre></li>
 <li>
 <p>Wait for the application to be ready on the managed cluster.</p>
@@ -594,7 +594,7 @@ $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
 <li>
 <p>To change the application&rsquo;s location to the admin cluster, specify the change placement patch file.</p>
 <pre tabindex="0"><code># To change the placement to the admin cluster
-$ export CHANGE_PLACEMENT_PATCH_FILE=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/hello-helidon/patch-change-placement-to-admin.yaml&#34;
+$ export CHANGE_PLACEMENT_PATCH_FILE=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.7/examples/multicluster/hello-helidon/patch-change-placement-to-admin.yaml&#34;
 </code></pre><p>This environment variable is used in subsequent steps.</p>
 </li>
 <li>
@@ -645,7 +645,7 @@ ready on the managed cluster.</p>
 <p>Now, you can test the example application running in its new location.</p>
 <p>To return the application to the managed cluster named <code>managed1</code>, set the value of the <code>CHANGE_PLACEMENT_PATCH_FILE</code> environment variable to the patch file provided for that purpose, then repeat the previous numbered steps.</p>
 <pre tabindex="0"><code># To change the placement back to the managed cluster named managed1
-$ export CHANGE_PLACEMENT_PATCH_FILE=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/hello-helidon/patch-return-placement-to-managed1.yaml&#34;
+$ export CHANGE_PLACEMENT_PATCH_FILE=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.7/examples/multicluster/hello-helidon/patch-return-placement-to-managed1.yaml&#34;
 </code></pre></li>
 </ol>
 <h2 id="undeploy-the-application">Undeploy the application</h2>
@@ -656,14 +656,14 @@ Undeploy affects all clusters in which the application is located.</p>
 <li>
 <p>To undeploy the application, delete the Hello World Helidon OAM resources.</p>
 <pre tabindex="0"><code>$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.7/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/hello-helidon/hello-helidon-comp.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.7/examples/multicluster/hello-helidon/hello-helidon-comp.yaml
 </code></pre></li>
 <li>
 <p>Delete the project.</p>
 <pre tabindex="0"><code>$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.6/examples/multicluster/hello-helidon/verrazzano-project.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.7/examples/multicluster/hello-helidon/verrazzano-project.yaml
 </code></pre></li>
 <li>
 <p>Delete the namespace <code>hello-helidon</code> after the application pod is terminated.</p>
