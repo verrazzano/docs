@@ -9,7 +9,7 @@ Enhancements:
 - Reduced Fluentd image size. 
 
 Fixes:
-- Fixed issue where the Verrazzano CLI would not reject an invalid custom resource.
+- Fixed an issue where the Verrazzano CLI would not reject an invalid custom resource.
 
 ### v1.5.5
 Fixes:
