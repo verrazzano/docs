@@ -32,14 +32,14 @@ In Verrazzano, Jaeger is comprised of the following components:
 
 - Collector service, which receives traces from clients, processes them, and stores them in a storage back end.
 - Query service, which exposes the APIs for retrieving traces from storage and hosts the Jaeger console for searching and analyzing traces.
-- Storage, may be ephemeral or backed by OpenSearch.
+- Storage, which may be ephemeral (in-memory) or backed by OpenSearch.
    - Jaeger can be configured to use one of several choices for [storage back ends](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/deployment/#span-storage-backends).
    - In Verrazzano, trace records are stored in OpenSearch; OpenSearch must be enabled in Verrazzano for this to work.
 
-Jaeger is very configurable. See the Jaeger documentation for detailed information about Jaeger [features](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/features/) and [architecture](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/architecture). In Verrazzano, Jaeger does not include the Ingester service, Kafka, or Sparks jobs.
+Jaeger is very configurable. See the Jaeger documentation for detailed information about Jaeger [features](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/features/) and [architecture](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/architecture). In Verrazzano, Jaeger does not include the Ingester service, Kafka, or Sparks jobs automatically but can be customized to implement them.
 
 ### Next steps
 
 - Enable Jaeger and customize your Verrazzano Jaeger installation. See [configure tracing]({{< relref "/docs/observability/tracing/configure-tracing.md" >}}).
 - Configure your applications to [send traces to Jaeger]({{< relref "/docs/observability/tracing/capture-traces.md" >}}).
-- Then, use the Verrazzano Jaeger console to [view traces]({{< relref "/docs/observability/tracing/view-traces.md" >}}).
+- Then, use the Verrazzano Jaeger console to [view traces]({{< relref "/docs/observability/tracing/view-traces.md" >}}) stored in OpenSearch.
