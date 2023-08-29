@@ -11,7 +11,7 @@ For information on the Kubernetes versions that Verrazzano supports, see the [Pr
 The following lists documentation sources for Kubernetes cluster updates.
 If yours does not appear on this list, then consult your cluster provider's upgrade documentation.
 - [OKE Kubernetes Upgrade](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengupgradingk8smasternode.htm)
-- [OLCNE Kubernetes Upgrade](https://docs.oracle.com/en/operating-systems/olcne/1.5/upgrade/update.html#update)
+- [OCNE Kubernetes Upgrade](https://docs.oracle.com/en/operating-systems/olcne/1.5/upgrade/update.html#update)
 - [kubeadm Kubernetes Upgrade](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/)
 
 ## Upgrade a multinode cluster
