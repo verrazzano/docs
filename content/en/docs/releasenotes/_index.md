@@ -5,11 +5,11 @@ draft: false
 ---
 ## v1.6.5
 #### Enhancements:
-- Reduced NGINX Ingress controller image size.
+- Reduced NGINX Ingress Controller image size.
 - Reduced Fluentd image size.
 - Cluster API ClusterClass support expanded.
 - Updated to the Rancher v2.75 console.
-- Added Verrazzano platform operator Helm Chart.
+- Added Verrazzano platform operator Helm chart.
 
 #### Fixes:
 - Fixed an issue that prevented tolerating an empty VerrazzanoManagedCluster resource `caSecret` field.
