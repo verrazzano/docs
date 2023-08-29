@@ -3,6 +3,20 @@ title: Release Notes
 weight: 2
 draft: false
 ---
+## v1.6.5
+#### Enhancements:
+- Reduced NGINX Ingress Controller image size.
+- Reduced Fluentd image size.
+- Cluster API ClusterClass support expanded.
+- Updated to the Rancher v2.75 console.
+- Added Verrazzano platform operator Helm chart.
+
+#### Fixes:
+- Fixed an issue that prevented tolerating an empty VerrazzanoManagedCluster resource `caSecret` field.
+- Fixed an issue where authproxy wouldn't automatically pick up a new configuration.
+- Fixed an issue where Verrazzano CR wouldn't allow for empty volume fields on update.
+- Fixed verrazzano-cluster-operator VerrazzanoManagedCluster resource reconcile error metric counting.
+
 ## v1.6.4
 #### Component version updates:
 - Istio v1.17.2
