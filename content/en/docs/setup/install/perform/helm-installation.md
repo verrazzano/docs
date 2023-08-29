@@ -8,7 +8,7 @@ aliases:
 - /docs/setup/install/cli-installation
 ---
 
-The following instructions show you how to install a Verrazzano Platform Operator (VPO) in a
+The following instructions show you how to install the Verrazzano Platform Operator (VPO) in a
 single Kubernetes cluster using Helm 
 
 ## Prerequisites
@@ -37,9 +37,7 @@ Make sure that you have a valid kubeconfig file pointing to the Kubernetes clust
 Verrazzano provides a platform [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 to manage the life cycle of Verrazzano installations.
 
-This document shows how to install a VPO using:
-
-* A Verrazzano VPO Helm chart, which can be found in one of our [repositories](https://github.com/orgs/verrazzano/packages/container/charts%2Fverrazzano-platform-operator/versions?filters%5Bversion_type%5D=tagged)
+This document shows how to install a VPO using a Verrazzano VPO Helm chart, which can be found in one of our [repositories](https://github.com/orgs/verrazzano/packages/container/charts%2Fverrazzano-platform-operator/versions?filters%5Bversion_type%5D=tagged)
 
 #### Install Verrazzano Platform Operator
 
@@ -54,4 +52,4 @@ To install a VPO Using a Helm Chart From Our Repository.
 </div>
 {{< /clipboard >}}
 
-This command installs only the 1.6.5 VPO to the cluster, it does not install a Verrazzano Custom Resource. To formally trigger an install of Verrazzano in your cluster, the custom resource [must be applied to your cluster]({{< relref "docs/setup/install/perform/kubectl-installation.md" >}}).
+This example command installs only the 1.6.5 VPO to the cluster, it does not install a Verrazzano Custom Resource. To formally trigger an install of Verrazzano in your cluster, the custom resource [must be applied to your cluster]({{< relref "docs/setup/install/perform/kubectl-installation.md#perform-the-installation" >}}).
