@@ -100,6 +100,12 @@ Fixes:
 - Fixed IngressTrait JWT related issues to allow multiple paths where one path has `RequestPrincipals` and the other doesn't.
 - Fixed IngressTrait JWT so that `RequestPrincipals` with no paths are allowed.
 - Fixed IngressTrait related `AuthorizationPolicy` cleanup when an application is deleted.
+### v1.4.7
+Fixes:
+
+- Fixed issues where upgrade would not successfully occur if pods had errors.
+- CVE fixes for Istio 1.14.3.
+
 ### v1.4.6
 Enhancements:
 
