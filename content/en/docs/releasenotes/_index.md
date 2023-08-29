@@ -5,17 +5,17 @@ draft: false
 ---
 ## v1.6.5
 #### Enhancements:
-- Reduced NGINX Ingress controller image size.
+- Reduced NGINX Ingress Controller image size.
 - Reduced Fluentd image size.
-- ClusterClass support expanded.
-- Updated to the Rancher 2.75 console.
-- Published publicly available VPO Helm charts.
+- Cluster API ClusterClass support expanded.
+- Updated to the Rancher v2.75 console.
+- Added Verrazzano platform operator Helm chart.
 
 #### Fixes:
-- Fixed an issue that prevented tolerating an empty VMC `caSecret` field.
+- Fixed an issue that prevented tolerating an empty VerrazzanoManagedCluster resource `caSecret` field.
 - Fixed an issue where authproxy wouldn't automatically pick up a new configuration.
 - Fixed an issue where Verrazzano CR wouldn't allow for empty volume fields on update.
-- Fixed verrazzano-cluster-operator VMC reconcile error counting.
+- Fixed verrazzano-cluster-operator VerrazzanoManagedCluster resource reconcile error metric counting.
 
 ## v1.6.4
 #### Component version updates:
@@ -96,6 +96,13 @@ draft: false
 
 
 ## Previous Release Information
+### v1.5.6
+**Enhancements**:
+- Reduced Fluentd image size.
+
+**Fixes**:
+- Fixed an issue where the Verrazzano CLI would not reject an invalid custom resource.
+
 ### v1.5.5
 **Fixes**:
 - Fixed issues with Rancher certificates that were out of sync or expired.
@@ -190,6 +197,11 @@ draft: false
 - Fixed IngressTrait JWT related issues to allow multiple paths where one path has `RequestPrincipals` and the other doesn't.
 - Fixed IngressTrait JWT so that `RequestPrincipals` with no paths are allowed.
 - Fixed IngressTrait related `AuthorizationPolicy` cleanup when an application is deleted.
+
+### v1.4.7
+**Fixes**:
+- Fixed issues where upgrade would not successfully occur if pods had errors.
+- CVE fixes for Istio 1.14.3.
 
 ### v1.4.6
 **Enhancements**:
