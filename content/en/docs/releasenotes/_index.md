@@ -4,6 +4,13 @@ linkTitle: Release Notes
 weight: 2
 draft: false
 ---
+### v1.5.6
+Enhancements:
+- Reduced Fluentd image size. 
+
+Fixes:
+- Fixed issue where the Verrazzano CLI would not reject an invalid custom resource.
+
 ### v1.5.5
 Fixes:
 - Fixed issues with Rancher certificates that were out of sync or expired.
