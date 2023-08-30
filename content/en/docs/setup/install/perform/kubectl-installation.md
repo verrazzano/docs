@@ -1,7 +1,7 @@
 ---
 title: "Install With kubectl"
 description: "Install Verrazzano using `kubectl`"
-weight: 1
+weight: 2
 draft: false
 aliases:
 - /docs/setup/install/kubectl-installation
