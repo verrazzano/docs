@@ -90,4 +90,4 @@ To use a different profile with the previous example, set the `VZ_PROFILE` envir
 
 ## Next steps
 
-Verify the installed Verrazzano using the `vz` CLI. See [Verify using CLI]({{< relref "/docs/setup/install/verify/cli-verify.md" >}}).
+Verify the installed Verrazzano using the `vz` CLI. See [Verify Using CLI]({{< relref "/docs/setup/install/verify/cli-verify.md" >}}).

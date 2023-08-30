@@ -159,4 +159,4 @@ If an error occurs, check the log output of the installation. You can view the l
 
 ## Next steps
 
-Verify the installed Verrazzano using `kubectl`. See [Verify using CLI]({{< relref "/docs/setup/install/verify/kubectl-verify.md" >}}).
+Verify the installed Verrazzano using `kubectl`. See [Verify Using kubectl]({{< relref "/docs/setup/install/verify/kubectl-verify.md" >}}).
