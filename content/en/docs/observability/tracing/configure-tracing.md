@@ -66,7 +66,7 @@ If the Jaeger Operator component is enabled in the managed cluster, after succes
 a Jaeger collector service runs in the managed cluster, which exports the traces to the OpenSearch
 storage configured in the admin cluster.
 
-If OpenSearch storage is not configured in the admin cluster, you will need to use Jaeger install overrides in the Verrazzano custom resource to explicitly enable and configure a Jaeger instance to export traces in the managed cluster to in-memory storage or to an external OpenSearch storage location.
+If OpenSearch storage is not configured in the admin cluster, you will need to use Jaeger installation overrides in the Verrazzano custom resource to explicitly enable and configure a Jaeger instance to export traces in the managed cluster to in-memory storage or to an external OpenSearch storage location.
 
 **NOTE**: If the admin cluster is unavailable or the storage backend, OpenSearch, is not operational, then Jaeger will start dropping traces because it cannot buffer much data. To buffer large amounts of data, you would need to set up an intermediary queue, such as [Kafka](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/deployment/#kafka). This would prevent data loss from Jaeger collectors.
 
