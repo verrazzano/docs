@@ -38,7 +38,7 @@ The following steps show you how to install the VPO using a VPO Helm chart. VPO 
 
 #### Install the VPO using a Helm chart from the repository
 
-1. Install your desired version of the Verrazzano VPO 
+1. Install your desired version of the Verrazzano platform operator. See the following example command that installs the v1.6.5 VPO. 
    {{< clipboard >}}
 <div class="highlight">
 
