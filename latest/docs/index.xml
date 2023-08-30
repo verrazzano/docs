@@ -4176,750 +4176,7 @@ or until the default timeout (30m) has been reached.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;To use a different profile with the previous example, set the &lt;code&gt;VZ_PROFILE&lt;/code&gt; environment variable to the name of the profile you want to install.&lt;/p&gt;
 &lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
-&lt;p&gt;Verify the installed Verrazzano using the &lt;code&gt;vz&lt;/code&gt; CLI. See &lt;a href=&#34;../docs/setup/install/verify/cli-verify/&#34;&gt;Verify using CLI&lt;/a&gt;.&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Install With kubectl</title>
-      <link>/docs/setup/install/perform/kubectl-installation/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/setup/install/perform/kubectl-installation/</guid>
-      <description>
-        
-        
-        &lt;p&gt;The following instructions show you how to install Verrazzano in a
-single Kubernetes cluster using &lt;code&gt;kubectl&lt;/code&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Find the Verrazzano prerequisite requirements &lt;a href=&#34;../docs/setup/install/prepare/prereqs/&#34;&gt;here&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Review the list of the &lt;a href=&#34;../docs/setup/install/prepare/prereqs/#supported-software-versions&#34;&gt;software versions supported&lt;/a&gt; and &lt;a href=&#34;../docs/setup/install/prepare/prereqs/#installed-components&#34;&gt;installed&lt;/a&gt; by Verrazzano.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
-
-    To avoid conflicts with Verrazzano system components, we recommend installing Verrazzano into an empty cluster.
-
-&lt;/div&gt;
-
-&lt;h2 id=&#34;prepare-for-the-installation&#34;&gt;Prepare for the installation&lt;/h2&gt;
-&lt;p&gt;Before installing Verrazzano, see instructions on preparing &lt;a href=&#34;../docs/setup/install/prepare/platforms/&#34;&gt;Kubernetes platforms&lt;/a&gt; and installing the &lt;a href=&#34;../docs/setup/install/prepare/cli-setup/&#34;&gt;Verrazzano CLI&lt;/a&gt; (optional).
-Make sure that you have a valid kubeconfig file pointing to the Kubernetes cluster that you want to use for installing Verrazzano.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For instructions on how to install a CNI plug-in, see the documentation for your Kubernetes cluster.&lt;/p&gt;
-&lt;p&gt;You can install Verrazzano using the &lt;a href=&#34;../docs/setup/install/prepare/cli-setup/&#34;&gt;Verrazzano CLI&lt;/a&gt; or with &lt;a href=&#34;https://kubernetes.io/docs/reference/kubectl/kubectl/&#34;&gt;kubectl&lt;/a&gt;. See the following respective sections.&lt;/p&gt;
-&lt;h2 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano platform operator&lt;/h2&gt;
-&lt;p&gt;Verrazzano provides a platform &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
-to manage the life cycle of Verrazzano installations.  Using the &lt;a href=&#34;../docs/reference/vpo-verrazzano-v1beta1/&#34;&gt;Verrazzano&lt;/a&gt;
-custom resource, you can install, uninstall, and upgrade Verrazzano installations.&lt;/p&gt;
-&lt;p&gt;To install the Verrazzano platform operator:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Deploy the Verrazzano platform operator.
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v1.6.5/verrazzano-platform-operator.yaml
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Wait for the deployment to complete.
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# Expected response
-deployment &amp;#34;verrazzano-platform-operator&amp;#34; successfully rolled out
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Confirm that the operator pod is correctly defined and running.
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; $ kubectl -n verrazzano-install get pods
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; # Sample output
- NAME                                            READY   STATUS    RESTARTS   AGE
- verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;perform-the-installation&#34;&gt;Perform the installation&lt;/h2&gt;
-&lt;p&gt;Verrazzano supports the following installation profiles:  development (&lt;code&gt;dev&lt;/code&gt;), production (&lt;code&gt;prod&lt;/code&gt;), and
-managed cluster (&lt;code&gt;managed-cluster&lt;/code&gt;).  For more information, see
-&lt;a href=&#34;../docs/setup/install/perform/profiles/&#34;&gt;Installation Profiles&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;This document shows how to create a basic Verrazzano installation using:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;The development (&lt;code&gt;dev&lt;/code&gt;) installation profile&lt;/li&gt;
-&lt;li&gt;Wildcard-DNS, where DNS is provided by &lt;a href=&#34;https://nip.io&#34;&gt;nip.io&lt;/a&gt; (the default)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Because the &lt;code&gt;dev&lt;/code&gt; profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: &lt;strong&gt;Your connection is not private&lt;/strong&gt;. For a workaround, see this &lt;a href=&#34;../docs/troubleshooting/faq/#enable-google-chrome-to-accept-self-signed-verrazzano-certificates&#34;&gt;FAQ&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;For a complete description of Verrazzano configuration options, see the
-&lt;a href=&#34;../docs/reference/vpo-verrazzano-v1beta1/&#34;&gt;Verrazzano Custom Resource Definition&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;To use other DNS options, see &lt;a href=&#34;../docs/networking/traffic/dns/&#34;&gt;Customzing DNS&lt;/a&gt; for more details.&lt;/p&gt;
-&lt;h4 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h4&gt;
-&lt;p&gt;To create a Verrazzano installation as described in the previous section, run the following commands.&lt;/p&gt;
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f - &amp;lt;&amp;lt;EOF
-apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: example-verrazzano
-spec:
-  profile: ${VZ_PROFILE:-dev}
-EOF
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl wait \
-  --timeout=20m \
-  --for=condition=InstallComplete verrazzano/example-verrazzano
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: If you are installing Verrazzano in an Azure Kubernetes Service (AKS) cluster, add the following annotation for &lt;code&gt;ingressNGINX&lt;/code&gt; to access Verrazzano endpoints on Azure.&lt;/p&gt;
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f - &amp;lt;&amp;lt;EOF
-apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: example-verrazzano
-spec:
-  profile: dev
-  components:
-    ingressNGINX:
-      overrides:
-      - values:
-          controller:
-            service:
-              annotations:
-                service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
-    dns:
-      wildcard:
-        domain: nip.io
-EOF
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;
-&lt;p&gt;To use a different profile with the previous example, set the &lt;code&gt;VZ_PROFILE&lt;/code&gt; environment variable to the name of the profile
-you want to install.&lt;/p&gt;
-&lt;p&gt;If an error occurs, check the log output of the installation. You can view the logs with the following command.&lt;/p&gt;
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre&gt;&lt;code&gt;  $ kubectl logs -n verrazzano-install \
-      -f $(kubectl get pod \
-      -n verrazzano-install \
-      -l app=verrazzano-platform-operator \
-      -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot;) | grep &#39;^{.*}$&#39; \
-      | jq -r &#39;.&amp;quot;@timestamp&amp;quot; as $timestamp | &amp;quot;\($timestamp) \(.level) \(.message)&amp;quot;&#39;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;
-&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
-&lt;p&gt;Verify the installed Verrazzano using &lt;code&gt;kubectl&lt;/code&gt;. See &lt;a href=&#34;../docs/setup/install/verify/kubectl-verify/&#34;&gt;Verify using CLI&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Verify the installed Verrazzano using the &lt;code&gt;vz&lt;/code&gt; CLI. See &lt;a href=&#34;../docs/setup/install/verify/cli-verify/&#34;&gt;Verify Using CLI&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>
@@ -14975,582 +14232,744 @@ and examining the &lt;code&gt;Status.Instance&lt;/code&gt; field:
     </item>
     
     <item>
-      <title>Docs: Installation Profiles</title>
-      <link>/docs/setup/install/perform/profiles/</link>
+      <title>Docs: Install With kubectl</title>
+      <link>/docs/setup/install/perform/kubectl-installation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/setup/install/perform/profiles/</guid>
+      <guid>/docs/setup/install/perform/kubectl-installation/</guid>
       <description>
         
         
-        &lt;p&gt;This document describes built-in configuration profiles that you can use to simplify a Verrazzano installation.  An installation
-profile is a well-known configuration of Verrazzano settings that can be referenced by name, which then can be
-customized as needed.&lt;/p&gt;
-&lt;p&gt;The following table describes the Verrazzano installation profiles.&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Profile&lt;/th&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;Description&lt;/th&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;Characteristics&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;prod&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Full installation, production configuration.&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Default profile:&lt;br/&gt;- Full installation.&lt;br/&gt;- Persistent storage. &lt;br/&gt;- Production OpenSearch cluster topology.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;dev&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Development or evaluation configuration.&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Lightweight installation:&lt;br/&gt;- For evaluation purposes.&lt;br/&gt;- No persistence.&lt;br/&gt;- Single-node OpenSearch cluster topology.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;managed-cluster&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;A specialized installation for managed clusters in a multicluster topology.&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Minimal installation for a managed cluster:&lt;br/&gt;- Clusters must be registered with an admin cluster to use &lt;a href=&#34;../docs/introduction/verrazzanomulticluster/&#34;&gt;multicluster&lt;/a&gt; features.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h2 id=&#34;use-an-installation-profile&#34;&gt;Use an installation profile&lt;/h2&gt;
-&lt;p&gt;To specify an installation profile when installing Verrazzano, set the profile name in the &lt;code&gt;profile&lt;/code&gt; field of your
-Verrazzano custom resource.&lt;/p&gt;
-&lt;p&gt;For example, to use the &lt;code&gt;dev&lt;/code&gt; profile:
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: example-verrazzano
-spec:
-  profile: dev
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;To use a different profile, replace &lt;code&gt;dev&lt;/code&gt; with &lt;code&gt;prod&lt;/code&gt;, or &lt;code&gt;managed-cluster&lt;/code&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;customize-an-installation-profile&#34;&gt;Customize an installation profile&lt;/h2&gt;
-&lt;p&gt;Regardless of the profile, you can override the profile settings for any component. The following example
-uses a customized &lt;code&gt;dev&lt;/code&gt; profile to configure a small 8 Gi persistent volume for the MySQL instance used by Keycloak to
-provide more stability for the Keycloak service.
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: custom-dev-example
-spec:
-  profile: dev
-  components:
-    keycloak:
-      mysql:
-        volumeSource:
-          persistentVolumeClaim:
-            claimName: mysql
-  volumeClaimSpecTemplates:
-  - metadata:
-      name: mysql      
-    spec:
-      resources:
-        requests:
-          storage: 8Gi
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;For details on how to customize Verrazzano components, see &lt;a href=&#34;../docs/setup/modify-installation/&#34;&gt;Modify Verrazzano Installations&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;profile-configurations&#34;&gt;Profile configurations&lt;/h2&gt;
-&lt;p&gt;The following table lists the Verrazzano components that are enabled by default with each profile.
-Some components are disabled by default; to access these features, you must first enable them. In general, if they are initially disabled upon installation,
-then you can enable them post-installation. For information on how to do this, see &lt;a href=&#34;../docs/setup/modify-installation/#edit-the-verrazzano-resource&#34;&gt;Edit the Verrazzano resource&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Note that you can customize any Verrazzano installation regardless of the profile.&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Component&lt;/th&gt;
-&lt;th style=&#34;text-align:center&#34;&gt;dev&lt;/th&gt;
-&lt;th style=&#34;text-align:center&#34;&gt;prod&lt;/th&gt;
-&lt;th style=&#34;text-align:center&#34;&gt;managed-cluster&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;applicationOperator&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;argoCD&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;authProxy&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;certManager&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;certManagerWebhookOCI&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;clusterAPI&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;clusterAgent&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;clusterIssuer&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;clusterOperator&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;coherenceOperator&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;console&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;dns&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;fluentbitOpensearchOutput&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;fluentd&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;fluentOperator&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;️&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;grafana&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;ingressNGINX&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;istio&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;jaegerOperator&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;keycloak&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;kiali&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;kubeStateMetrics&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;mySQLOperator&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;oam&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;opensearch&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;opensearchDashboards&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;prometheus&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;prometheusAdapter&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;prometheusNodeExporter&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;prometheusOperator&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;prometheusPushgateway&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;rancher&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;rancherBackup&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;thanos&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;velero&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;weblogicOperator&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;prometheus-and-grafana-configurations&#34;&gt;Prometheus and Grafana configurations&lt;/h3&gt;
-&lt;p&gt;The following table describes the Prometheus and Grafana configurations in each profile.&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Profile&lt;/th&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;Prometheus&lt;/th&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;Grafana&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;prod&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;One replica (128 MB memory, 50 Gi storage)&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;One replica (48 MB memory, 50 Gi storage)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;dev&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;One replica (128 MB memory, ephemeral storage)&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;One replica (48 MB memory, ephemeral storage)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;managed-cluster&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;One replica (128 MB memory, 50 Gi storage)&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Not installed&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;opensearch-dashboards-and-opensearch-configurations&#34;&gt;OpenSearch Dashboards and OpenSearch configurations&lt;/h3&gt;
-&lt;p&gt;The following table describes the OpenSearch Dashboards and OpenSearch cluster topology in each profile.&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Profile&lt;/th&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;OpenSearch&lt;/th&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;OpenSearch Dashboards&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;prod&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Three master replicas (1.4 Gi memory, 50 Gi storage each)&lt;br/&gt;One ingest replica (2.5 Gi memory, no storage)&lt;br/&gt;Three data replicas (4.8 Gi memory, 50 Gi storage each)&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;One replica (192 MB memory, ephemeral storage)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;dev&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;One master/data/ingest replica (1 Gi memory, ephemeral storage)&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;One replica (192 MB memory, ephemeral storage)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;managed-cluster&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Not installed&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Not installed&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+        &lt;p&gt;The following instructions show you how to install Verrazzano in a
+single Kubernetes cluster using &lt;code&gt;kubectl&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Find the Verrazzano prerequisite requirements &lt;a href=&#34;../docs/setup/install/prepare/prereqs/&#34;&gt;here&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Review the list of the &lt;a href=&#34;../docs/setup/install/prepare/prereqs/#supported-software-versions&#34;&gt;software versions supported&lt;/a&gt; and &lt;a href=&#34;../docs/setup/install/prepare/prereqs/#installed-components&#34;&gt;installed&lt;/a&gt; by Verrazzano.&lt;/li&gt;
+&lt;/ul&gt;
 
 
 &lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
 
-    OpenSearch containers are configured to use 75% of the configured request memory for the Java min/max heap settings.
+    To avoid conflicts with Verrazzano system components, we recommend installing Verrazzano into an empty cluster.
 
 &lt;/div&gt;
 
-&lt;h3 id=&#34;profile-independent-defaults&#34;&gt;Profile-independent defaults&lt;/h3&gt;
-&lt;p&gt;The following table shows the settings for components that are profile-independent (consistent across
-all profiles unless overridden).&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Component&lt;/th&gt;
-&lt;th&gt;Default&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;DNS&lt;/td&gt;
-&lt;td&gt;Wildcard DNS provider &lt;a href=&#34;https://nip.io&#34;&gt;nip.io&lt;/a&gt;.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Certificates&lt;/td&gt;
-&lt;td&gt;Uses the &lt;a href=&#34;https://cert-manager.io/&#34;&gt;cert-manager&lt;/a&gt; self-signed &lt;a href=&#34;https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.ClusterIssuer&#34;&gt;ClusterIssuer&lt;/a&gt; for certificates.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Ingress-type&lt;/td&gt;
-&lt;td&gt;Defaults to &lt;code&gt;LoadBalancer&lt;/code&gt; service type for the ingress.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+&lt;h2 id=&#34;prepare-for-the-installation&#34;&gt;Prepare for the installation&lt;/h2&gt;
+&lt;p&gt;Before installing Verrazzano, see instructions on preparing &lt;a href=&#34;../docs/setup/install/prepare/platforms/&#34;&gt;Kubernetes platforms&lt;/a&gt; and installing the &lt;a href=&#34;../docs/setup/install/prepare/cli-setup/&#34;&gt;Verrazzano CLI&lt;/a&gt; (optional).
+Make sure that you have a valid kubeconfig file pointing to the Kubernetes cluster that you want to use for installing Verrazzano.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For instructions on how to install a CNI plug-in, see the documentation for your Kubernetes cluster.&lt;/p&gt;
+&lt;p&gt;You can install Verrazzano using the &lt;a href=&#34;../docs/setup/install/prepare/cli-setup/&#34;&gt;Verrazzano CLI&lt;/a&gt; or with &lt;a href=&#34;https://kubernetes.io/docs/reference/kubectl/kubectl/&#34;&gt;kubectl&lt;/a&gt;. See the following respective sections.&lt;/p&gt;
+&lt;h2 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano platform operator&lt;/h2&gt;
+&lt;p&gt;Verrazzano provides a platform &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
+to manage the life cycle of Verrazzano installations.  Using the &lt;a href=&#34;../docs/reference/vpo-verrazzano-v1beta1/&#34;&gt;Verrazzano&lt;/a&gt;
+custom resource, you can install, uninstall, and upgrade Verrazzano installations.&lt;/p&gt;
+&lt;p&gt;To install the Verrazzano platform operator:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Deploy the Verrazzano platform operator.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v1.6.5/verrazzano-platform-operator.yaml
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the deployment to complete.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# Expected response
+deployment &amp;#34;verrazzano-platform-operator&amp;#34; successfully rolled out
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Confirm that the operator pod is correctly defined and running.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; $ kubectl -n verrazzano-install get pods
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; # Sample output
+ NAME                                            READY   STATUS    RESTARTS   AGE
+ verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;perform-the-installation&#34;&gt;Perform the installation&lt;/h2&gt;
+&lt;p&gt;Verrazzano supports the following installation profiles:  development (&lt;code&gt;dev&lt;/code&gt;), production (&lt;code&gt;prod&lt;/code&gt;), and
+managed cluster (&lt;code&gt;managed-cluster&lt;/code&gt;).  For more information, see
+&lt;a href=&#34;../docs/setup/install/perform/profiles/&#34;&gt;Installation Profiles&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This document shows how to create a basic Verrazzano installation using:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The development (&lt;code&gt;dev&lt;/code&gt;) installation profile&lt;/li&gt;
+&lt;li&gt;Wildcard-DNS, where DNS is provided by &lt;a href=&#34;https://nip.io&#34;&gt;nip.io&lt;/a&gt; (the default)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Because the &lt;code&gt;dev&lt;/code&gt; profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: &lt;strong&gt;Your connection is not private&lt;/strong&gt;. For a workaround, see this &lt;a href=&#34;../docs/troubleshooting/faq/#enable-google-chrome-to-accept-self-signed-verrazzano-certificates&#34;&gt;FAQ&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For a complete description of Verrazzano configuration options, see the
+&lt;a href=&#34;../docs/reference/vpo-verrazzano-v1beta1/&#34;&gt;Verrazzano Custom Resource Definition&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To use other DNS options, see &lt;a href=&#34;../docs/networking/traffic/dns/&#34;&gt;Customzing DNS&lt;/a&gt; for more details.&lt;/p&gt;
+&lt;h4 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h4&gt;
+&lt;p&gt;To create a Verrazzano installation as described in the previous section, run the following commands.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f - &amp;lt;&amp;lt;EOF
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: example-verrazzano
+spec:
+  profile: ${VZ_PROFILE:-dev}
+EOF
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl wait \
+  --timeout=20m \
+  --for=condition=InstallComplete verrazzano/example-verrazzano
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: If you are installing Verrazzano in an Azure Kubernetes Service (AKS) cluster, add the following annotation for &lt;code&gt;ingressNGINX&lt;/code&gt; to access Verrazzano endpoints on Azure.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f - &amp;lt;&amp;lt;EOF
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: example-verrazzano
+spec:
+  profile: dev
+  components:
+    ingressNGINX:
+      overrides:
+      - values:
+          controller:
+            service:
+              annotations:
+                service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+    dns:
+      wildcard:
+        domain: nip.io
+EOF
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;p&gt;To use a different profile with the previous example, set the &lt;code&gt;VZ_PROFILE&lt;/code&gt; environment variable to the name of the profile
+you want to install.&lt;/p&gt;
+&lt;p&gt;If an error occurs, check the log output of the installation. You can view the logs with the following command.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;  $ kubectl logs -n verrazzano-install \
+      -f $(kubectl get pod \
+      -n verrazzano-install \
+      -l app=verrazzano-platform-operator \
+      -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot;) | grep &#39;^{.*}$&#39; \
+      | jq -r &#39;.&amp;quot;@timestamp&amp;quot; as $timestamp | &amp;quot;\($timestamp) \(.level) \(.message)&amp;quot;&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
+&lt;p&gt;Verify the installed Verrazzano using &lt;code&gt;kubectl&lt;/code&gt;. See &lt;a href=&#34;../docs/setup/install/verify/kubectl-verify/&#34;&gt;Verify Using kubectl&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>
@@ -28207,6 +27626,203 @@ spec:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Customize External Load Balancers</title>
+      <link>/docs/networking/traffic/externallbs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/networking/traffic/externallbs/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano requires the following load balancers at installation:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Load balancer for NGINX ingress&lt;/li&gt;
+&lt;li&gt;Load balancer for Istio ingress&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;By default, Verrazzano automatically creates them as Kubernetes-managed load balancers, however,
+you have the option to use your own external load balancers. You can choose to replace either or both load balancers.&lt;/p&gt;
+&lt;p&gt;The following is an example of using external load balancers for both management and application ingress.&lt;/p&gt;
+&lt;h3 id=&#34;prepare-the-external-load-balancers&#34;&gt;Prepare the external load balancers&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;External load balancer for management ingress:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;This load balancer must have a listener set up on port &lt;code&gt;443&lt;/code&gt; with &lt;code&gt;TCP&lt;/code&gt; protocol.&lt;/li&gt;
+&lt;li&gt;The back end set for this listener needs to include the Kubernetes cluster node IP addresses on a port you pick, for example, &lt;code&gt;31443&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;External load balancer for application ingress:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;This load balancer must have a listener set up on port &lt;code&gt;443&lt;/code&gt; with &lt;code&gt;TCP&lt;/code&gt; protocol.&lt;/li&gt;
+&lt;li&gt;The back end set for this listener needs to include the Kubernetes cluster node IP addresses on a port you pick, for example, &lt;code&gt;32443&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;verrazzano-installation-options&#34;&gt;Verrazzano installation options&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;External load balancer for management ingress:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Set &lt;code&gt;NodePort&lt;/code&gt; as the ingress type in the &lt;a href=&#34;../docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.IngressNginxComponent&#34;&gt;Ingress Component&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Set &lt;code&gt;controller.service.externalIPs&lt;/code&gt; with the IP address for the external management load balancer in the &lt;a href=&#34;../docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.IngressNginxComponent&#34;&gt;Ingress NGINX Overrides&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: If the ingress type is &lt;code&gt;NodePort&lt;/code&gt;, then a valid and accessible IP address &lt;strong&gt;must&lt;/strong&gt; be specified using the &lt;code&gt;controller.service.externalIPs&lt;/code&gt; key in NGINXInstallArgs.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Set &lt;code&gt;ports&lt;/code&gt; in the &lt;a href=&#34;../docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.IngressNginxComponent&#34;&gt;Ingress Component&lt;/a&gt; with a &lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24
+/#serviceport-v1-core&#34;&gt;PortConfig&lt;/a&gt; that has &lt;code&gt;443&lt;/code&gt; as &lt;code&gt;port&lt;/code&gt;, &lt;code&gt;31443&lt;/code&gt; as &lt;code&gt;nodePort&lt;/code&gt;, &lt;code&gt;https&lt;/code&gt; as &lt;code&gt;targetPort&lt;/code&gt;, and &lt;code&gt;TCP&lt;/code&gt; as &lt;code&gt;protocol&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;External load balancer for application ingress using the Istio ingress gateway overrides:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Set service Type to &lt;code&gt;NodePort&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Set service &lt;code&gt;externalIPs&lt;/code&gt; to the external application load balancer IP address.&lt;/li&gt;
+&lt;li&gt;Set service &lt;code&gt;ports&lt;/code&gt; with a &lt;code&gt;https&lt;/code&gt; named entry, &lt;code&gt;443&lt;/code&gt; as &lt;code&gt;port&lt;/code&gt;, &lt;code&gt;32443&lt;/code&gt; as &lt;code&gt;nodePort&lt;/code&gt;, &lt;code&gt;8443&lt;/code&gt; as &lt;code&gt;targetPort&lt;/code&gt;, and &lt;code&gt;TCP&lt;/code&gt; as &lt;code&gt;protocol&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;example-custom-resource-with-management-and-application-external-load-balancers&#34;&gt;Example Custom Resource with management and application external load balancers&lt;/h3&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: myvz
+spec:
+  components:
+    ingressNGINX:
+      overrides:
+      - values:
+          controller:
+            service:
+              externalIPs:
+              - 11.22.33.44
+      type: NodePort
+      ports:
+      - name: https
+        port: 443
+        nodePort: 31443
+        protocol: TCP
+        targetPort: https
+    istio:
+      overrides:
+      - values:
+          apiVersion: install.istio.io/v1alpha1
+          kind: IstioOperator
+          spec:
+            components:
+              ingressGateways:
+                - enabled: true
+                  name: istio-ingressgateway
+                  k8s:
+                    service:
+                      type: NodePort
+                      ports:
+                      - name: https
+                        port: 443
+                        nodePort: 32443
+                        protocol: TCP
+                        targetPort: 8443
+                      externalIPs:
+                      - 11.22.33.55
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
 
       </description>
     </item>
