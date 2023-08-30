@@ -181,7 +181,7 @@ or until the default timeout (30m) has been reached.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;To use a different profile with the previous example, set the &lt;code&gt;VZ_PROFILE&lt;/code&gt; environment variable to the name of the profile you want to install.&lt;/p&gt;
 &lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
-&lt;p&gt;Verify the installed Verrazzano using the &lt;code&gt;vz&lt;/code&gt; CLI. See &lt;a href=&#34;../../../../docs/setup/install/verify/cli-verify/&#34;&gt;Verify using CLI&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Verify the installed Verrazzano using the &lt;code&gt;vz&lt;/code&gt; CLI. See &lt;a href=&#34;../../../../docs/setup/install/verify/cli-verify/&#34;&gt;Verify Using CLI&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>
@@ -924,7 +924,156 @@ you want to install.&lt;/p&gt;
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
 &lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
-&lt;p&gt;Verify the installed Verrazzano using &lt;code&gt;kubectl&lt;/code&gt;. See &lt;a href=&#34;../../../../docs/setup/install/verify/kubectl-verify/&#34;&gt;Verify using CLI&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Verify the installed Verrazzano using &lt;code&gt;kubectl&lt;/code&gt;. See &lt;a href=&#34;../../../../docs/setup/install/verify/kubectl-verify/&#34;&gt;Verify Using kubectl&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Install With Helm</title>
+      <link>/docs/setup/install/perform/helm-installation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/install/perform/helm-installation/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The following instructions show you how to install the Verrazzano Platform Operator (VPO) in a
+single Kubernetes cluster using Helm.&lt;/p&gt;
+&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Find the Verrazzano prerequisite requirements &lt;a href=&#34;../../../../docs/setup/install/prepare/prereqs/&#34;&gt;here&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Review the list of the &lt;a href=&#34;../../../../docs/setup/install/prepare/prereqs/#supported-software-versions&#34;&gt;software versions supported&lt;/a&gt; and &lt;a href=&#34;../../../../docs/setup/install/prepare/prereqs/#installed-components&#34;&gt;installed&lt;/a&gt; by Verrazzano.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://helm.sh&#34;&gt;Helm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    To avoid conflicts with Verrazzano system components, we recommend installing Verrazzano into an empty cluster.
+
+&lt;/div&gt;
+
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    Helm chart installation is supported only for Verrazzano v1.6.0 and later.
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;prepare-for-the-installation&#34;&gt;Prepare for the installation&lt;/h2&gt;
+&lt;p&gt;Before installing the Verrazzano platform operator, see the instructions for preparing &lt;a href=&#34;../../../../docs/setup/install/prepare/platforms/&#34;&gt;Kubernetes platforms&lt;/a&gt;.
+Make sure that you have a valid kubeconfig file pointing to the Kubernetes cluster that you want to use for installing your Verrazzano platform operator.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For instructions on how to install a CNI plug-in, see the documentation for your Kubernetes cluster.&lt;/p&gt;
+&lt;h2 id=&#34;perform-the-installation&#34;&gt;Perform the installation&lt;/h2&gt;
+&lt;p&gt;Verrazzano provides a platform &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
+to manage the life cycle of Verrazzano installations.&lt;/p&gt;
+&lt;p&gt;The following steps show you how to install the VPO using a VPO Helm chart. VPO Helm charts are located in Verrazzano versioned repositories &lt;a href=&#34;https://github.com/orgs/verrazzano/packages/container/charts%2Fverrazzano-platform-operator/versions?filters%5Bversion_type%5D=tagged&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;install-the-vpo-using-a-helm-chart-from-the-repository&#34;&gt;Install the VPO using a Helm chart from the repository&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Install your desired version of the Verrazzano platform operator. See the following example command that installs the v1.6.5 VPO.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;$ helm install your-release-name oci://ghcr.io/verrazzano/charts/verrazzano-platform-operator --version 1.6.5
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;This command installs only the VPO to the cluster; it does not install a Verrazzano Custom Resource.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Follow the steps in this &lt;a href=&#34;../../../../docs/setup/install/perform/kubectl-installation/#perform-the-installation&#34;&gt;section&lt;/a&gt; to apply the Verrazzano Custom Resource and complete the installation of Verrazzano.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
 
       </description>
     </item>
