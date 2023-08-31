@@ -1,6 +1,6 @@
 ---
 weight: 20
-linkTitle: "Release History & Error Correction Dates"
+linkTitle: "Release History"
 menu:
   main:
     weight: 20
@@ -8,8 +8,6 @@ no_list: true
 type: list
 draft: false
 ---
-
-
 
 The timeline for Verrazzano releases and the date of their end of error correction.
 
