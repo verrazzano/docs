@@ -15,7 +15,7 @@ To use Jaeger in Verrazzano, you must first enable the `jaegerOperator` componen
 an example YAML file that enables the Jaeger Operator. Verrazzano installs the Jaeger Operator in the
 `verrazzano-monitoring` namespace. Also, a default Jaeger instance is created by the Jaeger Operator in the `verrazzano-monitoring` namespace.
 
-If OpenSearch and Keycloak components are enabled in the Verrazzano custom resource, then the Jaeger Operator implements the Production deployment strategy and stores its trace data using OpenSearch storage. If OpenSearch and Keycloak components are *not* enabled, then the Jaeger Operator implements the AllInOne deployment strategy and stores its trace data using in-memory storage. Use the AllInOne strategy for development, testing, or demo purposes only. For more information, see [Jaeger Deployment Strategies](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/operator/#deployment-strategies) .
+If OpenSearch and Keycloak components are enabled in the Verrazzano custom resource, then the Jaeger Operator implements the Production deployment strategy and stores its trace data using OpenSearch storage. If OpenSearch and Keycloak components are *not* enabled, then the Jaeger Operator implements the AllInOne deployment strategy and stores its trace data using in-memory storage. Use the AllInOne strategy for development, testing, or demo purposes only. For more information, see [Jaeger Deployment Strategies](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/operator/#deployment-strategies).
 
 {{< clipboard >}}
 
