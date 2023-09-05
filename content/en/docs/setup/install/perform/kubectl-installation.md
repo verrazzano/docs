@@ -1,7 +1,7 @@
 ---
 title: "Install With kubectl"
 description: "Install Verrazzano using `kubectl`"
-weight: 1
+weight: 2
 draft: false
 aliases:
 - /docs/setup/install/kubectl-installation
@@ -159,4 +159,4 @@ If an error occurs, check the log output of the installation. You can view the l
 
 ## Next steps
 
-Verify the installed Verrazzano using `kubectl`. See [Verify using CLI]({{< relref "/docs/setup/install/verify/kubectl-verify.md" >}}).
+Verify the installed Verrazzano using `kubectl`. See [Verify Using kubectl]({{< relref "/docs/setup/install/verify/kubectl-verify.md" >}}).

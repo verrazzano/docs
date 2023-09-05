@@ -1,7 +1,7 @@
 ---
 title: "Installation Profiles"
 description: "Use named Verrazzano configurations to simplify installation"
-weight: 2
+weight: 4
 draft: false
 aliases:
 - /docs/setup/install/profiles
