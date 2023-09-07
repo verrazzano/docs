@@ -5,7 +5,17 @@ draft: false
 ---
 ## v1.6.6
 #### Enhancements:
-- Added support for Kubernetes v1.27.
+- Added support for Kubernetes v1.27. 
+- Reduced Console Image Size.
+- Enhanced the Rancher Helm chart to support customizing Rancher pod affinity settings.
+
+#### Fixes:
+- Fixed an issue that prevented tolerating an empty VerrazzanoManagedCluster resource `caSecret` field.
+- Fixed orphaned resources during uninstall when VPO restarts.
+- Fixed issues where Self-signed CA Certificate Expiry Causes Upgrade to Hang.
+- Fixed issues relating to cert-manager-webhook-OCI upgrade.
+- Fixed issues relating to the Pod Security Policies of prometheus-node-exporter and rancher backup.
+- Fixed issue regarding the update of WebLogic Server cluster resource.
 
 ## v1.6.5
 #### Enhancements:
