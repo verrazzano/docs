@@ -12,7 +12,6 @@ draft: false
 - Added Verrazzano platform operator Helm chart.
 
 #### Fixes:
-- Fixed an issue that prevented tolerating an empty VerrazzanoManagedCluster resource `caSecret` field.
 - Fixed an issue where authproxy wouldn't automatically pick up a new configuration.
 - Fixed an issue where Verrazzano CR wouldn't allow for empty volume fields on update.
 - Fixed verrazzano-cluster-operator VerrazzanoManagedCluster resource reconcile error metric counting.
