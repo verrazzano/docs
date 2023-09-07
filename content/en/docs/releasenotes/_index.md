@@ -3,6 +3,10 @@ title: Release Notes
 weight: 2
 draft: false
 ---
+## v1.6.6
+#### Enhancements:
+- Added support for Kubernetes v1.27.
+
 ## v1.6.5
 #### Enhancements:
 - Reduced NGINX Ingress Controller image size.
