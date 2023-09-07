@@ -46,14 +46,13 @@ requests that exhibit high latency or errors.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Collector service, which receives traces from clients, processes them, and stores them in a storage back end.&lt;/li&gt;
 &lt;li&gt;Query service, which exposes the APIs for retrieving traces from storage and hosts the Jaeger console for searching and analyzing traces.&lt;/li&gt;
-&lt;li&gt;Storage, may be ephemeral or backed by OpenSearch.
+&lt;li&gt;Storage, which may be ephemeral (in-memory) or backed by OpenSearch.
 &lt;ul&gt;
 &lt;li&gt;Jaeger can be configured to use one of several choices for &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/deployment/#span-storage-backends&#34;&gt;storage back ends&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;In Verrazzano, trace records are stored in OpenSearch; OpenSearch must be enabled in Verrazzano for this to work.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Jaeger is very configurable. See the Jaeger documentation for detailed information about Jaeger &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/features/&#34;&gt;features&lt;/a&gt; and &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/architecture&#34;&gt;architecture&lt;/a&gt;. In Verrazzano, Jaeger does not include the Ingester service, Kafka, or Sparks jobs.&lt;/p&gt;
+&lt;p&gt;Jaeger is very configurable. See the Jaeger documentation for detailed information about Jaeger &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/features/&#34;&gt;features&lt;/a&gt; and &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/architecture&#34;&gt;architecture&lt;/a&gt;. In Verrazzano, Jaeger does not include the Ingester service or Kafka automatically, but can be customized to implement them. Spark jobs are not supported.&lt;/p&gt;
 &lt;h3 id=&#34;next-steps&#34;&gt;Next steps&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;Enable Jaeger and customize your Verrazzano Jaeger installation. See &lt;a href=&#34;../../../docs/observability/tracing/configure-tracing/&#34;&gt;configure tracing&lt;/a&gt;.&lt;/li&gt;
@@ -77,8 +76,8 @@ requests that exhibit high latency or errors.&lt;/p&gt;
 &lt;h3 id=&#34;enable-jaeger&#34;&gt;Enable Jaeger&lt;/h3&gt;
 &lt;p&gt;To use Jaeger in Verrazzano, you must first enable the &lt;code&gt;jaegerOperator&lt;/code&gt; component in your Verrazzano custom resource. Here is
 an example YAML file that enables the Jaeger Operator. Verrazzano installs the Jaeger Operator in the
-&lt;code&gt;verrazzano-monitoring&lt;/code&gt; namespace. If OpenSearch and Keycloak components are enabled in the Verrazzano custom resource,
-then a default Jaeger instance is also created by the Jaeger Operator in the &lt;code&gt;verrazzano-monitoring&lt;/code&gt; namespace.
+&lt;code&gt;verrazzano-monitoring&lt;/code&gt; namespace. Also, a default Jaeger instance is created by the Jaeger Operator in the &lt;code&gt;verrazzano-monitoring&lt;/code&gt; namespace.&lt;/p&gt;
+&lt;p&gt;If OpenSearch and Keycloak components are enabled in the Verrazzano custom resource, then the Jaeger Operator implements the Production deployment strategy and stores its trace data using OpenSearch storage. If OpenSearch and Keycloak components are &lt;em&gt;not&lt;/em&gt; enabled, then the Jaeger Operator implements the AllInOne deployment strategy and stores its trace data using in-memory storage. Use the AllInOne strategy for development, testing, or demo purposes only. For more information, see &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/operator/#deployment-strategies&#34;&gt;Jaeger Deployment Strategies&lt;/a&gt;.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -175,7 +174,7 @@ then a default Jaeger instance is also created by the Jaeger Operator in the &lt
     document
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
+&lt;/script&gt;
 &lt;p&gt;The Jaeger Operator will create &lt;code&gt;Service&lt;/code&gt; custom resources for query and collection. After applying the Verrazzano
 custom resource, listing Jaeger resources will show output similar to the following.
 &lt;style type=&#34;text/css&#34;&gt;
@@ -288,11 +287,8 @@ deployment.apps/jaeger-operator-jaeger-query       1/1     1            1       
 &lt;p&gt;If the Jaeger Operator component is enabled in the managed cluster, after successful registration with the admin cluster,
 a Jaeger collector service runs in the managed cluster, which exports the traces to the OpenSearch
 storage configured in the admin cluster.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTES&lt;/strong&gt;:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Traces are exported to the admin cluster only when the Jaeger instance in the admin cluster is configured with OpenSearch storage.&lt;/li&gt;
-&lt;li&gt;If the admin cluster is unavailable or the storage backend, OpenSearch, is not operational, then Jaeger will start dropping traces because it cannot buffer much data. To buffer large amounts of data, you would need to set up an intermediary queue, such as &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/deployment/#kafka&#34;&gt;Kafka&lt;/a&gt;. This would prevent data loss from Jaeger collectors.&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;If OpenSearch storage is not configured in the admin cluster, you will need to use Jaeger installation overrides in the Verrazzano custom resource to explicitly enable and configure a Jaeger instance to export traces in the managed cluster to in-memory storage or to an external OpenSearch storage location.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: If the admin cluster is unavailable or the storage backend, OpenSearch, is not operational, then Jaeger will start dropping traces because it cannot buffer much data. To buffer large amounts of data, you would need to set up an intermediary queue, such as &lt;a href=&#34;https://www.jaegertracing.io/docs/1.42/deployment/#kafka&#34;&gt;Kafka&lt;/a&gt;. This would prevent data loss from Jaeger collectors.&lt;/p&gt;
 &lt;p&gt;The following graphic illustrates managed clusters exporting data to the admin cluster, with Jaeger instances and OpenSearch backend storage.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;../../../docs/images/tracing/jaeger-mc-tracing.png&#34; alt=&#34;MC Tracing&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Listing Jaeger resources in the managed cluster shows output similar to the following.
