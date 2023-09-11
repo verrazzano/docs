@@ -1,13 +1,20 @@
 ---
 title: Prepare an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) Cluster
-description: 
-Weight: 2
+description:
+weight: 2
 draft: false
 aliases:
   - /docs/setup/platforms/oci/oci
 ---
+Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For an example on OKE, see [Installing Calico and Setting Up Network Policies](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengsettingupcalico.htm).
 
-## Prepare for the Oracle Cloud Infrastructure installation
+{{< alert title="NOTE" color="primary" >}} [OCI VCN-Native Pod Networking](https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengpodnetworking_topic-OCI_CNI_plugin.htm)
+is now supported with Verrazzano for Kubernetes v1.26 and later.
+The pod network must be in a private subnet to enable egress.
+Either place the worker nodes in a private subnet, or place the pod network in a private subnet separate from the worker nodes.
+For Kubernetes v1.25 and earlier, you must use the flannel overlay network.
+{{< /alert >}}
+
 
 * Create the [OKE](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) cluster using the Oracle Cloud Infrastructure Console or by some other means.  
 
@@ -20,16 +27,9 @@ aliases:
 </div>
 {{< /clipboard >}}
 
-* Optional, if your organization requires the use of a private registry to the Docker images installed by Verrazzano, see [Use a Private Registry]({{< relref "/docs/setup/private-registry/private-registry.md" >}}).
+* Optional, if your organization requires the use of a private registry to the Docker images installed by Verrazzano, see [Install Verrazzano in a Disconnected Environment]({{< relref "/docs/setup/private-registry/private-registry.md" >}}).
 
-**NOTE**: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For an example on OKE, see [Installing Calico and Setting Up Network Policies](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengsettingupcalico.htm).
 
-{{< alert title="NOTE" color="primary" >}} [OCI VCN-Native Pod Networking](https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengpodnetworking_topic-OCI_CNI_plugin.htm)
-is now supported with Verrazzano for Kubernetes v1.26 and later.
-The pod network must be in a private subnet to enable egress.
-Either place the worker nodes in a private subnet, or place the pod network in a private subnet separate from the worker nodes.
-For Kubernetes v1.25 and earlier, you must use the flannel overlay network.
-{{< /alert >}}
 
 ## Next steps
 
