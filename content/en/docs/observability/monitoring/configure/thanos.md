@@ -96,6 +96,9 @@ config:
 </div>
 {{< /clipboard >}}
 
+The OCI provider for Thanos object storage supports API signing keys, instance principal, and OKE workload identity authentication.
+See [Oracle Cloud Infrastructure Object Storage](https://github.com/thanos-io/objstore#oracle-cloud-infrastructure-object-storage) for more information on configuring OCI Object Storage in Thanos.
+
 ### Step 2: Create a secret
 
 Create the secret for object storage configuration using the `storage.yaml` file you created in Step 1.
