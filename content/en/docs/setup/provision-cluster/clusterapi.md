@@ -16,11 +16,13 @@ You can upgrade the individual providers that make up the clusterAPI component. 
 
 This example customizes the clusterAPI component as follows:
 
-* Sets the `version` of both the OCNE bootstrap provider and the OCNE control plane provider to `{{<capocne_version>}}`
+* Sets the `version` of both the OCNE bootstrap provider and the OCNE control plane provider to `v{{<capocne_version>}}`
 
     **NOTE**: Because the OCNE bootstrap and OCNE control plane providers are bundled together, make sure to set their overrides to the same version or it may lead to unexpected behavior.
 
-* Sets the `version` of the OCI infrastructure provider to `{{<capoci_version>}}`
+* Sets the `version` of the OCI infrastructure provider to `v{{<capoci_version>}}`
+
+* Sets the `version` of the core provider to `v{{<capcore_version>}}`
 
 
 {{< clipboard >}}
@@ -34,17 +36,19 @@ This example customizes the clusterAPI component as follows:
  spec:
    profile: dev
    components:
-    clusterAPI:
-        enabled: true
-        overrides:
-        - values:
-            defaultProviders:
-                ocneBootstrap:
-                    version: {{<capocne_version>}}
-                ocneControlPlane:
-                    version: {{<capocne_version>}}
-                oci:
-                    version: v{{<capoci_version>}}
+     clusterAPI:
+       enabled: true
+       overrides:
+       - values:
+           defaultProviders:
+             ocneBootstrap:
+               version: v{{<capocne_version>}}
+             ocneControlPlane:
+               version: v{{<capocne_version>}}
+             oci:
+               version: v{{<capoci_version>}}
+             core:
+               version: v{{<capcore_version>}}
  ```
 </div>
 {{< /clipboard >}}
@@ -69,17 +73,19 @@ For example:
  spec:
    profile: dev
    components:
-    clusterAPI:
-        enabled: true
-        overrides:
-        - values:
-            defaultProviders:
-                ocneBootstrap:
-                    url: https://my.private.network/cluster-api-provider-ocne/releases/tag/v{{<capocne_version>}}
-                ocneControlPlane:
-                    url: https://my.private.network/cluster-api-provider-ocne/releases/tag/v{{<capocne_version>}}
-                oci:
-                    url: https://my.private.network/cluster-api-provider-oci/releases/tag/v{{<capoci_version>}}
+     clusterAPI:
+       enabled: true
+       overrides:
+       - values:
+           defaultProviders:
+             ocneBootstrap:
+               url: https://my.private.network/cluster-api-provider-ocne/releases/tag/v{{<capocne_version>}}
+             ocneControlPlane:
+               url: https://my.private.network/cluster-api-provider-ocne/releases/tag/v{{<capocne_version>}}
+             oci:
+               url: https://my.private.network/cluster-api-provider-oci/releases/tag/v{{<capoci_version>}}
+             core:
+               url: https://my.private.network/cluster-api-provider-core/releases/tag/v{{<capcore_version>}}
  ```
 
 </div>
