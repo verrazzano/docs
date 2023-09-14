@@ -288,9 +288,9 @@ Step 2. Create a VerrazzanoWebLogicWorkload component.
    - To deploy and run the WebLogic domain image in Verrazzano, create the VerrazzanoWebLogicWorkload component that specifies the definition and parameters for the WebLogic domain contained in the image.
    - For an example VerrazzanoWebLogicWorkload Component resource created for a sample WebLogic domain, see the [ToDo List]( {{< release_source_url path=examples/todo-list/todo-list-components.yaml >}} ) example application component YAML file.
 
-     **NOTE**: Both `FromModel` and `PersistentVolume` `domainHomeSourceTypes` are supported, including using the `initializeDomainOnPV` [configuration](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md#configuration), which is specified in the domain YAML file of the workload, as shown.
+     **NOTE**: Both `FromModel` and `PersistentVolume` `domainHomeSourceTypes` are supported, as is specifying the `initializeDomainOnPV` [configuration](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md#configuration) in the domain YAML file of the workload, as shown in the following example.
 
-{{< clipboard >}}
+     {{< clipboard >}}
 
  ```yaml
  apiVersion: core.oam.dev/v1alpha2
@@ -342,7 +342,7 @@ Step 2. Create a VerrazzanoWebLogicWorkload component.
              replicas: 1  
 
 ```
-{{< /clipboard >}}
+     {{< /clipboard >}}
    - Note that WebLogic applications require that the container registry secret be specified in the `Domain` resource. Create a registry secret in the application namespace and specify the secret in
    the `imagePullSecrets` field of the WebLogic [Domain Spec](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md#domain-spec) for the application.
       - For all the options supported by the WebLogic domain configuration, see [Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/release/4.1/documentation/domains/Domain.md).
