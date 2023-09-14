@@ -288,7 +288,7 @@ Step 2. Create a VerrazzanoWebLogicWorkload component.
    - To deploy and run the WebLogic domain image in Verrazzano, create the VerrazzanoWebLogicWorkload component that specifies the definition and parameters for the WebLogic domain contained in the image.
    - For an example VerrazzanoWebLogicWorkload Component resource created for a sample WebLogic domain, see the [ToDo List]( {{< release_source_url path=examples/todo-list/todo-list-components.yaml >}} ) example application component YAML file.
 
-     **NOTE**: Both `FromModel` and `PersistentVolume` `domainHomeSourceTypes` are supported, including using the `initializeDomainOnPV` [configuration](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md#configuration) specified in the domain YAML file of the workload, as shown.
+     **NOTE**: Both `FromModel` and `PersistentVolume` `domainHomeSourceTypes` are supported, including using the `initializeDomainOnPV` [configuration](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md#configuration), which is specified in the domain YAML file of the workload, as shown.
 
 {{< clipboard >}}
 
