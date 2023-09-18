@@ -1,13 +1,11 @@
 ---
 title: Prepare a Generic Kubernetes Cluster
-description: 
-Weight: 3
+description:
+weight: 3
 draft: false
 aliases:
   - /docs/setup/platforms/generic/generic
 ---
-
-## Prepare for the generic install
 
 Verrazzano requires that your Kubernetes cluster provides an implementation of network load balancers ([Services of type LoadBalancer](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/)) for a production environment. If your generic Kubernetes implementation provides this feature, then you can use a default configuration
 of the Verrazzano custom resource with no customizations and follow the [Installation Guide]({{< relref "/docs/setup/install/" >}}).
