@@ -24,7 +24,7 @@ Resource Types:
 <h3 id="clusters.verrazzano.io/v1alpha1.OCNEOCIQuickCreate">OCNEOCIQuickCreate
 </h3>
 <div>
-<p>OCNEOCIQuickCreate specifies the API for quick-create OCI OCNE Clusters.</p>
+<p>OCNEOCIQuickCreate specifies the API for quick-create OCI OCNE clusters.</p>
 </div>
 <table>
 <thead>
@@ -187,7 +187,7 @@ OCNEOCIQuickCreateStatus
 <h3 id="clusters.verrazzano.io/v1alpha1.OKEQuickCreate">OKEQuickCreate
 </h3>
 <div>
-<p>OKEQuickCreate specifies the API for quick-create OKE Clusters.</p>
+<p>OKEQuickCreate specifies the API for quick-create OKE clusters.</p>
 </div>
 <table>
 <thead>
@@ -278,7 +278,7 @@ OKE
 </em>
 </td>
 <td>
-<p>OKE Cluster settings.</p>
+<p>OKE cluster settings.</p>
 </td>
 </tr>
 </table>
@@ -1579,7 +1579,7 @@ OKENetwork
 </em>
 </td>
 <td>
-<p>Network settings for the OKE Cluster.</p>
+<p>Network settings for the OKE cluster.</p>
 </td>
 </tr>
 </tbody>
@@ -1678,7 +1678,7 @@ OKE
 </em>
 </td>
 <td>
-<p>OKE Cluster settings.</p>
+<p>OKE cluster settings.</p>
 </td>
 </tr>
 </tbody>
@@ -2221,7 +2221,7 @@ int
 <hr/>
 <p><em>
 Generated with <code>gen-crd-api-reference-docs</code>
-on git commit <code>a8aa3551b</code>.
+on git commit <code>89eacc2de</code>.
 </em></p>
 
 
