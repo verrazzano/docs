@@ -1063,6 +1063,9 @@ Invalid override values will be ignored.</p>
 </tr><tr><td><p>&#34;Ready&#34;</p></td>
 <td><p>CompStateReady is the state when a Verrazzano resource can perform an uninstall or upgrade</p>
 </td>
+</tr><tr><td><p>&#34;Reconciling&#34;</p></td>
+<td><p>CompStateReconciling is the state when a module is reconciling</p>
+</td>
 </tr><tr><td><p>&#34;Uninstalled&#34;</p></td>
 <td><p>CompStateUninstalled is the state when a component has been uninstalled</p>
 </td>
@@ -1251,6 +1254,20 @@ ConsoleComponent
 <td>
 <em>(Optional)</em>
 <p>The Verrazzano Console component configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dex</code><br/>
+<em>
+<a href="#install.verrazzano.io/v1beta1.DexComponent">
+DexComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The Dex component configuration.</p>
 </td>
 </tr>
 <tr>
@@ -2133,6 +2150,70 @@ string
 </tr>
 </tbody>
 </table>
+<h3 id="install.verrazzano.io/v1beta1.DexComponent">DexComponent
+</h3>
+<p>
+(<em>Appears on:</em><a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
+</p>
+<div>
+<p>DexComponent specifies the Dex configuration.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>If true, then Dex will be installed.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>monitorChanges</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>.)
+</p>
+<em>(Optional)</em>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>overrides</code><br/>
+<em>
+<a href="#install.verrazzano.io/v1beta1.Overrides">
+[]Overrides
+</a>
+</em>
+</td>
+<td>
+<p>
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>.)
+</p>
+<em>(Optional)</em>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+but in the event of conflicting fields, the last override in the list takes precedence over any others.
+Invalid override values will be ignored.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="install.verrazzano.io/v1beta1.External">External
 </h3>
 <p>
@@ -2676,6 +2757,17 @@ Invalid override values will be ignored.</p>
 <tbody>
 <tr>
 <td>
+<code>alertmanagerUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>The Alertmanager URL for this Verrazzano installation.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>argoCDUrl</code><br/>
 <em>
 string
@@ -2794,6 +2886,17 @@ string
 <td>
 <p>The Thanos Query URL for this Verrazzano installation.
 The Thanos Query ingress gets forwarded to the Thanos Query Frontend service.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>thanosRulerUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>The Thanos Ruler URL for this Verrazzano installation.</p>
 </td>
 </tr>
 </tbody>
@@ -3820,7 +3923,7 @@ string
 <h3 id="install.verrazzano.io/v1beta1.Overrides">Overrides
 </h3>
 <p>
-(<em>Appears on:</em><a href="#install.verrazzano.io/v1beta1.ApplicationOperatorComponent">ApplicationOperatorComponent</a>, <a href="#install.verrazzano.io/v1beta1.ArgoCDComponent">ArgoCDComponent</a>, <a href="#install.verrazzano.io/v1beta1.AuthProxyComponent">AuthProxyComponent</a>, <a href="#install.verrazzano.io/v1beta1.CertManagerComponent">CertManagerComponent</a>, <a href="#install.verrazzano.io/v1beta1.CertManagerWebhookOCIComponent">CertManagerWebhookOCIComponent</a>, <a href="#install.verrazzano.io/v1beta1.ClusterAPIComponent">ClusterAPIComponent</a>, <a href="#install.verrazzano.io/v1beta1.ClusterAgentComponent">ClusterAgentComponent</a>, <a href="#install.verrazzano.io/v1beta1.ClusterOperatorComponent">ClusterOperatorComponent</a>, <a href="#install.verrazzano.io/v1beta1.CoherenceOperatorComponent">CoherenceOperatorComponent</a>, <a href="#install.verrazzano.io/v1beta1.ConsoleComponent">ConsoleComponent</a>, <a href="#install.verrazzano.io/v1beta1.DNSComponent">DNSComponent</a>, <a href="#install.verrazzano.io/v1beta1.DNSConfig">DNSConfig</a>, <a href="#install.verrazzano.io/v1beta1.FluentOperatorComponent">FluentOperatorComponent</a>, <a href="#install.verrazzano.io/v1beta1.FluentbitOpensearchOutputComponent">FluentbitOpensearchOutputComponent</a>, <a href="#install.verrazzano.io/v1beta1.FluentdComponent">FluentdComponent</a>, <a href="#install.verrazzano.io/v1beta1.IngressNginxComponent">IngressNginxComponent</a>, <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>, <a href="#install.verrazzano.io/v1beta1.IstioComponent">IstioComponent</a>, <a href="#install.verrazzano.io/v1beta1.JaegerOperatorComponent">JaegerOperatorComponent</a>, <a href="#install.verrazzano.io/v1beta1.KeycloakComponent">KeycloakComponent</a>, <a href="#install.verrazzano.io/v1beta1.KialiComponent">KialiComponent</a>, <a href="#install.verrazzano.io/v1beta1.KubeStateMetricsComponent">KubeStateMetricsComponent</a>, <a href="#install.verrazzano.io/v1beta1.MySQLComponent">MySQLComponent</a>, <a href="#install.verrazzano.io/v1beta1.MySQLOperatorComponent">MySQLOperatorComponent</a>, <a href="#install.verrazzano.io/v1beta1.OAMComponent">OAMComponent</a>, <a href="#install.verrazzano.io/v1beta1.PrometheusAdapterComponent">PrometheusAdapterComponent</a>, <a href="#install.verrazzano.io/v1beta1.PrometheusNodeExporterComponent">PrometheusNodeExporterComponent</a>, <a href="#install.verrazzano.io/v1beta1.PrometheusOperatorComponent">PrometheusOperatorComponent</a>, <a href="#install.verrazzano.io/v1beta1.PrometheusPushgatewayComponent">PrometheusPushgatewayComponent</a>, <a href="#install.verrazzano.io/v1beta1.RancherBackupComponent">RancherBackupComponent</a>, <a href="#install.verrazzano.io/v1beta1.RancherComponent">RancherComponent</a>, <a href="#install.verrazzano.io/v1beta1.ThanosComponent">ThanosComponent</a>, <a href="#install.verrazzano.io/v1beta1.VeleroComponent">VeleroComponent</a>, <a href="#install.verrazzano.io/v1beta1.VerrazzanoComponent">VerrazzanoComponent</a>, <a href="#install.verrazzano.io/v1beta1.WebLogicOperatorComponent">WebLogicOperatorComponent</a>)
+(<em>Appears on:</em><a href="#install.verrazzano.io/v1beta1.ApplicationOperatorComponent">ApplicationOperatorComponent</a>, <a href="#install.verrazzano.io/v1beta1.ArgoCDComponent">ArgoCDComponent</a>, <a href="#install.verrazzano.io/v1beta1.AuthProxyComponent">AuthProxyComponent</a>, <a href="#install.verrazzano.io/v1beta1.CertManagerComponent">CertManagerComponent</a>, <a href="#install.verrazzano.io/v1beta1.CertManagerWebhookOCIComponent">CertManagerWebhookOCIComponent</a>, <a href="#install.verrazzano.io/v1beta1.ClusterAPIComponent">ClusterAPIComponent</a>, <a href="#install.verrazzano.io/v1beta1.ClusterAgentComponent">ClusterAgentComponent</a>, <a href="#install.verrazzano.io/v1beta1.ClusterOperatorComponent">ClusterOperatorComponent</a>, <a href="#install.verrazzano.io/v1beta1.CoherenceOperatorComponent">CoherenceOperatorComponent</a>, <a href="#install.verrazzano.io/v1beta1.ConsoleComponent">ConsoleComponent</a>, <a href="#install.verrazzano.io/v1beta1.DNSComponent">DNSComponent</a>, <a href="#install.verrazzano.io/v1beta1.DNSConfig">DNSConfig</a>, <a href="#install.verrazzano.io/v1beta1.DexComponent">DexComponent</a>, <a href="#install.verrazzano.io/v1beta1.FluentOperatorComponent">FluentOperatorComponent</a>, <a href="#install.verrazzano.io/v1beta1.FluentbitOpensearchOutputComponent">FluentbitOpensearchOutputComponent</a>, <a href="#install.verrazzano.io/v1beta1.FluentdComponent">FluentdComponent</a>, <a href="#install.verrazzano.io/v1beta1.IngressNginxComponent">IngressNginxComponent</a>, <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>, <a href="#install.verrazzano.io/v1beta1.IstioComponent">IstioComponent</a>, <a href="#install.verrazzano.io/v1beta1.JaegerOperatorComponent">JaegerOperatorComponent</a>, <a href="#install.verrazzano.io/v1beta1.KeycloakComponent">KeycloakComponent</a>, <a href="#install.verrazzano.io/v1beta1.KialiComponent">KialiComponent</a>, <a href="#install.verrazzano.io/v1beta1.KubeStateMetricsComponent">KubeStateMetricsComponent</a>, <a href="#install.verrazzano.io/v1beta1.MySQLComponent">MySQLComponent</a>, <a href="#install.verrazzano.io/v1beta1.MySQLOperatorComponent">MySQLOperatorComponent</a>, <a href="#install.verrazzano.io/v1beta1.OAMComponent">OAMComponent</a>, <a href="#install.verrazzano.io/v1beta1.PrometheusAdapterComponent">PrometheusAdapterComponent</a>, <a href="#install.verrazzano.io/v1beta1.PrometheusNodeExporterComponent">PrometheusNodeExporterComponent</a>, <a href="#install.verrazzano.io/v1beta1.PrometheusOperatorComponent">PrometheusOperatorComponent</a>, <a href="#install.verrazzano.io/v1beta1.PrometheusPushgatewayComponent">PrometheusPushgatewayComponent</a>, <a href="#install.verrazzano.io/v1beta1.RancherBackupComponent">RancherBackupComponent</a>, <a href="#install.verrazzano.io/v1beta1.RancherComponent">RancherComponent</a>, <a href="#install.verrazzano.io/v1beta1.ThanosComponent">ThanosComponent</a>, <a href="#install.verrazzano.io/v1beta1.VeleroComponent">VeleroComponent</a>, <a href="#install.verrazzano.io/v1beta1.VerrazzanoComponent">VerrazzanoComponent</a>, <a href="#install.verrazzano.io/v1beta1.WebLogicOperatorComponent">WebLogicOperatorComponent</a>)
 </p>
 <div>
 <p>Overrides identifies overrides for a component.</p>
@@ -5184,7 +5287,7 @@ string
 <hr/>
 <p><em>
 Generated with <code>gen-crd-api-reference-docs</code>
-on git commit <code>238db2c3e</code>.
+on git commit <code>89eacc2de</code>.
 </em></p>
 
 
