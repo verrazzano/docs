@@ -27,13 +27,13 @@ NOTE kind is not recommended for use on macOS and Windows because the Docker net
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/install/prepare/platforms/kind/kind/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-08-28T11:28:04-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-09-22T15:40:35-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Prepare a kind Cluster">
 <meta itemprop="description" content="kind is a tool for running local Kubernetes clusters using Docker container “nodes”. Follow these instructions to prepare a kind cluster for running Verrazzano.
 NOTE kind is not recommended for use on macOS and Windows because the Docker network is not directly exposed to the host.  Prerequisites  Install Docker Install kind  Prepare the kind cluster To prepare the kind cluster for use with Verrazzano, you must create the cluster and then install and configure MetalLB in that cluster.">
-<meta itemprop="dateModified" content="2023-08-28T11:28:04-04:00" />
-<meta itemprop="wordCount" content="2053">
+<meta itemprop="dateModified" content="2023-09-22T15:40:35-04:00" />
+<meta itemprop="wordCount" content="2050">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Prepare a kind Cluster"/>
 <meta name="twitter:description" content="kind is a tool for running local Kubernetes clusters using Docker container “nodes”. Follow these instructions to prepare a kind cluster for running Verrazzano.
@@ -98,7 +98,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../../../offline-search-index.23ece8037d9dc93ba113af52fd7dd737.json"
+    data-offline-search-index-json-src="../../../../../../../offline-search-index.dd2f828a485d726b837dc1f42eae0c86.json"
     data-offline-search-base-href="../../../../../../../"
     data-offline-search-max-results="10"
   >
@@ -124,7 +124,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../../../offline-search-index.23ece8037d9dc93ba113af52fd7dd737.json"
+    data-offline-search-index-json-src="../../../../../../../offline-search-index.dd2f828a485d726b837dc1f42eae0c86.json"
     data-offline-search-base-href="../../../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1516,11 +1516,7 @@ EOF
 
 <div class="clipboard">
     <div class="highlight">
-<pre><code>$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/namespace.yaml
-$ kubectl create secret generic \
-    -n metallb-system memberlist \
-    --from-literal=secretkey=&quot;$(openssl rand -base64 128)&quot;
-$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/metallb.yaml
+<pre><code>$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.7/config/manifests/metallb-native.yaml --wait=true
 </code></pre>
 </div>
 
@@ -1582,7 +1578,6 @@ $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/man
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<p><strong>NOTE</strong>: When using MetalLB on Kubernetes v1.26, install MetalLB v0.11.0, which you can do with manifest files or a Helm chart.</p>
 <p>Wait for MetalLB to be ready, as shown:
 <style type="text/css">
     code {
@@ -1874,7 +1869,7 @@ In versions v0.7.0 and earlier, kind uses Docker&rsquo;s default bridge network;
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<p>For use by MetalLB, assign a range of IP addresses at the end of the <code>kind</code> network&rsquo;s subnet CIDR range.</p>
+<p>For use by MetalLB, assign a range of IP addresses at the end of the <code>kind</code> network&rsquo;s subnet CIDR range. To set an address range, use the <code>ADDRESS_RANGE</code> environment variable:</p>
 <style type="text/css">
     code {
         margin: 0;
@@ -1905,22 +1900,34 @@ In versions v0.7.0 and earlier, kind uses Docker&rsquo;s default bridge network;
 
 <div class="clipboard">
     <div class="highlight">
-<pre><code>$ kubectl apply -f - &lt;&lt;-EOF
-apiVersion: v1
-kind: ConfigMap
+<pre tabindex="0"><code>ADDRESS_RANGE=&#34;172.18.0.230-172.18.0.254&#34;
+
+#Create the IPAddressPool for the cluster
+
+$ kubectl apply -f - &lt;&lt;-EOF
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
 metadata:
+  name: vzlocalpool
   namespace: metallb-system
-  name: config
-data:
-  config: |
-    address-pools:
-    - name: my-ip-space
-      protocol: layer2
-      addresses:
-      - 172.18.0.230-172.18.0.250
+spec:
+  addresses:
+  - ${ADDRESS_RANGE}
 EOF
-</code></pre>
-</div>
+
+#Create the L2Advertisment resource for the cluster
+
+$ kubectl apply -f - &lt;&lt;-EOF
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: vzmetallb
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - vzlocalpool
+EOF
+</code></pre></div>
 
 </div>
 
