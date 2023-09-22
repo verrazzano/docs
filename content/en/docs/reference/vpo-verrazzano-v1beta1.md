@@ -284,15 +284,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-application-operator/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-application-operator/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -306,15 +306,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-application-operator/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-application-operator/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -358,15 +358,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/argo-cd/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/argo-cd/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -380,15 +380,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/argo-cd/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/argo-cd/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -432,15 +432,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-authproxy/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-authproxy/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -454,15 +454,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-authproxy/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-authproxy/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -589,15 +589,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/cert-manager/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/cert-manager/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -611,15 +611,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/cert-manager/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/cert-manager/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -664,15 +664,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cert-manager-ocidns-webhook/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cert-manager-ocidns-webhook/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -686,15 +686,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cert-manager-ocidns-webhook/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cert-manager-ocidns-webhook/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -784,14 +784,14 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
 <p>Overrides are merged together, but in the event of conflicting fields, the last override in the list
 takes precedence over any others. You can find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/overrides/cluster-api-values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/helm_config/overrides/cluster-api-values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -805,14 +805,14 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
 <p>Overrides are merged together, but in the event of conflicting fields, the last override in the list
 takes precedence over any others. You can find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/overrides/cluster-api-values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/helm_config/overrides/cluster-api-values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -856,15 +856,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cluster-agent/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cluster-agent/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -878,15 +878,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cluster-agent/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cluster-agent/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -945,11 +945,11 @@ LetsEncryptACMEIssuer
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.IssuerConfig">IssuerConfig</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.IssuerConfig">IssuerConfig</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>IssuerConfig contains the configuration for the Verrazzano Cert-Manager ClusterIssuer
-The LetsEncrypt issuer configuration.</p>
+<p>IssuerConfig contains the configuration for the Verrazzano Cert-Manager ClusterIssuer</p>
+<p>The LetsEncrypt issuer configuration.</p>
 </td>
 </tr>
 <tr>
@@ -963,11 +963,11 @@ CAIssuer
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.IssuerConfig">IssuerConfig</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.IssuerConfig">IssuerConfig</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>IssuerConfig contains the configuration for the Verrazzano Cert-Manager ClusterIssuer
-The certificate configuration.</p>
+<p>IssuerConfig contains the configuration for the Verrazzano Cert-Manager ClusterIssuer</p>
+<p>The certificate configuration.</p>
 </td>
 </tr>
 </tbody>
@@ -1009,15 +1009,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cluster-operator/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cluster-operator/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -1031,15 +1031,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cluster-operator/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cluster-operator/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -1083,15 +1083,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/coherence-operator/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/coherence-operator/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -1105,15 +1105,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/coherence-operator/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/coherence-operator/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -1972,15 +1972,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-console/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-console/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -1994,15 +1994,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-console/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-console/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -2048,15 +2048,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/external-dns/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/external-dns/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -2070,15 +2070,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/external-dns/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/external-dns/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -2148,15 +2148,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/external-dns/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/external-dns/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -2170,15 +2170,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/external-dns/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/external-dns/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -2319,15 +2319,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/fluent-operator/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/fluent-operator/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -2341,15 +2341,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/fluent-operator/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/fluent-operator/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -2392,15 +2392,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/fluentbit-opensearch-output/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/fluentbit-opensearch-output/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -2414,15 +2414,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/fluentbit-opensearch-output/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/fluentbit-opensearch-output/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -2484,15 +2484,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-fluentd/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-fluentd/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -2506,15 +2506,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-fluentd/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-fluentd/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -2684,15 +2684,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/ingress-nginx/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/ingress-nginx/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -2706,15 +2706,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/ingress-nginx/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/ingress-nginx/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -3050,14 +3050,14 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for default IstioOperator. Overrides are merged together, but in the event of conflicting
+<p>List of overrides for default IstioOperator. Overrides are merged together, but in the event of conflicting
 fields, the last override in the list takes precedence over any others. You can find all possible values
 <a href="https://istio.io/v1.13/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec">here</a>
-Passing through an invalid IstioOperator resource will result in an error.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+Passing through an invalid IstioOperator resource will result in an error.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -3071,14 +3071,14 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for default IstioOperator. Overrides are merged together, but in the event of conflicting
+<p>List of overrides for default IstioOperator. Overrides are merged together, but in the event of conflicting
 fields, the last override in the list takes precedence over any others. You can find all possible values
 <a href="https://istio.io/v1.13/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec">here</a>
-Passing through an invalid IstioOperator resource will result in an error.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+Passing through an invalid IstioOperator resource will result in an error.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -3122,15 +3122,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/jaegertracing/jaeger-operator/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/jaegertracing/jaeger-operator/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -3144,15 +3144,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/jaegertracing/jaeger-operator/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/jaegertracing/jaeger-operator/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -3196,15 +3196,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/keycloak/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/keycloak/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -3218,15 +3218,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/keycloak/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/keycloak/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -3284,15 +3284,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/kiali-server/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/kiali-server/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -3306,15 +3306,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/kiali-server/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/kiali-server/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -3358,15 +3358,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/kube-state-metrics/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/kube-state-metrics/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -3380,15 +3380,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/kube-state-metrics/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/kube-state-metrics/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -3462,15 +3462,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/mysql/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/mysql/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -3484,15 +3484,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/mysql/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/mysql/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -3553,15 +3553,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/mysql-operator/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/mysql-operator/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -3575,15 +3575,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/mysql-operator/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/mysql-operator/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -3627,15 +3627,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/oam-kubernetes-runtime/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/oam-kubernetes-runtime/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -3649,15 +3649,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/oam-kubernetes-runtime/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/oam-kubernetes-runtime/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -4187,15 +4187,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/prometheus-adapter/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/prometheus-adapter/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -4209,15 +4209,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/prometheus-adapter/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/prometheus-adapter/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -4293,15 +4293,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/prometheus-node-exporter/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/prometheus-node-exporter/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -4315,15 +4315,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/prometheus-node-exporter/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/prometheus-node-exporter/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -4367,15 +4367,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/kube-prometheus-stack/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/kube-prometheus-stack/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -4389,15 +4389,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/kube-prometheus-stack/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/kube-prometheus-stack/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -4441,15 +4441,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/prometheus-pushgateway/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/prometheus-pushgateway/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -4463,15 +4463,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/prometheus-pushgateway/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/prometheus-community/prometheus-pushgateway/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -4535,15 +4535,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/rancher-backup/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/rancher-backup/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -4557,15 +4557,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/rancher-backup/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/rancher-backup/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -4609,15 +4609,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/rancher/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/rancher/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -4631,15 +4631,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/rancher/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/rancher/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -4741,15 +4741,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/thanos/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/thanos/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -4763,15 +4763,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/thanos/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/thanos/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -4815,15 +4815,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/velero/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/velero/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -4837,15 +4837,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/velero/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/velero/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -4889,15 +4889,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -4911,15 +4911,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -5453,15 +5453,15 @@ bool
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/weblogic-operator/values.yaml %}}">here</a>
-and invalid values will be ignored.
-If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/weblogic-operator/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
 </tr>
 <tr>
@@ -5475,15 +5475,15 @@ If false, then Verrazzano updates will ignore any configuration changes to this 
 </td>
 <td>
 <p>
-(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended below.)
+(Inlined from <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
 </p>
 <em>(Optional)</em>
-<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/thirdparty/charts/weblogic-operator/values.yaml %}}">here</a>
-and invalid values will be ignored.
-List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/weblogic-operator/values.yaml %}}">here</a>;
+invalid values will be ignored.</p>
+<p>List of overrides for the default values.yaml file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
 Invalid override values will be ignored.</p>
 </td>
@@ -5522,7 +5522,7 @@ string
 <hr/>
 <p><em>
 Generated with <code>gen-crd-api-reference-docs</code>
-on git commit <code>3a421ac9e</code>.
+on git commit <code>1027f9a33</code>.
 </em></p>
 
 
