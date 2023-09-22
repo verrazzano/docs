@@ -1734,7 +1734,7 @@ ProjectTemplate
 <hr/>
 <p><em>
 Generated with <code>gen-crd-api-reference-docs</code>
-on git commit <code>89eacc2de</code>.
+on git commit <code>906e8361e</code>.
 </em></p>
 
 
