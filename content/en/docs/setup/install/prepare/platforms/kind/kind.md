@@ -171,12 +171,14 @@ To determine the subnet of the `kind` Docker network in kind v0.7.0 and earlier:
 {{< /clipboard >}}
 
 
-For use by MetalLB, assign a range of IP addresses at the end of the `kind` network's subnet CIDR range.
+For use by MetalLB, assign a range of IP addresses at the end of the `kind` network's subnet CIDR range. To set an address range, use the `ADDRESS_RANGE` environment variable:
 
 {{< clipboard >}}
 <div class="highlight">
 
 ```
+ADDRESS_RANGE="172.18.0.230-172.18.0.254"
+
 #Create the IPAddressPool for the cluster
 
 $ kubectl apply -f - <<-EOF
