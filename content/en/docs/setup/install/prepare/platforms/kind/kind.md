@@ -1,7 +1,7 @@
 ---
 
 title: Prepare a kind Cluster
-description: 
+description:
 Weight: 4
 draft: false
 aliases:
@@ -123,16 +123,11 @@ To install MetalLB:
 {{< clipboard >}}
 <div class="highlight">
 
-    $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/namespace.yaml
-    $ kubectl create secret generic \
-        -n metallb-system memberlist \
-        --from-literal=secretkey="$(openssl rand -base64 128)"
-    $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/metallb.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.7/config/manifests/metallb-native.yaml --wait=true
 
 </div>
 {{< /clipboard >}}
 
-**NOTE**: When using MetalLB on Kubernetes v1.26, install MetalLB v0.11.0, which you can do with manifest files or a Helm chart.
 
 Wait for MetalLB to be ready, as shown:
 {{< clipboard >}}
@@ -176,26 +171,40 @@ To determine the subnet of the `kind` Docker network in kind v0.7.0 and earlier:
 {{< /clipboard >}}
 
 
-For use by MetalLB, assign a range of IP addresses at the end of the `kind` network's subnet CIDR range.
+For use by MetalLB, assign a range of IP addresses at the end of the `kind` network's subnet CIDR range. To set an address range, use the `ADDRESS_RANGE` environment variable:
 
 {{< clipboard >}}
 <div class="highlight">
 
-    $ kubectl apply -f - <<-EOF
-    apiVersion: v1
-    kind: ConfigMap
-    metadata:
-      namespace: metallb-system
-      name: config
-    data:
-      config: |
-        address-pools:
-        - name: my-ip-space
-          protocol: layer2
-          addresses:
-          - 172.18.0.230-172.18.0.250
-    EOF
+```
+ADDRESS_RANGE="172.18.0.230-172.18.0.254"
 
+#Create the IPAddressPool for the cluster
+
+$ kubectl apply -f - <<-EOF
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: vzlocalpool
+  namespace: metallb-system
+spec:
+  addresses:
+  - ${ADDRESS_RANGE}
+EOF
+
+#Create the L2Advertisment resource for the cluster
+
+$ kubectl apply -f - <<-EOF
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: vzmetallb
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - vzlocalpool
+EOF
+```
 </div>
 {{< /clipboard >}}
 
