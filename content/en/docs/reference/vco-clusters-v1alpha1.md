@@ -90,7 +90,7 @@ NamespacedRef
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonClusterSpec">CommonClusterSpec</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonClusterSpec">CommonClusterSpec</a>. Inlined comments are appended in the following.)
 </p>
 <p>Reference for cloud authentication.</p>
 </td>
@@ -106,7 +106,7 @@ PrivateRegistry
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonClusterSpec">CommonClusterSpec</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonClusterSpec">CommonClusterSpec</a>. Inlined comments are appended in the following.)
 </p>
 <p>Private Registry settings for the workload cluster.</p>
 </td>
@@ -122,7 +122,7 @@ Proxy
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonClusterSpec">CommonClusterSpec</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonClusterSpec">CommonClusterSpec</a>. Inlined comments are appended in the following.)
 </p>
 <p>HTTP Proxy settings.</p>
 </td>
@@ -829,7 +829,7 @@ ClusterNetwork
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.KubernetesBase">KubernetesBase</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.KubernetesBase">KubernetesBase</a>. Inlined comments are appended in the following.)
 </p>
 <p>Kubernetes network settings.</p>
 </td>
@@ -900,7 +900,7 @@ string
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.OCINode">OCINode</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.OCINode">OCINode</a>. Inlined comments are appended in the following.)
 </p>
 <p>Node pool Shape.</p>
 </td>
@@ -914,7 +914,7 @@ int
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.OCINode">OCINode</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.OCINode">OCINode</a>. Inlined comments are appended in the following.)
 </p>
 <p>Number of OCPUs per node, when using flex shapes.</p>
 </td>
@@ -928,7 +928,7 @@ int
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.OCINode">OCINode</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.OCINode">OCINode</a>. Inlined comments are appended in the following.)
 </p>
 <p>Amount of memory per node, in gigabytes, when using flex shapes.</p>
 </td>
@@ -942,7 +942,7 @@ int
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.OCINode">OCINode</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.OCINode">OCINode</a>. Inlined comments are appended in the following.)
 </p>
 <p>Size of node boot volume, in gigabytes.</p>
 </td>
@@ -956,7 +956,7 @@ int
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.OCINode">OCINode</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.OCINode">OCINode</a>. Inlined comments are appended in the following.)
 </p>
 <p>Number of nodes to create.</p>
 </td>
@@ -1079,7 +1079,7 @@ string
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended in the following.)
 </p>
 <p>OCI region where the cluster will be created.</p>
 </td>
@@ -1093,7 +1093,7 @@ string
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended in the following.)
 </p>
 <p>OCI Compartment OCID where the cluster will be created</p>
 </td>
@@ -1107,7 +1107,7 @@ string
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended in the following.)
 </p>
 <p>SSH public key for node ssh.</p>
 </td>
@@ -1121,7 +1121,7 @@ string
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended in the following.)
 </p>
 <p>Node image OCID.
 The default is the latest OL8 image in the provided compartment.</p>
@@ -1136,7 +1136,7 @@ The default is the latest OL8 image in the provided compartment.</p>
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended in the following.)
 </p>
 <p>Cloud-init script to run during node startup.</p>
 </td>
@@ -1280,7 +1280,7 @@ NamespacedRef
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonClusterSpec">CommonClusterSpec</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonClusterSpec">CommonClusterSpec</a>. Inlined comments are appended in the following.)
 </p>
 <p>Reference for cloud authentication.</p>
 </td>
@@ -1296,7 +1296,7 @@ PrivateRegistry
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonClusterSpec">CommonClusterSpec</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonClusterSpec">CommonClusterSpec</a>. Inlined comments are appended in the following.)
 </p>
 <p>Private Registry settings for the workload cluster.</p>
 </td>
@@ -1312,7 +1312,7 @@ Proxy
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonClusterSpec">CommonClusterSpec</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonClusterSpec">CommonClusterSpec</a>. Inlined comments are appended in the following.)
 </p>
 <p>HTTP Proxy settings.</p>
 </td>
@@ -1481,7 +1481,7 @@ string
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended in the following.)
 </p>
 <p>OCI region where the cluster will be created.</p>
 </td>
@@ -1495,7 +1495,7 @@ string
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended in the following.)
 </p>
 <p>OCI Compartment OCID where the cluster will be created</p>
 </td>
@@ -1509,7 +1509,7 @@ string
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended in the following.)
 </p>
 <p>SSH public key for node ssh.</p>
 </td>
@@ -1523,7 +1523,7 @@ string
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended in the following.)
 </p>
 <p>Node image OCID.
 The default is the latest OL8 image in the provided compartment.</p>
@@ -1538,7 +1538,7 @@ The default is the latest OL8 image in the provided compartment.</p>
 </td>
 <td>
 <p>
-(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended below.)
+(Inlined from <a href="#clusters.verrazzano.io/v1alpha1.CommonOCI">CommonOCI</a>. Inlined comments are appended in the following.)
 </p>
 <p>Cloud-init script to run during node startup.</p>
 </td>
@@ -2221,7 +2221,7 @@ int
 <hr/>
 <p><em>
 Generated with <code>gen-crd-api-reference-docs</code>
-on git commit <code>906e8361e</code>.
+on git commit <code>7e2b8b262</code>.
 </em></p>
 
 
