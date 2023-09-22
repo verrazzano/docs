@@ -1154,11 +1154,7 @@ EOF
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/namespace.yaml
-$ kubectl create secret generic \
-    -n metallb-system memberlist \
-    --from-literal=secretkey=&amp;quot;$(openssl rand -base64 128)&amp;quot;
-$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/metallb.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.7/config/manifests/metallb-native.yaml --wait=true
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -1220,7 +1216,6 @@ $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/man
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: When using MetalLB on Kubernetes v1.26, install MetalLB v0.11.0, which you can do with manifest files or a Helm chart.&lt;/p&gt;
 &lt;p&gt;Wait for MetalLB to be ready, as shown:
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -1512,7 +1507,7 @@ In versions v0.7.0 and earlier, kind uses Docker&amp;rsquo;s default bridge netw
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;For use by MetalLB, assign a range of IP addresses at the end of the &lt;code&gt;kind&lt;/code&gt; network&amp;rsquo;s subnet CIDR range.&lt;/p&gt;
+&lt;p&gt;For use by MetalLB, assign a range of IP addresses at the end of the &lt;code&gt;kind&lt;/code&gt; network&amp;rsquo;s subnet CIDR range. To set an address range, use the &lt;code&gt;ADDRESS_RANGE&lt;/code&gt; environment variable:&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -1543,22 +1538,34 @@ In versions v0.7.0 and earlier, kind uses Docker&amp;rsquo;s default bridge netw
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f - &amp;lt;&amp;lt;-EOF
-apiVersion: v1
-kind: ConfigMap
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ADDRESS_RANGE=&amp;#34;172.18.0.230-172.18.0.254&amp;#34;
+
+#Create the IPAddressPool for the cluster
+
+$ kubectl apply -f - &amp;lt;&amp;lt;-EOF
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
 metadata:
+  name: vzlocalpool
   namespace: metallb-system
-  name: config
-data:
-  config: |
-    address-pools:
-    - name: my-ip-space
-      protocol: layer2
-      addresses:
-      - 172.18.0.230-172.18.0.250
+spec:
+  addresses:
+  - ${ADDRESS_RANGE}
 EOF
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+
+#Create the L2Advertisment resource for the cluster
+
+$ kubectl apply -f - &amp;lt;&amp;lt;-EOF
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: vzmetallb
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - vzlocalpool
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
 
