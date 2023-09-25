@@ -16,7 +16,7 @@ draft: false
 - WebLogic Monitoring Exporter v2.1.5
 
 #### Fixes:
-- Now labels can to be added to an ArgoCD managed cluster secret.
+- Now labels can be added to an ArgoCD managed cluster secret.
 - Improved support for Cluster API version overrides.
 - Grafana dashboard update to show persistent volumes.
 
