@@ -3,6 +3,23 @@ title: Release Notes
 weight: 2
 draft: false
 ---
+## v1.6.7
+#### Enhancements:
+- Support for WebLogic Kubernetes Operator 4.1.2 features for InitalizeDomainOnPV.
+- Refreshed component images for security and reduced image size.
+
+#### Component version updates:
+- Thanos v0.32.2 (includes support for OKE Workload Identities)
+- Cluster API v1.4.6
+- Cluster API OCI Controller v0.12.1
+- WebLogic Kubernetes Operator v4.1.2
+- WebLogic Monitoring Exporter v2.1.5
+
+#### Fixes:
+- Now labels can be added to an ArgoCD managed cluster secret.
+- Improved support for Cluster API version overrides.
+- Grafana dashboard update to show persistent volumes.
+
 ## v1.6.6
 #### Enhancements:
 - Added support for Kubernetes v1.27.
@@ -110,6 +127,21 @@ draft: false
 
 
 ## Previous Release Information
+### v1.5.7
+**Enhancements**:
+- Refreshed component images for security and reduced image size.
+
+**Component version updates**:
+- Istio v1.15.7
+- WebLogic Kubernetes Operator v4.0.9
+- WebLogic Monitoring Exporter v2.1.5
+
+**Fixes**:
+- Fixed issues with orphaned resources during uninstall when VPO restarts.
+- Fixed issues relating to the pod security policies of prometheus-node-exporter and rancher-backup Operator.
+- Fixed an issue with updating the WebLogic Server cluster resource.
+- Grafana dashboard update to show persistent volumes.
+
 ### v1.5.6
 **Enhancements**:
 - Reduced Fluentd image size.
@@ -212,6 +244,14 @@ draft: false
 - Fixed IngressTrait JWT so that `RequestPrincipals` with no paths are allowed.
 - Fixed IngressTrait related `AuthorizationPolicy` cleanup when an application is deleted.
 
+### v1.4.8
+**Component version updates**:
+- WebLogic Kubernetes Operator v3.4.10
+- WebLogic Monitoring Exporter v2.1.5
+
+**Fixes**:
+- Fixed issues with orphaned resources during uninstall when VPO restarts.
+
 ### v1.4.7
 **Fixes**:
 - Fixed issues where upgrade would not successfully occur if pods had errors.
@@ -231,7 +271,7 @@ draft: false
 - Updated base and other images for issues and security.
 
 **Component version updates**:
-- WebLogic Kubernetes Operator v4.0.6
+- WebLogic Kubernetes Operator v3.4.7
 - WebLogic Monitoring Exporter v2.1.3
 
 ### v1.4.4
