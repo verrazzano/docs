@@ -122,6 +122,14 @@ Fixes:
 - Fixed IngressTrait JWT related issues to allow multiple paths where one path has `RequestPrincipals` and the other doesn't.
 - Fixed IngressTrait JWT so that `RequestPrincipals` with no paths are allowed.
 - Fixed IngressTrait related `AuthorizationPolicy` cleanup when an application is deleted.
+### v1.4.8
+Component version updates:
+- WebLogic Kubernetes Operator v3.4.10
+- WebLogic Monitoring Exporter v2.1.5
+
+Fixes:
+- Fixed issues with orphaned resources during uninstall when VPO restarts.
+
 ### v1.4.6
 Enhancements:
 
@@ -140,7 +148,7 @@ Fixes:
 
 Component version updates:
 
-- WebLogic Kubernetes Operator v4.0.6
+- WebLogic Kubernetes Operator v3.0.7
 - WebLogic Monitoring Exporter v2.1.3
 
 ### v1.4.4
