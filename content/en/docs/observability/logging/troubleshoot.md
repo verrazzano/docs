@@ -1,5 +1,5 @@
 ---
-title: "Troubleshoot logging issues"
+title: "Troubleshoot Logging Issues"
 description: ""
 weight: 6
 draft: false

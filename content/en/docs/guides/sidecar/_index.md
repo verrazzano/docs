@@ -1,5 +1,5 @@
 ---
-title: "Deploy a Kubernetes Sidecar with Verrazzano"
+title: "Deploy a Kubernetes Sidecar With Verrazzano"
 linkTitle: "Deploy Custom Sidecars"
 description: "A guide for deploying custom sidecars to Verrazzano workload components"
 weight: 2
