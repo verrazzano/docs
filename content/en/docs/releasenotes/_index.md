@@ -4,6 +4,14 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+### v1.4.8
+Component version updates:
+- WebLogic Kubernetes Operator v3.4.10
+- WebLogic Monitoring Exporter v2.1.5
+
+Fixes:
+- Fixed issues with orphaned resources during uninstall when VPO restarts.
+
 ### v1.4.7
 Fixes:
 - Fixed issues where upgrade would not successfully occur if pods had errors.
