@@ -4,6 +4,28 @@ linkTitle: Release Notes
 weight: 2
 draft: false
 ---
+### v1.5.7
+Enhancements:
+- Refreshed component images for security and reduced image size.
+
+Component version updates:
+- Istio v1.15.7
+- WebLogic Kubernetes Operator v4.0.9
+- WebLogic Monitoring Exporter v2.1.5
+
+Fixes:
+- Fixed issues with orphaned resources during uninstall when VPO restarts.
+- Fixed issues relating to the pod security policies of prometheus-node-exporter and rancher-backup Operator.
+- Fixed an issue with updating the WebLogic Server cluster resource.
+- Grafana dashboard update to show persistent volumes.
+
+### v1.5.6
+Enhancements:
+- Reduced Fluentd image size.
+
+Fixes:
+- Fixed an issue where the Verrazzano CLI would not reject an invalid custom resource.
+
 ### v1.5.5
 Fixes:
 - Fixed issues with Rancher certificates that were out of sync or expired.
