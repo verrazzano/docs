@@ -4,6 +4,10 @@ weight: 2
 draft: false
 ---
 ## v1.6.7
+#### Enhancements:
+- Support for WebLogic Kubernetes Operator 4.1.2 features for InitalizeDomainOnPV.
+- Refreshed component images for security and reduced image size.
+
 #### Component version updates:
 - Thanos v0.32.2 (includes support for OKE Workload Identities)
 - Cluster API v1.4.6
@@ -11,14 +15,10 @@ draft: false
 - WebLogic Kubernetes Operator v4.1.2
 - WebLogic Monitoring Exporter v2.1.5
 
-#### Enhancements:
-- Support for WKO WebLogic Domain 4.1.2 Features for InitalizeDomainOnPV.
-
 #### Fixes:
-- Fix to allow labels to be added to an ArgoCD Managed Cluster Secret.
-- Improved support for Cluster API Version Overrides.
-- Grafana Dashboard Update to show Persistent Volumes.
-- Refreshed component images for security and reduced image size.
+- Now labels can to be added to an ArgoCD managed cluster secret.
+- Improved support for Cluster API version overrides.
+- Grafana dashboard update to show persistent volumes.
 
 ## v1.6.6
 #### Enhancements:
@@ -127,17 +127,19 @@ draft: false
 
 ## Previous Release Information
 ### v1.5.7
+**Enhancements**:
+- Refreshed component images for security and reduced image size.
+
 **Component version updates**:
 - Istio v1.15.7
 - WebLogic Kubernetes Operator v4.0.9
 - WebLogic Monitoring Exporter v2.1.5
 
 **Fixes**:
-- Fix orphaned resources during uninstall when VPO restarts.
+- Fixed issues with orphaned resources during uninstall when VPO restarts.
 - Fixed issues relating to the pod security policies of prometheus-node-exporter and rancher-backup Operator.
 - Fixed an issue with updating the WebLogic Server cluster resource.
-- Grafana Dashboard Update to show Persistent Volumes.
-- Refreshed component images for security and reduced image size.
+- Grafana dashboard update to show persistent volumes.
 
 ### v1.5.6
 **Enhancements**:
@@ -242,12 +244,12 @@ draft: false
 - Fixed IngressTrait related `AuthorizationPolicy` cleanup when an application is deleted.
 
 ### v1.4.8
-**Fixes**:
-- Fix orphaned resources during uninstall when VPO Restarts
-
 **Component version updates**:
 - WebLogic Kubernetes Operator v3.4.10
 - WebLogic Monitoring Exporter v2.1.5
+
+**Fixes**:
+- Fixed issues with orphaned resources during uninstall when VPO restarts.
 
 ### v1.4.7
 **Fixes**:
