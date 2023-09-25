@@ -3,6 +3,23 @@ title: Release Notes
 weight: 2
 draft: false
 ---
+## v1.6.7
+#### Component version updates:
+- Thanos v0.32.2 (includes support for OKE Workload Identities)
+- Cluster API v1.4.6
+- Cluster API OCI Controller v0.12.1
+- WebLogic Kubernetes Operator v4.1.2
+- WebLogic Monitoring Exporter v2.1.5
+
+#### Enhancements:
+- Support for WKO WebLogic Domain 4.1.2 Features for InitalizeDomainOnPV.
+
+#### Fixes:
+- Fix to allow labels to be added to an ArgoCD Managed Cluster Secret.
+- Improved support for Cluster API Version Overrides.
+- Grafana Dashboard Update to show Persistent Volumes.
+- Refreshed component images for security and reduced image size.
+
 ## v1.6.6
 #### Enhancements:
 - Added support for Kubernetes v1.27.
@@ -109,6 +126,19 @@ draft: false
 
 
 ## Previous Release Information
+### v1.5.7
+**Component version updates**:
+- Istio v1.15.7
+- WebLogic Kubernetes Operator v4.0.9
+- WebLogic Monitoring Exporter v2.1.5
+
+**Fixes**:
+- Fix orphaned resources during uninstall when VPO restarts.
+- Fixed issues relating to the pod security policies of prometheus-node-exporter and rancher-backup Operator.
+- Fixed an issue with updating the WebLogic Server cluster resource.
+- Grafana Dashboard Update to show Persistent Volumes.
+- Refreshed component images for security and reduced image size.
+
 ### v1.5.6
 **Enhancements**:
 - Reduced Fluentd image size.
@@ -211,6 +241,14 @@ draft: false
 - Fixed IngressTrait JWT so that `RequestPrincipals` with no paths are allowed.
 - Fixed IngressTrait related `AuthorizationPolicy` cleanup when an application is deleted.
 
+### v1.4.8
+**Fixes**:
+- Fix orphaned resources during uninstall when VPO Restarts
+
+**Component version updates**:
+- WebLogic Kubernetes Operator v3.4.10
+- WebLogic Monitoring Exporter v2.1.5
+
 ### v1.4.7
 **Fixes**:
 - Fixed issues where upgrade would not successfully occur if pods had errors.
@@ -230,7 +268,7 @@ draft: false
 - Updated base and other images for issues and security.
 
 **Component version updates**:
-- WebLogic Kubernetes Operator v4.0.6
+- WebLogic Kubernetes Operator v3.4.7
 - WebLogic Monitoring Exporter v2.1.3
 
 ### v1.4.4
