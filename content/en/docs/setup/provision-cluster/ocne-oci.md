@@ -1,5 +1,5 @@
 ---
-title: Create OCNE Clusters running on OCI
+title: Create OCNE Clusters Running on OCI
 description: "Add Oracle Cloud Native Environment self-managed clusters running on OCI to your multicluster environment"
 weight: 1
 draft: false
@@ -53,7 +53,3 @@ To provision new Oracle Cloud Native Environment (OCNE) managed clusters on OCI,
 When your cluster finishes provisioning, you can access it from the main **Cluster Management** page.
 
 For help troubleshooting cluster creation, see [OCNE Cluster Creation Issues]({{< relref "/docs/troubleshooting/troubleshooting-clusterapi" >}}).
-
-
-
-
