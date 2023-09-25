@@ -1,5 +1,5 @@
 ---
-title: "Upgrade Kubernetes with Verrazzano installed"
+title: "Upgrade Kubernetes With Verrazzano Installed"
 description: ""
 weight: 8
 draft: false
