@@ -22,8 +22,7 @@ metadata:
 spec:
   template:
     data:
-      username: <base64-encoded username>
-      password: <base64-encoded password>
+      username: <base64-encoded value>
   spec:
   placement:
     clusters:
