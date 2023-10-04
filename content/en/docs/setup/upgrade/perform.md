@@ -11,6 +11,8 @@ The platform operator contains the newer component charts and image versions, so
 Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade.
 Currently, there is no way to roll back either the platform operator update or the Verrazzano installation upgrade.  
 
+**NOTE**: For upgrading to Verrazzano v1.7 or later, before initiating an upgrade, we recommend that you back up your existing OpenSearch cluster using Velero. For the backup process, follow the documentation [here]({{< relref "/docs/backup/opensearch.md" >}}). Also, before you start the upgrade, we advise that you make sure that the OpenSearch cluster health is green.
+
 You can upgrade Verrazzano using the Verrazzano [CLI]({{< relref "/docs/setup/install/prepare/cli-setup.md" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/).
 See the following respective sections.
 
