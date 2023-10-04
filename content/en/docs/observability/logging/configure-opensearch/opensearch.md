@@ -801,3 +801,52 @@ spec:
           - <URL to OpenSearch Dashboard plugin ZIP file>
 ```
 {{< /clipboard >}}
+
+## Add OpenSearch users
+1. Create a new user and role in Keycloak and then associate the role with the user.
+
+2. Create a new OpenSearch role for the above created user. Here is a custom resource example to create a 
+custom role.
+
+{{< clipboard >}}
+```yaml
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchRole
+metadata:
+  name: custom-role
+  namespace: verrazzano-logging
+spec:
+  opensearchCluster:
+    name: opensearch
+  clusterPermissions:
+    - "cluster:monitor/main"
+    - "cluster:monitor/health"
+  indexPermissions:
+  - indexPatterns:
+    - verrazzano*
+    allowedActions:
+    - index
+    - read
+```
+{{< /clipboard >}}
+3. After creating the user and role, link them together using a custom resource RoleBinding. Here is a custom resource example to create a
+  RoleBinding that binds the user `custom-user` created in Keycloak and role `custom-role` created above
+
+{{< clipboard >}}
+```yaml
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchUserRoleBinding
+metadata:
+  name: custom-rb
+  namespace: verrazzano-logging
+spec:
+  opensearchCluster:
+    name: opensearch
+  users:
+  - custom-user
+  backendRoles:
+  - custom-role
+  roles:
+  - custom-role
+```
+{{< /clipboard >}}
