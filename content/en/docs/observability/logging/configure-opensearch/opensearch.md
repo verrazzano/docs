@@ -696,7 +696,7 @@ POST _reindex
 Under source, list all the previous indices that were created based on the default index template. After reindexing is complete, [Refresh the index pattern](#refresh-the-index-pattern) again. For more information, see [Reindex data](https://opensearch.org/docs/latest/im-plugin/reindex-data/) in the OpenSearch documentation.
 
 ## Install OpenSearch and OpenSearch Dashboards plug-ins
-Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by providing plug-ins in the Verrazzano custom resource.
+Verrazzano supports OpenSearch and OpenSearch Dashboards plug-in installation by providing plug-ins in the Verrazzano custom resource.
 To install plug-ins for OpenSearch, you define the field [spec.components.opensearch.plugins](/docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) in the Verrazzano custom resource.
 
 The following Verrazzano custom resource example installs the `analysis-stempel` and `opensearch-anomaly-detection` plug-ins for OpenSearch:
@@ -771,7 +771,7 @@ There are three ways to specify a plug-in in the `plugins.installList`:
 {{< alert title="NOTE" color="primary" >}}
 - Adding a new plug-in to the `plugins.installList` or removing a plug-in from the `plugins.installList` will result in restarting the OpenSearch related pods.
 - To verify that a plug-in has installed successfully, make sure that no pod is in the CrashLoopBackOff state and the plug-in functionality is working fine.
-- If there is any error during plug-in installation, then one of the OS master pods will go into the CrashLoopBackOff state, while other pods will still be in the Running state, and the OpenSearch cluster will be healthy and functional. Check the logs for the exact reason of the failure.
+- If there is any error during plug-in installation, then one of the OpenSearch master pods will go into the CrashLoopBackOff state, while other pods will still be in the Running state, and the OpenSearch cluster will be healthy and functional. Check the logs for the exact reason of the failure.
 - Your environment must be able to connect to the internet to access the provided plug-in URL or [Maven Central](https://search.maven.org/search?q=org.opensearch.plugin) to install the plug-in. In the case of an internet issue, you might see SocketException or UnknownHostException exceptions in the logs. To resolve this issue, make sure that the pods are connected to the internet.
 - To be compatible, major, minor, and patch plug-in versions must match the OpenSearch major, minor, and patch versions. For example, plug-ins versions 2.3.0.x are compatible only with OpenSearch version 2.3.0.
 {{< /alert >}}
@@ -779,7 +779,7 @@ There are three ways to specify a plug-in in the `plugins.installList`:
 For OpenSearch Dashboard, you can provide the plug-ins by defining the field [spec.components.opensearch-dashboards.plugins](/docs/reference/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.v1beta1.OpenSearchDashboardsComponent) in the Verrazzano custom resource.
 
 #### Pre-built plug-ins for OpenSearch Dashboards
-Here are pre-built plug-ins that are bundled with the OpenSearch Dashboard image:
+Here are pre-built plug-ins that are bundled with the OpenSearch Dashboards image:
 - `alertingDashboards`
 - `indexManagementDashboards`
 - `notificationsDashboards`
@@ -798,14 +798,14 @@ spec:
       plugins:
         enabled: true
         installList:
-          - <URL to OpenSearch Dashboard plugin ZIP file>
+          - <URL to OpenSearch Dashboards plug-in ZIP file>
 ```
 {{< /clipboard >}}
 
 ## Add OpenSearch users
 1. Create a new user and role in Keycloak and then associate the role with the user.
 
-2. Create a new OpenSearch role for the above created user. Here is a custom resource example to create a 
+2. Create a new OpenSearch role for the above created user. Here is a custom resource example to create a
 custom role.
 
 {{< clipboard >}}
