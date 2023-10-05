@@ -803,7 +803,7 @@ spec:
 {{< /clipboard >}}
 
 ## Add OpenSearch users
-1. Create a new user and role in Keycloak and then associate the role with the user.
+1. Create a new user and role in Keycloak and then associate the role with the user. Also asscociate the role `vz_api_access` to the newly created user.
 
 2. Create a new OpenSearch role for the user created in Step 1. Here is a custom resource example to create a
 custom role:
