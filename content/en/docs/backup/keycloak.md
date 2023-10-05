@@ -14,6 +14,7 @@ If you are restoring data to the same cluster, then the terms original cluster a
 - [MySQL Operator backup](#mysql-operator-backup)
 - [MySQL Operator restore](#mysql-operator-restore)
 
+**NOTE**: When upgrading, follow the backup documentation for your existing Verrazzano version, not the version to which you are upgrading.
 
 ## MySQL Operator prerequisites
 

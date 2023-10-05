@@ -15,6 +15,7 @@ Verrazzano uses Velero to facilitate backing up and restoring Argo CD data.
 - [Argo CD backup using Velero](#argo-cd-backup-using-velero)
 - [Argo CD restore using Velero](#argo-cd-restore-using-velero)
 
+**NOTE**: When upgrading, follow the backup documentation for your existing Verrazzano version, not the version to which you are upgrading.
 
 ## Velero operator prerequisites
 
