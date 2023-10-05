@@ -805,8 +805,8 @@ spec:
 ## Add OpenSearch users
 1. Create a new user and role in Keycloak and then associate the role with the user.
 
-2. Create a new OpenSearch role for the above created user. Here is a custom resource example to create a
-custom role.
+2. Create a new OpenSearch role for the user created in Step 1. Here is a custom resource example to create a
+custom role:
 
 {{< clipboard >}}
 ```yaml
@@ -829,8 +829,8 @@ spec:
     - read
 ```
 {{< /clipboard >}}
-3. After creating the user and role, link them together using a custom resource RoleBinding. Here is a custom resource example to create a
-  RoleBinding that binds the user `custom-user` created in Keycloak and role `custom-role` created above
+3. After creating the user and role, link them together using a custom resource OpensearchUserRoleBinding. Here is a custom resource example to create a
+  RoleBinding that binds the user `custom-user` and backend role `custom-user` created in Step 1 and OpenSearch role `custom-role` created in Step 2:
 
 {{< clipboard >}}
 ```yaml
