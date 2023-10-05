@@ -3,6 +3,10 @@ title: Release Notes
 weight: 2
 draft: false
 ---
+## v1.7.0
+#### Features
+- Added support for creating OKE clusters from the console.
+
 ## v1.6.7
 #### Enhancements:
 - Support for WebLogic Kubernetes Operator 4.1.2 features for InitalizeDomainOnPV.

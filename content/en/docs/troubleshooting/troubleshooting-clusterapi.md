@@ -1,11 +1,11 @@
 ---
-title: "OCNE Cluster Creation Issues"
-description: "Troubleshoot issues when creating OCNE clusters"
+title: "Cluster Creation Issues"
+description: "Troubleshoot issues when creating clusters using the clusterAPI component"
 weight: 5
 draft: false
 ---
 
-If you encounter a problem with the OCNE clusters created in the console (using the [clusterAPI component]({{< relref "/docs/setup/provision-cluster/capi" >}})), here are some techniques you can use to diagnose and solve the issue.
+If you encounter a problem with the OCNE or OKE clusters created in the console (using the [clusterAPI component]({{< relref "/docs/setup/provision-cluster/capi" >}})), here are some techniques you can use to diagnose and resolve the issue.
 
 ### Analyze the cluster
 
@@ -111,10 +111,10 @@ Causes may include:
 
 * OCI resource limits were reached: Cluster creation will fail if it needs to create more resources than allowed by your OCI tenancy. Check your OCI service limits to see if you exceeded its limits. If you need to request a service limit increase, see [Requesting a Service Limit Increase](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm#Requesti).
 
-* Connectivity issues: Make sure your virtual cloud network is configured properly. See [Configure a VCN for OCNE]({{< relref "/docs/setup/install/prepare/platforms/olcne/vcn" >}}) for recommendations.
+* Connectivity issues: Make sure your virtual cloud network is configured properly. See [Configure a VCN in OCI]({{< relref "/docs/setup/install/prepare/platforms/vcn-oci" >}}) for recommendations.
 
 * The network load balancer is in a critical state: The network load balancer may temporarily enter a critical state during initial cluster creation until the Kubernetes API server is up. If it remains in a critical state, then one of the following issues may have occurred:
-    * Traffic between the network load balancer and the OCNE control plane node is blocked over port 6443.
+    * Traffic between the network load balancer and the OCNE or OKE control plane node is blocked over port 6443.
 
     * The OCNE API server did not start, possibly because OCNE dependencies failed to install.
 

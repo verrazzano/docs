@@ -1,12 +1,12 @@
 ---
-title: Configure a VCN for OCNE
-linkTitle: Configure a VCN for OCNE
-description: Set up a virtual cloud network for OCNE clusters on OCI
+title: Configure a VCN in OCI
+linkTitle: Configure a VCN in OCI
+description: Set up a virtual cloud network for clusters on OCI
 weight: 3
 draft: false
 ---
 
-Before you can create Oracle Cloud Native Environment (OCNE) clusters on Oracle Cloud Infrastructure (OCI), you'll need to configure a virtual cloud network (VCN) in your OCI compartment. VCNs are software-defined networks that manage access to your cloud resources.
+Before you can create Oracle Cloud Native Environment (OCNE) clusters or Oracle Container Engine for Kubernetes (OKE) clusters on Oracle Cloud Infrastructure (OCI), you'll need to configure a virtual cloud network (VCN) in your OCI compartment. VCNs are software-defined networks that manage access to your cloud resources.
 
 See [Networking Overview](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm#network_landing) in the OCI documentation for more information.
 
@@ -23,7 +23,7 @@ In addition to the specifications listed, make sure that the VCN is configured t
 
 ## Subnets
 
-Subnets are subdivisions within a VCN that help to organize configuration settings. All instances within a subnet use the same route table, security lists, and DHCP options. Subnets can be either public or private. For an OCNE cluster, you'll need both public and private subnets, with four subnets in total.
+Subnets are subdivisions within a VCN that help to organize configuration settings. All instances within a subnet use the same route table, security lists, and DHCP options. Subnets can be either public or private. For OCNE and OKE clusters, you'll need both public and private subnets, with four subnets in total.
 
 See [Overview of VCNs and Subnets](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/Overview_of_VCNs_and_Subnets.htm#Overview) in the OCI documentation for more information.
 
@@ -210,7 +210,7 @@ Route tables send traffic out of the VCN (for example, to the internet, to your 
 
 See [VCN Route Tables](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingroutetables.htm#Route2) in the OCI documentation for more information.
 
-For OCNE clusters, you'll need to create two route tables:
+For OCNE and OKE clusters, you'll need to create two route tables:
 
 1. A route table for public subnets that will route stateful traffic to and from the internet gateway. Assign this route table to *both* public subnets.
 1. A route table for private subnets that will route stateful traffic to and from the NAT and service gateways. Assign this route table to *both* private subnets.
