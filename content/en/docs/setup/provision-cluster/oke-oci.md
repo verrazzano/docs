@@ -39,19 +39,19 @@ To provision new Oracle Container Engine for Kubernetes (OKE) managed clusters o
 Do not select **Oracle OKE (Legacy)**.
 1. Expand **Member Roles** to add any users that you want grant access to this cluster and their permissions.
 1. Expand **Labels and Annotations** to configure Kubernetes [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) and [annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) for the cluster.
-1. Select the cloud credentials that you created. Ensure that the appropriate Region and Compartment are selected from their drop-down lists.
+1. Select the cloud credentials that you created. Ensure that the appropriate Region and Compartment are selected from their drop-down menus.
 1. Click **Next**.
 1. Set up your network. Choose **Quick Create** to create a new virtual cloud network (VCN) configured to the specifications required for an OKE cluster or **Existing Infrastructure** to use a VCN that's already configured in your OCI account.
 
-    * If you choose the **Existing Infrastructure** option, then select the compartment where your VCN is located from the **VCN Compartment** drop-down list, then the VCN itself from the **Virtual Cloud Network** drop-down list. Next, select subnets within the VCN for each of the **Cloud Plane Subnet**, **Load Balancer Subnet**, and **Worker Node Subnet** drop-down lists. See [Configure a VCN in OCI]({{< relref "/docs/setup/install/prepare/platforms/vcn-oci" >}}) for requirements.
+    * If you choose the **Existing Infrastructure** option, then select the compartment where your VCN is located from the **VCN Compartment** drop-down menu, then the VCN itself from the **Virtual Cloud Network** drop-down menu. Next, select subnets within the VCN for each of the **Cloud Plane Subnet**, **Load Balancer Subnet**, and **Worker Node Subnet** drop-down menus. See [Configure a VCN in OCI]({{< relref "/docs/setup/install/prepare/platforms/vcn-oci" >}}) for requirements.
 
     * The VCN compartment does not need to match the compartment specified in the cloud credential.
 1. Click **Next**.
 1. Configure the cluster control plane. Select an **OKE Version** and then a **CNI Type**.
-1. Choose a Node Image from the drop-down list.
+1. Choose a Node Image from the drop-down menu.
 1. Copy or upload an SSH public key to manage authentication of the cluster. Your SSH public key is installed on the cluster nodes, enabling SSH after the cluster is created.
 1. Add node pools to your cluster. Clusters without node pools will schedule pods on control plane nodes.
-1. (Optional) Install Verrazzano on the cluster. Choose a **Verrazzano version** from the drop-down list. You can also expand **Advanced** to make changes to the Verrazzano Resource YAML. By default, Verrazzano is installed using the `managed-cluster` profile which enables a limited set of components on the cluster.
+1. (Optional) Install Verrazzano on the cluster. Choose a **Verrazzano version** from the drop-down menu. You can also expand **Advanced** to make changes to the Verrazzano Resource YAML. By default, Verrazzano is installed using the `managed-cluster` profile which enables a limited set of components on the cluster.
 1. Expand **Advanced Settings** to make additional modifications to the default settings of your new cluster.
     * **YAML Manifests**: Supply additional YAML manifests that are automatically installed after cluster creation. The total size of all additional YAML manifests may not exceed 500 KB.
     * **Cluster Networking**: Configure cluster IP ranges and proxy settings.
