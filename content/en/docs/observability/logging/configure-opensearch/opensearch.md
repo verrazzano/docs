@@ -830,7 +830,7 @@ spec:
 ```
 {{< /clipboard >}}
 3. After creating the user and role, link them together using a custom resource OpensearchUserRoleBinding. Here is a custom resource example to create a
-  RoleBinding that binds the user `custom-user` and backend role `custom-role` created in Step 1 and OpenSearch role `custom-role` created in Step 2:
+  RoleBinding that binds the user `custom-user` and backend role `custom-role` created in Step 1 and OpenSearch role `custom-role` created in Step 2.
 
 {{< clipboard >}}
 ```yaml
