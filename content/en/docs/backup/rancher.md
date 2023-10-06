@@ -16,6 +16,7 @@ rancher-backup Operator provides a seamless way to back up and restore Rancher i
 - [Rancher backup](#rancher-backup)
 - [Rancher restore](#rancher-restore)
 
+**NOTE**: When upgrading, follow the backup documentation for your existing Verrazzano version, not the version to which you are upgrading.
 
 ## rancher-backup Operator prerequisites
 
