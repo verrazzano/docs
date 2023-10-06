@@ -66,7 +66,12 @@
         &lt;h3 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h3&gt;
 &lt;p&gt;You&amp;rsquo;ll need to:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Set up an Oracle Cloud Infrastructure (OCI) account with a compartment&lt;/li&gt;
+&lt;li&gt;Set up an Oracle Cloud Infrastructure (OCI) account with
+&lt;ul&gt;
+&lt;li&gt;A compartment&lt;/li&gt;
+&lt;li&gt;An &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#two&#34;&gt;API signing key&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;li&gt;Generate an SSH key pair to use for cluster authentication&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;create-a-new-ocne-cluster-on-oci&#34;&gt;Create a new OCNE cluster on OCI&lt;/h3&gt;
@@ -85,7 +90,30 @@
 &lt;p&gt;Choose &lt;strong&gt;Oracle&lt;/strong&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Provide a name for the cloud credential and then fill in the fields. You can find the required information in your &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#Required_Keys_and_OCIDs&#34;&gt;OCI configuration file&lt;/a&gt;. Click &lt;strong&gt;Create&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Provide a name for the cloud credential and then fill in the rest of the fields with information from your OCI account and its API signing key.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;fingerprint&lt;/strong&gt;: The fingerprint of the public API key. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#four&#34;&gt;Find your key&amp;rsquo;s fingerprint&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;passphrase&lt;/strong&gt;: The passphrase used for the API key, if it was encrypted.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;privateKeyContents&lt;/strong&gt;: Copy the contents of the private key portion of the API key pair. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#two&#34;&gt;Generate an API Signing Key&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;region&lt;/strong&gt;: Enter the identifier for the current region of your tenancy. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm#About&#34;&gt;Find your region identifier&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;tenancyId&lt;/strong&gt;: Enter the OCID of your tenancy. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#five&#34;&gt;Find your tenancy OCID&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;userId&lt;/strong&gt;: Enter the OCID of the user. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#five&#34;&gt;Find your user OCID&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Click &lt;strong&gt;Create&lt;/strong&gt; to save the new cloud credential.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;From the left menu, select &lt;strong&gt;Clusters&lt;/strong&gt;, and then click &lt;strong&gt;Create&lt;/strong&gt;.&lt;/p&gt;
@@ -100,7 +128,7 @@
 &lt;p&gt;Expand &lt;strong&gt;Labels and Annotations&lt;/strong&gt; to configure Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/&#34;&gt;labels&lt;/a&gt; and &lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/&#34;&gt;annotations&lt;/a&gt; for the cluster.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Select the cloud credentials that you created. Ensure that the appropriate Region and Compartment are selected from their drop-down lists.&lt;/p&gt;
+&lt;p&gt;Select the cloud credentials that you created. Ensure that the appropriate Region and Compartment are selected from their drop-down menus.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Click &lt;strong&gt;Next&lt;/strong&gt;.&lt;/p&gt;
@@ -109,7 +137,7 @@
 &lt;p&gt;Set up your network. Choose &lt;strong&gt;Quick Create&lt;/strong&gt; to create a new virtual cloud network (VCN) configured to the specifications required for an OCNE cluster or &lt;strong&gt;Existing Infrastructure&lt;/strong&gt; to use a VCN that&amp;rsquo;s already configured in your OCI account.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;If you choose the &lt;strong&gt;Existing Infrastructure&lt;/strong&gt; option, then select the compartment where your VCN is located from the &lt;strong&gt;VCN Compartment&lt;/strong&gt; drop-down list, then the VCN itself from the &lt;strong&gt;Virtual Cloud Network&lt;/strong&gt; drop-down list. Next, select subnets within the VCN for each of the &lt;strong&gt;Cloud Plane Subnet&lt;/strong&gt;, &lt;strong&gt;Load Balancer Subnet&lt;/strong&gt;, and &lt;strong&gt;Worker Node Subnet&lt;/strong&gt; drop-down lists. See &lt;a href=&#34;../../../docs/setup/install/prepare/platforms/olcne/vcn/&#34;&gt;Configure a VCN for OCNE&lt;/a&gt; for requirements.&lt;/p&gt;
+&lt;p&gt;If you choose the &lt;strong&gt;Existing Infrastructure&lt;/strong&gt; option, then select the compartment where your VCN is located from the &lt;strong&gt;VCN Compartment&lt;/strong&gt; drop-down menu, then the VCN itself from the &lt;strong&gt;Virtual Cloud Network&lt;/strong&gt; drop-down menu. Next, select subnets within the VCN for each of the &lt;strong&gt;Cloud Plane Subnet&lt;/strong&gt;, &lt;strong&gt;Load Balancer Subnet&lt;/strong&gt;, and &lt;strong&gt;Worker Node Subnet&lt;/strong&gt; drop-down menus. See &lt;a href=&#34;../../../docs/setup/install/prepare/platforms/vcn-oci/&#34;&gt;Configure a VCN in OCI&lt;/a&gt; for requirements.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;The VCN compartment does not need to match the compartment specified in the cloud credential.&lt;/p&gt;
@@ -120,7 +148,7 @@
 &lt;p&gt;Click &lt;strong&gt;Next&lt;/strong&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Choose a Node Image from the drop-down list.&lt;/p&gt;
+&lt;p&gt;Choose a Node Image from the drop-down menu.&lt;/p&gt;
 &lt;p&gt;You can choose to override the default Node Image. Expand &lt;strong&gt;OCNE Image Configuration&lt;/strong&gt; and provide a custom image OCID. If your custom image includes OCNE binaries, then you can select &lt;strong&gt;Skip OCNE Dependency Installation&lt;/strong&gt; to avoid duplicates.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -134,7 +162,7 @@
 &lt;p&gt;Add node pools to your cluster. Clusters without node pools will schedule pods on control plane nodes.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;(Optional) Install Verrazzano on the cluster. Choose a &lt;strong&gt;Verrazzano version&lt;/strong&gt; from the drop-down list. You can also expand &lt;strong&gt;Advanced&lt;/strong&gt; to make changes to the Verrazzano Resource YAML. By default, Verrazzano is installed using the &lt;code&gt;managed-cluster&lt;/code&gt; profile which enables a limited set of components on the cluster.&lt;/p&gt;
+&lt;p&gt;(Optional) Install Verrazzano on the cluster. Choose a &lt;strong&gt;Verrazzano version&lt;/strong&gt; from the drop-down menu. You can also expand &lt;strong&gt;Advanced&lt;/strong&gt; to make changes to the Verrazzano Resource YAML. By default, Verrazzano is installed using the &lt;code&gt;managed-cluster&lt;/code&gt; profile which enables a limited set of components on the cluster.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Expand &lt;strong&gt;Advanced Settings&lt;/strong&gt; to make additional modifications to the default settings of your new cluster.&lt;/p&gt;
@@ -149,7 +177,131 @@
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;When your cluster finishes provisioning, you can access it from the main &lt;strong&gt;Cluster Management&lt;/strong&gt; page.&lt;/p&gt;
-&lt;p&gt;For help troubleshooting cluster creation, see &lt;a href=&#34;../../../docs/troubleshooting/troubleshooting-clusterapi/&#34;&gt;OCNE Cluster Creation Issues&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For help troubleshooting cluster creation, see &lt;a href=&#34;../../../docs/troubleshooting/troubleshooting-clusterapi/&#34;&gt;Cluster Creation Issues&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Create OKE Clusters Running on OCI</title>
+      <link>/docs/setup/provision-cluster/oke-oci/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/provision-cluster/oke-oci/</guid>
+      <description>
+        
+        
+        &lt;h3 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h3&gt;
+&lt;p&gt;You&amp;rsquo;ll need to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Set up an Oracle Cloud Infrastructure (OCI) account with
+&lt;ul&gt;
+&lt;li&gt;A compartment&lt;/li&gt;
+&lt;li&gt;An &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#two&#34;&gt;API signing key&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Generate an SSH key pair to use for cluster authentication&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;create-a-new-oke-cluster-on-oci&#34;&gt;Create a new OKE cluster on OCI&lt;/h3&gt;
+&lt;p&gt;To provision new Oracle Container Engine for Kubernetes (OKE) managed clusters on OCI, complete the following steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Log in to the console. To find the console URL for your cluster, refer to &lt;a href=&#34;../../../docs/setup/access/console-urls/&#34;&gt;Get console URLs&lt;/a&gt; and use the &lt;code&gt;rancherURL&lt;/code&gt; value.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Open the navigation menu and select &lt;strong&gt;Cluster Management&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;From the left menu, select &lt;strong&gt;Cloud Credentials&lt;/strong&gt;, and then click &lt;strong&gt;Create&lt;/strong&gt;. Cloud credentials store the credentials for your cloud infrastructure provider.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Choose &lt;strong&gt;Oracle&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Provide a name for the cloud credential and then fill in the rest of the fields with information from your OCI account and its API signing key.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;fingerprint&lt;/strong&gt;: The fingerprint of the public API key. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#four&#34;&gt;Find your key&amp;rsquo;s fingerprint&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;passphrase&lt;/strong&gt;: The passphrase used for the API key, if it was encrypted.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;privateKeyContents&lt;/strong&gt;: Copy the contents of the private key portion of the API key pair. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#two&#34;&gt;Generate an API Signing Key&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;region&lt;/strong&gt;: Enter the identifier for the current region of your tenancy. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm#About&#34;&gt;Find your region identifier&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;tenancyId&lt;/strong&gt;: Enter the OCID of your tenancy. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#five&#34;&gt;Find your tenancy OCID&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;userId&lt;/strong&gt;: Enter the OCID of the user. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#five&#34;&gt;Find your user OCID&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;From the left menu, select &lt;strong&gt;Clusters&lt;/strong&gt;, and then click &lt;strong&gt;Create&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Select &lt;strong&gt;Oracle OKE&lt;/strong&gt; and provide a name for the cluster.
+Do not select &lt;strong&gt;Oracle OKE (Legacy)&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Expand &lt;strong&gt;Member Roles&lt;/strong&gt; to add any users that you want grant access to this cluster and their permissions.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Expand &lt;strong&gt;Labels and Annotations&lt;/strong&gt; to configure Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/&#34;&gt;labels&lt;/a&gt; and &lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/&#34;&gt;annotations&lt;/a&gt; for the cluster.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Select the cloud credentials that you created. Ensure that the appropriate Region and Compartment are selected from their drop-down menus.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Click &lt;strong&gt;Next&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Set up your network. Choose &lt;strong&gt;Quick Create&lt;/strong&gt; to create a new virtual cloud network (VCN) configured to the specifications required for an OKE cluster or &lt;strong&gt;Existing Infrastructure&lt;/strong&gt; to use a VCN that&amp;rsquo;s already configured in your OCI account.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;If you choose the &lt;strong&gt;Existing Infrastructure&lt;/strong&gt; option, then select the compartment where your VCN is located from the &lt;strong&gt;VCN Compartment&lt;/strong&gt; drop-down menu, then the VCN itself from the &lt;strong&gt;Virtual Cloud Network&lt;/strong&gt; drop-down menu. Next, select subnets within the VCN for each of the &lt;strong&gt;Cloud Plane Subnet&lt;/strong&gt;, &lt;strong&gt;Load Balancer Subnet&lt;/strong&gt;, and &lt;strong&gt;Worker Node Subnet&lt;/strong&gt; drop-down menus. See &lt;a href=&#34;../../../docs/setup/install/prepare/platforms/vcn-oci/&#34;&gt;Configure a VCN in OCI&lt;/a&gt; for requirements.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The VCN compartment does not need to match the compartment specified in the cloud credential.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Click &lt;strong&gt;Next&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Configure the cluster control plane. Select an &lt;strong&gt;OKE Version&lt;/strong&gt; and then a &lt;strong&gt;CNI Type&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Choose a Node Image from the drop-down menu.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Copy or upload an SSH public key to manage authentication of the cluster. Your SSH public key is installed on the cluster nodes, enabling SSH after the cluster is created.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Add node pools to your cluster. Clusters without node pools will schedule pods on control plane nodes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;(Optional) Install Verrazzano on the cluster. Choose a &lt;strong&gt;Verrazzano version&lt;/strong&gt; from the drop-down menu. You can also expand &lt;strong&gt;Advanced&lt;/strong&gt; to make changes to the Verrazzano Resource YAML. By default, Verrazzano is installed using the &lt;code&gt;managed-cluster&lt;/code&gt; profile which enables a limited set of components on the cluster.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Expand &lt;strong&gt;Advanced Settings&lt;/strong&gt; to make additional modifications to the default settings of your new cluster.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;YAML Manifests&lt;/strong&gt;: Supply additional YAML manifests that are automatically installed after cluster creation. The total size of all additional YAML manifests may not exceed 500 KB.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cluster Networking&lt;/strong&gt;: Configure cluster IP ranges and proxy settings.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Container Registry&lt;/strong&gt;: Specify a private registry for your container.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Click &lt;strong&gt;Create&lt;/strong&gt;. It can take up to 30 minutes to provision all of the resources for your cluster, particularly for multi-node clusters.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;When your cluster finishes provisioning, you can access it from the main &lt;strong&gt;Cluster Management&lt;/strong&gt; page.&lt;/p&gt;
+&lt;p&gt;For help troubleshooting cluster creation, see &lt;a href=&#34;../../../docs/troubleshooting/troubleshooting-clusterapi/&#34;&gt;Cluster Creation Issues&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>
