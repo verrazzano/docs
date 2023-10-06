@@ -139,23 +139,23 @@ The following example shows a sample Velero `Backup` [API](https://velero.io/doc
     namespace: verrazzano-backup
   spec:
     includedNamespaces:
-      - verrazzano-system
+      - verrazzano-logging
     labelSelector:
       matchLabels:
-        verrazzano-component: opensearch
+        opster.io/opensearch-cluster: opensearch
     defaultVolumesToRestic: false
     storageLocation:  verrazzano-backup-location
     hooks:
       resources:
         - name: opensearch-backup-test
           includedNamespaces:
-            - verrazzano-system
+            - verrazzano-logging
           labelSelector:
             matchLabels:
-              statefulset.kubernetes.io/pod-name: vmi-system-es-master-0
+              statefulset.kubernetes.io/pod-name: opensearch-es-master-0
           post:                           
             - exec:
-                container: es-master
+                container: opensearch
                 command:
                   - /usr/share/opensearch/bin/verrazzano-backup-hook
                   - -operation
@@ -174,7 +174,7 @@ The preceding example backs up the OpenSearch components:
 - In this case, the hook can be `pre` or `post`.
 - The command used in the hook requires an `operation` flag and the Velero backup name as an input.
 - The container on which the hook needs to be run defaults to the first container in the pod.
-  In this case, it's `statefulset.kubernetes.io/pod-name: vmi-system-es-master-0`.
+  In this case, it's `statefulset.kubernetes.io/pod-name: opensearch-es-master-0`.
 
 After the backup is processed, you can see the hook logs using the `velero backup logs` command. Additionally, the hook logs are stored under the `/tmp` folder in the pod.
 
@@ -187,10 +187,10 @@ After the backup is processed, you can see the hook logs using the `velero backu
 $ kubectl logs -n verrazzano-backup -l app.kubernetes.io/name=velero
 
 # Fetch the log file name as shown
-$ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- ls -al /tmp | grep verrazzano-backup-hook | tail -n 1 | awk '{print $NF}'
+$ kubectl exec -it opensearch-es-master-0 -n verrazzano-logging -- ls -al /tmp | grep verrazzano-backup-hook | tail -n 1 | awk '{print $NF}'
 
 # To examine the hook logs, exec into the pod as shown, and use the file name retrieved previously
-$ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/<log-file-name>
+$ kubectl exec -it opensearch-es-master-0 -n verrazzano-logging -- cat /tmp/<log-file-name>
 ```
 {{< /clipboard >}}
 </details>
@@ -228,7 +228,7 @@ To initiate an OpenSearch restore operation, first delete the existing OpenSearc
    The restore operation also ensures that this operator is scaled back up to return the system to its previous state.
 {{< clipboard >}}
  ```shell
-  $ kubectl scale deploy -n verrazzano-system verrazzano-monitoring-operator --replicas=0
+  $ kubectl scale deploy -n verrazzano-logging opensearch-operator-controller-manager --replicas=0
   ```
 {{< /clipboard >}}
 
@@ -236,9 +236,9 @@ To initiate an OpenSearch restore operation, first delete the existing OpenSearc
 {{< clipboard >}}
  ```shell
 # These are sample commands to demonstrate the OpenSearch restore process
-$ kubectl delete sts -n verrazzano-system -l verrazzano-component=opensearch
-$ kubectl delete deploy -n verrazzano-system -l verrazzano-component=opensearch
-$ kubectl delete pvc -n verrazzano-system -l verrazzano-component=opensearch
+$ kubectl delete sts -n verrazzano-logging -l opster.io/opensearch-cluster=opensearch
+$ kubectl delete deploy -n verrazzano-logging -l opster.io/opensearch-cluster=opensearch
+$ kubectl delete pvc -n verrazzano-logging -l opster.io/opensearch-cluster=opensearch
  ```
 {{< /clipboard >}}
 
@@ -254,22 +254,33 @@ $ kubectl delete pvc -n verrazzano-system -l verrazzano-component=opensearch
    spec:
      backupName: verrazzano-opensearch-backup
      includedNamespaces:
-       - verrazzano-system
+       - verrazzano-logging
      labelSelector:
        matchLabels:
-         verrazzano-component: opensearch
+         opster.io/opensearch-cluster: opensearch
      restorePVs: false
      hooks:
        resources:
        - name: opensearch-test
          includedNamespaces:
-         - verrazzano-system       
+         - verrazzano-logging
          labelSelector:
            matchLabels:            
-             statefulset.kubernetes.io/pod-name: vmi-system-es-master-0
+             statefulset.kubernetes.io/pod-name: opensearch-es-master-0
          postHooks:
+         - init:
+           timeout: 30m
+           initContainers:
+             - args:
+                 - /usr/share/opensearch/bin/verrazzano-backup-hook --operation=pre-restore --velero-backup-name=verrazzano-opensearch-backup
+               command:
+                 - sh
+                 - -c
+               image: ghcr.io/verrazzano/opensearch:2.3.0-20230928071551-b6247ad8ac8
+               imagePullPolicy: Always
+               name: pre-hook
          - exec:
-             container: es-master
+             container: opensearch
              command:
              - /usr/share/opensearch/bin/verrazzano-backup-hook
              - -operation
@@ -287,6 +298,7 @@ EOF
    - In this case, you are not restoring `PersistentVolumes` directly, rather running a hook that invokes the OpenSearch APIs to restore them from an existing snapshot of the data.
    - The `restorePVs` is set to `false` so that Velero ignores restoring PVCs.
    - The command used in the hook requires an `-operation` flag and the Velero backup name as an input.
+   - The `pre-hook` will perform the steps required to bootstrap the OpenSearch cluster before invoking the OpenSearch APIs.
    - The `postHook` will invoke the OpenSearch APIs that restore the snapshot data.
    - The container on which the hook needs to be run defaults to the first container in the pod.
      In this case, it's `statefulset.kubernetes.io/pod-name: vmi-system-es-master-0`.
@@ -296,15 +308,15 @@ EOF
 4. Wait for all the OpenSearch pods to be in the `RUNNING` state.
 {{< clipboard >}}
  ```shell
-   $ kubectl wait -n verrazzano-system --for=condition=ready pod -l verrazzano-component=opensearch --timeout=600s
-     pod/vmi-system-es-data-0-6f49bdf6f5-fc6mz condition met
-     pod/vmi-system-es-data-1-8f8785994-4pr7n condition met
-     pod/vmi-system-es-data-2-d5f569d98-q8p2v condition met
-     pod/vmi-system-es-ingest-6ddd86b9b6-fpl6j condition met
-     pod/vmi-system-es-ingest-6ddd86b9b6-jtmrh condition met
-     pod/vmi-system-es-master-0 condition met
-     pod/vmi-system-es-master-1 condition met
-     pod/vmi-system-es-master-2 condition met
+   $ kubectl wait -n verrazzano-logging --for=condition=ready pod -l opster.io/opensearch-cluster=opensearch --timeout=600s
+     pod/opensearch-es-data-0 condition met
+     pod/opensearch-es-data-1 condition met
+     pod/opensearch-es-data-2 condition met
+     pod/opensearch-es-ingest-0 condition met
+     pod/opensearch-es-ingest-1 condition met
+     pod/opensearch-es-master-0 condition met
+     pod/opensearch-es-master-1 condition met
+     pod/opensearch-es-master-2 condition met
    ```
 {{< /clipboard >}}
 
@@ -320,10 +332,10 @@ After the restore operation is processed, you can see the hook logs using the `v
 $ kubectl logs -n verrazzano-backup -l app.kubernetes.io/name=velero
 
 # Fetch the log file name as shown
-$ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- ls -al /tmp | grep verrazzano-restore-hook | tail -n 1 | awk '{print $NF}'
+$ kubectl exec -it opensearch-es-master-0 -n verrazzano-logging -- ls -al /tmp | grep verrazzano-restore-hook | tail -n 1 | awk '{print $NF}'
 
 # To examine the hook logs, exec into the pod as shown, and use the file name retrieved previously
-$ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/<log-file-name>
+$ kubectl exec -it opensearch-es-master-0 -n verrazzano-logging -- cat /tmp/<log-file-name>
 
 ```
 {{< /clipboard >}}
