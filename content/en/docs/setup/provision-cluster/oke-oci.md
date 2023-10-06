@@ -1,6 +1,6 @@
 ---
-title: Create OCNE Clusters Running on OCI
-description: "Add Oracle Cloud Native Environment self-managed clusters running on OCI to your multicluster environment"
+title: Create OKE Clusters Running on OCI
+description: "Add Oracle Container Engine for Kubernetes self-managed clusters running on OCI to your multicluster environment"
 weight: 3
 draft: false
 ---
@@ -14,9 +14,9 @@ You'll need to:
     * An [API signing key](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#two)
 * Generate an SSH key pair to use for cluster authentication
 
-### Create a new OCNE cluster on OCI
+### Create a new OKE cluster on OCI
 
-To provision new Oracle Cloud Native Environment (OCNE) managed clusters on OCI, complete the following steps:
+To provision new Oracle Container Engine for Kubernetes (OKE) managed clusters on OCI, complete the following steps:
 
 1. Log in to the console. To find the console URL for your cluster, refer to [Get console URLs]({{< relref "/docs/setup/access/console-urls.md" >}}) and use the `rancherURL` value.
 1. Open the navigation menu and select **Cluster Management**.
@@ -34,28 +34,22 @@ To provision new Oracle Cloud Native Environment (OCNE) managed clusters on OCI,
     * **tenancyId**: Enter the OCID of your tenancy. [Find your tenancy OCID](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#five).
 
     * **userId**: Enter the OCID of the user. [Find your user OCID](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#five).
-1. Click **Create** to save the new cloud credential.
 1. From the left menu, select **Clusters**, and then click **Create**.
-1. Select **Oracle OCNE on OCI** and provide a name for the cluster.
+1. Select **Oracle OKE** and provide a name for the cluster. 
+Do not select **Oracle OKE (Legacy)**.
 1. Expand **Member Roles** to add any users that you want grant access to this cluster and their permissions.
 1. Expand **Labels and Annotations** to configure Kubernetes [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) and [annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) for the cluster.
 1. Select the cloud credentials that you created. Ensure that the appropriate Region and Compartment are selected from their drop-down menus.
 1. Click **Next**.
-1. Set up your network. Choose **Quick Create** to create a new virtual cloud network (VCN) configured to the specifications required for an OCNE cluster or **Existing Infrastructure** to use a VCN that's already configured in your OCI account.
+1. Set up your network. Choose **Quick Create** to create a new virtual cloud network (VCN) configured to the specifications required for an OKE cluster or **Existing Infrastructure** to use a VCN that's already configured in your OCI account.
 
     * If you choose the **Existing Infrastructure** option, then select the compartment where your VCN is located from the **VCN Compartment** drop-down menu, then the VCN itself from the **Virtual Cloud Network** drop-down menu. Next, select subnets within the VCN for each of the **Cloud Plane Subnet**, **Load Balancer Subnet**, and **Worker Node Subnet** drop-down menus. See [Configure a VCN in OCI]({{< relref "/docs/setup/install/prepare/platforms/vcn-oci" >}}) for requirements.
 
     * The VCN compartment does not need to match the compartment specified in the cloud credential.
 1. Click **Next**.
+1. Configure the cluster control plane. Select an **OKE Version** and then a **CNI Type**.
 1. Choose a Node Image from the drop-down menu.
-
-    You can choose to override the default Node Image. Expand **OCNE Image Configuration** and provide a custom image OCID. If your custom image includes OCNE binaries, then you can select **Skip OCNE Dependency Installation** to avoid duplicates.
-
 1. Copy or upload an SSH public key to manage authentication of the cluster. Your SSH public key is installed on the cluster nodes, enabling SSH after the cluster is created.
-1. Configure the cluster control plane. Select the **OCNE Version** first because it determines which Kubernetes versions are available, then choose a **Kubernetes Version** and a **Control Plane Shape**. You can leave the rest of the options at their default setting or modify them as needed.
-
-    Under **Advanced**, you can choose to edit image tags for **ETCD**, **CoreDNS**, and **Calico**, or whether to install **OCI CCM/CSI** and **Calico**.
-
 1. Add node pools to your cluster. Clusters without node pools will schedule pods on control plane nodes.
 1. (Optional) Install Verrazzano on the cluster. Choose a **Verrazzano version** from the drop-down menu. You can also expand **Advanced** to make changes to the Verrazzano Resource YAML. By default, Verrazzano is installed using the `managed-cluster` profile which enables a limited set of components on the cluster.
 1. Expand **Advanced Settings** to make additional modifications to the default settings of your new cluster.
