@@ -16,6 +16,7 @@ Verrazzano uses Velero to facilitate backing up and restoring OpenSearch data.
 - [OpenSearch restore using Velero](#opensearch-restore-using-velero)
 - [OpenSearch restore in an existing cluster using OpenSearch API](#opensearch-restore-in-an-existing-cluster-using-opensearch-api)
 
+**NOTE**: When upgrading, follow the backup documentation for your existing Verrazzano version, not the version to which you are upgrading. 
 
 ## Velero operator prerequisites
 
