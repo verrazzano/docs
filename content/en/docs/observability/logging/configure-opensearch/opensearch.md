@@ -839,7 +839,9 @@ spec:
     - read
 ```
 {{< /clipboard >}}
-4. After creating the user and role, link them together using a custom resource OpensearchUserRoleBinding. Here is a custom resource example to create a
+Refer [Opensearch Permissions]({{<opensearch_docs_url>}}/security/access-control/permissions/) for the permissions that you can set.
+
+4.After creating the user and role, link them together using a custom resource OpensearchUserRoleBinding. Here is a custom resource example to create a
   RoleBinding that binds the user `custom-user` and backend role `custom-role` created in Step 2 and OpenSearch role `custom-role` created in Step 3.
 
 {{< clipboard >}}
