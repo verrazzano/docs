@@ -803,9 +803,19 @@ spec:
 {{< /clipboard >}}
 
 ## Add OpenSearch users
-1. Create a new user and role in Keycloak and then associate the role with the user. Also asscociate the role `vz_api_access` to the newly created user.
+If you want to create an additional user other than the default user in OpenSearch, follow these instructions.
 
-2. Create a new OpenSearch role for the user created in Step 1. Here is a custom resource example to create a
+1. Make sure the user doesn't exist.To get the existing, users:
+
+{{< clipboard >}}
+```yaml
+$ GET _plugins/_security/api/internalusers/
+```
+{{< /clipboard >}}
+
+2. Create a new user and role in Keycloak and then associate the role with the user. Also asscociate the role `vz_api_access` to the newly created user.
+
+3. Create a new OpenSearch role for the user created in Step 2. Here is a custom resource example to create a
 custom role.
 
 {{< clipboard >}}
@@ -829,8 +839,8 @@ spec:
     - read
 ```
 {{< /clipboard >}}
-3. After creating the user and role, link them together using a custom resource OpensearchUserRoleBinding. Here is a custom resource example to create a
-  RoleBinding that binds the user `custom-user` and backend role `custom-role` created in Step 1 and OpenSearch role `custom-role` created in Step 2.
+4. After creating the user and role, link them together using a custom resource OpensearchUserRoleBinding. Here is a custom resource example to create a
+  RoleBinding that binds the user `custom-user` and backend role `custom-role` created in Step 2 and OpenSearch role `custom-role` created in Step 3.
 
 {{< clipboard >}}
 ```yaml
