@@ -806,77 +806,77 @@ spec:
 If you want to create additional users, other than the default OpenSearch user, then follow these instructions.
 1. First, make sure that the user doesn't already exist. To get the existing users:
 
-{{< clipboard >}}
-```yaml
-$ GET _plugins/_security/api/internalusers/
-```
-{{< /clipboard >}}
+   {{< clipboard >}}
+   ```yaml
+   $ GET _plugins/_security/api/internalusers/
+   ```
+   {{< /clipboard >}}
 
 2. Create a new user and backend role in Keycloak and then associate the role with the user. Also asscociate the role `vz_api_access` to the newly created user.
 
 3. Create a new OpenSearch role for the user created in Step 2. Here is a custom resource example to create a custom role.
 
-{{< clipboard >}}
-```yaml
-apiVersion: opensearch.opster.io/v1
-kind: OpensearchRole
-metadata:
-  name: custom-role
-  namespace: verrazzano-logging
-spec:
-  opensearchCluster:
-    name: opensearch
-  clusterPermissions:
-    - "cluster:monitor/main"
-    - "cluster:monitor/health"
-  indexPermissions:
-  - indexPatterns:
-    - verrazzano*
-    allowedActions:
-    - index
-    - read
-```
-{{< /clipboard >}}
+   {{< clipboard >}}
+   ```yaml
+   apiVersion: opensearch.opster.io/v1
+   kind: OpensearchRole
+   metadata:
+     name: custom-role
+     namespace: verrazzano-logging
+   spec:
+     opensearchCluster:
+       name: opensearch
+     clusterPermissions:
+       - "cluster:monitor/main"
+       - "cluster:monitor/health"
+     indexPermissions:
+     - indexPatterns:
+       - verrazzano*
+       allowedActions:
+       - index
+       - read
+   ```
+   {{< /clipboard >}}
 
-For the permissions that you can set, refer to [Opensearch Permissions]({{<opensearch_docs_url>}}/security/access-control/permissions/).
+   For the permissions that you can set, refer to [Opensearch Permissions]({{<opensearch_docs_url>}}/security/access-control/permissions/).
 
 4. If you want to use actionGroups in allowedActions, then see the following example to create an ActionGroup custom resource.
 
-{{< clipboard >}}
-```yaml
-apiVersion: opensearch.opster.io/v1
-kind: OpensearchActionGroup
-metadata:
-  name: custom-action-group
-  namespace: verrazzano-logging
-spec:
-  opensearchCluster:
-    name: opensearch
-  allowedActions:
-    - index
-    - read
-  type: index
-  description: Custom action group
-```
-{{< /clipboard >}}
+   {{< clipboard >}}
+   ```yaml
+   apiVersion: opensearch.opster.io/v1
+   kind: OpensearchActionGroup
+   metadata:
+     name: custom-action-group
+     namespace: verrazzano-logging
+   spec:
+     opensearchCluster:
+       name: opensearch
+     allowedActions:
+       - index
+       - read
+     type: index
+     description: Custom action group
+   ```
+   {{< /clipboard >}}
 
 5. After creating the user and roles, link them all together using an OpensearchUserRoleBinding custom resource. The following is a custom resource example to create a RoleBinding that binds the user `custom-user` and backend role `custom-role` created in Step 2 and OpenSearch role `custom-role` created in Step 3.
 
-{{< clipboard >}}
-```yaml
-apiVersion: opensearch.opster.io/v1
-kind: OpensearchUserRoleBinding
-metadata:
-  name: custom-rb
-  namespace: verrazzano-logging
-spec:
-  opensearchCluster:
-    name: opensearch
-  users:
-  - custom-user
-  backendRoles:
-  - custom-role
-  roles:
-  - custom-role
-```
-{{< /clipboard >}}
+   {{< clipboard >}}
+   ```yaml
+   apiVersion: opensearch.opster.io/v1
+   kind: OpensearchUserRoleBinding
+   metadata:
+     name: custom-rb
+     namespace: verrazzano-logging
+   spec:
+     opensearchCluster:
+       name: opensearch
+     users:
+     - custom-user
+     backendRoles:
+     - custom-role
+     roles:
+     - custom-role
+   ```
+   {{< /clipboard >}}
