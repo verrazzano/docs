@@ -3,6 +3,21 @@ title: Release Notes
 weight: 2
 draft: false
 ---
+## v1.6.8
+#### Enhancements:
+- Refreshed component images for security.
+
+#### Component version updates:
+- Istio v1.19.0
+- Redis v7.0.12
+- Kiali v1.73.0
+- Rancher v2.7.6
+
+#### Fixes:
+- Fixed issue in Keycloak post installation. 
+- Fixed issue with Cluster API URL overrides not working correctly.
+- Fixed issue that caused the unecessary restart of OAM application pods.
+
 ## v1.6.7
 #### Enhancements:
 - Support for WebLogic Kubernetes Operator 4.1.2 features for InitalizeDomainOnPV.
