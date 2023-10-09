@@ -20,28 +20,28 @@
 
 <title>Customize Grafana | Verrazzano Enterprise Container Platform</title>
 <meta name="description" content="Configure a Grafana database By default, Verrazzano automatically installs and configures a Grafana database. However, you can use your own external database.
-If you prefer to use your own Grafana database, complete the following steps:
-  Create a secret named grafana-db in the verrazzano-install namespace which contains the login credentials. For example: code { margin: 0; padding: 0; } .copy-code-button { position: absolute; right: 0; top: -29px; font-size: 12px; line-height: 14px; width: 65px; color: white; background-color: #30638E; border: 1px solid #30638E; white-space: nowrap; padding: 6px 6px 7px 6px; } .">
+NOTE If you set Grafana replicas to a value greater than 1, then you must configure a database for Grafana.  To use your own Grafana database, complete the following steps:
+  Create a secret named grafana-db in the verrazzano-install namespace which contains the login credentials. For example: code { margin: 0; padding: 0; } .">
 <meta property="og:title" content="Customize Grafana" />
 <meta property="og:description" content="Configure a Grafana database By default, Verrazzano automatically installs and configures a Grafana database. However, you can use your own external database.
-If you prefer to use your own Grafana database, complete the following steps:
-  Create a secret named grafana-db in the verrazzano-install namespace which contains the login credentials. For example: code { margin: 0; padding: 0; } .copy-code-button { position: absolute; right: 0; top: -29px; font-size: 12px; line-height: 14px; width: 65px; color: white; background-color: #30638E; border: 1px solid #30638E; white-space: nowrap; padding: 6px 6px 7px 6px; } ." />
+NOTE If you set Grafana replicas to a value greater than 1, then you must configure a database for Grafana.  To use your own Grafana database, complete the following steps:
+  Create a secret named grafana-db in the verrazzano-install namespace which contains the login credentials. For example: code { margin: 0; padding: 0; } ." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/observability/monitoring/configure/grafana/grafana/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-08-21T12:32:29-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-10-09T13:17:12-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Customize Grafana">
 <meta itemprop="description" content="Configure a Grafana database By default, Verrazzano automatically installs and configures a Grafana database. However, you can use your own external database.
-If you prefer to use your own Grafana database, complete the following steps:
-  Create a secret named grafana-db in the verrazzano-install namespace which contains the login credentials. For example: code { margin: 0; padding: 0; } .copy-code-button { position: absolute; right: 0; top: -29px; font-size: 12px; line-height: 14px; width: 65px; color: white; background-color: #30638E; border: 1px solid #30638E; white-space: nowrap; padding: 6px 6px 7px 6px; } .">
-<meta itemprop="dateModified" content="2023-08-21T12:32:29-04:00" />
-<meta itemprop="wordCount" content="957">
+NOTE If you set Grafana replicas to a value greater than 1, then you must configure a database for Grafana.  To use your own Grafana database, complete the following steps:
+  Create a secret named grafana-db in the verrazzano-install namespace which contains the login credentials. For example: code { margin: 0; padding: 0; } .">
+<meta itemprop="dateModified" content="2023-10-09T13:17:12-04:00" />
+<meta itemprop="wordCount" content="974">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Customize Grafana"/>
 <meta name="twitter:description" content="Configure a Grafana database By default, Verrazzano automatically installs and configures a Grafana database. However, you can use your own external database.
-If you prefer to use your own Grafana database, complete the following steps:
-  Create a secret named grafana-db in the verrazzano-install namespace which contains the login credentials. For example: code { margin: 0; padding: 0; } .copy-code-button { position: absolute; right: 0; top: -29px; font-size: 12px; line-height: 14px; width: 65px; color: white; background-color: #30638E; border: 1px solid #30638E; white-space: nowrap; padding: 6px 6px 7px 6px; } ."/>
+NOTE If you set Grafana replicas to a value greater than 1, then you must configure a database for Grafana.  To use your own Grafana database, complete the following steps:
+  Create a secret named grafana-db in the verrazzano-install namespace which contains the login credentials. For example: code { margin: 0; padding: 0; } ."/>
 
 
 
@@ -102,7 +102,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../../offline-search-index.2dc5d1225f4809d8d7ff67c21cabf993.json"
+    data-offline-search-index-json-src="../../../../../../offline-search-index.2ffd0dd867e77fe81e407add2d70cffe.json"
     data-offline-search-base-href="../../../../../../"
     data-offline-search-max-results="10"
   >
@@ -128,7 +128,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../../offline-search-index.2dc5d1225f4809d8d7ff67c21cabf993.json"
+    data-offline-search-index-json-src="../../../../../../offline-search-index.2ffd0dd867e77fe81e407add2d70cffe.json"
     data-offline-search-base-href="../../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1135,7 +1135,16 @@ if (!doNotTrack) {
 </header>
 	<h3 id="configure-a-grafana-database">Configure a Grafana database</h3>
 <p>By default, Verrazzano automatically installs and configures a Grafana database. However, you can use your own external database.</p>
-<p>If you prefer to use your own Grafana database, complete the following steps:</p>
+
+
+<div class="alert alert-primary" role="alert">
+<h4 class="alert-heading">NOTE</h4>
+
+    If you set Grafana <code>replicas</code> to a value greater than 1, then you must configure a database for Grafana.
+
+</div>
+
+<p>To use your own Grafana database, complete the following steps:</p>
 <ol>
 <li>
 <p>Create a secret named <code>grafana-db</code> in the <code>verrazzano-install</code> namespace which contains the login credentials. For example:
