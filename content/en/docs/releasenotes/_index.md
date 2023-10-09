@@ -14,8 +14,8 @@ draft: false
 - Rancher v2.7.6
 
 #### Fixes:
-- Fixed issue in Keycloak post installation. 
-- Fixed issue with Cluster API URL overrides not working correctly.
+- Fixed a Keycloak post-installation issue. 
+- Fixed an issue with Cluster API URL overrides not working correctly.
 - Fixed issue that caused the unecessary restart of OAM application pods.
 
 ## v1.6.7
