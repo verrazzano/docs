@@ -716,7 +716,7 @@ spec:
         enabled: true
         installList:
           - analysis-stempel
-          - https://repo1.maven.org/maven2/org/opensearch/plugin/opensearch-anomaly-detection/2.2.0.0/opensearch-anomaly-detection-2.2.0.0.zip
+          - https://repo1.maven.org/maven2/org/opensearch/plugin/opensearch-anomaly-detection/2.3.0.0/opensearch-anomaly-detection-2.3.0.0.zip
 ```
 {{< /clipboard >}}
 
@@ -815,8 +815,7 @@ $ GET _plugins/_security/api/internalusers/
 
 2. Create a new user and role in Keycloak and then associate the role with the user. Also asscociate the role `vz_api_access` to the newly created user.
 
-3. Create a new OpenSearch role for the user created in Step 2. Here is a custom resource example to create a
-custom role.
+3. Create a new OpenSearch role for the user created in Step 2. Here is a custom resource example to create a custom role.
 
 {{< clipboard >}}
 ```yaml
@@ -840,6 +839,26 @@ spec:
 ```
 {{< /clipboard >}}
 Refer [Opensearch Permissions]({{<opensearch_docs_url>}}/security/access-control/permissions/) for the permissions that you can set.
+
+If you want to use actionGroups in allowedActions, then here is a custom resource example to create an 
+ActionGroup Custom Resource.
+{{< clipboard >}}
+```yaml
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchActionGroup
+metadata:
+  name: custom-action-group
+  namespace: verrazzano-logging
+spec:
+  opensearchCluster:
+    name: opensearch
+  allowedActions:
+    - index
+    - read
+  type: index
+  description: Custom action group
+```
+{{< /clipboard >}}
 
 4.After creating the user and role, link them together using a custom resource OpensearchUserRoleBinding. Here is a custom resource example to create a
   RoleBinding that binds the user `custom-user` and backend role `custom-role` created in Step 2 and OpenSearch role `custom-role` created in Step 3.
