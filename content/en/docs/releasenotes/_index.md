@@ -9,7 +9,6 @@ draft: false
 
 #### Component version updates:
 - Istio v1.19.0
-- Redis v7.0.12
 - Kiali v1.73.0
 - Rancher v2.7.6
 
