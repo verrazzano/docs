@@ -10,7 +10,8 @@ aliases:
 ### Configure a Grafana database
 By default, Verrazzano automatically installs and configures a Grafana database. However, you can use your own external database.
 
-{{< alert title="NOTE" color="primary" >}}If you set Grafana `replicas` to a value greater than 1, then you must configure a database for Grafana.
+{{< alert title="NOTE" color="primary" >}}For a high availability configuration with more than one replica of Grafana, you must configure a database.
+For more information, see [Set up Grafana for high availability](https://grafana.com/docs/grafana/latest/setup-grafana/set-up-for-high-availability/) in the Grafana documentation.
 {{< /alert >}}
 
 To use your own Grafana database, complete the following steps:
