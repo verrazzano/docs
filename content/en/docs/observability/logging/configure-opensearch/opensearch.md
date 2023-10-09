@@ -191,8 +191,8 @@ spec:
 ```
 {{< /clipboard >}}
 
-To change the default node topology after Verrazzano is installed or upgraded, you need to follow these two steps:
-1. Add new node pools:
+After Verrazzano is installed or upgraded, to change the default node topology, use the following two steps.
+1. Add new node pools.
   {{< clipboard >}}
   ```yaml
   apiVersion: install.verrazzano.io/v1beta1
@@ -225,7 +225,7 @@ To change the default node topology after Verrazzano is installed or upgraded, y
                 memory: 1Gi
   ```
   {{< /clipboard >}}
-2. Set the default node pool replicas to 0 as we are providing our own topology:
+2. Because you are providing your own topology, set the default node pool replicas to zero.
   {{< clipboard >}}
   ```yaml
   apiVersion: install.verrazzano.io/v1beta1
