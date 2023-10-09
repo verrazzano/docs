@@ -191,6 +191,81 @@ spec:
 ```
 {{< /clipboard >}}
 
+To change the default node topology after Verrazzano is installed or upgraded, you need to follow these two steps:
+1. Add new node pools:
+  {{< clipboard >}}
+  ```yaml
+  apiVersion: install.verrazzano.io/v1beta1
+  kind: Verrazzano
+  metadata:
+    name: custom-opensearch-example
+  spec:
+    profile: prod
+    components:
+      opensearch:
+        nodes:
+          - name: master
+            replicas: 3
+            roles:
+              - master
+            storage:
+              size: 50Gi
+            resources:
+              requests:
+                memory: 1.5Gi
+          - name: data-ingest
+            replicas: 3
+            roles:
+              - data
+              - ingest
+            storage:
+              size: 100Gi
+            resources:
+              requests:
+                memory: 1Gi
+  ```
+  {{< /clipboard >}}
+2. Set the default node pool replicas to 0 as we are providing our own topology:
+  {{< clipboard >}}
+  ```yaml
+  apiVersion: install.verrazzano.io/v1beta1
+  kind: Verrazzano
+  metadata:
+    name: custom-opensearch-example
+  spec:
+    profile: dev
+    components:
+      opensearch:
+        nodes:
+          - name: master
+            replicas: 3
+            roles:
+              - master
+            storage:
+              size: 50Gi
+            resources:
+              requests:
+                memory: 1.5Gi
+          - name: data-ingest
+            replicas: 3
+            roles:
+              - data
+              - ingest
+            storage:
+              size: 100Gi
+            resources:
+              requests:
+                memory: 1Gi
+          # Override the default node groups because we are providing our own topology.
+          - name: es-master
+            replicas: 0
+          - name: es-data
+            replicas: 0
+          - name: es-ingest
+            replicas: 0
+  ```
+  {{< /clipboard >}}
+
 Listing the pods and persistent volumes in the `verrazzano-system` namespace for the previous configuration
 shows that the expected nodes are running with the appropriate data volumes.
 {{< clipboard >}}
