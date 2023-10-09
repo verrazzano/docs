@@ -803,9 +803,8 @@ spec:
 {{< /clipboard >}}
 
 ## Add OpenSearch users
-If you want to create an additional user other than the default user in OpenSearch, follow these instructions.
-
-1. Make sure the user doesn't exist.To get the existing, users:
+If you want to create additional users, other than the default OpenSearch user, then follow these instructions.
+1. First, make sure that the user doesn't already exist. To get the existing users:
 
 {{< clipboard >}}
 ```yaml
@@ -813,7 +812,7 @@ $ GET _plugins/_security/api/internalusers/
 ```
 {{< /clipboard >}}
 
-2. Create a new user and role in Keycloak and then associate the role with the user. Also asscociate the role `vz_api_access` to the newly created user.
+2. Create a new user and backend role in Keycloak and then associate the role with the user. Also asscociate the role `vz_api_access` to the newly created user.
 
 3. Create a new OpenSearch role for the user created in Step 2. Here is a custom resource example to create a custom role.
 
@@ -838,10 +837,11 @@ spec:
     - read
 ```
 {{< /clipboard >}}
-Refer [Opensearch Permissions]({{<opensearch_docs_url>}}/security/access-control/permissions/) for the permissions that you can set.
 
-If you want to use actionGroups in allowedActions, then here is a custom resource example to create an 
-ActionGroup Custom Resource.
+For the permissions that you can set, refer to [Opensearch Permissions]({{<opensearch_docs_url>}}/security/access-control/permissions/).
+
+4. If you want to use actionGroups in allowedActions, then see the following example to create an ActionGroup custom resource.
+
 {{< clipboard >}}
 ```yaml
 apiVersion: opensearch.opster.io/v1
@@ -860,8 +860,7 @@ spec:
 ```
 {{< /clipboard >}}
 
-4.After creating the user and role, link them together using a custom resource OpensearchUserRoleBinding. Here is a custom resource example to create a
-  RoleBinding that binds the user `custom-user` and backend role `custom-role` created in Step 2 and OpenSearch role `custom-role` created in Step 3.
+5. After creating the user and roles, link them all together using an OpensearchUserRoleBinding custom resource. The following is a custom resource example to create a RoleBinding that binds the user `custom-user` and backend role `custom-role` created in Step 2 and OpenSearch role `custom-role` created in Step 3.
 
 {{< clipboard >}}
 ```yaml
