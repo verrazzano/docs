@@ -8,7 +8,8 @@ aliases:
 ---
 
 ### Configure a Grafana database
-
+{{< alert title="NOTE" color="primary" >}}You must configure a database for Grafana if you set Grafana `replicas` to more than 1.
+{{< /alert >}}
 By default, Verrazzano automatically installs and configures a Grafana database. However, you can use your own external database.
 
 If you prefer to use your own Grafana database, complete the following steps:
