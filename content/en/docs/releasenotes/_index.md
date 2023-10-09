@@ -15,7 +15,7 @@ draft: false
 #### Fixes:
 - Fixed a Keycloak post-installation issue. 
 - Fixed an issue with Cluster API URL overrides not working correctly.
-- Fixed issue that caused the unecessary restart of OAM application pods.
+- Fixed an issue that caused the unnecessary restart of OAM application pods.
 
 ## v1.6.7
 #### Enhancements:
