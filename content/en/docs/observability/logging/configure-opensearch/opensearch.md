@@ -447,7 +447,7 @@ The previous Verrazzano custom resource will generate the following ISM policy.
 
 {{< /clipboard >}}
 
-**NOTE**: The ISM policy created using the Verrazzano custom resource contains a minimal set of configurations. To create a more detailed ISM policy,
+**NOTE**: There could be a delay of few minutes before you can see the policy in OpenSearch. Also, the ISM policy created using the Verrazzano custom resource contains a minimal set of configurations. To create a more detailed ISM policy,
 you can also use the OpenSearch REST API. To create a policy using the OpenSearch API, do the following:
 
 {{< clipboard >}}
