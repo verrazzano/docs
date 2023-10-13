@@ -158,7 +158,7 @@ EOF
 
 You can remove the Verrazzano installation from managed clusters.
 
-1. On the admin cluster, run this command:
+* On the admin cluster, run this command:
 {{< clipboard >}}
 <div class="highlight">
 
