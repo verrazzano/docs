@@ -1,31 +1,20 @@
 ---
-title: Configure Verrazzano on Remote Managed Clusters
-linkTitle: Configure Verrazzano on Remote Managed Clusters
+title: Configure Verrazzano on Managed Clusters
+linkTitle: Configure Verrazzano on Managed Clusters
 weight: 9
 draft: false
 ---
 
-When you provision new clusters using the cluster API component, you can choose to also install Verrazzano on them. You can then use VerrazzanoFleet, a cluster API add-on, to perform lifecycle management operations on Verrazzano installations on your remote managed clusters.
+When you provision new clusters using the cluster API component, you can choose to also install Verrazzano on them. You can then use VerrazzanoFleet, a cluster API add-on, to perform lifecycle management operations on Verrazzano installations on your managed clusters.
 
-## Enable VerrazzanoFleet
+## Configure VerrazzanoFleet
 
-Before you can manage Verrazzano on your remote managed clusters, you need to enable the VerrazzanoFleet resource.
+Before you can manage Verrazzano on your managed clusters, you need to configure the VerrazzanoFleet resource.
 
-1. On the admin cluster, create a new controller under the `verrazzano-capi` namespace:
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-$ clusterctl init -n verrazzano-capi --addon verrazzano --wait-providers
-```
-{{< /clipboard >}}
-</div>
-
-2. Provision OCNE or OKE clusters. For instructions, see:
+1. Provision OCNE or OKE clusters. For instructions, see:
     * [Create OCNE Clusters Running on OCI]({{< relref "/docs/setup/provision-cluster/ocne-oci" >}})
     * [Create OKE Clusters Running on OCI]({{< relref "/docs/setup/provision-cluster/oke-oci" >}})
-3. Identify the namespace where the new cluster resides:
+2. Identify the namespace where the new cluster resides:
 
 {{< clipboard >}}
 <div class="highlight">
@@ -36,7 +25,7 @@ $ kubectl get clusters.cluster.x-k8s.io -A
 {{< /clipboard >}}
 </div>
 
-4. Create a VerrazzanoFleet resource. The following example creates a typical `VerrazzanoFleet` resource.
+3. Create a VerrazzanoFleet resource. The following example creates a typical `VerrazzanoFleet` resource.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -131,7 +120,7 @@ EOF
 
 ## Use a private registry
 
-You can manage your remote managed clusters even when they are installed in a disconnected environment. Use component overrides to configure the VerrazzanoFleet resource to access a private registry.
+You can manage your managed clusters even when they are installed in a disconnected environment. Use component overrides to configure the VerrazzanoFleet resource to access a private registry.
 
 To connect to a private registry, you need to configure the following component overrides: 
 
@@ -171,7 +160,7 @@ EOF
 
 ## Remove Verrazzano from managed clusters
 
-You can remove the Verrazzano installation from remote managed clusters.
+You can remove the Verrazzano installation from managed clusters.
 
 1. On the admin cluster, run this command:
 {{< clipboard >}}
@@ -182,3 +171,5 @@ $ kubectl delete vf -n <namespace> <name of verrazzanofleet>
 ```
 {{< /clipboard >}}
 </div>
+
+When a VerrazzanoFleet object is deleted, it removes Verrazzano from the cluster which was associated to the fleet.
