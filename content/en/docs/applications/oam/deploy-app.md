@@ -347,7 +347,6 @@ and enabled for Istio.
 
 </div>
 {{< /clipboard >}}
-
 {{< clipboard >}}
 <div class="highlight">
 
@@ -364,7 +363,6 @@ and enabled for Istio.
 
 </div>
 {{< /clipboard >}}
-
 {{< clipboard >}}
 <div class="highlight">
 
