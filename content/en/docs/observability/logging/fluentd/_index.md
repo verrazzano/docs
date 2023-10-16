@@ -84,6 +84,6 @@ Each instance pulls logs from the node's `/var/log/containers` directory and wri
 Verrazzano system applications receive special handling, and write their logs to the `verrazzano-system` data stream.
 Verrazzano application logs are exported to a data stream based on the application's namespace, following this format: `verrazzano-application-<application namespace>`.
 
-For example, `vmi-system-osd` logs written to `/var/log/containers` will be pulled by Fluentd and written to OpenSearch.  The logs are exported
-to the `verrazzano-system` data stream, because `vmi-system-osd` is a Verrazzano system application. For a non-system application, if it is in the `myapp` namespace,
+For example, `opensearch-dashboards` logs written to `/var/log/containers` will be pulled by Fluentd and written to OpenSearch.  The logs are exported
+to the `verrazzano-system` data stream, because `opensearch-dashboards` is a Verrazzano system application. For a non-system application, if it is in the `myapp` namespace,
 then its logs will be exported to the `verrazzano-application-myapp` data stream.

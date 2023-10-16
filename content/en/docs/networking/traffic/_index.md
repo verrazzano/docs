@@ -327,10 +327,6 @@ The following table shows which proxies are used and in which Pod they run.
 | Istio mesh sidecar | Envoy  | `mysql-*` | `keycloak`              | MySQL used by Keycloak in the Istio mesh.
 | Istio mesh sidecar | Envoy | `verrazzano-api-*` | `verrazzano-system`     | Verrazzano API in the Istio mesh.
 | Istio mesh sidecar | Envoy | `verrazzano-console-*` | `verrazzano-system`     | Verrazzano Console in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-es-master-*` | `verrazzano-system`     | OpenSearch in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-es-data-*` | `verrazzano-system`     | OpenSearch in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-es-ingest-*` | `verrazzano-system`     | OpenSearch in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-kibana-*` | `verrazzano-system`     | OpenSearch Dashboards in the Istio mesh.
 | Istio mesh sidecar | Envoy  | `vmi-system-grafana-*` | `verrazzano-system`     | Grafana in the Istio mesh.
 | Istio mesh sidecar | Envoy  | `weblogic-operator-*` | `verrazzano-system`     | WebLogic Kubernetes Operator in the Istio mesh.
 | Istio mesh sidecar | Envoy  | `prometheus-prometheus-operator-kube-p-prometheus-*` | `verrazzano-monitoring` | Prometheus in the Istio mesh.

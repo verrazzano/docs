@@ -266,54 +266,44 @@ After Verrazzano is installed or upgraded, to change the default node topology, 
   ```
   {{< /clipboard >}}
 
-Listing the pods and persistent volumes in the `verrazzano-system` namespace for the previous configuration
+Listing the pods and persistent volumes in the `verrazzano-logging` namespace for the previous configuration
 shows that the expected nodes are running with the appropriate data volumes.
 {{< clipboard >}}
 <div class="highlight">
 
 ```
-$ kubectl get pvc,pod -l verrazzano-component=opensearch -n verrazzano-system
+$ kubectl get pvc,pod -l opster.io/opensearch-cluster=opensearch -n verrazzano-logging
 
 # Sample output
 NAME                                                             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-persistentvolumeclaim/elasticsearch-master-vmi-system-master-0      Bound    pvc-9ace042a-dd68-4975-816d-f2ca0dc4d9d8   50Gi       RWO            standard       5m22s
-persistentvolumeclaim/elasticsearch-master-vmi-system-master-1      Bound    pvc-8bf68c2c-235e-4bd5-8741-5a5cd3453934   50Gi       RWO            standard       5m21s
-persistentvolumeclaim/elasticsearch-master-vmi-system-master-2      Bound    pvc-da8a48b1-5762-4669-98f0-8479f30043fc   50Gi       RWO            standard       5m21s
-persistentvolumeclaim/vmi-system-data-ingest                     Bound    pvc-7ad9f275-632b-4aac-b7bf-c5115215937c   100Gi      RWO            standard       5m23s
-persistentvolumeclaim/vmi-system-data-ingest-1                   Bound    pvc-8a293e51-2c20-4cae-916b-1ce46a780403   100Gi      RWO            standard       5m23s
-persistentvolumeclaim/vmi-system-data-ingest-2                   Bound    pvc-0025fcef-1d8c-4307-977c-3921545c6730   100Gi      RWO            standard       5m22s
+persistentvolumeclaim/data-opensearch-master-0                   Bound    pvc-9ace042a-dd68-4975-816d-f2ca0dc4d9d8   50Gi       RWO            standard       5m22s
+persistentvolumeclaim/data-opensearch-master-1                   Bound    pvc-8bf68c2c-235e-4bd5-8741-5a5cd3453934   50Gi       RWO            standard       5m21s
+persistentvolumeclaim/data-opensearch-master-2                   Bound    pvc-da8a48b1-5762-4669-98f0-8479f30043fc   50Gi       RWO            standard       5m21s
+persistentvolumeclaim/data-opensearch-data-ingest-0              Bound    pvc-7ad9f275-632b-4aac-b7bf-c5115215937c   100Gi      RWO            standard       5m23s
+persistentvolumeclaim/data-opensearch-data-ingest-1              Bound    pvc-8a293e51-2c20-4cae-916b-1ce46a780403   100Gi      RWO            standard       5m23s
+persistentvolumeclaim/data-opensearch-data-ingest-2              Bound    pvc-0025fcef-1d8c-4307-977c-3921545c6730   100Gi      RWO            standard       5m22s
 
 NAME                                                   READY   STATUS     RESTARTS   AGE
-pod/coherence-operator-6ffb6bbd4d-bpssc                1/1     Running    1          8m2s
-pod/fluentd-ndshl                                      2/2     Running    0          5m51s
-pod/oam-kubernetes-runtime-85cfd899d8-z9gv6            1/1     Running    0          8m14s
-pod/verrazzano-application-operator-5fbcdf6655-72tw9   1/1     Running    0          7m49s
-pod/verrazzano-authproxy-5f9d479455-5bvvt              2/2     Running    0          7m43s
-pod/verrazzano-console-5b857d7b47-djbrk                2/2     Running    0          5m51s
-pod/verrazzano-monitoring-operator-b4b446567-pgnfw     2/2     Running    0          5m51s
-pod/vmi-system-data-ingest-0-5485dcd95d-rkhvk          2/2     Running    0          5m21s
-pod/vmi-system-data-ingest-1-8d7db6489-kdhbv           2/2     Running    1          5m21s
-pod/vmi-system-data-ingest-2-699d6bdd9c-z7nzx          2/2     Running    0          5m21s
-pod/vmi-system-grafana-7947cdd84b-b7mks                2/2     Running    0          5m21s
-pod/vmi-system-kiali-6c7bd6658b-d2zq9                  2/2     Running    0          5m37s
-pod/vmi-system-osd-7d47f65dfc-zhjxp                    2/2     Running    0          5m21s
-pod/vmi-system-master-0                                2/2     Running    0          5m21s
-pod/vmi-system-master-1                                2/2     Running    0          5m21s
-pod/vmi-system-master-2                                2/2     Running    0          5m21s
-pod/weblogic-operator-666b548749-lj66t                 2/2     Running    0          7m48s
+pod/opensearch-data-ingest-0                           2/2     Running    0          5m21s
+pod/opensearch-data-ingest-1                           2/2     Running    1          5m21s
+pod/opensearch-data-ingest-2                           2/2     Running    0          5m21s
+pod/opensearch-dashboards-56d845466c-9xsrv             2/2     Running    0          5m21s
+pod/opensearch-master-0                                2/2     Running    0          5m21s
+pod/opensearch-master-1                                2/2     Running    0          5m21s
+pod/opensearch-master-2                                2/2     Running    0          5m21s
 ```
 
 </div>
 {{< /clipboard >}}
 
-Running the command `kubectl describe pod -n verrazzano-system vmi-system-data-ingest-0-5485dcd95d-rkhvk` shows the
+Running the command `kubectl describe pod -n verrazzano-logging opensearch-data-ingest-0` shows the
 requested amount of memory.
 {{< clipboard >}}
 <div class="highlight">
 
 ```
 Containers:
-  es-data:
+  opensearch:
     ...
     Requests:
       memory:   1Gi
@@ -461,7 +451,7 @@ $ PASS=$(kubectl get secret \
     --decode; echo)
 
 $ HOST=$(kubectl get ingress \
-    -n verrazzano-system vmi-system-os-ingest \
+    -n verrazzano-system opensearch \
     -o jsonpath={.spec.rules[0].host})
 
 $ curl -ik -X PUT --user verrazzano:$PASS https://$HOST/_plugins/_ism/policies/policy_3 \
