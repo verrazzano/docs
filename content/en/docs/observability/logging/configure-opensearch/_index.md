@@ -19,7 +19,7 @@ $ PASS=$(kubectl get secret \
     -o jsonpath={.data.password} | base64 \
     --decode; echo)
 $ HOST=$(kubectl get ingress \
-    -n verrazzano-system vmi-system-os-ingest \
+    -n verrazzano-system opensearch \
     -o jsonpath={.spec.rules[0].host})
 
 $ curl -ik \
