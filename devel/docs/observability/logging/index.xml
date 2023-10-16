@@ -80,7 +80,7 @@
     -o jsonpath={.data.password} | base64 \
     --decode; echo)
 $ HOST=$(kubectl get ingress \
-    -n verrazzano-system vmi-system-os-ingest \
+    -n verrazzano-system opensearch \
     -o jsonpath={.spec.rules[0].host})
 
 $ curl -ik \
@@ -1883,8 +1883,8 @@ These plug-ins help to parse Kubernetes management log files.&lt;/p&gt;
 Each instance pulls logs from the node&amp;rsquo;s &lt;code&gt;/var/log/containers&lt;/code&gt; directory and writes them to the target OpenSearch data stream.
 Verrazzano system applications receive special handling, and write their logs to the &lt;code&gt;verrazzano-system&lt;/code&gt; data stream.
 Verrazzano application logs are exported to a data stream based on the application&amp;rsquo;s namespace, following this format: &lt;code&gt;verrazzano-application-&amp;lt;application namespace&amp;gt;&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;For example, &lt;code&gt;vmi-system-osd&lt;/code&gt; logs written to &lt;code&gt;/var/log/containers&lt;/code&gt; will be pulled by Fluentd and written to OpenSearch.  The logs are exported
-to the &lt;code&gt;verrazzano-system&lt;/code&gt; data stream, because &lt;code&gt;vmi-system-osd&lt;/code&gt; is a Verrazzano system application. For a non-system application, if it is in the &lt;code&gt;myapp&lt;/code&gt; namespace,
+&lt;p&gt;For example, &lt;code&gt;opensearch-dashboards&lt;/code&gt; logs written to &lt;code&gt;/var/log/containers&lt;/code&gt; will be pulled by Fluentd and written to OpenSearch.  The logs are exported
+to the &lt;code&gt;verrazzano-system&lt;/code&gt; data stream, because &lt;code&gt;opensearch-dashboards&lt;/code&gt; is a Verrazzano system application. For a non-system application, if it is in the &lt;code&gt;myapp&lt;/code&gt; namespace,
 then its logs will be exported to the &lt;code&gt;verrazzano-application-myapp&lt;/code&gt; data stream.&lt;/p&gt;
 
       </description>

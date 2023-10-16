@@ -1322,7 +1322,7 @@ A single &lt;code&gt;verrazzano-application-operator&lt;/code&gt; manages the li
 all OAM based applications within the cluster.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Verify the Verrazzano monitoring infrastructure is running.
+&lt;p&gt;Verify that the Verrazzano logging and monitoring infrastructure is running.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -1357,10 +1357,106 @@ all OAM based applications within the cluster.&lt;/p&gt;
 
 # Sample output
 NAME                                               READY   STATUS    RESTARTS   AGE
-vmi-system-es-master-0                             2/2     Running   0          47m
 vmi-system-grafana-799d79648d-wsdp4                2/2     Running   0          47m
 vmi-system-kiali-574c6dd94d-f49jv                  2/2     Running   0          51m
-vmi-system-osd-77f8d998f4-zzvqr   2/2     Running   0          47m
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-logging
+
+# Sample output
+NAME                                                      READY   STATUS      RESTARTS      AGE
+opensearch-dashboards-56d845466c-9xsrv                    1/1     Running     0             2h
+opensearch-es-master-0                                    1/1     Running     0             1h
+opensearch-operator-controller-manager-5c498865fc-27jr5   1/1     Running     0             2h
+opensearch-securityconfig-update-jj2xv                    0/1     Completed   0             2h
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -1518,14 +1614,13 @@ prometheus-prometheus-operator-kube-p-prometheus-0     3/3     Running   0      
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;These pods in the &lt;code&gt;verrazzano-system&lt;/code&gt; and &lt;code&gt;verrazzano-monitoring&lt;/code&gt; namespaces constitute a
-monitoring stack created by Verrazzano for the deployed applications.&lt;/p&gt;
-&lt;p&gt;The monitoring infrastructure comprises several components:&lt;/p&gt;
+&lt;p&gt;These pods in the &lt;code&gt;verrazzano-system&lt;/code&gt;, &lt;code&gt;verrazzano-logging&lt;/code&gt;, and &lt;code&gt;verrazzano-monitoring&lt;/code&gt; namespaces constitute the logging and monitoring stack created by Verrazzano for the deployed applications.&lt;/p&gt;
+&lt;p&gt;The logging and monitoring infrastructure comprises several components:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;vmi-system-es&lt;/code&gt; - OpenSearch for log collection&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;opensearch-es&lt;/code&gt; - OpenSearch for log collection&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vmi-system-grafana&lt;/code&gt; - Grafana for metric visualization&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vms-system-kiali&lt;/code&gt; - Kiali for management console of &lt;code&gt;istio&lt;/code&gt; service mesh&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;vmi-system-osd&lt;/code&gt; - OpenSearch Dashboards for log visualization&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;opensearch-dashboards&lt;/code&gt; - OpenSearch Dashboards for log visualization&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;prometheus-prometheus-operator-kube-p-prometheus&lt;/code&gt; - Prometheus for metric collection&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p/&gt;
@@ -2468,7 +2563,7 @@ and visualizing the log data collected in OpenSearch, see &lt;a href=&#34;../../
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ OSD_HOST=$(kubectl get ingress \
-     -n verrazzano-system vmi-system-osd \
+     -n verrazzano-system opensearch-dashboards \
      -o jsonpath=&amp;#39;{.spec.rules[0].host}&amp;#39;)
 $ OSD_URL=&amp;#34;https://${OSD_HOST}&amp;#34;
 $ echo &amp;#34;${OSD_URL}&amp;#34;

@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/observability/logging/configure-opensearch/opensearch/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-10-12T22:54:04+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-10-16T18:41:40+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Customize OpenSearch">
 <meta itemprop="description" content="Customize your OpenSearch cluster configuration">
-<meta itemprop="dateModified" content="2023-10-12T22:54:04+05:30" />
-<meta itemprop="wordCount" content="7156">
+<meta itemprop="dateModified" content="2023-10-16T18:41:40+05:30" />
+<meta itemprop="wordCount" content="7106">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Customize OpenSearch"/>
 <meta name="twitter:description" content="Customize your OpenSearch cluster configuration"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.a14ac77cd65f202d2923a4f6e1ac0f54.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.4add00e95c52b7f98eec355c9defc8c3.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -120,7 +120,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.a14ac77cd65f202d2923a4f6e1ac0f54.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.4add00e95c52b7f98eec355c9defc8c3.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1687,7 +1687,7 @@ define an OpenSearch cluster using node groups.</p>
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></li>
 </ol>
-<p>Listing the pods and persistent volumes in the <code>verrazzano-system</code> namespace for the previous configuration
+<p>Listing the pods and persistent volumes in the <code>verrazzano-logging</code> namespace for the previous configuration
 shows that the expected nodes are running with the appropriate data volumes.
 <style type="text/css">
     code {
@@ -1719,35 +1719,25 @@ shows that the expected nodes are running with the appropriate data volumes.
 
 <div class="clipboard">
     <div class="highlight">
-<pre tabindex="0"><code>$ kubectl get pvc,pod -l verrazzano-component=opensearch -n verrazzano-system
+<pre tabindex="0"><code>$ kubectl get pvc,pod -l opster.io/opensearch-cluster=opensearch -n verrazzano-logging
 
 # Sample output
 NAME                                                             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-persistentvolumeclaim/elasticsearch-master-vmi-system-master-0      Bound    pvc-9ace042a-dd68-4975-816d-f2ca0dc4d9d8   50Gi       RWO            standard       5m22s
-persistentvolumeclaim/elasticsearch-master-vmi-system-master-1      Bound    pvc-8bf68c2c-235e-4bd5-8741-5a5cd3453934   50Gi       RWO            standard       5m21s
-persistentvolumeclaim/elasticsearch-master-vmi-system-master-2      Bound    pvc-da8a48b1-5762-4669-98f0-8479f30043fc   50Gi       RWO            standard       5m21s
-persistentvolumeclaim/vmi-system-data-ingest                     Bound    pvc-7ad9f275-632b-4aac-b7bf-c5115215937c   100Gi      RWO            standard       5m23s
-persistentvolumeclaim/vmi-system-data-ingest-1                   Bound    pvc-8a293e51-2c20-4cae-916b-1ce46a780403   100Gi      RWO            standard       5m23s
-persistentvolumeclaim/vmi-system-data-ingest-2                   Bound    pvc-0025fcef-1d8c-4307-977c-3921545c6730   100Gi      RWO            standard       5m22s
+persistentvolumeclaim/data-opensearch-master-0                   Bound    pvc-9ace042a-dd68-4975-816d-f2ca0dc4d9d8   50Gi       RWO            standard       5m22s
+persistentvolumeclaim/data-opensearch-master-1                   Bound    pvc-8bf68c2c-235e-4bd5-8741-5a5cd3453934   50Gi       RWO            standard       5m21s
+persistentvolumeclaim/data-opensearch-master-2                   Bound    pvc-da8a48b1-5762-4669-98f0-8479f30043fc   50Gi       RWO            standard       5m21s
+persistentvolumeclaim/data-opensearch-data-ingest-0              Bound    pvc-7ad9f275-632b-4aac-b7bf-c5115215937c   100Gi      RWO            standard       5m23s
+persistentvolumeclaim/data-opensearch-data-ingest-1              Bound    pvc-8a293e51-2c20-4cae-916b-1ce46a780403   100Gi      RWO            standard       5m23s
+persistentvolumeclaim/data-opensearch-data-ingest-2              Bound    pvc-0025fcef-1d8c-4307-977c-3921545c6730   100Gi      RWO            standard       5m22s
 
 NAME                                                   READY   STATUS     RESTARTS   AGE
-pod/coherence-operator-6ffb6bbd4d-bpssc                1/1     Running    1          8m2s
-pod/fluentd-ndshl                                      2/2     Running    0          5m51s
-pod/oam-kubernetes-runtime-85cfd899d8-z9gv6            1/1     Running    0          8m14s
-pod/verrazzano-application-operator-5fbcdf6655-72tw9   1/1     Running    0          7m49s
-pod/verrazzano-authproxy-5f9d479455-5bvvt              2/2     Running    0          7m43s
-pod/verrazzano-console-5b857d7b47-djbrk                2/2     Running    0          5m51s
-pod/verrazzano-monitoring-operator-b4b446567-pgnfw     2/2     Running    0          5m51s
-pod/vmi-system-data-ingest-0-5485dcd95d-rkhvk          2/2     Running    0          5m21s
-pod/vmi-system-data-ingest-1-8d7db6489-kdhbv           2/2     Running    1          5m21s
-pod/vmi-system-data-ingest-2-699d6bdd9c-z7nzx          2/2     Running    0          5m21s
-pod/vmi-system-grafana-7947cdd84b-b7mks                2/2     Running    0          5m21s
-pod/vmi-system-kiali-6c7bd6658b-d2zq9                  2/2     Running    0          5m37s
-pod/vmi-system-osd-7d47f65dfc-zhjxp                    2/2     Running    0          5m21s
-pod/vmi-system-master-0                                2/2     Running    0          5m21s
-pod/vmi-system-master-1                                2/2     Running    0          5m21s
-pod/vmi-system-master-2                                2/2     Running    0          5m21s
-pod/weblogic-operator-666b548749-lj66t                 2/2     Running    0          7m48s
+pod/opensearch-data-ingest-0                           2/2     Running    0          5m21s
+pod/opensearch-data-ingest-1                           2/2     Running    1          5m21s
+pod/opensearch-data-ingest-2                           2/2     Running    0          5m21s
+pod/opensearch-dashboards-56d845466c-9xsrv             2/2     Running    0          5m21s
+pod/opensearch-master-0                                2/2     Running    0          5m21s
+pod/opensearch-master-1                                2/2     Running    0          5m21s
+pod/opensearch-master-2                                2/2     Running    0          5m21s
 </code></pre></div>
 
 </div>
@@ -1808,7 +1798,7 @@ pod/weblogic-operator-666b548749-lj66t                 2/2     Running    0     
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<p>Running the command <code>kubectl describe pod -n verrazzano-system vmi-system-data-ingest-0-5485dcd95d-rkhvk</code> shows the
+<p>Running the command <code>kubectl describe pod -n verrazzano-logging opensearch-data-ingest-0</code> shows the
 requested amount of memory.
 <style type="text/css">
     code {
@@ -1841,7 +1831,7 @@ requested amount of memory.
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>Containers:
-  es-data:
+  opensearch:
     ...
     Requests:
       memory:   1Gi
@@ -2240,7 +2230,7 @@ you can use the OpenSearch REST API. To create a policy using the OpenSearch API
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    --decode<span style="color:#000;font-weight:bold">;</span> <span style="color:#204a87">echo</span><span style="color:#204a87;font-weight:bold">)</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ <span style="color:#000">HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get ingress <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    -n verrazzano-system vmi-system-os-ingest <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    -n verrazzano-system opensearch <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.spec.rules<span style="color:#ce5c00;font-weight:bold">[</span>0<span style="color:#ce5c00;font-weight:bold">]</span>.host<span style="color:#ce5c00;font-weight:bold">}</span><span style="color:#204a87;font-weight:bold">)</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ curl -ik -X PUT --user verrazzano:<span style="color:#000">$PASS</span> https://<span style="color:#000">$HOST</span>/_plugins/_ism/policies/policy_3 <span style="color:#4e9a06">\
