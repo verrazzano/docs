@@ -332,7 +332,7 @@ and enabled for Istio.
    A single `verrazzano-application-operator` manages the life cycle of
    all OAM based applications within the cluster.
 
-1. Verify the Verrazzano logging and monitoring infrastructure is running.
+1. Verify that the Verrazzano logging and monitoring infrastructure is running.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -379,7 +379,7 @@ and enabled for Istio.
 </div>
 {{< /clipboard >}}
 
-   These pods in the `verrazzano-system`, `verrazzano-logging`, `verrazzano-monitoring` namespaces constitute the logging and monitoring stack created by Verrazzano for the deployed applications.
+   These pods in the `verrazzano-system`, `verrazzano-logging`, and `verrazzano-monitoring` namespaces constitute the logging and monitoring stack created by Verrazzano for the deployed applications.
 
    The logging and monitoring infrastructure comprises several components:
    * `opensearch-es` - OpenSearch for log collection
