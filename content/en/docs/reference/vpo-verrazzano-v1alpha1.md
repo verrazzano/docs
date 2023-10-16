@@ -690,66 +690,6 @@ Invalid override values will be ignored.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="install.verrazzano.io/v1alpha1.CertManagerOCIDNSWebhookSolver">CertManagerOCIDNSWebhookSolver
-</h3>
-<div>
-<p>CertManagerOCIDNSWebhookSolver specifies installation overrides for the CertManager OCI DNS solver webhook; the
-webhook is automatically installed when OCI DNS is configured for the Verrazzano installation</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>monitorChanges</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>
-(Inlined from <a href="#install.verrazzano.io/v1alpha1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
-</p>
-<em>(Optional)</em>
-<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
-but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
-find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cert-manager-ocidns-webhook/values.yaml %}}">here</a>;
-invalid values will be ignored.</p>
-<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>overrides</code><br/>
-<em>
-<a href="#install.verrazzano.io/v1alpha1.Overrides">
-[]Overrides
-</a>
-</em>
-</td>
-<td>
-<p>
-(Inlined from <a href="#install.verrazzano.io/v1alpha1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
-</p>
-<em>(Optional)</em>
-<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
-but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
-find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cert-manager-ocidns-webhook/values.yaml %}}">here</a>;
-invalid values will be ignored.</p>
-<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
-but in the event of conflicting fields, the last override in the list takes precedence over any others.
-Invalid override values will be ignored.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="install.verrazzano.io/v1alpha1.CertManagerWebhookOCIComponent">CertManagerWebhookOCIComponent
 </h3>
 <p>
@@ -794,7 +734,7 @@ bool
 <p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cert-manager-ocidns-webhook/values.yaml %}}">here</a>;
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/cert-manager-webhook-oci/values.yaml %}}">here</a>;
 invalid values will be ignored.</p>
 <p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
 </td>
@@ -816,7 +756,7 @@ invalid values will be ignored.</p>
 <p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
 find all possible values
-<a href="{{% release_source_url path=platform-operator/helm_config/charts/verrazzano-cert-manager-ocidns-webhook/values.yaml %}}">here</a>;
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/cert-manager-webhook-oci/values.yaml %}}">here</a>;
 invalid values will be ignored.</p>
 <p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
 but in the event of conflicting fields, the last override in the list takes precedence over any others.
@@ -1733,6 +1673,20 @@ OAMComponent
 <td>
 <em>(Optional)</em>
 <p>The OAM component configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>opensearchOperator</code><br/>
+<em>
+<a href="#install.verrazzano.io/v1alpha1.OpenSearchOperatorComponent">
+OpenSearchOperatorComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The OpenSearchOperator component configuration</p>
 </td>
 </tr>
 <tr>
@@ -4542,10 +4496,84 @@ string
 </tr>
 </tbody>
 </table>
+<h3 id="install.verrazzano.io/v1alpha1.OpenSearchOperatorComponent">OpenSearchOperatorComponent
+</h3>
+<p>
+(<em>Appears on:</em><a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+</p>
+<div>
+<p>OpenSearchOperatorComponent specifies the OpenSearchOperator configuration</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>If true, then OpenSearchOperator will be installed</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>monitorChanges</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>
+(Inlined from <a href="#install.verrazzano.io/v1alpha1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
+</p>
+<em>(Optional)</em>
+<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
+find all possible values
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/opensearch-operator/values.yaml %}}">here</a>
+and invalid values will be ignored.</p>
+<p>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>overrides</code><br/>
+<em>
+<a href="#install.verrazzano.io/v1alpha1.Overrides">
+[]Overrides
+</a>
+</em>
+</td>
+<td>
+<p>
+(Inlined from <a href="#install.verrazzano.io/v1alpha1.InstallOverrides">InstallOverrides</a>. Inlined comments are appended in the following.)
+</p>
+<em>(Optional)</em>
+<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
+find all possible values
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/opensearch-operator/values.yaml %}}">here</a>
+and invalid values will be ignored.</p>
+<p>List of overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+but in the event of conflicting fields, the last override in the list takes precedence over any others.
+Invalid override values will be ignored.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="install.verrazzano.io/v1alpha1.Overrides">Overrides
 </h3>
 <p>
-(<em>Appears on:</em><a href="#install.verrazzano.io/v1alpha1.ApplicationOperatorComponent">ApplicationOperatorComponent</a>, <a href="#install.verrazzano.io/v1alpha1.ArgoCDComponent">ArgoCDComponent</a>, <a href="#install.verrazzano.io/v1alpha1.AuthProxyComponent">AuthProxyComponent</a>, <a href="#install.verrazzano.io/v1alpha1.CertManagerComponent">CertManagerComponent</a>, <a href="#install.verrazzano.io/v1alpha1.CertManagerOCIDNSWebhookSolver">CertManagerOCIDNSWebhookSolver</a>, <a href="#install.verrazzano.io/v1alpha1.CertManagerWebhookOCIComponent">CertManagerWebhookOCIComponent</a>, <a href="#install.verrazzano.io/v1alpha1.ClusterAPIComponent">ClusterAPIComponent</a>, <a href="#install.verrazzano.io/v1alpha1.ClusterAgentComponent">ClusterAgentComponent</a>, <a href="#install.verrazzano.io/v1alpha1.ClusterOperatorComponent">ClusterOperatorComponent</a>, <a href="#install.verrazzano.io/v1alpha1.CoherenceOperatorComponent">CoherenceOperatorComponent</a>, <a href="#install.verrazzano.io/v1alpha1.ConsoleComponent">ConsoleComponent</a>, <a href="#install.verrazzano.io/v1alpha1.DNSComponent">DNSComponent</a>, <a href="#install.verrazzano.io/v1alpha1.DexComponent">DexComponent</a>, <a href="#install.verrazzano.io/v1alpha1.FluentOperatorComponent">FluentOperatorComponent</a>, <a href="#install.verrazzano.io/v1alpha1.FluentbitOpensearchOutputComponent">FluentbitOpensearchOutputComponent</a>, <a href="#install.verrazzano.io/v1alpha1.FluentdComponent">FluentdComponent</a>, <a href="#install.verrazzano.io/v1alpha1.IngressNginxComponent">IngressNginxComponent</a>, <a href="#install.verrazzano.io/v1alpha1.InstallOverrides">InstallOverrides</a>, <a href="#install.verrazzano.io/v1alpha1.IstioComponent">IstioComponent</a>, <a href="#install.verrazzano.io/v1alpha1.JaegerOperatorComponent">JaegerOperatorComponent</a>, <a href="#install.verrazzano.io/v1alpha1.KeycloakComponent">KeycloakComponent</a>, <a href="#install.verrazzano.io/v1alpha1.KialiComponent">KialiComponent</a>, <a href="#install.verrazzano.io/v1alpha1.KubeStateMetricsComponent">KubeStateMetricsComponent</a>, <a href="#install.verrazzano.io/v1alpha1.MySQLComponent">MySQLComponent</a>, <a href="#install.verrazzano.io/v1alpha1.MySQLOperatorComponent">MySQLOperatorComponent</a>, <a href="#install.verrazzano.io/v1alpha1.OAMComponent">OAMComponent</a>, <a href="#install.verrazzano.io/v1alpha1.PrometheusAdapterComponent">PrometheusAdapterComponent</a>, <a href="#install.verrazzano.io/v1alpha1.PrometheusNodeExporterComponent">PrometheusNodeExporterComponent</a>, <a href="#install.verrazzano.io/v1alpha1.PrometheusOperatorComponent">PrometheusOperatorComponent</a>, <a href="#install.verrazzano.io/v1alpha1.PrometheusPushgatewayComponent">PrometheusPushgatewayComponent</a>, <a href="#install.verrazzano.io/v1alpha1.RancherBackupComponent">RancherBackupComponent</a>, <a href="#install.verrazzano.io/v1alpha1.RancherComponent">RancherComponent</a>, <a href="#install.verrazzano.io/v1alpha1.ThanosComponent">ThanosComponent</a>, <a href="#install.verrazzano.io/v1alpha1.VeleroComponent">VeleroComponent</a>, <a href="#install.verrazzano.io/v1alpha1.VerrazzanoComponent">VerrazzanoComponent</a>, <a href="#install.verrazzano.io/v1alpha1.WebLogicOperatorComponent">WebLogicOperatorComponent</a>)
+(<em>Appears on:</em><a href="#install.verrazzano.io/v1alpha1.ApplicationOperatorComponent">ApplicationOperatorComponent</a>, <a href="#install.verrazzano.io/v1alpha1.ArgoCDComponent">ArgoCDComponent</a>, <a href="#install.verrazzano.io/v1alpha1.AuthProxyComponent">AuthProxyComponent</a>, <a href="#install.verrazzano.io/v1alpha1.CertManagerComponent">CertManagerComponent</a>, <a href="#install.verrazzano.io/v1alpha1.CertManagerWebhookOCIComponent">CertManagerWebhookOCIComponent</a>, <a href="#install.verrazzano.io/v1alpha1.ClusterAPIComponent">ClusterAPIComponent</a>, <a href="#install.verrazzano.io/v1alpha1.ClusterAgentComponent">ClusterAgentComponent</a>, <a href="#install.verrazzano.io/v1alpha1.ClusterOperatorComponent">ClusterOperatorComponent</a>, <a href="#install.verrazzano.io/v1alpha1.CoherenceOperatorComponent">CoherenceOperatorComponent</a>, <a href="#install.verrazzano.io/v1alpha1.ConsoleComponent">ConsoleComponent</a>, <a href="#install.verrazzano.io/v1alpha1.DNSComponent">DNSComponent</a>, <a href="#install.verrazzano.io/v1alpha1.DexComponent">DexComponent</a>, <a href="#install.verrazzano.io/v1alpha1.FluentOperatorComponent">FluentOperatorComponent</a>, <a href="#install.verrazzano.io/v1alpha1.FluentbitOpensearchOutputComponent">FluentbitOpensearchOutputComponent</a>, <a href="#install.verrazzano.io/v1alpha1.FluentdComponent">FluentdComponent</a>, <a href="#install.verrazzano.io/v1alpha1.IngressNginxComponent">IngressNginxComponent</a>, <a href="#install.verrazzano.io/v1alpha1.InstallOverrides">InstallOverrides</a>, <a href="#install.verrazzano.io/v1alpha1.IstioComponent">IstioComponent</a>, <a href="#install.verrazzano.io/v1alpha1.JaegerOperatorComponent">JaegerOperatorComponent</a>, <a href="#install.verrazzano.io/v1alpha1.KeycloakComponent">KeycloakComponent</a>, <a href="#install.verrazzano.io/v1alpha1.KialiComponent">KialiComponent</a>, <a href="#install.verrazzano.io/v1alpha1.KubeStateMetricsComponent">KubeStateMetricsComponent</a>, <a href="#install.verrazzano.io/v1alpha1.MySQLComponent">MySQLComponent</a>, <a href="#install.verrazzano.io/v1alpha1.MySQLOperatorComponent">MySQLOperatorComponent</a>, <a href="#install.verrazzano.io/v1alpha1.OAMComponent">OAMComponent</a>, <a href="#install.verrazzano.io/v1alpha1.OpenSearchOperatorComponent">OpenSearchOperatorComponent</a>, <a href="#install.verrazzano.io/v1alpha1.PrometheusAdapterComponent">PrometheusAdapterComponent</a>, <a href="#install.verrazzano.io/v1alpha1.PrometheusNodeExporterComponent">PrometheusNodeExporterComponent</a>, <a href="#install.verrazzano.io/v1alpha1.PrometheusOperatorComponent">PrometheusOperatorComponent</a>, <a href="#install.verrazzano.io/v1alpha1.PrometheusPushgatewayComponent">PrometheusPushgatewayComponent</a>, <a href="#install.verrazzano.io/v1alpha1.RancherBackupComponent">RancherBackupComponent</a>, <a href="#install.verrazzano.io/v1alpha1.RancherComponent">RancherComponent</a>, <a href="#install.verrazzano.io/v1alpha1.ThanosComponent">ThanosComponent</a>, <a href="#install.verrazzano.io/v1alpha1.VeleroComponent">VeleroComponent</a>, <a href="#install.verrazzano.io/v1alpha1.VerrazzanoComponent">VerrazzanoComponent</a>, <a href="#install.verrazzano.io/v1alpha1.WebLogicOperatorComponent">WebLogicOperatorComponent</a>)
 </p>
 <div>
 <p>Overrides identifies overrides for a component.</p>
@@ -6023,7 +6051,7 @@ string
 <hr/>
 <p><em>
 Generated with <code>gen-crd-api-reference-docs</code>
-on git commit <code>7e2b8b262</code>.
+on git commit <code>2f95b4017</code>.
 </em></p>
 
 
