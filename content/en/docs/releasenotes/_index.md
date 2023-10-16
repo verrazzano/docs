@@ -3,6 +3,14 @@ title: Release Notes
 weight: 2
 draft: false
 ---
+## v1.7.0
+#### Features
+- Added support for creating OKE clusters from the console.
+- Added support for managing Verrazzano installed on clusters that were provisioned using cluster API
+
+#### Known Issues
+- When updating the node pool of a cluster API based OKE cluster, the console may report the cluster state as 'Active' prematurely.
+
 ## v1.6.8
 #### Enhancements:
 - Refreshed component images for security.
