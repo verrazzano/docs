@@ -301,7 +301,7 @@ EOF
    - The `pre-hook` will perform the steps required to bootstrap the OpenSearch cluster before invoking the OpenSearch APIs.
    - The `postHook` will invoke the OpenSearch APIs that restore the snapshot data.
    - The container on which the hook needs to be run defaults to the first container in the pod.
-     In this case, it's `statefulset.kubernetes.io/pod-name: vmi-system-es-master-0`.
+     In this case, it's `statefulset.kubernetes.io/pod-name: opensearch-es-master-0`.
 
    **NOTE**: The hook needs to be a `postHook` because it must be applied after the Kubernetes objects are restored.
 
