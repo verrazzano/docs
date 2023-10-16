@@ -1581,7 +1581,7 @@ OpenSearchOperatorComponent
 </td>
 <td>
 <em>(Optional)</em>
-<p>The OpenSearchOperator component configuration</p>
+<p>The OpenSearchOperator component configuration.</p>
 </td>
 </tr>
 <tr>
@@ -4188,7 +4188,7 @@ string
 (<em>Appears on:</em><a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <div>
-<p>OpenSearchOperatorComponent specifies the OpenSearchOperator configuration</p>
+<p>OpenSearchOperatorComponent specifies the OpenSearchOperator configuration.</p>
 </div>
 <table>
 <thead>
@@ -4207,7 +4207,7 @@ bool
 </td>
 <td>
 <em>(Optional)</em>
-<p>If true, then OpenSearchOperator will be installed</p>
+<p>If true, then OpenSearchOperator will be installed.</p>
 </td>
 </tr>
 <tr>
