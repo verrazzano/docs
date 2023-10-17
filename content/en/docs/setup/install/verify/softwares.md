@@ -13,7 +13,7 @@ Verrazzano installs a curated set of open source software. The following table l
   | [cert-manager]({{< relref "/docs/reference/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.CertManagerComponent" >}})                       | 1.9.1        | Automates the management and issuance of TLS certificates.                               |
   | [cert-manager-webhook-oci]({{< relref "/docs/reference/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.CertManagerWebhookOCIComponent" >}}) | 0.1.0        | Cert-Manager webhook for Oracle Clould Infrastructure DNS.                               |
   | [Cluster API]({{< relref "/docs/reference/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.ClusterAPIComponent" >}})                         | 1.5.0        | Specifies the Cluster API configuration.
-  | Cluster-API-Verrazzano-Addon       | 1.0.0        |                                                  |
+  | Cluster-API-Verrazzano-Addon       | 1.0.0        | Extends the functionality of the Cluster API by providing a solution for managing the installation, configuration, upgrade, and deletion of Verrazzano on managed/workload clusters.                                                 |
   | [Coherence Operator]({{< relref "/docs/reference/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.CoherenceOperatorComponent" >}})           | 3.2.11       | Assists with deploying and managing Coherence clusters.
   | Dex       | 2.37.0        |                                   |
   | [ExternalDNS]({{< relref "/docs/reference/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.DNSComponent" >}})                                | 0.12.2       | Synchronizes exposed Kubernetes Services and ingresses with DNS providers.               |
