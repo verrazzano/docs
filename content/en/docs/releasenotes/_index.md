@@ -5,50 +5,84 @@ draft: false
 ---
 ## v1.7.0
 #### Features
-- Added support for creating OKE clusters from the console.
 - Added support for managing Verrazzano installed on clusters that were provisioned using the cluster API.
+- Added support for OKE lifecycle management on Rancher UI and Rancher APIs.
+- Added OKEQuickCreate custom resource to support ease-of-use when creating OKE clusters on OCI.
+- Added OCNEOCIQuickCreate custom resource to support ease-of-use when creating Oracle Cloud Native Environment clusters on OCI.
+- Added support for Thanos Ruler and Compactor.
+- Added support for Oracle Cloud Native Environment managed clusters on Azure.
+- Decoupled the Cluster Management API from Rancher.
+- Enabled lifecycle management of OKE clusters.
+
+#### Enhancements:
+- Updated Alertmanager to version 0.26.0.
+- Added support and certified Domain on PV for WebLogic domains managed by Verrazzano.
+- Now, Prometheus rules in the kube-prometheus-stack and Thanos Helm charts are enabled by default.
+- Added Prometheus alerting rules for Verrazzano operators.
+- Added a progress flag in the Verrazzano CLI, which shows components' installation progress in real time.
+- Enabled status updates for Istio reconciled objects.
+- Added support for Oracle Cloud Native Environment v1.7.
+- Added the ability to enable security plug-ins in OpenSearch clusters.
+- Now, Verrazzano uses OpenSearch operator-managed OpenSearch. To avoid any data loss during an upgrade, we advise you to make a backup before upgrading.
+
+#### Component version updates:
+- Argo CD v2.8.3
+- Cluster API v.1.5.0
+- Coherence Operator v3.2.11
+- kube-state-metrics v2.10.0
+- NGINX Prometheus Exporter v0.11.0
+- Node Exporter v1.6.1
+- Prometheus Pushgateway v1.6.2
+
+#### Components added:
+- Cluster-API-Verrazzano-Addon v1.0.0
+- Dex v2.37.0
+- OpenSearch Operator v2.4.0
+- Rancher OCNE Driver v0.26.0
+- Verrazzano Authproxy v1.7.0
 
 #### Known Issues
 - When updating the node pool of a cluster API based OKE cluster, the console may report the cluster state as 'Active' prematurely.
 
-## v1.6.8
-#### Enhancements:
+## Previous Release Information
+### v1.6.8
+**Enhancements**:
 - Refreshed component images for security.
 
-#### Component version updates:
+**Component version updates**:
 - Istio v1.19.0
 - Kiali v1.73.0
 - Rancher v2.7.6
 
-#### Fixes:
-- Fixed a Keycloak post-installation issue. 
+**Fixes**:
+- Fixed a Keycloak post-installation issue.
 - Fixed an issue with Cluster API URL overrides not working correctly.
 - Fixed an issue that caused the unnecessary restart of OAM application pods.
 
-## v1.6.7
-#### Enhancements:
+### v1.6.7
+**Enhancements**:
 - Support for WebLogic Kubernetes Operator 4.1.2 features for InitalizeDomainOnPV.
 - Refreshed component images for security and reduced image size.
 
-#### Component version updates:
+**Component version updates**:
 - Thanos v0.32.2 (includes support for OKE Workload Identities)
 - Cluster API v1.4.6
 - Cluster API OCI Controller v0.12.1
 - WebLogic Kubernetes Operator v4.1.2
 - WebLogic Monitoring Exporter v2.1.5
 
-#### Fixes:
+**Fixes**:
 - Now labels can be added to an ArgoCD managed cluster secret.
 - Improved support for Cluster API version overrides.
 - Grafana dashboard update to show persistent volumes.
 
-## v1.6.6
-#### Enhancements:
+### v1.6.6
+**Enhancements**:
 - Added support for Kubernetes v1.27.
 - Reduced Verrazzano console image size.
 - Enhanced the Rancher Helm chart to support customizing Rancher pod affinity settings.
 
-#### Fixes:
+**Fixes**:
 - Fixed an issue that prevented tolerating an empty VerrazzanoManagedCluster resource `caSecret` field.
 - Fixed orphaned resources during uninstall when the Verrazzano platform operator restarts.
 - Fixed issues where self-signed CA certificate expiration caused the upgrade operation to hang.
@@ -56,67 +90,67 @@ draft: false
 - Fixed issues relating to the pod security policies of prometheus-node-exporter and rancher-backup Operator.
 - Fixed an issue with updating the WebLogic Server cluster resource.
 
-## v1.6.5
-#### Enhancements:
+### v1.6.5
+**Enhancements**:
 - Reduced NGINX Ingress Controller image size.
 - Reduced Fluentd image size.
 - Cluster API ClusterClass support expanded.
 - Updated to the Rancher v2.75 console.
 - Added Verrazzano platform operator Helm chart.
 
-#### Fixes:
+**Fixes**:
 - Fixed an issue where authproxy wouldn't automatically pick up a new configuration.
 - Fixed an issue where Verrazzano CR wouldn't allow for empty volume fields on update.
 - Fixed verrazzano-cluster-operator VerrazzanoManagedCluster resource reconcile error metric counting.
 
-## v1.6.4
-#### Component version updates:
+### v1.6.4
+**Component version updates**:
 - Istio v1.17.2
 - Rancher v2.7.5
 - Kiali v1.66.1
 - CAPOCNE v1.7.0
 
-#### Fixes:
+**Fixes**:
 - Fixed an issue with provisioning OCNE workload clusters with the Rancher UI when using Let's Encrypt staging certificates.
 - Fixed issues where upgrade would not successfully occur if pods had errors.
 - Fixed an issue with upgrading the Verrazzano resource in the Reconciling state.
 
-## v1.6.3
-#### Enhancements:
+### v1.6.3
+**Enhancements**:
 - `vz bug-report` now captures Cluster API resources and Rancher cluster-related resources.
 - `vz analyze` now checks for issues with Cluster API resources and Rancher cluster-related resources.
 
-#### Fixes:
+**Fixes**:
 - Fixed an issue with Fluent Bit Parser not getting registered correctly.
 
-## v1.6.2
-#### Enhancements:
+### v1.6.2
+**Enhancements**:
 - Verrazzano analysis tooling enhancements.
 
-#### Fixes:
+**Fixes**:
 - Fixed an issue with `vz upgrade` requiring `--version` when a manifest file was specified.
 - Fixed an issue with `vz` install and upgrade processing CAPI images in a disconnected environment.
 - Fixed an issue with image format on pulls that prevented Verrazzano installation on AKS.
 
-## v1.6.1
-#### Enhancements:
+### v1.6.1
+**Enhancements**:
 - Now, you can create a new virtual cloud network when creating OCNE clusters from the console.
 
-#### Component version updates:
+**Component version updates**:
 - WebLogic Kubernetes Operator v4.1.0
 
-## v1.6.0
-#### Features:
+### v1.6.0
+**Features**:
 - Added support for creating OCNE clusters from the console.
 - Added Thanos, which supports high availability and long-term metrics storage on top of Prometheus.
 - Added Fluent Operator, which, if you enable it, allows the use of Fluent Bit for log processing.
 
-#### Enhancements:
+**Enhancements**:
 - Enhanced the Verrazzano CLI to support installing and upgrading from a private registry and in disconnected environments.
 - Now, you can use customer-managed cert-manager instances with Verrazzano.
 - Added support for Kubernetes v1.25 and v1.26.
 
-#### Component version updates:
+**Component version updates**:
 - Argo CD v2.7.2
 - Coherence Operator v3.2.10
 - Jaeger v1.42.0
@@ -130,24 +164,21 @@ draft: false
 - WebLogic Kubernetes Operator v4.0.6
 - WebLogic Monitoring Exporter v2.1.3
 
-#### Components added:
+**Components added**:
 - cert-manager webhook for Oracle Cloud Infrastructure DNS v0.1.0
 - Cluster API v1.4.2
 - Fluent Operator v2.2.0
 - Thanos v0.30.2
 
-#### Fixes:
+**Fixes**:
 - Disabled the `startupapicheck` job in cert-manager startup.
 - Fixed an issue with Rancher SSO via Keycloak when using a custom CA for Verrazzano certificates.
 - Fixed an issue where not defining the replicas for default OpenSearch node pools in the Verrazzano CR caused the pods to terminate.
 - Updated the base image and other component images to resolve CVEs.
 
-#### Known issues and workarounds:
+**Known issues and workarounds**:
 - Systemd journal logs are not collected on some platforms. The [systemd plugin for Fluentd](https://github.com/fluent-plugin-systemd/fluent-plugin-systemd) cannot read systemd journal files on Kubernetes nodes that use newer versions of systemd. This is known to impact the default node images of [kind](https://kind.sigs.k8s.io/) for Kubernetes 1.24 and later, Oracle Linux 9, and any other Kubernetes cluster nodes running on an operating system that has systemd version 246 or later.
 - Registration of managed clusters [using the Verrazzano console]({{< relref "/docs/setup/mc-install/register/ui-register.md" >}}) is not working in [disconnected environments]({{< relref "/docs/setup/private-registry/private-registry.md" >}}).  Use the [Kubernetes Custom Resources]({{< relref "/docs/setup/mc-install/register/register-kubectl.md" >}}) method instead.
-
-
-## Previous Release Information
 ### v1.5.7
 **Enhancements**:
 - Refreshed component images for security and reduced image size.
