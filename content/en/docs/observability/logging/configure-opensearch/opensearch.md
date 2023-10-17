@@ -437,7 +437,7 @@ The previous Verrazzano custom resource will generate the following ISM policy.
 
 {{< /clipboard >}}
 
-**NOTE**: There might be a delay of a few minutes before you see the policy in OpenSearch. 
+**NOTE**: There might be a delay of a few minutes before you see the policy in OpenSearch.
 
 Also note that the ISM policy created using the Verrazzano custom resource contains a minimal set of configurations. To create a more detailed ISM policy,
 you can use the OpenSearch REST API. To create a policy using the OpenSearch API, do the following:
@@ -905,7 +905,7 @@ If you want to create additional users, other than the default OpenSearch user, 
    ```
    {{< /clipboard >}}
 
-   For the permissions that you can set, refer to [Opensearch Permissions]({{<opensearch_docs_url>}}/security/access-control/permissions/).
+   For the permissions that you can set, refer to [OpenSearch Permissions]({{<opensearch_docs_url>}}/security/access-control/permissions/).
 
 4. If you want to use actionGroups in allowedActions, then see the following example to create an ActionGroup custom resource.
 
