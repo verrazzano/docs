@@ -39,7 +39,6 @@ draft: false
 - Dex v2.37.0
 - OpenSearch Operator v2.4.0
 - Rancher OCNE Driver v0.26.0
-- Verrazzano Authproxy v1.7.0
 
 #### Known Issues
 - When updating the node pool of a cluster API based OKE cluster, the console may report the cluster state as 'Active' prematurely.
