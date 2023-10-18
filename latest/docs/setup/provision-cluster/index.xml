@@ -66,7 +66,12 @@
         &lt;h3 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h3&gt;
 &lt;p&gt;You&amp;rsquo;ll need to:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Set up an Oracle Cloud Infrastructure (OCI) account with a compartment&lt;/li&gt;
+&lt;li&gt;Set up an Oracle Cloud Infrastructure (OCI) account with
+&lt;ul&gt;
+&lt;li&gt;A compartment&lt;/li&gt;
+&lt;li&gt;An &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#two&#34;&gt;API signing key&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;li&gt;Generate an SSH key pair to use for cluster authentication&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;create-a-new-ocne-cluster-on-oci&#34;&gt;Create a new OCNE cluster on OCI&lt;/h3&gt;
@@ -85,7 +90,30 @@
 &lt;p&gt;Choose &lt;strong&gt;Oracle&lt;/strong&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Provide a name for the cloud credential and then fill in the fields. You can find the required information in your &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#Required_Keys_and_OCIDs&#34;&gt;OCI configuration file&lt;/a&gt;. Click &lt;strong&gt;Create&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Provide a name for the cloud credential and then fill in the rest of the fields with information from your OCI account and its API signing key.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;fingerprint&lt;/strong&gt;: The fingerprint of the public API key. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#four&#34;&gt;Find your key&amp;rsquo;s fingerprint&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;passphrase&lt;/strong&gt;: The passphrase used for the API key, if it was encrypted.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;privateKeyContents&lt;/strong&gt;: Copy the contents of the private key portion of the API key pair. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#two&#34;&gt;Generate an API Signing Key&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;region&lt;/strong&gt;: Enter the identifier for the current region of your tenancy. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm#About&#34;&gt;Find your region identifier&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;tenancyId&lt;/strong&gt;: Enter the OCID of your tenancy. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#five&#34;&gt;Find your tenancy OCID&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;userId&lt;/strong&gt;: Enter the OCID of the user. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#five&#34;&gt;Find your user OCID&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Click &lt;strong&gt;Create&lt;/strong&gt; to save the new cloud credential.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;From the left menu, select &lt;strong&gt;Clusters&lt;/strong&gt;, and then click &lt;strong&gt;Create&lt;/strong&gt;.&lt;/p&gt;
@@ -100,7 +128,7 @@
 &lt;p&gt;Expand &lt;strong&gt;Labels and Annotations&lt;/strong&gt; to configure Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/&#34;&gt;labels&lt;/a&gt; and &lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/&#34;&gt;annotations&lt;/a&gt; for the cluster.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Select the cloud credentials that you created. Ensure that the appropriate Region and Compartment are selected from their drop-down lists.&lt;/p&gt;
+&lt;p&gt;Select the cloud credentials that you created. Ensure that the appropriate Region and Compartment are selected from their drop-down menus.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Click &lt;strong&gt;Next&lt;/strong&gt;.&lt;/p&gt;
@@ -109,7 +137,7 @@
 &lt;p&gt;Set up your network. Choose &lt;strong&gt;Quick Create&lt;/strong&gt; to create a new virtual cloud network (VCN) configured to the specifications required for an OCNE cluster or &lt;strong&gt;Existing Infrastructure&lt;/strong&gt; to use a VCN that&amp;rsquo;s already configured in your OCI account.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;If you choose the &lt;strong&gt;Existing Infrastructure&lt;/strong&gt; option, then select the compartment where your VCN is located from the &lt;strong&gt;VCN Compartment&lt;/strong&gt; drop-down list, then the VCN itself from the &lt;strong&gt;Virtual Cloud Network&lt;/strong&gt; drop-down list. Next, select subnets within the VCN for each of the &lt;strong&gt;Cloud Plane Subnet&lt;/strong&gt;, &lt;strong&gt;Load Balancer Subnet&lt;/strong&gt;, and &lt;strong&gt;Worker Node Subnet&lt;/strong&gt; drop-down lists. See &lt;a href=&#34;../../../docs/setup/install/prepare/platforms/olcne/vcn/&#34;&gt;Configure a VCN for OCNE&lt;/a&gt; for requirements.&lt;/p&gt;
+&lt;p&gt;If you choose the &lt;strong&gt;Existing Infrastructure&lt;/strong&gt; option, then select the compartment where your VCN is located from the &lt;strong&gt;VCN Compartment&lt;/strong&gt; drop-down menu, then the VCN itself from the &lt;strong&gt;Virtual Cloud Network&lt;/strong&gt; drop-down menu. Next, select subnets within the VCN for each of the &lt;strong&gt;Cloud Plane Subnet&lt;/strong&gt;, &lt;strong&gt;Load Balancer Subnet&lt;/strong&gt;, and &lt;strong&gt;Worker Node Subnet&lt;/strong&gt; drop-down menus. See &lt;a href=&#34;../../../docs/setup/install/prepare/platforms/vcn-oci/&#34;&gt;Configure a VCN in OCI&lt;/a&gt; for requirements.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;The VCN compartment does not need to match the compartment specified in the cloud credential.&lt;/p&gt;
@@ -120,7 +148,7 @@
 &lt;p&gt;Click &lt;strong&gt;Next&lt;/strong&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Choose a Node Image from the drop-down list.&lt;/p&gt;
+&lt;p&gt;Choose a Node Image from the drop-down menu.&lt;/p&gt;
 &lt;p&gt;You can choose to override the default Node Image. Expand &lt;strong&gt;OCNE Image Configuration&lt;/strong&gt; and provide a custom image OCID. If your custom image includes OCNE binaries, then you can select &lt;strong&gt;Skip OCNE Dependency Installation&lt;/strong&gt; to avoid duplicates.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -134,7 +162,7 @@
 &lt;p&gt;Add node pools to your cluster. Clusters without node pools will schedule pods on control plane nodes.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;(Optional) Install Verrazzano on the cluster. Choose a &lt;strong&gt;Verrazzano version&lt;/strong&gt; from the drop-down list. You can also expand &lt;strong&gt;Advanced&lt;/strong&gt; to make changes to the Verrazzano Resource YAML. By default, Verrazzano is installed using the &lt;code&gt;managed-cluster&lt;/code&gt; profile which enables a limited set of components on the cluster.&lt;/p&gt;
+&lt;p&gt;(Optional) Install Verrazzano on the cluster. Choose a &lt;strong&gt;Verrazzano version&lt;/strong&gt; from the drop-down menu. You can also expand &lt;strong&gt;Advanced&lt;/strong&gt; to make changes to the Verrazzano Resource YAML. By default, Verrazzano is installed using the &lt;code&gt;managed-cluster&lt;/code&gt; profile which enables a limited set of components on the cluster.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Expand &lt;strong&gt;Advanced Settings&lt;/strong&gt; to make additional modifications to the default settings of your new cluster.&lt;/p&gt;
@@ -149,7 +177,131 @@
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;When your cluster finishes provisioning, you can access it from the main &lt;strong&gt;Cluster Management&lt;/strong&gt; page.&lt;/p&gt;
-&lt;p&gt;For help troubleshooting cluster creation, see &lt;a href=&#34;../../../docs/troubleshooting/troubleshooting-clusterapi/&#34;&gt;OCNE Cluster Creation Issues&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For help troubleshooting cluster creation, see &lt;a href=&#34;../../../docs/troubleshooting/troubleshooting-clusterapi/&#34;&gt;Cluster Creation Issues&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Create OKE Clusters Running on OCI</title>
+      <link>/docs/setup/provision-cluster/oke-oci/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/provision-cluster/oke-oci/</guid>
+      <description>
+        
+        
+        &lt;h3 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h3&gt;
+&lt;p&gt;You&amp;rsquo;ll need to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Set up an Oracle Cloud Infrastructure (OCI) account with
+&lt;ul&gt;
+&lt;li&gt;A compartment&lt;/li&gt;
+&lt;li&gt;An &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#two&#34;&gt;API signing key&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Generate an SSH key pair to use for cluster authentication&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;create-a-new-oke-cluster-on-oci&#34;&gt;Create a new OKE cluster on OCI&lt;/h3&gt;
+&lt;p&gt;To provision new Oracle Container Engine for Kubernetes (OKE) managed clusters on OCI, complete the following steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Log in to the console. To find the console URL for your cluster, refer to &lt;a href=&#34;../../../docs/setup/access/console-urls/&#34;&gt;Get console URLs&lt;/a&gt; and use the &lt;code&gt;rancherURL&lt;/code&gt; value.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Open the navigation menu and select &lt;strong&gt;Cluster Management&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;From the left menu, select &lt;strong&gt;Cloud Credentials&lt;/strong&gt;, and then click &lt;strong&gt;Create&lt;/strong&gt;. Cloud credentials store the credentials for your cloud infrastructure provider.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Choose &lt;strong&gt;Oracle&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Provide a name for the cloud credential and then fill in the rest of the fields with information from your OCI account and its API signing key.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;fingerprint&lt;/strong&gt;: The fingerprint of the public API key. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#four&#34;&gt;Find your key&amp;rsquo;s fingerprint&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;passphrase&lt;/strong&gt;: The passphrase used for the API key, if it was encrypted.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;privateKeyContents&lt;/strong&gt;: Copy the contents of the private key portion of the API key pair. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#two&#34;&gt;Generate an API Signing Key&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;region&lt;/strong&gt;: Enter the identifier for the current region of your tenancy. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm#About&#34;&gt;Find your region identifier&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;tenancyId&lt;/strong&gt;: Enter the OCID of your tenancy. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#five&#34;&gt;Find your tenancy OCID&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;userId&lt;/strong&gt;: Enter the OCID of the user. &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#five&#34;&gt;Find your user OCID&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;From the left menu, select &lt;strong&gt;Clusters&lt;/strong&gt;, and then click &lt;strong&gt;Create&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Select &lt;strong&gt;Oracle OKE&lt;/strong&gt; and provide a name for the cluster.
+Do not select &lt;strong&gt;Oracle OKE (Legacy)&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Expand &lt;strong&gt;Member Roles&lt;/strong&gt; to add any users that you want grant access to this cluster and their permissions.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Expand &lt;strong&gt;Labels and Annotations&lt;/strong&gt; to configure Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/&#34;&gt;labels&lt;/a&gt; and &lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/&#34;&gt;annotations&lt;/a&gt; for the cluster.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Select the cloud credentials that you created. Ensure that the appropriate Region and Compartment are selected from their drop-down menus.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Click &lt;strong&gt;Next&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Set up your network. Choose &lt;strong&gt;Quick Create&lt;/strong&gt; to create a new virtual cloud network (VCN) configured to the specifications required for an OKE cluster or &lt;strong&gt;Existing Infrastructure&lt;/strong&gt; to use a VCN that&amp;rsquo;s already configured in your OCI account.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;If you choose the &lt;strong&gt;Existing Infrastructure&lt;/strong&gt; option, then select the compartment where your VCN is located from the &lt;strong&gt;VCN Compartment&lt;/strong&gt; drop-down menu, then the VCN itself from the &lt;strong&gt;Virtual Cloud Network&lt;/strong&gt; drop-down menu. Next, select subnets within the VCN for each of the &lt;strong&gt;Cloud Plane Subnet&lt;/strong&gt;, &lt;strong&gt;Load Balancer Subnet&lt;/strong&gt;, and &lt;strong&gt;Worker Node Subnet&lt;/strong&gt; drop-down menus. See &lt;a href=&#34;../../../docs/setup/install/prepare/platforms/vcn-oci/&#34;&gt;Configure a VCN in OCI&lt;/a&gt; for requirements.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The VCN compartment does not need to match the compartment specified in the cloud credential.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Click &lt;strong&gt;Next&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Configure the cluster control plane. Select an &lt;strong&gt;OKE Version&lt;/strong&gt; and then a &lt;strong&gt;CNI Type&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Choose a Node Image from the drop-down menu.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Copy or upload an SSH public key to manage authentication of the cluster. Your SSH public key is installed on the cluster nodes, enabling SSH after the cluster is created.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Add node pools to your cluster. Clusters without node pools will schedule pods on control plane nodes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;(Optional) Install Verrazzano on the cluster. Choose a &lt;strong&gt;Verrazzano version&lt;/strong&gt; from the drop-down menu. You can also expand &lt;strong&gt;Advanced&lt;/strong&gt; to make changes to the Verrazzano Resource YAML. By default, Verrazzano is installed using the &lt;code&gt;managed-cluster&lt;/code&gt; profile which enables a limited set of components on the cluster.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Expand &lt;strong&gt;Advanced Settings&lt;/strong&gt; to make additional modifications to the default settings of your new cluster.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;YAML Manifests&lt;/strong&gt;: Supply additional YAML manifests that are automatically installed after cluster creation. The total size of all additional YAML manifests may not exceed 500 KB.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cluster Networking&lt;/strong&gt;: Configure cluster IP ranges and proxy settings.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Container Registry&lt;/strong&gt;: Specify a private registry for your container.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Click &lt;strong&gt;Create&lt;/strong&gt;. It can take up to 30 minutes to provision all of the resources for your cluster, particularly for multi-node clusters.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;When your cluster finishes provisioning, you can access it from the main &lt;strong&gt;Cluster Management&lt;/strong&gt; page.&lt;/p&gt;
+&lt;p&gt;For help troubleshooting cluster creation, see &lt;a href=&#34;../../../docs/troubleshooting/troubleshooting-clusterapi/&#34;&gt;Cluster Creation Issues&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>
@@ -400,6 +552,674 @@ spec:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Configure Verrazzano on Managed Clusters</title>
+      <link>/docs/setup/provision-cluster/managed-cluster-vz/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/provision-cluster/managed-cluster-vz/</guid>
+      <description>
+        
+        
+        &lt;p&gt;When you provision new clusters using the cluster API component, you can also choose to install Verrazzano on them. Then, you can use VerrazzanoFleet, a cluster API add-on, to perform lifecycle management operations on Verrazzano installations on your managed clusters.&lt;/p&gt;
+&lt;h2 id=&#34;configure-verrazzanofleet&#34;&gt;Configure VerrazzanoFleet&lt;/h2&gt;
+&lt;p&gt;Before you can manage Verrazzano on your managed clusters, you need to configure the VerrazzanoFleet resource.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Provision OCNE or OKE clusters. For instructions, see:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;../../../docs/setup/provision-cluster/ocne-oci/&#34;&gt;Create OCNE Clusters Running on OCI&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;../../../docs/setup/provision-cluster/oke-oci/&#34;&gt;Create OKE Clusters Running on OCI&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Identify the namespace where the new cluster resides.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+      &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get clusters.cluster.x-k8s.io -A
+&lt;/code&gt;&lt;/pre&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create a VerrazzanoFleet resource. The following example creates a typical &lt;code&gt;VerrazzanoFleet&lt;/code&gt; resource.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f - &amp;lt;&amp;lt;EOF
+  apiVersion: addons.cluster.x-k8s.io/v1alpha1
+  kind: VerrazzanoFleet
+  metadata:
+    name: example-fleet-1
+    namespace: default
+  spec:
+    clusterSelector:
+      name: cluster1
+    verrazzano:
+      spec:
+        profile: managed-cluster
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;customize-a-remote-verrazzano-installation&#34;&gt;Customize a remote Verrazzano installation&lt;/h2&gt;
+&lt;p&gt;By default, new managed clusters are provisioned with the Verrazzano &lt;code&gt;managed-cluster&lt;/code&gt; profile. If you want to enable more components, disable unnecessary ones, or modify the settings of a component, then you can edit the &lt;code&gt;verrazzano.spec&lt;/code&gt; object of the VerrazzanoFleet resource to suit your needs.&lt;/p&gt;
+&lt;p&gt;Use the same process to edit the &lt;code&gt;verrazzano.spec&lt;/code&gt; object as you would the Verrazzano resource. For more information, see &lt;a href=&#34;../../../docs/setup/modify-installation/&#34;&gt;Modify Verrazzano Installations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To see which components are already enabled in a &lt;code&gt;managed-cluster&lt;/code&gt; profile, refer to &lt;a href=&#34;../../../docs/setup/install/perform/profiles/#profile-configurations&#34;&gt;Profile Configurations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The following configuration shows you how to enable Argo CD and Velero.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f - &amp;lt;&amp;lt;EOF
+  apiVersion: addons.cluster.x-k8s.io/v1alpha1
+  kind: VerrazzanoFleet
+  metadata:
+    name: example-fleet-1
+    namespace: default
+  spec:
+    clusterSelector:
+      name: cluster1
+    verrazzano:
+      spec:
+        profile: managed-cluster
+        components:
+          argoCD:
+            enabled: true
+          velero: 
+            enabled: true
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;h2 id=&#34;upgrade-verrazzano-on-managed-clusters&#34;&gt;Upgrade Verrazzano on managed clusters&lt;/h2&gt;
+&lt;p&gt;You can upgrade the Verrazzano installation on managed clusters.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Upgrade the Verrazzano installation on the admin cluster. For instructions, see &lt;a href=&#34;../../../docs/setup/upgrade/perform/&#34;&gt;Upgrade Verrazzano&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;In the VerrazzanoFleet resource, use component overrides to upgrade &lt;code&gt;VerrazzanoFleet.spec.verrazzano.spec.version&lt;/code&gt;. The Verrazzano version on the managed clusters must match the version of the admin cluster.&lt;/p&gt;
+&lt;p&gt;In this example, the managed clusters are upgraded to Verrazzano 1.7.0.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f - &amp;lt;&amp;lt;EOF
+  apiVersion: addons.cluster.x-k8s.io/v1alpha1
+  kind: VerrazzanoFleet
+  metadata:
+    name: example-fleet-1
+    namespace: default
+  spec:
+    clusterSelector:
+      name: cluster1 
+    verrazzano:
+      spec:
+        profile: managed-cluster
+        version: 1.7.0
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;use-a-private-registry&#34;&gt;Use a private registry&lt;/h2&gt;
+&lt;p&gt;You can manage your managed clusters even when they are installed in a disconnected environment. Use component overrides to configure the VerrazzanoFleet resource to access a private registry.&lt;/p&gt;
+&lt;p&gt;To connect to a private registry, you need to configure the following component overrides:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;VerrazzanoFleet.spec.imagePullSecrets.name&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VerrazzanoFleet.spec.image.repository&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VerrazzanoFleet.spec.image.tag&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VerrazzanoFleet.spec.privateRegistry.enabled&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For example:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f - &amp;lt;&amp;lt;EOF
+  apiVersion: addons.cluster.x-k8s.io/v1alpha1
+  kind: VerrazzanoFleet
+  metadata:
+    name: example-fleet-1
+    namespace: default
+  spec:
+    clusterSelector:
+      name: cluster1
+    imagePullSecrets:
+    - name: verrazzano-container-registry
+    image:
+      repository: ${OCNE_IMAGE_REPOSITORY=ghcr.io}/${VZ_IMAGE_PATH=verrazzano}
+      tag: ${VERRAZZANO_PLATFORM_OPERATOR_IMAGE_TAG}
+    privateRegistry:
+       enabled: true
+    verrazzano:
+      spec:
+        profile: managed-cluster
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;h2 id=&#34;remove-verrazzano-from-managed-clusters&#34;&gt;Remove Verrazzano from managed clusters&lt;/h2&gt;
+&lt;p&gt;You can remove the Verrazzano installation from managed clusters.&lt;/p&gt;
+&lt;p&gt;On the admin cluster, run this command:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete vf -n &amp;lt;namespace&amp;gt; &amp;lt;name of verrazzanofleet&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;When a VerrazzanoFleet object is deleted, it removes Verrazzano from the cluster which was associated with the fleet.&lt;/p&gt;
 
       </description>
     </item>

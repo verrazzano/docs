@@ -14,20 +14,21 @@
     
     
     <item>
-      <title>Docs: Prometheus</title>
-      <link>/docs/observability/monitoring/configure/prometheus/</link>
+      <title>Docs: Alertmanager</title>
+      <link>/docs/observability/monitoring/configure/alertmanager/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/observability/monitoring/configure/prometheus/</guid>
+      <guid>/docs/observability/monitoring/configure/alertmanager/</guid>
       <description>
         
         
-        &lt;p&gt;Prometheus is a system for monitoring cloud native applications and is used by Verrazzano to monitor applications. Prometheus is used in Verrazzano to collect system performance metrics and metrics for applications deployed or managed by Verrazzano. Prometheus analyzes the metrics and provides visualization using Grafana.&lt;/p&gt;
-&lt;h2 id=&#34;customize-prometheus-configuration&#34;&gt;Customize Prometheus configuration&lt;/h2&gt;
-&lt;p&gt;Verrazzano installs Prometheus components, including Prometheus Operator and Prometheus, using the
-&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.6.8/platform-operator/thirdparty/charts/prometheus-community/kube-prometheus-stack&#34;&gt;kube-prometheus-stack&lt;/a&gt; Helm chart.
-You can customize the installation configuration using Helm overrides specified in the
-Verrazzano custom resource. For example, the following Verrazzano custom resource overrides the number of Prometheus replicas.
+        &lt;p&gt;Alertmanager sends alerts that are firing in Prometheus to configured receivers.
+PrometheusRules will trigger alerts based on the value of metrics.
+Alertmanager groups, routes, and silences these alerts according to its configuration.
+Alertmanager provides receiver integrations for email, Slack, PagerDuty, and other popular notification services.&lt;/p&gt;
+&lt;h2 id=&#34;enable-alertmanager&#34;&gt;Enable Alertmanager&lt;/h2&gt;
+&lt;p&gt;First, enable Alertmanager by configuring it in the Prometheus Operator component
+in the Verrazzano custom resource.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -63,121 +64,12 @@ kind: Verrazzano
 metadata:
   name: custom-prometheus
 spec:
-  profile: prod
-  components:
-    prometheusOperator:
-      overrides:
-        - values:
-            prometheus:
-              prometheusSpec:
-                replicas: 3
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;To enable Alertmanager, use the following Verrazzano custom resource:
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: custom-prometheus
-spec:
-  profile: prod
   components:
     prometheusOperator:
       overrides:
         - values:
             alertmanager:
               enabled: true
-              alertmanagerSpec:
-                podMetadata:
-                  annotations:
-                    sidecar.istio.io/inject: &amp;#34;false&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -238,9 +130,18 @@ spec:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;For more information about setting component overrides, see &lt;a href=&#34;https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing&#34;&gt;Customizing the Chart Before Installing&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;After you have enabled Alertmanager, you can deploy alert rules to get proactive alerts.
+&lt;h2 id=&#34;create-an-alertmanagerconfig&#34;&gt;Create an AlertmanagerConfig&lt;/h2&gt;
+&lt;p&gt;Next, create an AlertmanagerConfig to configure the receivers to which Alertmanager will send alerts.
+To create the AlertmanagerConfig, access the Verrazzano console and navigate to the following location:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Monitoring&lt;/strong&gt; &amp;gt; &lt;strong&gt;Alerting&lt;/strong&gt; &amp;gt; &lt;strong&gt;AlertmanagerConfigs&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Alertmanager will automatically discover AlertmanagerConfigs in the same namespace where it is deployed,
+which is &lt;code&gt;verrazzano-monitoring&lt;/code&gt;, by default.&lt;/p&gt;
+&lt;p&gt;For more information about Alertmanager configurations, see the &lt;a href=&#34;https://prometheus.io/docs/alerting/latest/configuration/&#34;&gt;Alertmanager Documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;deploy-a-prometheusrule&#34;&gt;Deploy a PrometheusRule&lt;/h2&gt;
+&lt;p&gt;After you have enabled Alertmanager and configured an AlertmanagerConfig with a receiver and route,
+you can deploy rules that trigger alerts.
 To create a &lt;code&gt;TestAlertRule&lt;/code&gt;, run the following command.
+This PrometheusRule will send an alert if the last configuration reload in the Prometheus pod was unsuccessful.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -354,8 +255,135 @@ EOF
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;For more information, see &lt;a href=&#34;https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules&#34;&gt;Deploying Prometheus rules&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;For instructions to customize persistent storage settings, see &lt;a href=&#34;../../../../docs/observability/storage/&#34;&gt;Customize Persistent Storage&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;You can configure additional alerts by creating your own PrometheusRules. By default, Verrazzano configures several alerting rules,
+which can be viewed in Prometheus or Thanos Ruler.&lt;/p&gt;
+&lt;p&gt;For more information, see &lt;a href=&#34;https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules&#34;&gt;Deploying Prometheus Rules&lt;/a&gt;.
+See also, &lt;a href=&#34;../../../../docs/observability/monitoring/configure/thanos/#alerting-with-thanos-ruler&#34;&gt;Alerting with Thanos Ruler&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Prometheus</title>
+      <link>/docs/observability/monitoring/configure/prometheus/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/observability/monitoring/configure/prometheus/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Prometheus is a system for monitoring cloud native applications and is used by Verrazzano to monitor applications. Prometheus is used in Verrazzano to collect system performance metrics and metrics for applications deployed or managed by Verrazzano. Prometheus analyzes the metrics and provides visualization using Grafana.&lt;/p&gt;
+&lt;h2 id=&#34;customize-prometheus-configuration&#34;&gt;Customize Prometheus configuration&lt;/h2&gt;
+&lt;p&gt;Verrazzano installs Prometheus components, including Prometheus Operator and Prometheus, using the
+&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.7.0/platform-operator/thirdparty/charts/prometheus-community/kube-prometheus-stack&#34;&gt;kube-prometheus-stack&lt;/a&gt; Helm chart.
+You can customize the installation configuration using Helm overrides specified in the
+Verrazzano custom resource. For example, the following Verrazzano custom resource overrides the number of Prometheus replicas.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: custom-prometheus
+spec:
+  profile: prod
+  components:
+    prometheusOperator:
+      overrides:
+        - values:
+            prometheus:
+              prometheusSpec:
+                replicas: 3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;For more information about setting component overrides, see &lt;a href=&#34;../../../../docs/setup/installationoverrides/&#34;&gt;Installation Overrides&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For information about all the overrides supported by the kube-prometheus-stack chart in Verrazzano, see &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/prometheus-community/kube-prometheus-stack/values.yaml&#34;&gt;values.yaml&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For instructions to customize persistent storage settings for Prometheus, see &lt;a href=&#34;../../../../docs/observability/storage/&#34;&gt;Customize Persistent Storage&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;configure-data-retention-settings&#34;&gt;Configure data retention settings&lt;/h2&gt;
 &lt;p&gt;Verrazzano configures Prometheus with a default data retention setting of 10 days. The rate of metrics data collected depends on many factors, including the number of monitors, the monitor scrape intervals, and the number of metrics returned by each monitor.&lt;/p&gt;
 &lt;p&gt;When using persistent storage for Prometheus, it is possible to consume all storage. If Prometheus uses all available persistent storage, then queries return no data and new metrics cannot be saved.
@@ -479,7 +507,7 @@ spec:
       <description>
         
         
-        &lt;p&gt;Thanos is a group of components that seamlessly integrate with Prometheus to monitor your applications. You can enable and configure Thanos components with Verrazzano and use long-term storage to store metrics. By using the Thanos console, you can query for metrics across all Prometheus instances and long-term storage. Thanos also makes it easier to scale Prometheus horizontally and obtain a global view of data from multiple Prometheus servers.&lt;/p&gt;
+        &lt;p&gt;Thanos is a group of components that seamlessly integrate with Prometheus to monitor your applications. You can enable and configure Thanos components with Verrazzano and use long-term storage to store metrics. By using the Thanos Query console, you can query for metrics across all Prometheus instances and long-term storage. Thanos also makes it easier to scale Prometheus horizontally and obtain a global view of data from multiple Prometheus servers.&lt;/p&gt;
 &lt;p&gt;Advantages of using Thanos:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Long-term metrics retention&lt;/li&gt;
@@ -499,6 +527,14 @@ spec:
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
+&lt;td&gt;Compactor&lt;/td&gt;
+&lt;td&gt;Periodically scans long-term storage and performs compaction where required to improve query efficiency.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Ruler&lt;/td&gt;
+&lt;td&gt;Provides rule and alert evaluation on top of a given Thanos Query instance.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
 &lt;td&gt;Sidecar&lt;/td&gt;
 &lt;td&gt;Container that resides in the Prometheus pod. It connects to Prometheus, reads its data for queries, and uploads it to long-term storage.&lt;/td&gt;
 &lt;/tr&gt;
@@ -516,7 +552,7 @@ spec:
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;Verrazzano installs these Thanos components using a &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.6.8/platform-operator/thirdparty/charts/thanos&#34;&gt;Helm chart&lt;/a&gt;.
+&lt;p&gt;Verrazzano installs these Thanos components using a &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.7.0/platform-operator/thirdparty/charts/thanos&#34;&gt;Helm chart&lt;/a&gt;.
 You can customize the installation configuration using Helm overrides specified in the Verrazzano custom resource.&lt;/p&gt;
 &lt;h2 id=&#34;enable-thanos&#34;&gt;Enable Thanos&lt;/h2&gt;
 &lt;p&gt;To enable Thanos in Verrazzano, add the following:&lt;/p&gt;
@@ -625,6 +661,7 @@ spec:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
+&lt;p&gt;Query and Query Frontend are the only Thanos components enabled by default.&lt;/p&gt;
 &lt;h2 id=&#34;enable-long-term-storage-using-oci-object-storage&#34;&gt;Enable long-term storage using OCI Object Storage&lt;/h2&gt;
 &lt;p&gt;Optionally, you can configure Thanos to use &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm&#34;&gt;OCI Object Storage&lt;/a&gt;
 for long-term storage of metrics.&lt;/p&gt;
@@ -832,10 +869,10 @@ $ kubectl create secret generic objstore-config -n verrazzano-monitoring --from-
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-&lt;h3 id=&#34;step-3-enable-storage-and-thanos-store-gateway&#34;&gt;Step 3: Enable storage and Thanos Store Gateway&lt;/h3&gt;
-&lt;p&gt;The following example enables storage, creates the required secret, and enables Thanos Store Gateway in the Verrazzano
-custom resource. It also configures the Thanos Sidecar to write to object storage and the Store Gateway to read from
-object storage.&lt;/p&gt;
+&lt;h3 id=&#34;step-3-enable-storage-thanos-store-gateway-and-compactor&#34;&gt;Step 3: Enable storage, Thanos Store Gateway, and Compactor&lt;/h3&gt;
+&lt;p&gt;The following example enables storage, creates the required secret, and enables the Thanos Store Gateway and Compactor
+in the Verrazzano custom resource. It also configures the Thanos Sidecar to write to object storage and the Store Gateway to read from
+object storage. Additionally, it configures the Thanos Compactor to perform compaction on the same object storage.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: &lt;code&gt;objstore-config&lt;/code&gt; is the secret that you created in Step 2.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -891,6 +928,8 @@ spec:
       - values:
           existingObjstoreSecret: objstore-config
           storegateway:
+            enabled: true
+          compactor:
             enabled: true
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -952,8 +991,126 @@ spec:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-&lt;h2 id=&#34;access-the-thanos-query-console&#34;&gt;Access the Thanos Query console&lt;/h2&gt;
-&lt;p&gt;You can access the Thanos Query console using the instructions at &lt;a href=&#34;../../../../docs/setup/access/#get-the-consoles-urls&#34;&gt;Get the consoles URLs&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;alerting-with-thanos-ruler&#34;&gt;Alerting with Thanos Ruler&lt;/h2&gt;
+&lt;p&gt;The following example shows how to enable Thanos Ruler and Alertmanager in the Verrazzano resource. It also configures
+the Thanos Ruler to send alerts to Alertmanager.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: For the Thanos Ruler to work, you must configure storage as discussed in
+&lt;a href=&#34;#step-3-enable-storage-thanos-store-gateway-and-compactor&#34;&gt;Enable Storage&lt;/a&gt;, and you must also enable Alertmanager.&lt;/p&gt;
+&lt;p&gt;Note that in this configuration, Prometheus will not fire alerts to Alertmanager, since the Thanos Ruler does so.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: example-verrazzano
+spec:
+  components:
+    prometheusOperator:
+      enabled: true
+      overrides:
+      - values:
+          alertmanager:
+            enabled: true
+    thanos:
+      enabled: true
+      overrides:
+      - values:
+          existingObjstoreSecret: objstore-config
+          ruler:
+            enabled: true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;p&gt;Verrazzano configures several alerting rules by default, which can be viewed in the Thanos Ruler console.
+You can configure additional alerts by creating your own PrometheusRules. For more information,
+see &lt;a href=&#34;../../../../docs/observability/monitoring/configure/alertmanager/&#34;&gt;Alertmanager&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;access-the-thanos-consoles&#34;&gt;Access the Thanos consoles&lt;/h2&gt;
+&lt;p&gt;You can access the Thanos Query and Ruler consoles using the instructions at &lt;a href=&#34;../../../../docs/setup/access/console-urls/&#34;&gt;Get console URLs&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>

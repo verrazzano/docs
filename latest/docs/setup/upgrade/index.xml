@@ -56,6 +56,7 @@ There is no user involvement related to restarting OAM applications; it is done 
 The platform operator contains the newer component charts and image versions, so it must be updated prior to upgrading the installation.
 Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade.
 Currently, there is no way to roll back either the platform operator update or the Verrazzano installation upgrade.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: For upgrading to Verrazzano v1.7 or later, before initiating an upgrade, we recommend that you back up your existing OpenSearch cluster using Velero. For the backup process, follow the Backup documentation for your existing Verrazzano version, not the version to which you are upgrading. Also, before you start the upgrade, we advise that you make sure that the OpenSearch cluster health is green.&lt;/p&gt;
 &lt;p&gt;You can upgrade Verrazzano using the Verrazzano &lt;a href=&#34;../../../docs/setup/install/prepare/cli-setup/&#34;&gt;CLI&lt;/a&gt; or with &lt;a href=&#34;https://kubernetes.io/docs/reference/kubectl/kubectl/&#34;&gt;kubectl&lt;/a&gt;.
 See the following respective sections.&lt;/p&gt;
 
@@ -310,7 +311,7 @@ or until the default timeout (30m) has been reached.&lt;/p&gt;
 
 &lt;div class=&#34;clipboard&#34;&gt;
       &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v1.6.8/verrazzano-platform-operator.yaml
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v1.7.0/verrazzano-platform-operator.yaml
 &lt;/code&gt;&lt;/pre&gt;  &lt;/div&gt;
 
 &lt;/div&gt;
@@ -694,7 +695,7 @@ Verrazzano platform operator.&lt;/p&gt;
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl patch vz example-verrazzano -p &amp;#39;{&amp;#34;spec&amp;#34;:{&amp;#34;version&amp;#34;:&amp;#34;v1.6.8&amp;#34;}}&amp;#39; --type=merge
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl patch vz example-verrazzano -p &amp;#39;{&amp;#34;spec&amp;#34;:{&amp;#34;version&amp;#34;:&amp;#34;v1.7.0&amp;#34;}}&amp;#39; --type=merge
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -765,7 +766,7 @@ match the version supported by the platform operator to which you upgraded and a
 corresponding to a valid Verrazzano &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;release version&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;To update the resource, do one of the following:&lt;/p&gt;
 &lt;p&gt;a. Edit the YAML file you used to install Verrazzano and set the &lt;code&gt;version&lt;/code&gt; field to the latest version.&lt;/p&gt;
-&lt;p&gt;For example, to upgrade to &lt;code&gt;v1.6.8&lt;/code&gt;, your YAML file should be edited to add or update the &lt;code&gt;version&lt;/code&gt; field.
+&lt;p&gt;For example, to upgrade to &lt;code&gt;v1.7.0&lt;/code&gt;, your YAML file should be edited to add or update the &lt;code&gt;version&lt;/code&gt; field.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -801,7 +802,7 @@ corresponding to a valid Verrazzano &lt;a href=&#34;https://github.com/verrazzan
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;example-verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;   &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;dev&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;   &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;version&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;v1.6.8&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;   &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;version&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;v1.7.0&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 
@@ -985,7 +986,7 @@ b. Edit the &lt;code&gt;Verrazzano&lt;/code&gt; resource directly using &lt;code
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl edit verrazzano example-verrazzano
-# In the resource editor, add or update the version field to &amp;#34;version: v1.6.8&amp;#34;, then save.
+# In the resource editor, add or update the version field to &amp;#34;version: v1.7.0&amp;#34;, then save.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -1299,10 +1300,8 @@ verrazzano-authproxy-594d8c8dcd-llmlr              2/2     Running   0          
 verrazzano-console-74dbf97fdf-zxvvn                2/2     Running   0          38m
 verrazzano-monitoring-operator-6fcf8484fd-gfkhs    1/1     Running   0          38m
 verrazzano-operator-66c8566f95-8lbs6               1/1     Running   0          38m
-vmi-system-es-master-0                             2/2     Running   0          38m
 vmi-system-grafana-799d79648d-wsdp4                2/2     Running   0          38m
 vmi-system-kiali-574c6dd94d-f49jv                  2/2     Running   0          41m
-vmi-system-osd-77f8d998f4-zzvqr   2/2     Running   0          38m
 weblogic-operator-7b447fdb47-wlw64                 2/2     Running   0          42m
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
