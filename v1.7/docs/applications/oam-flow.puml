@@ -1,0 +1,48 @@
+@startuml
+' Copyright (c) 2020, 2021, Oracle and/or its affiliates.
+' Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
+
+rectangle "Workload" as w #lightgrey
+rectangle "Trait" as t #lightgrey
+file "Component" as c
+file "Application Configuration" as a
+file "Scope" as s
+file "Workload" as wi
+file "Trait" as ti
+file "Workload Runtime Resources" as wr
+file "Trait Runtime Resources" as tr
+file "Scope Runtime Resources" as sr
+
+'Using storage for the oval shape
+storage "ApplicationConfiguration Controller" as ac #lightgreen
+
+storage "Workload Controller" as wc #lightgreen
+storage "Trait Controller" as tc #lightgreen
+storage "Scope Controller" as sc #lightgreen
+
+c -u-> w: contains
+a -u-> t: contains
+
+a -l-> c: references
+a -r-> s: references
+
+ac -u-> a: reads
+ac -u-> c: reads
+ac -d-> wi: writes
+ac -d-> ti: writes
+ac -u-> s: updates
+
+wc -u-> wi: reads
+wc -d-> wr: writes
+
+tc -u-> ti: reads
+tc -d-> tr: writes
+
+sc -u-> s: reads
+sc -d-> sr: writes
+
+'Hidden lines to adjust layout
+wi -[hidden]r- ti
+tc -[hidden]r- sc
+
+@enduml

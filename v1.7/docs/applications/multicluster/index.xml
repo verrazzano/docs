@@ -1,0 +1,130 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – Deploy Applications in a Multicluster Environment</title>
+    <link>/docs/applications/multicluster/</link>
+    <description>Recent content in Deploy Applications in a Multicluster Environment on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/applications/multicluster/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Multicluster Application Deployment</title>
+      <link>/docs/applications/multicluster/intro/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/applications/multicluster/intro/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano may be installed in a multicluster environment, consisting of an &lt;em&gt;admin&lt;/em&gt; cluster and optionally, one or more
+&lt;em&gt;managed&lt;/em&gt; clusters.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The admin cluster is a central point from which Verrazzano applications in managed clusters can be deployed and monitored.&lt;/li&gt;
+&lt;li&gt;Managed clusters are registered with an admin cluster.&lt;/li&gt;
+&lt;li&gt;MultiClusterApplicationConfiguration resources are used to target applications to any cluster in a multicluster Verrazzano environment.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The following diagram shows a high-level overview of how multicluster Verrazzano works. For a more
+detailed view, see the diagram &lt;a href=&#34;#detailed-view-of-multicluster-verrazzano&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../../docs/images/multicluster/MCConceptsHighLevel.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;admin-cluster&#34;&gt;Admin cluster&lt;/h2&gt;
+&lt;p&gt;A Verrazzano admin cluster is a central management point for:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Deploying and undeploying applications to the managed clusters registered with the admin cluster.&lt;/li&gt;
+&lt;li&gt;Viewing logs and metrics for both Verrazzano Components and applications that reside in the managed clusters.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You may register one or more managed clusters with the admin cluster by creating a VerrazzanoManagedCluster
+resource in the &lt;code&gt;verrazzano-mc&lt;/code&gt; namespace of an admin cluster.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The admin cluster has a fully functional Verrazzano installation. You can locate applications on the admin
+cluster as well as on managed clusters.&lt;/p&gt;
+&lt;h2 id=&#34;managed-clusters&#34;&gt;Managed clusters&lt;/h2&gt;
+&lt;p&gt;A Verrazzano managed cluster has a minimal footprint of Verrazzano, installed using the &lt;code&gt;managed-cluster&lt;/code&gt;
+installation profile. A managed cluster has the following additional characteristics:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It is registered with an admin cluster with a unique name.&lt;/li&gt;
+&lt;li&gt;Logs for Verrazzano system Components and Verrazzano multicluster applications are sent to
+OpenSearch running on the admin cluster, and are viewable from that cluster.&lt;/li&gt;
+&lt;li&gt;A Verrazzano MultiClusterApplicationConfiguration Kubernetes resource, created on the admin cluster, will be retrieved and deployed to a
+managed cluster if all of the following are true:
+&lt;ul&gt;
+&lt;li&gt;The MultiClusterApplicationConfiguration is in a namespace governed by a VerrazzanoProject.&lt;/li&gt;
+&lt;li&gt;The VerrazzanoProject has a &lt;code&gt;placement&lt;/code&gt; value that includes this managed cluster.&lt;/li&gt;
+&lt;li&gt;The MultiClusterApplicationConfiguration itself has a &lt;code&gt;placement&lt;/code&gt; value that includes this managed cluster.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;verrazzano-multicluster-applications&#34;&gt;Verrazzano multicluster applications&lt;/h2&gt;
+&lt;p&gt;Verrazzano includes a &lt;a href=&#34;../../../docs/reference/vao-clusters-v1alpha1/#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfiguration&#34;&gt;MultiClusterApplicationConfiguration&lt;/a&gt;
+resource definition for applications that may be targeted for placement in one or more clusters.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A MultiClusterApplicationConfiguration is a wrapper for an ApplicationConfiguration, and additionally allows the
+&lt;code&gt;placement&lt;/code&gt; of the underlying resource to be specified as a list of names of the clusters in which the
+ApplicationConfiguration must be placed.&lt;/li&gt;
+&lt;li&gt;MultiClusterApplicationConfiguration resources, along with their associated Component and Secret resources, are
+created in the admin cluster, in a namespace that is part of a VerrazzanoProject, and targeted for &lt;code&gt;placement&lt;/code&gt;
+in either the local admin cluster or a remote managed cluster.&lt;/li&gt;
+&lt;li&gt;A multicluster application is considered part of a VerrazzanoProject if it is in a namespace that is governed
+by that VerrazzanoProject.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;managed-cluster-registration&#34;&gt;Managed cluster registration&lt;/h2&gt;
+&lt;p&gt;A managed cluster may be registered with an admin cluster using a two-step process:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step 1&lt;/strong&gt;: Create a &lt;a href=&#34;../../../docs/reference/vco-clusters-v1alpha1/#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster&#34;&gt;VerrazzanoManagedCluster&lt;/a&gt; resource in the &lt;code&gt;verrazzano-mc&lt;/code&gt; namespace of the admin cluster.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step 2&lt;/strong&gt;: Retrieve the Kubernetes manifest file generated in the VerrazzanoManagedCluster resource and apply it on
+the managed cluster to complete the registration.&lt;/p&gt;
+&lt;p&gt;When a managed cluster is registered, the following will happen:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;After both steps of the registration are complete, the managed cluster begins polling the admin cluster for
+VerrazzanoProject resources and MultiClusterApplicationConfiguration resources, which specify a &lt;code&gt;placement&lt;/code&gt; in this managed cluster.
+&lt;ul&gt;
+&lt;li&gt;Any VerrazzanoProject resources placed in this managed cluster are retrieved, and the corresponding namespaces
+and security permissions (RoleBindings) are created in the managed cluster.&lt;/li&gt;
+&lt;li&gt;Any MultiClusterApplicationConfigurations that are placed in this managed cluster, and are in a VerrazzanoProject that is
+also placed in this managed cluster, are retrieved, and created or updated on the managed cluster. The
+underlying ApplicationConfiguration represented by the MultiClusterApplicationConfiguration is unwrapped, and created or updated on the managed
+cluster. The managed cluster namespace of the MultiClusterApplicationConfiguration and its underlying ApplicationConfiguration match
+the admin cluster namespace of the MultiClusterApplicationConfiguration.&lt;/li&gt;
+&lt;li&gt;Any Component and Secret resources referenced by the retrieved MultiClusterApplicationConfigurations, are also retrieved and created on the managed cluster.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;When the managed cluster connects to the admin cluster, it updates the VerrazzanoManagedCluster resource for this
+managed cluster with:
+&lt;ul&gt;
+&lt;li&gt;The endpoint URL that the admin cluster should use to scrape Prometheus metrics from the managed cluster.&lt;/li&gt;
+&lt;li&gt;The date and time of the most recent successful connection from the managed cluster to the admin cluster.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;For MultiClusterApplicationConfigurations retrieved and unwrapped on a managed cluster, the application logs are
+sent to OpenSearch on the admin cluster, and may be viewed from the Verrazzano-installed OpenSearch Dashboards on the
+admin cluster. Likewise, application metrics will be scraped by the admin cluster and available from
+Verrazzano-installed Prometheus on the admin cluster.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;detailed-view-of-multicluster-verrazzano&#34;&gt;Detailed view of multicluster Verrazzano&lt;/h2&gt;
+&lt;p&gt;This diagram shows a detailed view of how multicluster Verrazzano works.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../../docs/images/multicluster/MCConcepts.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;For more information, see the &lt;a href=&#34;../../../docs/reference/&#34;&gt;API Documentation&lt;/a&gt; for the resources described here.&lt;/p&gt;
+&lt;h2 id=&#34;deploy-multicluster-applications&#34;&gt;Deploy multicluster applications&lt;/h2&gt;
+&lt;p&gt;For an example of how to deploy an application in a multicluster environment, see &lt;a href=&#34;../../../docs/examples/multicluster/todo-list/&#34;&gt;Multicluster ToDo List&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Verrazzano Multicluster Resources</title>
+      <link>/docs/applications/multicluster/mcresources/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/applications/multicluster/mcresources/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+  </channel>
+</rss>

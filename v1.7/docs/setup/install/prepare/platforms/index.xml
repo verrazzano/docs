@@ -1,0 +1,2126 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – Platform Setup</title>
+    <link>/docs/setup/install/prepare/platforms/</link>
+    <description>Recent content in Platform Setup on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/setup/install/prepare/platforms/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Prepare an Oracle Cloud Native Environment Cluster</title>
+      <link>/docs/setup/install/prepare/platforms/olcne/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/install/prepare/platforms/olcne/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;install-oracle-cloud-native-environment&#34;&gt;Install Oracle Cloud Native Environment&lt;/h2&gt;
+&lt;p&gt;Deploy Oracle Cloud Native Environment with the Kubernetes module, following instructions from &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/start/&#34;&gt;Oracle Cloud Native Environment: Getting Started&lt;/a&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Install a Kubernetes network load balancer implementation, such as &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/lb/oci.html#oci&#34;&gt;OCI-CCM&lt;/a&gt; or &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/lb/metallb.html#metallb&#34;&gt;MetalLB&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Install a Container Storage Interface Driver, such as &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/oci.html#oci&#34;&gt;OCI-CCM&lt;/a&gt; or &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/gluster.html#gluster&#34;&gt;Gluster&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;notes&#34;&gt;Notes&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;code&gt;oci-ccm&lt;/code&gt; module does not elect a default &lt;code&gt;StorageClass&lt;/code&gt; or configure policies for the &lt;code&gt;CSIDrivers&lt;/code&gt; that it installs.  A
+reasonable choice is the &lt;code&gt;oci-bv&lt;/code&gt; &lt;code&gt;StorageClass&lt;/code&gt; with its &lt;code&gt;CSIDriver&lt;/code&gt; configured with the &lt;code&gt;File&lt;/code&gt; group policy.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;kubectl patch sc oci-bv -p &#39;{&amp;quot;metadata&amp;quot;: {&amp;quot;annotations&amp;quot;:{&amp;quot;storageclass.kubernetes.io/is-default-class&amp;quot;:&amp;quot;true&amp;quot;}}}&#39;
+kubectl apply -f - &amp;lt;&amp;lt;EOF
+apiVersion: storage.k8s.io/v1
+kind: CSIDriver
+metadata:
+  name: blockvolume.csi.oraclecloud.com
+spec:
+  fsGroupPolicy: File
+EOF
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Unless explicitly configured, the &lt;code&gt;externalip-validation-webhook-service&lt;/code&gt; defaults to blocking all external IP addresses in the cluster, which causes the
+Verrazzano installation to fail because an IP address cannot be assigned to an ingress controller. When this situation occurs, the Verrazzano platform operator logs
+will contain a message similar to this:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;admission webhook &amp;quot;validate-externalip.webhook.svc&amp;quot; denied the request: spec.externalIPs:
+    Invalid value: &amp;quot;&amp;lt;external IP address&amp;gt;&amp;quot;: externalIP specified is not allowed to use
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;To avoid this error, either disable the &lt;code&gt;externalip-validation-webhook-service&lt;/code&gt; or configure the service with your load balancer IP addresses prior to installing Verrazzano.
+For more information, see &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/orchestration/external-ips.html#ext-ip-disable&#34;&gt;Enabling Access to all externalIPs&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;examples&#34;&gt;Examples&lt;/h2&gt;
+&lt;details&gt;
+&lt;summary&gt;Oracle Cloud Infrastructure&lt;/summary&gt;
+The following is an example of Oracle Cloud Infrastructure that can be used to evaluate Verrazzano installed on Oracle Cloud Native Environment.
+If other environments are used, the capacity and configuration should be similar.
+&lt;p&gt;You can use the VCN Wizard of the Oracle Cloud Infrastructure Console to automatically create most of the described network infrastructure.
+Additional security lists and rules, as detailed in the following sections, need to be added manually.
+All Classless Inter-Domain Routing (CIDR) values provided are examples and can be customized as required.&lt;/p&gt;
+&lt;h3 id=&#34;virtual-cloud-network-for-example-cidr-1000016&#34;&gt;Virtual Cloud Network (for example, CIDR 10.0.0.0/16)&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Public Subnet for Load Balancer (for example, CIDR 10.0.0.0/24)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Security List / Ingress Rules&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Stateless&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Source Ports&lt;/th&gt;
+&lt;th&gt;Destination Ports&lt;/th&gt;
+&lt;th&gt;Type &amp;amp; Code&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ICMP&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;3, 4&lt;/td&gt;
+&lt;td&gt;ICMP errors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/16&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ICMP&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;ICMP errors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;SSH&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;443&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTPS load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Security List / Egress Rules&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Stateless&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Source Ports&lt;/th&gt;
+&lt;th&gt;Destination Ports&lt;/th&gt;
+&lt;th&gt;Type &amp;amp; Code&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;SSH&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;31443&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTPS load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;32443&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTPS load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Private Subnet for Kubernetes Cluster (for example, CIDR 10.0.1.0/24)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Security List / Ingress Rules&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Stateless&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Source Ports&lt;/th&gt;
+&lt;th&gt;Destination Ports&lt;/th&gt;
+&lt;th&gt;Type &amp;amp; Code&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ICMP&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;3, 4&lt;/td&gt;
+&lt;td&gt;ICMP errors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/16&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ICMP&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;ICMP errors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/16&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;SSH&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;31443&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTPS load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;32443&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTPS load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;2379-2380&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Kubernetes etcd&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;6443&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Kubernetes API Server&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;6446&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;MySQL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;8090-8091&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Oracle Cloud Native Environment Platform Agent&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;UDP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;8472&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Flannel&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;10250-10255&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Kubernetes Kublet&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Security List / Egress Rules&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Stateless&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Source Ports&lt;/th&gt;
+&lt;th&gt;Destination Ports&lt;/th&gt;
+&lt;th&gt;Type and Code&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/16&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;All egress traffic&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;DHCP Options&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;DNS Type&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Internet and VCN Resolver&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Route Tables&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Public Subnet Route Table Rules&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Target&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Internet Gateway&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Private Subnet Route Table Rules&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Target&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;NAT Gateway&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;All Oracle Cloud Infrastructure Services&lt;/td&gt;
+&lt;td&gt;Service Gateway&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;compute-instances&#34;&gt;Compute Instances&lt;/h3&gt;
+&lt;p&gt;The following compute resources adhere to the guidelines provided in &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/&#34;&gt;Oracle Cloud Native Environment: Getting Started&lt;/a&gt;.
+The attributes indicated (for example, Subnet, RAM, Shape, and Image) are recommendations that have been tested.
+Other values can be used if required.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Role&lt;/th&gt;
+&lt;th&gt;Subnet&lt;/th&gt;
+&lt;th&gt;Suggested RAM&lt;/th&gt;
+&lt;th&gt;Compatible VM Shape&lt;/th&gt;
+&lt;th&gt;Compatible VM Image&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;SSH Jump Host&lt;/td&gt;
+&lt;td&gt;Public&lt;/td&gt;
+&lt;td&gt;8 GB&lt;/td&gt;
+&lt;td&gt;VM.Standard3.Flex&lt;/td&gt;
+&lt;td&gt;Oracle Linux 7.9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Oracle Cloud Native Environment Operator Host&lt;/td&gt;
+&lt;td&gt;Private&lt;/td&gt;
+&lt;td&gt;16 GB&lt;/td&gt;
+&lt;td&gt;VM.Standard3.Flex&lt;/td&gt;
+&lt;td&gt;Oracle Linux 7.9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Kubernetes Control Plane Node&lt;/td&gt;
+&lt;td&gt;Private&lt;/td&gt;
+&lt;td&gt;32 GB&lt;/td&gt;
+&lt;td&gt;VM.Standard3.Flex&lt;/td&gt;
+&lt;td&gt;Oracle Linux 7.9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Kubernetes Worker Node 1&lt;/td&gt;
+&lt;td&gt;Private&lt;/td&gt;
+&lt;td&gt;32 GB&lt;/td&gt;
+&lt;td&gt;VM.Standard3.Flex&lt;/td&gt;
+&lt;td&gt;Oracle Linux 7.9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Kubernetes Worker Node 2&lt;/td&gt;
+&lt;td&gt;Private&lt;/td&gt;
+&lt;td&gt;32 GB&lt;/td&gt;
+&lt;td&gt;VM.Standard3.Flex&lt;/td&gt;
+&lt;td&gt;Oracle Linux 7.9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Kubernetes Worker Node 3&lt;/td&gt;
+&lt;td&gt;Private&lt;/td&gt;
+&lt;td&gt;32 GB&lt;/td&gt;
+&lt;td&gt;VM.Standard3.Flex&lt;/td&gt;
+&lt;td&gt;Oracle Linux 7.9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/details&gt;
+&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
+&lt;p&gt;To continue, see the &lt;a href=&#34;../../../../../docs/setup/install/&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Prepare an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) Cluster</title>
+      <link>/docs/setup/install/prepare/platforms/oci/oci/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/install/prepare/platforms/oci/oci/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For an example on OKE, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengsettingupcalico.htm&#34;&gt;Installing Calico and Setting Up Network Policies&lt;/a&gt;.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengpodnetworking_topic-OCI_CNI_plugin.htm&#34;&gt;OCI VCN-Native Pod Networking&lt;/a&gt;
+is now supported with Verrazzano for Kubernetes v1.26 and later.
+The pod network must be in a private subnet to enable egress.
+Either place the worker nodes in a private subnet, or place the pod network in a private subnet separate from the worker nodes.
+For Kubernetes v1.25 and earlier, you must use the flannel overlay network.
+
+&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Create the &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm&#34;&gt;OKE&lt;/a&gt; cluster using the Oracle Cloud Infrastructure Console or by some other means.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Follow the instructions provided by OKE to download the Kubernetes configuration file for your cluster, and set the following &lt;code&gt;ENV&lt;/code&gt; variable:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;$ export KUBECONFIG=&amp;lt;path to valid Kubernetes config&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Optional, if your organization requires the use of a private registry to the Docker images installed by Verrazzano, see &lt;a href=&#34;../../../../../docs/setup/private-registry/private-registry/&#34;&gt;Install Verrazzano in a Disconnected Environment&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
+&lt;p&gt;To continue, see the &lt;a href=&#34;../../../../../docs/setup/install/&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Configure a VCN in OCI</title>
+      <link>/docs/setup/install/prepare/platforms/vcn-oci/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/install/prepare/platforms/vcn-oci/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Before you can create Oracle Cloud Native Environment (OCNE) clusters or Oracle Container Engine for Kubernetes (OKE) clusters on Oracle Cloud Infrastructure (OCI), you&amp;rsquo;ll need to configure a virtual cloud network (VCN) in your OCI compartment. VCNs are software-defined networks that manage access to your cloud resources.&lt;/p&gt;
+&lt;p&gt;See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm#network_landing&#34;&gt;Networking Overview&lt;/a&gt; in the OCI documentation for more information.&lt;/p&gt;
+&lt;p&gt;You can use the VCN Wizard in the OCI Console to automatically create most of the required network infrastructure. Additional subnets and security rules (described below) must be added manually.&lt;/p&gt;
+&lt;p&gt;Within your VCN, you&amp;rsquo;ll need:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Subnets (with security rules)&lt;/li&gt;
+&lt;li&gt;Gateways&lt;/li&gt;
+&lt;li&gt;Route tables&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    In addition to the specifications listed, make sure that the VCN is configured to accept the ports and protocols required by Kubernetes. See &lt;a href=&#34;https://kubernetes.io/docs/reference/networking/ports-and-protocols/&#34;&gt;Ports and Protocols&lt;/a&gt; in the Kubernetes documentation for more information.
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;subnets&#34;&gt;Subnets&lt;/h2&gt;
+&lt;p&gt;Subnets are subdivisions within a VCN that help to organize configuration settings. All instances within a subnet use the same route table, security lists, and DHCP options. Subnets can be either public or private. For OCNE and OKE clusters, you&amp;rsquo;ll need both public and private subnets, with four subnets in total.&lt;/p&gt;
+&lt;p&gt;See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/Overview_of_VCNs_and_Subnets.htm#Overview&#34;&gt;Overview of VCNs and Subnets&lt;/a&gt; in the OCI documentation for more information.&lt;/p&gt;
+&lt;p&gt;Each subnet requires its own set of security rules that establish rules for virtual firewalls. These ingress and egress rules specify the types of traffic (protocol and port) that are allowed in and out of the instances.&lt;/p&gt;
+&lt;p&gt;See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/securityrules.htm#Security_Rules&#34;&gt;Security Rules&lt;/a&gt; in the OCI documentation for more information.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    You can use either Network Security Groups (NSGs) or security lists to add security rules to your VCN. We recommend using NSGs whenever possible. For more information, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/securityrules.htm#comparison&#34;&gt;Comparison of Security Lists and Network Security Groups&lt;/a&gt; in the OCI documentation.
+
+&lt;/div&gt;
+
+&lt;h3 id=&#34;subnet-1-control-plane-endpoint&#34;&gt;Subnet 1: control plane endpoint&lt;/h3&gt;
+&lt;p&gt;A public subnet for the control plane endpoint that houses an OCI load balancer. The load balancer acts as a reverse proxy for the Kubernetes API server.&lt;/p&gt;
+&lt;p&gt;In this subnet, create security rules that cover the following traffic:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Egress: control plane traffic&lt;/li&gt;
+&lt;li&gt;Ingress: external access to the Kubernetes API endpoint&lt;/li&gt;
+&lt;li&gt;Ingress: ICMP path discovery&lt;/li&gt;
+&lt;/ul&gt;
+&lt;details&gt;
+&lt;summary&gt;Security rules examples&lt;/summary&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    These examples are provided for reference &lt;em&gt;only&lt;/em&gt;. Customize your security rules as needed for your environment.
+
+&lt;/div&gt;
+
+&lt;h4 id=&#34;egress-rules&#34;&gt;Egress rules&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Destination Type&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Destination Port&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.0.0/29&lt;/td&gt;
+&lt;td&gt;6443&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;HTTPS traffic to control plane for Kubernetes API server access&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;ingress-rules&#34;&gt;Ingress rules&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Destination Type&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Destination Port&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;0.0.0.0/0&lt;/td&gt;
+&lt;td&gt;6443&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;Public access to endpoint OCI load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.0.0/16&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;ICMP Type 3, Code 4&lt;/td&gt;
+&lt;td&gt;Path MTU discovery&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/details&gt;
+&lt;h3 id=&#34;subnet-2-control-plane-nodes&#34;&gt;Subnet 2: control plane nodes&lt;/h3&gt;
+&lt;p&gt;A private subnet that houses the control plane nodes that run Kubernetes control plane components, such as the API Server and the control plane pods.&lt;/p&gt;
+&lt;p&gt;In this subnet, create security rules that cover the following traffic:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Egress: node internet access&lt;/li&gt;
+&lt;li&gt;Ingress: east-west traffic, originating from within the VCN&lt;/li&gt;
+&lt;li&gt;Ingress: control plane endpoint to control plane node access on API endpoint&lt;/li&gt;
+&lt;li&gt;Ingress: worker nodes to control plane node access on API endpoint&lt;/li&gt;
+&lt;li&gt;Ingress: ETCD client and peer&lt;/li&gt;
+&lt;li&gt;Ingress: SSH traffic&lt;/li&gt;
+&lt;li&gt;Ingress: control plane to control plane kubelet communication&lt;/li&gt;
+&lt;li&gt;Ingress:&lt;/li&gt;
+&lt;li&gt;Ingress: Calico rules for control plane and worker nodes for
+&lt;ul&gt;
+&lt;li&gt;BGP&lt;/li&gt;
+&lt;li&gt;IP-in-IP&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;details&gt;
+&lt;summary&gt;Security rules examples&lt;/summary&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    These examples are provided for reference &lt;em&gt;only&lt;/em&gt;. Customize your security rules as needed for your environment.
+
+&lt;/div&gt;
+
+&lt;h4 id=&#34;egress-rules-1&#34;&gt;Egress rules&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Destination Type&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Destination Port&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;0.0.0.0/0&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;Control plane node access to the internet to pull images&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;ingress-rules-1&#34;&gt;Ingress rules&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Destination Type&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Destination Port&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.0.8/29&lt;/td&gt;
+&lt;td&gt;6443&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;Kubernetes API endpoint to Kubernetes control plane communication&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.0.0/29&lt;/td&gt;
+&lt;td&gt;6443&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;Control plane to control plane (API server port) communication&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.64.0/20&lt;/td&gt;
+&lt;td&gt;6443&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;Worker node to Kubernetes control plane (API Server) communication&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.0.0/29&lt;/td&gt;
+&lt;td&gt;10250&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;Control plane to control plane node kubelet communication&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.0.0/29&lt;/td&gt;
+&lt;td&gt;2379&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;etcd client communication&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.0.0/29&lt;/td&gt;
+&lt;td&gt;2380&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;etcd peer communication&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.0.0/29&lt;/td&gt;
+&lt;td&gt;179&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;Calico networking (BGP)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.64.0/20&lt;/td&gt;
+&lt;td&gt;179&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;Calico networking (BGP)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.0.0/29&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;IP-in-IP&lt;/td&gt;
+&lt;td&gt;Calico networking with IP-in-IP enabled&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.64.0/20&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;IP-in-IP&lt;/td&gt;
+&lt;td&gt;Calico networking with IP-in-IP enabled&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.0.0/16&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;ICMP Type 3, Code 4&lt;/td&gt;
+&lt;td&gt;Path MTU discovery&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;0.0.0.0/0&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;Inbound SSH traffic to worker nodes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.0.0/16&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;East-West communication for Kubernetes API server access / DNS access&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/details&gt;
+&lt;h3 id=&#34;subnet-3-service-load-balancers&#34;&gt;Subnet 3: service load balancers&lt;/h3&gt;
+&lt;p&gt;A public subnet that houses the service load balancers.&lt;/p&gt;
+&lt;p&gt;In this subnet, create security rules that cover the following traffic:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Egress: service load balancer to NodePort on worker nodes&lt;/li&gt;
+&lt;li&gt;Ingress: ICMP path discovery&lt;/li&gt;
+&lt;li&gt;Ingress: HTTP and HTTPS traffic&lt;/li&gt;
+&lt;/ul&gt;
+&lt;details&gt;
+&lt;summary&gt;Security rules examples&lt;/summary&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    These examples are provided for reference &lt;em&gt;only&lt;/em&gt;. Customize your security rules as needed for your environment.
+
+&lt;/div&gt;
+
+&lt;h4 id=&#34;egress-rules-2&#34;&gt;Egress rules&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Destination Type&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Destination Port&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.64.0/20&lt;/td&gt;
+&lt;td&gt;32000-32767&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;Access to NodePort services from service load balancers&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;ingress-rules-2&#34;&gt;Ingress rules&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Destination Type&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Destination Port&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;0.0.0.0/0&lt;/td&gt;
+&lt;td&gt;80, 443&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;Incoming traffic to services&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.0.0/16&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;ICMP Type 3, Code 4&lt;/td&gt;
+&lt;td&gt;Path MTU discovery&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/details&gt;
+&lt;h3 id=&#34;subnet-4-worker-nodes&#34;&gt;Subnet 4: worker nodes&lt;/h3&gt;
+&lt;p&gt;A private subnet that houses the worker nodes.&lt;/p&gt;
+&lt;p&gt;In this subnet, create security rules that cover the following traffic:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Egress: node internet access&lt;/li&gt;
+&lt;li&gt;Ingress: east-west traffic, originating from within the VCN&lt;/li&gt;
+&lt;li&gt;Ingress: SSH traffic&lt;/li&gt;
+&lt;li&gt;Ingress: ICMP path discovery&lt;/li&gt;
+&lt;li&gt;Ingress: control plane to kubelet on worker nodes&lt;/li&gt;
+&lt;li&gt;Ingress: worker node to worker node&lt;/li&gt;
+&lt;li&gt;Ingress: Calico rules for control plane and worker nodes for
+&lt;ul&gt;
+&lt;li&gt;BGP&lt;/li&gt;
+&lt;li&gt;IP-in-IP&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Ingress: worker nodes to default NodePort ingress&lt;/li&gt;
+&lt;/ul&gt;
+&lt;details&gt;
+&lt;summary&gt;Security rules examples&lt;/summary&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    These examples are provided for reference &lt;em&gt;only&lt;/em&gt;. Customize your security rules as needed for your environment.
+
+&lt;/div&gt;
+
+&lt;h4 id=&#34;egress-rules-3&#34;&gt;Egress rules&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Destination Type&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Destination Port&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;0.0.0.0/0&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;Worker node access to the internet to pull images&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;ingress-rules-3&#34;&gt;Ingress rules&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Destination Type&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Destination Port&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.0.32/27&lt;/td&gt;
+&lt;td&gt;32000-32767&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;Incoming traffic from service load balancers (NodePort communication)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.0.0/29&lt;/td&gt;
+&lt;td&gt;10250&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;Control plane node to worker node (kubelet communication)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.64.0/20&lt;/td&gt;
+&lt;td&gt;10250&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;Worker node to worker node (kubelet communication)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.0.0/29&lt;/td&gt;
+&lt;td&gt;179&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;Calico networking (BGP)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.64.0/20&lt;/td&gt;
+&lt;td&gt;179&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;Calico networking (BGP)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.0.0/29&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;IP-in-IP&lt;/td&gt;
+&lt;td&gt;Calico networking with IP-in-IP enabled&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.64.0/20&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;IP-in-IP&lt;/td&gt;
+&lt;td&gt;Calico networking with IP-in-IP enabled&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.0.0/16&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;ICMP Type 3, Code 4&lt;/td&gt;
+&lt;td&gt;Path MTU discovery&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;0.0.0.0/0&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;td&gt;Inbound SSH traffic to worker nodes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CIDR Block&lt;/td&gt;
+&lt;td&gt;10.0.0.0/16&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;East-West communication for Kubernetes API server access / DNS access&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/details&gt;
+&lt;h2 id=&#34;gateways&#34;&gt;Gateways&lt;/h2&gt;
+&lt;p&gt;Gateways control access from your VCN to other networks. You&amp;rsquo;ll need to configure three different types of gateways:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingIGs.htm&#34;&gt;An internet gateway&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/NATgateway.htm#NAT_Gateway&#34;&gt;A NAT gateway&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/servicegateway.htm#Access_to_Oracle_Services_Service_Gateway&#34;&gt;A service gateway&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You may need to perform some additional configuration to expose the VCN&amp;rsquo;s subnets directly to the internet. See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm#Private&#34;&gt;Access to the Internet&lt;/a&gt; in the OCI documentation for details.&lt;/p&gt;
+&lt;h2 id=&#34;route-tables&#34;&gt;Route tables&lt;/h2&gt;
+&lt;p&gt;Route tables send traffic out of the VCN (for example, to the internet, to your on-premises network, or to a peered VCN) using rules that are similar to traditional network route rules.&lt;/p&gt;
+&lt;p&gt;See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingroutetables.htm#Route2&#34;&gt;VCN Route Tables&lt;/a&gt; in the OCI documentation for more information.&lt;/p&gt;
+&lt;p&gt;For OCNE and OKE clusters, you&amp;rsquo;ll need to create two route tables:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A route table for public subnets that will route stateful traffic to and from the internet gateway. Assign this route table to &lt;em&gt;both&lt;/em&gt; public subnets.&lt;/li&gt;
+&lt;li&gt;A route table for private subnets that will route stateful traffic to and from the NAT and service gateways. Assign this route table to &lt;em&gt;both&lt;/em&gt; private subnets.&lt;/li&gt;
+&lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Prepare a Generic Kubernetes Cluster</title>
+      <link>/docs/setup/install/prepare/platforms/generic/generic/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/install/prepare/platforms/generic/generic/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano requires that your Kubernetes cluster provides an implementation of network load balancers (&lt;a href=&#34;https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/&#34;&gt;Services of type LoadBalancer&lt;/a&gt;) for a production environment. If your generic Kubernetes implementation provides this feature, then you can use a default configuration
+of the Verrazzano custom resource with no customizations and follow the &lt;a href=&#34;../../../../../docs/setup/install/&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    Remember to not overlap network Classless Inter-Domain Routing (CIDR) blocks when designing and implementing your Kubernetes cluster; proper routing relies on that.
+
+&lt;/div&gt;
+
+&lt;p&gt;You can install a load balancer, such as &lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt;. This setup requires knowledge of networking both
+inside and outside your Kubernetes cluster. This would include specifics of your &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/&#34;&gt;Container Network Interface&lt;/a&gt; (CNI) implementation, IP address allocation schemes, and routing that goes beyond the scope of this documentation. For a kind implementation, see &lt;a href=&#34;../../../../../docs/setup/install/prepare/platforms/kind/kind/#install-and-configure-metallb&#34;&gt;Install and configure MetalLB&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;It is possible to use a Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/services-networking/service/#nodeport&#34;&gt;Service of type NodePort&lt;/a&gt; to test aspects of Verrazzano.
+This requires a good working knowledge of networking and has limited use cases.&lt;/p&gt;
+&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
+&lt;p&gt;To continue, see the &lt;a href=&#34;../../../../../docs/setup/install/&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Prepare a kind Cluster</title>
+      <link>/docs/setup/install/prepare/platforms/kind/kind/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/install/prepare/platforms/kind/kind/</guid>
+      <description>
+        
+        
+        &lt;p&gt;&lt;a href=&#34;https://kind.sigs.k8s.io/&#34;&gt;kind&lt;/a&gt; is a tool for running local Kubernetes clusters using Docker container “nodes”.  Follow
+these instructions to prepare a kind cluster for running Verrazzano.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    kind is not recommended for use on macOS and Windows because the Docker network is not directly exposed
+to the host.
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Install &lt;a href=&#34;https://docs.docker.com/install/&#34;&gt;Docker&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Install &lt;a href=&#34;https://kind.sigs.k8s.io/docs/user/quick-start/#installation&#34;&gt;kind&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;prepare-the-kind-cluster&#34;&gt;Prepare the kind cluster&lt;/h2&gt;
+&lt;p&gt;To prepare the kind cluster for use with Verrazzano, you must create the cluster and then install and configure
+&lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt; in that cluster.&lt;/p&gt;
+&lt;p&gt;You can create the kind cluster in two ways: with or without image caching; image caching can speed up your
+installation time.&lt;/p&gt;
+&lt;h3 id=&#34;create-a-kind-cluster&#34;&gt;Create a kind cluster&lt;/h3&gt;
+&lt;p&gt;kind images are prebuilt for each release.  To find images suitable for a given release, check the
+&lt;a href=&#34;https://github.com/kubernetes-sigs/kind/releases&#34;&gt;release notes&lt;/a&gt; for your kind version (check with &lt;code&gt;kind version&lt;/code&gt;).
+There you&amp;rsquo;ll find a complete listing of images created for a kind release.&lt;/p&gt;
+&lt;p&gt;The following example references a Kubernetes v1.26-based image built for kind v0.20.0.  Replace that image
+with one suitable for the kind release you are using. For the supported Kubernetes versions, see the listing &lt;a href=&#34;../../../../../docs/setup/install/prepare/prereqs/#kubernetes&#34;&gt;here&lt;/a&gt;.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;$ kind create cluster --config - &amp;lt;&amp;lt;EOF
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    image: kindest/node:v1.26@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
+    kubeadmConfigPatches:
+      - |
+        kind: ClusterConfiguration
+        apiServer:
+          extraArgs:
+            &amp;quot;service-account-issuer&amp;quot;: &amp;quot;kubernetes.default.svc&amp;quot;
+            &amp;quot;service-account-signing-key-file&amp;quot;: &amp;quot;/etc/kubernetes/pki/sa.key&amp;quot;
+EOF
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;h3 id=&#34;create-a-kind-cluster-with-image-caching&#34;&gt;Create a kind cluster with image caching&lt;/h3&gt;
+&lt;p&gt;While developing or experimenting with Verrazzano, you might destroy and re-create your kind cluster multiple
+times.  To speed up Verrazzano installation, follow these steps to ensure that the image cache used by
+containerd inside a kind cluster, is preserved across clusters. Subsequent installations will be faster
+because they will not need to pull the images again.&lt;/p&gt;
+&lt;p&gt;1. Create a named Docker volume that will be used for the image cache and note its &lt;code&gt;mountPoint&lt;/code&gt; path. In this example, the volume is named &lt;code&gt;containerd&lt;/code&gt;.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;$ docker volume create containerd
+
+$ docker volume inspect containerd
+
+# Sample output
+{
+    &amp;quot;CreatedAt&amp;quot;: &amp;quot;2021-01-11T16:27:47Z&amp;quot;,
+    &amp;quot;Driver&amp;quot;: &amp;quot;local&amp;quot;,
+    &amp;quot;Labels&amp;quot;: {},
+    &amp;quot;Mountpoint&amp;quot;: &amp;quot;/var/lib/docker/volumes/containerd/_data&amp;quot;,
+    &amp;quot;Name&amp;quot;: &amp;quot;containerd&amp;quot;,
+    &amp;quot;Options&amp;quot;: {},
+    &amp;quot;Scope&amp;quot;: &amp;quot;local&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;2. Specify the &lt;code&gt;mountPoint&lt;/code&gt; path obtained, as the &lt;code&gt;hostPath&lt;/code&gt; under &lt;code&gt;extraMounts&lt;/code&gt; in your kind configuration file, with a &lt;code&gt;containerPath&lt;/code&gt; of &lt;code&gt;/var/lib/containerd&lt;/code&gt;, which is the default containerd image caching location inside the kind container. An example of the modified kind configuration is shown in the following &lt;code&gt;create cluster&lt;/code&gt; command.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;$ kind create cluster --config - &amp;lt;&amp;lt;EOF
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    image: kindest/node:v1.26@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
+    kubeadmConfigPatches:
+      - |
+        kind: ClusterConfiguration
+        apiServer:
+          extraArgs:
+            &amp;quot;service-account-issuer&amp;quot;: &amp;quot;kubernetes.default.svc&amp;quot;
+            &amp;quot;service-account-signing-key-file&amp;quot;: &amp;quot;/etc/kubernetes/pki/sa.key&amp;quot;
+    extraMounts:
+      - hostPath: /var/lib/docker/volumes/containerd/_data
+        containerPath: /var/lib/containerd #This is the location of the image cache inside the kind container
+EOF
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: When using a private container registry or experiencing rate-limiting of container image pulls, refer to the &lt;a href=&#34;https://kind.sigs.k8s.io/docs/user/private-registries/&#34;&gt;kind documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;install-and-configure-metallb&#34;&gt;Install and configure MetalLB&lt;/h2&gt;
+&lt;p&gt;By default, kind does not provide an implementation of network load balancers (&lt;a href=&#34;https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/&#34;&gt;Services of type LoadBalancer&lt;/a&gt;).
+&lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt; offers a network load balancer implementation.&lt;/p&gt;
+&lt;p&gt;To install MetalLB:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.7/config/manifests/metallb-native.yaml --wait=true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;Wait for MetalLB to be ready, as shown:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n metallb-system -L app=metallb
+NAME                         READY   STATUS    RESTARTS       AGE   APP=METALLB
+controller-d9d8c78b6-hhplg   1/1     Running   1 (3d4h ago)   9d    
+speaker-4lqpg                1/1     Running   1 (3d4h ago)   9d
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;For further details, see the MetalLB &lt;a href=&#34;https://metallb.universe.tf/installation/#installation-by-manifest&#34;&gt;installation guide&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;MetalLB is idle until configured.  Configure MetalLB in Layer 2 mode and give it control over a range of IP addresses in the &lt;code&gt;kind&lt;/code&gt; Docker network.
+In versions v0.7.0 and earlier, kind uses Docker&amp;rsquo;s default bridge network; in versions v0.8.0 and later, it creates its own bridge network in kind.&lt;/p&gt;
+&lt;p&gt;To determine the subnet of the &lt;code&gt;kind&lt;/code&gt; Docker network in kind v0.8.0 and later:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;$ docker inspect kind | jq &#39;.[0].IPAM.Config[0].Subnet&#39; -r
+
+# Sample output
+172.18.0.0/16
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;To determine the subnet of the &lt;code&gt;kind&lt;/code&gt; Docker network in kind v0.7.0 and earlier:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre&gt;&lt;code&gt;$ docker inspect bridge | jq &#39;.[0].IPAM.Config[0].Subnet&#39; -r
+
+# Sample output
+172.17.0.0/16
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;For use by MetalLB, assign a range of IP addresses at the end of the &lt;code&gt;kind&lt;/code&gt; network&amp;rsquo;s subnet CIDR range. To set an address range, use the &lt;code&gt;ADDRESS_RANGE&lt;/code&gt; environment variable:&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ADDRESS_RANGE=&amp;#34;172.18.0.230-172.18.0.254&amp;#34;
+
+#Create the IPAddressPool for the cluster
+
+$ kubectl apply -f - &amp;lt;&amp;lt;-EOF
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: vzlocalpool
+  namespace: metallb-system
+spec:
+  addresses:
+  - ${ADDRESS_RANGE}
+EOF
+
+#Create the L2Advertisment resource for the cluster
+
+$ kubectl apply -f - &amp;lt;&amp;lt;-EOF
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: vzmetallb
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - vzlocalpool
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
+&lt;p&gt;To continue, see the &lt;a href=&#34;../../../../../docs/setup/install/&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
