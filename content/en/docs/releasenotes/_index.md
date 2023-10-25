@@ -10,7 +10,6 @@ draft: false
 - Added OKEQuickCreate custom resource to support ease-of-use when creating OKE clusters on OCI.
 - Added OCNEOCIQuickCreate custom resource to support ease-of-use when creating Oracle Cloud Native Environment clusters on OCI.
 - Added support for Thanos Ruler and Compactor.
-- Added support for Oracle Cloud Native Environment managed clusters on Azure.
 - Decoupled the Cluster Management API from Rancher.
 - Enabled lifecycle management of OKE clusters.
 
