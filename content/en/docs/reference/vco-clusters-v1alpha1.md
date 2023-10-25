@@ -569,6 +569,68 @@ The default is <code>10.96.0.0/16</code>.</p>
 </tr>
 </tbody>
 </table>
+<h3 id="clusters.verrazzano.io/v1alpha1.ClusterReference">ClusterReference
+</h3>
+<p>
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus">VerrazzanoManagedClusterStatus</a>)
+</p>
+<div>
+<p>ClusterReference identifies the underlying ClusterAPI cluster for a managed cluster.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>apiVersion</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>The API version of the referenced ClusterAPI cluster object.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>kind</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>The kind of the referenced ClusterAPI cluster object.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>The name of the referenced ClusterAPI cluster object.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>namespace</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>The namespace of the referenced ClusterAPI cluster object.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="clusters.verrazzano.io/v1alpha1.CommonClusterSpec">CommonClusterSpec
 </h3>
 <div>
@@ -862,6 +924,35 @@ ClusterNetwork
 </td>
 <td>
 <p>Kubernetes network settings.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="clusters.verrazzano.io/v1alpha1.KubernetesInformation">KubernetesInformation
+</h3>
+<p>
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus">VerrazzanoManagedClusterStatus</a>)
+</p>
+<div>
+<p>KubernetesInformation defines the Kubernetes information for a managed cluster.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>version</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>The observed Kubernetes version installed on this cluster.</p>
 </td>
 </tr>
 </tbody>
@@ -1896,6 +1987,8 @@ RancherRegistrationStatus
 </thead>
 <tbody><tr><td><p>&#34;DeleteFailed&#34;</p></td>
 <td></td>
+</tr><tr><td><p>&#34;Applied&#34;</p></td>
+<td></td>
 </tr><tr><td><p>&#34;Completed&#34;</p></td>
 <td></td>
 </tr><tr><td><p>&#34;Failed&#34;</p></td>
@@ -1919,9 +2012,19 @@ RancherRegistrationStatus
 </thead>
 <tbody><tr><td><p>&#34;Active&#34;</p></td>
 <td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
 </tr><tr><td><p>&#34;Inactive&#34;</p></td>
 <td></td>
 </tr><tr><td><p>&#34;Pending&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Provisioned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Provisioning&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Unknown&#34;</p></td>
 <td></td>
 </tr></tbody>
 </table>
@@ -1993,6 +2096,35 @@ string
 <td><p>SubnetRoleWorker is the role of the worker subnet.</p>
 </td>
 </tr></tbody>
+</table>
+<h3 id="clusters.verrazzano.io/v1alpha1.VerrazzanoInformation">VerrazzanoInformation
+</h3>
+<p>
+(<em>Appears on:</em><a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus">VerrazzanoManagedClusterStatus</a>)
+</p>
+<div>
+<p>VerrazzanoInformation defines the Verrazzano information for a managed cluster.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>version</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>The observed Verrazzano version installed on this cluster.</p>
+</td>
+</tr>
+</tbody>
 </table>
 <h3 id="clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterSpec">VerrazzanoManagedClusterSpec
 </h3>
@@ -2179,6 +2311,68 @@ StateType
 <p>The state of this managed cluster.</p>
 </td>
 </tr>
+<tr>
+<td>
+<code>kubernetes</code><br/>
+<em>
+<a href="#clusters.verrazzano.io/v1alpha1.KubernetesInformation">
+KubernetesInformation
+</a>
+</em>
+</td>
+<td>
+<p>The state of Kubernetes information of this managed cluster.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>verrazzano</code><br/>
+<em>
+<a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoInformation">
+VerrazzanoInformation
+</a>
+</em>
+</td>
+<td>
+<p>The state of Verrazzano information of this managed cluster.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>clusterRef</code><br/>
+<em>
+<a href="#clusters.verrazzano.io/v1alpha1.ClusterReference">
+ClusterReference
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The reference to this managed cluster&rsquo;s underlying ClusterAPI cluster.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>imported</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>If true, then this managed cluster was an existing cluster imported into Verrazzano.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provider</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>The provider of this managed cluster.</p>
+</td>
+</tr>
 </tbody>
 </table>
 <h3 id="clusters.verrazzano.io/v1alpha1.VirtualNodePool">VirtualNodePool
@@ -2221,7 +2415,7 @@ int
 <hr/>
 <p><em>
 Generated with <code>gen-crd-api-reference-docs</code>
-on git commit <code>7e2b8b262</code>.
+on git commit <code>2368c9a55</code>.
 </em></p>
 
 
