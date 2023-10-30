@@ -13,7 +13,10 @@ Learn more about CAPI at [Kubernetes Cluster API Documentation](https://cluster-
 Verrazzano incorporates CAPI functionality through the clusterAPI component, which provides the ability to quickly design and deploy clusters and then continue managing your clusters throughout their life cycle, all from within Verrazzano.
 
 {{% alert title="NOTE" color="primary" %}}
-The terminology around clusters differs between CAPI and Verrazzano though the underlying concepts are the same. What CAPI calls Management and Workload clusters are equivalent to admin and managed clusters, respectively, in Verrazzano.
+Verrazzano and Cluster API use slightly different  terminology for the same concepts:
+
+* Admin cluster (Verrazzano) = management cluster (Cluster API) 
+* Managed cluster (Verrazzano) = workload cluster (Cluster API)
 {{% /alert %}}
 
 CAPI splits cluster management responsibilities across three main components, which it calls providers: 
@@ -31,3 +34,7 @@ During the setup process, the bootstrap provider converts a cluster into an admi
 Next, a CAPI infrastructure provider will provision the first instance on the cloud provider and generate a provider ID, a unique identifier that any future nodes and clusters will use to associate with the instance. It will also create a kubeconfig file. The first control plane node is ready after these are created.
 
 After the admin cluster is up and running, you can use the clusterAPI component to create additional managed clusters.
+
+{{% alert title="NOTE" color="primary" %}}
+The Cluster API provides its own command line tool, `clusterctl`, to manage the lifecycle operations of a cluster API admin cluster. Do not use `clusterctl` to manage any OCNE or OKE clusters on OCI that you created in the console. You will create conflicts between changes made in the console and changes made with `clusterctl`.
+{{% /alert %}}
