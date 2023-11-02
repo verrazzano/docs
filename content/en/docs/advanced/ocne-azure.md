@@ -7,10 +7,10 @@ draft: false
 ---
 
 {{% alert title="NOTE" color="danger" %}}
-This feature is experimental. It has not been certified and is provided for informational purposes only. We make no assurances about its safety or stability and do not recommend implementing this feature in production environments.
+This feature is experimental. It has not been thoroughly tested and is provided for informational purposes only. We make no guarantees about its safety or stability and do not recommend implementing this feature in production environments.
 {{% /alert %}}
 
-Cluster API provides a standard set of Kubernetes-style APIs for cluster management. Verrazzano currently supports using Cluster API to [provision OCNE and OKE clusters on OCI]({{< relref "/docs/setup/provision-cluster" >}}).
+The Cluster API project provides a standard set of Kubernetes-style APIs for cluster management. Officially, Verrazzano currently only supports using Cluster API to [provision OCNE and OKE clusters on OCI]({{< relref "/docs/setup/provision-cluster" >}}).
 
 However, you can also experiment with using the features of the Cluster API project directly to deploy OCNE clusters on Microsoft Azure.
 
@@ -31,37 +31,39 @@ Verrazzano and Cluster API use slightly different terminology for the same conce
 
 Before you can deploy a Cluster API cluster, you need to set up a few resources in Azure.
 
-1. Install the Azure command line interface (CLI). For instructions, see [How to install the Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) in the Microsoft Azure documentation.
+1. Install the Azure command line interface (CLI) tool. For instructions, see [How to install the Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) in the Microsoft Azure documentation.
 1. Create an Azure resource group. In the Azure CLI, run the following command:
 {{< clipboard >}}
 <div class="highlight">
 
 ```
-az group create --name <ResourceGroupName> --location <location>
+$ az group create --name <ResourceGroupName> --location <location>
 ```
 </div>
 {{< /clipboard >}}
 For more detailed instructions, see [Manage Azure Resource Groups by using Azure CLI](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-cli) in the Microsoft Azure documentation.
-1. Create a service principal. Make sure it has the necessary privileges required to create resources. At minimum, this requires a contributor role.  The following example creates a service principal, assigns it the contributor role, and defines its scope.
+1. Create a service principal. Make sure it has the privileges it needs to create resources. This means a contributor role at minimum.  The following example creates a service principal, assigns it the contributor role, and defines its scope.
 {{< clipboard >}}
 <div class="highlight">
 
 ```
-az ad sp create-for-rbac --name myServicePrincipalName \
-                         --role Contributor \
-                         --scopes /subscriptions/mySubscriptionID/resourceGroups/myResourceGroupName
+$ az ad sp create-for-rbac  --name myServicePrincipalName \
+                            --role Contributor \
+                            --scopes /subscriptions/mySubscriptionID/resourceGroups/myResourceGroupName
 ```
 </div>
 {{< /clipboard >}}
-For more detailed instructions, see [Create an Azure service principal with Azure CLI](https://learn.microsoft.com/en-us/cli/azure/azure-cli-sp-tutorial-1).
+For more detailed instructions, see [Create an Azure service principal with Azure CLI](https://learn.microsoft.com/en-us/cli/azure/azure-cli-sp-tutorial-1) in the Microsoft Azure documentation.
 
-## Set up an admin cluster
+## Set up the admin cluster
 
 The Cluster API requires an initial cluster as a starting point to deploy its resources.
 
-1. Create a Kubernetes cluster using kind. This cluster will be transformed into an admin cluster later. Follow the instructions at [Quick Start: Install and/or configure a Kubernetes cluster](https://cluster-api.sigs.k8s.io/user/quick-start#install-andor-configure-a-kubernetes-cluster) in The Cluster API Book.
-1. Install the `clusterctl` CLI tool. `clusterctl` manages lifecycle operations of a cluster API admin cluster. Follow instructions at [Quick Start: Install clusterctl](https://cluster-api.sigs.k8s.io/user/quick-start.html#install-clusterctl) in the Cluster API Book.
-1. Install Verrazzano on the cluster using either the `dev` or `prod` installation profile. The `certManager` and `clusterAPI` components are required and must remain enabled. For instructions on installing Verrazzano, see [Install Verrazzano]({{< relref "/docs/setup/install/perform" >}}).
+1. Install kind. Follow the instructions at [Installation](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) in the kind documentation.
+1. Create a Kubernetes cluster using kind. Follow the instructions at [Quick Start: Install and/or configure a Kubernetes cluster](https://cluster-api.sigs.k8s.io/user/quick-start#install-andor-configure-a-kubernetes-cluster) in The Cluster API Book.
+1. Install the clusterctl CLI tool. clusterctl manages the lifecycle operations of a cluster API admin cluster. Follow the instructions at [Quick Start: Install clusterctl](https://cluster-api.sigs.k8s.io/user/quick-start.html#install-clusterctl) in the Cluster API Book.
+1. Install the Verrazzano CLI tool using the instructions at [CLI Setup]({{< relref "/docs/setup/install/prepare/cli-setup" >}}).
+1. Install Verrazzano on the cluster using either the `dev` or `prod` installation profile. Follow the instructions at [Install with CLI]({{< relref "/docs/setup/install/perform/cli-installation" >}}). The `certManager` and `clusterAPI` components are required and must remain enabled.
 1. On the cluster, set environment variables for the following Azure resource IDs from your Azure account and from the service principal you created:
     * Subscription ID
     * Tenant ID
@@ -73,22 +75,22 @@ The Cluster API requires an initial cluster as a starting point to deploy its re
 <div class="highlight">
 
 ```
-  # Azure resource  IDs
-  export AZURE_SUBSCRIPTION_ID="<SubscriptionId>"
-  export AZURE_TENANT_ID="<Tenant>"
-  export AZURE_CLIENT_ID="<AppId>"
-  export AZURE_CLIENT_SECRET="<Password>"
+# Azure resource  IDs
+$ export AZURE_SUBSCRIPTION_ID="<SubscriptionId>"
+$ export AZURE_TENANT_ID="<Tenant>"
+$ export AZURE_CLIENT_ID="<AppId>"
+$ export AZURE_CLIENT_SECRET="<Password>"
 
-  # Base64 encode the Azure Resource IDs
-  export AZURE_SUBSCRIPTION_ID_B64="$(echo -n "$AZURE_SUBSCRIPTION_ID" | base64 | tr -d '\n')"
-  export AZURE_TENANT_ID_B64="$(echo -n "$AZURE_TENANT_ID" | base64 | tr -d '\n')"
-  export AZURE_CLIENT_ID_B64="$(echo -n "$AZURE_CLIENT_ID" | base64 | tr -d '\n')"
-  export AZURE_CLIENT_SECRET_B64="$(echo -n "$AZURE_CLIENT_SECRET" | base64 | tr -d '\n')"
+# Base64 encode the Azure Resource IDs
+$ export AZURE_SUBSCRIPTION_ID_B64="$(echo -n "$AZURE_SUBSCRIPTION_ID" | base64 | tr -d '\n')"
+$ export AZURE_TENANT_ID_B64="$(echo -n "$AZURE_TENANT_ID" | base64 | tr -d '\n')"
+$ export AZURE_CLIENT_ID_B64="$(echo -n "$AZURE_CLIENT_ID" | base64 | tr -d '\n')"
+$ export AZURE_CLIENT_SECRET_B64="$(echo -n "$AZURE_CLIENT_SECRET" | base64 | tr -d '\n')"
 
-  # Settings needed for AzureClusterIdentity used by the AzureCluster
-  export AZURE_CLUSTER_IDENTITY_SECRET_NAME="cluster-identity-secret"
-  export CLUSTER_IDENTITY_NAME="cluster-identity"
-  export AZURE_CLUSTER_IDENTITY_SECRET_NAMESPACE="default"
+# Settings needed for AzureClusterIdentity used by the AzureCluster
+$ export AZURE_CLUSTER_IDENTITY_SECRET_NAME="<cluster-identity-secret>"
+$ export CLUSTER_IDENTITY_NAME="<cluster-identity>"
+$ export AZURE_CLUSTER_IDENTITY_SECRET_NAMESPACE="default"
 ```
 </div>
 {{< /clipboard >}}
@@ -97,7 +99,7 @@ The Cluster API requires an initial cluster as a starting point to deploy its re
 <div class="highlight">
 
 ```
-kubectl create secret generic "${AZURE_CLUSTER_IDENTITY_SECRET_NAME}" --from-literal=clientSecret="${AZURE_CLIENT_SECRET}" --namespace "${AZURE_CLUSTER_IDENTITY_SECRET_NAMESPACE}"
+$ kubectl create secret generic "${AZURE_CLUSTER_IDENTITY_SECRET_NAME}" --from-literal=clientSecret="${AZURE_CLIENT_SECRET}" --namespace "${AZURE_CLUSTER_IDENTITY_SECRET_NAMESPACE}"
 ```
 </div>
 {{< /clipboard >}}
@@ -106,47 +108,50 @@ kubectl create secret generic "${AZURE_CLUSTER_IDENTITY_SECRET_NAME}" --from-lit
 <div class="highlight">
 
 ```
-clusterctl init --infrastructure azure
+$ clusterctl init -n verrazzano-capi -i azure
 ```
 </div>
 {{< /clipboard >}}
 
-`clusterctl` will report when the admin cluster was successfully initialized.
+clusterctl will report when the admin cluster was successfully initialized.
 
 
 ## Create a managed cluster
 
 The Cluster API uses a cluster template to deploy a predefined set of Cluster API objects and create a managed cluster.
 
-1. Set the following environment variables so they are available to the cluster template.
+1. Set the following environment variables so they are available to the cluster template. Update the values to reflect your own environment.
 {{< clipboard >}}
 <div class="highlight">
 
 ```
 # Base64 encoded SSH key for node access
-export AZURE_SSH_PUBLIC_KEY_B64="<sshKey>"
+$ export AZURE_SSH_PUBLIC_KEY_B64="<sshKey>"
   
 # Select VM types.
-export AZURE_CONTROL_PLANE_MACHINE_TYPE="Standard_D2s_v3"
-export AZURE_NODE_MACHINE_TYPE="Standard_D2s_v3"
+$ export AZURE_CONTROL_PLANE_MACHINE_TYPE="Standard_D2s_v3"
+$ export AZURE_NODE_MACHINE_TYPE="Standard_D2s_v3"
  
 # [Optional] Select resource group. The default value is ${CLUSTER_NAME}.
-export AZURE_RESOURCE_GROUP="<resourceGroupName>
+$ export AZURE_RESOURCE_GROUP="<resourceGroupName>
  
 # Name of the Azure datacenter location. Change this value to your desired location.
-export AZURE_LOCATION="<location>"
+$ export AZURE_LOCATION="<location>"
  
 # Cluster name info
-export CLUSTER_NAME="capi-quickstart"
-export KUBERNETES_VERSION="<k8sVersion>"
-export NAMESPACE="default"
-export CONTROL_PLANE_MACHINE_COUNT="1"
-export WORKER_MACHINE_COUNT="1"
+$ export CLUSTER_NAME="capi-quickstart"
+$ export KUBERNETES_VERSION="<k8sVersion>"
+$ export NAMESPACE="default"
+$ export CONTROL_PLANE_MACHINE_COUNT="1"
+$ export WORKER_MACHINE_COUNT="1"
 ```
 </div>
 {{< /clipboard >}}
-1. Copy the cluster template provided below and save it to the admin cluster.
-{{< clipboard >}}
+
+1. Copy the cluster template provided below and save it locally as `azure-capi.yaml`.
+    <details>
+    <summary><b>Click here to expand and see the cluster template</b></summary>
+    {{< clipboard >}}
 <div class="highlight">
 
 ```
@@ -371,13 +376,14 @@ spec:
           sudo: ALL=(ALL) NOPASSWD:ALL
 ```
 </div>
-{{< /clipboard >}}
+    {{< /clipboard >}}
+    </details>
 1. Generate and apply the template by running the following command:
 {{< clipboard >}}
 <div class="highlight">
 
 ```
-clusterctl generate yaml --from <templateFile> | kubectl apply -f -
+$ clusterctl generate yaml --from azure-capi.yaml | kubectl apply -f -
 ```
 </div>
 {{< /clipboard >}}
@@ -387,7 +393,7 @@ To view the status of the cluster and its resources, run:
 <div class="highlight">
 
 ```
-clusterctl describe cluster $CLUSTER_NAME
+$ clusterctl describe cluster $CLUSTER_NAME
 ```
 </div>
 {{< /clipboard >}}
@@ -397,7 +403,7 @@ To get the `kubeconfig` file, run:
 <div class="highlight">
 
 ```
-clusterctl get kubeconfig ${CLUSTER_NAME} > ${CLUSTER_NAME}.kubeconfig
+$ clusterctl get kubeconfig ${CLUSTER_NAME} > ${CLUSTER_NAME}.kubeconfig
 ```
 </div>
 {{< /clipboard >}}
@@ -405,14 +411,14 @@ clusterctl get kubeconfig ${CLUSTER_NAME} > ${CLUSTER_NAME}.kubeconfig
 
 ## Finish cluster configuration 
 
-After the cluster resources are created, you must complete some additional steps to finish the configuration of the cluster.
+After the cluster resources are created, you must perform some additional steps to finish the configuration of the cluster.
 
 1. Install a cloud controller manager (CCM). A CCM is necessary when deploying cloud resources such as load-balancers. 
 {{< clipboard >}}
 <div class="highlight">
 
 ```
-helm install --kubeconfig=./${CLUSTER_NAME}.kubeconfig --repo https://raw.githubusercontent.com/kubernetes-sigs/cloud-provider-azure/master/helm/repo cloud-provider-azure --generate-name --set infra.clusterName=clusterName --set cloudControllerManager.clusterCIDR="192.168.0.0/16" --set cloudControllerManager.caCertDir=/etc/pki/ca-trust
+$ helm install --kubeconfig=./${CLUSTER_NAME}.kubeconfig --repo https://raw.githubusercontent.com/kubernetes-sigs/cloud-provider-azure/master/helm/repo cloud-provider-azure --generate-name --set infra.clusterName=clusterName --set cloudControllerManager.clusterCIDR="192.168.0.0/16" --set cloudControllerManager.caCertDir=/etc/pki/ca-trust
 ```
 </div>
 {{< /clipboard >}}
@@ -421,13 +427,13 @@ helm install --kubeconfig=./${CLUSTER_NAME}.kubeconfig --repo https://raw.github
 <div class="highlight">
 
 ```
-helm repo add projectcalico https://docs.tigera.io/calico/charts --kubeconfig=./${CLUSTER_NAME}.kubeconfig && \
-helm install calico projectcalico/tigera-operator --kubeconfig=./${CLUSTER_NAME}.kubeconfig -f https://raw.githubusercontent.com/kubernetes-sigs/cluster-api-provider-azure/main/templates/addons/calico/values.yaml --namespace tigera-operator --create-namespace
+$ helm repo add projectcalico https://docs.tigera.io/calico/charts --kubeconfig=./${CLUSTER_NAME}.kubeconfig && \
+$ helm install calico projectcalico/tigera-operator --kubeconfig=./${CLUSTER_NAME}.kubeconfig -f https://raw.githubusercontent.com/kubernetes-sigs/cluster-api-provider-azure/main/templates/addons/calico/values.yaml --namespace tigera-operator --create-namespace
 ```
 </div>
 {{< /clipboard >}}
 
-Your admin cluster and first managed cluster are now up and running and ready to deploy applications. You can also add more managed clusters. 
+Your admin cluster and first managed cluster are now up and running and ready to deploy applications. You can add more managed clusters as needed.
 
 For more information, refer to the documentation for Cluster API and Cluster API Azure
 
@@ -438,8 +444,24 @@ For more information, refer to the documentation for Cluster API and Cluster API
 
 If the deployment of the Azure resources fails, then you can check the following log files to diagnose the issue:
 
-The Azure cluster controller provider logs 
-The OCNE control plane provider logs
+The Azure cluster controller provider logs:
+{{< clipboard >}}
+<div class="highlight">
+
+```
+$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=infrastructure-azure
+```
+</div>
+{{< /clipboard >}}
+The OCNE control plane provider logs:
+{{< clipboard >}}
+<div class="highlight">
+
+```
+$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=control-plane-ocne
+```
+</div>
+{{< /clipboard >}}
 
 **NOTE**: If a pod enters a `CrashLoopBackOff` state, then you can either restart the deployment or wait for the state to run its course. This is a known issue that should not affect the deployment of your cluster.
 
@@ -450,7 +472,7 @@ The OCNE control plane provider logs
 <div class="highlight">
 
 ```
-kubectl delete cluster $CLUSTER_NAME
+$ kubectl delete cluster $CLUSTER_NAME
 ```
 </div>
 {{< /clipboard >}}
@@ -459,11 +481,9 @@ kubectl delete cluster $CLUSTER_NAME
 <div class="highlight">
 
 ```
-kind delete cluster
+$ kind delete cluster
 ```
 </div>
 {{< /clipboard >}}
 
 Do not use `kubectl delete -f capi-quickstart.yaml` to delete the entire cluster template at once because it might leave behind pending resources that you need to clean up manually.
-
-
