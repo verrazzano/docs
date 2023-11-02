@@ -47,8 +47,8 @@ Use the Oracle Cloud VMware Solution to rapidly create a VMware SDDC.
 
 1. Download an Oracle Linux 8 ISO image from [Oracle Linux Installation Media](https://yum.oracle.com/oracle-linux-isos.html).
 
-1. Deploy a VM by following the instructions at [Create a Virtual Machine with the New Virtual Machine Wizard](https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.vm_admin.doc/GUID-AE8AFBF1-75D1-4172-988C-378C35C9FAF2.html?hWord=N4IghgNiBcIEZgM4FMAEA3AtiAvkA) in the vSphere documentation.
 1. Upload the Oracle Linux 8 ISO image to vSphere. Use the steps at [Upload ISO Image Installation Media for a Guest Operating System](https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.vm_admin.doc/GUID-492D6904-7471-4D66-9555-9466CCCA6931.html) in the vSphere documentation.
+1. Deploy a VM by following the instructions at [Create a Virtual Machine with the New Virtual Machine Wizard](https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.vm_admin.doc/GUID-AE8AFBF1-75D1-4172-988C-378C35C9FAF2.html?hWord=N4IghgNiBcIEZgM4FMAEA3AtiAvkA) in the vSphere documentation.
 1. Install cloud-init on the VM.
 {{< clipboard >}}
 <div class="highlight">
