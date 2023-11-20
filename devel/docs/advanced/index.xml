@@ -1,0 +1,5030 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – Advanced Features</title>
+    <link>/docs/advanced/</link>
+    <description>Recent content in Advanced Features on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/advanced/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Create OCNE Clusters Running on Microsoft Azure</title>
+      <link>/docs/advanced/ocne-azure/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/advanced/ocne-azure/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;alert alert-danger&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    This feature is experimental. It has not been thoroughly tested and is provided for informational purposes only. We make no guarantees about its safety or stability and do not recommend implementing this feature in production environments.
+
+&lt;/div&gt;
+
+&lt;p&gt;The Cluster API project provides a standard set of Kubernetes-style APIs for cluster management. Officially, Verrazzano currently only supports using Cluster API to &lt;a href=&#34;../../docs/setup/provision-cluster/&#34;&gt;provision OCNE and OKE clusters on OCI&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;However, you can also experiment with using the features of the Cluster API project directly to deploy OCNE clusters on Microsoft Azure.&lt;/p&gt;
+&lt;p&gt;For more information on Cluster API or Cluster API with Azure, see:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://cluster-api.sigs.k8s.io/introduction.html&#34;&gt;Kubernetes Cluster API Documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://capz.sigs.k8s.io/introduction&#34;&gt;The Cluster API Provider Azure Book&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://capz.sigs.k8s.io/topics/getting-started&#34;&gt;Getting started with cluster-api-provider-azure&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    &lt;p&gt;Verrazzano and Cluster API use slightly different terminology for the same concepts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Admin cluster (Verrazzano) = management cluster (Cluster API)&lt;/li&gt;
+&lt;li&gt;Managed cluster (Verrazzano) = workload cluster (Cluster API)&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;prepare-azure-resources&#34;&gt;Prepare Azure resources&lt;/h2&gt;
+&lt;p&gt;Before you can deploy a Cluster API cluster, you need to set up a few resources in Azure.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Install the Azure command-line interface (CLI) tool. For instructions, see &lt;a href=&#34;https://learn.microsoft.com/en-us/cli/azure/install-azure-cli&#34;&gt;How to install the Azure CLI&lt;/a&gt; in the Microsoft Azure documentation.&lt;/li&gt;
+&lt;li&gt;Create an Azure resource group. In the Azure CLI, run the following command:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ az group create --name &amp;lt;ResourceGroupName&amp;gt; --location &amp;lt;location&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+For more detailed instructions, see &lt;a href=&#34;https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-cli&#34;&gt;Manage Azure Resource Groups by using Azure CLI&lt;/a&gt; in the Microsoft Azure documentation.&lt;/li&gt;
+&lt;li&gt;Create a service principal. Make sure it has the privileges it needs to create resources. This means a contributor role at minimum.  The following example creates a service principal, assigns it the contributor role, and defines its scope.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ az ad sp create-for-rbac  --name myServicePrincipalName \
+                            --role Contributor \
+                            --scopes /subscriptions/mySubscriptionID/resourceGroups/myResourceGroupName
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+For more detailed instructions, see &lt;a href=&#34;https://learn.microsoft.com/en-us/cli/azure/azure-cli-sp-tutorial-1&#34;&gt;Create an Azure service principal with Azure CLI&lt;/a&gt; in the Microsoft Azure documentation.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;set-up-the-admin-cluster&#34;&gt;Set up the admin cluster&lt;/h2&gt;
+&lt;p&gt;The Cluster API requires an initial cluster as a starting point to deploy its resources.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Install kind. Follow the instructions at &lt;a href=&#34;https://kind.sigs.k8s.io/docs/user/quick-start/#installation&#34;&gt;Installation&lt;/a&gt; in the kind documentation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create a Kubernetes cluster using kind. Follow the instructions at &lt;a href=&#34;https://cluster-api.sigs.k8s.io/user/quick-start#install-andor-configure-a-kubernetes-cluster&#34;&gt;Quick Start: Install and/or configure a Kubernetes cluster&lt;/a&gt; in The Cluster API Book.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Install the clusterctl CLI tool. clusterctl manages the lifecycle operations of a cluster API admin cluster. Follow the instructions at &lt;a href=&#34;https://cluster-api.sigs.k8s.io/user/quick-start.html#install-clusterctl&#34;&gt;Quick Start: Install clusterctl&lt;/a&gt; in the Cluster API Book.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Install the Verrazzano CLI tool using the instructions at &lt;a href=&#34;../../docs/setup/install/prepare/cli-setup/&#34;&gt;CLI Setup&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Install Verrazzano on the cluster using either the &lt;code&gt;dev&lt;/code&gt; or &lt;code&gt;prod&lt;/code&gt; installation profile. Follow the instructions at &lt;a href=&#34;../../docs/setup/install/perform/cli-installation/&#34;&gt;Install with CLI&lt;/a&gt;. The &lt;code&gt;certManager&lt;/code&gt; and &lt;code&gt;clusterAPI&lt;/code&gt; components are required and must remain enabled.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;On the cluster, set environment variables for the following Azure resource IDs from your Azure account and from the service principal you created:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Subscription ID&lt;/li&gt;
+&lt;li&gt;Tenant ID&lt;/li&gt;
+&lt;li&gt;Client ID&lt;/li&gt;
+&lt;li&gt;Client Secret&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For example:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# Azure resource  IDs
+$ export AZURE_SUBSCRIPTION_ID=&amp;#34;&amp;lt;SubscriptionId&amp;gt;&amp;#34;
+$ export AZURE_TENANT_ID=&amp;#34;&amp;lt;Tenant&amp;gt;&amp;#34;
+$ export AZURE_CLIENT_ID=&amp;#34;&amp;lt;AppId&amp;gt;&amp;#34;
+$ export AZURE_CLIENT_SECRET=&amp;#34;&amp;lt;Password&amp;gt;&amp;#34;
+
+# Base64 encode the Azure Resource IDs
+$ export AZURE_SUBSCRIPTION_ID_B64=&amp;#34;$(echo -n &amp;#34;$AZURE_SUBSCRIPTION_ID&amp;#34; | base64 | tr -d &amp;#39;\n&amp;#39;)&amp;#34;
+$ export AZURE_TENANT_ID_B64=&amp;#34;$(echo -n &amp;#34;$AZURE_TENANT_ID&amp;#34; | base64 | tr -d &amp;#39;\n&amp;#39;)&amp;#34;
+$ export AZURE_CLIENT_ID_B64=&amp;#34;$(echo -n &amp;#34;$AZURE_CLIENT_ID&amp;#34; | base64 | tr -d &amp;#39;\n&amp;#39;)&amp;#34;
+$ export AZURE_CLIENT_SECRET_B64=&amp;#34;$(echo -n &amp;#34;$AZURE_CLIENT_SECRET&amp;#34; | base64 | tr -d &amp;#39;\n&amp;#39;)&amp;#34;
+
+# Settings needed for AzureClusterIdentity used by the AzureCluster
+$ export AZURE_CLUSTER_IDENTITY_SECRET_NAME=&amp;#34;&amp;lt;cluster-identity-secret&amp;gt;&amp;#34;
+$ export CLUSTER_IDENTITY_NAME=&amp;#34;&amp;lt;cluster-identity&amp;gt;&amp;#34;
+$ export AZURE_CLUSTER_IDENTITY_SECRET_NAMESPACE=&amp;#34;default&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create a secret that includes the password of the service principal identity created in Azure. This secret is referenced by the AzureClusterIdentity used by the AzureCluster.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl create secret generic &amp;#34;${AZURE_CLUSTER_IDENTITY_SECRET_NAME}&amp;#34; --from-literal=clientSecret=&amp;#34;${AZURE_CLIENT_SECRET}&amp;#34; --namespace &amp;#34;${AZURE_CLUSTER_IDENTITY_SECRET_NAMESPACE}&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Install the Cluster API Azure infrastructure provider.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ clusterctl init -n verrazzano-capi -i azure
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;clusterctl will report when the admin cluster was successfully initialized.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;create-a-managed-cluster&#34;&gt;Create a managed cluster&lt;/h2&gt;
+&lt;p&gt;The Cluster API uses a cluster template to deploy a predefined set of Cluster API objects and create a managed cluster.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Set the following environment variables so they are available to the cluster template. Update the values to reflect your own environment.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# Base64 encoded SSH key for node access
+$ export AZURE_SSH_PUBLIC_KEY_B64=&amp;#34;&amp;lt;sshKey&amp;gt;&amp;#34;
+  
+# Select VM types.
+$ export AZURE_CONTROL_PLANE_MACHINE_TYPE=&amp;#34;Standard_D2s_v3&amp;#34;
+$ export AZURE_NODE_MACHINE_TYPE=&amp;#34;Standard_D2s_v3&amp;#34;
+ 
+# [Optional] Select resource group. The default value is ${CLUSTER_NAME}.
+$ export AZURE_RESOURCE_GROUP=&amp;#34;&amp;lt;resourceGroupName&amp;gt;
+ 
+# Name of the Azure datacenter location. Change this value to your desired location.
+$ export AZURE_LOCATION=&amp;#34;&amp;lt;location&amp;gt;&amp;#34;
+ 
+# Cluster name info
+$ export CLUSTER_NAME=&amp;#34;capi-quickstart&amp;#34;
+$ export KUBERNETES_VERSION=&amp;#34;&amp;lt;k8sVersion&amp;gt;&amp;#34;
+$ export NAMESPACE=&amp;#34;default&amp;#34;
+$ export CONTROL_PLANE_MACHINE_COUNT=&amp;#34;1&amp;#34;
+$ export WORKER_MACHINE_COUNT=&amp;#34;1&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Copy the cluster template and save it locally as &lt;code&gt;azure-capi.yaml&lt;/code&gt;.&lt;/p&gt;
+ &lt;details&gt;
+ &lt;summary&gt;&lt;b&gt;Click here for the cluster template&lt;/b&gt;&lt;/summary&gt;
+ &lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  name: ${CLUSTER_NAME}
+  namespace: default
+spec:
+  clusterNetwork:
+    pods:
+      cidrBlocks:
+        - 192.168.0.0/16
+  controlPlaneRef:
+    apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+    kind: OCNEControlPlane
+    name: ${CLUSTER_NAME}-control-plane
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+    kind: AzureCluster
+    name: ${CLUSTER_NAME}
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: AzureCluster
+metadata:
+  name: ${CLUSTER_NAME}
+  namespace: default
+spec:
+  identityRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+    kind: AzureClusterIdentity
+    name: ${CLUSTER_IDENTITY_NAME}
+  location: ${AZURE_LOCATION}
+  networkSpec:
+    subnets:
+      - name: control-plane-subnet
+        role: control-plane
+      - name: node-subnet
+        role: node
+    vnet:
+      name: ${AZURE_VNET_NAME:=${CLUSTER_NAME}-vnet}
+  resourceGroup: ${AZURE_RESOURCE_GROUP:=${CLUSTER_NAME}}
+  subscriptionID: ${AZURE_SUBSCRIPTION_ID}
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: AzureMachineTemplate
+metadata:
+  name: ${CLUSTER_NAME}-control-plane
+  namespace: default
+spec:
+  template:
+    spec:
+      image:
+        marketplace:
+          publisher: &amp;#34;Oracle&amp;#34;
+          offer: &amp;#34;Oracle-Linux&amp;#34;
+          sku: &amp;#34;ol88-lvm-gen2&amp;#34;
+          version: &amp;#34;8.8.3&amp;#34;
+      dataDisks:
+        - diskSizeGB: 256
+          lun: 0
+          nameSuffix: etcddisk
+      osDisk:
+        diskSizeGB: 128
+        osType: Linux
+      sshPublicKey: ${AZURE_SSH_PUBLIC_KEY_B64:=&amp;#34;&amp;#34;}
+      vmSize: ${AZURE_CONTROL_PLANE_MACHINE_TYPE}
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachineDeployment
+metadata:
+  name: ${CLUSTER_NAME}-md-0
+  namespace: default
+spec:
+  clusterName: ${CLUSTER_NAME}
+  replicas: ${WORKER_MACHINE_COUNT}
+  selector:
+    matchLabels: null
+  template:
+    spec:
+      bootstrap:
+        configRef:
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+          kind: OCNEConfigTemplate
+          name: ${CLUSTER_NAME}-md-0
+      clusterName: ${CLUSTER_NAME}
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+        kind: AzureMachineTemplate
+        name: ${CLUSTER_NAME}-md-0
+      version: ${KUBERNETES_VERSION}
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: AzureMachineTemplate
+metadata:
+  name: ${CLUSTER_NAME}-md-0
+  namespace: default
+spec:
+  template:
+    spec:
+      image:
+        marketplace:
+          publisher: &amp;#34;Oracle&amp;#34;
+          offer: &amp;#34;Oracle-Linux&amp;#34;
+          sku: &amp;#34;ol88-lvm-gen2&amp;#34;
+          version: &amp;#34;8.8.3&amp;#34;
+      osDisk:
+        diskSizeGB: 128
+        osType: Linux
+      sshPublicKey: ${AZURE_SSH_PUBLIC_KEY_B64:=&amp;#34;&amp;#34;}
+      vmSize: ${AZURE_NODE_MACHINE_TYPE}
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: AzureClusterIdentity
+metadata:
+  labels:
+    clusterctl.cluster.x-k8s.io/move-hierarchy: &amp;#34;true&amp;#34;
+  name: ${CLUSTER_IDENTITY_NAME}
+  namespace: default
+spec:
+  allowedNamespaces: {}
+  clientID: ${AZURE_CLIENT_ID}
+  clientSecret:
+    name: ${AZURE_CLUSTER_IDENTITY_SECRET_NAME}
+    namespace: ${AZURE_CLUSTER_IDENTITY_SECRET_NAMESPACE}
+  tenantID: ${AZURE_TENANT_ID}
+  type: ServicePrincipal
+---
+apiVersion: controlplane.cluster.x-k8s.io/v1alpha1
+kind: OCNEControlPlane
+metadata:
+  name: ${CLUSTER_NAME}-control-plane
+  namespace: default
+spec:
+  moduleOperator:
+    enabled: true
+  verrazzanoPlatformOperator:
+    enabled: true
+  controlPlaneConfig:
+    clusterConfiguration:
+      apiServer:
+        extraArgs:
+          cloud-provider: external
+        certSANs:
+          - localhost
+          - 127.0.0.1
+      dns:
+        imageRepository: ${OCNE_IMAGE_REPOSITORY=container-registry.oracle.com}/${OCNE_IMAGE_PATH=olcne}
+        imageTag: ${DNS_TAG=v1.9.3}
+      etcd:
+        local:
+          imageRepository: ${OCNE_IMAGE_REPOSITORY=container-registry.oracle.com}/${OCNE_IMAGE_PATH=olcne}
+          imageTag: ${ETCD_TAG=3.5.6}
+      controllerManager:
+        extraArgs:
+          cloud-provider: external
+      networking: {}
+      scheduler: {}
+      imageRepository: ${OCNE_IMAGE_REPOSITORY=container-registry.oracle.com}/${OCNE_IMAGE_PATH=olcne}
+    files:
+      - contentFrom:
+          secret:
+            key: control-plane-azure.json
+            name: ${CLUSTER_NAME}-control-plane-azure-json
+        owner: root:root
+        path: /etc/kubernetes/azure.json
+        permissions: &amp;#34;0644&amp;#34;
+    initConfiguration:
+      nodeRegistration:
+        criSocket: /var/run/crio/crio.sock
+        kubeletExtraArgs:
+          cloud-provider: external
+        name: &amp;#39;{{ local_hostname }}&amp;#39;
+    joinConfiguration:
+      discovery: {}
+      nodeRegistration:
+        criSocket: /var/run/crio/crio.sock
+        kubeletExtraArgs:
+          cloud-provider: external
+        name: &amp;#39;{{ local_hostname }}&amp;#39;
+    preOCNECommands:
+      - hostnamectl set-hostname &amp;#34;{{ ds.meta_data.hostname }}&amp;#34;
+      - echo &amp;#34;::1         ipv6-localhost ipv6-loopback localhost6 localhost6.localdomain6&amp;#34;
+        &amp;gt;/etc/hosts
+      - echo &amp;#34;127.0.0.1   {{ ds.meta_data.hostname }} {{ local_hostname }} localhost
+        localhost.localdomain localhost4 localhost4.localdomain4&amp;#34; &amp;gt;&amp;gt;/etc/hosts
+    users:
+      - name: opc
+        sudo: ALL=(ALL) NOPASSWD:ALL
+  machineTemplate:
+    infrastructureRef:
+      apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+      kind: AzureMachineTemplate
+      name: ${CLUSTER_NAME}-control-plane
+      namespace: default
+  replicas: ${CONTROL_PLANE_MACHINE_COUNT}
+  version: ${KUBERNETES_VERSION}
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1alpha1
+kind: OCNEConfigTemplate
+metadata:
+  name: ${CLUSTER_NAME}-md-0
+  namespace: default
+spec:
+  template:
+    spec:
+      clusterConfiguration:
+        imageRepository: ${OCNE_IMAGE_REPOSITORY=container-registry.oracle.com}/${OCNE_IMAGE_PATH=olcne}
+      joinConfiguration:
+        nodeRegistration:
+          kubeletExtraArgs:
+            cloud-provider: external
+          name: &amp;#39;{{ local_hostname }}&amp;#39;
+      preOCNECommands:
+        - hostnamectl set-hostname &amp;#34;{{ ds.meta_data.hostname }}&amp;#34;
+        - echo &amp;#34;::1         ipv6-localhost ipv6-loopback localhost6 localhost6.localdomain6&amp;#34;
+          &amp;gt;/etc/hosts
+        - echo &amp;#34;127.0.0.1   {{ ds.meta_data.hostname }} {{ local_hostname }} localhost
+          localhost.localdomain localhost4 localhost4.localdomain4&amp;#34; &amp;gt;&amp;gt;/etc/hosts
+      users:
+        - name: opc
+          sudo: ALL=(ALL) NOPASSWD:ALL
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+ &lt;/details&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Generate and apply the template by running the following command:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ clusterctl generate yaml --from azure-capi.yaml | kubectl apply -f -
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;To view the status of the cluster and its resources, run:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ clusterctl describe cluster $CLUSTER_NAME
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;To get the &lt;code&gt;kubeconfig&lt;/code&gt; file, run:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ clusterctl get kubeconfig ${CLUSTER_NAME} &amp;gt; ${CLUSTER_NAME}.kubeconfig
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;h2 id=&#34;finish-cluster-configuration&#34;&gt;Finish cluster configuration&lt;/h2&gt;
+&lt;p&gt;After the cluster resources are created, you must perform some additional steps to finish the configuration of the cluster.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Install a cloud controller manager (CCM). A CCM is necessary when deploying cloud resources such as load balancers.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ helm install --kubeconfig=./${CLUSTER_NAME}.kubeconfig --repo https://raw.githubusercontent.com/kubernetes-sigs/cloud-provider-azure/master/helm/repo cloud-provider-azure --generate-name --set infra.clusterName=clusterName --set cloudControllerManager.clusterCIDR=&amp;#34;192.168.0.0/16&amp;#34; --set cloudControllerManager.caCertDir=/etc/pki/ca-trust
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/li&gt;
+&lt;li&gt;Install a container network interface (CNI). The following example uses the Calico CNI.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ helm repo add projectcalico https://docs.tigera.io/calico/charts --kubeconfig=./${CLUSTER_NAME}.kubeconfig &amp;amp;&amp;amp; \
+$ helm install calico projectcalico/tigera-operator --kubeconfig=./${CLUSTER_NAME}.kubeconfig -f https://raw.githubusercontent.com/kubernetes-sigs/cluster-api-provider-azure/main/templates/addons/calico/values.yaml --namespace tigera-operator --create-namespace
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Your admin cluster and first managed cluster are now up and running and ready to deploy applications. You can add more managed clusters as needed.&lt;/p&gt;
+&lt;p&gt;For more information, refer to the documentation for Cluster API and Cluster API Azure:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://cluster-api.sigs.k8s.io/introduction.html&#34;&gt;Kubernetes Cluster API Documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://capz.sigs.k8s.io/introduction&#34;&gt;The Cluster API Provider Azure Book&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;troubleshoot-the-deployment&#34;&gt;Troubleshoot the deployment&lt;/h2&gt;
+&lt;p&gt;If the deployment of the Azure resources fails, then you can check the following log files to diagnose the issue:&lt;/p&gt;
+&lt;p&gt;The Azure cluster controller provider logs:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=infrastructure-azure
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+The OCNE control plane provider logs:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=control-plane-ocne
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: If a pod enters a &lt;code&gt;CrashLoopBackOff&lt;/code&gt; state, then you can either restart the deployment or wait for the state to run its course. This is a known issue that should not affect the deployment of your cluster.&lt;/p&gt;
+&lt;h2 id=&#34;delete-the-clusters&#34;&gt;Delete the clusters&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Delete the managed clusters.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete cluster $CLUSTER_NAME
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/li&gt;
+&lt;li&gt;Delete the admin cluster.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kind delete cluster
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Do not use &lt;code&gt;kubectl delete -f capi-quickstart.yaml&lt;/code&gt; to delete the entire cluster template at once because it might leave behind pending resources that you need to clean up manually.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Create OCNE Clusters Running on VMware vSphere</title>
+      <link>/docs/advanced/ocne-vsphere/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/advanced/ocne-vsphere/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;alert alert-danger&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    This feature is experimental. It has not been thoroughly tested and is provided for informational purposes only. We make no guarantees about its safety or stability and do not recommend implementing this feature in production environments.
+
+&lt;/div&gt;
+
+&lt;p&gt;The Cluster API project provides a standard set of Kubernetes-style APIs for cluster management. Officially, Verrazzano currently only supports using Cluster API to &lt;a href=&#34;../../docs/setup/provision-cluster/&#34;&gt;provision OCNE and OKE clusters on OCI&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;However, you can also experiment with using the features of the Cluster API project directly to deploy OCNE clusters on VMware vSphere.&lt;/p&gt;
+&lt;p&gt;For more information on Cluster API or Cluster API with vSphere, see:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://cluster-api.sigs.k8s.io/introduction.html&#34;&gt;Kubernetes Cluster API Documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/kubernetes-sigs/cluster-api-provider-vsphere&#34;&gt;Kubernetes Cluster API Provider vSphere&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/main/docs/getting_started.md&#34;&gt;Getting started with Cluster API Provider vSphere&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    &lt;p&gt;Verrazzano and Cluster API use slightly different terminology for the same concepts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Admin cluster (Verrazzano) = management cluster (Cluster API)&lt;/li&gt;
+&lt;li&gt;Managed cluster (Verrazzano) = workload cluster (Cluster API)&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
+&lt;p&gt;If you have an existing vSphere environment, you can ignore &lt;a href=&#34;#set-up-a-vmware-software-defined-data-center&#34;&gt;Set up a VMware Software-Defined Data Center&lt;/a&gt; and start from &lt;a href=&#34;#prepare-the-vm-environment&#34;&gt;Prepare the VM environment&lt;/a&gt;. Confirm that your environment meets the requirements as specified at &lt;a href=&#34;https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/main/docs/getting_started.md#install-requirements&#34;&gt;Cluster API Provider vSphere: Install Requirements&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Otherwise, create a vSphere environment. We recommend using the Oracle Cloud VMware Solution as described in &lt;a href=&#34;#set-up-a-vmware-software-defined-data-center&#34;&gt;Set up a VMware Software-Defined Data Center&lt;/a&gt;. It deploys a VMware software-defined data center (SDDC) on Oracle Cloud Infrastructure (OCI) and then integrates it with other Oracle services running on Oracle Cloud. This solution was developed in partnership with VMware to provide an environment that adheres to best practices recommended by VMware.&lt;/p&gt;
+&lt;p&gt;For more information on the Oracle Cloud VMware Solution, see &lt;a href=&#34;https://docs.oracle.com/en/solutions/deploy-vmware-sddc-oci/index.html#GUID-860B8193-4612-4589-81DB-A8F63ADBD0F4&#34;&gt;Deploy a highly available VMware-based SDDC to the cloud&lt;/a&gt; in the Oracle Help Architecture Center.&lt;/p&gt;
+&lt;h2 id=&#34;set-up-a-vmware-software-defined-data-center&#34;&gt;Set up a VMware Software-Defined Data Center&lt;/h2&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    Skip this section if you have configured a vSphere environment or a VMware SDDC already.
+
+&lt;/div&gt;
+
+&lt;p&gt;Use the Oracle Cloud VMware Solution to rapidly create a VMware SDDC.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Set up a virtual cloud network (VCN). You can choose to use an existing VCN or let the Oracle Cloud VMware Solution create its own VCN as part of the SDDC provisioning process. If you use an existing VCN, then make sure it meets the requirements defined in &lt;a href=&#34;https://docs.oracle.com/en/solutions/deploy-vmware-sddc-oci/deploy-sddc-cloud1.html#GUID-EC84353E-01A8-4F41-A43A-10A47C66611C&#34;&gt;Prepare Your Deployment&lt;/a&gt; in the Oracle Help Architecture Center.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Deploy the SDDC. To request a new VMware SDDC on OCI, follow the instructions at &lt;a href=&#34;https://docs.oracle.com/en/solutions/deploy-vmware-sddc-oci/deploy-sddc-cloud1.html#GUID-8D3BD5B0-F603-4529-903F-641C24935720&#34;&gt;Deploy the SDDC&lt;/a&gt; in the Oracle Help Architecture Center.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Ensure that the various components were created successfully. Follow the instructions at &lt;a href=&#34;https://docs.oracle.com/en/solutions/deploy-vmware-sddc-oci/deploy-sddc-cloud1.html#GUID-E170AD8F-7E51-44C6-93D9-DC332F3D8025&#34;&gt;Monitor the SDDC Creation Process&lt;/a&gt; in the Oracle Help Architecture Center.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;prepare-the-vm-environment&#34;&gt;Prepare the VM environment&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Download an Oracle Linux 8 ISO image from &lt;a href=&#34;https://yum.oracle.com/oracle-linux-isos.html&#34;&gt;Oracle Linux Installation Media&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Upload the Oracle Linux 8 ISO image to vSphere. Use the steps at &lt;a href=&#34;https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.vm_admin.doc/GUID-492D6904-7471-4D66-9555-9466CCCA6931.html&#34;&gt;Upload ISO Image Installation Media for a Guest Operating System&lt;/a&gt; in the vSphere documentation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Deploy a VM by following the instructions at &lt;a href=&#34;https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.vm_admin.doc/GUID-AE8AFBF1-75D1-4172-988C-378C35C9FAF2.html?hWord=N4IghgNiBcIEZgM4FMAEA3AtiAvkA&#34;&gt;Create a Virtual Machine with the New Virtual Machine Wizard&lt;/a&gt; in the vSphere documentation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Install cloud-init on the VM.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ sudo yum install -y cloud-init
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Initialize cloud-init.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ cloud-init init --local
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+When cloud-init is successfully configured, it returns a message similar to the following:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ cloud-init v. 20.1.0011 running &amp;#39;init-local&amp;#39; at Fri, 01 Apr 2022 01:26:11 +0000. Up 38.70 seconds.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Shut down the VM.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Convert the VM into a template and name it &lt;code&gt;OL8-Base-Template&lt;/code&gt;. Follow the instructions at &lt;a href=&#34;https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.vm_admin.doc/GUID-5B3737CC-28DB-4334-BD18-6E12011CDC9F.html&#34;&gt;Clone a Virtual Machine to a Template&lt;/a&gt; in the vSphere documentation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;set-up-the-admin-cluster&#34;&gt;Set up the admin cluster&lt;/h2&gt;
+&lt;p&gt;The Cluster API requires an initial cluster as a starting point to deploy its resources.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Install kind. Follow the instructions at &lt;a href=&#34;https://kind.sigs.k8s.io/docs/user/quick-start/#installation&#34;&gt;Installation&lt;/a&gt; in the kind documentation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create a Kubernetes cluster using kind. This cluster must be accessible by the VMware SDDC. Follow the instructions at &lt;a href=&#34;https://cluster-api.sigs.k8s.io/user/quick-start#install-andor-configure-a-kubernetes-cluster&#34;&gt;Quick Start: Install and/or configure a Kubernetes cluster&lt;/a&gt; in The Cluster API Book.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Install the clusterctl CLI tool. clusterctl manages the lifecycle operations of a cluster API admin cluster. Follow instructions at &lt;a href=&#34;https://cluster-api.sigs.k8s.io/user/quick-start.html#install-clusterctl&#34;&gt;Quick Start: Install clusterctl&lt;/a&gt; in the Cluster API Book.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Install the Verrazzano CLI tool using the instructions at &lt;a href=&#34;../../docs/setup/install/prepare/cli-setup/&#34;&gt;CLI Setup&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Install Verrazzano on the cluster using either the &lt;code&gt;dev&lt;/code&gt; or &lt;code&gt;prod&lt;/code&gt; profile. Follow the instructions at &lt;a href=&#34;../../docs/setup/install/perform/cli-installation/&#34;&gt;Install with CLI&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;On the cluster, set the following vSphere environment variables. Update the values to reflect your own environment.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ export VSPHERE_PASSWORD=&amp;#34;&amp;lt;vmware-password&amp;gt;&amp;#34;
+$ export VSPHERE_USERNAME=&amp;#34;administrator@vsphere.local&amp;#34;
+$ export VSPHERE_SERVER=&amp;#34;&amp;lt;IP address or FQDN&amp;gt;&amp;#34;
+$ export VSPHERE_DATACENTER=&amp;#34;&amp;lt;SDDC-Datacenter&amp;gt;&amp;#34;
+$ export VSPHERE_DATASTORE=&amp;#34;&amp;lt;vSAN-Datastore&amp;gt;&amp;#34;	
+$ export VSPHERE_NETWORK=&amp;#34;workload&amp;#34;
+$ export VSPHERE_RESOURCE_POOL=&amp;#34;*/Resources/Workload&amp;#34;
+$ export VSPHERE_FOLDER=&amp;#34;&amp;lt;folder-name&amp;gt;&amp;#34;
+$ export VSPHERE_TEMPLATE=&amp;#34;OL8-Base-Template&amp;#34;
+$ export VSPHERE_SSH_AUTHORIZED_KEY=&amp;#34;&amp;lt;Public-SSH-Authorized-Key&amp;gt;&amp;#34;
+$ export VSPHERE_TLS_THUMBPRINT=&amp;#34;&amp;lt;SHA1 thumbprint of vCenter certificate&amp;gt;&amp;#34;
+$ export VSPHERE_STORAGE_POLICY=&amp;#34;&amp;#34;
+$ export CONTROL_PLANE_ENDPOINT_IP=&amp;#34;&amp;lt;IP address or FQDN&amp;gt;&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+For information on the values of the environment variables, see &lt;a href=&#34;https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/main/docs/getting_started.md#configuring-and-installing-cluster-api-provider-vsphere-in-a-management-cluster&#34;&gt;Configuring and installing Cluster API Provider vSphere in a management cluster&lt;/a&gt; in the Cluster API Provider vSphere documentation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Install the Cluster API Provider vSphere to initialize the admin cluster.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ clusterctl init -n verrazzano-capi -i vsphere
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;clusterctl will report when the admin cluster was successfully initialized.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;create-a-managed-cluster&#34;&gt;Create a managed cluster&lt;/h2&gt;
+&lt;p&gt;The Cluster API uses a cluster template to deploy a predefined set of Cluster API objects and create a managed cluster.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Copy the cluster template and save it locally as &lt;code&gt;vsphere-capi.yaml&lt;/code&gt;.&lt;/p&gt;
+ &lt;details&gt;
+ &lt;summary&gt;&lt;b&gt;Click here for the cluster template&lt;/b&gt;&lt;/summary&gt;
+ &lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  labels:
+    cluster.x-k8s.io/cluster-name: ${CLUSTER_NAME}
+  name: ${CLUSTER_NAME}
+  namespace: ${NAMESPACE}
+spec:
+  clusterNetwork:
+    pods:
+      cidrBlocks:
+        - ${POD_CIDR=192.168.0.0/16}
+    serviceDomain: cluster.local
+    services:
+      cidrBlocks:
+        - ${CLUSTER_CIDR=10.128.0.0/12}
+  controlPlaneRef:
+    apiVersion: controlplane.cluster.x-k8s.io/v1alpha1
+    kind: OCNEControlPlane
+    name: ${CLUSTER_NAME}-control-plane
+    namespace: ${NAMESPACE}
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+    kind: VSphereCluster
+    name: ${CLUSTER_NAME}
+    namespace: ${NAMESPACE}
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: VSphereCluster
+metadata:
+  name: ${CLUSTER_NAME}
+  namespace: ${NAMESPACE}
+spec:
+  controlPlaneEndpoint:
+    host: ${CONTROL_PLANE_ENDPOINT_IP}
+    port: 6443
+  identityRef:
+    kind: Secret
+    name: ${CLUSTER_NAME}
+  server: ${VSPHERE_SERVER}
+  thumbprint: &amp;#39;${VSPHERE_TLS_THUMBPRINT}&amp;#39;
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: VSphereMachineTemplate
+metadata:
+  name: ${CLUSTER_NAME}-control-plane
+  namespace: ${NAMESPACE}
+spec:
+  template:
+    spec:
+      cloneMode: linkedClone
+      datacenter: ${VSPHERE_DATACENTER=oci-w01dc}
+      datastore: ${VSPHERE_DATASTORE=vsanDatastore}
+      diskGiB: ${VSPHERE_DISK=200}
+      folder: ${VSPHERE_FOLDER=CAPI}
+      memoryMiB: ${VSPHERE_MEMORY=32384}
+      network:
+        devices:
+          - dhcp4: true
+            networkName: &amp;#34;${VSPHERE_NETWORK=workload}&amp;#34;
+      numCPUs: ${VSPHERE_CPU=4}
+      os: Linux
+      resourcePool: &amp;#39;${VSPHERE_RESOURCE_POOL=*/Resources/Workload}&amp;#39;
+      server: &amp;#39;${VSPHERE_SERVER=11.0.11.130}&amp;#39;
+      storagePolicyName: ${VSPHERE_STORAGE_POLICY=&amp;#34;&amp;#34;}
+      template: ${VSPHERE_TEMPLATE=OL8-Base-Template}
+      thumbprint: &amp;#39;${VSPHERE_TLS_THUMBPRINT}&amp;#39;
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: VSphereMachineTemplate
+metadata:
+  name: ${CLUSTER_NAME}-md-0
+  namespace: ${NAMESPACE}
+spec:
+  template:
+    spec:
+      cloneMode: linkedClone
+      datacenter: ${VSPHERE_DATACENTER=oci-w01dc}
+      datastore: ${VSPHERE_DATASTORE=vsanDatastore}
+      diskGiB: ${VSPHERE_DISK=200}
+      folder: ${VSPHERE_FOLDER=CAPI}
+      memoryMiB: ${VSPHERE_MEMORY=32384}
+      network:
+        devices:
+          - dhcp4: true
+            networkName: &amp;#34;${VSPHERE_NETWORK=workload}&amp;#34;
+      numCPUs: ${VSPHERE_CPU=4}
+      os: Linux
+      resourcePool: &amp;#39;${VSPHERE_RESOURCE_POOL=*/Resources/Workload}&amp;#39;
+      server: &amp;#39;${VSPHERE_SERVER=11.0.11.130}&amp;#39;
+      storagePolicyName: ${VSPHERE_STORAGE_POLICY=&amp;#34;&amp;#34;}
+      template: ${VSPHERE_TEMPLATE=OL8-Base-Template}
+      thumbprint: &amp;#39;${VSPHERE_TLS_THUMBPRINT}&amp;#39;
+---
+apiVersion: controlplane.cluster.x-k8s.io/v1alpha1
+kind: OCNEControlPlane
+metadata:
+  name: ${CLUSTER_NAME}-control-plane
+  namespace: ${NAMESPACE}
+spec:
+  moduleOperator:
+    enabled: true
+  verrazzanoPlatformOperator:
+    enabled: true
+  controlPlaneConfig:
+    clusterConfiguration:
+      apiServer:
+        extraArgs:
+          cloud-provider: external
+        certSANs:
+          - localhost
+          - 127.0.0.1
+      dns:
+        imageRepository: ${OCNE_IMAGE_REPOSITORY=container-registry.oracle.com}/${OCNE_IMAGE_PATH=olcne}
+        imageTag: ${DNS_TAG=v1.9.3}
+      etcd:
+        local:
+          imageRepository: ${OCNE_IMAGE_REPOSITORY=container-registry.oracle.com}/${OCNE_IMAGE_PATH=olcne}
+          imageTag: ${ETCD_TAG=3.5.6}
+      controllerManager:
+        extraArgs:
+          cloud-provider: external
+      networking: {}
+      scheduler: {}
+      imageRepository: ${OCNE_IMAGE_REPOSITORY=container-registry.oracle.com}/${OCNE_IMAGE_PATH=olcne}
+    files:
+      - content: |
+          apiVersion: v1
+          kind: Pod
+          metadata: 
+            creationTimestamp: null
+            name: kube-vip
+            namespace: kube-system
+          spec: 
+            containers: 
+            - args: 
+              - manager
+              env: 
+              - name: cp_enable
+                value: &amp;#34;true&amp;#34;
+              - name: vip_interface
+                value: &amp;#34;&amp;#34;
+              - name: address
+                value: ${CONTROL_PLANE_ENDPOINT_IP}
+              - name: port
+                value: &amp;#34;6443&amp;#34;
+              - name: vip_arp
+                value: &amp;#34;true&amp;#34;
+              - name: vip_leaderelection
+                value: &amp;#34;true&amp;#34;
+              - name: vip_leaseduration
+                value: &amp;#34;15&amp;#34;
+              - name: vip_renewdeadline
+                value: &amp;#34;10&amp;#34;
+              - name: vip_retryperiod
+                value: &amp;#34;2&amp;#34;
+              image: ghcr.io/kube-vip/kube-vip:v0.5.11
+              imagePullPolicy: IfNotPresent
+              name: kube-vip
+              resources: {}
+              securityContext: 
+                capabilities: 
+                  add: 
+                  - NET_ADMIN
+                  - NET_RAW
+              volumeMounts: 
+              - mountPath: /etc/kubernetes/admin.conf
+                name: kubeconfig
+            hostAliases: 
+            - hostnames: 
+              - kubernetes
+              ip: 127.0.0.1
+            hostNetwork: true
+            volumes: 
+            - hostPath: 
+                path: /etc/kubernetes/admin.conf
+                type: FileOrCreate
+              name: kubeconfig
+          status: {}
+        owner: root:root
+        path: /etc/kubernetes/manifests/kube-vip.yaml
+    initConfiguration:
+      nodeRegistration:
+        criSocket: /var/run/crio/crio.sock
+        kubeletExtraArgs:
+          cloud-provider: external
+        name: &amp;#39;{{ local_hostname }}&amp;#39;
+    joinConfiguration:
+      discovery: {}
+      nodeRegistration:
+        criSocket: /var/run/crio/crio.sock
+        kubeletExtraArgs:
+          cloud-provider: external
+        name: &amp;#39;{{ local_hostname }}&amp;#39;
+    verbosity: 9
+    preOCNECommands:
+      - hostnamectl set-hostname &amp;#34;{{ ds.meta_data.hostname }}&amp;#34;
+      - echo &amp;#34;::1         ipv6-localhost ipv6-loopback localhost6 localhost6.localdomain6&amp;#34;
+        &amp;gt;/etc/hosts
+      - echo &amp;#34;127.0.0.1   {{ ds.meta_data.hostname }} {{ local_hostname }} localhost
+        localhost.localdomain localhost4 localhost4.localdomain4&amp;#34; &amp;gt;&amp;gt;/etc/hosts
+    users:
+      - name: opc
+        sshAuthorizedKeys:
+          - ${VSPHERE_SSH_AUTHORIZED_KEY}
+        sudo: ALL=(ALL) NOPASSWD:ALL
+  machineTemplate:
+    infrastructureRef:
+      apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+      kind: VSphereMachineTemplate
+      name: ${CLUSTER_NAME}-control-plane
+      namespace: ${NAMESPACE}
+  replicas: ${CONTROL_PLANE_MACHINE_COUNT=1}
+  version: ${KUBERNETES_VERSION=v1.26.6}
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1alpha1
+kind: OCNEConfigTemplate
+metadata:
+  name: ${CLUSTER_NAME}-md-0
+  namespace: ${NAMESPACE}
+spec:
+  template:
+    spec:
+      clusterConfiguration:
+        imageRepository: ${OCNE_IMAGE_REPOSITORY=container-registry.oracle.com}/${OCNE_IMAGE_PATH=olcne}
+      joinConfiguration:
+        nodeRegistration:
+          kubeletExtraArgs:
+            cloud-provider: external
+          name: &amp;#39;{{ local_hostname }}&amp;#39;
+      verbosity: 9
+      preOCNECommands:
+        - hostnamectl set-hostname &amp;#34;{{ ds.meta_data.hostname }}&amp;#34;
+        - echo &amp;#34;::1         ipv6-localhost ipv6-loopback localhost6 localhost6.localdomain6&amp;#34;
+          &amp;gt;/etc/hosts
+        - echo &amp;#34;127.0.0.1   {{ ds.meta_data.hostname }} {{ local_hostname }} localhost
+          localhost.localdomain localhost4 localhost4.localdomain4&amp;#34; &amp;gt;&amp;gt;/etc/hosts
+      users:
+        - name: opc
+          sshAuthorizedKeys:
+            - ${VSPHERE_SSH_AUTHORIZED_KEY}
+          sudo: ALL=(ALL) NOPASSWD:ALL
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachineDeployment
+metadata:
+  labels:
+    cluster.x-k8s.io/cluster-name: ${CLUSTER_NAME}
+  name: ${CLUSTER_NAME}-md-0
+  namespace: ${NAMESPACE}
+spec:
+  clusterName: ${CLUSTER_NAME}
+  replicas: ${NODE_MACHINE_COUNT=3}
+  selector:
+    matchLabels: {}
+  template:
+    metadata:
+      labels:
+        cluster.x-k8s.io/cluster-name: ${CLUSTER_NAME}
+    spec:
+      bootstrap:
+        configRef:
+          apiVersion: bootstrap.cluster.x-k8s.io/v1alpha1
+          kind: OCNEConfigTemplate
+          name: ${CLUSTER_NAME}-md-0
+      clusterName: ${CLUSTER_NAME}
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+        kind: VSphereMachineTemplate
+        name: ${CLUSTER_NAME}-md-0
+      version: ${KUBERNETES_VERSION=v1.26.6}
+---
+apiVersion: addons.cluster.x-k8s.io/v1beta1
+kind: ClusterResourceSet
+metadata:
+  name: ${CLUSTER_NAME}-crs-0
+  namespace: ${NAMESPACE}
+spec:
+  clusterSelector:
+    matchLabels:
+      cluster.x-k8s.io/cluster-name: ${CLUSTER_NAME}
+  resources:
+    - kind: Secret
+      name: ${CLUSTER_NAME}-vsphere-csi-controller
+    - kind: ConfigMap
+      name: ${CLUSTER_NAME}-vsphere-csi-controller-role
+    - kind: ConfigMap
+      name: ${CLUSTER_NAME}-vsphere-csi-controller-binding
+    - kind: Secret
+      name: ${CLUSTER_NAME}-csi-vsphere-config
+    - kind: ConfigMap
+      name: csi.vsphere.vmware.com
+    - kind: ConfigMap
+      name: vsphere-csi-controller-sa
+    - kind: ConfigMap
+      name: vsphere-csi-node-sa
+    - kind: ConfigMap
+      name: ${CLUSTER_NAME}-vsphere-csi-node-cluster-role
+    - kind: ConfigMap
+      name: ${CLUSTER_NAME}-vsphere-csi-node-cluster-role-binding
+    - kind: ConfigMap
+      name: ${CLUSTER_NAME}-vsphere-csi-node-role
+    - kind: ConfigMap
+      name: ${CLUSTER_NAME}-vsphere-csi-node-binding
+    - kind: ConfigMap
+      name: ${CLUSTER_NAME}-internal-feature-states.csi.vsphere.vmware.com
+    - kind: ConfigMap
+      name: ${CLUSTER_NAME}-vsphere-csi-controller-service
+    - kind: ConfigMap
+      name: ${CLUSTER_NAME}-vsphere-csi-controller
+    - kind: ConfigMap
+      name: ${CLUSTER_NAME}-vsphere-csi-node
+    - kind: ConfigMap
+      name: ${CLUSTER_NAME}-vsphere-csi-node-windows
+    - kind: Secret
+      name: ${CLUSTER_NAME}-cloud-controller-manager
+    - kind: Secret
+      name: ${CLUSTER_NAME}-cloud-provider-vsphere-credentials
+    - kind: ConfigMap
+      name: ${CLUSTER_NAME}-cpi-manifests
+  strategy: Reconcile
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ${CLUSTER_NAME}
+  namespace: ${NAMESPACE}
+stringData:
+  password: ${VSPHERE_PASSWORD}
+  username: ${VSPHERE_USERNAME}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${CLUSTER_NAME}-vsphere-csi-controller
+  namespace: ${NAMESPACE}
+data:
+  data: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata: 
+      name: vsphere-csi-controller
+      namespace: kube-system
+---
+apiVersion: v1
+data:
+  data: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata: 
+      name: vsphere-csi-controller-role
+    rules: 
+    - apiGroups: [&amp;#34;&amp;#34;]
+      resources: [&amp;#34;nodes&amp;#34;, &amp;#34;pods&amp;#34;, &amp;#34;configmaps&amp;#34;]
+      verbs: [&amp;#34;get&amp;#34;, &amp;#34;list&amp;#34;, &amp;#34;watch&amp;#34;]
+    - apiGroups: [&amp;#34;&amp;#34;]
+      resources: [&amp;#34;persistentvolumeclaims&amp;#34;]
+      verbs: [&amp;#34;get&amp;#34;, &amp;#34;list&amp;#34;, &amp;#34;watch&amp;#34;, &amp;#34;update&amp;#34;]
+    - apiGroups: [&amp;#34;&amp;#34;]
+      resources: [&amp;#34;persistentvolumeclaims/status&amp;#34;]
+      verbs: [&amp;#34;patch&amp;#34;]
+    - apiGroups: [&amp;#34;&amp;#34;]
+      resources: [&amp;#34;persistentvolumes&amp;#34;]
+      verbs: [&amp;#34;get&amp;#34;, &amp;#34;list&amp;#34;, &amp;#34;watch&amp;#34;, &amp;#34;create&amp;#34;, &amp;#34;update&amp;#34;, &amp;#34;delete&amp;#34;, &amp;#34;patch&amp;#34;]
+    - apiGroups: [&amp;#34;&amp;#34;]
+      resources: [&amp;#34;events&amp;#34;]
+      verbs: [&amp;#34;get&amp;#34;, &amp;#34;list&amp;#34;, &amp;#34;watch&amp;#34;, &amp;#34;create&amp;#34;, &amp;#34;update&amp;#34;, &amp;#34;patch&amp;#34;]
+    - apiGroups: [&amp;#34;coordination.k8s.io&amp;#34;]
+      resources: [&amp;#34;leases&amp;#34;]
+      verbs: [&amp;#34;get&amp;#34;, &amp;#34;watch&amp;#34;, &amp;#34;list&amp;#34;, &amp;#34;delete&amp;#34;, &amp;#34;update&amp;#34;, &amp;#34;create&amp;#34;]
+    - apiGroups: [&amp;#34;storage.k8s.io&amp;#34;]
+      resources: [&amp;#34;storageclasses&amp;#34;, &amp;#34;csinodes&amp;#34;]
+      verbs: [&amp;#34;get&amp;#34;, &amp;#34;list&amp;#34;, &amp;#34;watch&amp;#34;]
+    - apiGroups: [&amp;#34;storage.k8s.io&amp;#34;]
+      resources: [&amp;#34;volumeattachments&amp;#34;]
+      verbs: [&amp;#34;get&amp;#34;, &amp;#34;list&amp;#34;, &amp;#34;watch&amp;#34;, &amp;#34;patch&amp;#34;]
+    - apiGroups: [&amp;#34;cns.vmware.com&amp;#34;]
+      resources: [&amp;#34;triggercsifullsyncs&amp;#34;]
+      verbs: [&amp;#34;create&amp;#34;, &amp;#34;get&amp;#34;, &amp;#34;update&amp;#34;, &amp;#34;watch&amp;#34;, &amp;#34;list&amp;#34;]
+    - apiGroups: [&amp;#34;cns.vmware.com&amp;#34;]
+      resources: [&amp;#34;cnsvspherevolumemigrations&amp;#34;]
+      verbs: [&amp;#34;create&amp;#34;, &amp;#34;get&amp;#34;, &amp;#34;list&amp;#34;, &amp;#34;watch&amp;#34;, &amp;#34;update&amp;#34;, &amp;#34;delete&amp;#34;]
+    - apiGroups: [&amp;#34;apiextensions.k8s.io&amp;#34;]
+      resources: [&amp;#34;customresourcedefinitions&amp;#34;]
+      verbs: [&amp;#34;get&amp;#34;, &amp;#34;create&amp;#34;, &amp;#34;update&amp;#34;]
+    - apiGroups: [&amp;#34;storage.k8s.io&amp;#34;]
+      resources: [&amp;#34;volumeattachments/status&amp;#34;]
+      verbs: [&amp;#34;patch&amp;#34;]
+    - apiGroups: [&amp;#34;cns.vmware.com&amp;#34;]
+      resources: [&amp;#34;cnsvolumeoperationrequests&amp;#34;]
+      verbs: [&amp;#34;create&amp;#34;, &amp;#34;get&amp;#34;, &amp;#34;list&amp;#34;, &amp;#34;update&amp;#34;, &amp;#34;delete&amp;#34;]
+    - apiGroups: [ &amp;#34;snapshot.storage.k8s.io&amp;#34; ]
+      resources: [ &amp;#34;volumesnapshots&amp;#34; ]
+      verbs: [ &amp;#34;get&amp;#34;, &amp;#34;list&amp;#34; ]
+    - apiGroups: [ &amp;#34;snapshot.storage.k8s.io&amp;#34; ]
+      resources: [ &amp;#34;volumesnapshotclasses&amp;#34; ]
+      verbs: [ &amp;#34;watch&amp;#34;, &amp;#34;get&amp;#34;, &amp;#34;list&amp;#34; ]
+    - apiGroups: [ &amp;#34;snapshot.storage.k8s.io&amp;#34; ]
+      resources: [ &amp;#34;volumesnapshotcontents&amp;#34; ]
+      verbs: [ &amp;#34;create&amp;#34;, &amp;#34;get&amp;#34;, &amp;#34;list&amp;#34;, &amp;#34;watch&amp;#34;, &amp;#34;update&amp;#34;, &amp;#34;delete&amp;#34;, &amp;#34;patch&amp;#34;]
+    - apiGroups: [ &amp;#34;snapshot.storage.k8s.io&amp;#34; ]
+      resources: [ &amp;#34;volumesnapshotcontents/status&amp;#34; ]
+      verbs: [ &amp;#34;update&amp;#34;, &amp;#34;patch&amp;#34; ]
+    - apiGroups: [ &amp;#34;cns.vmware.com&amp;#34; ]
+      resources: [ &amp;#34;csinodetopologies&amp;#34; ]
+      verbs: [&amp;#34;get&amp;#34;, &amp;#34;update&amp;#34;, &amp;#34;watch&amp;#34;, &amp;#34;list&amp;#34;]
+kind: ConfigMap
+metadata:
+  name: ${CLUSTER_NAME}-vsphere-csi-controller-role
+  namespace: ${NAMESPACE}
+---
+apiVersion: v1
+data:
+  data: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata: 
+      name: vsphere-csi-controller-binding
+    roleRef: 
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: vsphere-csi-controller-role
+    subjects: 
+    - kind: ServiceAccount
+      name: vsphere-csi-controller
+      namespace: kube-system
+kind: ConfigMap
+metadata:
+  name: ${CLUSTER_NAME}-vsphere-csi-controller-binding
+  namespace: ${NAMESPACE}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ${CLUSTER_NAME}-csi-vsphere-config
+  namespace: ${NAMESPACE}
+stringData:
+  data: |
+    apiVersion: v1
+    kind: Secret
+    metadata: 
+      name: csi-vsphere-config
+      namespace: kube-system
+    stringData: 
+      csi-vsphere.conf: |+
+        [Global]
+        thumbprint = &amp;#34;${VSPHERE_TLS_THUMBPRINT}&amp;#34;
+        cluster-id = &amp;#34;${NAMESPACE}/${CLUSTER_NAME}&amp;#34;
+
+        [VirtualCenter &amp;#34;${VSPHERE_SERVER}&amp;#34;]
+        insecure-flag = &amp;#34;true&amp;#34;
+        user = &amp;#34;${VSPHERE_USERNAME}&amp;#34;
+        password = &amp;#34;${VSPHERE_PASSWORD}&amp;#34;
+        datacenters = &amp;#34;${VSPHERE_DATACENTER}&amp;#34;
+        targetvSANFileShareDatastoreURLs = &amp;#34;${VSPHERE_DATASTORE_URL_SAN}&amp;#34;
+
+        [Network]
+        public-network = &amp;#34;${VSPHERE_NETWORK=workload}&amp;#34;
+
+    type: Opaque
+type: addons.cluster.x-k8s.io/resource-set
+---
+apiVersion: v1
+data:
+  data: |
+    apiVersion: storage.k8s.io/v1
+    kind: CSIDriver
+    metadata:
+      name: csi.vsphere.vmware.com
+    spec:
+      attachRequired: true
+      podInfoOnMount: false
+kind: ConfigMap
+metadata:
+  name: csi.vsphere.vmware.com
+  namespace: ${NAMESPACE}
+---
+apiVersion: v1
+data:
+  data: |
+    kind: ServiceAccount
+    apiVersion: v1
+    metadata:
+      name: vsphere-csi-controller
+      namespace: kube-system
+kind: ConfigMap
+metadata:
+  name: vsphere-csi-controller-sa
+  namespace: ${NAMESPACE}
+---
+apiVersion: v1
+data:
+  data: |
+    kind: ServiceAccount
+    apiVersion: v1
+    metadata:
+      name: vsphere-csi-node
+      namespace: kube-system
+kind: ConfigMap
+metadata:
+  name: vsphere-csi-node-sa
+  namespace: ${NAMESPACE}
+---
+apiVersion: v1
+data:
+  data: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata: 
+      name: vsphere-csi-node-cluster-role
+    rules: 
+      - apiGroups: [&amp;#34;cns.vmware.com&amp;#34;]
+        resources: [&amp;#34;csinodetopologies&amp;#34;]
+        verbs: [&amp;#34;create&amp;#34;, &amp;#34;watch&amp;#34;, &amp;#34;get&amp;#34;, &amp;#34;patch&amp;#34;]
+      - apiGroups: [&amp;#34;&amp;#34;]
+        resources: [&amp;#34;nodes&amp;#34;]
+        verbs: [&amp;#34;get&amp;#34;]
+kind: ConfigMap
+metadata:
+  name: ${CLUSTER_NAME}-vsphere-csi-node-cluster-role
+  namespace: ${NAMESPACE}
+---
+apiVersion: v1
+data:
+  data: |
+    kind: ClusterRoleBinding
+    apiVersion: rbac.authorization.k8s.io/v1
+    metadata:
+      name: vsphere-csi-node-cluster-role-binding
+    subjects:
+      - kind: ServiceAccount
+        name: vsphere-csi-node
+        namespace: kube-system
+    roleRef:
+      kind: ClusterRole
+      name: vsphere-csi-node-cluster-role
+      apiGroup: rbac.authorization.k8s.io
+kind: ConfigMap
+metadata:
+  name: ${CLUSTER_NAME}-vsphere-csi-node-cluster-role-binding
+  namespace: ${NAMESPACE}
+---
+apiVersion: v1
+data:
+  data: |
+    kind: Role
+    apiVersion: rbac.authorization.k8s.io/v1
+    metadata:
+      name: vsphere-csi-node-role
+      namespace: kube-system
+    rules:
+      - apiGroups: [&amp;#34;&amp;#34;]
+        resources: [&amp;#34;configmaps&amp;#34;]
+        verbs: [&amp;#34;get&amp;#34;, &amp;#34;list&amp;#34;, &amp;#34;watch&amp;#34;]
+kind: ConfigMap
+metadata:
+  name: ${CLUSTER_NAME}-vsphere-csi-node-role
+  namespace: ${NAMESPACE}
+---
+apiVersion: v1
+data:
+  data: |
+    kind: RoleBinding
+    apiVersion: rbac.authorization.k8s.io/v1
+    metadata:
+      name: vsphere-csi-node-binding
+      namespace: kube-system
+    subjects:
+      - kind: ServiceAccount
+        name: vsphere-csi-node
+        namespace: kube-system
+    roleRef:
+      kind: Role
+      name: vsphere-csi-node-role
+      apiGroup: rbac.authorization.k8s.io
+kind: ConfigMap
+metadata:
+  name: ${CLUSTER_NAME}-vsphere-csi-node-binding
+  namespace: ${NAMESPACE}
+---
+apiVersion: v1
+data:
+  data: |
+    apiVersion: v1
+    data:
+      &amp;#34;csi-migration&amp;#34;: &amp;#34;true&amp;#34;
+      &amp;#34;csi-auth-check&amp;#34;: &amp;#34;true&amp;#34;
+      &amp;#34;online-volume-extend&amp;#34;: &amp;#34;true&amp;#34;
+      &amp;#34;trigger-csi-fullsync&amp;#34;: &amp;#34;false&amp;#34;
+      &amp;#34;async-query-volume&amp;#34;: &amp;#34;true&amp;#34;
+      &amp;#34;improved-csi-idempotency&amp;#34;: &amp;#34;true&amp;#34;
+      &amp;#34;improved-volume-topology&amp;#34;: &amp;#34;true&amp;#34;
+      &amp;#34;block-volume-snapshot&amp;#34;: &amp;#34;true&amp;#34;
+      &amp;#34;csi-windows-support&amp;#34;: &amp;#34;false&amp;#34;
+      &amp;#34;use-csinode-id&amp;#34;: &amp;#34;true&amp;#34;
+      &amp;#34;list-volumes&amp;#34;: &amp;#34;false&amp;#34;
+      &amp;#34;pv-to-backingdiskobjectid-mapping&amp;#34;: &amp;#34;false&amp;#34;
+      &amp;#34;cnsmgr-suspend-create-volume&amp;#34;: &amp;#34;true&amp;#34;
+      &amp;#34;topology-preferential-datastores&amp;#34;: &amp;#34;true&amp;#34;
+      &amp;#34;max-pvscsi-targets-per-vm&amp;#34;: &amp;#34;true&amp;#34;
+    kind: ConfigMap
+    metadata:
+      name: internal-feature-states.csi.vsphere.vmware.com
+      namespace: kube-system
+kind: ConfigMap
+metadata:
+  name: ${CLUSTER_NAME}-internal-feature-states.csi.vsphere.vmware.com
+  namespace: ${NAMESPACE}
+---
+apiVersion: v1
+data:
+  data: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: vsphere-csi-controller
+      namespace: kube-system
+      labels:
+        app: vsphere-csi-controller
+    spec:
+      ports:
+        - name: ctlr
+          port: 2112
+          targetPort: 2112
+          protocol: TCP
+        - name: syncer
+          port: 2113
+          targetPort: 2113
+          protocol: TCP
+      selector:
+        app: vsphere-csi-controller
+kind: ConfigMap
+metadata:
+  name: ${CLUSTER_NAME}-vsphere-csi-controller-service
+  namespace: ${NAMESPACE}
+---
+apiVersion: v1
+data:
+  data: |
+    kind: Deployment
+    apiVersion: apps/v1
+    metadata:
+      name: vsphere-csi-controller
+      namespace: kube-system
+    spec:
+      replicas: 1
+      strategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxUnavailable: 1
+          maxSurge: 0
+      selector:
+        matchLabels:
+          app: vsphere-csi-controller
+      template:
+        metadata:
+          labels:
+            app: vsphere-csi-controller
+            role: vsphere-csi
+        spec:
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: &amp;#34;app&amp;#34;
+                        operator: In
+                        values:
+                          - vsphere-csi-controller
+                  topologyKey: &amp;#34;kubernetes.io/hostname&amp;#34;
+          serviceAccountName: vsphere-csi-controller
+          nodeSelector:
+            node-role.kubernetes.io/control-plane: &amp;#34;&amp;#34;
+          tolerations:
+            - key: node-role.kubernetes.io/master
+              operator: Exists
+              effect: NoSchedule
+            - key: node-role.kubernetes.io/control-plane
+              operator: Exists
+              effect: NoSchedule
+            # uncomment below toleration if you need an aggressive pod eviction in case when
+            # node becomes not-ready or unreachable. Default is 300 seconds if not specified.
+            #- key: node.kubernetes.io/not-ready
+            #  operator: Exists
+            #  effect: NoExecute
+            #  tolerationSeconds: 30
+            #- key: node.kubernetes.io/unreachable
+            #  operator: Exists
+            #  effect: NoExecute
+            #  tolerationSeconds: 30
+          dnsPolicy: &amp;#34;Default&amp;#34;
+          containers:
+            - name: csi-attacher
+              image: k8s.gcr.io/sig-storage/csi-attacher:v3.5.0
+              args:
+                - &amp;#34;--v=4&amp;#34;
+                - &amp;#34;--timeout=300s&amp;#34;
+                - &amp;#34;--csi-address=$(ADDRESS)&amp;#34;
+                - &amp;#34;--leader-election&amp;#34;
+                - &amp;#34;--kube-api-qps=100&amp;#34;
+                - &amp;#34;--kube-api-burst=100&amp;#34;
+              env:
+                - name: ADDRESS
+                  value: /csi/csi.sock
+              volumeMounts:
+                - mountPath: /csi
+                  name: socket-dir
+            - name: csi-resizer
+              image: k8s.gcr.io/sig-storage/csi-resizer:v1.5.0
+              args:
+                - &amp;#34;--v=4&amp;#34;
+                - &amp;#34;--timeout=300s&amp;#34;
+                - &amp;#34;--handle-volume-inuse-error=false&amp;#34;
+                - &amp;#34;--csi-address=$(ADDRESS)&amp;#34;
+                - &amp;#34;--kube-api-qps=100&amp;#34;
+                - &amp;#34;--kube-api-burst=100&amp;#34;
+                - &amp;#34;--leader-election&amp;#34;
+              env:
+                - name: ADDRESS
+                  value: /csi/csi.sock
+              volumeMounts:
+                - mountPath: /csi
+                  name: socket-dir
+            - name: vsphere-csi-controller
+              image: gcr.io/cloud-provider-vsphere/csi/release/driver:v2.7.0
+              args:
+                - &amp;#34;--fss-name=internal-feature-states.csi.vsphere.vmware.com&amp;#34;
+                - &amp;#34;--fss-namespace=$(CSI_NAMESPACE)&amp;#34;
+              imagePullPolicy: &amp;#34;Always&amp;#34;
+              env:
+                - name: CSI_ENDPOINT
+                  value: unix:///csi/csi.sock
+                - name: X_CSI_MODE
+                  value: &amp;#34;controller&amp;#34;
+                - name: X_CSI_SPEC_DISABLE_LEN_CHECK
+                  value: &amp;#34;true&amp;#34;
+                - name: X_CSI_SERIAL_VOL_ACCESS_TIMEOUT
+                  value: 3m
+                - name: VSPHERE_CSI_CONFIG
+                  value: &amp;#34;/etc/cloud/csi-vsphere.conf&amp;#34;
+                - name: LOGGER_LEVEL
+                  value: &amp;#34;PRODUCTION&amp;#34; # Options: DEVELOPMENT, PRODUCTION
+                - name: INCLUSTER_CLIENT_QPS
+                  value: &amp;#34;100&amp;#34;
+                - name: INCLUSTER_CLIENT_BURST
+                  value: &amp;#34;100&amp;#34;
+                - name: CSI_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+              volumeMounts:
+                - mountPath: /etc/cloud
+                  name: vsphere-config-volume
+                  readOnly: true
+                - mountPath: /csi
+                  name: socket-dir
+              ports:
+                - name: healthz
+                  containerPort: 9808
+                  protocol: TCP
+                - name: prometheus
+                  containerPort: 2112
+                  protocol: TCP
+              livenessProbe:
+                httpGet:
+                  path: /healthz
+                  port: healthz
+                initialDelaySeconds: 10
+                timeoutSeconds: 3
+                periodSeconds: 5
+                failureThreshold: 3
+            - name: liveness-probe
+              image: k8s.gcr.io/sig-storage/livenessprobe:v2.7.0
+              args:
+                - &amp;#34;--v=4&amp;#34;
+                - &amp;#34;--csi-address=/csi/csi.sock&amp;#34;
+              volumeMounts:
+                - name: socket-dir
+                  mountPath: /csi
+            - name: vsphere-syncer
+              image: gcr.io/cloud-provider-vsphere/csi/release/syncer:v2.7.0
+              args:
+                - &amp;#34;--leader-election&amp;#34;
+                - &amp;#34;--fss-name=internal-feature-states.csi.vsphere.vmware.com&amp;#34;
+                - &amp;#34;--fss-namespace=$(CSI_NAMESPACE)&amp;#34;
+              imagePullPolicy: &amp;#34;Always&amp;#34;
+              ports:
+                - containerPort: 2113
+                  name: prometheus
+                  protocol: TCP
+              env:
+                - name: FULL_SYNC_INTERVAL_MINUTES
+                  value: &amp;#34;30&amp;#34;
+                - name: VSPHERE_CSI_CONFIG
+                  value: &amp;#34;/etc/cloud/csi-vsphere.conf&amp;#34;
+                - name: LOGGER_LEVEL
+                  value: &amp;#34;PRODUCTION&amp;#34; # Options: DEVELOPMENT, PRODUCTION
+                - name: INCLUSTER_CLIENT_QPS
+                  value: &amp;#34;100&amp;#34;
+                - name: INCLUSTER_CLIENT_BURST
+                  value: &amp;#34;100&amp;#34;
+                - name: GODEBUG
+                  value: x509sha1=1
+                - name: CSI_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+              volumeMounts:
+                - mountPath: /etc/cloud
+                  name: vsphere-config-volume
+                  readOnly: true
+            - name: csi-provisioner
+              image: k8s.gcr.io/sig-storage/csi-provisioner:v3.2.1
+              args:
+                - &amp;#34;--v=4&amp;#34;
+                - &amp;#34;--timeout=300s&amp;#34;
+                - &amp;#34;--csi-address=$(ADDRESS)&amp;#34;
+                - &amp;#34;--kube-api-qps=100&amp;#34;
+                - &amp;#34;--kube-api-burst=100&amp;#34;
+                - &amp;#34;--leader-election&amp;#34;
+                - &amp;#34;--default-fstype=ext4&amp;#34;
+                # needed only for topology aware setup
+                #- &amp;#34;--feature-gates=Topology=true&amp;#34;
+                #- &amp;#34;--strict-topology&amp;#34;
+              env:
+                - name: ADDRESS
+                  value: /csi/csi.sock
+              volumeMounts:
+                - mountPath: /csi
+                  name: socket-dir
+            - name: csi-snapshotter
+              image: k8s.gcr.io/sig-storage/csi-snapshotter:v6.0.1
+              args:
+                - &amp;#34;--v=4&amp;#34;
+                - &amp;#34;--kube-api-qps=100&amp;#34;
+                - &amp;#34;--kube-api-burst=100&amp;#34;
+                - &amp;#34;--timeout=300s&amp;#34;
+                - &amp;#34;--csi-address=$(ADDRESS)&amp;#34;
+                - &amp;#34;--leader-election&amp;#34;
+              env:
+                - name: ADDRESS
+                  value: /csi/csi.sock
+              volumeMounts:
+                - mountPath: /csi
+                  name: socket-dir
+          volumes:
+            - name: vsphere-config-volume
+              secret:
+                secretName: csi-vsphere-config
+            - name: socket-dir
+              emptyDir: {}
+
+kind: ConfigMap
+metadata:
+  name: ${CLUSTER_NAME}-vsphere-csi-controller
+  namespace: ${NAMESPACE}
+---
+apiVersion: v1
+data:
+  data: |
+    kind: DaemonSet
+    apiVersion: apps/v1
+    metadata:
+      name: vsphere-csi-node
+      namespace: kube-system
+    spec:
+      selector:
+        matchLabels:
+          app: vsphere-csi-node
+      updateStrategy:
+        type: &amp;#34;RollingUpdate&amp;#34;
+        rollingUpdate:
+          maxUnavailable: 1
+      template:
+        metadata:
+          labels:
+            app: vsphere-csi-node
+            role: vsphere-csi
+        spec:
+          nodeSelector:
+            kubernetes.io/os: linux
+          serviceAccountName: vsphere-csi-node
+          hostNetwork: true
+          dnsPolicy: &amp;#34;ClusterFirstWithHostNet&amp;#34;
+          containers:
+            - name: node-driver-registrar
+              image: k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.5.1
+              args:
+                - &amp;#34;--v=5&amp;#34;
+                - &amp;#34;--csi-address=$(ADDRESS)&amp;#34;
+                - &amp;#34;--kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)&amp;#34;
+              env:
+                - name: ADDRESS
+                  value: /csi/csi.sock
+                - name: DRIVER_REG_SOCK_PATH
+                  value: /var/lib/kubelet/plugins/csi.vsphere.vmware.com/csi.sock
+              volumeMounts:
+                - name: plugin-dir
+                  mountPath: /csi
+                - name: registration-dir
+                  mountPath: /registration
+              livenessProbe:
+                exec:
+                  command:
+                    - /csi-node-driver-registrar
+                    - --kubelet-registration-path=/var/lib/kubelet/plugins/csi.vsphere.vmware.com/csi.sock
+                    - --mode=kubelet-registration-probe
+                initialDelaySeconds: 3
+            - name: vsphere-csi-node
+              image: gcr.io/cloud-provider-vsphere/csi/release/driver:v2.7.0
+              args:
+                - &amp;#34;--fss-name=internal-feature-states.csi.vsphere.vmware.com&amp;#34;
+                - &amp;#34;--fss-namespace=$(CSI_NAMESPACE)&amp;#34;
+              imagePullPolicy: &amp;#34;Always&amp;#34;
+              env:
+                - name: NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: spec.nodeName
+                - name: CSI_ENDPOINT
+                  value: unix:///csi/csi.sock
+                - name: MAX_VOLUMES_PER_NODE
+                  value: &amp;#34;59&amp;#34; # Maximum number of volumes that controller can publish to the node. If value is not set or zero Kubernetes decide how many volumes can be published by the controller to the node.
+                - name: X_CSI_MODE
+                  value: &amp;#34;node&amp;#34;
+                - name: X_CSI_SPEC_REQ_VALIDATION
+                  value: &amp;#34;false&amp;#34;
+                - name: X_CSI_SPEC_DISABLE_LEN_CHECK
+                  value: &amp;#34;true&amp;#34;
+                - name: LOGGER_LEVEL
+                  value: &amp;#34;PRODUCTION&amp;#34; # Options: DEVELOPMENT, PRODUCTION
+                - name: GODEBUG
+                  value: x509sha1=1
+                - name: CSI_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: NODEGETINFO_WATCH_TIMEOUT_MINUTES
+                  value: &amp;#34;1&amp;#34;
+              securityContext:
+                privileged: true
+                capabilities:
+                  add: [&amp;#34;SYS_ADMIN&amp;#34;]
+                allowPrivilegeEscalation: true
+              volumeMounts:
+                - name: plugin-dir
+                  mountPath: /csi
+                - name: pods-mount-dir
+                  mountPath: /var/lib/kubelet
+                  # needed so that any mounts setup inside this container are
+                  # propagated back to the host machine.
+                  mountPropagation: &amp;#34;Bidirectional&amp;#34;
+                - name: device-dir
+                  mountPath: /dev
+                - name: blocks-dir
+                  mountPath: /sys/block
+                - name: sys-devices-dir
+                  mountPath: /sys/devices
+              ports:
+                - name: healthz
+                  containerPort: 9808
+                  protocol: TCP
+              livenessProbe:
+                httpGet:
+                  path: /healthz
+                  port: healthz
+                initialDelaySeconds: 10
+                timeoutSeconds: 5
+                periodSeconds: 5
+                failureThreshold: 3
+            - name: liveness-probe
+              image: k8s.gcr.io/sig-storage/livenessprobe:v2.7.0
+              args:
+                - &amp;#34;--v=4&amp;#34;
+                - &amp;#34;--csi-address=/csi/csi.sock&amp;#34;
+              volumeMounts:
+                - name: plugin-dir
+                  mountPath: /csi
+          volumes:
+            - name: registration-dir
+              hostPath:
+                path: /var/lib/kubelet/plugins_registry
+                type: Directory
+            - name: plugin-dir
+              hostPath:
+                path: /var/lib/kubelet/plugins/csi.vsphere.vmware.com
+                type: DirectoryOrCreate
+            - name: pods-mount-dir
+              hostPath:
+                path: /var/lib/kubelet
+                type: Directory
+            - name: device-dir
+              hostPath:
+                path: /dev
+            - name: blocks-dir
+              hostPath:
+                path: /sys/block
+                type: Directory
+            - name: sys-devices-dir
+              hostPath:
+                path: /sys/devices
+                type: Directory
+          tolerations:
+            - effect: NoExecute
+              operator: Exists
+            - effect: NoSchedule
+              operator: Exists
+kind: ConfigMap
+metadata:
+  name: ${CLUSTER_NAME}-vsphere-csi-node
+  namespace: ${NAMESPACE}
+---
+apiVersion: v1
+data:
+  data: |
+    kind: DaemonSet
+    apiVersion: apps/v1
+    metadata:
+      name: vsphere-csi-node-windows
+      namespace: kube-system
+    spec:
+      selector:
+        matchLabels:
+          app: vsphere-csi-node-windows
+      updateStrategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxUnavailable: 1
+      template:
+        metadata:
+          labels:
+            app: vsphere-csi-node-windows
+            role: vsphere-csi-windows
+        spec:
+          nodeSelector:
+            kubernetes.io/os: windows
+          serviceAccountName: vsphere-csi-node
+          containers:
+            - name: node-driver-registrar
+              image: k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.5.1
+              args:
+                - &amp;#34;--v=5&amp;#34;
+                - &amp;#34;--csi-address=$(ADDRESS)&amp;#34;
+                - &amp;#34;--kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)&amp;#34;
+              env:
+                - name: ADDRESS
+                  value: &amp;#39;unix://C:\\csi\\csi.sock&amp;#39;
+                - name: DRIVER_REG_SOCK_PATH
+                  value: &amp;#39;C:\\var\\lib\\kubelet\\plugins\\csi.vsphere.vmware.com\\csi.sock&amp;#39;
+              volumeMounts:
+                - name: plugin-dir
+                  mountPath: /csi
+                - name: registration-dir
+                  mountPath: /registration
+              livenessProbe:
+                exec:
+                  command:
+                    - /csi-node-driver-registrar.exe
+                    - --kubelet-registration-path=C:\\var\\lib\\kubelet\\plugins\\csi.vsphere.vmware.com\\csi.sock
+                    - --mode=kubelet-registration-probe
+                initialDelaySeconds: 3
+            - name: vsphere-csi-node
+              image: gcr.io/cloud-provider-vsphere/csi/release/driver:v2.7.0
+              args:
+                - &amp;#34;--fss-name=internal-feature-states.csi.vsphere.vmware.com&amp;#34;
+                - &amp;#34;--fss-namespace=$(CSI_NAMESPACE)&amp;#34;
+              imagePullPolicy: &amp;#34;Always&amp;#34;
+              env:
+                - name: NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: spec.nodeName
+                - name: CSI_ENDPOINT
+                  value: &amp;#39;unix://C:\\csi\\csi.sock&amp;#39;
+                - name: MAX_VOLUMES_PER_NODE
+                  value: &amp;#34;59&amp;#34; # Maximum number of volumes that controller can publish to the node. If value is not set or zero Kubernetes decide how many volumes can be published by the controller to the node.
+                - name: X_CSI_MODE
+                  value: node
+                - name: X_CSI_SPEC_REQ_VALIDATION
+                  value: &amp;#39;false&amp;#39;
+                - name: X_CSI_SPEC_DISABLE_LEN_CHECK
+                  value: &amp;#34;true&amp;#34;
+                - name: LOGGER_LEVEL
+                  value: &amp;#34;PRODUCTION&amp;#34; # Options: DEVELOPMENT, PRODUCTION
+                - name: X_CSI_LOG_LEVEL
+                  value: DEBUG
+                - name: CSI_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: NODEGETINFO_WATCH_TIMEOUT_MINUTES
+                  value: &amp;#34;1&amp;#34;
+              volumeMounts:
+                - name: plugin-dir
+                  mountPath: &amp;#39;C:\csi&amp;#39;
+                - name: pods-mount-dir
+                  mountPath: &amp;#39;C:\var\lib\kubelet&amp;#39;
+                - name: csi-proxy-volume-v1
+                  mountPath: \\.\pipe\csi-proxy-volume-v1
+                - name: csi-proxy-filesystem-v1
+                  mountPath: \\.\pipe\csi-proxy-filesystem-v1
+                - name: csi-proxy-disk-v1
+                  mountPath: \\.\pipe\csi-proxy-disk-v1
+                - name: csi-proxy-system-v1alpha1
+                  mountPath: \\.\pipe\csi-proxy-system-v1alpha1
+              ports:
+                - name: healthz
+                  containerPort: 9808
+                  protocol: TCP
+              livenessProbe:
+                httpGet:
+                  path: /healthz
+                  port: healthz
+                initialDelaySeconds: 10
+                timeoutSeconds: 5
+                periodSeconds: 5
+                failureThreshold: 3
+            - name: liveness-probe
+              image: k8s.gcr.io/sig-storage/livenessprobe:v2.7.0
+              args:
+                - &amp;#34;--v=4&amp;#34;
+                - &amp;#34;--csi-address=/csi/csi.sock&amp;#34;
+              volumeMounts:
+                - name: plugin-dir
+                  mountPath: /csi
+          volumes:
+            - name: registration-dir
+              hostPath:
+                path: &amp;#39;C:\var\lib\kubelet\plugins_registry\&amp;#39;
+                type: Directory
+            - name: plugin-dir
+              hostPath:
+                path: &amp;#39;C:\var\lib\kubelet\plugins\csi.vsphere.vmware.com\&amp;#39;
+                type: DirectoryOrCreate
+            - name: pods-mount-dir
+              hostPath:
+                path: \var\lib\kubelet
+                type: Directory
+            - name: csi-proxy-disk-v1
+              hostPath:
+                path: \\.\pipe\csi-proxy-disk-v1
+                type: &amp;#39;&amp;#39;
+            - name: csi-proxy-volume-v1
+              hostPath:
+                path: \\.\pipe\csi-proxy-volume-v1
+                type: &amp;#39;&amp;#39;
+            - name: csi-proxy-filesystem-v1
+              hostPath:
+                path: \\.\pipe\csi-proxy-filesystem-v1
+                type: &amp;#39;&amp;#39;
+            - name: csi-proxy-system-v1alpha1
+              hostPath:
+                path: \\.\pipe\csi-proxy-system-v1alpha1
+                type: &amp;#39;&amp;#39;
+          tolerations:
+            - effect: NoExecute
+              operator: Exists
+            - effect: NoSchedule
+              operator: Exists
+kind: ConfigMap
+metadata:
+  name: ${CLUSTER_NAME}-vsphere-csi-node-windows
+  namespace: ${NAMESPACE}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ${CLUSTER_NAME}-cloud-controller-manager
+  namespace: ${NAMESPACE}
+stringData:
+  data: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata: 
+      labels: 
+        component: cloud-controller-manager
+        vsphere-cpi-infra: service-account
+      name: cloud-controller-manager
+      namespace: kube-system
+type: addons.cluster.x-k8s.io/resource-set
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ${CLUSTER_NAME}-cloud-provider-vsphere-credentials
+  namespace: ${NAMESPACE}
+stringData:
+  data: |
+    apiVersion: v1
+    kind: Secret
+    metadata: 
+      labels: 
+        component: cloud-controller-manager
+        vsphere-cpi-infra: secret
+      name: cloud-provider-vsphere-credentials
+      namespace: kube-system
+    stringData: 
+      ${VSPHERE_SERVER}.password: ${VSPHERE_PASSWORD}
+      ${VSPHERE_SERVER}.username: ${VSPHERE_USERNAME}
+    type: Opaque
+type: addons.cluster.x-k8s.io/resource-set
+---
+apiVersion: v1
+data:
+  data: |
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata: 
+      labels: 
+        component: cloud-controller-manager
+        vsphere-cpi-infra: role
+      name: system:cloud-controller-manager
+    rules: 
+    - apiGroups: 
+      - &amp;#34;&amp;#34;
+      resources: 
+      - events
+      verbs: 
+      - create
+      - patch
+      - update
+    - apiGroups: 
+      - &amp;#34;&amp;#34;
+      resources: 
+      - nodes
+      verbs: 
+      - &amp;#39;*&amp;#39;
+    - apiGroups: 
+      - &amp;#34;&amp;#34;
+      resources: 
+      - nodes/status
+      verbs: 
+      - patch
+    - apiGroups: 
+      - &amp;#34;&amp;#34;
+      resources: 
+      - services
+      verbs: 
+      - list
+      - patch
+      - update
+      - watch
+    - apiGroups: 
+      - &amp;#34;&amp;#34;
+      resources: 
+      - services/status
+      verbs: 
+      - patch
+    - apiGroups: 
+      - &amp;#34;&amp;#34;
+      resources: 
+      - serviceaccounts
+      verbs: 
+      - create
+      - get
+      - list
+      - watch
+      - update
+    - apiGroups: 
+      - &amp;#34;&amp;#34;
+      resources: 
+      - persistentvolumes
+      verbs: 
+      - get
+      - list
+      - watch
+      - update
+    - apiGroups: 
+      - &amp;#34;&amp;#34;
+      resources: 
+      - endpoints
+      verbs: 
+      - create
+      - get
+      - list
+      - watch
+      - update
+    - apiGroups: 
+      - &amp;#34;&amp;#34;
+      resources: 
+      - secrets
+      verbs: 
+      - get
+      - list
+      - watch
+    - apiGroups: 
+      - coordination.k8s.io
+      resources: 
+      - leases
+      verbs: 
+      - get
+      - watch
+      - list
+      - update
+      - create
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata: 
+      labels: 
+        component: cloud-controller-manager
+        vsphere-cpi-infra: cluster-role-binding
+      name: system:cloud-controller-manager
+    roleRef: 
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: system:cloud-controller-manager
+    subjects: 
+    - kind: ServiceAccount
+      name: cloud-controller-manager
+      namespace: kube-system
+    - kind: User
+      name: cloud-controller-manager
+    ---
+    apiVersion: v1
+    data: 
+      vsphere.conf: |
+        global: 
+          port: 443
+          secretName: cloud-provider-vsphere-credentials
+          secretNamespace: kube-system
+          thumbprint: &amp;#39;${VSPHERE_TLS_THUMBPRINT}&amp;#39;
+        vcenter: 
+          ${VSPHERE_SERVER}:
+            datacenters: 
+            - &amp;#39;${VSPHERE_DATACENTER}&amp;#39;
+            server: &amp;#39;${VSPHERE_SERVER}&amp;#39;
+    kind: ConfigMap
+    metadata: 
+      name: vsphere-cloud-config
+      namespace: kube-system
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata: 
+      labels: 
+        component: cloud-controller-manager
+        vsphere-cpi-infra: role-binding
+      name: servicecatalog.k8s.io:apiserver-authentication-reader
+      namespace: kube-system
+    roleRef: 
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: extension-apiserver-authentication-reader
+    subjects: 
+    - kind: ServiceAccount
+      name: cloud-controller-manager
+      namespace: kube-system
+    - kind: User
+      name: cloud-controller-manager
+    ---
+    apiVersion: apps/v1
+    kind: DaemonSet
+    metadata: 
+      labels: 
+        component: cloud-controller-manager
+        tier: control-plane
+      name: vsphere-cloud-controller-manager
+      namespace: kube-system
+    spec: 
+      selector: 
+        matchLabels: 
+          name: vsphere-cloud-controller-manager
+      template: 
+        metadata: 
+          labels: 
+            component: cloud-controller-manager
+            name: vsphere-cloud-controller-manager
+            tier: control-plane
+        spec: 
+          affinity: 
+            nodeAffinity: 
+              requiredDuringSchedulingIgnoredDuringExecution: 
+                nodeSelectorTerms: 
+                - matchExpressions: 
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: Exists
+                - matchExpressions: 
+                  - key: node-role.kubernetes.io/master
+                    operator: Exists
+          containers: 
+          - args: 
+            - --v=2
+            - --cloud-provider=vsphere
+            - --cloud-config=/etc/cloud/vsphere.conf
+            image: gcr.io/cloud-provider-vsphere/cpi/release/manager:v1.25.3
+            name: vsphere-cloud-controller-manager
+            resources: 
+              requests: 
+                cpu: 200m
+            volumeMounts: 
+            - mountPath: /etc/cloud
+              name: vsphere-config-volume
+              readOnly: true
+          hostNetwork: true
+          priorityClassName: system-node-critical
+          securityContext: 
+            runAsUser: 1001
+          serviceAccountName: cloud-controller-manager
+          tolerations: 
+          - effect: NoSchedule
+            key: node.cloudprovider.kubernetes.io/uninitialized
+            value: &amp;#34;true&amp;#34;
+          - effect: NoSchedule
+            key: node-role.kubernetes.io/master
+            operator: Exists
+          - effect: NoSchedule
+            key: node-role.kubernetes.io/control-plane
+            operator: Exists
+          - effect: NoSchedule
+            key: node.kubernetes.io/not-ready
+            operator: Exists
+          volumes: 
+          - configMap: 
+              name: vsphere-cloud-config
+            name: vsphere-config-volume
+      updateStrategy: 
+        type: RollingUpdate
+kind: ConfigMap
+metadata:
+  name: ${CLUSTER_NAME}-cpi-manifests
+  namespace: ${NAMESPACE}
+
+
+
+
+---
+apiVersion: addons.cluster.x-k8s.io/v1beta1
+kind: ClusterResourceSet
+metadata:
+  name: ${CLUSTER_NAME}-calico-module-resource
+  namespace: ${NAMESPACE}
+spec:
+  clusterSelector:
+    matchLabels:
+      cluster.x-k8s.io/cluster-name: ${CLUSTER_NAME}
+  resources:
+    - kind: ConfigMap
+      name: ${CLUSTER_NAME}-calico-module-cr
+  strategy: Reconcile
+---
+apiVersion: v1
+data:
+  calico.yaml: |
+    apiVersion: platform.verrazzano.io/v1alpha1
+    kind: Module
+    metadata:
+      name: calico
+      namespace: default
+    spec:
+      moduleName: calico
+      targetNamespace: default
+      values:
+        tigeraOperator:
+          version: ${TIGERA_TAG=v1.29.0}
+        installation:
+          cni:
+            type: Calico
+          calicoNetwork:
+            bgp: Disabled
+            ipPools:
+              - cidr: ${POD_CIDR=192.168.0.0/16}
+                encapsulation: VXLAN
+          registry: ${OCNE_IMAGE_REPOSITORY=container-registry.oracle.com}
+          imagePath: ${OCNE_IMAGE_PATH=olcne}
+kind: ConfigMap
+metadata:
+  annotations:
+    note: generated
+  labels:
+    type: generated
+  name: ${CLUSTER_NAME}-calico-module-cr
+  namespace: ${NAMESPACE}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+ &lt;/details&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Generate and apply the template by running the following command:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ clusterctl generate yaml --from vsphere-capi.yaml | kubectl apply -f -
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;To get the &lt;code&gt;kubeconfig&lt;/code&gt; file, run:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ clusterctl get kubeconfig kluster1 -n kluster1 &amp;gt; kluster1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;h2 id=&#34;finish-cluster-configuration&#34;&gt;Finish cluster configuration&lt;/h2&gt;
+&lt;p&gt;After the cluster resources are created, you must perform some additional steps to finish the configuration of the cluster.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;If vSphere does not have a load balancer, then you can deploy MetalLB.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ export KUBECONFIG=kluster1
+ 
+ADDRESS_RANGE=${1:-&amp;#34;subnet-from-vSphere-network&amp;#34;};
+ 
+$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.7/config/manifests/metallb-native.yaml --wait=true;
+$ kubectl rollout status deployment -n metallb-system controller -w;
+$ kubectl apply -f -  &amp;lt;&amp;lt;EOF1
+  apiVersion: metallb.io/v1beta1
+  kind: IPAddressPool
+  metadata:
+    name: vzlocalpool
+    namespace: metallb-system
+  spec:
+    addresses:
+    - ${ADDRESS_RANGE}
+EOF1
+ 
+$ kubectl apply -f -  &amp;lt;&amp;lt;-EOF2
+  apiVersion: metallb.io/v1beta1
+  kind: L2Advertisement
+  metadata:
+    name: vzmetallb
+    namespace: metallb-system
+  spec:
+    ipAddressPools:
+    - vzlocalpool
+EOF2
+ 
+$ sleep 10;
+$ kubectl wait --namespace metallb-system --for=condition=ready pod --all --timeout=300s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create a default storage class on the cluster.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ export KUBECONFIG=kluster1
+$ kubectl apply -f -  &amp;lt;&amp;lt;-EOF
+  kind: StorageClass
+  apiVersion: storage.k8s.io/v1
+  metadata:
+    name: vmware-sc
+    annotations:
+      storageclass.kubernetes.io/is-default-class: &amp;#34;true&amp;#34;
+  provisioner: csi.vsphere.vmware.com
+  volumeBindingMode: WaitForFirstConsumer
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Install Verrazzano on the managed cluster.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ export KUBECONFIG=kluster1 
+
+$ vz install -f - &amp;lt;&amp;lt;EOF
+  apiVersion: install.verrazzano.io/v1beta1
+  kind: Verrazzano
+  metadata:
+    name: example-verrazzano
+  spec:
+    profile: dev
+    defaultVolumeSource:
+      persistentVolumeClaim:
+        claimName: verrazzano-storage
+    volumeClaimSpecTemplates:
+      - metadata:
+          name: verrazzano-storage
+        spec:
+          resources:
+            requests:
+              storage: 2Gi
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Your admin cluster and first managed cluster are now up and running and ready to deploy applications. You can also add more managed clusters.&lt;/p&gt;
+&lt;p&gt;For more information, refer to the documentation for Cluster API and Cluster API vSphere:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://cluster-api.sigs.k8s.io/introduction.html&#34;&gt;Kubernetes Cluster API Documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/kubernetes-sigs/cluster-api-provider-vsphere&#34;&gt;Kubernetes Cluster API Provider vSphere&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;troubleshoot-the-deployment&#34;&gt;Troubleshoot the deployment&lt;/h2&gt;
+&lt;p&gt;If the deployment of the vSphere resources fails, then you can check the log files to diagnose the issue.&lt;/p&gt;
+&lt;p&gt;The vSphere cluster controller provider logs:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=infrastructure-vsphere
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;The OCNE control plane provider logs:
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-capi -l cluster.x-k8s.io/provider=control-plane-ocne
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: If the CSI pod deploys before Calico, then the pod may enter a &lt;code&gt;CrashLoop&lt;/code&gt; state. Restart the pod to fix the issue.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl --kubeconfig kluster1 scale deploy  -n kube-system vsphere-csi-controller --replicas=0
+$ kubectl --kubeconfig kluster1 scale deploy  -n kube-system vsphere-csi-controller --replicas=1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;h2 id=&#34;delete-the-clusters&#34;&gt;Delete the clusters&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Delete the managed clusters.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete cluster $CLUSTER_NAME
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/li&gt;
+&lt;li&gt;Delete the admin cluster.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kind delete cluster
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Do not use &lt;code&gt;kubectl delete -f capi-quickstart.yaml&lt;/code&gt; to delete the entire cluster template at once because it might leave behind pending resources that you need to clean up manually.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
