@@ -10,7 +10,6 @@ draft: false
 - Added OKEQuickCreate custom resource to support ease-of-use when creating OKE clusters on OCI.
 - Added OCNEOCIQuickCreate custom resource to support ease-of-use when creating Oracle Cloud Native Environment clusters on OCI.
 - Added support for Thanos Ruler and Compactor.
-- Added support for Oracle Cloud Native Environment managed clusters on Azure.
 - Decoupled the Cluster Management API from Rancher.
 - Enabled lifecycle management of OKE clusters.
 
@@ -24,6 +23,7 @@ draft: false
 - Added support for Oracle Cloud Native Environment v1.7.
 - Added the ability to enable security plug-ins in OpenSearch clusters.
 - Now, Verrazzano uses OpenSearch operator-managed OpenSearch. To avoid any data loss during an upgrade, we advise you to make a backup before upgrading.
+- Described trial method for using Cluster API to configure OCNE clusters on Microsoft Azure or VMware vSphere.
 
 #### Component version updates:
 - Argo CD v2.8.3
