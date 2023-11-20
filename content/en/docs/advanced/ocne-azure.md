@@ -31,7 +31,7 @@ Verrazzano and Cluster API use slightly different terminology for the same conce
 
 Before you can deploy a Cluster API cluster, you need to set up a few resources in Azure.
 
-1. Install the Azure command line interface (CLI) tool. For instructions, see [How to install the Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) in the Microsoft Azure documentation.
+1. Install the Azure command-line interface (CLI) tool. For instructions, see [How to install the Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) in the Microsoft Azure documentation.
 1. Create an Azure resource group. In the Azure CLI, run the following command:
 {{< clipboard >}}
 <div class="highlight">
@@ -113,7 +113,7 @@ $ clusterctl init -n verrazzano-capi -i azure
 </div>
 {{< /clipboard >}}
 
-clusterctl will report when the admin cluster was successfully initialized.
+    clusterctl will report when the admin cluster was successfully initialized.
 
 
 ## Create a managed cluster
@@ -148,9 +148,9 @@ $ export WORKER_MACHINE_COUNT="1"
 </div>
 {{< /clipboard >}}
 
-1. Copy the cluster template provided below and save it locally as `azure-capi.yaml`.
+1. Copy the cluster template and save it locally as `azure-capi.yaml`.
     <details>
-    <summary><b>Click here to expand and see the cluster template</b></summary>
+    <summary><b>Click here for the cluster template</b></summary>
     {{< clipboard >}}
 <div class="highlight">
 
@@ -413,7 +413,7 @@ $ clusterctl get kubeconfig ${CLUSTER_NAME} > ${CLUSTER_NAME}.kubeconfig
 
 After the cluster resources are created, you must perform some additional steps to finish the configuration of the cluster.
 
-1. Install a cloud controller manager (CCM). A CCM is necessary when deploying cloud resources such as load-balancers. 
+1. Install a cloud controller manager (CCM). A CCM is necessary when deploying cloud resources such as load balancers. 
 {{< clipboard >}}
 <div class="highlight">
 
@@ -435,7 +435,7 @@ $ helm install calico projectcalico/tigera-operator --kubeconfig=./${CLUSTER_NAM
 
 Your admin cluster and first managed cluster are now up and running and ready to deploy applications. You can add more managed clusters as needed.
 
-For more information, refer to the documentation for Cluster API and Cluster API Azure
+For more information, refer to the documentation for Cluster API and Cluster API Azure:
 
 * [Kubernetes Cluster API Documentation](https://cluster-api.sigs.k8s.io/introduction.html)
 * [The Cluster API Provider Azure Book](https://capz.sigs.k8s.io/introduction)

@@ -20,10 +20,16 @@ For more information on Cluster API or Cluster API with vSphere, see:
 * [Kubernetes Cluster API Provider vSphere](https://github.com/kubernetes-sigs/cluster-api-provider-vsphere)
     * [Getting started with Cluster API Provider vSphere](https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/main/docs/getting_started.md)
 
+{{% alert title="NOTE" color="primary" %}}
+Verrazzano and Cluster API use slightly different terminology for the same concepts:
+
+* Admin cluster (Verrazzano) = management cluster (Cluster API) 
+* Managed cluster (Verrazzano) = workload cluster (Cluster API)
+{{% /alert %}}
+
 ## Before you begin
 
-
-If you have an existing vSphere environment, you can ignore **Set up a VMware Software-Defined Data Center** and start from [Prepare the VM environment]({{< relref "#prepare-the-vm-environment" >}}). Confirm that your environment meets the requirements as specified at [Cluster API Provider vSphere: Install Requirements](https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/main/docs/getting_started.md#install-requirements)
+If you have an existing vSphere environment, you can ignore [Set up a VMware Software-Defined Data Center]({{< relref "#set-up-a-vmware-software-defined-data-center" >}}) and start from [Prepare the VM environment]({{< relref "#prepare-the-vm-environment" >}}). Confirm that your environment meets the requirements as specified at [Cluster API Provider vSphere: Install Requirements](https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/main/docs/getting_started.md#install-requirements).
 
 Otherwise, create a vSphere environment. We recommend using the Oracle Cloud VMware Solution as described in [Set up a VMware Software-Defined Data Center]({{< relref "#set-up-a-vmware-software-defined-data-center" >}}). It deploys a VMware software-defined data center (SDDC) on Oracle Cloud Infrastructure (OCI) and then integrates it with other Oracle services running on Oracle Cloud. This solution was developed in partnership with VMware to provide an environment that adheres to best practices recommended by VMware.
 
@@ -121,15 +127,15 @@ $ clusterctl init -n verrazzano-capi -i vsphere
 </div>
 {{< /clipboard >}}
 
-clusterctl will report when the admin cluster was successfully initialized.
+    clusterctl will report when the admin cluster was successfully initialized.
 
 ## Create a managed cluster
 
 The Cluster API uses a cluster template to deploy a predefined set of Cluster API objects and create a managed cluster.
 
-1. Copy the cluster template provided below and save it locally as `vsphere-capi.yaml`.
+1. Copy the cluster template and save it locally as `vsphere-capi.yaml`.
     <details>
-    <summary><b>Click here to expand and see the cluster template</b></summary>
+    <summary><b>Click here for the cluster template</b></summary>
     {{< clipboard >}}
 <div class="highlight">
 
@@ -1638,7 +1644,7 @@ $ clusterctl get kubeconfig kluster1 -n kluster1 > kluster1
 
 After the cluster resources are created, you must perform some additional steps to finish the configuration of the cluster.
 
-1. If vSphere does not have a load-balancer, then you can deploy MetalLB.
+1. If vSphere does not have a load balancer, then you can deploy MetalLB.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -1727,7 +1733,7 @@ EOF
 
 Your admin cluster and first managed cluster are now up and running and ready to deploy applications. You can also add more managed clusters. 
 
-For more information, refer to the documentation for Cluster API and Cluster API vSphere
+For more information, refer to the documentation for Cluster API and Cluster API vSphere:
 
 * [Kubernetes Cluster API Documentation](https://cluster-api.sigs.k8s.io/introduction.html)
 * [Kubernetes Cluster API Provider vSphere](https://github.com/kubernetes-sigs/cluster-api-provider-vsphere)
