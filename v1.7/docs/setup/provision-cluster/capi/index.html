@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/provision-cluster/capi/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-06-28T09:32:53-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-11-20T12:20:25-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Cluster API">
 <meta itemprop="description" content="Use Verrazzano to create and manage new clusters">
-<meta itemprop="dateModified" content="2023-06-28T09:32:53-04:00" />
-<meta itemprop="wordCount" content="337">
+<meta itemprop="dateModified" content="2023-11-20T12:20:25-05:00" />
+<meta itemprop="wordCount" content="388">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Cluster API"/>
 <meta name="twitter:description" content="Use Verrazzano to create and manage new clusters"/>
@@ -95,7 +95,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.8a7cacfee38b8368de755719837c99b7.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.13ff848cfb3b604d1b98dbe4670a5f81.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -121,7 +121,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.8a7cacfee38b8368de755719837c99b7.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.13ff848cfb3b604d1b98dbe4670a5f81.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -813,7 +813,7 @@ if (!doNotTrack) {
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docstroubleshooting-li">
   <input type="checkbox" id="m-docstroubleshooting-check"/>
-  <label for="m-docstroubleshooting-check"><a href="../../../../docs/troubleshooting/" class="align-left ps-0  td-sidebar-link td-sidebar-link__section" id="m-docstroubleshooting"><span class="">Troubleshoot issues</span></a></label>
+  <label for="m-docstroubleshooting-check"><a href="../../../../docs/troubleshooting/" class="align-left ps-0  td-sidebar-link td-sidebar-link__section" id="m-docstroubleshooting"><span class="">Troubleshoot Issues</span></a></label>
   
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docstroubleshootingdiagnostictools-li">
@@ -937,6 +937,21 @@ if (!doNotTrack) {
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docstroubleshootingfaq-li">
   <input type="checkbox" id="m-docstroubleshootingfaq-check"/>
   <label for="m-docstroubleshootingfaq-check"><a href="../../../../docs/troubleshooting/faq/" class="align-left ps-0  td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingfaq"><span class="">FAQ</span></a></label>
+  
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsadvanced-li">
+  <input type="checkbox" id="m-docsadvanced-check"/>
+  <label for="m-docsadvanced-check"><a href="../../../../docs/advanced/" class="align-left ps-0  td-sidebar-link td-sidebar-link__section" id="m-docsadvanced"><span class="">Advanced Features</span></a></label>
+  
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsadvancedocne-azure-li">
+  <input type="checkbox" id="m-docsadvancedocne-azure-check"/>
+  <label for="m-docsadvancedocne-azure-check"><a href="../../../../docs/advanced/ocne-azure/" class="align-left ps-0  td-sidebar-link td-sidebar-link__page" id="m-docsadvancedocne-azure"><span class="">Create OCNE Clusters Running on Microsoft Azure</span></a></label>
+  
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsadvancedocne-vsphere-li">
+  <input type="checkbox" id="m-docsadvancedocne-vsphere-check"/>
+  <label for="m-docsadvancedocne-vsphere-check"><a href="../../../../docs/advanced/ocne-vsphere/" class="align-left ps-0  td-sidebar-link td-sidebar-link__page" id="m-docsadvancedocne-vsphere"><span class="">Create OCNE Clusters Running on VMware vSphere</span></a></label>
   
 </li>
   </ul>
@@ -1118,7 +1133,12 @@ if (!doNotTrack) {
 <div class="alert alert-primary" role="alert">
 <h4 class="alert-heading">NOTE</h4>
 
-    The terminology around clusters differs between CAPI and Verrazzano though the underlying concepts are the same. What CAPI calls Management and Workload clusters are equivalent to admin and managed clusters, respectively, in Verrazzano.
+    <p>Verrazzano and Cluster API use slightly different  terminology for the same concepts:</p>
+<ul>
+<li>Admin cluster (Verrazzano) = management cluster (Cluster API)</li>
+<li>Managed cluster (Verrazzano) = workload cluster (Cluster API)</li>
+</ul>
+
 
 </div>
 
@@ -1138,6 +1158,15 @@ if (!doNotTrack) {
 <p>During the setup process, the bootstrap provider converts a cluster into an admin cluster - a Kubernetes cluster that controls any other, subordinate or managed clusters. It generates certificates, starts and manages the creation of additional nodes, and handles the addition of control plane and worker nodes to the cluster.</p>
 <p>Next, a CAPI infrastructure provider will provision the first instance on the cloud provider and generate a provider ID, a unique identifier that any future nodes and clusters will use to associate with the instance. It will also create a kubeconfig file. The first control plane node is ready after these are created.</p>
 <p>After the admin cluster is up and running, you can use the clusterAPI component to create additional managed clusters.</p>
+
+
+<div class="alert alert-primary" role="alert">
+<h4 class="alert-heading">NOTE</h4>
+
+    The Cluster API provides its own command line tool, <code>clusterctl</code>, to manage the lifecycle operations of a cluster API admin cluster. Do not use <code>clusterctl</code> to manage any OCNE or OKE clusters on OCI that you created in the console. You will create conflicts between changes made in the console and changes made with <code>clusterctl</code>.
+
+</div>
+
 
 	<style>
   .feedback--answer {
