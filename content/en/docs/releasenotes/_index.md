@@ -45,7 +45,7 @@ draft: false
 ## Previous Release Information
 ### v1.6.9
 **Fixes**:
-- Fixed issue where Keycloak pod is repeatedly deleted.
+- Fixed an issue in which the Keycloak pod was repeatedly deleted.
 
 ### v1.6.8
 **Enhancements**:
