@@ -43,6 +43,10 @@ draft: false
 - When updating the node pool of a cluster API based OKE cluster, the console may report the cluster state as 'Active' prematurely.
 
 ## Previous Release Information
+### v1.6.9
+**Fixes**:
+- Fixed an issue where the Keycloak pod was repeatedly deleted.
+
 ### v1.6.8
 **Enhancements**:
 - Refreshed component images for security.
