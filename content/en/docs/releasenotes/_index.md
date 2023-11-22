@@ -3,6 +3,10 @@ title: Release Notes
 weight: 2
 draft: false
 ---
+## v1.6.9
+#### Fixes:
+- Fixed an issue where the Keycloak pod was repeatedly deleted.
+
 ## v1.6.8
 #### Enhancements:
 - Refreshed component images for security.
