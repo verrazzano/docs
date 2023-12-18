@@ -24,4 +24,4 @@ vz export oam --name hello-helidon --namespace hello-helidon > myapp.yaml
 
 ## Overview of OAM to Kubernetes Mapping
 
-The following sections give an overview of how each OAM resource is translated into one or more Kubernetes objects.
+The following sections give an overview of the Kubernetes resources generated for each OAM resource.

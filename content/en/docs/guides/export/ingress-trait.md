@@ -1,7 +1,7 @@
 ---
 title: "IngressTrait"
 linkTitle: "IngressTrait"
-description: "A guide for understanding how OAM objects are mapped to Kubernetes objects"
+description: "A guide for understanding how Kubernetes objects are generated for an OAM IngressTrait"
 weight: 5
 draft: false
 ---
