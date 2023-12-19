@@ -72,7 +72,7 @@ spec:
       mode: SIMPLE
 ```
 
-A Secret resource similar to the one below will be created.
+A Secret resource similar to the one below will be created in the `istio-system` namespace.
 ```
 apiVersion: v1
 kind: Secret
