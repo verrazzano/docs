@@ -8,7 +8,7 @@ draft: false
 
 ## IngressTrait (oam.verrazzano.io/v1alpha1)
 
-Verrazzano will generate the following Kubernetes resources for an IngressTrait:
+Verrazzano will generate the following Kubernetes resources for an [IngressTrait]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.IngressTrait" >}}):
 * networking.istio.io/v1beta1/VirtualService - implements the `rules` portion of the IngressTrait
 * networking.istio.io/v1beta1/Gateway - defines the ingress for traffic management for the application running within the Istio mesh
 * v1/Secret for the Gateway - credential for server TLS settings

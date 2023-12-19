@@ -8,7 +8,7 @@ draft: false
 
 ## MetricsTrait (oam.verrazzano.io/v1alpha1)
 
-Verrazzano will generate the following Kubernetes resources for a MetricsTrait:
+Verrazzano will generate the following Kubernetes resources for a [MetricsTrait]({{< relref "/docs/reference/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.MetricsTrait" >}}):
 * monitoring.coreos.com/v1/ServiceMonitor - a Prometheus custom resource that defines an application to scrape metrics from.  A ServiceMonitor resource is created by default unless explicitly disabled in the MetricsTrait. 
 * Annotations on resources to be scraped by Prometheus (e.g. pods). The annotation names are prefixed with `verrazzano.io/metrics`
 
