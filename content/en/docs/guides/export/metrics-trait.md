@@ -9,20 +9,20 @@ draft: false
 ## MetricsTrait (oam.verrazzano.io/v1alpha1)
 
 Verrazzano will generate the following Kubernetes resources for a MetricsTrait:
-* ServiceMonitor - defines the monitoring of the application by Prometheus.  Created by default unless explicitly disabled in MetricsTrait.
+* monitoring.coreos.com/v1/ServiceMonitor - a Prometheus custom resource that defines an application to scrape metrics from.  A ServiceMonitor resource is created by default unless explicitly disabled in the MetricsTrait. 
 * Annotations on resources to be scraped by Prometheus (e.g. pods). The annotation names are prefixed with `verrazzano.io/metrics`
 
-For example, the following MetricsTrait definition will result in the Gateway, VirtualService and Secret objects shown below.
+For example, the MetricsTrait below is defined for the component `hello-helidon-component` of the hello-helidon sample.
 ```
 apiVersion: oam.verrazzano.io/v1alpha1
 kind: MetricsTrait
 spec:
     scraper: verrazzano-system/vmi-system-prometheus-0
-    port: 8081
-    path: metrics2
+    port: 8080
+    path: metrics
 ```
 
-Example of generated ServiceMonitor:
+A ServiceMonitor resource similar to the one below will be created.
 ```
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
@@ -36,7 +36,7 @@ spec:
   - bearerTokenSecret:
       key: ""
     enableHttp2: false
-    path: metrics2
+    path: metrics
     relabelings:
     - action: replace
       replacement: local
@@ -101,7 +101,7 @@ spec:
   selector: {}
 ```
 
-Example snippet of generated Deployment:
+Below is a snippet of the Deployment resource that will be annotated based on the MetricsTrait definition.
 ```
 apiVersion: apps/v1
 kind: Deployment
@@ -112,6 +112,6 @@ spec:
     metadata:
       annotations:
         verrazzano.io/metricsEnabled: "true"
-        verrazzano.io/metricsPath: metrics2
-        verrazzano.io/metricsPort: "8081"
+        verrazzano.io/metricsPath: metrics
+        verrazzano.io/metricsPort: "8080"
 ```
