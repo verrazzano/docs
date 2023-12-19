@@ -10,7 +10,7 @@ draft: false
 
 Verrazzano will generate the following Kubernetes resources for a MetricsTrait:
 * ServiceMonitor - defines the monitoring of the application by Prometheus.  Created by default unless explicitly disabled in MetricsTrait.
-* Annotations on deployment
+* Annotations on resources to be scraped by Prometheus (e.g. pods). The annotation names are prefixed with `verrazzano.io/metrics`
 
 For example, the following MetricsTrait definition will result in the Gateway, VirtualService and Secret objects shown below.
 ```
