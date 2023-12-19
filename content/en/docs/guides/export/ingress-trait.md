@@ -13,7 +13,7 @@ Verrazzano will generate the following Kubernetes resources for an IngressTrait:
 * networking.istio.io/v1beta1/Gateway - defines the ingress for traffic management for the application running within the Istio mesh
 * v1/Secret for the Gateway - credential for server TLS settings
 
-For example, the following IngressTrait definition will result in the Gateway, VirtualService and Secret objects shown below.
+For example, the IngressTrait below is defined for the component `hello-helidon-component` of the hello-helidon sample.
 ```
 apiVersion: oam.verrazzano.io/v1alpha1
 kind: IngressTrait
@@ -28,7 +28,7 @@ spec:
         port: 8080
 ```
 
-Example of generated VirtualService:
+A VirtualService resource similar to the one below will be created.
 ```
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -39,7 +39,7 @@ spec:
   gateways:
   - hello-helidon-hello-helidon-gw
   hosts:
-  - hello-helidon.hello-helidon.172.18.0.230.nip.io
+  - hello-helidon.hello-helidon.11.22.0.230.nip.io
   http:
   - match:
     - uri:
@@ -51,7 +51,7 @@ spec:
           number: 8080
 ```
 
-Example of generated Gateway:
+A Gateway resource similar to the one below will be created.
 ```
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
@@ -63,7 +63,7 @@ spec:
     istio: ingressgateway
   servers:
   - hosts:
-    - hello-helidon.hello-helidon.172.18.0.230.nip.io
+    - hello-helidon.hello-helidon.11.22.0.230.nip.io
     name: hello-helidon-ingress
     port:
       name: https-hello-helidon-ingress
@@ -74,7 +74,7 @@ spec:
       mode: SIMPLE
 ```
 
-Example of generated Secret:
+A Secret resource similar to the one below will be created.
 ```
 apiVersion: v1
 kind: Secret
@@ -87,7 +87,7 @@ data:
     <base64 encoding of key data>
 metadata:
   annotations:
-    cert-manager.io/alt-names: hello-helidon.hello-helidon.172.18.0.230.nip.io
+    cert-manager.io/alt-names: hello-helidon.hello-helidon.11.22.0.230.nip.io
     cert-manager.io/certificate-name: hello-helidon-hello-helidon-ingress-cert
     cert-manager.io/common-name: ""
     cert-manager.io/ip-sans: ""
