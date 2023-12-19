@@ -1,17 +1,17 @@
 ---
 title: "IngressTrait"
 linkTitle: "IngressTrait"
-description: "A guide for understanding the Kubernetes objects generated for an OAM IngressTrait"
+description: "An overview of the Kubernetes resources Verrazzano creates for an OAM IngressTrait"
 weight: 5
 draft: false
 ---
 
 ## IngressTrait (oam.verrazzano.io/v1alpha1)
 
-Each IngressTrait will result in the creation of the following Kubernetes resources:
-* networking.istio.io/v1beta1/Gateway
-* networking.istio.io/v1beta1/VirtualService
-* v1/Secret for the Gateway
+Verrazzano will generate the following Kubernetes resources for an IngressTrait:
+* networking.istio.io/v1beta1/VirtualService - implements the `rules` portion of the IngressTrait
+* networking.istio.io/v1beta1/Gateway - defines the ingress for traffic management for the application running within the Istio mesh
+* v1/Secret for the Gateway - credential for server TLS settings
 
 For example, the following IngressTrait definition will result in the Gateway, VirtualService and Secret objects shown below.
 ```
@@ -28,7 +28,30 @@ spec:
         port: 8080
 ```
 
-#### Gateway
+Example of generated VirtualService:
+```
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: hello-helidon-ingress-rule-0-vs
+  namespace: hello-helidon
+spec:
+  gateways:
+  - hello-helidon-hello-helidon-gw
+  hosts:
+  - hello-helidon.hello-helidon.172.18.0.230.nip.io
+  http:
+  - match:
+    - uri:
+        prefix: /greet
+    route:
+    - destination:
+        host: hello-helidon-deployment
+        port:
+          number: 8080
+```
+
+Example of generated Gateway:
 ```
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
@@ -51,29 +74,7 @@ spec:
       mode: SIMPLE
 ```
 
-#### VirtualService
-```
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-  name: hello-helidon-ingress-rule-0-vs
-  namespace: hello-helidon
-spec:
-  gateways:
-  - hello-helidon-hello-helidon-gw
-  hosts:
-  - hello-helidon.hello-helidon.172.18.0.230.nip.io
-  http:
-  - match:
-    - uri:
-        prefix: /greet
-    route:
-    - destination:
-        host: hello-helidon-deployment
-        port:
-          number: 8080
-```
-#### Secret
+Example of generated Secret:
 ```
 apiVersion: v1
 kind: Secret

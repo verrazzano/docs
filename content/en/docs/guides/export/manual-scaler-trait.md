@@ -1,7 +1,7 @@
 ---
 title: "ManualScalarTrait"
 linkTitle: "ManualScalarTrait"
-description: "A guide for understanding how OAM objects are mapped to Kubernetes objects"
+description: "An overview of the Kubernetes resources Verrazzano creates for an OAM ManualScalarTrait"
 weight: 5
 draft: false
 ---

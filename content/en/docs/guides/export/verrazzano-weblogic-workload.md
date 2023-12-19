@@ -1,7 +1,7 @@
 ---
 title: "VerrazzanoWebLogicWorkload"
 linkTitle: "VerrazzanoWebLogicWorkload"
-description: "A guide for understanding how OAM objects are mapped to Kubernetes objects"
+description: "An overview of the Kubernetes resources Verrazzano creates for an OAM VerrazzanoWebLogicWorkload"
 weight: 5
 draft: false
 ---
