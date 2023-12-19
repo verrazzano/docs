@@ -11,7 +11,7 @@ Verrazzano will generate the following Kubernetes resources for an [IngressTrait
 * networking.istio.io/v1beta1/Gateway - defines the ingress for traffic management for the application running within the Istio mesh
 * v1/Secret for the Gateway - credential for server TLS settings
 
-For example, the IngressTrait below is defined for the component `hello-helidon-component` of the hello-helidon sample.
+For example, the IngressTrait below is defined for the component `hello-helidon-component` of the [Hello World Helidon]({{< relref "/docs/examples/hello-helidon/_index.md" >}}) example.
 ```
 apiVersion: oam.verrazzano.io/v1alpha1
 kind: IngressTrait

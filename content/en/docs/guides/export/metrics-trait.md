@@ -10,17 +10,15 @@ Verrazzano will generate the following Kubernetes resources for a [MetricsTrait]
 * monitoring.coreos.com/v1/ServiceMonitor - a Prometheus custom resource that defines an application to scrape metrics from.  A ServiceMonitor resource is created by default unless explicitly disabled in the MetricsTrait. 
 * Annotations on resources to be scraped by Prometheus (e.g. pods). The annotation names are prefixed with `verrazzano.io/metrics`
 
-For example, the MetricsTrait below is defined for the component `hello-helidon-component` of the hello-helidon sample.
+For example, the MetricsTrait below is defined for the component `hello-helidon-component` of the [Hello World Helidon]({{< relref "/docs/examples/hello-helidon/_index.md" >}}) example. 
 ```
 apiVersion: oam.verrazzano.io/v1alpha1
 kind: MetricsTrait
 spec:
     scraper: verrazzano-system/vmi-system-prometheus-0
-    port: 8080
-    path: metrics
 ```
 
-A ServiceMonitor resource similar to the one below will be created.
+A ServiceMonitor resource similar to the one below will be created. The `path` defaulted to `metrics`.
 ```
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
@@ -99,7 +97,7 @@ spec:
   selector: {}
 ```
 
-Below is a snippet of the Deployment resource that will be annotated based on the MetricsTrait definition.
+Below is a snippet of the Deployment resource that will be annotated based on the MetricsTrait definition.  The `port` defaulted to `8080`.
 ```
 apiVersion: apps/v1
 kind: Deployment
