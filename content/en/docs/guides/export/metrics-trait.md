@@ -18,10 +18,9 @@ apiVersion: oam.verrazzano.io/v1alpha1
 kind: MetricsTrait
 spec:
     scraper: verrazzano-system/vmi-system-prometheus-0
+    port: 8081
+    path: metrics2
 ```
-
-
-
 
 Example of generated ServiceMonitor:
 ```
@@ -102,36 +101,13 @@ spec:
   selector: {}
 ```
 
-
+Example snippet of generated Deployment:
 ```
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-  annotations:
-    deployment.kubernetes.io/revision: "5"
-    description: Hello Helidon application
-    version: v1.0.0
-  labels:
-    app: hello-helidon
-    app.oam.dev/component: hello-helidon-component
-    app.oam.dev/name: hello-helidon
-    app.oam.dev/resourceType: WORKLOAD
-    app.oam.dev/revision: ""
-    version: v1
-  name: hello-helidon-deployment
-  namespace: hello-helidon
+.
+.
 spec:
-  progressDeadlineSeconds: 600
-  replicas: 1
-  revisionHistoryLimit: 10
-  selector:
-    matchLabels:
-      verrazzanohelidonworkloads.oam.verrazzano.io: a83aebe2-7a7b-44ca-abfc-ac6951a30629
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       annotations:
