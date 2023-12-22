@@ -7,7 +7,7 @@ draft: false
 ---
 
 Verrazzano will generate the following Kubernetes resources for an [LoggingTrait]({{< relref "/docs/applications/oam/traits/logging/logging.md" >}}):
-* A ConfigMap will get created that contains the definition of how to filter log output
+* v1/ConfigMap - contains the definition of how to filter log output
 * An additional container and volume definition will be added to the Deployment, StatefulSet, ReplicaSet or ReplicationController of each Component.  The container has image to use for logging and the volume mount of the logging specification.
 
 
