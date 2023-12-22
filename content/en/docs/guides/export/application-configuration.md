@@ -7,9 +7,7 @@ draft: false
 ---
 
 Verrazzano will generate the following Kubernetes resources for an [ApplicationConfiguration](https://pkg.go.dev/github.com/crossplane/oam-kubernetes-runtime/apis/core/v1alpha2#ApplicationConfiguration):
-* networking.istio.io/v1beta1/VirtualService - implements the `rules` portion of the IngressTrait
-* networking.istio.io/v1beta1/Gateway - defines the ingress for traffic management for the application running within the Istio mesh
-* v1/Secret for the Gateway - credential for server TLS settings
+* ?
 
 For example, the ApplicationConfiguration below is defined for the [Hello World Helidon]({{< relref "/docs/examples/hello-helidon/_index.md" >}}) example.
 
