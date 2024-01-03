@@ -43,6 +43,11 @@ draft: false
 - When updating the node pool of a cluster API based OKE cluster, the console may report the cluster state as 'Active' prematurely.
 
 ## Previous Release Information
+### v1.6.10
+**Fixes**:
+- Fixed an issue where pods would crash frequently with an Envoy core dump.
+- Fixed Envoy build to be RELEASE type.
+
 ### v1.6.9
 **Fixes**:
 - Fixed an issue where the Keycloak pod was repeatedly deleted.
