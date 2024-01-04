@@ -71,10 +71,6 @@ data:
 metadata:
   labels:
     app: hello-helidon
-    app.oam.dev/component: hello-helidon-component
-    app.oam.dev/name: hello-helidon
-    app.oam.dev/resourceType: WORKLOAD
-    app.oam.dev/revision: ""
   name: logging-stdout-hello-helidon-deployment-deployment
   namespace: hello-helidon
 ```
@@ -88,7 +84,6 @@ A container similar to the one below will be added to the deployment.
         image: ghcr.io/verrazzano/fluentd-kubernetes-daemonset:v1.12.3-20210517195222-f345ec2
         imagePullPolicy: IfNotPresent
         name: logging-stdout
-        resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:

@@ -8,7 +8,7 @@ draft: false
 
 Verrazzano will generate the following Kubernetes resources for an [VerrazzanoHelidonWorkload]({{< relref "/docs/applications/oam/workloads/helidon/helidon.md" >}}):
 * apps/v1/Deployment - implements the `deploymentTemplate` portion of the VerrazzanoHelidonWorkload
-* v1/Service - exposes the deployment application
+* v1/Service - exposes the deployed application
 
 For example, the VerrazzanoHelidonWorkload below is defined for the component `hello-helidon-component` of the [Hello World Helidon]({{< relref "/docs/examples/hello-helidon/_index.md" >}}) example.
 ```
@@ -48,10 +48,6 @@ metadata:
     description: Hello Helidon application
   labels:
     app: hello-helidon
-    app.oam.dev/component: hello-helidon-component
-    app.oam.dev/name: hello-helidon
-    app.oam.dev/resourceType: WORKLOAD
-    app.oam.dev/revision: ""
     version: v1
   name: hello-helidon-deployment
   namespace: hello-helidon
@@ -73,13 +69,8 @@ spec:
         verrazzano.io/metricsEnabled: "true"
         verrazzano.io/metricsPath: /metrics
         verrazzano.io/metricsPort: "8080"
-      creationTimestamp: null
       labels:
         app: hello-helidon
-        app.oam.dev/component: hello-helidon-component
-        app.oam.dev/name: hello-helidon
-        app.oam.dev/resourceType: WORKLOAD
-        app.oam.dev/revision: ""
         verrazzanohelidonworkloads.oam.verrazzano.io: d58cca68-b131-47e2-8ea4-3923bff38efa
         version: v1
     spec:
@@ -105,8 +96,6 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.oam.dev/component: hello-helidon-component
-    app.oam.dev/name: hello-helidon
     verrazzanohelidonworkloads.oam.verrazzano.io: d58cca68-b131-47e2-8ea4-3923bff38efa
   name: hello-helidon-deployment
   namespace: hello-helidon
