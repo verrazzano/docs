@@ -8,7 +8,7 @@ draft: false
 
 Verrazzano will generate the following Kubernetes resources for an [VerrazzanoWebLogicWorkload]({{< relref "/docs/applications/oam/workloads/weblogic/_index.md" >}}):
 * weblogic.oracle/v9/Domain
-  * With Fluentd sidecar
+  * With Fluentd sidecar container required for logging to the Domain
   * MonitoringExporter
 * ConfigMap for domain
 
