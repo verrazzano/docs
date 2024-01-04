@@ -72,7 +72,7 @@ spec:
       credentialName: hello-helidon-hello-helidon-ingress-cert-secret
       mode: SIMPLE
 ```
-A AuthorizationPolicy resource similar to the one below will be created.
+An AuthorizationPolicy resource similar to the one below will be created.
 ```
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
