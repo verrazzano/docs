@@ -9,6 +9,7 @@ draft: false
 Verrazzano will generate the following Kubernetes resources for an [IngressTrait]({{< relref "/docs/applications/oam/traits/ingress/ingress.md" >}}):
 * networking.istio.io/v1beta1/VirtualService - implements the `rules` portion of the IngressTrait
 * networking.istio.io/v1beta1/Gateway - defines the ingress for traffic management for the application running within the Istio mesh
+* security.istio.io/v1/AuthorizationPolicy - authorization policy to secure access to the application
 * v1/Secret for the Gateway - credential for server TLS settings
 
 For example, the IngressTrait below is defined for the component `hello-helidon-component` of the [Hello World Helidon]({{< relref "/docs/examples/hello-helidon/_index.md" >}}) example.
@@ -70,6 +71,28 @@ spec:
     tls:
       credentialName: hello-helidon-hello-helidon-ingress-cert-secret
       mode: SIMPLE
+```
+A AuthorizationPolicy resource similar to the one below will be created.
+```
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  labels:
+    verrazzano.io/istio: hello-helidon
+  name: hello-helidon
+  namespace: hello-helidon
+spec:
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/hello-helidon/sa/hello-helidon
+        - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
+        - cluster.local/ns/verrazzano-system/sa/verrazzano-monitoring-operator
+        - cluster.local/ns/verrazzano-monitoring/sa/prometheus-operator-kube-p-prometheus
+  selector:
+    matchLabels:
+      verrazzano.io/istio: hello-helidon
 ```
 
 A Secret resource similar to the one below will be created in the `istio-system` namespace.
