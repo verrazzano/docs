@@ -12,7 +12,7 @@ Verrazzano will generate the following Kubernetes resources for an [VerrazzanoWe
   * MonitoringExporter
 * ConfigMap for domain
 
-
+For example, the VerrazzanoWebLogicWorkload below is defined for the component `hello-helidon-component` of the [ToDo List]({{< relref "/docs/examples/wls-coh/todo-list.md" >}}) example.
 ```
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -68,7 +68,7 @@ spec:
 ```
 
 
-
+A Domain resource similar to the one below will be created.
 ```
 apiVersion: weblogic.oracle/v9
 kind: Domain
