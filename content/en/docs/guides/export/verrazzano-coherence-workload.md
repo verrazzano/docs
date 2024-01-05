@@ -66,7 +66,6 @@ metadata:
   annotations:
     com.oracle.coherence.operator/feature.suspend: "true"
     com.oracle.coherence.operator/version: 3.3.2
-  creationTimestamp: "2024-01-05T14:30:05Z"
   finalizers:
   - coherence.oracle.com/operator
   labels:
@@ -173,4 +172,320 @@ spec:
   volumes:
   - emptyDir: {}
     name: logs
+```
+
+A StatefulSet resource similar to the one below will be created.
+```
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+    com.oracle.coherence.operator/feature.suspend: "true"
+    com.oracle.coherence.operator/version: 3.3.2
+  labels:
+    coherence-hash: 7dbb64885b
+    coherenceCluster: SockShop
+    coherenceComponent: coherence
+    coherenceDeployment: carts-coh
+    coherenceRole: Carts
+  name: carts-coh
+  namespace: sockshop
+spec:
+  podManagementPolicy: Parallel
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      coherenceCluster: SockShop
+      coherenceComponent: coherencePod
+      coherenceDeployment: carts-coh
+      coherenceRole: Carts
+  serviceName: carts-coh-sts
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+        verrazzano.io/metricsEnabled: "true"
+        verrazzano.io/metricsEnabled1: "true"
+        verrazzano.io/metricsPath: /metrics
+        verrazzano.io/metricsPath1: /metrics
+        verrazzano.io/metricsPort: "7001"
+        verrazzano.io/metricsPort1: "9612"
+      creationTimestamp: null
+      labels:
+        app: carts-coh
+        app.oam.dev/component: carts
+        app.oam.dev/name: sockshop-appconf
+        coherenceCluster: SockShop
+        coherenceComponent: coherencePod
+        coherenceDeployment: carts-coh
+        coherenceRole: Carts
+        coherenceWKAMember: "true"
+        version: v1
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: coherenceCluster
+                  operator: In
+                  values:
+                  - SockShop
+                - key: coherenceDeployment
+                  operator: In
+                  values:
+                  - carts-coh
+              topologyKey: topology.kubernetes.io/zone
+            weight: 50
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: coherenceCluster
+                  operator: In
+                  values:
+                  - SockShop
+                - key: coherenceDeployment
+                  operator: In
+                  values:
+                  - carts-coh
+              topologyKey: oci.oraclecloud.com/fault-domain
+            weight: 10
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: coherenceCluster
+                  operator: In
+                  values:
+                  - SockShop
+                - key: coherenceDeployment
+                  operator: In
+                  values:
+                  - carts-coh
+              topologyKey: kubernetes.io/hostname
+            weight: 1
+      containers:
+      - command:
+        - /coherence-operator/utils/runner
+        - server
+        env:
+        - name: COH_MACHINE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: COH_MEMBER_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: COH_POD_UID
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.uid
+        - name: COH_ROLE
+          value: Carts
+        - name: COH_CLUSTER_NAME
+          value: SockShop
+        - name: COH_WKA
+          value: carts-coh-wka.sockshop.svc
+        - name: OPERATOR_HOST
+          valueFrom:
+            secretKeyRef:
+              key: operatorhost
+              name: coherence-operator-config
+              optional: true
+        - name: COH_SITE_INFO_LOCATION
+          value: http://$(OPERATOR_HOST)/site/$(COH_MACHINE_NAME)
+        - name: COH_RACK_INFO_LOCATION
+          value: http://$(OPERATOR_HOST)/rack/$(COH_MACHINE_NAME)
+        - name: COH_UTIL_DIR
+          value: /coherence-operator/utils
+        - name: OPERATOR_REQUEST_TIMEOUT
+          value: "120"
+        - name: COH_HEALTH_PORT
+          value: "6676"
+        - name: COH_IDENTITY
+          value: carts-coh@sockshop
+        - name: COH_APP_TYPE
+          value: helidon
+        - name: JVM_ARGS
+          value: -Dhelidon.serialFilter.ignoreFiles=true -Dhelidon.serialFilter.pattern=*
+            -Dhelidon.serialFilter.failure.action=WARN -Dcoherence.log=jdk -Dcoherence.log.logger=com.oracle.coherence
+            -Djava.util.logging.config.file=/coherence-operator/utils/logging/logging.properties
+        - name: JVM_HEAP_SIZE
+          value: 2g
+        - name: JVM_GC_LOGGING
+          value: "false"
+        - name: JVM_USE_CONTAINER_LIMITS
+          value: "true"
+        - name: COHERENCE_LOCALPORT
+          value: "7575"
+        - name: COHERENCE_LOCALPORT_ADJUST
+          value: "7576"
+        - name: COH_LOG_LEVEL
+          value: "9"
+        - name: COH_MGMT_ENABLED
+          value: "false"
+        - name: COH_METRICS_ENABLED
+          value: "true"
+        - name: COH_METRICS_PORT
+          value: "9612"
+        image: ghcr.io/oracle/coherence-helidon-sockshop-carts:2.0.1
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /healthz
+            port: 6676
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 60
+          successThreshold: 1
+          timeoutSeconds: 30
+        name: coherence
+        ports:
+        - containerPort: 7
+          name: coherence
+          protocol: TCP
+        - containerPort: 6676
+          name: health
+          protocol: TCP
+        - containerPort: 7575
+          name: coh-local
+          protocol: TCP
+        - containerPort: 7574
+          name: coh-cluster
+          protocol: TCP
+        - containerPort: 7001
+          name: http
+          protocol: TCP
+        - containerPort: 9612
+          name: metrics
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 50
+          httpGet:
+            path: /ready
+            port: 6676
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          successThreshold: 1
+          timeoutSeconds: 30
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /coherence-operator/utils
+          name: coh-utils
+        - mountPath: /coherence-operator/jvm
+          name: jvm
+        - mountPath: /logs
+          name: logs
+        - mountPath: /fluentd/etc/fluentd.conf
+          name: fluentd-config-coherence
+          readOnly: true
+          subPath: fluentd.conf
+      - args:
+        - -c
+        - /etc/fluent.conf
+        env:
+        - name: LOG_PATH
+          value: /logs
+        - name: FLUENTD_CONF
+          value: fluentd.conf
+        - name: NAMESPACE
+          value: sockshop
+        - name: APP_CONF_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.labels['app.oam.dev/name']
+        - name: COMPONENT_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.labels['app.oam.dev/component']
+        - name: COH_MACHINE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: COH_MEMBER_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: COH_POD_UID
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.uid
+        - name: COH_ROLE
+          value: Carts
+        - name: COH_CLUSTER_NAME
+          value: SockShop
+        image: ghcr.io/verrazzano/fluentd-kubernetes-daemonset:v1.14.5-20230922100900-8777b84
+        imagePullPolicy: IfNotPresent
+        name: fluentd-stdout-sidecar
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /coherence-operator/utils
+          name: coh-utils
+        - mountPath: /coherence-operator/jvm
+          name: jvm
+        - mountPath: /logs
+          name: logs
+        - mountPath: /fluentd/etc/fluentd.conf
+          name: fluentd-config-coherence
+          readOnly: true
+          subPath: fluentd.conf
+      dnsPolicy: ClusterFirst
+      initContainers:
+      - command:
+        - /files/runner
+        - init
+        env:
+        - name: COH_UTIL_DIR
+          value: /coherence-operator/utils
+        - name: COH_CLUSTER_NAME
+          value: SockShop
+        image: ghcr.io/oracle/coherence-operator:3.3.2
+        imagePullPolicy: IfNotPresent
+        name: coherence-k8s-utils
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /coherence-operator/utils
+          name: coh-utils
+        - mountPath: /coherence-operator/jvm
+          name: jvm
+        - mountPath: /fluentd/etc/fluentd.conf
+          name: fluentd-config-coherence
+          readOnly: true
+          subPath: fluentd.conf
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        runAsUser: 1000
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - emptyDir: {}
+        name: coh-utils
+      - emptyDir: {}
+        name: jvm
+      - emptyDir: {}
+        name: logs
+      - configMap:
+          defaultMode: 420
+          name: fluentd-config-coherence
+        name: fluentd-config-coherence
+  updateStrategy:
+    type: RollingUpdate
 ```
