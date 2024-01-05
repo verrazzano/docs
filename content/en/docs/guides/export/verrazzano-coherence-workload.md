@@ -8,6 +8,7 @@ draft: false
 
 Verrazzano will generate the following Kubernetes resources for an [VerrazzanoCoherenceWorkload]({{< relref "/docs/applications/oam/workloads/coherence/coherence.md" >}}):
 * coherence.oracle.com/v1/Coherence
+* apps/v1/StatefulSet
 
 
 For example, the VerrazzanoCoherenceWorkload below is defined for the component `carts` of the [Sock Shop]({{< relref "/docs/examples/microservices/sock-shop.md" >}}) example.
