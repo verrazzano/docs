@@ -7,12 +7,11 @@ draft: false
 ---
 
 Verrazzano will generate the following Kubernetes resources for an [VerrazzanoWebLogicWorkload]({{< relref "/docs/applications/oam/workloads/weblogic/_index.md" >}}):
-* weblogic.oracle/v9/Domain
-  * With Fluentd sidecar container required for logging to the Domain
-  * MonitoringExporter
-* ConfigMap for domain
+* weblogic.oracle/v9/Domain - A WebLogic Domain definition including the following:
+  * A Fluentd sidecar container required for logging to the Domain
+  * A MonitoringExporter definition for metrics scraping
 
-For example, the VerrazzanoWebLogicWorkload below is defined for the component `hello-helidon-component` of the [ToDo List]({{< relref "/docs/examples/wls-coh/todo-list.md" >}}) example.
+For example, the VerrazzanoWebLogicWorkload below is defined for the component `todo-domain` of the [ToDo List]({{< relref "/docs/examples/wls-coh/todo-list.md" >}}) example.
 ```
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
