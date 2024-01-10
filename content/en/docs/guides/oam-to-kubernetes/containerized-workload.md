@@ -1,15 +1,15 @@
 ---
 title: "ContainerizedWorkload"
 linkTitle: "ContainerizedWorkload"
-description: "An overview of the Kubernetes resources Verrazzano creates for an OAM ContainerizedWorkload"
+description: "Review the Kubernetes resources Verrazzano creates for an OAM ContainerizedWorkload"
 weight: 5
 draft: false
 ---
 
-Verrazzano will generate the following Kubernetes resources for an [ContainerizedWorkload](https://pkg.go.dev/github.com/crossplane/oam-kubernetes-runtime/apis/core/v1alpha2#ContainerizedWorkload):
+Verrazzano generates the following Kubernetes resources for a [ContainerizedWorkload](https://pkg.go.dev/github.com/crossplane/oam-kubernetes-runtime/apis/core/v1alpha2#ContainerizedWorkload):
 * apps/v1/Deployment
 
-For example, the ContainerizedWorkload below is defined for the component `springboot-component` of the [Spring Boot]({{< relref "/docs/examples/microservices/spring-boot.md" >}}) example.
+For example, the following ContainerizedWorkload is defined for the component, `springboot-component`, of the [Spring Boot]({{< relref "/docs/examples/microservices/spring-boot.md" >}}) example.
 ```
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -33,7 +33,7 @@ spec:
             name: springboot
 ```
 
-A Deployment resource similar to the one below will be created.
+A Deployment resource, similar to the following one, will be created.
 ```
 apiVersion: apps/v1
 kind: Deployment

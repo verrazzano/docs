@@ -1,17 +1,17 @@
 ---
 title: "VerrazzanoWebLogicWorkload"
 linkTitle: "VerrazzanoWebLogicWorkload"
-description: "An overview of the Kubernetes resources Verrazzano creates for an OAM VerrazzanoWebLogicWorkload"
+description: "Review the Kubernetes resources Verrazzano creates for an OAM VerrazzanoWebLogicWorkload"
 weight: 5
 draft: false
 ---
 
-Verrazzano will generate the following Kubernetes resources for an [VerrazzanoWebLogicWorkload]({{< relref "/docs/applications/oam/workloads/weblogic/_index.md" >}}):
-* weblogic.oracle/v9/Domain - A WebLogic Domain definition including the following:
-  * A Fluentd sidecar container required for logging to the Domain
-  * A MonitoringExporter definition for metrics scraping
+Verrazzano generates the following Kubernetes resources for a [VerrazzanoWebLogicWorkload]({{< relref "/docs/applications/oam/workloads/weblogic/_index.md" >}}):
+* weblogic.oracle/v9/Domain - A WebLogic domain definition, including the following:
+  * A Fluentd sidecar container required for logging to the domain.
+  * A MonitoringExporter definition for metrics scraping.
 
-For example, the VerrazzanoWebLogicWorkload below is defined for the component `todo-domain` of the [ToDo List]({{< relref "/docs/examples/wls-coh/todo-list.md" >}}) example.
+For example, the following VerrazzanoWebLogicWorkload is defined for the component, `todo-domain`, of the [ToDo List]({{< relref "/docs/examples/wls-coh/todo-list.md" >}}) example.
 ```
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -67,7 +67,7 @@ spec:
 ```
 
 
-A Domain resource similar to the one below will be created.
+A Domain resource, similar to the following one, will be created.
 ```
 apiVersion: weblogic.oracle/v9
 kind: Domain

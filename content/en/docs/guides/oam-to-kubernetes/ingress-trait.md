@@ -1,18 +1,18 @@
 ---
 title: "IngressTrait"
 linkTitle: "IngressTrait"
-description: "An overview of the Kubernetes resources Verrazzano creates for an OAM IngressTrait"
+description: "Review the Kubernetes resources Verrazzano creates for an OAM IngressTrait"
 weight: 5
 draft: false
 ---
 
-Verrazzano will generate the following Kubernetes resources for an [IngressTrait]({{< relref "/docs/applications/oam/traits/ingress/ingress.md" >}}):
-* networking.istio.io/v1beta1/VirtualService - implements the `rules` portion of the IngressTrait
-* networking.istio.io/v1beta1/Gateway - defines the ingress for traffic management for the application running within the Istio mesh
-* security.istio.io/v1/AuthorizationPolicy - authorization policy to secure access to the application
-* v1/Secret for the Gateway - credential for server TLS settings
+Verrazzano generates the following Kubernetes resources for an [IngressTrait]({{< relref "/docs/applications/oam/traits/ingress/ingress.md" >}}):
+* networking.istio.io/v1beta1/VirtualService - Implements the `rules` portion of the IngressTrait.
+* networking.istio.io/v1beta1/Gateway - Defines the ingress for traffic management for the application running within the Istio mesh.
+* security.istio.io/v1/AuthorizationPolicy - The authorization policy to secure access to the application.
+* v1/Secret for the Gateway - The credential for the server TLS settings.
 
-For example, the IngressTrait below is defined for the component `hello-helidon-component` of the [Hello World Helidon]({{< relref "/docs/examples/hello-helidon/_index.md" >}}) example.
+For example, the following IngressTrait is defined for the component, `hello-helidon-component`, of the [Hello World Helidon]({{< relref "/docs/examples/hello-helidon/_index.md" >}}) example.
 ```
 apiVersion: oam.verrazzano.io/v1alpha1
 kind: IngressTrait
@@ -27,7 +27,7 @@ spec:
         port: 8080
 ```
 
-A VirtualService resource similar to the one below will be created.
+A VirtualService resource, similar to the following one, will be created.
 ```
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -50,7 +50,7 @@ spec:
           number: 8080
 ```
 
-A Gateway resource similar to the one below will be created.
+A Gateway resource, similar to the following one, will be created.
 ```
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
@@ -72,7 +72,7 @@ spec:
       credentialName: hello-helidon-hello-helidon-ingress-cert-secret
       mode: SIMPLE
 ```
-An AuthorizationPolicy resource similar to the one below will be created.
+An AuthorizationPolicy resource, similar to the following one, will be created.
 ```
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
@@ -95,7 +95,7 @@ spec:
       verrazzano.io/istio: hello-helidon
 ```
 
-A Secret resource similar to the one below will be created in the `istio-system` namespace.
+A Secret resource, similar to the following one, will be created in the `istio-system` namespace.
 ```
 apiVersion: v1
 kind: Secret

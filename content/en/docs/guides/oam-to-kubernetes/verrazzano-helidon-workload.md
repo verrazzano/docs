@@ -1,16 +1,16 @@
 ---
 title: "VerrazzanoHelidonWorkload"
 linkTitle: "VerrazzanoHelidonWorkload"
-description: "An overview of the Kubernetes resources Verrazzano creates for an OAM VerrazzanoHelidonWorkload"
+description: "Review the Kubernetes resources Verrazzano creates for an OAM VerrazzanoHelidonWorkload"
 weight: 5
 draft: false
 ---
 
-Verrazzano will generate the following Kubernetes resources for an [VerrazzanoHelidonWorkload]({{< relref "/docs/applications/oam/workloads/helidon/helidon.md" >}}):
-* apps/v1/Deployment - implements the `deploymentTemplate` portion of the VerrazzanoHelidonWorkload
-* v1/Service - exposes the deployed application
+Verrazzano generates the following Kubernetes resources for a [VerrazzanoHelidonWorkload]({{< relref "/docs/applications/oam/workloads/helidon/helidon.md" >}}):
+* apps/v1/Deployment - Implements the `deploymentTemplate` portion of the VerrazzanoHelidonWorkload.
+* v1/Service - Exposes the deployed application.
 
-For example, the VerrazzanoHelidonWorkload below is defined for the component `hello-helidon-component` of the [Hello World Helidon]({{< relref "/docs/examples/hello-helidon/_index.md" >}}) example.
+For example, the following VerrazzanoHelidonWorkload is defined for the component, `hello-helidon-component`, of the [Hello World Helidon]({{< relref "/docs/examples/hello-helidon/_index.md" >}}) example.
 ```
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -38,7 +38,7 @@ spec:
                   name: http
 ```
 
-A Deployment resource similar to the one below will be created.
+A Deployment resource, similar to the following one, will be created.
 ```
 apiVersion: apps/v1
 kind: Deployment
@@ -90,7 +90,7 @@ spec:
       terminationGracePeriodSeconds: 30
 ```
 
-A Service resource similar to the one below will be created.
+A Service resource, similar to the following one, will be created.
 ```
 apiVersion: v1
 kind: Service

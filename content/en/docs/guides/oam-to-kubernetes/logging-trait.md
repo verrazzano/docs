@@ -1,17 +1,17 @@
 ---
 title: "LoggingTrait"
 linkTitle: "LoggingTrait"
-description: "An overview of the Kubernetes resources Verrazzano creates for an OAM LoggingTrait"
+description: "Review the Kubernetes resources Verrazzano creates for an OAM LoggingTrait"
 weight: 5
 draft: false
 ---
 
-Verrazzano will generate the following Kubernetes resources for an [LoggingTrait]({{< relref "/docs/applications/oam/traits/logging/logging.md" >}}):
-* v1/ConfigMap - contains the definition of how to filter log output
-* An additional container and volume definition will be added to the Deployment, StatefulSet, ReplicaSet or ReplicationController of each Component.  The container has image to use for logging and the volume mount of the logging specification.
+Verrazzano generates the following Kubernetes resources for a [LoggingTrait]({{< relref "/docs/applications/oam/traits/logging/logging.md" >}}):
+* v1/ConfigMap - Contains the definition for how to filter log output.
+* An additional container and volume definition is added to the Deployment, StatefulSet, ReplicaSet, or ReplicationController of each component.  The container has an image to use for logging and the volume mount of the logging specification.
 
 
-For example, the LoggingTrait below is defined for the component `hello-helidon-component` of the [Hello World Helidon]({{< relref "/docs/examples/hello-helidon/_index.md" >}}) example.
+For example, the following LoggingTrait is defined for the component, `hello-helidon-component`, of the [Hello World Helidon]({{< relref "/docs/examples/hello-helidon/_index.md" >}}) example.
 
 ```
 apiVersion: core.oam.dev/v1alpha2
@@ -56,7 +56,7 @@ spec:
                   </match>
 ```
 
-A ConfigMap resource similar to the one below will be created.
+A ConfigMap resource, similar to the following one, will be created.
 ```
 apiVersion: v1
 kind: ConfigMap
@@ -75,7 +75,7 @@ metadata:
   namespace: hello-helidon
 ```
 
-A container similar to the one below will be added to the deployment.
+A container, similar to the following one, will be added to the deployment.
 ```
       containers:
       - env:
@@ -93,7 +93,7 @@ A container similar to the one below will be added to the deployment.
           subPath: custom.conf
 ```
 
-A volume definition similar to the one below will also be added to the deployment.
+A volume definition, similar to the following one, will also be added to the deployment.
 ```
       volumes:
       - configMap:

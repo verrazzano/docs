@@ -1,17 +1,17 @@
 ---
 title: "VerrazzanoCoherenceWorkload"
 linkTitle: "VerrazzanoCoherenceWorkload"
-description: "An overview of the Kubernetes resources Verrazzano creates for an OAM VerrazzanoCoherenceWorkload"
+description: "Review the Kubernetes resources Verrazzano creates for an OAM VerrazzanoCoherenceWorkload"
 weight: 5
 draft: false
 ---
 
-Verrazzano will generate the following Kubernetes resources for an [VerrazzanoCoherenceWorkload]({{< relref "/docs/applications/oam/workloads/coherence/coherence.md" >}}):
+Verrazzano generates the following Kubernetes resources for a [VerrazzanoCoherenceWorkload]({{< relref "/docs/applications/oam/workloads/coherence/coherence.md" >}}):
 * coherence.oracle.com/v1/Coherence
 * apps/v1/StatefulSet
 
 
-For example, the VerrazzanoCoherenceWorkload below is defined for the component `carts` of the [Sock Shop]({{< relref "/docs/examples/microservices/sock-shop.md" >}}) example.
+For example, the following VerrazzanoCoherenceWorkload is defined for the component, `carts`, of the [Sock Shop]({{< relref "/docs/examples/microservices/sock-shop.md" >}}) example.
 ```
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -57,9 +57,9 @@ spec:
                 enabled: true
           securityContext:
             runAsUser: 1000
-``` 
+```
 
-A Coherence resource similar to the one below will be created.
+A Coherence resource, similar to the following one, will be created.
 ```
 apiVersion: coherence.oracle.com/v1
 kind: Coherence
@@ -175,7 +175,7 @@ spec:
     name: logs
 ```
 
-A StatefulSet resource similar to the one below will be created.
+A StatefulSet resource, similar to the following one, will be created.
 ```
 apiVersion: apps/v1
 kind: StatefulSet
