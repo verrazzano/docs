@@ -100,9 +100,9 @@ metadata:
   name: hello-helidon-deployment
   namespace: hello-helidon
 spec:
-  clusterIP: 10.96.254.206
+  clusterIP: 1.2.3.4
   clusterIPs:
-  - 10.96.254.206
+  - 1.2.3.4
   internalTrafficPolicy: Cluster
   ipFamilies:
   - IPv4

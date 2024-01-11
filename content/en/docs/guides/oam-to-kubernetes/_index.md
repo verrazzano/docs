@@ -7,9 +7,9 @@ draft: false
 
 ### Verrazzano CLI export command
 
-Verrazzano provides a CLI option that you can use to facilitate the migration of an OAM application to be managed as a collection of Kubernetes objects.
+Verrazzano provides a CLI command that you can use to facilitate the migration of an OAM application to be managed as a collection of Kubernetes objects.
 
-The command `vz export oam` will output the YAML for each Kubernetes object that was generated as a result of deploying an OAM application.  The generated YAML is sanitized so that it can be used to deploy the application.  Fields such as `creationTimestamp`, `resourceVersion`, `uid`, and `status` are not included in the  output.
+The command `vz export oam` will output the YAML for each Kubernetes object that was generated as a result of deploying an OAM application.  The generated YAML is sanitized so that it can be used to deploy the application.  Fields such as `creationTimestamp`, `resourceVersion`, `uid`, and `status` are not included in the output.
 
 For example, the following CLI command exports the YAML from the hello-helidon OAM sample application.
 

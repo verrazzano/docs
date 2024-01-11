@@ -7,7 +7,7 @@ draft: false
 ---
 
 Verrazzano generates the following Kubernetes objects for a [MetricsTrait]({{< relref "/docs/applications/oam/traits/metrics/metrics.md" >}}):
-* monitoring.coreos.com/v1/ServiceMonitor - A Prometheus custom object that defines an application from which to scrape metrics.  A ServiceMonitor object is created by default unless explicitly disabled in the MetricsTrait.
+* monitoring.coreos.com/v1/ServiceMonitor - A Prometheus custom object that defines a service from which to scrape metrics.  A ServiceMonitor object is created by default unless explicitly disabled in the MetricsTrait.
 * Annotations on objects to be scraped by Prometheus (for example, pods). The annotation names are prefixed with `verrazzano.io/metrics`.
 
 For example, the following MetricsTrait is defined for the component, `hello-helidon-component`, of the [Hello World Helidon]({{< relref "/docs/examples/hello-helidon/_index.md" >}}) example.
