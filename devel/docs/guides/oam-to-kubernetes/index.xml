@@ -1,0 +1,1320 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – OAM to Kubernetes Mappings</title>
+    <link>/docs/guides/oam-to-kubernetes/</link>
+    <description>Recent content in OAM to Kubernetes Mappings on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/guides/oam-to-kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: ContainerizedWorkload</title>
+      <link>/docs/guides/oam-to-kubernetes/containerized-workload/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/guides/oam-to-kubernetes/containerized-workload/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano generates the following Kubernetes objects for a &lt;a href=&#34;https://pkg.go.dev/github.com/crossplane/oam-kubernetes-runtime/apis/core/v1alpha2#ContainerizedWorkload&#34;&gt;ContainerizedWorkload&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;apps/v1/Deployment&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For example, the following ContainerizedWorkload is defined for the component, &lt;code&gt;springboot-component&lt;/code&gt;, of the &lt;a href=&#34;../../../docs/examples/microservices/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt; example.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: springboot-component
+spec:
+  workload:
+    apiVersion: core.oam.dev/v1alpha2
+    kind: ContainerizedWorkload
+    metadata:
+      name: springboot-workload
+      labels:
+        app: springboot
+        version: v1
+    spec:
+      containers:
+      - name: springboot-container
+        image: &amp;#34;ghcr.io/verrazzano/example-springboot:1.0.0-1-20230126194830-31cd41f&amp;#34;
+        ports:
+          - containerPort: 8080
+            name: springboot
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A Deployment object, similar to the following one, will be created.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: &amp;#34;1&amp;#34;
+    description: Spring Boot application
+    version: v1.0.0
+  labels:
+    app: springboot
+    version: v1
+  name: springboot-workload
+  namespace: springboot
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      containerizedworkload.oam.crossplane.io: 23134b5a-8da9-4224-ba27-965684c692ce
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: springboot
+        containerizedworkload.oam.crossplane.io: 23134b5a-8da9-4224-ba27-965684c692ce
+        version: v1
+    spec:
+      containers:
+      - image: ghcr.io/verrazzano/example-springboot:1.0.0-1-20230126194830-31cd41f
+        imagePullPolicy: IfNotPresent
+        name: springboot-container
+        ports:
+        - containerPort: 8080
+          name: springboot
+          protocol: TCP
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: IngressTrait</title>
+      <link>/docs/guides/oam-to-kubernetes/ingress-trait/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/guides/oam-to-kubernetes/ingress-trait/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano generates the following Kubernetes objects for an &lt;a href=&#34;../../../docs/applications/oam/traits/ingress/ingress/&#34;&gt;IngressTrait&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;networking.istio.io/v1beta1/VirtualService - Implements the &lt;code&gt;rules&lt;/code&gt; portion of the IngressTrait.&lt;/li&gt;
+&lt;li&gt;networking.istio.io/v1beta1/Gateway - Defines the ingress for traffic management for the application running within the Istio mesh.&lt;/li&gt;
+&lt;li&gt;security.istio.io/v1/AuthorizationPolicy - The authorization policy to secure access to the application.&lt;/li&gt;
+&lt;li&gt;v1/Secret for the Gateway - The credential for the server TLS settings.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For example, the following IngressTrait is defined for the component, &lt;code&gt;hello-helidon-component&lt;/code&gt;, of the &lt;a href=&#34;../../../docs/examples/hello-helidon/&#34;&gt;Hello World Helidon&lt;/a&gt; example.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: oam.verrazzano.io/v1alpha1
+kind: IngressTrait
+metadata:
+  name: hello-helidon-ingress
+spec:
+  rules:
+    - paths:
+        - path: &amp;#34;/greet&amp;#34;
+          pathType: Prefix
+      destination:
+        port: 8080
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A VirtualService object, similar to the following one, will be created.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: hello-helidon-ingress-rule-0-vs
+  namespace: hello-helidon
+spec:
+  gateways:
+  - hello-helidon-hello-helidon-gw
+  hosts:
+  - hello-helidon.hello-helidon.11.22.0.230.nip.io
+  http:
+  - match:
+    - uri:
+        prefix: /greet
+    route:
+    - destination:
+        host: hello-helidon-deployment
+        port:
+          number: 8080
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A Gateway object, similar to the following one, will be created.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: hello-helidon-hello-helidon-gw
+  namespace: hello-helidon
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - hello-helidon.hello-helidon.11.22.0.230.nip.io
+    name: hello-helidon-ingress
+    port:
+      name: https-hello-helidon-ingress
+      number: 443
+      protocol: HTTPS
+    tls:
+      credentialName: hello-helidon-hello-helidon-ingress-cert-secret
+      mode: SIMPLE
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;An AuthorizationPolicy object, similar to the following one, will be created.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  labels:
+    verrazzano.io/istio: hello-helidon
+  name: hello-helidon
+  namespace: hello-helidon
+spec:
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/hello-helidon/sa/hello-helidon
+        - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
+        - cluster.local/ns/verrazzano-system/sa/verrazzano-monitoring-operator
+        - cluster.local/ns/verrazzano-monitoring/sa/prometheus-operator-kube-p-prometheus
+  selector:
+    matchLabels:
+      verrazzano.io/istio: hello-helidon
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A Secret object, similar to the following one, will be created in the &lt;code&gt;istio-system&lt;/code&gt; namespace.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: v1
+kind: Secret
+data:
+  ca.crt:
+    &amp;lt;base64 encoding of CA certificate data&amp;gt;
+  tls.crt:     
+    &amp;lt;base64 encoding of TLS certificate data&amp;gt;
+  tls.key:
+    &amp;lt;base64 encoding of key data&amp;gt;
+metadata:
+  annotations:
+    cert-manager.io/alt-names: hello-helidon.hello-helidon.11.22.0.230.nip.io
+    cert-manager.io/certificate-name: hello-helidon-hello-helidon-ingress-cert
+    cert-manager.io/common-name: &amp;#34;&amp;#34;
+    cert-manager.io/ip-sans: &amp;#34;&amp;#34;
+    cert-manager.io/issuer-group: &amp;#34;&amp;#34;
+    cert-manager.io/issuer-kind: ClusterIssuer
+    cert-manager.io/issuer-name: verrazzano-cluster-issuer
+    cert-manager.io/uri-sans: &amp;#34;&amp;#34;
+  name: hello-helidon-hello-helidon-ingress-cert-secret
+  namespace: istio-system
+type: kubernetes.io/tls
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: LoggingTrait</title>
+      <link>/docs/guides/oam-to-kubernetes/logging-trait/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/guides/oam-to-kubernetes/logging-trait/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano generates the following Kubernetes objects for a &lt;a href=&#34;../../../docs/applications/oam/traits/logging/logging/&#34;&gt;LoggingTrait&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;v1/ConfigMap - Contains the definition for how to filter log output.&lt;/li&gt;
+&lt;li&gt;An additional container and volume definition is added to the Deployment, StatefulSet, ReplicaSet, or ReplicationController of each component.  The container has an image to use for logging and the volume mount of the logging specification.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For example, the following LoggingTrait is defined for the component, &lt;code&gt;hello-helidon-component&lt;/code&gt;, of the &lt;a href=&#34;../../../docs/examples/hello-helidon/&#34;&gt;Hello World Helidon&lt;/a&gt; example.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
+kind: ApplicationConfiguration
+metadata:
+  name: hello-helidon
+  annotations:
+    version: v1.0.0
+    description: &amp;#34;Hello Helidon application&amp;#34;
+spec:
+  components:
+    - componentName: hello-helidon-component
+      traits:
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: MetricsTrait
+            spec:
+              scraper: verrazzano-system/vmi-system-prometheus-0
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: IngressTrait
+            metadata:
+              name: hello-helidon-ingress
+            spec:
+              rules:
+                - paths:
+                    - path: &amp;#34;/greet&amp;#34;
+                      pathType: Prefix
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: LoggingTrait
+            metadata:
+              name: logging-trait
+            spec:
+              loggingImage: ghcr.io/verrazzano/fluentd-kubernetes-daemonset:v1.12.3-20210517195222-f345ec2
+              loggingConfig: |
+                  &amp;lt;match fluent.**&amp;gt;
+                    @type null
+                  &amp;lt;/match&amp;gt;
+                  &amp;lt;match **&amp;gt;
+                  @type stdout
+                  &amp;lt;/match&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A ConfigMap object, similar to the following one, will be created.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: v1
+kind: ConfigMap
+data:
+  custom.conf: |
+    &amp;lt;match fluent.**&amp;gt;
+      @type null
+    &amp;lt;/match&amp;gt;
+    &amp;lt;match **&amp;gt;
+    @type stdout
+    &amp;lt;/match&amp;gt;
+metadata:
+  labels:
+    app: hello-helidon
+  name: logging-stdout-hello-helidon-deployment-deployment
+  namespace: hello-helidon
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A container, similar to the following one, will be added to the deployment.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;      containers:
+      - env:
+        - name: FLUENTD_CONF
+          value: custom.conf
+        image: ghcr.io/verrazzano/fluentd-kubernetes-daemonset:v1.12.3-20210517195222-f345ec2
+        imagePullPolicy: IfNotPresent
+        name: logging-stdout
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /fluentd/etc/custom.conf
+          name: logging-stdout-hello-helidon-deployment-deployment
+          readOnly: true
+          subPath: custom.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A volume definition, similar to the following one, will also be added to the deployment.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;      volumes:
+      - configMap:
+          defaultMode: 400
+          name: logging-stdout-hello-helidon-deployment-deployment
+        name: logging-stdout-hello-helidon-deployment-deployment
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: ManualScalerTrait</title>
+      <link>/docs/guides/oam-to-kubernetes/manual-scaler-trait/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/guides/oam-to-kubernetes/manual-scaler-trait/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano modifies the following Kubernetes objects for a &lt;a href=&#34;https://github.com/oam-dev/spec/blob/v0.2.1/core/traits/manual_scaler_trait.md&#34;&gt;ManualScalerTrait&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The &lt;code&gt;replicas&lt;/code&gt; of a Deployment, StatefulSet, ReplicaSet, or ReplicationController.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For example, the following ManualScalerTrait is defined for the component, &lt;code&gt;hello-helidon-component&lt;/code&gt;, of the &lt;a href=&#34;../../../docs/examples/hello-helidon/&#34;&gt;Hello World Helidon&lt;/a&gt; example.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
+kind: ManualScalerTrait
+spec:
+  replicaCount: 2
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The following is a snippet of the Deployment object with the &lt;code&gt;replicas&lt;/code&gt; value updated.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: apps/v1
+kind: Deployment
+.
+.
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 2
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: MetricsTrait</title>
+      <link>/docs/guides/oam-to-kubernetes/metrics-trait/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/guides/oam-to-kubernetes/metrics-trait/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano generates the following Kubernetes objects for a &lt;a href=&#34;../../../docs/applications/oam/traits/metrics/metrics/&#34;&gt;MetricsTrait&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;monitoring.coreos.com/v1/ServiceMonitor - A Prometheus custom object that defines a service from which to scrape metrics.  A ServiceMonitor object is created by default unless explicitly disabled in the MetricsTrait.&lt;/li&gt;
+&lt;li&gt;Annotations on objects to be scraped by Prometheus (for example, pods). The annotation names are prefixed with &lt;code&gt;verrazzano.io/metrics&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For example, the following MetricsTrait is defined for the component, &lt;code&gt;hello-helidon-component&lt;/code&gt;, of the &lt;a href=&#34;../../../docs/examples/hello-helidon/&#34;&gt;Hello World Helidon&lt;/a&gt; example.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: oam.verrazzano.io/v1alpha1
+kind: MetricsTrait
+spec:
+    scraper: verrazzano-system/vmi-system-prometheus-0
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A ServiceMonitor object, similar to the following one, will be created. The &lt;code&gt;path&lt;/code&gt; defaults to &lt;code&gt;metrics&lt;/code&gt;.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    release: prometheus-operator
+  name: hello-helidon-hello-helidon-hello-helidon-component
+  namespace: hello-helidon
+spec:
+  endpoints:
+  - bearerTokenSecret:
+      key: &amp;#34;&amp;#34;
+    enableHttp2: false
+    path: metrics
+    relabelings:
+    - action: replace
+      replacement: local
+      targetLabel: verrazzano_cluster
+    - action: keep
+      regex: true;hello-helidon;hello-helidon-component
+      sourceLabels:
+      - __meta_kubernetes_pod_annotation_verrazzano_io_metricsEnabled
+      - __meta_kubernetes_pod_label_app_oam_dev_name
+      - __meta_kubernetes_pod_label_app_oam_dev_component
+    - action: replace
+      regex: (.+)
+      sourceLabels:
+      - __meta_kubernetes_pod_annotation_verrazzano_io_metricsPath
+      targetLabel: __metrics_path__
+    - action: replace
+      regex: ([^:]+)(?::\d+)?;(\d+)
+      replacement: $1:$2
+      sourceLabels:
+      - __address__
+      - __meta_kubernetes_pod_annotation_verrazzano_io_metricsPort
+      targetLabel: __address__
+    - action: replace
+      regex: (.*)
+      replacement: $1
+      sourceLabels:
+      - __meta_kubernetes_namespace
+      targetLabel: namespace
+    - action: labelmap
+      regex: __meta_kubernetes_pod_label_(.+)
+    - action: replace
+      sourceLabels:
+      - __meta_kubernetes_pod_name
+      targetLabel: pod_name
+    - action: labeldrop
+      regex: (controller_revision_hash)
+    - action: replace
+      regex: .*/(.*)$
+      replacement: $1
+      sourceLabels:
+      - name
+      targetLabel: webapp
+    - action: replace
+      regex: ;(.*)
+      replacement: $1
+      separator: ;
+      sourceLabels:
+      - application
+      - app
+      targetLabel: application
+    scheme: https
+    tlsConfig:
+      ca: {}
+      caFile: /etc/istio-certs/root-cert.pem
+      cert: {}
+      certFile: /etc/istio-certs/cert-chain.pem
+      insecureSkipVerify: true
+      keyFile: /etc/istio-certs/key.pem
+  namespaceSelector:
+    matchNames:
+    - hello-helidon
+  selector: {}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The following is a snippet of the Deployment object that will be annotated based on the MetricsTrait definition.  The &lt;code&gt;port&lt;/code&gt; defaults to &lt;code&gt;8080&lt;/code&gt;.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: apps/v1
+kind: Deployment
+.
+.
+spec:
+  template:
+    metadata:
+      annotations:
+        verrazzano.io/metricsEnabled: &amp;#34;true&amp;#34;
+        verrazzano.io/metricsPath: metrics
+        verrazzano.io/metricsPort: &amp;#34;8080&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: VerrazzanoCoherenceWorkload</title>
+      <link>/docs/guides/oam-to-kubernetes/verrazzano-coherence-workload/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/guides/oam-to-kubernetes/verrazzano-coherence-workload/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano generates the following Kubernetes objects for a &lt;a href=&#34;../../../docs/applications/oam/workloads/coherence/coherence/&#34;&gt;VerrazzanoCoherenceWorkload&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;coherence.oracle.com/v1/Coherence&lt;/li&gt;
+&lt;li&gt;apps/v1/StatefulSet&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For example, the following VerrazzanoCoherenceWorkload is defined for the component, &lt;code&gt;carts&lt;/code&gt;, of the &lt;a href=&#34;../../../docs/examples/microservices/sock-shop/&#34;&gt;Sock Shop&lt;/a&gt; example.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: carts
+spec:
+  workload:
+    apiVersion: oam.verrazzano.io/v1alpha1
+    kind: VerrazzanoCoherenceWorkload
+    spec:
+      template:
+        metadata:
+          name: carts-coh
+        spec:
+          labels:
+            app: carts-coh
+            version: v1
+          cluster: SockShop
+          role: Carts
+          replicas: 1
+          image: ghcr.io/oracle/coherence-helidon-sockshop-carts:1.2.2
+          imagePullPolicy: IfNotPresent
+          application:
+            type: helidon
+          jvm:
+            memory:
+              heapSize: 2g
+          coherence:
+            logLevel: 9
+            metrics:
+              enabled: true
+          ports:
+            - name: http
+              port: 7001
+              service:
+                name: carts
+                port: 7001
+              serviceMonitor:
+                enabled: true
+            - name: metrics
+              port: 9612
+              serviceMonitor:
+                enabled: true
+          securityContext:
+            runAsUser: 1000
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A Coherence object, similar to the following one, will be created.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: coherence.oracle.com/v1
+kind: Coherence
+metadata:
+  annotations:
+    com.oracle.coherence.operator/feature.suspend: &amp;#34;true&amp;#34;
+    com.oracle.coherence.operator/version: 3.3.2
+  finalizers:
+  - coherence.oracle.com/operator
+  labels:
+    coherence-hash: 7dbb64885b
+  name: carts-coh
+  namespace: sockshop
+spec:
+  annotations:
+    sidecar.istio.io/inject: &amp;#34;false&amp;#34;
+    verrazzano.io/metricsEnabled: &amp;#34;true&amp;#34;
+    verrazzano.io/metricsEnabled1: &amp;#34;true&amp;#34;
+    verrazzano.io/metricsPath: /metrics
+    verrazzano.io/metricsPath1: /metrics
+    verrazzano.io/metricsPort: &amp;#34;7001&amp;#34;
+    verrazzano.io/metricsPort1: &amp;#34;9612&amp;#34;
+  application:
+    type: helidon
+  cluster: SockShop
+  coherence:
+    localPort: 7575
+    localPortAdjust: 7576
+    logLevel: 9
+    metrics:
+      enabled: true
+  coherenceUtils:
+    image: ghcr.io/oracle/coherence-operator:3.3.2
+  configMapVolumes:
+  - mountPath: /fluentd/etc/fluentd.conf
+    name: fluentd-config-coherence
+    readOnly: true
+    subPath: fluentd.conf
+  image: ghcr.io/oracle/coherence-helidon-sockshop-carts:2.0.1
+  imagePullPolicy: IfNotPresent
+  jvm:
+    args:
+    - -Dhelidon.serialFilter.ignoreFiles=true
+    - -Dhelidon.serialFilter.pattern=*
+    - -Dhelidon.serialFilter.failure.action=WARN
+    - -Dcoherence.log=jdk
+    - -Dcoherence.log.logger=com.oracle.coherence
+    - -Djava.util.logging.config.file=/coherence-operator/utils/logging/logging.properties
+    memory:
+      heapSize: 2g
+  labels:
+    app: carts-coh
+    app.oam.dev/component: carts
+    app.oam.dev/name: sockshop-appconf
+    version: v1
+  ports:
+  - name: http
+    port: 7001
+    protocol: TCP
+    service:
+      labels:
+        app.oam.dev/component: carts
+        app.oam.dev/name: sockshop-appconf
+      name: carts
+      port: 7001
+    serviceMonitor:
+      bearerTokenSecret:
+        key: &amp;#34;&amp;#34;
+      enabled: true
+  - name: metrics
+    port: 9612
+    protocol: TCP
+    service:
+      labels:
+        app.oam.dev/component: carts
+        app.oam.dev/name: sockshop-appconf
+    serviceMonitor:
+      bearerTokenSecret:
+        key: &amp;#34;&amp;#34;
+      enabled: true
+  replicas: 1
+  role: Carts
+  securityContext:
+    runAsUser: 1000
+  sideCars:
+  - args:
+    - -c
+    - /etc/fluent.conf
+    env:
+    - name: LOG_PATH
+      value: /logs
+    - name: FLUENTD_CONF
+      value: fluentd.conf
+    - name: NAMESPACE
+      value: sockshop
+    - name: APP_CONF_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.labels[&amp;#39;app.oam.dev/name&amp;#39;]
+    - name: COMPONENT_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.labels[&amp;#39;app.oam.dev/component&amp;#39;]
+    image: ghcr.io/verrazzano/fluentd-kubernetes-daemonset:v1.14.5-20230922100900-8777b84
+    imagePullPolicy: IfNotPresent
+    name: fluentd-stdout-sidecar
+  volumeMounts:
+  - mountPath: /logs
+    name: logs
+  volumes:
+  - emptyDir: {}
+    name: logs
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A StatefulSet object, similar to the following one, will be created.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+    com.oracle.coherence.operator/feature.suspend: &amp;#34;true&amp;#34;
+    com.oracle.coherence.operator/version: 3.3.2
+  labels:
+    coherence-hash: 7dbb64885b
+    coherenceCluster: SockShop
+    coherenceComponent: coherence
+    coherenceDeployment: carts-coh
+    coherenceRole: Carts
+  name: carts-coh
+  namespace: sockshop
+spec:
+  podManagementPolicy: Parallel
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      coherenceCluster: SockShop
+      coherenceComponent: coherencePod
+      coherenceDeployment: carts-coh
+      coherenceRole: Carts
+  serviceName: carts-coh-sts
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: &amp;#34;false&amp;#34;
+        verrazzano.io/metricsEnabled: &amp;#34;true&amp;#34;
+        verrazzano.io/metricsEnabled1: &amp;#34;true&amp;#34;
+        verrazzano.io/metricsPath: /metrics
+        verrazzano.io/metricsPath1: /metrics
+        verrazzano.io/metricsPort: &amp;#34;7001&amp;#34;
+        verrazzano.io/metricsPort1: &amp;#34;9612&amp;#34;
+      creationTimestamp: null
+      labels:
+        app: carts-coh
+        app.oam.dev/component: carts
+        app.oam.dev/name: sockshop-appconf
+        coherenceCluster: SockShop
+        coherenceComponent: coherencePod
+        coherenceDeployment: carts-coh
+        coherenceRole: Carts
+        coherenceWKAMember: &amp;#34;true&amp;#34;
+        version: v1
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: coherenceCluster
+                  operator: In
+                  values:
+                  - SockShop
+                - key: coherenceDeployment
+                  operator: In
+                  values:
+                  - carts-coh
+              topologyKey: topology.kubernetes.io/zone
+            weight: 50
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: coherenceCluster
+                  operator: In
+                  values:
+                  - SockShop
+                - key: coherenceDeployment
+                  operator: In
+                  values:
+                  - carts-coh
+              topologyKey: oci.oraclecloud.com/fault-domain
+            weight: 10
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: coherenceCluster
+                  operator: In
+                  values:
+                  - SockShop
+                - key: coherenceDeployment
+                  operator: In
+                  values:
+                  - carts-coh
+              topologyKey: kubernetes.io/hostname
+            weight: 1
+      containers:
+      - command:
+        - /coherence-operator/utils/runner
+        - server
+        env:
+        - name: COH_MACHINE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: COH_MEMBER_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: COH_POD_UID
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.uid
+        - name: COH_ROLE
+          value: Carts
+        - name: COH_CLUSTER_NAME
+          value: SockShop
+        - name: COH_WKA
+          value: carts-coh-wka.sockshop.svc
+        - name: OPERATOR_HOST
+          valueFrom:
+            secretKeyRef:
+              key: operatorhost
+              name: coherence-operator-config
+              optional: true
+        - name: COH_SITE_INFO_LOCATION
+          value: http://$(OPERATOR_HOST)/site/$(COH_MACHINE_NAME)
+        - name: COH_RACK_INFO_LOCATION
+          value: http://$(OPERATOR_HOST)/rack/$(COH_MACHINE_NAME)
+        - name: COH_UTIL_DIR
+          value: /coherence-operator/utils
+        - name: OPERATOR_REQUEST_TIMEOUT
+          value: &amp;#34;120&amp;#34;
+        - name: COH_HEALTH_PORT
+          value: &amp;#34;6676&amp;#34;
+        - name: COH_IDENTITY
+          value: carts-coh@sockshop
+        - name: COH_APP_TYPE
+          value: helidon
+        - name: JVM_ARGS
+          value: -Dhelidon.serialFilter.ignoreFiles=true -Dhelidon.serialFilter.pattern=*
+            -Dhelidon.serialFilter.failure.action=WARN -Dcoherence.log=jdk -Dcoherence.log.logger=com.oracle.coherence
+            -Djava.util.logging.config.file=/coherence-operator/utils/logging/logging.properties
+        - name: JVM_HEAP_SIZE
+          value: 2g
+        - name: JVM_GC_LOGGING
+          value: &amp;#34;false&amp;#34;
+        - name: JVM_USE_CONTAINER_LIMITS
+          value: &amp;#34;true&amp;#34;
+        - name: COHERENCE_LOCALPORT
+          value: &amp;#34;7575&amp;#34;
+        - name: COHERENCE_LOCALPORT_ADJUST
+          value: &amp;#34;7576&amp;#34;
+        - name: COH_LOG_LEVEL
+          value: &amp;#34;9&amp;#34;
+        - name: COH_MGMT_ENABLED
+          value: &amp;#34;false&amp;#34;
+        - name: COH_METRICS_ENABLED
+          value: &amp;#34;true&amp;#34;
+        - name: COH_METRICS_PORT
+          value: &amp;#34;9612&amp;#34;
+        image: ghcr.io/oracle/coherence-helidon-sockshop-carts:2.0.1
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /healthz
+            port: 6676
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 60
+          successThreshold: 1
+          timeoutSeconds: 30
+        name: coherence
+        ports:
+        - containerPort: 7
+          name: coherence
+          protocol: TCP
+        - containerPort: 6676
+          name: health
+          protocol: TCP
+        - containerPort: 7575
+          name: coh-local
+          protocol: TCP
+        - containerPort: 7574
+          name: coh-cluster
+          protocol: TCP
+        - containerPort: 7001
+          name: http
+          protocol: TCP
+        - containerPort: 9612
+          name: metrics
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 50
+          httpGet:
+            path: /ready
+            port: 6676
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          successThreshold: 1
+          timeoutSeconds: 30
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /coherence-operator/utils
+          name: coh-utils
+        - mountPath: /coherence-operator/jvm
+          name: jvm
+        - mountPath: /logs
+          name: logs
+        - mountPath: /fluentd/etc/fluentd.conf
+          name: fluentd-config-coherence
+          readOnly: true
+          subPath: fluentd.conf
+      - args:
+        - -c
+        - /etc/fluent.conf
+        env:
+        - name: LOG_PATH
+          value: /logs
+        - name: FLUENTD_CONF
+          value: fluentd.conf
+        - name: NAMESPACE
+          value: sockshop
+        - name: APP_CONF_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.labels[&amp;#39;app.oam.dev/name&amp;#39;]
+        - name: COMPONENT_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.labels[&amp;#39;app.oam.dev/component&amp;#39;]
+        - name: COH_MACHINE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: COH_MEMBER_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: COH_POD_UID
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.uid
+        - name: COH_ROLE
+          value: Carts
+        - name: COH_CLUSTER_NAME
+          value: SockShop
+        image: ghcr.io/verrazzano/fluentd-kubernetes-daemonset:v1.14.5-20230922100900-8777b84
+        imagePullPolicy: IfNotPresent
+        name: fluentd-stdout-sidecar
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /coherence-operator/utils
+          name: coh-utils
+        - mountPath: /coherence-operator/jvm
+          name: jvm
+        - mountPath: /logs
+          name: logs
+        - mountPath: /fluentd/etc/fluentd.conf
+          name: fluentd-config-coherence
+          readOnly: true
+          subPath: fluentd.conf
+      dnsPolicy: ClusterFirst
+      initContainers:
+      - command:
+        - /files/runner
+        - init
+        env:
+        - name: COH_UTIL_DIR
+          value: /coherence-operator/utils
+        - name: COH_CLUSTER_NAME
+          value: SockShop
+        image: ghcr.io/oracle/coherence-operator:3.3.2
+        imagePullPolicy: IfNotPresent
+        name: coherence-k8s-utils
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /coherence-operator/utils
+          name: coh-utils
+        - mountPath: /coherence-operator/jvm
+          name: jvm
+        - mountPath: /fluentd/etc/fluentd.conf
+          name: fluentd-config-coherence
+          readOnly: true
+          subPath: fluentd.conf
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        runAsUser: 1000
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - emptyDir: {}
+        name: coh-utils
+      - emptyDir: {}
+        name: jvm
+      - emptyDir: {}
+        name: logs
+      - configMap:
+          defaultMode: 420
+          name: fluentd-config-coherence
+        name: fluentd-config-coherence
+  updateStrategy:
+    type: RollingUpdate
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: VerrazzanoHelidonWorkload</title>
+      <link>/docs/guides/oam-to-kubernetes/verrazzano-helidon-workload/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/guides/oam-to-kubernetes/verrazzano-helidon-workload/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano generates the following Kubernetes objects for a &lt;a href=&#34;../../../docs/applications/oam/workloads/helidon/helidon/&#34;&gt;VerrazzanoHelidonWorkload&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;apps/v1/Deployment - Implements the &lt;code&gt;deploymentTemplate&lt;/code&gt; portion of the VerrazzanoHelidonWorkload.&lt;/li&gt;
+&lt;li&gt;v1/Service - Exposes the deployed application.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For example, the following VerrazzanoHelidonWorkload is defined for the component, &lt;code&gt;hello-helidon-component&lt;/code&gt;, of the &lt;a href=&#34;../../../docs/examples/hello-helidon/&#34;&gt;Hello World Helidon&lt;/a&gt; example.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: hello-helidon-component
+spec:
+  workload:
+    apiVersion: oam.verrazzano.io/v1alpha1
+    kind: VerrazzanoHelidonWorkload
+    metadata:
+      name: hello-helidon-workload
+      labels:
+        app: hello-helidon
+        version: v1
+    spec:
+      deploymentTemplate:
+        metadata:
+          name: hello-helidon-deployment
+        podSpec:
+          containers:
+            - name: hello-helidon-container
+              image: &amp;#34;ghcr.io/verrazzano/example-helidon-greet-app-v1:1.0.0-1-20230126194830-31cd41f&amp;#34;
+              ports:
+                - containerPort: 8080
+                  name: http
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A Deployment object, similar to the following one, will be created.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: &amp;#34;1&amp;#34;
+    description: Hello Helidon application
+  labels:
+    app: hello-helidon
+    version: v1
+  name: hello-helidon-deployment
+  namespace: hello-helidon
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      verrazzanohelidonworkloads.oam.verrazzano.io: d58cca68-b131-47e2-8ea4-3923bff38efa
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        verrazzano.io/metricsEnabled: &amp;#34;true&amp;#34;
+        verrazzano.io/metricsPath: /metrics
+        verrazzano.io/metricsPort: &amp;#34;8080&amp;#34;
+      labels:
+        app: hello-helidon
+        verrazzanohelidonworkloads.oam.verrazzano.io: d58cca68-b131-47e2-8ea4-3923bff38efa
+        version: v1
+    spec:
+      containers:
+      - image: ghcr.io/verrazzano/example-helidon-greet-app-v1:1.0.0-1-20230126194830-31cd41f
+        imagePullPolicy: IfNotPresent
+        name: hello-helidon-container
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A Service object, similar to the following one, will be created.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    verrazzanohelidonworkloads.oam.verrazzano.io: d58cca68-b131-47e2-8ea4-3923bff38efa
+  name: hello-helidon-deployment
+  namespace: hello-helidon
+spec:
+  clusterIP: 1.2.3.4
+  clusterIPs:
+  - 1.2.3.4
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: hello-helidon-container-8080
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    verrazzanohelidonworkloads.oam.verrazzano.io: d58cca68-b131-47e2-8ea4-3923bff38efa
+  type: ClusterIP
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: VerrazzanoWebLogicWorkload</title>
+      <link>/docs/guides/oam-to-kubernetes/verrazzano-weblogic-workload/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/guides/oam-to-kubernetes/verrazzano-weblogic-workload/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano generates the following Kubernetes objects for a &lt;a href=&#34;../../../docs/applications/oam/workloads/weblogic/&#34;&gt;VerrazzanoWebLogicWorkload&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;weblogic.oracle/v9/Domain - A WebLogic domain definition, including the following:
+&lt;ul&gt;
+&lt;li&gt;A Fluentd sidecar container required for logging the domain.&lt;/li&gt;
+&lt;li&gt;A MonitoringExporter definition for metrics scraping.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For example, the following VerrazzanoWebLogicWorkload is defined for the component, &lt;code&gt;todo-domain&lt;/code&gt;, of the &lt;a href=&#34;../../../docs/examples/wls-coh/todo-list/&#34;&gt;ToDo List&lt;/a&gt; example.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: todo-domain
+  namespace: mc-todo-list
+spec:
+  workload:
+    apiVersion: oam.verrazzano.io/v1alpha1
+    kind: VerrazzanoWebLogicWorkload
+    spec:
+      template:
+        apiVersion: weblogic.oracle/v9
+        metadata:
+          name: todo-domain
+          namespace: mc-todo-list
+        spec:
+          adminServer:
+            adminChannelPortForwardingEnabled: true
+          domainUID: tododomain
+          domainHome: /u01/domains/tododomain
+          image: container-registry.oracle.com/middleware/weblogic:12.2.1.4
+          imagePullSecrets:
+            - name: tododomain-repo-credentials
+          domainHomeSourceType: &amp;#34;FromModel&amp;#34;
+          includeServerOutInPodLog: true
+          replicas: 1
+          webLogicCredentialsSecret:
+            name: tododomain-weblogic-credentials
+          configuration:
+            introspectorJobActiveDeadlineSeconds: 900
+            model:
+              auxiliaryImages:
+                - image: container-registry.oracle.com/verrazzano/example-todo:20211129200415-ae4e89e
+              configMap: tododomain-jdbc-config
+              domainType: WLS
+              runtimeEncryptionSecret: tododomain-runtime-encrypt-secret
+            secrets:
+              - tododomain-jdbc-tododb
+          serverPod:
+            labels:
+              app: todo-domain
+              version: v1
+            env:
+              - name: JAVA_OPTIONS
+                value: &amp;#34;-Dweblogic.StdoutDebugEnabled=false&amp;#34;
+              - name: USER_MEM_ARGS
+                value: &amp;#34;-Djava.security.egd=file:/dev/./urandom -Xms64m -Xmx256m &amp;#34;
+              - name: WL_HOME
+                value: /u01/oracle/wlserver
+              - name: MW_HOME
+                value: /u01/oracle
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A Domain object, similar to the following one, will be created.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: weblogic.oracle/v9
+kind: Domain
+metadata:
+  name: todo-domain
+  namespace: todo-list
+spec:
+  adminServer:
+    adminChannelPortForwardingEnabled: true
+    serverStartPolicy: IfNeeded
+  configuration:
+    introspectorJobActiveDeadlineSeconds: 900
+    model:
+      auxiliaryImages:
+      - image: container-registry.oracle.com/verrazzano/example-todo:20211129200415-ae4e89e
+      configMap: tododomain-jdbc-config
+      domainType: WLS
+      runtimeEncryptionSecret: tododomain-runtime-encrypt-secret
+    overrideDistributionStrategy: Dynamic
+    secrets:
+    - tododomain-jdbc-tododb
+  domainHome: /u01/domains/tododomain
+  domainHomeSourceType: FromModel
+  domainUID: tododomain
+  failureRetryIntervalSeconds: 120
+  failureRetryLimitMinutes: 1440
+  httpAccessLogInLogHome: true
+  image: container-registry.oracle.com/middleware/weblogic:12.2.1.4
+  imagePullSecrets:
+  - name: tododomain-repo-credentials
+  includeServerOutInPodLog: true
+  logHome: /scratch/logs/todo-domain
+  logHomeEnabled: true
+  logHomeLayout: Flat
+  maxClusterConcurrentShutdown: 1
+  maxClusterConcurrentStartup: 0
+  maxClusterUnavailable: 1
+  monitoringExporter:
+    configuration:
+      domainQualifier: true
+      metricsNameSnakeCase: true
+      queries:
+      - applicationRuntimes:
+          componentRuntimes:
+            key: name
+            prefix: wls_webapp_config_
+            servlets:
+              key: servletName
+              prefix: wls_servlet_
+            type: WebAppComponentRuntime
+            values:
+            - deploymentState
+            - contextRoot
+            - sourceInfo
+            - sessionsOpenedTotalCount
+            - openSessionsCurrentCount
+            - openSessionsHighCount
+          key: name
+          keyName: app
+        key: name
+        keyName: location
+        prefix: wls_server_
+      - JVMRuntime:
+          key: name
+          prefix: wls_jvm_
+      - executeQueueRuntimes:
+          key: name
+          prefix: wls_socketmuxer_
+          values:
+          - pendingRequestCurrentCount
+      - workManagerRuntimes:
+          key: name
+          prefix: wls_workmanager_
+          values:
+          - stuckThreadCount
+          - pendingRequests
+          - completedRequests
+      - threadPoolRuntime:
+          key: name
+          prefix: wls_threadpool_
+          values:
+          - executeThreadTotalCount
+          - queueLength
+          - stuckThreadCount
+          - hoggingThreadCount
+      - JMSRuntime:
+          JMSServers:
+            destinations:
+              key: name
+              keyName: destination
+              prefix: wls_jms_dest_
+            key: name
+            keyName: jmsserver
+            prefix: wls_jms_
+          key: name
+          keyName: jmsruntime
+          prefix: wls_jmsruntime_
+      - persistentStoreRuntimes:
+          key: name
+          prefix: wls_persistentstore_
+      - JDBCServiceRuntime:
+          JDBCDataSourceRuntimeMBeans:
+            key: name
+            prefix: wls_datasource_
+      - JTARuntime:
+          key: name
+          prefix: wls_jta_
+    image: ghcr.io/oracle/weblogic-monitoring-exporter:2.1.8
+    imagePullPolicy: IfNotPresent
+    port: 8080
+  replaceVariablesInJavaOptions: false
+  replicas: 1
+  serverPod:
+    containers:
+    - args:
+      - -c
+      - /etc/fluent.conf
+      env:
+      - name: LOG_PATH
+        value: /scratch/logs/todo-domain/$(SERVER_NAME).log,/scratch/logs/todo-domain/$(SERVER_NAME)_access.log,/scratch/logs/todo-domain/$(SERVER_NAME)_nodemanager.log,/scratch/logs/todo-domai
+n/$(DOMAIN_UID).log
+      - name: FLUENTD_CONF
+        value: fluentd.conf
+      - name: NAMESPACE
+        value: todo-list
+      - name: APP_CONF_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.labels[&amp;#39;app.oam.dev/name&amp;#39;]
+      - name: COMPONENT_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.labels[&amp;#39;app.oam.dev/component&amp;#39;]
+      - name: DOMAIN_UID
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.labels[&amp;#39;weblogic.domainUID&amp;#39;]
+      - name: SERVER_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.labels[&amp;#39;weblogic.serverName&amp;#39;]
+      - name: SERVER_LOG_PATH
+        value: /scratch/logs/todo-domain/$(SERVER_NAME).log
+      - name: ACCESS_LOG_PATH
+        value: /scratch/logs/todo-domain/$(SERVER_NAME)_access.log
+      - name: NODEMANAGER_LOG_PATH
+        value: /scratch/logs/todo-domain/$(SERVER_NAME)_nodemanager.log
+      - name: DOMAIN_LOG_PATH
+        value: /scratch/logs/todo-domain/$(DOMAIN_UID).log
+      image: ghcr.io/verrazzano/fluentd-kubernetes-daemonset:v1.14.5-20230922100900-8777b84
+      imagePullPolicy: IfNotPresent
+      name: fluentd-stdout-sidecar
+      volumeMounts:
+      - mountPath: /fluentd/etc/fluentd.conf
+        name: fluentd-config-volume
+        readOnly: true
+        subPath: fluentd.conf
+      - mountPath: /scratch
+        name: weblogic-domain-storage-volume
+        readOnly: true
+    env:
+    - name: JAVA_OPTIONS
+      value: -Dweblogic.StdoutDebugEnabled=false
+    - name: USER_MEM_ARGS
+      value: &amp;#39;-Djava.security.egd=file:/dev/./urandom -Xms64m -Xmx256m &amp;#39;
+    - name: WL_HOME
+      value: /u01/oracle/wlserver
+    - name: MW_HOME
+      value: /u01/oracle
+    labels:
+      app: todo-domain
+      verrazzano.io/workload-type: weblogic
+      version: v1
+    volumeMounts:
+    - mountPath: /scratch
+      name: weblogic-domain-storage-volume
+    volumes:
+    - configMap:
+        defaultMode: 420
+        name: fluentd-config-weblogic
+      name: fluentd-config-volume
+    - emptyDir: {}
+      name: weblogic-domain-storage-volume
+  serverService:
+    labels:
+      app: todo-domain
+      verrazzano.io/workload-type: weblogic
+      version: v1
+  serverStartPolicy: IfNeeded
+  webLogicCredentialsSecret:
+    name: tododomain-weblogic-credentials
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+  </channel>
+</rss>
