@@ -8,7 +8,7 @@ draft: false
 
 Verrazzano generates the following Kubernetes objects for a [VerrazzanoWebLogicWorkload]({{< relref "/docs/applications/oam/workloads/weblogic/_index.md" >}}):
 * weblogic.oracle/v9/Domain - A WebLogic domain definition, including the following:
-  * A Fluentd sidecar container required for logging to the domain.
+  * A Fluentd sidecar container required for logging the domain.
   * A MonitoringExporter definition for metrics scraping.
 
 For example, the following VerrazzanoWebLogicWorkload is defined for the component, `todo-domain`, of the [ToDo List]({{< relref "/docs/examples/wls-coh/todo-list.md" >}}) example.
