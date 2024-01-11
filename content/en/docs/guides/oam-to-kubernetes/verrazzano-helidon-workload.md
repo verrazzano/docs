@@ -1,12 +1,12 @@
 ---
 title: "VerrazzanoHelidonWorkload"
 linkTitle: "VerrazzanoHelidonWorkload"
-description: "Review the Kubernetes resources Verrazzano creates for an OAM VerrazzanoHelidonWorkload"
+description: "Review the Kubernetes objects Verrazzano creates for an OAM VerrazzanoHelidonWorkload"
 weight: 5
 draft: false
 ---
 
-Verrazzano generates the following Kubernetes resources for a [VerrazzanoHelidonWorkload]({{< relref "/docs/applications/oam/workloads/helidon/helidon.md" >}}):
+Verrazzano generates the following Kubernetes objects for a [VerrazzanoHelidonWorkload]({{< relref "/docs/applications/oam/workloads/helidon/helidon.md" >}}):
 * apps/v1/Deployment - Implements the `deploymentTemplate` portion of the VerrazzanoHelidonWorkload.
 * v1/Service - Exposes the deployed application.
 
@@ -38,7 +38,7 @@ spec:
                   name: http
 ```
 
-A Deployment resource, similar to the following one, will be created.
+A Deployment object, similar to the following one, will be created.
 ```
 apiVersion: apps/v1
 kind: Deployment
@@ -90,7 +90,7 @@ spec:
       terminationGracePeriodSeconds: 30
 ```
 
-A Service resource, similar to the following one, will be created.
+A Service object, similar to the following one, will be created.
 ```
 apiVersion: v1
 kind: Service

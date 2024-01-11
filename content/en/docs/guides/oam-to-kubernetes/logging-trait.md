@@ -1,12 +1,12 @@
 ---
 title: "LoggingTrait"
 linkTitle: "LoggingTrait"
-description: "Review the Kubernetes resources Verrazzano creates for an OAM LoggingTrait"
+description: "Review the Kubernetes objects Verrazzano creates for an OAM LoggingTrait"
 weight: 5
 draft: false
 ---
 
-Verrazzano generates the following Kubernetes resources for a [LoggingTrait]({{< relref "/docs/applications/oam/traits/logging/logging.md" >}}):
+Verrazzano generates the following Kubernetes objects for a [LoggingTrait]({{< relref "/docs/applications/oam/traits/logging/logging.md" >}}):
 * v1/ConfigMap - Contains the definition for how to filter log output.
 * An additional container and volume definition is added to the Deployment, StatefulSet, ReplicaSet, or ReplicationController of each component.  The container has an image to use for logging and the volume mount of the logging specification.
 
@@ -56,7 +56,7 @@ spec:
                   </match>
 ```
 
-A ConfigMap resource, similar to the following one, will be created.
+A ConfigMap object, similar to the following one, will be created.
 ```
 apiVersion: v1
 kind: ConfigMap

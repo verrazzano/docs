@@ -1,12 +1,12 @@
 ---
 title: "VerrazzanoCoherenceWorkload"
 linkTitle: "VerrazzanoCoherenceWorkload"
-description: "Review the Kubernetes resources Verrazzano creates for an OAM VerrazzanoCoherenceWorkload"
+description: "Review the Kubernetes objects Verrazzano creates for an OAM VerrazzanoCoherenceWorkload"
 weight: 5
 draft: false
 ---
 
-Verrazzano generates the following Kubernetes resources for a [VerrazzanoCoherenceWorkload]({{< relref "/docs/applications/oam/workloads/coherence/coherence.md" >}}):
+Verrazzano generates the following Kubernetes objects for a [VerrazzanoCoherenceWorkload]({{< relref "/docs/applications/oam/workloads/coherence/coherence.md" >}}):
 * coherence.oracle.com/v1/Coherence
 * apps/v1/StatefulSet
 
@@ -59,7 +59,7 @@ spec:
             runAsUser: 1000
 ```
 
-A Coherence resource, similar to the following one, will be created.
+A Coherence object, similar to the following one, will be created.
 ```
 apiVersion: coherence.oracle.com/v1
 kind: Coherence
@@ -166,7 +166,6 @@ spec:
     image: ghcr.io/verrazzano/fluentd-kubernetes-daemonset:v1.14.5-20230922100900-8777b84
     imagePullPolicy: IfNotPresent
     name: fluentd-stdout-sidecar
-    resources: {}
   volumeMounts:
   - mountPath: /logs
     name: logs
@@ -175,7 +174,7 @@ spec:
     name: logs
 ```
 
-A StatefulSet resource, similar to the following one, will be created.
+A StatefulSet object, similar to the following one, will be created.
 ```
 apiVersion: apps/v1
 kind: StatefulSet
@@ -376,7 +375,6 @@ spec:
           periodSeconds: 60
           successThreshold: 1
           timeoutSeconds: 30
-        resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
@@ -432,7 +430,6 @@ spec:
         image: ghcr.io/verrazzano/fluentd-kubernetes-daemonset:v1.14.5-20230922100900-8777b84
         imagePullPolicy: IfNotPresent
         name: fluentd-stdout-sidecar
-        resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
@@ -459,7 +456,6 @@ spec:
         image: ghcr.io/oracle/coherence-operator:3.3.2
         imagePullPolicy: IfNotPresent
         name: coherence-k8s-utils
-        resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:

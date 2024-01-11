@@ -1,14 +1,14 @@
 ---
 title: "MetricsTrait"
 linkTitle: "MetricsTrait"
-description: "Review the Kubernetes resources Verrazzano creates for an OAM MetricsTrait"
+description: "Review the Kubernetes objects Verrazzano creates for an OAM MetricsTrait"
 weight: 5
 draft: false
 ---
 
-Verrazzano generates the following Kubernetes resources for a [MetricsTrait]({{< relref "/docs/applications/oam/traits/metrics/metrics.md" >}}):
-* monitoring.coreos.com/v1/ServiceMonitor - A Prometheus custom resource that defines an application from which to scrape metrics.  A ServiceMonitor resource is created by default unless explicitly disabled in the MetricsTrait.
-* Annotations on resources to be scraped by Prometheus (for example, pods). The annotation names are prefixed with `verrazzano.io/metrics`.
+Verrazzano generates the following Kubernetes objects for a [MetricsTrait]({{< relref "/docs/applications/oam/traits/metrics/metrics.md" >}}):
+* monitoring.coreos.com/v1/ServiceMonitor - A Prometheus custom object that defines an application from which to scrape metrics.  A ServiceMonitor object is created by default unless explicitly disabled in the MetricsTrait.
+* Annotations on objects to be scraped by Prometheus (for example, pods). The annotation names are prefixed with `verrazzano.io/metrics`.
 
 For example, the following MetricsTrait is defined for the component, `hello-helidon-component`, of the [Hello World Helidon]({{< relref "/docs/examples/hello-helidon/_index.md" >}}) example.
 ```
@@ -18,7 +18,7 @@ spec:
     scraper: verrazzano-system/vmi-system-prometheus-0
 ```
 
-A ServiceMonitor resource, similar to the following one, will be created. The `path` defaults to `metrics`.
+A ServiceMonitor object, similar to the following one, will be created. The `path` defaults to `metrics`.
 ```
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
@@ -97,7 +97,7 @@ spec:
   selector: {}
 ```
 
-The following is a snippet of the Deployment resource that will be annotated based on the MetricsTrait definition.  The `port` defaults to `8080`.
+The following is a snippet of the Deployment object that will be annotated based on the MetricsTrait definition.  The `port` defaults to `8080`.
 ```
 apiVersion: apps/v1
 kind: Deployment
