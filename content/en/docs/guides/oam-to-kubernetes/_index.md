@@ -22,7 +22,7 @@ $ vz export oam --name hello-helidon --namespace hello-helidon > myapp.yaml
 </div>
 {{< /clipboard >}}
 
-The output of the command `vz export oam` can be used to deploy the application on another cluster.
+You can use the output of the command `vz export oam` to deploy the application on another cluster.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -34,7 +34,7 @@ $ kubectl apply -f myapp.yaml
 </div>
 {{< /clipboard >}}
 
-The output of the command `vz export oam` can be edited before deploying the application.  The extent to which the exported YAML may be edited will vary based on local requirements. Here are some examples of changes that may be made to the exported YAML.
+In addition, you can edit the output of the command `vz export oam` before deploying the application.  The extent to which the exported YAML may be edited will vary based on local requirements. Here are some examples of changes that may be made to the exported YAML:
 
 * The Kubernetes namespace of where to deploy the application
 * Add or modify labels or annotations on objects
@@ -47,4 +47,4 @@ The output of the command `vz export oam` can be edited before deploying the app
 
 ## Overview of OAM to Kubernetes Mappings
 
-The following documents show the Kubernetes objects generated for each OAM object.  It is recommended to start with the output of command `vz export oam` and edit the YAML as needed.  However, this section is provided to give some insight into how each OAM object is converted into one or more Kubernetes objects.
+The following documents show the Kubernetes objects generated for each OAM object. It is provided to give you some insight into how each OAM object is converted into one or more Kubernetes objects. However, Oracle recommends that you first start with the output of the `vz export oam` command and then edit the YAML as needed.
