@@ -47,4 +47,4 @@ In addition, you can edit the output of the command `vz export oam` before deplo
 
 ## Overview of OAM to Kubernetes Mappings
 
-The following documents show the Kubernetes objects generated for each OAM object. It is provided to give you some insight into how each OAM object is converted into one or more Kubernetes objects. However, Oracle recommends that you first start with the output of the `vz export oam` command and then edit the YAML as needed.
+The following documents show the Kubernetes objects generated for each OAM object. They are provided to give you some insight into how each OAM object is converted into one or more Kubernetes objects. However, Oracle recommends that you first start with the output of the `vz export oam` command and then edit the YAML as needed.
