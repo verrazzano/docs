@@ -91,7 +91,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.44b4206940509b0c25156ee4344f9c2f.json"
+    data-offline-search-index-json-src="../../../offline-search-index.58fead9ec4b178ee682b5d04332132ea.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -117,7 +117,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.44b4206940509b0c25156ee4344f9c2f.json"
+    data-offline-search-index-json-src="../../../offline-search-index.58fead9ec4b178ee682b5d04332132ea.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -1269,8 +1269,112 @@ if (!doNotTrack) {
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
+<p>You can use the output of the command <code>vz export oam</code> to deploy the application on another cluster.</p>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>$ kucbectl create namespace hello-helidon
+$ kubectl apply -f myapp.yaml
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+<p>In addition, you can edit the output of the command <code>vz export oam</code> before deploying the application.  The extent to which the exported YAML may be edited will vary based on local requirements. Here are some examples of changes that may be made to the exported YAML:</p>
+<ul>
+<li>The Kubernetes namespace of where to deploy the application</li>
+<li>Add or modify labels or annotations on objects</li>
+<li>Port assignments</li>
+<li>Authorization policies</li>
+<li>Values for secrets</li>
+<li>Mount volume definitions</li>
+<li>Replica counts</li>
+<li>Prometheus logging rules</li>
+</ul>
 <h2 id="overview-of-oam-to-kubernetes-mappings">Overview of OAM to Kubernetes Mappings</h2>
-<p>The following documents show the Kubernetes objects generated for each OAM object.</p>
+<p>The following documents show the Kubernetes objects generated for each OAM object. They are provided to give you some insight into how each OAM object is converted into one or more Kubernetes objects. However, Oracle recommends that you first start with the output of the <code>vz export oam</code> command and then edit the YAML as needed.</p>
 
   <div class="section-index">
     

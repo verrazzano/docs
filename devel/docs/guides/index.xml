@@ -4138,8 +4138,112 @@ tododomain-appconf.tododomain.11.22.33.44.nip.io
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
+&lt;p&gt;You can use the output of the command &lt;code&gt;vz export oam&lt;/code&gt; to deploy the application on another cluster.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kucbectl create namespace hello-helidon
+$ kubectl apply -f myapp.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;p&gt;In addition, you can edit the output of the command &lt;code&gt;vz export oam&lt;/code&gt; before deploying the application.  The extent to which the exported YAML may be edited will vary based on local requirements. Here are some examples of changes that may be made to the exported YAML:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The Kubernetes namespace of where to deploy the application&lt;/li&gt;
+&lt;li&gt;Add or modify labels or annotations on objects&lt;/li&gt;
+&lt;li&gt;Port assignments&lt;/li&gt;
+&lt;li&gt;Authorization policies&lt;/li&gt;
+&lt;li&gt;Values for secrets&lt;/li&gt;
+&lt;li&gt;Mount volume definitions&lt;/li&gt;
+&lt;li&gt;Replica counts&lt;/li&gt;
+&lt;li&gt;Prometheus logging rules&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2 id=&#34;overview-of-oam-to-kubernetes-mappings&#34;&gt;Overview of OAM to Kubernetes Mappings&lt;/h2&gt;
-&lt;p&gt;The following documents show the Kubernetes objects generated for each OAM object.&lt;/p&gt;
+&lt;p&gt;The following documents show the Kubernetes objects generated for each OAM object. They are provided to give you some insight into how each OAM object is converted into one or more Kubernetes objects. However, Oracle recommends that you first start with the output of the &lt;code&gt;vz export oam&lt;/code&gt; command and then edit the YAML as needed.&lt;/p&gt;
 
       </description>
     </item>
