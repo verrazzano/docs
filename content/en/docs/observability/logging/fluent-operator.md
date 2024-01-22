@@ -408,8 +408,8 @@ View the generated Fluent Bit configuration that the Fluent Operator loads in a 
 <div class="highlight">
 
 ```
-$ kubectl -n verrazzano-system get secrets Fluent Bit-config -ojson | jq '.data."fluent-bit.conf"' | awk -F '"' '{printf $2}' | base64 --decode
-$ kubectl -n verrazzano-system get secrets Fluent Bit-config -ojson | jq '.data."parsers.conf"' | awk -F '"' '{printf $2}' | base64 --decode
+$ kubectl -n verrazzano-system get secrets fluent-bit-config -ojson | jq '.data."fluent-bit.conf"' | awk -F '"' '{printf $2}' | base64 --decode
+$ kubectl -n verrazzano-system get secrets fluent-bit-config -ojson | jq '.data."parsers.conf"' | awk -F '"' '{printf $2}' | base64 --decode
 ```
 </div>
 {{< /clipboard >}}
