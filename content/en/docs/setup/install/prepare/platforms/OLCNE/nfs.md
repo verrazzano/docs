@@ -9,7 +9,7 @@ aliases:
 
 Complete the following steps to configure NFS storage in an Oracle Cloud Native Environment.
 
-1. Create an OLCNE cluster. See [OLCNE cluster](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/intro.html).
+1. Create an OLCNE cluster. See [Getting Started with OLCNE](https://docs.oracle.com/en/operating-systems/olcne/1.7/start/hosts.html#hosts).
 
    The cluster must have at least 3 worker nodes.
 
