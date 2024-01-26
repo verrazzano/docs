@@ -46,7 +46,7 @@ will contain a message similar to this:
 {{< /clipboard >}}
 
    To avoid this error, either disable the `externalip-validation-webhook-service` or configure the service with your load balancer IP addresses prior to installing Verrazzano.
-   For more information, see [Enabling Access to all externalIPs](https://docs.oracle.com/en/operating-systems/olcne/1.7/kubernetes/external-ips.html#external-ips).
+   For more information, see [Enabling Access to all externalIPs](https://docs.oracle.com/en/operating-systems/olcne/1.7/kubernetes/external-ips.html#ext-ip-disable).
 
 ## Examples
 <details>
