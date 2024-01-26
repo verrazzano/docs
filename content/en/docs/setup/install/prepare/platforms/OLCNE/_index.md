@@ -9,9 +9,9 @@ aliases:
 
 
 ## Install Oracle Cloud Native Environment
-Deploy Oracle Cloud Native Environment with the Kubernetes module, following instructions from [Oracle Cloud Native Environment: Getting Started](https://docs.oracle.com/en/operating-systems/olcne/1.5/start/).
-* Install a Kubernetes network load balancer implementation, such as [OCI-CCM](https://docs.oracle.com/en/operating-systems/olcne/1.5/lb/oci.html#oci) or [MetalLB](https://docs.oracle.com/en/operating-systems/olcne/1.5/lb/metallb.html#metallb).
-* Install a Container Storage Interface Driver, such as [OCI-CCM](https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/oci.html#oci) or [Gluster](https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/gluster.html#gluster).
+Deploy Oracle Cloud Native Environment with the Kubernetes module, following instructions from [Oracle Cloud Native Environment: Getting Started](https://docs.oracle.com/en/operating-systems/olcne/1.7/start/).
+* Install a Kubernetes network load balancer implementation, such as [OCI-CCM](https://docs.oracle.com/en/operating-systems/olcne/1.7/ociccm/intro.html#intro) or [MetalLB](https://docs.oracle.com/en/operating-systems/olcne/1.7/metallb/intro.html#intro).
+* Install a Container Storage Interface Driver, such as [OCI-CCM](https://docs.oracle.com/en/operating-systems/olcne/1.7/ociccm/oci-storage-use.html#oci).
 
 ### Notes
 
@@ -46,7 +46,7 @@ will contain a message similar to this:
 {{< /clipboard >}}
 
    To avoid this error, either disable the `externalip-validation-webhook-service` or configure the service with your load balancer IP addresses prior to installing Verrazzano.
-   For more information, see [Enabling Access to all externalIPs](https://docs.oracle.com/en/operating-systems/olcne/1.5/orchestration/external-ips.html#ext-ip-disable).
+   For more information, see [Enabling Access to all externalIPs](https://docs.oracle.com/en/operating-systems/olcne/1.7/kubernetes/external-ips.html#external-ips).
 
 ## Examples
 <details>
