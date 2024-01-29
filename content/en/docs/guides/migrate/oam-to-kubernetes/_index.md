@@ -28,7 +28,7 @@ You can use the output of the command `vz export oam` to deploy the application 
 <div class="highlight">
 
 ```
-$ kucbectl create namespace hello-helidon
+$ kubectl create namespace hello-helidon
 $ kubectl apply -f myapp.yaml
 ```
 </div>
