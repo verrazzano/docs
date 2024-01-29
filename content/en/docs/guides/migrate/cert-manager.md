@@ -1,50 +1,53 @@
 ---
-title: "Cert-Manager"
-linkTitle: "Cert-Manager"
-description: ""
+title: "cert-manager"
+linkTitle: "cert-manager"
+description: "Use this guide to migrate cert-manager to OCNE"
 weight: 1
 draft: false
 ---
-## How Verrazzano Installs Cert-Manager
+## How Verrazzano installs cert-manager
+Verrazzano installs the following cert-manager components and configuration.
 
 ### Components
-Verrazzano supports the installation of [Cert-Manager](https://cert-manager.io/), or using a customer-managed Cert-Manager instance.  
+Verrazzano supports the installation of [cert-manager](https://cert-manager.io/), or using a customer-managed cert-manager instance.  
 Depending on the configuration, Verrazzano will install the following components:
 
-- Cert-Manager
+- cert-manager
 - The Verrazzano [cert-manager-webhook-oci](https://github.com/verrazzano/cert-manager-webhook-oci) webhook for signing certificates using Let's Encrypt.
 
-Verrazzano also configures a Cert-Manager [ClusterIssuer](https://cert-manager.io/docs/configuration/) to sign leaf certificates for all externally accessible endpoints.
+Verrazzano also configures a cert-manager [ClusterIssuer](https://cert-manager.io/docs/configuration/) to sign leaf certificates for all externally accessible endpoints.
 
-### Verrazzano Chart Overrides
+### Verrazzano chart overrides
+Verrazzano overrides the following chart values.
 
 #### Images
 Verrazzano overrides image registries, repositories, and image tags to install Oracle built-from-source images. Registry overrides are also applied when installing Verrazzano from a private registry (for example, in a disconnected network environment).
 
-#### Pod and Container Security
+#### Pod and container security
 Verrazzano overrides certain pod and container security settings to enhance the security of applications running in the cluster. For example, privilege escalation is disabled in pods to mitigate escalation attacks in a cluster.
 
 #### ClusterResourceNamespace
-Verrazzano sets the location for `ClusterIssuer` secrets used by Cert-Manager called the [clusterResourceNamespace](https://cert-manager.io/docs/configuration/#cluster-resource-namespace).  This is the same namespace where Cert-Manager is installed by default but can be overridden when a custom certificate authority is used.
+Verrazzano sets the location for `ClusterIssuer` secrets used by cert-manager called the [clusterResourceNamespace](https://cert-manager.io/docs/configuration/#cluster-resource-namespace).  This is the same namespace where cert-manager is installed by default but can be overridden when a custom certificate authority is used.
 
-#### Other Settings
+#### Other
 Verrazzano overrides chart values for various other settings, including specifying memory and storage and requests, namespace, and so on.
 
-## Migration Steps
-Follow these steps to install (or upgrade) and configure monitoring components. The result should be a cluster running a Cert-Manager instance with a `ClusterIssuer` that achieves near-equivalent functionality compared to the Verrazzano-installed Cert-Manager stack.
+## Migration steps
+Follow these steps to install (or upgrade) and configure monitoring components. The result should be a cluster running a cert-manager instance with a `ClusterIssuer` that achieves near-equivalent functionality compared to the Verrazzano-installed cert-manager stack.
 
-### Installing Cert-Manager
+### Installing cert-manager
 **TBD**, will be installed as a first-class CNE module and not from the app catalog
 
-#### Override Recipes
+#### Override recipes
+The following sections show you how to override certain cert-manager default settings.
 
-##### Installing from a Private Registry
+##### Installing from a private registry
 **TBD** - need OCNE module private registry example
 
-##### Configuring Pod and Container Security
+##### Configuring pod and container security
 Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.
 
-For example, apply the following overrides when installing the Cert-Manager module in an OCNE 2.0 cluster to use security settings similar to those used by Verrazzano 1.6.
+For example, apply the following overrides when installing the cert-manager module in an OCNE 2.0 cluster to use security settings similar to those used by Verrazzano 1.6.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -101,11 +104,11 @@ webhook:
   </div>
   {{< /clipboard >}}
 
-##### Configuring Storage and Resource Limits and Requests
+##### Configuring storage and resource limits and requests
 
-Specify overrides to change the default resource (storage, cpu, memory, etc.) requests and limits.
+Specify overrides to change the default resource (storage, cpu, memory, and such) requests and limits.
 
-For example, to apply a custom resource requests for Cert-Manager pods create the following overrides file and apply it when installing the module.
+For example, to apply a custom resource requests for cert-manager pods create the following overrides file and apply it when installing the module.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -119,9 +122,9 @@ resources:
 </div>
 {{< /clipboard >}}
 
-### Installing the OCI DNS Webhook Solver
+### Installing the OCI DNS webhook solver
 
-If you intend to use Cert-Manager with Let's Encrypt and OCI DNS, then you will need to install the `cert-manager-webhook-oci`  module from the OCNE application catalog.
+If you intend to use cert-manager with Let's Encrypt and OCI DNS, then you will need to install the `cert-manager-webhook-oci`  module from the OCNE application catalog.
 The webhook solver is installed using the OCNE Application Catalog. The first step is to add the Application Catalog Helm repository to the cluster.
 
 {{< clipboard >}}
@@ -146,11 +149,12 @@ $ helm install cert-manager-webhook-oci ocne-app-catalog/cert-manager-webhook-oc
 
 In the previous example, it was installed into the default `cert-manager` namespace, however, this is not required.
 
-#### Helm Override Recipes
+#### Helm override recipes
+The following sections show you how to override certain cert-manager Helm values.
 
-##### Changing the Cert-Manager Locations
+##### Changing cert-manager locations
 
-If Cert-Manager is installed in a non-default namespace (something other than `cert-manager`), then this will need to be provided to the webhook installation as Helm overrides.
+If cert-manager is installed in a non-default namespace (something other than `cert-manager`), then this will need to be provided to the webhook installation as Helm overrides.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -160,7 +164,7 @@ $ helm install cert-manager-webhook-oci ocne-app-catalog/cert-manager-webhook-oc
 </div>
 {{< /clipboard >}}
 
-##### Installing from a Private Registry
+##### Installing from a private registry
 
 In order to install using a private registry (for example, in a disconnected environment), then you must override the Helm values to change the webhook image path.
 
@@ -175,7 +179,7 @@ image:
 </div>
 {{< /clipboard >}}
 
-##### Configuring Pod and Container Security
+##### Configuring pod and container security
 
 Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.
 
@@ -199,9 +203,9 @@ seccompProfile:
 </div>
 {{< /clipboard >}}
 
-##### Configuring Storage and Resource Limits and Requests
+##### Configuring storage and resource limits and requests
 
-Specify overrides to change the default resource (storage, cpu, memory, etc.) requests and limits.
+Specify overrides to change the default resource (storage, cpu, memory, and such) requests and limits.
 For example, to update resource requests for the webhook, create the following overrides file and provide the file using the `-f` option when running `helm upgrade --install`.
 {{< clipboard >}}
 <div class="highlight">
@@ -215,10 +219,10 @@ resources:
 </div>
 {{< /clipboard >}}
 
-### Installing Network Policies
+### Installing network policies
 NetworkPolicies allow you to specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.
 
-For example, if Prometheus is installed in the target cluster and you wish to limit access to Cert-Manager only from Prometheus for metrics scraping, you can apply a network policy to enforce this.
+For example, if Prometheus is installed in the target cluster and you wish to limit access to cert-manager only from Prometheus for metrics scraping, you can apply a network policy to enforce this.
 
 If the Prometheus instance is installed using the Prometheus operator in the namespace monitoring with the label `myapp.io/namespace=monitoring`, then the network policy can be applied as follows.
 {{< clipboard >}}
@@ -257,23 +261,23 @@ This will restrict ingress to be allowed only to pods in the `cert-manager` name
 
 ### Usage
 
-The steps in this section describe examples of how to create Cert-Manager `ClusterIssuers` that are functionally equivalent to those employed by Verrazzano and use them to secure endpoints.
+The steps in this section describe examples of how to create cert-manager `ClusterIssuers` that are functionally equivalent to those employed by Verrazzano and use them to secure endpoints.
 
-#### Self-Signed `ClusterIssuer`
+#### Self-signed `ClusterIssuer`
 
 To create a self-signed `ClusterIssuer` similar to those used by Verrazzano, you must:
 
-1. Create a Cert-Manager self-signed `Issuer` or `ClusterIssuer`.
+1. Create a cert-manager self-signed `Issuer` or `ClusterIssuer`.
 1. Create a self-signed `root` Certificate using the issuer from Step 1.
 1. Create a `ClusterIssuer` using the TLS secret created by the `root` Certificate object from Step 2.
 
 The `ClusterIssuer` created in Step 3 can then be used to sign leaf Certificate requests.
 
-##### Creating a Self-Signed Root Certificate
+##### Creating a self-signed root certificate
 
-When using self-signed certificates, you need to start with a root CA. The Cert-Manager [SelfSigned](https://cert-manager.io/docs/configuration/selfsigned/) issuer can be used to set this up, as described in the following sequence.
+When using self-signed certificates, you need to start with a root CA. The cert-manager [SelfSigned](https://cert-manager.io/docs/configuration/selfsigned/) issuer can be used to set this up, as described in the following sequence.
 
-1. Create a [SelfSigned](https://cert-manager.io/docs/configuration/selfsigned/) issuer in the Cert-Manager namespace needed to create the root CA; if you are using a `ClusterIssuer`, then you must use the [cluster resource namespace](https://cert-manager.io/docs/configuration/#cluster-resource-namespace) (typically the namespace where cert-manager  is installed).
+1. Create a [SelfSigned](https://cert-manager.io/docs/configuration/selfsigned/) issuer in the cert-manager namespace needed to create the root CA; if you are using a `ClusterIssuer`, then you must use the [cluster resource namespace](https://cert-manager.io/docs/configuration/#cluster-resource-namespace) (typically the namespace where cert-manager  is installed).
 1. Create a Certificate that refers to the issuer; if a namespace-scoped `Issuer` is used, then the `Certificate` must be created in the same namespace as the `Issuer`.
 
 The `cert-manager` controller will then create the secret referenced in the `Certificate` object (Step 2) that contains the root certificate and private key.
@@ -295,7 +299,10 @@ spec:
 </div>
 {{< /clipboard >}}
 
-**Example: Root Issuer Creation**
+
+<details>
+<summary><b>Example: Root Issuer Creation</b></summary>
+
 {{< clipboard >}}
 <div class="highlight">
 
@@ -333,6 +340,7 @@ status:
 ```
 </div>
 {{< /clipboard >}}
+</details>
 
 Then create a `Certificate` to be signed by `my-root-issuer` with the TLS secret, `my-root-ca-tls`.  Because we are using a `ClusterIssuer,` the `Certificate` object should be created in the `clusterResourceNamespace`, which by default is the `cert-manager` namespace.
 
@@ -361,7 +369,9 @@ spec:
 </div>
 {{< /clipboard >}}
 
-**Example: Create self-signed root Certificate**
+<details>
+<summary><b>Example: Create Self-Signed Root Certificate</b></summary>
+
 {{< clipboard >}}
 <div class="highlight">
 
@@ -429,10 +439,11 @@ status:
 ```
 </div>
 {{< /clipboard >}}
+</details>
 
 The secret `cert-manager/my-root-ca-tls` will then be created and populated by `cert-manager` and will contain the root certificate and private key.
 
-**Secret containing Root Certificate and Private Key**
+**Secret Containing Root Certificate and Private Key**
 {{< clipboard >}}
 <div class="highlight">
 
@@ -487,7 +498,9 @@ spec:
 </div>
 {{< /clipboard >}}
 
-**Example: Create a ClusterIssuer using a self-signed Root CA**
+<details>
+<summary><b>Example: Create a ClusterIssuer Using a Self-Signed Root CA</b></summary>
+
 {{< clipboard >}}
 <div class="highlight">
 
@@ -531,11 +544,12 @@ status:
 ```
 </div>
 {{< /clipboard >}}
+</details>
 
-##### Examples Setup
+#### Examples setup
 
 Before trying any of the examples in this section, first install `ingress-nginx` and `kube-prometheus-stack` with defaults.
-###### ingress-nginx Installation
+##### ingress-nginx installation
 
 Install `ingress-nginx` as shown.
 
@@ -564,7 +578,7 @@ ingress-nginx-controller-admission   ClusterIP      10.131.240.245   <none>     
 </div>
 {{< /clipboard >}}
 
-###### kube-prometheus-stack Installation
+##### kube-prometheus-stack installation
 
 First, install `kube-prometheus-stack` with a default Prometheus instance; the example uses the `kube-prometheus-stack-prometheus` service to be the backend for the ingress.
 
@@ -603,18 +617,18 @@ kube-prometheus-stack-prometheus   ClusterIP   10.137.197.169   <none>        90
 </div>
 {{< /clipboard >}}
 
-##### Example: Securing a Prometheus Instance using Ingress Annotations
+##### Example: Securing a Prometheus instance using ingress annotations
 
 This example uses ingress annotations with the `ClusterIssuer` created previously, to secure ingress to a Prometheus instance.  The ingress will use the wildcard DNS service [`nip.io`](https://nip.io/) to create an address that will forward requests to the Prometheus ClusterIP service;  the ingress will have CM annotations to issue a certificate for that host using the `nip.io` hostname.  The `nip.io` service is a public DNS provider that will accept hostnames with an embedded IP address and return that address during name resolution.  For example DNS requests to resolve `myhost.11.22.33.44.nip.io` will return `11.22.33.44` as the resolved IP address.
 
-Apply the following YAML file to configure an ingress for `prometheus.<your-ip>.nip.io` to forward requests to your Prometheus `ClusterIP` service, and provide the Cert-Manager annotations to generate a leaf SSL certificate for the endpoint.
+Apply the following YAML file to configure an ingress for `prometheus.<your-ip>.nip.io` to forward requests to your Prometheus `ClusterIP` service, and provide the cert-manager annotations to generate a leaf SSL certificate for the endpoint.
 
 {{< clipboard >}}
 <div class="highlight">
 
 ```
 # Creates an Ingress that will forward requests for prometheus.11.22.33.44.nip.io to the Prometheus backend
-# - Use Cert-Manager ingress annotations to create a TLS certificate for the ingress endpoint signed by the my-cluster-issuer ClusterIssuer
+# - Use cert-manager ingress annotations to create a TLS certificate for the ingress endpoint signed by the my-cluster-issuer ClusterIssuer
 #
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -661,13 +675,13 @@ $ curl -k https://prometheus.11.22.33.44.nip.io
 
 ![](/docs/guides/migrate/images/Screenshot.png)
 
-##### Example: Securing hello-helidon Using Ingress Annotations
+##### Example: Securing hello-helidon using ingress annotations
 
 This example uses the `ClusterIssuer` to secure the `hello-helidon` application.  This example uses the IP address `11.22.33.44` to represent the actual NGINX `LoadBalancer` service external IP address.  You should replace this with your actual load balancer IP address.
 
-Deploy `hello-helidon` using a simple deployment and service with an ingress, using an `nip.io` address that points to the `ingress-nginx` load balancer endpoint.  The ingress also is configured with the Cert-Manager annotations to generate a leaf SSL certificate for the application endpoint.
+Deploy `hello-helidon` using a simple deployment and service with an ingress, using an `nip.io` address that points to the `ingress-nginx` load balancer endpoint.  The ingress also is configured with the cert-manager annotations to generate a leaf SSL certificate for the application endpoint.
 
-**Helidon deployment, service, and ingress**
+**Helidon Deployment, Service, and Ingress**
 {{< clipboard >}}
 <div class="highlight">
 
@@ -746,7 +760,7 @@ spec:
 
 This results in the certificate `hello-helidon-tls` being created in the `hello-helidon` namespace.
 
-**Generated Helidon ingress certificate**
+**Generated Helidon Ingress Certificate**
 {{< clipboard >}}
 <div class="highlight">
 
@@ -811,14 +825,14 @@ $ curl -k https://hello-helidon.11.22.33.44.nip.io/greet
 
 ![](/docs/guides/migrate/images/helidon-certificate-browser.png)
 
-#### Let's Encrypt Staging with OCI DNS ClusterIssuer
+#### Let's Encrypt staging with OCI DNS ClusterIssuer
 
 To create a `ClusterIssuer` using Let's Encrypt with OCI DNS, you must:
 
 - [Install the cert-manager-oci-webhook](#installing-the-oci-dns-webhook-solver).
-- Create an OCI user-principal secret, as documented [here]({{< relref "/docs/networking/traffic/dns#create-an-oracle-cloud-infrastructure-api-secret-in-the-target-cluster" >}}) in the `clusterResourceNamespace` for the Cert-Manager installation.
+- Create an OCI user-principal secret, as documented [here]({{< relref "/docs/networking/traffic/dns#create-an-oracle-cloud-infrastructure-api-secret-in-the-target-cluster" >}}) in the `clusterResourceNamespace` for the cert-manager installation.
 
-The following example creates a Let's Encrypt Staging cluster issuer that:
+The following example creates a Let's Encrypt staging cluster issuer that:
 
 - Uses the OCI DNS zone `mydns.io`
 - Specifies the OCI compartment containing the OCI DNS zone
@@ -855,7 +869,7 @@ spec:
 </div>
 {{< /clipboard >}}
 
-##### Example: Securing a Prometheus Instance using Ingress Annotations
+##### Example: Securing a Prometheus instance using ingress annotations
 
 Before trying the example, be sure to follow the instructions in the [examples setup](#examples-setup) section.
 This example uses ingress annotations with Let's Encrypt `ClusterIssuer` to secure ingress to a Prometheus instance.
@@ -867,9 +881,9 @@ First, create the following DNS records in your OCI DNS zone so that DNS request
 
 ![](/docs/guides/migrate/images/dns-zone-records.png)
 
-Next, create an ingress for the Prometheus instance for `prometheus.devocne1.foo.io` with the appropriate Cert-Manager annotations.
+Next, create an ingress for the Prometheus instance for `prometheus.devocne1.foo.io` with the appropriate cert-manager annotations.
 
-**Prometheus ingress**
+**Prometheus Ingress**
 {{< clipboard >}}
 <div class="highlight">
 
@@ -905,7 +919,7 @@ spec:
 
 Wait a few minutes for the certificate to be signed and reach the READY state; it likely will take 3-5 minutes.
 
-**Certificate status**
+**Certificate Status**
 {{< clipboard >}}
 <div class="highlight">
 
