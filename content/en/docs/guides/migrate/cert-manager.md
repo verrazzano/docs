@@ -268,17 +268,17 @@ The steps in this section describe examples of how to create cert-manager `Clust
 To create a self-signed `ClusterIssuer` similar to those used by Verrazzano, you must:
 
 1. Create a cert-manager self-signed `Issuer` or `ClusterIssuer`.
-1. Create a self-signed `root` Certificate using the issuer from Step 1.
-1. Create a `ClusterIssuer` using the TLS secret created by the `root` Certificate object from Step 2.
+1. Create a self-signed `root` certificate using the issuer from Step 1.
+1. Create a `ClusterIssuer` using the TLS secret created by the `root` certificate object from Step 2.
 
-The `ClusterIssuer` created in Step 3 can then be used to sign leaf Certificate requests.
+The `ClusterIssuer` created in Step 3 can then be used to sign leaf certificate requests.
 
 ##### Creating a self-signed root certificate
 
 When using self-signed certificates, you need to start with a root CA. The cert-manager [SelfSigned](https://cert-manager.io/docs/configuration/selfsigned/) issuer can be used to set this up, as described in the following sequence.
 
 1. Create a [SelfSigned](https://cert-manager.io/docs/configuration/selfsigned/) issuer in the cert-manager namespace needed to create the root CA; if you are using a `ClusterIssuer`, then you must use the [cluster resource namespace](https://cert-manager.io/docs/configuration/#cluster-resource-namespace) (typically the namespace where cert-manager  is installed).
-1. Create a Certificate that refers to the issuer; if a namespace-scoped `Issuer` is used, then the `Certificate` must be created in the same namespace as the `Issuer`.
+1. Create a certificate that refers to the issuer; if a namespace-scoped `Issuer` is used, then the `Certificate` must be created in the same namespace as the `Issuer`.
 
 The `cert-manager` controller will then create the secret referenced in the `Certificate` object (Step 2) that contains the root certificate and private key.
 
@@ -659,7 +659,7 @@ spec:
 </div>
 {{< /clipboard >}}
 
-You should now be able to access the Prometheus ingress endpoint.  From a browser, you will be asked to accept the certificate as it is signed by an untrusted root CA.
+Now, you should be able to access the Prometheus ingress endpoint.  From a browser, you will be asked to accept the certificate because it is signed by an untrusted root CA.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -809,7 +809,7 @@ status:
 </div>
 {{< /clipboard >}}
 
-You can now access the endpoint using `hello-helidon.<ip-address>.nip.io`.  As with the Prometheus example, when using the browser, you will be asked to accept the certificate as it has been signed by an untrusted root CA.
+You can now access the endpoint using `hello-helidon.<ip-address>.nip.io`.  As with the Prometheus example, when using the browser, you will be asked to accept the certificate because it has been signed by an untrusted root CA.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -917,7 +917,7 @@ spec:
 </div>
 {{< /clipboard >}}
 
-Wait a few minutes for the certificate to be signed and reach the READY state; it likely will take 3-5 minutes.
+Wait a few minutes for the certificate to be signed and reach the READY state; it will likely take 3-5 minutes.
 
 **Certificate Status**
 {{< clipboard >}}
@@ -970,6 +970,6 @@ No CertificateRequest found for this Certificate
 </div>
 {{< /clipboard >}}
 
-After it's active, the endpoint should be reachable with a valid Let's Encrypt staging certificate; note that when using the browser you will be asked to accept the certificate as it has been signed by an untrusted root CA.
+After it's active, the endpoint should be reachable with a valid Let's Encrypt staging certificate; note that when using the browser you will be asked to accept the certificate because it has been signed by an untrusted root CA.
 
 ![](/docs/guides/migrate/images/prometheus-le-staging.png)
