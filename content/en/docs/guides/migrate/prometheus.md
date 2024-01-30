@@ -5,7 +5,7 @@ description: "Use this guide to migrate Prometheus to OCNE"
 weight: 2
 draft: false
 ---
-## How Verrazzano Installs Monitoring Components
+## How Verrazzano installs monitoring components
 Verrazzano installs the following Prometheus components and configuration.
 
 ### Components
@@ -28,30 +28,30 @@ Verrazzano installs Prometheus Adapter using a customized version of the Prometh
 #### Grafana
 Verrazzano does not use a Helm chart to install Grafana. As a result, there is no overrides field in the Grafana section of the Verrazzano custom resource. You can customize the Grafana instance using a limited set of configuration parameters available under `.spec.components.grafana` in the Verrazzano custom resource.
 
-### Verrazzano Chart Overrides
+### Verrazzano chart overrides
 
 Verrazzano applies a set of default chart overrides when installing components. The overrides for monitoring components generally fall into the following categories.
 
 #### Images
 Verrazzano overrides image registries, repositories, and image tags to install Oracle built-from-source images. Registry overrides are also applied when installing Verrazzano from a private registry (for example, in a disconnected network environment).
 
-#### Pod and Container Security
+#### Pod and container security
 Verrazzano overrides certain pod and container security settings to enhance the security of applications running in the cluster. For example, privilege escalation is disabled in pods to mitigate escalation attacks in a cluster.
 
-#### Istio Configuration
+#### Istio configuration
 Verrazzano overrides Istio settings so that the monitoring components themselves do not run in the Istio mesh. However, Prometheus may need to be able to scrape applications running both in the mesh and outside the mesh. Verrazzano overrides Prometheus settings to mount CA certificates that allow Prometheus to scrape applications in the mesh.
 
-#### Metric Relabeling
+#### Metric relabeling
 Verrazzano overrides chart values to add metric relabelings. The relabelings add a `verrazzano_cluster` label to all metrics. The relabeling configuration also adds a `verrazzano_component` label to label metrics for Verrazzano system components.
 
 #### Other
 Verrazzano overrides chart values for various other settings, including specifying memory and storage and requests, namespace and label configuration for discovering ServiceMonitor and PodMonitor resources, and such.
 
-## Migration Steps
+## Migration steps
 
 Follow these steps to install (or upgrade) and configure monitoring components. The result should be a cluster running a monitoring stack that achieves near-equivalent functionality compared to the Verrazzano-installed monitoring stack.
 
-### Installing from the Application Catalog
+### Installing from the application catalog
 
 Monitoring components are installed using the OCNE Application Catalog. The first step is to add the Application Catalog Helm repository to the cluster.
 
@@ -67,7 +67,7 @@ $ helm repo update
 
 Next, install the Helm charts.
 
-#### Install or Upgrade the kube-prometheus-stack Helm Chart
+#### Install or upgrade the kube-prometheus-stack Helm chart
 
 The following example `helm` command installs Prometheus Operator, Prometheus, Alertmanager, kube-state-metrics, and Grafana in the monitoring namespace. Monitoring components can be installed in any namespace as long as the same namespace is used consistently. This example assumes you are using Helm version 3.2.0 or later.
 
@@ -81,7 +81,7 @@ $ helm upgrade --install prometheus-operator ocne-app-catalog/kube-prometheus-st
 {{< /clipboard >}}
 Optionally, provide overrides when installing. The recipes below give examples of changing the configuration using Helm overrides.
 
-#### Install or Upgrade the prometheus-adapter Helm Chart
+#### Install or upgrade the prometheus-adapter Helm chart
 
 To install or upgrade the Prometheus Adapter:
 
@@ -96,11 +96,11 @@ $ helm upgrade --install prometheus-adapter ocne-app-catalog/prometheus-adapter 
 
 Optionally, provide overrides when installing. The following recipes give examples of changing the configuration using Helm overrides.
 
-#### Helm Override Recipes
+#### Helm override recipes
 
 The following recipes provide example overrides for altering the default configuration settings for monitoring components.
 
-##### Common Workarounds
+##### Common workarounds
 
 When installing the kube-prometheus-stack Helm chart, the Prometheus Operator default behavior is to discover monitors that have a "release" label. However, the Grafana Helm chart does not set that label on the Grafana ServiceMonitor. The out-of-the-box installation results in no scraping of Grafana metrics. To configure Prometheus Operator to discover all PodMonitor and ServiceMonitor resources, regardless of release label, set the following Helm overrides.
 
@@ -117,7 +117,7 @@ prometheus:
 </div>
 {{< /clipboard >}}
 
-##### Installing from a Private Registry
+##### Installing from a private registry
 To install using a private registry (for example, in a disconnected environment), you must override Helm values to change the image registry settings for all images. For example, to install kube-prometheus-stack from a private registry at `myprivreg.com`, create an overrides file with the following content and specify it using the `-f` option when running `helm upgrade --install`.
 
 **k-p-s_privreg_overrides.yaml**
@@ -169,7 +169,7 @@ image:
 </div>
 {{< /clipboard >}}
 
-##### Configuring Pod and Container Security
+##### Configuring pod and container security
 
 Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation. For example, apply the following overrides when installing the kube-prometheus-stack Helm chart.
 
@@ -302,7 +302,7 @@ customLabels:
 </div>
 {{< /clipboard >}}
 
-##### Configuring Storage and Resource Limits and Requests
+##### Configuring storage and resource limits and requests
 
 Specify overrides to change the default resource (storage, cpu, memory, and such) requests and limits. For example, to update resource requests for Prometheus, create the following overrides file and provide the file using the `-f` option when running `helm upgrade --install`. Note that the values shown here are also the default values used by Verrazzano when installing a Verrazzano custom resource configured with the `prod` profile.
 
@@ -326,7 +326,7 @@ prometheus:
 </div>
 {{< /clipboard >}}
 
-### Installing Network Policies
+### Installing network policies
 NetworkPolicies let you specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.
 
 As an example, run the following command to apply NetworkPolicy resources to only allow Prometheus to access the metrics ports on monitoring component pods. Note that these policies only affect ingress. Egress from the monitoring namespace is not impacted.
@@ -402,6 +402,6 @@ EOF
 
 **TBD** Add NetworkPolicies when we figure out how auth and ingress are going to work. This will impact Grafana, Alertmanager, and Prometheus as they all have web UIs.
 
-### Installing Istio Authorization Policies
+### Installing Istio authorization policies
 
 **TBD** Add AuthorizationPolicies when we figure out how auth and ingress are going to work. This will impact Grafana, Alertmanager, and Prometheus as they all have web UIs.
