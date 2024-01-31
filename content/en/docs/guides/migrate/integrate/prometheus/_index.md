@@ -7,3 +7,5 @@ draft: false
 
 ## Network Policies
 ## Fluentd and Fluent Bit
+## Ingress
+## Istio
