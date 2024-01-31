@@ -324,7 +324,7 @@ $ yq '.spec' < iop.yaml > istio-profile.yaml
 
 
 <details>
-<summary><b>Example istio-profile file</b></summary>
+<summary><b>Example istio-profile.yaml file</b></summary>
 
 {{< clipboard >}}
 <div class="highlight">
