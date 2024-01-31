@@ -215,5 +215,3 @@ $ vz export oam --name <app-name> --namespace <app-namespace> > myapp.yaml
 {{< /clipboard >}}
 
 This generates a YAML file for the OAM application in `myapp.yaml`. Make any local customizations to the generated YAML file, and then apply the YAML file to the OCNE 2.0 environment by continuing to follow the documentation.
-
-Note that, for each OAM application, the WebLogic Kubernetes Operator requires an Istio Authorization Policy to communicate with the WebLogic servers. The required Authorization Policies are created for you by the `vz export oam`  command, as documented here: https://verrazzano.io/devel/docs/guides/migrate/oam-to-kubernetes/ingress-trait/.
