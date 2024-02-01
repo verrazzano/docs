@@ -1,9 +1,9 @@
 ---
 title: "OAM to Kubernetes Mappings"
-description: "Learn how OAM objects are mapped to Kubernetes objects"
 weight: 5
 draft: false
 ---
+This document shows you how OAM objects are mapped to Kubernetes objects.
 
 ### Verrazzano CLI export command
 
