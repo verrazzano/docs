@@ -4,4 +4,4 @@ description: "Learn how to migrate Verrazzano components to OCNE"
 weight: 1
 draft: false
 ---
-These documents show you how to migrate Verrazzano components to OCNE.  You need to first install them in OCNE and then integrate them with other OCNE components.
+The following sections show you how to migrate Verrazzano components to OCNE. First, you need to install the components in OCNE; then you must integrate them with other OCNE components.
