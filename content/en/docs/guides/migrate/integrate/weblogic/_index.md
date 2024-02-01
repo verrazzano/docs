@@ -6,6 +6,5 @@ draft: false
 ---
 
 ## Fluentd and Fluent Bit
-## Istio
 ## Network Policies
 ## Prometheus

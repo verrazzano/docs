@@ -7,4 +7,5 @@ draft: false
 
 ## Network Policies
 ## Ingress
+## Istio
 ## Prometheus
