@@ -1,6 +1,5 @@
 ---
-title: "Installation"
-description: "Learn how to install components on OCNE 2.0"
+title: "Install components on OCNE"
 weight: 1
 draft: false
 ---

@@ -1,11 +1,9 @@
 ---
 title: "cert-manager"
-description: "Learn how to integrate cert-manager with other components"
 weight: 1
 draft: false
 ---
-
-blah-blah
+This document shows you how to integrate cert-manager with other OCNE components.
 
 ## Fluentd and Fluent Bit
 ## Network Policies

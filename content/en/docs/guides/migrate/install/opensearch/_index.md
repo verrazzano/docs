@@ -1,8 +1,8 @@
 ---
 title: "OpenSearch"
-description: "Learn how to install OpenSearch on OCNE 2.0"
 weight: 1
 draft: false
 ---
+This document shows you how to install OpenSearch on OCNE.
 
 ## Helm Install

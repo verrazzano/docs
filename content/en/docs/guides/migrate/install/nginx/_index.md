@@ -1,8 +1,8 @@
 ---
 title: "Ingress NGINX Controller"
-description: "Learn how to install Ingress NGINX Controller on OCNE 2.0"
 weight: 1
 draft: false
 ---
+This document shows you how to install Ingress NGINX Controller on OCNE.
 
 ## Helm Install

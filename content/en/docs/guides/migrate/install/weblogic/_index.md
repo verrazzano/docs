@@ -1,8 +1,8 @@
 ---
 title: "WebLogic Kubernetes Operator"
-description: "Learn how to install WebLogic Kubernetes Operator on OCNE 2.0"
 weight: 1
 draft: false
 ---
+This document shows you how to install WebLogic Kubernetes Operator on OCNE.
 
 ## Helm Install
