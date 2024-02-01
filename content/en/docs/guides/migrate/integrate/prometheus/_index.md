@@ -5,7 +5,7 @@ weight: 1
 draft: false
 ---
 
-## Network Policies
 ## Fluentd and Fluent Bit
 ## Ingress
 ## Istio
+## Network Policies

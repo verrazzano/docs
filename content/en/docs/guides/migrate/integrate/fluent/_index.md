@@ -4,3 +4,6 @@ description: "Learn how to integrate Fluentd and Fluent Bit with other component
 weight: 1
 draft: false
 ---
+
+## Network Policies
+## Prometheus
