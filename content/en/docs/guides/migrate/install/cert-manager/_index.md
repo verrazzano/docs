@@ -17,8 +17,8 @@ Depending on the configuration, Verrazzano will install the following components
 ### Installing cert-manager using Helm
 **TBD**, will be installed as a first-class CNE module and not from the app catalog
 
-### Override recipes
-The following sections show you how to override certain cert-manager default settings.
+### Helm Overrides recipes
+The following sections show you how to override certain cert-manager default settings. These overrides should be put into a file and passed into helm using the `-f` argument.
 
 #### Installing from a private registry
 **TBD** - need OCNE module private registry example
