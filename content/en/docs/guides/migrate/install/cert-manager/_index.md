@@ -10,37 +10,20 @@ Depending on the configuration, Verrazzano will install the following components
 
 - cert-manager
 - The Verrazzano [cert-manager-webhook-oci](https://github.com/verrazzano/cert-manager-webhook-oci) webhook for signing certificates using Let's Encrypt.
+- A ClusterIssuer used to sign certificates
 
-## Helm Install
+## Install cert-manager
 
-### Verrazzano chart overrides
-Verrazzano overrides the following chart values.
-
-#### Images
-Verrazzano overrides image registries, repositories, and image tags to install Oracle built-from-source images. Registry overrides are also applied when installing Verrazzano from a private registry (for example, in a disconnected network environment).
-
-#### Pod and container security
-Verrazzano overrides certain pod and container security settings to enhance the security of applications running in the cluster. For example, privilege escalation is disabled in pods to mitigate escalation attacks in a cluster.
-
-#### ClusterResourceNamespace
-Verrazzano sets the location for `ClusterIssuer` secrets used by cert-manager called the [clusterResourceNamespace](https://cert-manager.io/docs/configuration/#cluster-resource-namespace).  This is the same namespace where cert-manager is installed by default but can be overridden when a custom certificate authority is used.
-
-#### Other
-Verrazzano overrides chart values for various other settings, including specifying memory and storage and requests, namespace, and so on.
-
-## Migration steps
-Follow these steps to install (or upgrade) and configure monitoring components. The result should be a cluster running a cert-manager instance with a `ClusterIssuer` that achieves near-equivalent functionality compared to the Verrazzano-installed cert-manager stack.
-
-### Installing cert-manager
+### Installing cert-manager using Helm
 **TBD**, will be installed as a first-class CNE module and not from the app catalog
 
-#### Override recipes
-The following sections show you how to override certain cert-manager default settings.
+### Helm Overrides recipes
+The following sections show you how to override certain cert-manager default settings. These overrides should be put into a file and passed into helm using the `-f` argument.
 
-##### Installing from a private registry
+#### Installing from a private registry
 **TBD** - need OCNE module private registry example
 
-##### Configuring pod and container security
+#### Configuring pod and container security
 Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.
 
 For example, apply the following overrides when installing the cert-manager module in an OCNE 2.0 cluster to use security settings similar to those used by Verrazzano 1.6.
@@ -100,7 +83,7 @@ webhook:
   </div>
   {{< /clipboard >}}
 
-##### Configuring storage and resource limits and requests
+#### Configuring storage and resource limits and requests
 
 Specify overrides to change the default resource (storage, cpu, memory, and such) requests and limits.
 
@@ -118,7 +101,19 @@ resources:
 </div>
 {{< /clipboard >}}
 
-### Installing the OCI DNS webhook solver
+#### Customizing the cluster ClusterResourceNamespace
+Verrazzano sets the location for ClusterIssuer secrets used by cert-manager called the clusterResourceNamespace. This is the same namespace where cert-manager is installed by default but can be overridden when a custom certificate authority is used.
+
+{{< clipboard >}}
+<div class="highlight">
+
+```
+clusterResourceNamespace: my-clusterissuer
+```
+</div>
+{{< /clipboard >}}
+
+## Install the OCI DNS webhook solver
 
 If you intend to use cert-manager with Let's Encrypt and OCI DNS, then you will need to install the `cert-manager-webhook-oci`  module from the OCNE application catalog.
 The webhook solver is installed using the OCNE Application Catalog. The first step is to add the Application Catalog Helm repository to the cluster.
@@ -145,13 +140,12 @@ $ helm install cert-manager-webhook-oci ocne-app-catalog/cert-manager-webhook-oc
 
 In the previous example, it was installed into the default `cert-manager` namespace, however, this is not required.
 
-#### Helm override recipes
+### Helm override recipes
 The following sections show you how to override certain cert-manager Helm values.
 
-##### Changing cert-manager locations
+#### Changing cert-manager locations
 
-If cert-manager is installed in a non-default namespace (something other than `cert-manager`), then this will need to be provided to the webhook installation as Helm overrides.
-{{< clipboard >}}
+If cert-manager or the ClusterIssuer resource is installed in a non-default namespace (something other than `cert-manager`), then these will need to be provided to the webhook installation as Helm overrides.{{< clipboard >}}
 <div class="highlight">
 
 ```
@@ -160,7 +154,7 @@ $ helm install cert-manager-webhook-oci ocne-app-catalog/cert-manager-webhook-oc
 </div>
 {{< /clipboard >}}
 
-##### Installing from a private registry
+#### Installing from a private registry
 
 In order to install using a private registry (for example, in a disconnected environment), then you must override the Helm values to change the webhook image path.
 
@@ -175,7 +169,7 @@ image:
 </div>
 {{< /clipboard >}}
 
-##### Configuring pod and container security
+#### Configuring pod and container security
 
 Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.
 
@@ -199,7 +193,7 @@ seccompProfile:
 </div>
 {{< /clipboard >}}
 
-##### Configuring storage and resource limits and requests
+#### Configuring storage and resource limits and requests
 
 Specify overrides to change the default resource (storage, cpu, memory, and such) requests and limits.
 For example, to update resource requests for the webhook, create the following overrides file and provide the file using the `-f` option when running `helm upgrade --install`.
@@ -215,51 +209,11 @@ resources:
 </div>
 {{< /clipboard >}}
 
-### Installing network policies
-NetworkPolicies allow you to specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.
-
-For example, if Prometheus is installed in the target cluster and you wish to limit access to cert-manager only from Prometheus for metrics scraping, you can apply a network policy to enforce this.
-
-If the Prometheus instance is installed using the Prometheus operator in the namespace monitoring with the label `myapp.io/namespace=monitoring`, then the network policy can be applied as follows.
-{{< clipboard >}}
-<div class="highlight">
-
-```
-kubectl apply -n cert-manager -f - <<EOF
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: cert-manager
-  namespace: cert-manager
-spec:
-  ingress:
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          myapp.io/namespace: monitoring
-      podSelector:
-        matchLabels:
-          app.kubernetes.io/name: prometheus
-    ports:
-    - port: 9402
-      protocol: TCP
-  podSelector:
-    matchLabels:
-      app: cert-manager
-  policyTypes:
-  - Ingress
-EOF
-```
-</div>
-{{< /clipboard >}}
-
-This will restrict ingress to be allowed only to pods in the `cert-manager` namespace with the `app: cert-manager` label on TCP port 9402 from Prometheus pods the `monitoring`  namespace.
-
-### Usage
+## Creating a ClusterIssuer
 
 The steps in this section describe examples of how to create cert-manager `ClusterIssuers` that are functionally equivalent to those employed by Verrazzano and use them to secure endpoints.
 
-#### Self-signed `ClusterIssuer`
+### Self-signed `ClusterIssuer`
 
 To create a self-signed `ClusterIssuer` similar to those used by Verrazzano, you must:
 
@@ -269,7 +223,7 @@ To create a self-signed `ClusterIssuer` similar to those used by Verrazzano, you
 
 The `ClusterIssuer` created in Step 3 can then be used to sign leaf certificate requests.
 
-##### Creating a self-signed root certificate
+#### Creating a self-signed root certificate
 
 When using self-signed certificates, you need to start with a root CA. The cert-manager [SelfSigned](https://cert-manager.io/docs/configuration/selfsigned/) issuer can be used to set this up, as described in the following sequence.
 
@@ -473,7 +427,7 @@ type: kubernetes.io/tls
 </div>
 {{< /clipboard >}}
 
-##### Create the ClusterIssuer
+#### Create the ClusterIssuer
 
 This secret will then be used to seed a `ClusterIssuer` to issue leaf certificates for other applications and services.
 Using the `Certificate` from the previous example, you can create a `ClusterIssuer` named `my-issuer` and reference the secret `my-root-ca-tls` as the CA.
@@ -542,286 +496,7 @@ status:
 {{< /clipboard >}}
 </details>
 
-#### Examples setup
-
-Before trying any of the examples in this section, first install `ingress-nginx` and `kube-prometheus-stack` with defaults.
-##### ingress-nginx installation
-
-Install `ingress-nginx` as shown.
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-$ helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
-```
-</div>
-{{< /clipboard >}}
-
-This will create a `LoadBalancer` service for the ingress controller by default.
-Take note of the NGINX `LoadBalancer` service IP address as that will be needed in the examples.
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-# Get the ingress LB IP for ingress-nginx-controller
-$ kubectl get svc -n ingress-nginx
-NAME                                 TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)                      AGE
-ingress-nginx-controller             LoadBalancer   10.131.23.57     11.22.33.44   80:31456/TCP,443:31924/TCP   4h42m
-ingress-nginx-controller-admission   ClusterIP      10.131.240.245   <none>           443/TCP                      4h42m
-```
-</div>
-{{< /clipboard >}}
-
-##### kube-prometheus-stack installation
-
-First, install `kube-prometheus-stack` with a default Prometheus instance; the example uses the `kube-prometheus-stack-prometheus` service to be the backend for the ingress.
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-$ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-$ helm repo update
-$ helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -n monitoring --create-namespace
-```
-</div>
-{{< /clipboard >}}
-
-This creates a default Prometheus instance `kube-prometheus-stack-prometheus`.
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-# By default kube-stack-prometheus will create a Prometheus instance OOTB with a ClusterIP service
-
-$ kubectl get -n monitoring prometheus                     
-NAME                               VERSION   DESIRED   READY   RECONCILED   AVAILABLE   AGE
-kube-prometheus-stack-prometheus   v2.48.1   1         1       True         True        25h
-
-$ kubectl get -n monitoring statefulsets.apps
-NAME                                              READY   AGE
-alertmanager-kube-prometheus-stack-alertmanager   1/1     25h
-prometheus-kube-prometheus-stack-prometheus       1/1     25h
-
-$ kubectl get svc -n monitoring kube-prometheus-stack-prometheus
-NAME                               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)             AGE
-kube-prometheus-stack-prometheus   ClusterIP   10.137.197.169   <none>        9090/TCP,8080/TCP   25h
-```
-</div>
-{{< /clipboard >}}
-
-##### Example: Securing a Prometheus instance using ingress annotations
-
-This example uses ingress annotations with the `ClusterIssuer` created previously, to secure ingress to a Prometheus instance.  The ingress will use the wildcard DNS service [`nip.io`](https://nip.io/) to create an address that will forward requests to the Prometheus ClusterIP service;  the ingress will have CM annotations to issue a certificate for that host using the `nip.io` hostname.  The `nip.io` service is a public DNS provider that will accept hostnames with an embedded IP address and return that address during name resolution.  For example DNS requests to resolve `myhost.11.22.33.44.nip.io` will return `11.22.33.44` as the resolved IP address.
-
-Apply the following YAML file to configure an ingress for `prometheus.<your-ip>.nip.io` to forward requests to your Prometheus `ClusterIP` service, and provide the cert-manager annotations to generate a leaf SSL certificate for the endpoint.
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-# Creates an Ingress that will forward requests for prometheus.11.22.33.44.nip.io to the Prometheus backend
-# - Use cert-manager ingress annotations to create a TLS certificate for the ingress endpoint signed by the my-cluster-issuer ClusterIssuer
-#
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  annotations:
-    cert-manager.io/cluster-issuer: my-cluster-issuer
-    cert-manager.io/common-name: prometheus.11.22.33.44.nip.io
-  name: prometheus
-  namespace: monitoring
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: prometheus.11.22.33.44.nip.io
-    http:
-      paths:
-      - backend:
-          service:
-            name: kube-prometheus-stack-prometheus
-            port:
-              number: 9090
-        path: /
-        pathType: Prefix
-  tls:
-  - hosts:
-    - prometheus.11.22.33.44.nip.io
-    secretName: kube-prometheus-stack-prometheus-tls
-```
-</div>
-{{< /clipboard >}}
-
-Now, you should be able to access the Prometheus ingress endpoint.  From a browser, you will be asked to accept the certificate because it is signed by an untrusted root CA.
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-$ curl -k https://prometheus.11.22.33.44.nip.io
-<a href="/graph">Found</a>.
-```
-</div>
-{{< /clipboard >}}
-
-![](/docs/guides/migrate/images/cert-manager/prometheus-ingress.png)
-
-![](/docs/guides/migrate/images/cert-manager/Screenshot.png)
-
-##### Example: Securing hello-helidon using ingress annotations
-
-This example uses the `ClusterIssuer` to secure the `hello-helidon` application.  This example uses the IP address `11.22.33.44` to represent the actual NGINX `LoadBalancer` service external IP address.  You should replace this with your actual load balancer IP address.
-
-Deploy `hello-helidon` using a simple deployment and service with an ingress, using an `nip.io` address that points to the `ingress-nginx` load balancer endpoint.  The ingress also is configured with the cert-manager annotations to generate a leaf SSL certificate for the application endpoint.
-
-**Helidon Deployment, Service, and Ingress**
-{{< clipboard >}}
-<div class="highlight">
-
-```
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: hello-helidon-ocne2
-  namespace: hello-helidon
-spec:
-  selector:
-    matchLabels:
-      app: app
-  replicas: 3
-  template:
-    metadata:
-      labels:
-        app: app
-    spec:
-      containers:
-      - name: app
-        image: ghcr.io/verrazzano/example-helidon-greet-app-v1:1.0.0-1-20230126194830-31cd41f
-        imagePullPolicy: Always
-        ports:
-        - name: app
-          containerPort: 8080
-          protocol: TCP
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: hello-helidon-ocne
-  namespace: hello-helidon
-  labels:
-    app: app
-  annotations:
-    service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
-    service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
-    service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
-spec:
-  type: ClusterIP
-  ports:
-  - port: 8080
-  selector:
-    app: app
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  annotations:
-    app: app
-    cert-manager.io/cluster-issuer: my-cluster-issuer
-    cert-manager.io/common-name: hello-helidon.11.22.33.44.nip.io
-  name: hello-helidon-ocne
-  namespace: hello-helidon
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: hello-helidon.11.22.33.44.nip.io
-    http:
-      paths:
-      - backend:
-          service:
-            name: hello-helidon-ocne
-            port:
-              number: 8080
-        path: /
-        pathType: Prefix
-  tls:
-  - hosts:
-    - hello-helidon.11.22.33.44.nip.io
-    secretName: hello-helidon-tls
-```
-</div>
-{{< /clipboard >}}
-
-This results in the certificate `hello-helidon-tls` being created in the `hello-helidon` namespace.
-
-**Generated Helidon Ingress Certificate**
-{{< clipboard >}}
-<div class="highlight">
-
-```
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  creationTimestamp: "2024-01-10T19:38:24Z"
-  generation: 1
-  name: hello-helidon-tls
-  namespace: hello-helidon
-  ownerReferences:
-  - apiVersion: networking.k8s.io/v1
-    blockOwnerDeletion: true
-    controller: true
-    kind: Ingress
-    name: hello-helidon-ocne
-    uid: 5a865f3a-572d-44ee-9a21-eadd87486467
-  resourceVersion: "1948379"
-  uid: 8dbf0077-dfa7-41df-904d-ed0dd832abe9
-spec:
-  commonName: hello-helidon.11.22.33.44.nip.io
-  dnsNames:
-  - hello-helidon.11.22.33.44.nip.io
-  issuerRef:
-    group: cert-manager.io
-    kind: ClusterIssuer
-    name: my-cluster-issuer
-  secretName: hello-helidon-tls
-  usages:
-  - digital signature
-  - key encipherment
-status:
-  conditions:
-  - lastTransitionTime: "2024-01-10T19:38:24Z"
-    message: Certificate is up to date and has not expired
-    observedGeneration: 1
-    reason: Ready
-    status: "True"
-    type: Ready
-  notAfter: "2024-04-09T19:38:24Z"
-  notBefore: "2024-01-10T19:38:24Z"
-  renewalTime: "2024-03-10T19:38:24Z"
-  revision: 1
-```
-</div>
-{{< /clipboard >}}
-
-You can now access the endpoint using `hello-helidon.<ip-address>.nip.io`.  As with the Prometheus example, when using the browser, you will be asked to accept the certificate because it has been signed by an untrusted root CA.
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-$ curl -k https://hello-helidon.11.22.33.44.nip.io/greet        
-{"message":"Hello World!"}
-```
-</div>
-{{< /clipboard >}}
-
-![](/docs/guides/migrate/images/cert-manager/helidon-browser.png)
-
-![](/docs/guides/migrate/images/cert-manager/helidon-certificate-browser.png)
-
-#### Let's Encrypt staging with OCI DNS ClusterIssuer
+### Let's Encrypt staging with OCI DNS ClusterIssuer
 
 To create a `ClusterIssuer` using Let's Encrypt with OCI DNS, you must:
 
@@ -864,108 +539,3 @@ spec:
 ```
 </div>
 {{< /clipboard >}}
-
-##### Example: Securing a Prometheus instance using ingress annotations
-
-Before trying the example, be sure to follow the instructions in the [examples setup](#examples-setup) section.
-This example uses ingress annotations with Let's Encrypt `ClusterIssuer` to secure ingress to a Prometheus instance.
-
-First, create the following DNS records in your OCI DNS zone so that DNS requests can be resolved to the `ingress-nginx` ingress controller `LoadBalancer` service.
-
-- An A record `ingress.devocne1.foo.io` pointing to the Ingress controller load balancer IP address
-- A CNAME record `prometheus.devocne1.foo.io` pointing to `ingress.devocne1.foo.io`
-
-![](/docs/guides/migrate/images/cert-manager/dns-zone-records.png)
-
-Next, create an ingress for the Prometheus instance for `prometheus.devocne1.foo.io` with the appropriate cert-manager annotations.
-
-**Prometheus Ingress**
-{{< clipboard >}}
-<div class="highlight">
-
-```
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  annotations:
-    cert-manager.io/cluster-issuer: my-cluster-issuer
-    cert-manager.io/common-name: prometheus.devocne1.foo.io
-  name: kube-prometheus-stack-prometheus
-  namespace: monitoring
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: prometheus.devocne1.foo.io
-    http:
-      paths:
-      - backend:
-          service:
-            name: kube-prometheus-stack-prometheus
-            port:
-              number: 9090
-        path: /
-        pathType: Prefix
-  tls:
-  - hosts:
-    - prometheus.devocne1.foo.io
-    secretName: kube-prometheus-stack-prometheus-tls
-```
-</div>
-{{< /clipboard >}}
-
-Wait a few minutes for the certificate to be signed and reach the READY state; it will likely take 3-5 minutes.
-
-**Certificate Status**
-{{< clipboard >}}
-<div class="highlight">
-
-```
-$ kubectl  get certificate -n monitoring
-NAME                                   READY   SECRET                                 AGE
-kube-prometheus-stack-prometheus-tls   True    kube-prometheus-stack-prometheus-tls   7m
-
-$ cmctl status certificate -n monitoring kube-prometheus-stack-prometheus-tls
-Name: kube-prometheus-stack-prometheus-tls
-Namespace: monitoring
-Created at: 2024-01-10T22:39:56Z
-Conditions:
-  Ready: True, Reason: Ready, Message: Certificate is up to date and has not expired
-DNS Names:
-- prometheus.devocne1.foo.io
-Events:
-  Type    Reason     Age   From                                       Message
-  ----    ------     ----  ----                                       -------
-  Normal  Issuing    39m   cert-manager-certificates-trigger          Issuing certificate as Secret does not exist
-  Normal  Generated  39m   cert-manager-certificates-key-manager      Stored new private key in temporary Secret resource "kube-prometheus-stack-prometheus-tls-hk87w"
-  Normal  Requested  39m   cert-manager-certificates-request-manager  Created new CertificateRequest resource "kube-prometheus-stack-prometheus-tls-1"
-  Normal  Issuing    31m   cert-manager-certificates-issuing          The certificate has been successfully issued
-Issuer:
-  Name: my-cluster-issuer
-  Kind: ClusterIssuer
-  Conditions:
-    Ready: True, Reason: ACMEAccountRegistered, Message: The ACME account was registered with the ACME server
-  Events:  <none>
-Secret:
-  Name: kube-prometheus-stack-prometheus-tls
-  Issuer Country: US
-  Issuer Organisation: (STAGING) Let's Encrypt
-  Issuer Common Name: (STAGING) Artificial Apricot R3
-  Key Usage: Digital Signature, Key Encipherment
-  Extended Key Usages: Server Authentication, Client Authentication
-  Public Key Algorithm: RSA
-  Signature Algorithm: SHA256-RSA
-  Subject Key ID: 9f461b868d4a4282051a54fea434ee4d50f7428d
-  Authority Key ID: de727a48df31c3a650df9f8523df57374b5d2e65
-  Serial Number: 2b17645a0bfa248f3ba0317233a71fb1f89d
-  Events:  <none>
-Not Before: 2024-01-10T21:47:30Z
-Not After: 2024-04-09T21:47:29Z
-Renewal Time: 2024-03-10T21:47:29Z
-No CertificateRequest found for this Certificate
-```
-</div>
-{{< /clipboard >}}
-
-After it's active, the endpoint should be reachable with a valid Let's Encrypt staging certificate; note that when using the browser you will be asked to accept the certificate because it has been signed by an untrusted root CA.
-
-![](/docs/guides/migrate/images/cert-manager/prometheus-le-staging.png)
