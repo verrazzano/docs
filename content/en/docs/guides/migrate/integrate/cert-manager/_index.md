@@ -43,3 +43,7 @@ EOF
 {{< /clipboard >}}
 
 This will restrict ingress to be allowed only to pods in the `cert-manager` namespace with the `app: cert-manager` label on TCP port 9402 from Prometheus pods the `monitoring`  namespace.
+
+## Fluent Bit
+## Network Policies
+## Prometheus
