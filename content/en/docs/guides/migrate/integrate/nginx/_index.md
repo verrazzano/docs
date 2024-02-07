@@ -5,6 +5,8 @@ draft: false
 ---
 This document shows you how to integrate Ingress NGINX Controller with other OCNE components.
 
+## Fluent Bit
+
 ## Network Policies
 NetworkPolicies let you specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.
 
