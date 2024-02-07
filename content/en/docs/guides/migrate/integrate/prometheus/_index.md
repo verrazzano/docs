@@ -5,7 +5,7 @@ draft: false
 ---
 This document shows you how to integrate Prometheus with other OCNE components.
 
-## Fluentd and Fluent Bit
+## Fluent Bit
 ## Ingress
 ## Istio
 ## Network policies

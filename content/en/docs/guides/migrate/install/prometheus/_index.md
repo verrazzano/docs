@@ -66,7 +66,7 @@ Next, install the Helm charts.
 
 #### Install or upgrade the kube-prometheus-stack Helm chart
 
-The following example `helm` command installs Prometheus Operator, Prometheus, Alertmanager, and kube-state-metrics in the monitoring namespace. Monitoring components can be installed in any namespace as long as the same namespace is used consistently. This example assumes you are using Helm version 3.2.0 or later.
+The following example `helm` command installs Prometheus Operator, Prometheus, Alertmanager, and kube-state-metrics in the `monitoring` namespace. Monitoring components can be installed in any namespace as long as the same namespace is used consistently. This example assumes you are using Helm version 3.2.0 or later.
 
 {{< clipboard >}}
 <div class="highlight">
