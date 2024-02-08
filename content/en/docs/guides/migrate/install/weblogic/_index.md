@@ -153,19 +153,3 @@ EOF
 ```
 </div>
 {{< /clipboard >}}
-
-## Migrate OAM WebLogic applications to OCNE 2.0
-As part of the migration, each OAM WebLogic application needs to be moved from the Verrazzano environment to the OCNE 2.0 environment. You will need to redeploy each OAM application in OCNE 2.0 without using OAM. This process is described in [OAM to Kubernetes Mappings]({{< relref "/docs/guides/migrate/oam-to-kubernetes/_index.md" >}}).
-
-For each OAM application, start with the following command in your Verrazzano environment.
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-$ vz export oam --name <app-name> --namespace <app-namespace> > myapp.yaml
-```
-</div>
-{{< /clipboard >}}
-
-This generates a YAML file for the OAM application in `myapp.yaml`. Make any local customizations to the generated YAML file, and then apply the YAML file to the OCNE 2.0 environment by continuing to follow the documentation.
