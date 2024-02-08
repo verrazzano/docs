@@ -91,7 +91,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.37b1f7fb584af51252fb50b55acc85d2.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.61959aefe93d534c1ca3572212e3ba79.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -117,7 +117,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.37b1f7fb584af51252fb50b55acc85d2.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.61959aefe93d534c1ca3572212e3ba79.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1228,8 +1228,6 @@ if (!doNotTrack) {
         <li><a href="#migration-steps">Migration steps</a>
           <ul>
             <li><a href="#installing-from-the-application-catalog">Installing from the application catalog</a></li>
-            <li><a href="#installing-network-policies">Installing network policies</a></li>
-            <li><a href="#installing-istio-authorization-policies">Installing Istio authorization policies</a></li>
           </ul>
         </li>
       </ul>
@@ -1390,8 +1388,8 @@ $ helm repo update
 </script>
 <p>Next, install the Helm charts.</p>
 <h4 id="install-or-upgrade-the-kube-prometheus-stack-helm-chart">Install or upgrade the kube-prometheus-stack Helm chart</h4>
-<p>The following example <code>helm</code> command installs Prometheus Operator, Prometheus, Alertmanager, kube-state-metrics, and Grafana in the monitoring namespace. Monitoring components can be installed in any namespace as long as the same namespace is used consistently. This example assumes you are using Helm version 3.2.0 or later.</p>
-<p><style type="text/css">
+<p>The following example <code>helm</code> command installs Prometheus Operator, Prometheus, Alertmanager, and kube-state-metrics in the <code>monitoring</code> namespace. Monitoring components can be installed in any namespace as long as the same namespace is used consistently. This example assumes you are using Helm version 3.2.0 or later.</p>
+<style type="text/css">
     code {
         margin: 0;
         padding: 0;
@@ -1482,7 +1480,8 @@ $ helm repo update
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
-Optionally, provide overrides when installing. The recipes below give examples of changing the configuration using Helm overrides.</p>
+<p>Optionally, provide overrides when installing. The recipes below give examples of changing the configuration using Helm overrides.</p>
+<p><strong>NOTE</strong>: Grafana is disabled by default when installing kube-prometheus-stack from the Application Catalog, but Grafana can be enabled by providing a <code>grafana.enabled=true</code> Helm override.</p>
 <h4 id="install-or-upgrade-the-prometheus-adapter-helm-chart">Install or upgrade the prometheus-adapter Helm chart</h4>
 <p>To install or upgrade the Prometheus Adapter:</p>
 <style type="text/css">
@@ -2367,163 +2366,6 @@ grafana:
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<h3 id="installing-network-policies">Installing network policies</h3>
-<p>NetworkPolicies let you specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.</p>
-<p>As an example, run the following command to apply NetworkPolicy resources to only allow Prometheus to access the metrics ports on monitoring component pods. Note that these policies only affect ingress. Egress from the monitoring namespace is not impacted.</p>
-<style type="text/css">
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-</style>
-
-<div class="clipboard">
-    <div class="highlight">
-<pre tabindex="0"><code>$ kubectl apply -f - &lt;&lt;EOF
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: node-exporter
-  namespace: monitoring
-spec:
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          app.kubernetes.io/name: prometheus
-    ports:
-    - port: 9100
-      protocol: TCP
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/name: prometheus-node-exporter
-  policyTypes:
-  - Ingress
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: kube-state-metrics
-  namespace: monitoring
-spec:
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          app.kubernetes.io/name: prometheus
-    ports:
-    - port: 8080
-      protocol: TCP
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/name: kube-state-metrics
-  policyTypes:
-  - Ingress
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: kube-prometheus-stack-operator
-  namespace: monitoring
-spec:
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          app.kubernetes.io/name: prometheus
-    ports:
-    - port: 443
-      protocol: TCP
-  podSelector:
-    matchLabels:
-      app: kube-prometheus-stack-operator
-  policyTypes:
-  - Ingress
-EOF
-</code></pre></div>
-
-</div>
-
-<script>
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement("button");
-        button.innerText = "Copy";
-        button.className = "copy-code-button";
-        button.addEventListener("click", () =>
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement("div");
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
-        
-        let codeBlock = codeToCopy.split("\n");
-        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join("\n");
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement('textarea');
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = "Copied";
-        setTimeout(function () {
-            button.innerText = "Copy";
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(".highlight")
-        .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
-<p><strong>TBD</strong> Add NetworkPolicies when we figure out how auth and ingress are going to work. This will impact Grafana, Alertmanager, and Prometheus as they all have web UIs.</p>
-<h3 id="installing-istio-authorization-policies">Installing Istio authorization policies</h3>
-<p><strong>TBD</strong> Add AuthorizationPolicies when we figure out how auth and ingress are going to work. This will impact Grafana, Alertmanager, and Prometheus as they all have web UIs.</p>
 
   <div class="section-index">
     
