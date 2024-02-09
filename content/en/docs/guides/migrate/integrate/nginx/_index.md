@@ -10,7 +10,9 @@ This document shows you how to integrate Ingress NGINX Controller with other OCN
 ## Network Policies
 NetworkPolicies let you specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.
 
-As an example, run the following command to apply NetworkPolicy resources to only allow ingress to port 443 from all the namespaces. Assuming the Prometheus instance is installed using the Prometheus operator in the namespace `monitoring` with the label `myapp.io/namespace=monitoring`, the network policy allows ingress to port 80 to scrape metrics.
+As an example, run the following command to apply NetworkPolicy resources to only allow ingress to port 443 from all the namespaces.
+
+Assuming the Prometheus instance is installed using the Prometheus operator in the namespace `monitoring` with the label `myapp.io/namespace=monitoring`, the network policy allows ingress to port 10254 from Prometheus to scrape metrics.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -35,6 +37,9 @@ spec:
     - ports:
         - port: 80
           protocol: TCP
+    - ports:
+        - port: 10254
+          protocol: TCP
       from:
         - namespaceSelector:
             matchLabels:
@@ -47,105 +52,74 @@ EOF
 </div>
 {{< /clipboard >}}
 
-## Prometheus
-[Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by rules defined on the Ingress resource.
-This section provides the steps to use ingress annotations with the ClusterIssuer to secure ingress to a Prometheus instance. Please go through the https://cert-manager.io/docs/ to read more about configuring issuers and annotated ingress resource.
+## Configure Prometheus scrape target for NGINX metrics
 
-The ingress will utilize the wildcard DNS service [nip.io](https://nip.io/) to create an address, that will forward requests to the Prometheus ClusterIP service. The nip.io service is a public DNS provider that will accept hostnames with an embedded IP address and return that address during name resolution. Please refer [Customize DNS]({{< relref "/docs/networking/traffic/dns.md" >}}) to understand the DNS choices.
+The section provides the steps to configure Prometheus scrape target for NGINX ingress controller metrics in using ServiceMonitor and PodMonitor. Both ServiceMonitor and PodMonitor declaratively specify how group of pods should be monitored. The Operator automatically generates Prometheus scrape configuration based on the current state of the objects in the API server.
 
-1. Get the external IP of the ingress-controller service.
+The instructions assume Prometheus is installed in `monitoring` namespace, using kube-prometheus-stack as documented in [Install Prometheus on OCNE]({{< relref "/docs/guides/migrate/install/prometheus/_index.md" >}}). The instructions also assume ingress-controller is installed using Helm, will change once it is installed as a CNE module.
 
-   {{< clipboard >}}
-   <div class="highlight">
+### Prometheus Metrics using Service Monitor
 
-   ```
-   $ kubectl get service --namespace ingress-nginx
-
-   # Sample output
-   NAME                                                    TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                      AGE
-   ingress-controller-ingress-nginx-controller             LoadBalancer   10.96.238.164   172.18.0.241   80:32205/TCP,443:32714/TCP   4h13m
-   ingress-controller-ingress-nginx-controller-admission   ClusterIP      10.96.114.143   <none>         443/TCP                      4h13m
-   ```
-
-   </div>
-   {{< /clipboard >}}
-
-1. Get the port on which the Prometheus instance is running.
+1. Configure ingress controller to enable metrics and creation of Service Monitor
 
    {{< clipboard >}}
    <div class="highlight">
 
    ```
-   $ kubectl get -n monitoring prometheus
-
-   # Sample output
-   NAME                                    VERSION                           DESIRED   READY   RECONCILED   AVAILABLE   AGE
-   prometheus-operator-kube-p-prometheus   v2.44.0-20230922084259-74087370   1         1       True         True        3h55m
-
-
-   $kubectl get service -n monitoring prometheus-operator-kube-p-prometheus
-
-   # Sample output
-   NAME                                    TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
-   prometheus-operator-kube-p-prometheus   ClusterIP   10.96.246.69   <none>        9090/TCP   3h56m
-
+   helm upgrade ingress-controller ingress-nginx/ingress-nginx \
+      --namespace ingress-nginx \
+      --set controller.metrics.enabled=true \
+      --set controller.metrics.serviceMonitor.enabled=true \
+      --set controller.metrics.serviceMonitor.additionalLabels.release="prometheus-operator" \
    ```
 
    </div>
    {{< /clipboard >}}
+Here controller.metrics.serviceMonitor.additionalLabels.release="prometheus-operator" should match the name of the helm release of the kube-prometheus-stack
 
-1. Create an Ingress that will forward requests to the Prometheus backend, where `my-cluster-issuer` is the name of an already created ClusterIssuer to acquire the certificate required for this Ingress.
+### Prometheus Metrics using PodMonitor
+
+1. Configure ingress controller to enable metrics and export metrics
 
    {{< clipboard >}}
    <div class="highlight">
 
    ```
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.k8s.io/v1
-    kind: Ingress
-    metadata:
-      annotations:
-        cert-manager.io/cluster-issuer: my-cluster-issuer
-        cert-manager.io/common-name: prometheus.172.18.0.241.nip.io
-      name: prometheus
-      namespace: monitoring
-    spec:
-      ingressClassName: nginx
-      rules:
-      - host: prometheus.172.18.0.241.nip.io
-        http:
-          paths:
-          - backend:
-              service:
-                name: prometheus-operator-kube-p-prometheus
-                port:
-                  number: 9090
-            path: /
-            pathType: Prefix
-      tls:
-      - hosts:
-        - prometheus.172.18.0.241.nip.io
-       secretName: kube-prometheus-stack-prometheus-tls
-    EOF
+   helm upgrade ingress-controller ingress-nginx/ingress-nginx \
+      --namespace ingress-nginx \
+      --set controller.metrics.enabled=true \
+      --set controller.metrics.portName=metrics \
+      --set-string controller.podAnnotations."prometheus\.io/scrape"="true" \
+      --set-string controller.podAnnotations."prometheus\.io/port"="10254"
    ```
 
    </div>
    {{< /clipboard >}}
 
-1. Access Prometheus ingress endpoint using cURL
+1. Create a PodMonitor resource in `monitoring` namespace
 
    {{< clipboard >}}
    <div class="highlight">
 
-   ```
-   $curl -k https://prometheus.172.18.0.241.nip.io
-
-   # Sample output
-   <a href="/graph">Found</a>.
-
-   ```
+```
+$ kubectl apply -f - <<EOF
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: nginx-ingress-controller
+  namespace: monitoring
+  labels:
+    release: prometheus-operator
+spec:
+  namespaceSelector:
+    matchNames:
+    - ingress-nginx
+  selector: {}
+  podMetricsEndpoints:
+  - port: metrics
+    enableHttp2: false
+EOF
+```
 
    </div>
    {{< /clipboard >}}
-
-   You can also access the Prometheus ingress endpoint using browser, by accepting the certificate. Please refer [FAQ]({{< relref "/docs/troubleshooting/FAQ.md" >}}) to understand the reason for accepting the self-signed certificates.
