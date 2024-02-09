@@ -10,7 +10,7 @@ This document shows you how to integrate Ingress NGINX Controller with other OCN
 ## Network Policies
 NetworkPolicies let you specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.
 
-As an example, run the following command to apply NetworkPolicy resources to only allow ingress to port 443 from all the namespaces.
+As an example, run the following command to apply NetworkPolicy resources to only allow ingress to port 443 from all of the namespaces.
 
 Assuming the Prometheus instance is installed using the Prometheus operator in the namespace `monitoring` with the label `myapp.io/namespace=monitoring`, the network policy allows ingress to port 10254 from Prometheus to scrape metrics.
 

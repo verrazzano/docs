@@ -5,8 +5,8 @@ draft: false
 ---
 This document shows you how to install Ingress NGINX Controller on OCNE.
 
-Verrazzano installs [NGINX Ingress Controller](https://www.nginx.com/resources/glossary/kubernetes-ingress-controller/), to provide ingress to system components which require ingress.
-The ingress controller watches the Ingress resources and reconcile them, configures the underlying Kubernetes load balancer to handle the service routing.
+Verrazzano installs [NGINX Ingress Controller](https://www.nginx.com/resources/glossary/kubernetes-ingress-controller/), to provide ingress to system components like Prometheus, OpenSearch, OpenSearch Dashboards, etc.
+The ingress-controller watches the Ingress resources and reconcile them, configures the underlying Kubernetes load balancer to handle the service routing.
 
 ## Install ingress-controller
 
@@ -102,7 +102,7 @@ controller:
 #### Configuring custom IngressClasses
 IngressClasses are used to fix the race condition in updating the status fields when multiple ingress controllers are deployed. Please refer to [Multiple Ingress controllers](https://kubernetes.github.io/ingress-nginx/user-guide/multiple-ingress/) for more details.
 
-For example, apply the following overrides ingressClassResource of the controller.
+For example, apply the following overrides to create IngressClass resource
 
 {{< clipboard >}}
 <div class="highlight">
