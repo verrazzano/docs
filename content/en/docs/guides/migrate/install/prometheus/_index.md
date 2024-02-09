@@ -66,7 +66,7 @@ Next, install the Helm charts.
 
 #### Install or upgrade the kube-prometheus-stack Helm chart
 
-The following example `helm` command installs Prometheus Operator, Prometheus, Alertmanager, kube-state-metrics, and Grafana in the monitoring namespace. Monitoring components can be installed in any namespace as long as the same namespace is used consistently. This example assumes you are using Helm version 3.2.0 or later.
+The following example `helm` command installs Prometheus Operator, Prometheus, Alertmanager, and kube-state-metrics in the `monitoring` namespace. Monitoring components can be installed in any namespace as long as the same namespace is used consistently. This example assumes you are using Helm version 3.2.0 or later.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -76,7 +76,10 @@ $ helm upgrade --install prometheus-operator ocne-app-catalog/kube-prometheus-st
 ```
 </div>
 {{< /clipboard >}}
+
 Optionally, provide overrides when installing. The recipes below give examples of changing the configuration using Helm overrides.
+
+**NOTE**: Grafana is disabled by default when installing kube-prometheus-stack from the Application Catalog, but Grafana can be enabled by providing a `grafana.enabled=true` Helm override.
 
 #### Install or upgrade the prometheus-adapter Helm chart
 
@@ -323,82 +326,4 @@ prometheus:
 </div>
 {{< /clipboard >}}
 
-### Installing network policies
-NetworkPolicies let you specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.
 
-As an example, run the following command to apply NetworkPolicy resources to only allow Prometheus to access the metrics ports on monitoring component pods. Note that these policies only affect ingress. Egress from the monitoring namespace is not impacted.
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-$ kubectl apply -f - <<EOF
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: node-exporter
-  namespace: monitoring
-spec:
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          app.kubernetes.io/name: prometheus
-    ports:
-    - port: 9100
-      protocol: TCP
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/name: prometheus-node-exporter
-  policyTypes:
-  - Ingress
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: kube-state-metrics
-  namespace: monitoring
-spec:
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          app.kubernetes.io/name: prometheus
-    ports:
-    - port: 8080
-      protocol: TCP
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/name: kube-state-metrics
-  policyTypes:
-  - Ingress
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: kube-prometheus-stack-operator
-  namespace: monitoring
-spec:
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          app.kubernetes.io/name: prometheus
-    ports:
-    - port: 443
-      protocol: TCP
-  podSelector:
-    matchLabels:
-      app: kube-prometheus-stack-operator
-  policyTypes:
-  - Ingress
-EOF
-```
-</div>
-{{< /clipboard >}}
-
-**TBD** Add NetworkPolicies when we figure out how auth and ingress are going to work. This will impact Grafana, Alertmanager, and Prometheus as they all have web UIs.
-
-### Installing Istio authorization policies
-
-**TBD** Add AuthorizationPolicies when we figure out how auth and ingress are going to work. This will impact Grafana, Alertmanager, and Prometheus as they all have web UIs.
