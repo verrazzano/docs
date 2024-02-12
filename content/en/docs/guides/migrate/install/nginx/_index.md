@@ -10,12 +10,10 @@ The Ingress Controller watches the Ingress resources and reconcile them, configu
 
 You specify chart overrides for the ingress-controller component in the Verrazzano custom resource under `.spec.components.ingressNGINX.overrides`.
 
-
 ## Install ingress-controller
-
-### Installing ingress-controller using Helm
 **TBD**, ingress-controller will be installed as a first-class CNE module and not from the app catalog.
 
+### Install ingress-controller using Helm
 For now, this document provides the instruction to install Ingress NGINX Controller using the Helm charts provided by the upstream.
 
 1. Add the ingress-nginx Helm repository to the cluster:
@@ -58,13 +56,13 @@ controller:
 
 The recipes below give examples of changing the configuration using Helm overrides.
 
-### Helm Overrides recipes
+### Helm overrides recipes
 The following sections show you how to override certain ingress-controller default settings. These overrides should be put into a file and passed into helm using the `-f` argument.
 
-#### Installing from a private registry
+#### Install ingress-controller from a private registry
 **TBD** - need OCNE module private registry example
 
-#### Configuring NGINX controller configuration
+#### Configure NGINX controller configuration
 Override one or more custom [configuration](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/) options to NGINX.
 
 For example, apply the following overrides to set the log format for json output.
@@ -102,7 +100,7 @@ controller:
   </div>
   {{< /clipboard >}}
 
-#### Configuring custom IngressClasses
+#### Configure custom IngressClasses
 IngressClasses are used to fix the race condition in updating the status fields when multiple ingress controllers are deployed. Please refer to [Multiple Ingress controllers](https://kubernetes.github.io/ingress-nginx/user-guide/multiple-ingress/) for more details.
 
 For example, apply the following overrides to create IngressClass resource
@@ -123,7 +121,7 @@ controller:
   </div>
   {{< /clipboard >}}
 
-#### Configuring pod and container security
+#### Configure pod and container security
 Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.
 
 For example, apply the following overrides when installing the ingress-controller module in an OCNE cluster to use security settings.
@@ -151,7 +149,7 @@ controller:
   </div>
   {{< /clipboard >}}
 
-#### Configuring Istio Sidecar
+#### Configure Istio sidecar
 
 When running ingress controller in a cluster that also has Istio installed, define the `podAnnotations` for the controller as below:
 

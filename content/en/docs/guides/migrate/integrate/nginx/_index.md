@@ -6,6 +6,7 @@ draft: false
 This document shows you how to integrate Ingress NGINX Controller with other OCNE components.
 
 ## Fluent Bit
+**TBD**
 
 ## Network Policies
 NetworkPolicies let you specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.
@@ -56,9 +57,9 @@ The section provides the steps to configure Prometheus scrape target for NGINX i
 
 The instructions assume Prometheus is installed in `monitoring` namespace, using kube-prometheus-stack as documented in [Install Prometheus on OCNE]({{< relref "/docs/guides/migrate/install/prometheus/_index.md" >}}). The instructions also assume ingress-controller is installed using Helm, will change once it is installed as a CNE module.
 
-### Prometheus Metrics using Service Monitor
+### Prometheus metrics using ServiceMonitor
 
-1. Configure ingress controller to enable metrics and creation of Service Monitor
+1. Configure ingress controller to enable metrics and creation of ServiceMonitor
 
    {{< clipboard >}}
    <div class="highlight">
@@ -73,9 +74,9 @@ The instructions assume Prometheus is installed in `monitoring` namespace, using
 
    </div>
    {{< /clipboard >}}
-Here controller.metrics.serviceMonitor.additionalLabels.release="prometheus-operator" should match the name of the helm release of the kube-prometheus-stack.
+Here controller.metrics.serviceMonitor.additionalLabels.release="prometheus-operator" should match the name of the helm release of the `kube-prometheus-stack`.
 
-### Prometheus Metrics using PodMonitor
+### Prometheus metrics using PodMonitor
 
 1. Configure ingress controller to enable metrics and export metrics
 
