@@ -139,9 +139,6 @@ spec:
           - fluent-bit
     - podSelector:
         matchLabels:
-          job-name: load-dump
-    - podSelector:
-        matchLabels:
           app.kubernetes.io/name: ingress-nginx
     - podSelector:
         matchLabels:
