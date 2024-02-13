@@ -176,6 +176,7 @@ EOF
         
         &lt;p&gt;This document shows you how to integrate Ingress NGINX Controller with other OCNE components.&lt;/p&gt;
 &lt;h2 id=&#34;fluent-bit&#34;&gt;Fluent Bit&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;TBD&lt;/strong&gt;&lt;/p&gt;
 &lt;h2 id=&#34;network-policies&#34;&gt;Network Policies&lt;/h2&gt;
 &lt;p&gt;NetworkPolicies let you specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.&lt;/p&gt;
 &lt;p&gt;Verrazzano creates the following NetworkPolicy resource to only allow ingress to port 443 from all of the namespaces, and an ingress to port 10254 from Prometheus to scrape metrics. The manifest below assumes the Prometheus instance is installed using the Prometheus operator in the namespace &lt;code&gt;monitoring&lt;/code&gt; with the label &lt;code&gt;myapp.io/namespace=monitoring&lt;/code&gt;.&lt;/p&gt;
@@ -302,10 +303,10 @@ EOF
 &lt;h2 id=&#34;configure-prometheus-scrape-target-for-nginx-metrics&#34;&gt;Configure Prometheus scrape target for NGINX metrics&lt;/h2&gt;
 &lt;p&gt;The section provides the steps to configure Prometheus scrape target for NGINX ingress controller metrics in using ServiceMonitor and PodMonitor. Both ServiceMonitor and PodMonitor declaratively specify how group of pods should be monitored. The Prometheus Operator automatically generates Prometheus scrape configuration based on the current state of the objects in the API server.&lt;/p&gt;
 &lt;p&gt;The instructions assume Prometheus is installed in &lt;code&gt;monitoring&lt;/code&gt; namespace, using kube-prometheus-stack as documented in &lt;a href=&#34;../../../../docs/guides/migrate/install/prometheus/&#34;&gt;Install Prometheus on OCNE&lt;/a&gt;. The instructions also assume ingress-controller is installed using Helm, will change once it is installed as a CNE module.&lt;/p&gt;
-&lt;h3 id=&#34;prometheus-metrics-using-service-monitor&#34;&gt;Prometheus Metrics using Service Monitor&lt;/h3&gt;
+&lt;h3 id=&#34;prometheus-metrics-using-servicemonitor&#34;&gt;Prometheus metrics using ServiceMonitor&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Configure ingress controller to enable metrics and creation of Service Monitor&lt;/p&gt;
+&lt;p&gt;Configure ingress controller to enable metrics and creation of ServiceMonitor&lt;/p&gt;
 &lt;p&gt;&lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -401,10 +402,10 @@ EOF
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-Here controller.metrics.serviceMonitor.additionalLabels.release=&amp;ldquo;prometheus-operator&amp;rdquo; should match the name of the helm release of the kube-prometheus-stack.&lt;/p&gt;
+Here controller.metrics.serviceMonitor.additionalLabels.release=&amp;ldquo;prometheus-operator&amp;rdquo; should match the name of the helm release of the &lt;code&gt;kube-prometheus-stack&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id=&#34;prometheus-metrics-using-podmonitor&#34;&gt;Prometheus Metrics using PodMonitor&lt;/h3&gt;
+&lt;h3 id=&#34;prometheus-metrics-using-podmonitor&#34;&gt;Prometheus metrics using PodMonitor&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Configure ingress controller to enable metrics and export metrics&lt;/p&gt;

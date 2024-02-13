@@ -1949,8 +1949,8 @@ spec:
 The Ingress Controller watches the Ingress resources and reconcile them, configures the underlying Kubernetes load balancer to handle the service routing.&lt;/p&gt;
 &lt;p&gt;You specify chart overrides for the ingress-controller component in the Verrazzano custom resource under &lt;code&gt;.spec.components.ingressNGINX.overrides&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;install-ingress-controller&#34;&gt;Install ingress-controller&lt;/h2&gt;
-&lt;h3 id=&#34;installing-ingress-controller-using-helm&#34;&gt;Installing ingress-controller using Helm&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;TBD&lt;/strong&gt;, ingress-controller will be installed as a first-class CNE module and not from the app catalog.&lt;/p&gt;
+&lt;h3 id=&#34;install-ingress-controller-using-helm&#34;&gt;Install ingress-controller using Helm&lt;/h3&gt;
 &lt;p&gt;For now, this document provides the instruction to install Ingress NGINX Controller using the Helm charts provided by the upstream.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -2243,11 +2243,11 @@ The YAML file used for option -f at minimum needs to override the values for the
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;The recipes below give examples of changing the configuration using Helm overrides.&lt;/p&gt;
-&lt;h3 id=&#34;helm-overrides-recipes&#34;&gt;Helm Overrides recipes&lt;/h3&gt;
+&lt;h3 id=&#34;helm-overrides-recipes&#34;&gt;Helm overrides recipes&lt;/h3&gt;
 &lt;p&gt;The following sections show you how to override certain ingress-controller default settings. These overrides should be put into a file and passed into helm using the &lt;code&gt;-f&lt;/code&gt; argument.&lt;/p&gt;
-&lt;h4 id=&#34;installing-from-a-private-registry&#34;&gt;Installing from a private registry&lt;/h4&gt;
+&lt;h4 id=&#34;install-ingress-controller-from-a-private-registry&#34;&gt;Install ingress-controller from a private registry&lt;/h4&gt;
 &lt;p&gt;&lt;strong&gt;TBD&lt;/strong&gt; - need OCNE module private registry example&lt;/p&gt;
-&lt;h4 id=&#34;configuring-nginx-controller-configuration&#34;&gt;Configuring NGINX controller configuration&lt;/h4&gt;
+&lt;h4 id=&#34;configure-nginx-controller-configuration&#34;&gt;Configure NGINX controller configuration&lt;/h4&gt;
 &lt;p&gt;Override one or more custom &lt;a href=&#34;https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/&#34;&gt;configuration&lt;/a&gt; options to NGINX.&lt;/p&gt;
 &lt;p&gt;For example, apply the following overrides to set the log format for json output.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -2365,7 +2365,7 @@ The YAML file used for option -f at minimum needs to override the values for the
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-&lt;h4 id=&#34;configuring-custom-ingressclasses&#34;&gt;Configuring custom IngressClasses&lt;/h4&gt;
+&lt;h4 id=&#34;configure-custom-ingressclasses&#34;&gt;Configure custom IngressClasses&lt;/h4&gt;
 &lt;p&gt;IngressClasses are used to fix the race condition in updating the status fields when multiple ingress controllers are deployed. Please refer to &lt;a href=&#34;https://kubernetes.github.io/ingress-nginx/user-guide/multiple-ingress/&#34;&gt;Multiple Ingress controllers&lt;/a&gt; for more details.&lt;/p&gt;
 &lt;p&gt;For example, apply the following overrides to create IngressClass resource&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -2466,7 +2466,7 @@ The YAML file used for option -f at minimum needs to override the values for the
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-&lt;h4 id=&#34;configuring-pod-and-container-security&#34;&gt;Configuring pod and container security&lt;/h4&gt;
+&lt;h4 id=&#34;configure-pod-and-container-security&#34;&gt;Configure pod and container security&lt;/h4&gt;
 &lt;p&gt;Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.&lt;/p&gt;
 &lt;p&gt;For example, apply the following overrides when installing the ingress-controller module in an OCNE cluster to use security settings.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -2574,7 +2574,7 @@ The YAML file used for option -f at minimum needs to override the values for the
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-&lt;h4 id=&#34;configuring-istio-sidecar&#34;&gt;Configuring Istio Sidecar&lt;/h4&gt;
+&lt;h4 id=&#34;configure-istio-sidecar&#34;&gt;Configure Istio sidecar&lt;/h4&gt;
 &lt;p&gt;When running ingress controller in a cluster that also has Istio installed, define the &lt;code&gt;podAnnotations&lt;/code&gt; for the controller as below:&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
