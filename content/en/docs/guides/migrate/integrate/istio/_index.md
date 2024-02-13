@@ -143,9 +143,6 @@ spec:
           - fluent-bit
     - podSelector:
         matchLabels:
-          app.kubernetes.io/name: keycloak
-    - podSelector:
-        matchLabels:
           job-name: load-dump
     - podSelector:
         matchLabels:
