@@ -49,10 +49,7 @@ spec:
     - port: 8443
       protocol: TCP
   - from:
-    - namespaceSelector:
-        matchLabels:
-          verrazzano.io/namespace: verrazzano-monitoring # FIXME
-      podSelector:
+    - podSelector:
         matchLabels:
           app.kubernetes.io/name: prometheus
     ports:
@@ -85,10 +82,7 @@ spec:
     - port: 8443
       protocol: TCP
   - from:
-    - namespaceSelector:
-        matchLabels:
-          verrazzano.io/namespace: verrazzano-monitoring # FIXME
-      podSelector:
+    - podSelector:
         matchLabels:
           app.kubernetes.io/name: prometheus
     ports:
@@ -117,10 +111,7 @@ metadata:
 spec:
   ingress:
   - from:
-    - namespaceSelector:
-        matchLabels:
-          verrazzano.io/namespace: kube-system # FIXME
-      podSelector:
+    - podSelector:
         matchLabels:
           k8s-app: kube-dns
     ports:
@@ -154,13 +145,6 @@ spec:
     - namespaceSelector:
         matchLabels:
           istio-injection: enabled
-          verrazzano-managed: "true" # FIXME
-    - namespaceSelector:
-        matchLabels:
-          verrazzano.io/namespace: verrazzano-system # FIXME
-      podSelector:
-        matchLabels:
-          k8s-app: verrazzano-monitoring-operator # FIXME
     ports:
     - port: 15012
       protocol: TCP
@@ -168,18 +152,12 @@ spec:
     - namespaceSelector:
         matchLabels:
           istio-injection: enabled
-          verrazzano-managed: "true" # FIXME
-    - namespaceSelector:
-        matchLabels:
-          verrazzano.io/namespace: verrazzano-system # FIXME
-      podSelector:
+    - podSelector:
         matchExpressions:
         - key: app
           operator: In
           values:
           - fluentd
-          - verrazzano-authproxy # FIXME
-          - verrazzano-console # FIXME
           - system-es-master
           - system-es-ingest
           - system-es-data
@@ -187,62 +165,35 @@ spec:
           - system-osd
           - weblogic-operator
           - kiali
-    - namespaceSelector:
-        matchLabels:
-          verrazzano.io/namespace: verrazzano-system # FIXME
-      podSelector:
+    - podSelector:
         matchExpressions:
         - key: app.kubernetes.io/name
           operator: In
           values:
           - fluent-operator
           - fluent-bit
-    - namespaceSelector:
-        matchLabels:
-          verrazzano.io/namespace: keycloak # FIXME
-      podSelector:
+    - podSelector:
         matchLabels:
           app.kubernetes.io/name: keycloak
-    - namespaceSelector:
-        matchLabels:
-          verrazzano.io/namespace: keycloak # FIXME
-      podSelector:
+    - podSelector:
         matchLabels:
           tier: mysql
-    - namespaceSelector:
-        matchLabels:
-          verrazzano.io/namespace: keycloak # FIXME
-      podSelector:
+    - podSelector:
         matchLabels:
           job-name: load-dump
-    - namespaceSelector:
-        matchLabels:
-          verrazzano.io/namespace: mysql-operator # FIXME
-      podSelector:
+    - podSelector:
         matchLabels:
           name: mysql-operator
-    - namespaceSelector:
-        matchLabels:
-          verrazzano.io/namespace: verrazzano-ingress-nginx # FIXME
-      podSelector:
+    - podSelector:
         matchLabels:
           app.kubernetes.io/name: ingress-nginx
-    - namespaceSelector:
-        matchLabels:
-          verrazzano.io/namespace: verrazzano-monitoring # FIXME
-      podSelector:
+    - podSelector:
         matchLabels:
           app.kubernetes.io/name: prometheus
-    - namespaceSelector:
-        matchLabels:
-          verrazzano.io/namespace: verrazzano-monitoring # FIXME
-      podSelector:
+    - podSelector:
         matchLabels:
           app: jaeger
-    - namespaceSelector:
-        matchLabels:
-          verrazzano.io/namespace: verrazzano-monitoring # FIXME
-      podSelector:
+    - podSelector:
         matchExpressions:
         - key: app.kubernetes.io/component
           operator: In
@@ -250,22 +201,13 @@ spec:
           - query
           - query-frontend
           - storegateway
-    - namespaceSelector:
-        matchLabels:
-          verrazzano.io/namespace: mysql-operator # FIXME
-      podSelector:
+    - podSelector:
         matchLabels:
           name: mysql-operator
-    - namespaceSelector:
-        matchLabels:
-          verrazzano.io/namespace: argocd # FIXME
-      podSelector:
+    - podSelector:
         matchLabels:
           app.kubernetes.io/instance: argocd
-    - namespaceSelector:
-        matchLabels:
-          verrazzano.io/namespace: verrazzano-backup # FIXME
-      podSelector:
+    - podSelector:
         matchLabels:
           app.kubernetes.io/instance: velero
           app.kubernetes.io/name: velero
@@ -276,10 +218,7 @@ spec:
     - port: 15017
       protocol: TCP
   - from:
-    - namespaceSelector:
-        matchLabels:
-          verrazzano.io/namespace: verrazzano-monitoring # FIXME
-      podSelector:
+    - podSelector:
         matchLabels:
           app.kubernetes.io/name: prometheus
     ports:
