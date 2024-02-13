@@ -106,37 +106,6 @@ kubectl apply -n istio-system -f - <<EOF
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: istiocoredns
-  namespace: istio-system
-spec:
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          k8s-app: kube-dns
-    ports:
-    - port: 53
-      protocol: UDP
-    - port: 53
-      protocol: TCP
-  podSelector:
-    matchLabels:
-      app: istiocoredns
-  policyTypes:
-  - Ingress
-EOF
-```
-</div>
-{{< /clipboard >}}
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-kubectl apply -n istio-system -f - <<EOF
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
   name: istiod-access
   namespace: istio-system
 spec:
