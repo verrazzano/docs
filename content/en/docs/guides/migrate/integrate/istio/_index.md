@@ -150,9 +150,6 @@ spec:
         matchLabels:
           app.kubernetes.io/name: prometheus
     - podSelector:
-        matchLabels:
-          app: jaeger
-    - podSelector:
         matchExpressions:
         - key: app.kubernetes.io/component
           operator: In
