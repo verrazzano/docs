@@ -159,9 +159,6 @@ spec:
           - storegateway
     - podSelector:
         matchLabels:
-          app.kubernetes.io/instance: argocd
-    - podSelector:
-        matchLabels:
           app.kubernetes.io/instance: velero
           app.kubernetes.io/name: velero
     ports:
