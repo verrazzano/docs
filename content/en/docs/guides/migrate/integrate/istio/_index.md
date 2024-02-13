@@ -133,7 +133,6 @@ spec:
           - system-grafana
           - system-osd
           - weblogic-operator
-          - kiali
     - podSelector:
         matchExpressions:
         - key: app.kubernetes.io/name
