@@ -129,7 +129,6 @@ spec:
           - system-es-master
           - system-es-ingest
           - system-es-data
-          - system-grafana
           - weblogic-operator
     - podSelector:
         matchExpressions:
@@ -147,6 +146,9 @@ spec:
     - podSelector:
         matchLabels:
           app.kubernetes.io/name: prometheus
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: grafana
     - podSelector:
         matchExpressions:
         - key: app.kubernetes.io/component
