@@ -9,7 +9,7 @@ This document shows you how to integrate Istio with other OCNE components.
 ## Network Policies
 NetworkPolicies allow you to specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.
 
-The following network policies must be created in the `istio-system` namespace of your OCNE cluster.
+Use the following commands to create NetworkPolicies in the `istio-system` namespace of your OCNE cluster, mimicking the NetworkPolicies that Verrazzano creates for Istio.
 
 {{< clipboard >}}
 <div class="highlight">
