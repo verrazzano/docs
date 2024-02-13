@@ -149,14 +149,6 @@ spec:
     - podSelector:
         matchLabels:
           app.kubernetes.io/name: grafana
-    - podSelector:
-        matchExpressions:
-        - key: app.kubernetes.io/component
-          operator: In
-          values:
-          - query
-          - query-frontend
-          - storegateway
     ports:
     - port: 15012
       protocol: TCP
