@@ -126,12 +126,10 @@ spec:
         - key: app
           operator: In
           values:
-          - fluentd
           - system-es-master
           - system-es-ingest
           - system-es-data
           - system-grafana
-          - system-osd
           - weblogic-operator
     - podSelector:
         matchExpressions:
