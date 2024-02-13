@@ -146,13 +146,7 @@ spec:
           app.kubernetes.io/name: keycloak
     - podSelector:
         matchLabels:
-          tier: mysql
-    - podSelector:
-        matchLabels:
           job-name: load-dump
-    - podSelector:
-        matchLabels:
-          name: mysql-operator
     - podSelector:
         matchLabels:
           app.kubernetes.io/name: ingress-nginx
@@ -170,9 +164,6 @@ spec:
           - query
           - query-frontend
           - storegateway
-    - podSelector:
-        matchLabels:
-          name: mysql-operator
     - podSelector:
         matchLabels:
           app.kubernetes.io/instance: argocd
