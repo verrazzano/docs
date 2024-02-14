@@ -46,4 +46,3 @@ This will restrict ingress to be allowed only to pods in the `cert-manager` name
 
 ## Fluent Bit
 ## Network Policies
-## Prometheus

@@ -50,8 +50,6 @@ EOF
 </div>
 {{< /clipboard >}}
 
-## Prometheus
-
 ## Migrate OAM WebLogic applications to OCNE 2.0
 As part of the migration, each OAM WebLogic application needs to be moved from the Verrazzano environment to the OCNE 2.0 environment. You will need to redeploy each OAM application in OCNE 2.0 without using OAM. This process is described in [OAM to Kubernetes Mappings]({{< relref "/docs/guides/migrate/oam-to-kubernetes/_index.md" >}}).
 
