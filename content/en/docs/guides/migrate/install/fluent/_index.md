@@ -7,7 +7,7 @@ This document shows you how to install Fluent Operator and Fluent Bit on OCNE.
 
 ## Verrazzano Background
 Fluentd is the default logging agent in Verrazzano, which runs as a DaemonSet that collects, processes, and sends logs to log stores. When Verrazzano is installed, Fluentd is installed by default. 
-Starting Verrazzano 1.6, end users have an option to replace Fluentd Daemonset with Fluent-bit Daemonset that gets installed via Fluent-operator.
+Starting in Verrazzano 1.6, end users have an option to replace Fluentd Daemonset with Fluent Bit Daemonset that gets installed via Fluent-operator.
 
 Verrazzano includes Fluent Operator as an optional component. When enabled, the operator is installed in the cluster in the verrazzano-system namespace and creates the Fluent Bit DaemonSet in the same namespace, using the required custom resources. For a list of custom resources that the operator supports to configure Fluent Bit, see https://github.com/fluent/fluent-operator?tab=readme-ov-file#fluent-bit. All the CRDs with the prefix Cluster are cluster-wide configurations that you can use to configure all the cluster logs.
 
@@ -58,7 +58,7 @@ In order to install using a private registry (for example, in a disconnected env
 operator:
   initcontainer:
     repository: "my.registry.io/<image>"
-    tag: "<tag>"
+    tag: "<image-tag>"
   container:
     repository: "my.registry.io/fluent-operator"
     tag: <image-tag>
@@ -77,7 +77,7 @@ By default, the tail input reads content from the tail of a file. Recommendation
 
 By default, the systemd journal logs directory is set to /var/run/journal. However, depending on the environment, the directory location may vary. For example, if the directory is /run/log/journal, add additionalVolumes and additionalVolumeMounts overrides for fluentbit, and override the path of systemd input to /run/log/journal.
 
-By default, fluent-bit uses an in-memory buffer, which may not be optimal for production environments. Optionally configure filesystem buffer for the inputs.
+By default, Fluent Bit uses an in-memory buffer, which may not be optimal for production environments. Optionally configure filesystem buffer for the inputs.
 
 An example of the overrides covering the aforementioned points.
 
@@ -122,7 +122,7 @@ fluentbit:
 ##### Pod security context
 Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to only perform operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.
 
-The default user for fluent-bit is root, which it needs to be able to read and write to hostpath. Below are the recommended security settings for fluent-bit and fluent-operator.
+The default user for Fluent Bit is root, which it needs to be able to read and write to hostpath. Below are the recommended security settings for Fluent Bit and Fluent Operator.
 
 **fo_seccontext.yaml**
 {{< clipboard >}}
@@ -161,7 +161,7 @@ operator:
 
 ##### Configuration to allow prometheus to scrape metrics
 
-The following override recipe will allow fluent-bit to enable metrics and expose metrics data.
+The following override recipe will allow Fluent Bit to enable metrics and expose metrics data.
 
 **fo_metrics.yaml**
 {{< clipboard >}}
