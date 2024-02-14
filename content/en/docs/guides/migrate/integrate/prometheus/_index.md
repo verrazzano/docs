@@ -6,7 +6,57 @@ draft: false
 This document shows you how to integrate Prometheus with other OCNE components.
 
 ## Fluent Bit
+
 ## Ingress
+Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by the rules defined on the Ingress resource. Please refer to [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) for more details.
+
+#### Create an Ingress to forward requests to Prometheus
+The following example creates an Ingress to forward requests to the Prometheus backend, using cert-manager ingress annotations to create a TLS certificate for the endpoint signed by `my-cluster-issuer` ClusterIssuer.
+
+The instructions assume:
+1. Cert Manager is installed and a ClusterIssuer `my-cluster-issuer` is created
+2. The `kube-prometheus-stack` is installed in `monitoring` namespace with Prometheus instance created be `prometheus-operator-kube-p-prometheus` with a clusterIP service
+3. The Prometheus instance is listening on default port `9090`
+4. Ingress Controller is installed in `ingress-nginx` namespace, with external IP `10.0.0.1`
+
+   {{<clipboard >}}
+   <div class="highlight">
+
+```
+$ kubectl apply -f - <<EOF
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: my-cluster-issuer
+    cert-manager.io/common-name: prometheus.10.0.0.1.nip.io
+  name: prometheus
+  namespace: monitoring
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: prometheus.10.0.0.1.nip.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: prometheus-operator-kube-p-prometheus
+            port:
+              number: 9090
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - prometheus.10.0.0.1.nip.io
+    secretName: kube-prometheus-stack-prometheus-tls
+EOF
+```
+
+   </div>
+   {{< /clipboard >}}
+
+The ingress in this case utilizes the wildcard DNS service [nip.io](https://nip.io/) to create an address, that will forward requests to the Prometheus ClusterIP service.
+
 ## Istio
 ## Network policies
 NetworkPolicies let you specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.
