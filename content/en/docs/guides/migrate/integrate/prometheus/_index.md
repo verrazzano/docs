@@ -10,54 +10,16 @@ This document shows you how to integrate Prometheus with other OCNE components.
 ## Ingress
 Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by the rules defined on the Ingress resource. Please refer to [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) for more details.
 
-The following instructions assume:
-* Cert Manager is installed and a self-signed ClusterIssuer `my-cluster-issuer` is created
-* The `kube-prometheus-stack` is installed in `monitoring` namespace, with Prometheus instance created be `prometheus-operator-kube-p-prometheus`, with a clusterIP service
-* Ingress Controller is installed in `ingress-nginx` namespace
+#### Create an Ingress to forward requests to Prometheus
+The following example creates an Ingress to forward requests to the Prometheus backend, using cert-manager ingress annotations to create a TLS certificate for the endpoint signed by `my-cluster-issuer` ClusterIssuer.
 
-1. Obtain the external IP of the ingress-controller
+The instructions assume:
+1. Cert Manager is installed and a ClusterIssuer `my-cluster-issuer` is created
+2. The `kube-prometheus-stack` is installed in `monitoring` namespace with Prometheus instance created be `prometheus-operator-kube-p-prometheus` with a clusterIP service
+3. The Prometheus instance is listening on default port `9090`
+4. Ingress Controller is installed in `ingress-nginx` namespace, with external IP `10.0.0.1`
 
-   {{< clipboard >}}
-   <div class="highlight">
-
-   ```
-   $kubectl get service -n ingress-nginx
-
-   # Sample output
-   NAME                                                    TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                      AGE
-   ingress-controller-ingress-nginx-controller             LoadBalancer   10.96.238.164   172.18.0.241   80:32205/TCP,443:32714/TCP   4h13m
-   ingress-controller-ingress-nginx-controller-admission   ClusterIP      10.96.114.143   <none>         443/TCP                      4h13m
-   ```
-
-   </div>
-   {{< /clipboard >}}
-
-1. Obtain the internal IP of the Prometheus Cluster IP service
-
-   {{< clipboard >}}
-   <div class="highlight">
-
-   ```
-   $kubectl get prometheus -n monitoring
-
-   # Sample output
-   NAME                                    VERSION                           DESIRED   READY   RECONCILED   AVAILABLE   AGE
-   prometheus-operator-kube-p-prometheus   v2.44.0-20230922084259-74087370   1         1       True         True        3h55m
-
-   $kubectl get service -n monitoring prometheus-operator-kube-p-prometheus
-
-   # Sample output
-   NAME                                    TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
-   prometheus-operator-kube-p-prometheus   ClusterIP   10.96.246.69   <none>        9090/TCP   3h56m
-   ```
-
-   </div>
-   {{< /clipboard >}}
-
-1. Create an Ingress to forward requests to the Prometheus backend, using cert-manager ingress annotations to create a TLS certificate for the endpoint signed by `my-cluster-issuer` ClusterIssuer
-
-
-   {{< clipboard >}}
+   {{<clipboard >}}
    <div class="highlight">
 
 ```
@@ -67,13 +29,13 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: my-cluster-issuer
-    cert-manager.io/common-name: prometheus.172.18.0.241.nip.io
+    cert-manager.io/common-name: prometheus.10.0.0.1.nip.io
   name: prometheus
   namespace: monitoring
 spec:
   ingressClassName: nginx
   rules:
-  - host: prometheus.172.18.0.241.nip.io
+  - host: prometheus.10.0.0.1.nip.io
     http:
       paths:
       - backend:
@@ -85,7 +47,7 @@ spec:
         pathType: Prefix
   tls:
   - hosts:
-    - prometheus.172.18.0.241.nip.io
+    - prometheus.10.0.0.1.nip.io
     secretName: kube-prometheus-stack-prometheus-tls
 EOF
 ```
