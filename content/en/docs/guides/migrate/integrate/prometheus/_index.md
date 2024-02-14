@@ -58,6 +58,40 @@ EOF
 The ingress in this case utilizes the wildcard DNS service [nip.io](https://nip.io/) to create an address, that will forward requests to the Prometheus ClusterIP service.
 
 ## Istio
+
+The Istio Authorization Policy custom resource enables access control on workloads in the mesh.
+
+Apply the following custom resource to allow the authenticating proxy to forward network traffic to the Prometheus web UI. This example assumes Prometheus is installed in the `monitoring` namespace.
+{{< clipboard >}}
+<div class="highlight">
+
+```
+$ kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: prometheus-authzpol
+  namespace: monitoring
+spec:
+  rules:
+  - from:
+    - source:
+        namespaces:
+        - TBD FILL THIS IN WITH THE NAMESPACE OF THE AUTHENTICATING PROXY
+        principals:
+        - cluster.local/ns/TBD FILL THIS IN WITH THE SERVICE ACCOUNT OF THE AUTHENTICATING PROXY
+    to:
+    - operation:
+        ports:
+        - "9090"
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: prometheus
+EOF
+```
+</div>
+{{< /clipboard >}}
+
 ## Network policies
 NetworkPolicies let you specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.
 
