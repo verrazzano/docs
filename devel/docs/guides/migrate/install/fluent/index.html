@@ -19,16 +19,16 @@
 <link rel="icon" type="image/png" href="../../../../../favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="../../../../../favicons/android-192x192.png" sizes="192x192">
 
-<title>Fluentd and Fluent Bit | Verrazzano Enterprise Container Platform</title>
+<title>Fluent Operator and Fluent Bit | Verrazzano Enterprise Container Platform</title>
 <meta name="description" content="A hybrid multi-cloud Kubernetes based Enterprise Container Platform for running both cloud-native and traditional applications">
-<meta property="og:title" content="Fluentd and Fluent Bit" />
+<meta property="og:title" content="Fluent Operator and Fluent Bit" />
 <meta property="og:description" content="A hybrid multi-cloud Kubernetes based Enterprise Container Platform for running both cloud-native and traditional applications" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="/docs/guides/migrate/install/fluent/" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
-<meta itemprop="name" content="Fluentd and Fluent Bit">
+<meta itemprop="name" content="Fluent Operator and Fluent Bit">
 <meta itemprop="description" content="A hybrid multi-cloud Kubernetes based Enterprise Container Platform for running both cloud-native and traditional applications"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Fluentd and Fluent Bit"/>
+<meta name="twitter:title" content="Fluent Operator and Fluent Bit"/>
 <meta name="twitter:description" content="A hybrid multi-cloud Kubernetes based Enterprise Container Platform for running both cloud-native and traditional applications"/>
 
 
@@ -91,7 +91,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.ed08e2e40c77a56be5bd0c8670ea152c.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.f85ac11c15c44ba453d904e85f244d66.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -117,7 +117,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.ed08e2e40c77a56be5bd0c8670ea152c.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.f85ac11c15c44ba453d904e85f244d66.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -976,7 +976,7 @@ if (!doNotTrack) {
   
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesmigrateinstallfluent-li">
   <input type="checkbox" id="m-docsguidesmigrateinstallfluent-check" checked/>
-  <label for="m-docsguidesmigrateinstallfluent-check"><a href="../../../../../docs/guides/migrate/install/fluent/" class="align-left ps-0  active td-sidebar-link td-sidebar-link__section" id="m-docsguidesmigrateinstallfluent"><span class="td-sidebar-nav-active-item">Fluentd and Fluent Bit</span></a></label>
+  <label for="m-docsguidesmigrateinstallfluent-check"><a href="../../../../../docs/guides/migrate/install/fluent/" class="align-left ps-0  active td-sidebar-link td-sidebar-link__section" id="m-docsguidesmigrateinstallfluent"><span class="td-sidebar-nav-active-item">Fluent Operator and Fluent Bit</span></a></label>
   
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesmigrateinstallnginx-li">
   <input type="checkbox" id="m-docsguidesmigrateinstallnginx-check"/>
@@ -1219,7 +1219,12 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
-        <li><a href="#helm-install">Helm Install</a></li>
+        <li><a href="#verrazzano-background">Verrazzano Background</a></li>
+        <li><a href="#fluent-operator-with-ocne-20">Fluent Operator with OCNE 2.0</a>
+          <ul>
+            <li><a href="#helm-install">Helm Install</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -1244,18 +1249,768 @@ if (!doNotTrack) {
   <li class="breadcrumb-item">
     <a href="../../../../../docs/guides/migrate/install/">Install components on OCNE</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Fluentd and Fluent Bit</li>
+    Fluent Operator and Fluent Bit</li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Fluentd and Fluent Bit</h1>
+	<h1>Fluent Operator and Fluent Bit</h1>
   
 	<header class="article-meta">
 		
 </header>
-	<p>This document shows you how to install Fluentd and Fluent Bit on OCNE.</p>
-<h2 id="helm-install">Helm Install</h2>
+	<p>This document shows you how to install Fluent Operator and Fluent Bit on OCNE.</p>
+<h2 id="verrazzano-background">Verrazzano Background</h2>
+<p>Fluentd is the default logging agent in Verrazzano, which runs as a DaemonSet that collects, processes, and sends logs to log stores. When Verrazzano is installed, Fluentd is installed by default.
+Starting in Verrazzano 1.6, end users have an option to replace Fluentd Daemonset with Fluent Bit Daemonset that gets installed via Fluent-operator.</p>
+<p>Verrazzano includes Fluent Operator as an optional component. When enabled, the operator is installed in the cluster in the verrazzano-system namespace and creates the Fluent Bit DaemonSet in the same namespace, using the required custom resources. For a list of custom resources that the operator supports to configure Fluent Bit, see <a href="https://github.com/fluent/fluent-operator?tab=readme-ov-file#fluent-bit">https://github.com/fluent/fluent-operator?tab=readme-ov-file#fluent-bit</a>. All the CRDs with the prefix Cluster are cluster-wide configurations that you can use to configure all the cluster logs.</p>
+<p>Like cluster-wide resources, the operator comes with namespaced resources, which when created will process logs from the namespace in which these resources exist. The namespaced and cluster-wide configurations will run in conjunction and complement each other. Creating a namespaced resource doesn’t override an existing cluster-wide resource.</p>
+<h2 id="fluent-operator-with-ocne-20">Fluent Operator with OCNE 2.0</h2>
+<p>Fluentd Daemonset is not going to be an option in OCNE 2.0. Customers are advised to install Fluent Operator to configure and manage Fluent Bit Daemonset.</p>
+<h3 id="helm-install">Helm Install</h3>
+<p>Fluent Operator is installed using the OCNE Application Catalog. The first step is to add the Application Catalog Helm repository to the cluster.
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>$ helm repo add ocne-app-catalog https://ocne-app-catalog-url
+$ helm repo update
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script></p>
+<p>Next, install the Helm charts.</p>
+<h4 id="install-or-upgrade-the-fluent-operator-helm-chart">Install or upgrade the fluent-operator Helm chart</h4>
+<p>The following example <code>helm</code> command installs Fluent Operator and Fluent Bit in the <code>logging</code> namespace. Fluent Operator and Fluent Bit can be installed in any namespace as long as the same namespace is used consistently. This example assumes you are using Helm version 3.2.0 or later.</p>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>$ helm upgrade --install fluent-operator ocne-app-catalog/fluent-operator -n logging --create-namespace
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+<p>Optionally, provide overrides when installing. The recipes below give examples of changing the configuration using Helm overrides.</p>
+<h4 id="helm-override-recipes">Helm override recipes</h4>
+<h5 id="installing-from-a-private-registry">Installing from a private registry</h5>
+<p>In order to install using a private registry (for example, in a disconnected environment), you must override Helm values to change the image registry settings for all images.</p>
+<p><strong>fo_privreg_overrides.yaml</strong>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>operator:
+  initcontainer:
+    repository: &#34;my.registry.io/&lt;image&gt;&#34;
+    tag: &#34;&lt;image-tag&gt;&#34;
+  container:
+    repository: &#34;my.registry.io/fluent-operator&#34;
+    tag: &lt;image-tag&gt;
+fluentbit:
+  image:
+    repository: &#34;my.registry.io/fluent-bit&#34;
+    tag: &#34;&lt;image-tag&gt;&#34;
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script></p>
+<p><strong>Note</strong>: Verrazzano uses ghcr.io/oracle/oraclelinux:8 as the initcontainer image for the operator. You can use any image in your registry as the initcontainer image that has docker installed.</p>
+<h5 id="configure-inputs-and-buffer">Configure inputs and buffer</h5>
+<p>By default, the tail input reads content from the tail of a file. Recommendation is to override the tail input to read from head of the file.</p>
+<p>By default, the systemd journal logs directory is set to /var/run/journal. However, depending on the environment, the directory location may vary. For example, if the directory is /run/log/journal, add additionalVolumes and additionalVolumeMounts overrides for fluentbit, and override the path of systemd input to /run/log/journal.</p>
+<p>By default, Fluent Bit uses an in-memory buffer, which may not be optimal for production environments. Optionally configure filesystem buffer for the inputs.</p>
+<p>An example of the overrides covering the aforementioned points.</p>
+<p><strong>fo_fluentbit_input_buffer_override.yaml</strong>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>fluentbit:
+  additionalVolumes:
+    - hostPath:
+        path: /run/log/journal
+        type: &#34;&#34;
+      name: run-log-journal
+  additionalVolumesMounts:
+    - mountPath: /run/log/journal
+      name: run-log-journal
+      readOnly: true   
+  input:
+    tail:
+      readFromHead: true
+      storageType: filesystem
+      pauseOnChunksOverlimit: &#34;on&#34;
+    systemd:
+      path: &#34;/run/log/journal&#34;
+      stripUnderscores: &#34;on&#34;
+      systemdFilter:
+        enable: false
+      storageType: filesystem
+      pauseOnChunksOverlimit: &#34;on&#34;
+  service:
+    storage:
+      path: &#34;/fluent-bit/tail/&#34;
+      backlogMemLimit: &#34;5M&#34;
+      checksum: &#34;off&#34;
+      metrics: &#34;off&#34;
+      sync: normal
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script></p>
+<h5 id="pod-security-context">Pod security context</h5>
+<p>Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to only perform operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.</p>
+<p>The default user for Fluent Bit is root, which it needs to be able to read and write to hostpath. Below are the recommended security settings for Fluent Bit and Fluent Operator.</p>
+<p><strong>fo_seccontext.yaml</strong>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>fluentbit:  
+  # Pod security context for Fluentbit Pod. Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+  podSecurityContext:
+    seccompProfile:
+      type: RuntimeDefault
+  securityContext:
+    allowPrivilegeEscalation: false
+    privileged: false
+    capabilities:
+      drop:
+      - ALL
+ 
+operator:
+  # Pod security context for Fluent Operator pod. Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+  podSecurityContext:
+    runAsGroup: 1025
+    runAsNonRoot: true
+    runAsUser: 1025
+    seccompProfile:
+      type: RuntimeDefault
+  securityContext:
+    allowPrivilegeEscalation: false
+    privileged: false
+    capabilities:
+      drop:
+        - ALL
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script></p>
+<h5 id="configuration-to-allow-prometheus-to-scrape-metrics">Configuration to allow prometheus to scrape metrics</h5>
+<p>The following override recipe will allow Fluent Bit to enable metrics and expose metrics data.</p>
+<p><strong>fo_metrics.yaml</strong>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>fluentbit:
+  input:
+    fluentBitMetrics:
+      scrapeInterval: &#34;2&#34;
+      scrapeOnStart: true
+      tag: &#34;fb.metrics&#34;  
+  output:
+    prometheusMetricsExporter:
+      match: &#34;fb.metrics&#34;
+      metricsExporter:
+        host: &#34;0.0.0.0&#34;
+        port: 2020
+        addLabels:
+          app: &#34;fluentbit&#34;
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script></p>
+<h5 id="namespace-configselector">Namespace ConfigSelector</h5>
+<p>The Fluent Operator supports configurability at the namespace level that lets you create Fluent Bit configurations for logs from your application namespace. Add a helm override to add a label selector that allows FluentBit to select and map namespaced resources to a FluentBit instance. For example:</p>
+<p><strong>fo_ns_cfg.yaml</strong>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>fluentbit:  
+  namespaceFluentBitCfgSelector:
+    matchLabels:
+      my.label.selector/namespaceconfig: &#34;mylabel&#34;
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script></p>
 
   <div class="section-index">
     
