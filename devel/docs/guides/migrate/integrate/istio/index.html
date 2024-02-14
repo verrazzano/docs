@@ -91,7 +91,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.890c72627d5b2bd0726c06fc9943d8f2.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.ed08e2e40c77a56be5bd0c8670ea152c.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -117,7 +117,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.890c72627d5b2bd0726c06fc9943d8f2.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.ed08e2e40c77a56be5bd0c8670ea152c.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1259,6 +1259,496 @@ if (!doNotTrack) {
 	<p>This document shows you how to integrate Istio with other OCNE components.</p>
 <h2 id="fluent-bit">Fluent Bit</h2>
 <h2 id="network-policies">Network Policies</h2>
+<p>NetworkPolicies allow you to specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.</p>
+<p>Use the following commands to create NetworkPolicies in the <code>istio-system</code> namespace of your OCNE cluster, mimicking the NetworkPolicies that Verrazzano creates for Istio.</p>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>kubectl apply -n istio-system -f - &lt;&lt;EOF
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-same-namespace
+  namespace: istio-system
+spec:
+  ingress:
+  - from:
+    - podSelector: {}
+  podSelector: {}
+  policyTypes:
+  - Ingress
+EOF
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>kubectl apply -n istio-system -f - &lt;&lt;EOF
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: istio-egressgateway
+  namespace: istio-system
+spec:
+  ingress:
+  - ports:
+    - port: 8443
+      protocol: TCP
+  - from:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: prometheus
+    ports:
+    - port: 15090
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      app: istio-egressgateway
+  policyTypes:
+  - Ingress
+EOF
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>kubectl apply -n istio-system -f - &lt;&lt;EOF
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: istio-ingressgateway
+  namespace: istio-system
+spec:
+  ingress:
+  - ports:
+    - port: 8443
+      protocol: TCP
+  - from:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: prometheus
+    ports:
+    - port: 15090
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      app: istio-ingressgateway
+  policyTypes:
+  - Ingress
+EOF
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>kubectl apply -n istio-system -f - &lt;&lt;EOF
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: istiod-access
+  namespace: istio-system
+spec:
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          istio-injection: enabled
+    ports:
+    - port: 15012
+      protocol: TCP
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          istio-injection: enabled
+    - podSelector:
+        matchExpressions:
+        - key: app
+          operator: In
+          values:
+          - system-es-master
+          - system-es-ingest
+          - system-es-data
+          - weblogic-operator
+    - podSelector:
+        matchExpressions:
+        - key: app.kubernetes.io/name
+          operator: In
+          values:
+          - fluent-operator
+          - fluent-bit
+    - podSelector:
+        matchLabels:
+          job-name: load-dump
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: ingress-nginx
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: prometheus
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: grafana
+    ports:
+    - port: 15012
+      protocol: TCP
+  - ports:
+    - port: 15017
+      protocol: TCP
+  - from:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: prometheus
+    ports:
+    - port: 15014
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      app: istiod
+  policyTypes:
+  - Ingress
+EOF
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
 <h2 id="prometheus">Prometheus</h2>
 
   <div class="section-index">
