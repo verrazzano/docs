@@ -45,4 +45,64 @@ EOF
 This will restrict ingress to be allowed only to pods in the `cert-manager` namespace with the `app: cert-manager` label on TCP port 9402 from Prometheus pods the `monitoring`  namespace.
 
 ## Fluent Bit
+Follow example provided in [fluent operator helm override recipe for namespace configurations]({{< relref "docs/guides/migrate/install/fluent/_index.md#namespace-configselector" >}}) to add a helm override for namespace config label selector.
+
+Then, apply the following manifest in your cluster. Replace <namespace-name> with the namespace in which cert-manager is installed and `metadata.labels` of FluentBitConfig custom resource with the helm override that was supplied in the previous step.
+
+**Note**: The manifest below assumes that the namespace config label selector override was `my.label.selector/namespace-config: "mylabel"` following the fluent operator helm override recipe.
+
+**fo_ns_cfg.yaml**
+{{< clipboard >}}
+<div class="highlight">
+
+```yaml
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: FluentBitConfig
+metadata:
+  labels:
+    my.label.selector/namespace-config: "mylabel"
+  name: certmanager-fbc
+  namespace: <namespace_name>
+spec:
+  filterSelector:
+    matchLabels:
+      fluentbit.fluent.io/component: "certmanager"
+  parserSelector:
+    matchLabels:
+      fluentbit.fluent.io/component: "certmanager"
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Filter
+metadata:
+  labels:
+    fluentbit.fluent.io/component: "certmanager"
+  name: certmanager-filter
+  namespace: <namespace_name>
+spec:
+  filters:
+    - parser:
+        keyName: log
+        reserveData: true
+        preserveKey: true
+        parser: certmanager-parser
+  match: "kube.*cert-manager*cert-manager*"
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Parser
+metadata:
+  labels:
+    fluentbit.fluent.io/component: "certmanager"
+  name: certmanager-parser
+  namespace: <namespace_name>
+spec:
+  regex:
+    regex: '/^(?<level>.)(\d{2}\d{2}) (?<logtime>\d{2}:\d{2}:\d{2}.\d{6})\s*?(?<message>[\s\S]*?)$/'
+    timeKey: logtime
+    timeKeep: true
+    timeFormat: "%H:%M:%S.%L"
+```
+
+</div>
+{{< /clipboard >}}
+
 ## Network Policies
