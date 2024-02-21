@@ -12,7 +12,7 @@ Then, apply the following manifest in your cluster. Replace <namespace-name> wit
 
 **Note**: The manifest below assumes that the namespace config label selector override was `my.label.selector/namespace-config: "mylabel"` following the fluent operator helm override recipe.
 
-**fo_ns_cfg.yaml**
+**fo_nginx.yaml**
 {{< clipboard >}}
 <div class="highlight">
 
@@ -22,22 +22,22 @@ kind: FluentBitConfig
 metadata:
   labels:
     my.label.selector/namespace-config: "mylabel"
-  name: certmanager-fbc
+  name: nginx-fbc
   namespace: <namespace_name>
 spec:
   filterSelector:
     matchLabels:
-      fluentbit.fluent.io/component: "certmanager"
+      fluentbit.fluent.io/component: "nginx"
   parserSelector:
     matchLabels:
-      fluentbit.fluent.io/component: "certmanager"
+      fluentbit.fluent.io/component: "nginx"
 ---
 apiVersion: fluentbit.fluent.io/v1alpha2
 kind: Filter
 metadata:
   labels:
-    fluentbit.fluent.io/component: "certmanager"
-  name: certmanager-filter
+    fluentbit.fluent.io/component: "nginx"
+  name: nginx-filter
   namespace: <namespace_name>
 spec:
   filters:
@@ -45,15 +45,15 @@ spec:
         keyName: log
         reserveData: true
         preserveKey: true
-        parser: certmanager-parser
-  match: "kube.*cert-manager*cert-manager*"
+        parser: nginx-parser1,nginx-parser2
+  match: "kube.*ingress-nginx-controller*"
 ---
 apiVersion: fluentbit.fluent.io/v1alpha2
 kind: Parser
 metadata:
   labels:
-    fluentbit.fluent.io/component: "certmanager"
-  name: certmanager-parser
+    fluentbit.fluent.io/component: "nginx"
+  name: nginx-parser1
   namespace: <namespace_name>
 spec:
   regex:
@@ -61,6 +61,19 @@ spec:
     timeKey: logtime
     timeKeep: true
     timeFormat: "%H:%M:%S.%L"
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Parser
+metadata:
+  labels:
+    fluentbit.fluent.io/component: "nginx"
+  name: nginx-parser2
+  namespace: <namespace_name>
+spec:
+  json:
+    timeKey: logtime
+    timeKeep: true
+    timeFormat: "%Y-%m-%dT%H:%M:%S+%L"
 ```
 
 </div>

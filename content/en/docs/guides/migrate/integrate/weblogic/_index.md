@@ -12,7 +12,7 @@ Then, apply the following manifest in your cluster. Replace <namespace-name> wit
 
 **Note**: The manifest below assumes that the namespace config label selector override was `my.label.selector/namespace-config: "mylabel"` following the fluent operator helm override recipe.
 
-**fo_ns_cfg.yaml**
+**fo_wls.yaml**
 {{< clipboard >}}
 <div class="highlight">
 
@@ -21,23 +21,23 @@ apiVersion: fluentbit.fluent.io/v1alpha2
 kind: FluentBitConfig
 metadata:
   labels:
-    my.label.selector/namespace-config: "mylabel"
-  name: certmanager-fbc
+    my.label.selector/namespace-config: "mylabel"  
+  name: weblogic-fbc
   namespace: <namespace_name>
 spec:
   filterSelector:
     matchLabels:
-      fluentbit.fluent.io/component: "certmanager"
+      fluentbit.fluent.io/component: "weblogic"
   parserSelector:
     matchLabels:
-      fluentbit.fluent.io/component: "certmanager"
+      fluentbit.fluent.io/component: "weblogic"
 ---
 apiVersion: fluentbit.fluent.io/v1alpha2
 kind: Filter
 metadata:
   labels:
-    fluentbit.fluent.io/component: "certmanager"
-  name: certmanager-filter
+    fluentbit.fluent.io/component: "weblogic"
+  name: weblogic-filter
   namespace: <namespace_name>
 spec:
   filters:
@@ -45,22 +45,24 @@ spec:
         keyName: log
         reserveData: true
         preserveKey: true
-        parser: certmanager-parser
-  match: "kube.*cert-manager*cert-manager*"
+        parser: weblogic-parser
+    - recordModifier:
+        removeKeys:
+          - timestamp
+  match: 'kube.*weblogic-operator*_weblogic-operator*'
 ---
 apiVersion: fluentbit.fluent.io/v1alpha2
 kind: Parser
 metadata:
   labels:
-    fluentbit.fluent.io/component: "certmanager"
-  name: certmanager-parser
+    fluentbit.fluent.io/component: "weblogic"
+  name: weblogic-parser
   namespace: <namespace_name>
 spec:
-  regex:
-    regex: '/^(?<level>.)(\d{2}\d{2}) (?<logtime>\d{2}:\d{2}:\d{2}.\d{6})\s*?(?<message>[\s\S]*?)$/'
+  json:
     timeKey: logtime
     timeKeep: true
-    timeFormat: "%H:%M:%S.%L"
+    timeFormat: "%Y-%m-%dT%H:%M:%S.%LZ"
 ```
 
 </div>

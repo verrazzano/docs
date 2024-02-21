@@ -22,22 +22,22 @@ kind: FluentBitConfig
 metadata:
   labels:
     my.label.selector/namespace-config: "mylabel"
-  name: certmanager-fbc
+  name: istio-fbc
   namespace: <namespace_name>
 spec:
   filterSelector:
     matchLabels:
-      fluentbit.fluent.io/component: "certmanager"
+      fluentbit.fluent.io/component: "istio"
   parserSelector:
     matchLabels:
-      fluentbit.fluent.io/component: "certmanager"
+      fluentbit.fluent.io/component: "istio"
 ---
 apiVersion: fluentbit.fluent.io/v1alpha2
 kind: Filter
 metadata:
   labels:
-    fluentbit.fluent.io/component: "certmanager"
-  name: certmanager-filter
+    fluentbit.fluent.io/component: "istio"
+  name: istio-filter
   namespace: <namespace_name>
 spec:
   filters:
@@ -45,22 +45,22 @@ spec:
         keyName: log
         reserveData: true
         preserveKey: true
-        parser: certmanager-parser
-  match: "kube.*cert-manager*cert-manager*"
+        parser: istio-parser
+  match: "kube.*istiod*istio-system*discovery*"
 ---
 apiVersion: fluentbit.fluent.io/v1alpha2
 kind: Parser
 metadata:
   labels:
-    fluentbit.fluent.io/component: "certmanager"
-  name: certmanager-parser
+    fluentbit.fluent.io/component: "istio"
+  name: istio-parser
   namespace: <namespace_name>
 spec:
   regex:
-    regex: '/^(?<level>.)(\d{2}\d{2}) (?<logtime>\d{2}:\d{2}:\d{2}.\d{6})\s*?(?<message>[\s\S]*?)$/'
+    regex: '/^(?<logtime>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{1,9}Z)\t(?<level>.*?)\t(?<message>[\s\S]*?)$/'
     timeKey: logtime
     timeKeep: true
-    timeFormat: "%H:%M:%S.%L"
+    timeFormat: "%Y-%m-%dT%H:%M:%S.%LZ"
 ```
 
 </div>

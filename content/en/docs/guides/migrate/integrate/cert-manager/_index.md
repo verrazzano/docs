@@ -51,7 +51,7 @@ Then, apply the following manifest in your cluster. Replace <namespace-name> wit
 
 **Note**: The manifest below assumes that the namespace config label selector override was `my.label.selector/namespace-config: "mylabel"` following the fluent operator helm override recipe.
 
-**fo_ns_cfg.yaml**
+**fo_cm.yaml**
 {{< clipboard >}}
 <div class="highlight">
 
