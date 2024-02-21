@@ -38,7 +38,7 @@ metadata:
   labels:
     fluentbit.fluent.io/component: "prometheus"
   name: prometheus-filter
-  namespace: {{ template "kube-prometheus-stack.namespace" . }}
+  namespace: <namespace_name>
 spec:
   filters:
     - parser:
@@ -54,7 +54,7 @@ metadata:
   labels:
     fluentbit.fluent.io/component: "prometheus"
   name: prometheusconfig-parser
-  namespace: {{ template "kube-prometheus-stack.namespace" . }}
+  namespace: <namespace_name>
 spec:
   regex:
     regex: '/^(?<logtime>\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}) (?<message>[\s\S]*?)$/'
@@ -68,7 +68,7 @@ metadata:
   labels:
     fluentbit.fluent.io/component: "prometheus"
   name: prometheus-parser1
-  namespace: {{ template "kube-prometheus-stack.namespace" . }}
+  namespace: <namespace_name>
 spec:
   regex:
     regex: '/^ts=(?<logtime>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z)(.*)level=(?<level>.*?) (.*?)msg="(?<message>.*?)"([\s\S]*?)$/'
@@ -82,7 +82,7 @@ metadata:
   labels:
     fluentbit.fluent.io/component: "prometheus"
   name: prometheus-parser2
-  namespace: {{ template "kube-prometheus-stack.namespace" . }}
+  namespace: <namespace_name>
 spec:
   regex:
     regex: '/^ts=(?<logtime>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z)(.*)level=(?<level>.*?) (?<message>[\s\S]*?)$/'
@@ -96,7 +96,7 @@ metadata:
   labels:
     fluentbit.fluent.io/component: "prometheus"
   name: prometheus-parser3
-  namespace: {{ template "kube-prometheus-stack.namespace" . }}
+  namespace: <namespace_name>
 spec:
   regex:
     regex: '/^(?<level>.)(\d{2}\d{2}) (?<logtime>\d{2}:\d{2}:\d{2}.\d{6})\s*?(?<message>[\s\S]*?)$/'
@@ -110,7 +110,7 @@ metadata:
   labels:
     fluentbit.fluent.io/component: "prometheus"
   name: prometheus-parser4
-  namespace: {{ template "kube-prometheus-stack.namespace" . }}
+  namespace: <namespace_name>
 spec:
   regex:
     regex: '/^level=(?<level>.*?) ts=(?<logtime>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{1,9}Z)(?:.*msg="(?<message>[^"]+)")?[\s\S]*?$/'
