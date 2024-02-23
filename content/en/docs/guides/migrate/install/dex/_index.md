@@ -23,23 +23,29 @@ The following is a guide of how to install dex, an identity provider that uses O
    {{< /clipboard >}}
 
 
-1. Generate a static password and UUID:
+1. Setup configuration parameters:
 
-   For this guide, a static user and password will be configured instead of an actual identity provider.
+   For the example in this guide: 
+
+   * A static user and password will be configured instead of an actual identity provider.
+   * The load balancer address needs to be known before the installation.
 
    {{< clipboard >}}
    <div class="highlight">
    
    ```
-   $ PASSWORD=$(openssl rand -base64 10)
-   $ PASSWD_HASH=$(htpasswd -nbBC 10 "" ${PASSWORD} | tr -d ':\n' | sed 's/$2y/$2a/')
-   $ UUID_GEN=$(uuidgen)
+   $ DEX_USER_NAME=admin
+   $ DEX_USER_EMAIL=admin@example.com
+   $ DEX_PASSWORD=$(openssl rand -base64 10)
+   $ DEX_PASSWORD_HASH=$(htpasswd -nbBC 10 "" ${DEX_PASSWORD} | tr -d ':\n' | sed 's/$2y/$2a/')
+   $ DEX_UUID=$(uuidgen)
+   $ ADDRESS=111.222.333.444
    ```
    </div>
    {{< /clipboard >}}
 
 
-1. Generate the Helm override file.
+1. Generate a Helm override file.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -64,10 +70,10 @@ config:
     - http://oauth2-proxy.${ADDRESS}.nip.io/oauth2/callback
     secret: oauth2-proxy-secret
   staticPasswords:
-  - email: "admin@example.com"
-    hash: ${PASSWD_HASH}
-    userID: ${UUID_GEN}
-    username: admin
+  - email: "${DEX_USER_EMAIL}"
+    hash: ${DEX_PASSWORD_HASH}
+    userID: ${DEX_UUID}
+    username: ${DEX_USER_NAME}
   storage:
     config:
       inCluster: true
@@ -95,7 +101,7 @@ ingress:
   enabled: true
   className: nginx
   hosts:
-  - host: '{{ .Values.host }}'
+  - host: dex.${ADDRESS}.nip.io
     paths:
     - path: /dex
       pathType: ImplementationSpecific
