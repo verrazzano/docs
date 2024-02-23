@@ -29,6 +29,7 @@ $ helm repo update
     * Dex is configured as the identity provider using a static user and password.
     * The load balancer address needs to be known before the installation.
     * Insecure connections (http) are used for dex and oauth2-proxy.
+    * The oauth2-login screen is configured to use the Verrazzano theme.
 
    {{< clipboard >}}
    <div class="highlight">
@@ -104,7 +105,7 @@ EOF
    * nginx.ingress.kubernetes.io/auth-signin: http://oauth2-proxy.${ADDRESS}.nip.io/oauth2/start
    * nginx.ingress.kubernetes.io/auth-url: http://oauth2-proxy.oauth2-proxy.svc.cluster.local/oauth2/auth
 
-   For example:
+   <br>For example:
 
    {{< clipboard >}}
    <div class="highlight">
