@@ -39,7 +39,10 @@ The following is a guide of how to install dex, an identity provider that uses O
    $ DEX_PASSWORD=$(openssl rand -base64 10)
    $ DEX_PASSWORD_HASH=$(htpasswd -nbBC 10 "" ${DEX_PASSWORD} | tr -d ':\n' | sed 's/$2y/$2a/')
    $ DEX_UUID=$(uuidgen)
-   $ ADDRESS=111.222.333.444
+   $ ADDRESS=111.222.333.444.nip.io
+   $ OAUTH2_PROXY_SECRET=$(openssl rand -base64 10)
+   $ DEX_IMAGE_REPO=ghcr.io/verrazzano/dex
+   $ DEX_IMAGE_TAG=v2.37.0-20230911122845-caabc629
    ```
    </div>
    {{< /clipboard >}}
@@ -58,7 +61,7 @@ config:
     issuer: Verrazzano
     logoURL: theme/logo.svg
     theme: verrazzano
-  issuer: http://dex.${ADDRESS}.nip.io/dex
+  issuer: http://dex.${ADDRESS}/dex
   oauth2:
     passwordConnector: local
     skipApprovalScreen: true
@@ -67,8 +70,8 @@ config:
     name: "OAuth2 Proxy"
     public: true
     redirectURIs:
-    - http://oauth2-proxy.${ADDRESS}.nip.io/oauth2/callback
-    secret: oauth2-proxy-secret
+    - http://oauth2-proxy.${ADDRESS}/oauth2/callback
+    secret: ${OAUTH2_PROXY_SECRET}
   staticPasswords:
   - email: "${DEX_USER_EMAIL}"
     hash: ${DEX_PASSWORD_HASH}
@@ -81,10 +84,10 @@ config:
 envVars:
 - name: PASSWORD_DB_USERNAME_PROMPT
   value: Username
-host: dex.${ADDRESS}.nip.io
+host: dex.${ADDRESS}
 image:
-  repository: ghcr.io/verrazzano/dex
-  tag: v2.37.0-20230911122845-caabc629
+  repository: ${DEX_IMAGE_REPO}
+  tag: ${DEX_IMAGE_TAG}
 ingress:
   annotations:
     external-dns.alpha.kubernetes.io/ttl: "60"
@@ -101,7 +104,7 @@ ingress:
   enabled: true
   className: nginx
   hosts:
-  - host: dex.${ADDRESS}.nip.io
+  - host: dex.${ADDRESS}
     paths:
     - path: /dex
       pathType: ImplementationSpecific
@@ -127,8 +130,14 @@ EOF
 </div>
 {{< /clipboard >}}
 
-1. foo
+1. Install dex:
+   {{< clipboard >}}
+   <div class="highlight">
 
+   ```
+   $ helm install dex dex/dex -n dex -f dex-overrides.yaml --version 0.15.3
+   ```
+   </div>
+   {{< /clipboard >}}
 
-1. bar
 

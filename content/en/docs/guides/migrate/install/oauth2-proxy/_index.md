@@ -21,3 +21,69 @@ $ helm repo update
 ```
 </div>
 {{< /clipboard >}}
+
+1. Setup configuration parameters:
+
+   For the example in this guide:
+
+    * Dex is configured as the identity provider using a static user and password.
+    * The load balancer address needs to be known before the installation.
+
+   {{< clipboard >}}
+   <div class="highlight">
+
+   ```
+   $ ADDRESS=111.222.333.444.nip.io
+   $ OAUTH2_CLIENT_SECRET=$(openssl rand -base64 10)
+   $ OAUTH2_COOKIE_SECRET=$(openssl rand -base64 32)
+   ```
+   </div>
+   {{< /clipboard >}}
+
+1. Generate a Helm override file.
+   {{< clipboard >}}
+<div class="highlight">
+
+```
+cat > oauth2-proxy-overrides.yaml - <<EOF
+namespaceOverride: oauth2-proxy
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+  - oauth2-proxy.${ADDRESS}
+
+config:
+  clientID: oauth2-proxy
+  clientSecret: "${OAUTH2_CLIENT_SECRET}"
+  cookieSecret: "${OAUTH2_COOKIE_SECRET}"
+  configFile: |-
+    cookie_domains=".${ADDRESS}"
+    whitelist_domains=[".${ADDRESS}"]
+    email_domains=["example.com"]
+    cookie_secure="false"
+    redirect_url="http://oauth2-proxy.${ADDRESS}/oauth2/callback"
+    upstreams = [ "file:///dev/null" ]
+
+    # return authenticated user to nginx
+    set_xauthrequest = true
+    provider="oidc"
+    oidc_issuer_url="http://dex.${ADDRESS}/dex"
+EOF
+```
+</div>
+{{< /clipboard >}}
+
+1. Install oauth2-proxy:
+   {{< clipboard >}}
+   <div class="highlight">
+
+   ```
+   $ helm install -n oauth2-proxy oauth2-proxy oauth2-proxy/oauth2-proxy -f oauth2-proxy-overrides.yaml --create-namespace --version 6.24.1
+   ```
+   </div>
+   {{< /clipboard >}}
+
+
+
