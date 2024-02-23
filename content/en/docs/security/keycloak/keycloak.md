@@ -13,7 +13,7 @@ Directly modifying the StatefulSet may change the status of the cluster to `ONLI
 may result in the [MySQL Operator]({{< relref "docs/reference/vpo-verrazzano-v1beta1.md#install.verrazzano.io/v1beta1.MySQLOperatorComponent" >}}) permanently losing communication with the cluster and Keycloak being unable to communicate with MySQL.
 * There are limitations to MySQL group replication policy to provide distributed coordination between servers. See MySQL [Fault-tolerance](https://dev.mysql.com/doc/refman/8.0/en/group-replication-fault-tolerance.html).
 
-For instructions to customize persistent storage settings, see [Customize Persistent Storage]({{< relref "docs/observability/storage.md " >}}).
+For instructions to customize persistent storage settings, see [Customize Persistent Storage]({{< relref "docs/observability/storage.md" >}}).
 
 ### Customize MySQL `my.cnf` settings
 The file, `my.cnf`, contains the main configuration for MySQL.  You can customize the contents of the  `my.cnf` file by providing overrides to the Keycloak subcomponent MySQL in the Verrazzano custom resource.
