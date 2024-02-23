@@ -106,33 +106,33 @@ EOF
 
    For example:
 
-{{< clipboard >}}
-<div class="highlight">
-
-```
-$ cat > ingress.yaml - <<EOF
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: example
-  annotations:
-    nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User,X-Auth-Request-Email
-    nginx.ingress.kubernetes.io/auth-signin: http://oauth2-proxy.${ADDRESS}.nip.io/oauth2/start
-    nginx.ingress.kubernetes.io/auth-url: http://oauth2-proxy.oauth2-proxy.svc.cluster.local/oauth2/auth
-spec:
-  ingressClassName: nginx
-  rules:
-    - host: example.${ADDRESS}.nip.io
-      http:
-        paths:
-          - pathType: Prefix
-            backend:
-              service:
-                name: example
-                port:
-                  number: 8080
-            path: /example
-EOF
-```
-</div>
-{{< /clipboard >}}
+   {{< clipboard >}}
+   <div class="highlight">
+   
+   ```
+   $ cat > ingress.yaml - <<EOF
+   apiVersion: networking.k8s.io/v1
+   kind: Ingress
+   metadata:
+     name: example
+     annotations:
+       nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User,X-Auth-Request-Email
+       nginx.ingress.kubernetes.io/auth-signin: http://oauth2-proxy.${ADDRESS}.nip.io/oauth2/start
+       nginx.ingress.kubernetes.io/auth-url: http://oauth2-proxy.oauth2-proxy.svc.cluster.local/oauth2/auth
+   spec:
+     ingressClassName: nginx
+     rules:
+       - host: example.${ADDRESS}.nip.io
+         http:
+           paths:
+             - pathType: Prefix
+               backend:
+                 service:
+                   name: example
+                   port:
+                     number: 8080
+               path: /example
+   EOF
+   ```
+   </div>
+   {{< /clipboard >}}
