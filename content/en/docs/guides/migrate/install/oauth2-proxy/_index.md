@@ -86,4 +86,13 @@ EOF
    {{< /clipboard >}}
 
 
+1. Wait for the installation of oauth2-proxy to complete:
+   {{< clipboard >}}
+   <div class="highlight">
+
+   ```
+   $ kubectl rollout status -n oauth2-proxy deployment oauth2-proxy -w
+   ```
+   </div>
+   {{< /clipboard >}}
 

@@ -141,3 +141,14 @@ EOF
    {{< /clipboard >}}
 
 
+1. Wait for the installation of dex to complete:
+   {{< clipboard >}}
+   <div class="highlight">
+
+   ```
+   $ kubectl rollout status -n dex deployment dex -w
+   ```
+   </div>
+   {{< /clipboard >}}
+
+   
