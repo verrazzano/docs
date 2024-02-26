@@ -28,7 +28,7 @@ $ helm repo update
 
     * Dex is configured as the identity provider using a static user and password.
     * The load balancer address needs to be known before the installation.
-    * The value for OAUTH2_PROXY_SECRET must be the same value used when Dex was installed.
+    * The value for OAUTH2_PROXY_SECRET must be the same value used when [dex]({{< relref "/docs/guides/migrate/install/dex/_index.md" >}})  was installed.
     * Insecure connections (http) are used for dex and oauth2-proxy.
     * The oauth2-login screen is configured to use the Verrazzano theme.
 
