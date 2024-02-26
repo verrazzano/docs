@@ -6,9 +6,9 @@ draft: false
 This document shows you how to integrate Istio with other OCNE components.
 
 ## Fluent Bit
-Follow example provided in [fluent operator helm override recipe for namespace configurations]({{< relref "docs/guides/migrate/install/fluent/_index.md#namespace-configselector" >}}) to add a helm override for namespace config label selector.
+Follow the example provided in [fluent operator helm override recipe for namespace configurations]({{< relref "docs/guides/migrate/install/fluent/_index.md#namespace-configselector" >}}) to add a helm override for namespace config label selector.
 
-Then, apply the following manifest in your cluster. Replace <namespace-name> with the namespace in which istio is installed and `metadata.labels` of FluentBitConfig custom resource with the helm override that was supplied in the previous step.
+Then, apply the following manifest in your cluster. Replace <namespace-name> with the namespace in which Istio is installed and `metadata.labels` of FluentBitConfig custom resource with the helm override that was supplied in the previous step.
 
 **Note**: The manifest below assumes that the namespace config label selector override was `my.label.selector/namespace-config: "mylabel"` following the fluent operator helm override recipe.
 
@@ -16,7 +16,7 @@ Then, apply the following manifest in your cluster. Replace <namespace-name> wit
 {{< clipboard >}}
 <div class="highlight">
 
-```yaml
+```
 apiVersion: fluentbit.fluent.io/v1alpha2
 kind: FluentBitConfig
 metadata:
