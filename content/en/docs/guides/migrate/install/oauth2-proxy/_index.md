@@ -37,7 +37,7 @@ $ helm repo update
    ```
    $ ADDRESS=$(kubectl get service -n ingress-nginx ingress-controller-ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}').nip.io
    $ OAUTH2_CLIENT_SECRET=$(openssl rand -base64 10)
-   $ OAUTH2_COOKIE_SECRET=$(openssl rand -base64 32)
+   $ OAUTH2_COOKIE_SECRET=$(openssl rand -hex 16)
    ```
    </div>
    {{< /clipboard >}}
