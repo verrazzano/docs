@@ -28,6 +28,7 @@ $ helm repo update
 
     * Dex is configured as the identity provider using a static user and password.
     * The load balancer address needs to be known before the installation.
+    * The value for OAUTH2_PROXY_SECRET must be the same value used when Dex was installed.
     * Insecure connections (http) are used for dex and oauth2-proxy.
     * The oauth2-login screen is configured to use the Verrazzano theme.
 
@@ -36,7 +37,6 @@ $ helm repo update
 
    ```
    $ ADDRESS=$(kubectl get service -n ingress-nginx ingress-controller-ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}').nip.io
-   $ OAUTH2_CLIENT_SECRET=$(openssl rand -base64 10)
    $ OAUTH2_COOKIE_SECRET=$(openssl rand -hex 16)
    ```
    </div>
@@ -58,7 +58,7 @@ ingress:
 
 config:
   clientID: oauth2-proxy
-  clientSecret: "${OAUTH2_CLIENT_SECRET}"
+  clientSecret: "${OAUTH2_PROXY_SECRET}"
   cookieSecret: "${OAUTH2_COOKIE_SECRET}"
   configFile: |-
     cookie_domains=".${ADDRESS}"
