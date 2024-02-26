@@ -137,3 +137,18 @@ EOF
    ```
    </div>
    {{< /clipboard >}}
+
+
+1. Test access to an application:
+
+   The username and password for the OAuth2 Proxy login form can be viewed as follows:
+
+   {{< clipboard >}}
+   <div class="highlight">
+
+   ```
+   $ echo "Login username is '${DEX_USER_EMAIL}'"
+   $ echo "Login password is '${DEX_PASSWORD}'"
+   ```
+   </div>
+   {{< /clipboard >}}
