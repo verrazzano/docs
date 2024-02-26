@@ -40,7 +40,7 @@ The following is a guide of how to install dex, an identity provider that uses O
    $ DEX_PASSWORD=$(openssl rand -base64 10)
    $ DEX_PASSWORD_HASH=$(htpasswd -nbBC 10 "" ${DEX_PASSWORD} | tr -d ':\n' | sed 's/$2y/$2a/')
    $ DEX_UUID=$(uuidgen)
-   $ ADDRESS=111.222.333.444.nip.io
+   $ ADDRESS=$(kubectl get service -n ingress-nginx ingress-controller-ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}').nip.io
    $ OAUTH2_PROXY_SECRET=$(openssl rand -base64 10)
    $ DEX_IMAGE_REPO=ghcr.io/verrazzano/dex
    $ DEX_IMAGE_TAG=v2.37.0-20230911122845-caabc629
@@ -136,7 +136,7 @@ EOF
    <div class="highlight">
 
    ```
-   $ helm install dex dex/dex -n dex -f dex-overrides.yaml --version 0.15.3
+   $ helm install dex dex/dex -n dex -f dex-overrides.yaml --create-namespace --version 0.15.3
    ```
    </div>
    {{< /clipboard >}}
