@@ -25,10 +25,11 @@ The following is a guide of how to install dex, an identity provider that uses O
 
 1. Setup configuration parameters:
 
-   For the example in this guide: 
+   Assumptions for the example in this guide:
 
    * A static user and password will be configured instead of an actual identity provider.
    * The load balancer address needs to be known before the installation.
+   * The load balancer address is using `nip.io`.
    * Insecure connections (http) are used for dex and oauth2-proxy.
 
    {{< clipboard >}}
@@ -57,11 +58,6 @@ The following is a guide of how to install dex, an identity provider that uses O
 $ cat > dex-overrides.yaml - <<EOF
 config:
   enablePasswordDB: true
-  frontend:
-    dir: /srv/dex/web
-    issuer: Verrazzano
-    logoURL: theme/logo.svg
-    theme: verrazzano
   issuer: http://dex.${ADDRESS}/dex
   oauth2:
     passwordConnector: local
