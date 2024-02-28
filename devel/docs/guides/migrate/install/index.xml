@@ -4427,7 +4427,2063 @@ EOF
         
         
         &lt;p&gt;This document shows you how to install OpenSearch on OCNE.&lt;/p&gt;
-&lt;h2 id=&#34;helm-install&#34;&gt;Helm Install&lt;/h2&gt;
+&lt;h2 id=&#34;verrazzano-background&#34;&gt;Verrazzano Background&lt;/h2&gt;
+&lt;p&gt;Verrazzano installs OpenSearch and OpenSearch Dashboards as part of its logging stack. Prior to Verrazzano 1.7, OpenSearch and OpenSearch Dashboards were installed by the Verrazzano Monitoring Operator. Starting from version 1.7, OpenSearch and OpenSearch Dashboards are installed via the OpenSearch Operator, which can be found at &lt;a href=&#34;https://github.com/opensearch-project/opensearch-k8s-operator&#34;&gt;OpenSearch Operator&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The OpenSearch Operator is installed in the cluster within the verrazzano-logging namespace and creates the &lt;strong&gt;opensearch-operator-controller-manager&lt;/strong&gt; Deployment in the same namespace. By utilizing the OpenSearchCluster Custom Resource (CR), the operator establishes the specified OpenSearch node topology as a StatefulSet and deploys the OpenSearch Dashboards as a Deployment. For more details regarding the OpenSearch Cluster CR, refer to: &lt;a href=&#34;https://github.com/opensearch-project/opensearch-k8s-operator/blob/main/charts/opensearch-cluster/templates/opensearch-cluster-cr.yaml&#34;&gt;OpenSearch Cluster CR YAML&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;opensearch-and-opensearch-dashboards-on-ocne-20&#34;&gt;OpenSearch and OpenSearch Dashboards on OCNE 2.0&lt;/h2&gt;
+&lt;p&gt;Customers are advised to use the OpenSearch Operator to install OpenSearch and OpenSearch Dashboards on OCNE 2.0.&lt;/p&gt;
+&lt;h3 id=&#34;helm-install&#34;&gt;Helm Install&lt;/h3&gt;
+&lt;p&gt;OpenSearch Operator can be installed from the Community Helm Chart repository. The first step would be to add the OpenSearch Operator community Helm chart repository to the cluster.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ helm repo add opensearch-operator https://opensearch-project.github.io/opensearch-k8s-operator/
+$ helm repo update
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;Next, install the Helm charts.&lt;/p&gt;
+&lt;h4 id=&#34;install-or-upgrade-the-opensearch-operator-helm-chart&#34;&gt;Install or upgrade the OpenSearch Operator Helm chart&lt;/h4&gt;
+&lt;p&gt;In the following example, &lt;code&gt;helm&lt;/code&gt; command installs OpenSearch Operator in the &lt;code&gt;logging&lt;/code&gt; namespace. OpenSearch Operator can be installed in any namespace as long as the same namespace is used consistently. This example assumes you are using Helm version 3.2.0 or later.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ helm upgrade --install opensearch-operator opensearch-operator/opensearch-operator -n logging --create-namespace --version 2.4.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;p&gt;Optionally, provide overrides when installing. The recipes below give examples of changing the configuration using Helm overrides.&lt;/p&gt;
+&lt;h4 id=&#34;helm-override-recipes&#34;&gt;Helm override recipes&lt;/h4&gt;
+&lt;h5 id=&#34;installing-from-a-private-registry&#34;&gt;Installing from a private registry&lt;/h5&gt;
+&lt;p&gt;In order to install using a private registry (for example, in a disconnected environment), you must override Helm values to change the image registry settings for all images.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;os_operator_privreg_overrides.yaml&lt;/strong&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;manager:
+  image:
+    repository: &amp;#34;my.registry.io/&amp;lt;image&amp;gt;&amp;#34;
+    tag: &amp;#34;&amp;lt;image-tag&amp;gt;&amp;#34;
+kubeRbacProxy:
+  image:
+    repository: &amp;#34;my.registry.io/fluent-bit&amp;#34;
+    tag: &amp;#34;&amp;lt;image-tag&amp;gt;&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    If you are not using kubeRbacProxy, there is no need to specify an image for kubeRbacProxy.
+
+&lt;/div&gt;
+
+&lt;h5 id=&#34;pod-security-context&#34;&gt;Pod security context&lt;/h5&gt;
+&lt;p&gt;Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to only perform operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;os_operator_seccontext.yaml&lt;/strong&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;securityContext:
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+manager:
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    privileged: false
+    runAsGroup: 65532
+    runAsNonRoot: true
+    runAsUser: 65532
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;Optionally, when installing the OpenSearch Helm chart, you can disable the kubeRbacProxy if not required using the overrides below.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubeRbacProxy:
+  enable: false
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;p&gt;Once OpenSearch Operator is installed, you will see a &lt;strong&gt;opensearch-operator-controller-manager&lt;/strong&gt; deployment in the &lt;strong&gt;logging&lt;/strong&gt; namespace. If OpenSearch Operator pod is ready, you can proceed to next step.&lt;/p&gt;
+&lt;h4 id=&#34;configure-admin-credentials&#34;&gt;Configure Admin Credentials&lt;/h4&gt;
+&lt;p&gt;Create &lt;code&gt;admin-credentials-secret&lt;/code&gt; secret to provide the admin credentials in the &lt;code&gt;logging&lt;/code&gt; namespace. You can use existing password if it exists in older Verrazzano instance or provide a new password. You can use the below &lt;code&gt;admin-credentials-secret&lt;/code&gt; by updating the password parameter(base64 encoded).
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: v1
+kind: Secret
+metadata:
+  name: admin-credentials-secret
+  namespace: logging
+type: Opaque
+data:
+  password: {{ &amp;lt;password&amp;gt; | b64enc }}
+  username: {{ &amp;#34;admin&amp;#34; | b64enc }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;h4 id=&#34;configure-security-plugin&#34;&gt;Configure Security Plugin&lt;/h4&gt;
+&lt;p&gt;Create a security-config secret to configure the security plugin in the &lt;strong&gt;logging&lt;/strong&gt; namespace of the OpenSearch operator. You can use the following secret YAML file to create the security-config secret with the name &lt;strong&gt;securityconfig-secret&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;In the below &lt;strong&gt;securityconfig-secret&lt;/strong&gt;, you need to pass the hash of the password that you provided in the admin-credentials-secret created in the previous step.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: v1
+kind: Secret
+metadata:
+  name: securityconfig-secret
+  namespace: logging
+type: Opaque
+stringData:
+  action_groups.yml: |-
+    _meta:
+      type: &amp;#34;actiongroups&amp;#34;
+      config_version: 2
+  internal_users.yml: |-
+    _meta:
+      type: &amp;#34;internalusers&amp;#34;
+      config_version: 2
+    admin:
+      hash:  &amp;lt;hashed password mentioned in the admin-credentials-secret&amp;gt;
+      reserved: true
+      backend_roles:
+      - &amp;#34;admin&amp;#34;
+      description: &amp;#34;Admin user&amp;#34;
+  nodes_dn.yml: |-
+    _meta:
+      type: &amp;#34;nodesdn&amp;#34;
+      config_version: 2
+  whitelist.yml: |-
+    _meta:
+      type: &amp;#34;whitelist&amp;#34;
+      config_version: 2
+  tenants.yml: |-
+    _meta:
+      type: &amp;#34;tenants&amp;#34;
+      config_version: 2
+  roles_mapping.yml: |-
+    _meta:
+      type: &amp;#34;rolesmapping&amp;#34;
+      config_version: 2
+    all_access:
+      reserved: false
+      backend_roles:
+      - &amp;#34;admin&amp;#34;
+      description: &amp;#34;Maps admin to all_access&amp;#34;
+    own_index:
+      reserved: false
+      users:
+      - &amp;#34;*&amp;#34;
+      description: &amp;#34;Allow full access to an index named like the username&amp;#34;
+    readall:
+      reserved: false
+      backend_roles:
+      - &amp;#34;readall&amp;#34;
+    manage_snapshots:
+      reserved: false
+      backend_roles:
+      - &amp;#34;snapshotrestore&amp;#34;
+    dashboard_server:
+      reserved: true
+      users:
+      - &amp;#34;dashboarduser&amp;#34;
+  roles.yml: |-
+    _meta:
+      type: &amp;#34;roles&amp;#34;
+      config_version: 2
+  config.yml: |-
+    _meta:
+      type: &amp;#34;config&amp;#34;
+      config_version: &amp;#34;2&amp;#34;
+    config:
+      dynamic:
+        kibana:
+          multitenancy_enabled: false
+        http:
+          anonymous_auth_enabled: false
+        authc:
+          basic_internal_auth_domain:
+            description: &amp;#34;Authenticate via HTTP Basic against internal users database&amp;#34;
+            http_enabled: true
+            transport_enabled: true
+            order: 0
+            http_authenticator:
+              type: basic
+              challenge: false
+            authentication_backend:
+              type: intern
+          clientcert_auth_domain:
+             description: &amp;#34;Authenticate via SSL client certificates&amp;#34;
+             http_enabled: true
+             transport_enabled: true
+             order: 1
+             http_authenticator:
+               type: clientcert
+               config:
+                 enforce_hostname_verification: false
+                 username_attribute: cn
+               challenge: false
+             authentication_backend:
+                 type: noop
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    &lt;p&gt;You can create the hash of the password using below command&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;python3 -c &amp;#39;import bcrypt; print(bcrypt.hashpw(&amp;#34;your password&amp;#34;.encode(&amp;#34;utf-8&amp;#34;), bcrypt.gensalt(12, prefix=b&amp;#34;2a&amp;#34;)).decode(&amp;#34;utf-8&amp;#34;))&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  
+&lt;/div&gt;
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+
+
+&lt;/div&gt;
+
+&lt;h4 id=&#34;create-opensearch-cluster&#34;&gt;Create OpenSearch Cluster&lt;/h4&gt;
+&lt;p&gt;To create OpenSearch and OpenSearch Dashboards instance, you will require to create the OpenSearchCluster CR.&lt;/p&gt;
+&lt;p&gt;There are two ways to provide certificates in OpenSearchCluster CR.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;One is where you can allow the OpenSearch Operator to generate and sign the certificates. You can refer below CR that has self generated certificates.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    Within this CR, specific parameter values are necessary to configure the OpenSearch Cluster according to the requirements or values outlined in the previous Verrazzano instance. You can refer to the &lt;a href=&#34;../../../../docs/guides/migrate/install/opensearch/#mapping-table-for-opensearchcluster-configuration&#34;&gt;table&lt;/a&gt; to determine the required values for these parameters.
+
+&lt;/div&gt;
+
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: opensearch.opster.io/v1
+kind: OpenSearchCluster
+metadata:
+  name: opensearch
+  namespace: logging
+spec:
+  {{- if .bootstrapConfig }}
+  bootstrap:
+    additionalConfig:
+      {{ .bootstrapConfig }}
+  {{- end }}
+  confMgmt:
+    smartScaler: true
+  dashboards:
+    additionalConfig:
+      server.name: opensearch-dashboards
+    enable: {{ .isOpenSearchDashboardsEnabled }}
+    {{- if .osdPluginsEnabled }}
+    pluginsList:
+{{ multiLineIndent 6 .osdPluginsList }}
+    {{- end }}
+    opensearchCredentialsSecret:
+      name: admin-credentials-secret
+    replicas: {{ .osdReplicas }}
+    version: 2.3.0
+    podSecurityContext:
+      fsGroup: 1000
+      runAsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
+      seccompProfile:
+        type: RuntimeDefault
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+  general:
+    drainDataNodes: {{ .drainDataNodes }}
+    httpPort: 9200
+    serviceName: opensearch
+    serviceAccount: opensearch-operator-controller-manager
+    setVMMaxMapCount: true
+    vendor: opensearch
+    version: 2.3.0
+    podSecurityContext:
+      seccompProfile:
+        type: RuntimeDefault
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      privileged: false
+      runAsUser: 1000
+    {{- if .osPluginsEnabled }}
+    pluginsList:
+{{ multiLineIndent 6 .osPluginsList }}
+    {{- end }}
+  nodePools:
+{{ multiLineIndent 4 .nodePools }}
+  security:
+    config:
+      securityConfigSecret:
+##Pre create this secret with required security configs, to override the default settings
+       name: securityconfig-secret
+      adminCredentialsSecret:
+        name: admin-credentials-secret
+    tls:
+      transport:
+        generate: true
+      http:
+        generate: true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;In other way, you can create your own certificates and provide the certificate in OpenSearchCluster CR. Refer next section&lt;TBD&gt; to know how to generate certificates.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: opensearch.opster.io/v1
+kind: OpenSearchCluster
+metadata:
+  name: opensearch
+  namespace: logging
+spec:
+  {{- if .bootstrapConfig }}
+  bootstrap:
+    additionalConfig:
+      {{ .bootstrapConfig }}
+  {{- end }}
+  confMgmt:
+    smartScaler: true
+  dashboards:
+    additionalConfig:
+      server.name: opensearch-dashboards
+    enable: {{ .isOpenSearchDashboardsEnabled }}
+    {{- if .osdPluginsEnabled }}
+    pluginsList:
+{{ multiLineIndent 6 .osdPluginsList }}
+    {{- end }}
+    opensearchCredentialsSecret:
+      name: admin-credentials-secret
+    replicas: {{ .osdReplicas }}
+    tls:
+      enable: true
+      generate: false
+      secret:
+        name: opensearch-dashboards-cert
+    version: 2.3.0
+    podSecurityContext:
+      fsGroup: 1000
+      runAsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
+      seccompProfile:
+        type: RuntimeDefault
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+  general:
+    drainDataNodes: {{ .drainDataNodes }}
+    httpPort: 9200
+    serviceName: opensearch
+    serviceAccount: opensearch-operator-controller-manager
+    setVMMaxMapCount: true
+    vendor: opensearch
+    version: 2.3.0
+    podSecurityContext:
+      seccompProfile:
+        type: RuntimeDefault
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      privileged: false
+      runAsUser: 1000
+    {{- if .osPluginsEnabled }}
+    pluginsList:
+{{ multiLineIndent 6 .osPluginsList }}
+    {{- end }}
+  nodePools:
+{{ multiLineIndent 4 .nodePools }}
+  security:
+    config:
+      adminCredentialsSecret:
+        name: admin-credentials-secret
+      securityConfigSecret:
+        name: securityconfig-secret
+      adminSecret:
+        name: opensearch-admin-cert
+    tls:
+      transport:
+        generate: false
+        secret:
+          name: opensearch-node-cert
+        adminDn: [ &amp;#34;CN=admin,O=&amp;lt;org name&amp;gt;&amp;#34; ]
+        nodesDn: [ &amp;#34;CN=opensearch,O=&amp;lt;org name&amp;gt;&amp;#34; ]
+      http:
+        generate: false
+        secret:
+          name: opensearch-master-cert
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;h5 id=&#34;mapping-table-for-opensearchcluster-configuration&#34;&gt;mapping table for OpenSearchCluster configuration&lt;/h5&gt;
+&lt;p&gt;You can utilise the table given below to get the correct configuration for your cluster.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Parameter&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Verrazzano Default value (Dev profile)&lt;/th&gt;
+&lt;th&gt;Verrazzano Default Value (Prod profile)&lt;/th&gt;
+&lt;th&gt;Mapped Verrazzano CR Key&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;osdReplicas&lt;/td&gt;
+&lt;td&gt;number of OpenSearch Dashboards replicas&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;spec.components.opensearchDashboards.replicas&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;osdPluginsList&lt;/td&gt;
+&lt;td&gt;list of plugins to be dynamically installed in OpenSearch Dashboards&lt;/td&gt;
+&lt;td&gt;[ ]&lt;/td&gt;
+&lt;td&gt;[ ]&lt;/td&gt;
+&lt;td&gt;spec.components.opensearchDashboards.plugins.installList&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;osdPluginsEnabled&lt;/td&gt;
+&lt;td&gt;Whether any external plugins needs to be dynamically installed or not in OSD&lt;/td&gt;
+&lt;td&gt;false&lt;/td&gt;
+&lt;td&gt;false&lt;/td&gt;
+&lt;td&gt;spec.components.opensearchDashboards.plugins.enabled&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;osPluginsList&lt;/td&gt;
+&lt;td&gt;list of plugins to be dynamically installed in OpenSearch&lt;/td&gt;
+&lt;td&gt;[ ]&lt;/td&gt;
+&lt;td&gt;[ ]&lt;/td&gt;
+&lt;td&gt;spec.components.opensearch.plugins.installList&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;osPluginsEnabled&lt;/td&gt;
+&lt;td&gt;Whether any external plugins needs to be dynamically installed or not in OpenSearch&lt;/td&gt;
+&lt;td&gt;false&lt;/td&gt;
+&lt;td&gt;false&lt;/td&gt;
+&lt;td&gt;spec.components.opensearch.plugins.enabled&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;nodePools[*].diskSize&lt;/td&gt;
+&lt;td&gt;Node group storage size&lt;/td&gt;
+&lt;td&gt;1Gi&lt;/td&gt;
+&lt;td&gt;es-master -&amp;gt; 50Gi es-data -&amp;gt; 50Gi es-ingest -&amp;gt; 1Gi&lt;/td&gt;
+&lt;td&gt;spec.components.opensearch.nodes[*].storage if above value is not defined , then get it from storage spec storageSpec.resources.requests.storage defined in the Volume template for spec.defaultVolumeSource.persistentVolumeClaim.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;nodePools[*].roles&lt;/td&gt;
+&lt;td&gt;list of roles that nodes in the group will assume&lt;/td&gt;
+&lt;td&gt;[ master, data]&lt;/td&gt;
+&lt;td&gt;es-master -&amp;gt; [master] es-data -&amp;gt; [data] es-ingest -&amp;gt; [ingest]&lt;/td&gt;
+&lt;td&gt;spec.components.opensearch.nodes[*].roles&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;nodePools[*].resources&lt;/td&gt;
+&lt;td&gt;configures the compute resource requirements.&lt;/td&gt;
+&lt;td&gt;resources:  requests:  memory: 1G&lt;/td&gt;
+&lt;td&gt;For es-master: resources:  requests:  memory: 1.4Gi &lt;br/&gt;For es-data resources:  requests:  memory: 4.8Gi &lt;br/&gt;For es-ingest resources:  requests:  memory: 2.5Gi&lt;/td&gt;
+&lt;td&gt;spec.components.opensearch.nodes[*].resources&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;nodePools[*].replicas&lt;/td&gt;
+&lt;td&gt;number of openSearch nodes&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;es-master -&amp;gt; 3 es-data -&amp;gt; 3 es-ingest -&amp;gt; 1&lt;/td&gt;
+&lt;td&gt;spec.components.opensearch.nodes[*].replicas&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;nodePools[*].component&lt;/td&gt;
+&lt;td&gt;name of the node.&lt;/td&gt;
+&lt;td&gt;es-master&lt;/td&gt;
+&lt;td&gt;es-master, es-ingest, es-data&lt;/td&gt;
+&lt;td&gt;spec.components.opensearch.nodes[*].name&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;nodePools[*].jvm&lt;/td&gt;
+&lt;td&gt;JVM configuration of the node.&lt;/td&gt;
+&lt;td&gt;{}&lt;/td&gt;
+&lt;td&gt;{}&lt;/td&gt;
+&lt;td&gt;spec.components.opensearch.nodes[*].javaOpts&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;nodePools&lt;/td&gt;
+&lt;td&gt;list of OpenSearch node groups.&lt;/td&gt;
+&lt;td&gt;nodePools:- additionalConfig: cluster.initial_master_nodes: opensearch-es-master-0  component: es-master  diskSize: 1Gi  replicas: 1  resources:  requests:  memory: 1G  roles:  - master  - data&lt;/td&gt;
+&lt;td&gt;nodePools: &lt;br/&gt;- component: es-master  diskSize: 50Gi  replicas: 3  resources:  requests:  memory: 4.8Gi  roles:  - master &lt;br/&gt;- component: es-data  diskSize: 50Gi  replicas: 3  resources:  requests:  memory: 1.4Gi  roles:  - data &lt;br/&gt;- component: es-ingest  diskSize: 1Gi  replicas: 1  resources:  requests:  memory: 2.5Gi  roles:  - ingest&lt;/td&gt;
+&lt;td&gt;spec.components.opensearch.nodes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;isOpenSearchDashboardsEnabled&lt;/td&gt;
+&lt;td&gt;whether to enable OpenSearch Dashboards or not.&lt;/td&gt;
+&lt;td&gt;true&lt;/td&gt;
+&lt;td&gt;true&lt;/td&gt;
+&lt;td&gt;spec.components.kibana.enabled or spec.components.opensearchDashboards.enabled&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;bootstrapConfig&lt;/td&gt;
+&lt;td&gt;items to add to the opensearch.yml&lt;/td&gt;
+&lt;td&gt;&amp;ldquo;cluster.initial_master_nodes:opensearch-es-master-0&amp;rdquo;&lt;/td&gt;
+&lt;td&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td&gt;based on spec.profile&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;drainDataNodes&lt;/td&gt;
+&lt;td&gt;whether data nodes need to be drained. only works on nodes that singed as DATA roles nodes&lt;/td&gt;
+&lt;td&gt;false&lt;/td&gt;
+&lt;td&gt;true&lt;/td&gt;
+&lt;td&gt;based on spec.profile&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;nodePools[*].additionalConfig&lt;/td&gt;
+&lt;td&gt;additional configuration for the node group&lt;/td&gt;
+&lt;td&gt;cluster.initial_master_nodes: opensearch-es-master-0&lt;/td&gt;
+&lt;td&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td&gt;based on spec.profile&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h5 id=&#34;opensearchcluster-cr-with-default-values&#34;&gt;OpenSearchCluster CR with Default values&lt;/h5&gt;
+&lt;p&gt;&lt;strong&gt;Prod Profile&lt;/strong&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: opensearch.opster.io/v1
+kind: OpenSearchCluster
+metadata:
+  finalizers:
+  - Opster
+  name: opensearch
+  namespace: logging
+spec:
+  bootstrap:
+    resources: {}
+  confMgmt:
+    smartScaler: true
+  dashboards:
+    additionalConfig:
+      server.name: opensearch-dashboards
+    enable: true
+    opensearchCredentialsSecret:
+      name: admin-credentials-secret
+    podSecurityContext:
+      fsGroup: 1000
+      runAsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
+      seccompProfile:
+        type: RuntimeDefault
+    replicas: 1
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+    version: 2.3.0
+  general:
+    drainDataNodes: true
+    httpPort: 9200
+    podSecurityContext:
+      seccompProfile:
+        type: RuntimeDefault
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      privileged: false
+      runAsUser: 1000
+    serviceAccount: opensearch-operator-controller-manager
+    serviceName: opensearch
+    setVMMaxMapCount: true
+    vendor: opensearch
+    version: 2.3.0
+  nodePools:
+  - component: es-master
+    diskSize: 50Gi
+    replicas: 3
+    resources:
+      requests:
+        memory: 1503238553600m
+    roles:
+    - master
+  - component: es-data
+    diskSize: 50Gi
+    replicas: 3
+    resources:
+      requests:
+        memory: 5153960755200m
+    roles:
+    - data
+  - component: es-ingest
+    diskSize: 1Gi
+    replicas: 1
+    resources:
+      requests:
+        memory: 2560Mi
+    roles:
+    - ingest
+  security:
+    config:
+      securityConfigSecret:
+      #Pre create this secret with required security configs, to override the default settings
+       name: securityconfig-secret
+      adminCredentialsSecret:
+        name: admin-credentials-secret
+    tls:
+      transport:
+        generate: true
+      http:
+        generate: true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Dev Profile&lt;/strong&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: opensearch.opster.io/v1
+kind: OpenSearchCluster
+metadata:
+  finalizers:
+  - Opster
+  name: opensearch
+  namespace: &amp;lt;opensearch dedicated namespace&amp;gt;
+spec:
+  bootstrap:
+    additionalConfig:
+      cluster.initial_master_nodes: opensearch-es-master-0
+  confMgmt:
+    smartScaler: true
+  dashboards:
+    additionalConfig:
+      server.name: opensearch-dashboards
+    enable: true
+    opensearchCredentialsSecret:
+      name: admin-credentials-secret
+    podSecurityContext:
+      fsGroup: 1000
+      runAsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
+      seccompProfile:
+        type: RuntimeDefault
+    replicas: 1
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+    version: 2.3.0
+  general:
+    drainDataNodes: false
+    httpPort: 9200
+    podSecurityContext:
+      seccompProfile:
+        type: RuntimeDefault
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      privileged: false
+      runAsUser: 1000
+    serviceAccount: opensearch-operator-controller-manager
+    serviceName: opensearch
+    setVMMaxMapCount: true
+    vendor: opensearch
+    version: 2.3.0
+  nodePools:
+  - additionalConfig:
+      cluster.initial_master_nodes: opensearch-es-master-0
+    component: es-master
+    diskSize: 1Gi
+    replicas: 1
+    resources:
+      requests:
+        memory: 1G
+    roles:
+    - master
+    - data
+security:
+    config:
+      securityConfigSecret:
+##Pre create this secret with required security configs, to override the default settings
+       name: securityconfig-secret
+      adminCredentialsSecret:
+        name: admin-credentials-secret
+    tls:
+      transport:
+        generate: true
+      http:
+        generate: true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;Once OpenSearchCluster CR is created, you will see OpenSearch and OpenSearch Dashboards pods coming up.&lt;/p&gt;
+&lt;h4 id=&#34;create-ism-policies&#34;&gt;Create ISM Policies&lt;/h4&gt;
+&lt;p&gt;(Optional) Create  ISM policies to manage your indices. In the OpenSearch Dashboards, navigate to the Dev Tools console to send queries to OpenSearch. Execute the following queries to create ISM policies.
+Below are the default ISM policies that we create in Verrazzano.
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    You need to modify these according to the requirements or resources on your cluster. Consider changing name of the policy and the index patterns mentioned in the policies below based on the requirements and your setup.
+
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;
+PUT _plugins/_ism/policies/vz-system
+{
+  &amp;#34;policy&amp;#34;:{
+    &amp;#34;description&amp;#34;:&amp;#34;Verrazzano system default ISM Policy&amp;#34;,
+    &amp;#34;default_state&amp;#34;:&amp;#34;hot&amp;#34;,
+    &amp;#34;schema_version&amp;#34;:1,
+    &amp;#34;states&amp;#34;:[
+      {
+        &amp;#34;name&amp;#34;:&amp;#34;hot&amp;#34;,
+        &amp;#34;actions&amp;#34;:[
+          {
+            &amp;#34;retry&amp;#34;:{
+              &amp;#34;count&amp;#34;:3,
+              &amp;#34;backoff&amp;#34;:&amp;#34;exponential&amp;#34;,
+              &amp;#34;delay&amp;#34;:&amp;#34;10m&amp;#34;
+            },
+            &amp;#34;rollover&amp;#34;:{
+              &amp;#34;min_primary_shard_size&amp;#34;:&amp;#34;5gb&amp;#34;,
+              &amp;#34;min_index_age&amp;#34;:&amp;#34;21d&amp;#34;
+            }
+          }
+        ],
+        &amp;#34;transitions&amp;#34;:[
+          {
+            &amp;#34;state_name&amp;#34;:&amp;#34;delete&amp;#34;,
+            &amp;#34;conditions&amp;#34;:{
+              &amp;#34;min_rollover_age&amp;#34;:&amp;#34;14d&amp;#34;
+            }
+          }
+        ]
+      },
+      {
+        &amp;#34;name&amp;#34;:&amp;#34;delete&amp;#34;,
+        &amp;#34;actions&amp;#34;:[
+          {
+            &amp;#34;retry&amp;#34;:{
+              &amp;#34;count&amp;#34;:3,
+              &amp;#34;backoff&amp;#34;:&amp;#34;exponential&amp;#34;,
+              &amp;#34;delay&amp;#34;:&amp;#34;10m&amp;#34;
+            },
+            &amp;#34;delete&amp;#34;:{
+ 
+            }
+          }
+        ]
+      }
+    ],
+    &amp;#34;ism_template&amp;#34;:[
+      {
+        &amp;#34;index_patterns&amp;#34;:[
+          &amp;#34;verrazzano-system&amp;#34; # change it to the index pattern that covers component logs.
+        ],
+        &amp;#34;priority&amp;#34;:0
+      }
+    ]
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;PUT _plugins/_ism/policies/vz-application
+{
+  &amp;#34;policy&amp;#34;:{
+    &amp;#34;description&amp;#34;:&amp;#34;Verrazzano application default ISM Policy&amp;#34;,
+    &amp;#34;default_state&amp;#34;:&amp;#34;hot&amp;#34;,
+    &amp;#34;schema_version&amp;#34;:1,
+    &amp;#34;states&amp;#34;:[
+      {
+        &amp;#34;name&amp;#34;:&amp;#34;hot&amp;#34;,
+        &amp;#34;actions&amp;#34;:[
+          {
+            &amp;#34;retry&amp;#34;:{
+              &amp;#34;count&amp;#34;:3,
+              &amp;#34;backoff&amp;#34;:&amp;#34;exponential&amp;#34;,
+              &amp;#34;delay&amp;#34;:&amp;#34;10m&amp;#34;
+            },
+            &amp;#34;rollover&amp;#34;:{
+              &amp;#34;min_primary_shard_size&amp;#34;:&amp;#34;5gb&amp;#34;,
+              &amp;#34;min_index_age&amp;#34;:&amp;#34;21d&amp;#34;
+            }
+          }
+        ],
+        &amp;#34;transitions&amp;#34;:[
+          {
+            &amp;#34;state_name&amp;#34;:&amp;#34;delete&amp;#34;,
+            &amp;#34;conditions&amp;#34;:{
+              &amp;#34;min_rollover_age&amp;#34;:&amp;#34;14d&amp;#34;
+            }
+          }
+        ]
+      },
+      {
+        &amp;#34;name&amp;#34;:&amp;#34;delete&amp;#34;,
+        &amp;#34;actions&amp;#34;:[
+          {
+            &amp;#34;retry&amp;#34;:{
+              &amp;#34;count&amp;#34;:3,
+              &amp;#34;backoff&amp;#34;:&amp;#34;exponential&amp;#34;,
+              &amp;#34;delay&amp;#34;:&amp;#34;10m&amp;#34;
+            },
+            &amp;#34;delete&amp;#34;:{
+ 
+            }
+          }
+        ]
+      }
+    ],
+    &amp;#34;ism_template&amp;#34;:[
+      {
+        &amp;#34;index_patterns&amp;#34;:[
+          &amp;#34;verrazzano-application*&amp;#34; # change it to the index pattern that covers application logs.
+        ],
+        &amp;#34;priority&amp;#34;:0
+      }
+    ]
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;
+&lt;h4 id=&#34;create-index-patterns&#34;&gt;Create Index Patterns&lt;/h4&gt;
+&lt;p&gt;Index patterns are essential for accessing OpenSearch data. To access specific logs, create index patterns based on your data-stream and index patterns.&lt;/p&gt;
+&lt;p&gt;Below are the index pattern that we create in Verrazzano to access the Verrazzano specific logs.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;verrazzano-system&lt;/strong&gt;: to cover Verrazano component logs.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;verrazzano-application&lt;/strong&gt;: to cover Application logs.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    You need to create your own index patterns based on the indices you intend to access.
+
+&lt;/div&gt;
+
+To create the index pattern, go to OpenSearch Dashboards, and select Management &amp;gt; Dashboards Management &amp;gt; Index patterns.&lt;/p&gt;
+&lt;p&gt;Select Create index pattern.&lt;/p&gt;
+&lt;p&gt;From the Create index pattern window, define the index pattern by entering a name for your index pattern in the Index pattern name field.&lt;/p&gt;
+&lt;p&gt;Select Next step.&lt;/p&gt;
+&lt;p&gt;Select &lt;strong&gt;@timestamp&lt;/strong&gt; from the dropdown menu to specify the time field for OpenSearch to use when filtering documents based on time.&lt;/p&gt;
+&lt;p&gt;Select Create index pattern.&lt;/p&gt;
+&lt;h4 id=&#34;opensearch-data-migration&#34;&gt;OpenSearch Data Migration:&lt;/h4&gt;
+&lt;p&gt;There is existing documentation for Verrazzano that provides guidance on backing up and restoring OpenSearch data. You can follow the instructions outlined in &lt;a href=&#34;../../../../docs/backup/opensearch/#opensearch-backup-using-velero&#34;&gt;Verrazzano documentation&lt;/a&gt; for using Velero to back up and restore data.&lt;/p&gt;
+&lt;p&gt;Alternatively, instead of restoring the data using Velero, you can refer to the documentation on &lt;a href=&#34;../../../../docs/backup/opensearch/#opensearch-restore-in-an-existing-cluster-using-opensearch-api&#34;&gt;restoring data using the OpenSearch API&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Additionally, OpenSearch&amp;rsquo;s official documentation provides resources on taking snapshots using the OpenSearch API and restoring data. You can find more information &lt;a href=&#34;https://opensearch.org/docs/latest/tuning-your-cluster/availability-and-recovery/snapshots/snapshot-restore/#shared-file-system&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>

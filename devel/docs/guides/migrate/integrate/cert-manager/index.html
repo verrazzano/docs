@@ -91,7 +91,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.75757010b8f1fdbe9b53f52a7393a4a5.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.9950152e153397bd2a7d1e4e1f8a1314.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -117,7 +117,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.75757010b8f1fdbe9b53f52a7393a4a5.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.9950152e153397bd2a7d1e4e1f8a1314.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1377,6 +1377,144 @@ EOF
 </script></p>
 <p>This will restrict ingress to be allowed only to pods in the <code>cert-manager</code> namespace with the <code>app: cert-manager</code> label on TCP port 9402 from Prometheus pods the <code>monitoring</code>  namespace.</p>
 <h2 id="fluent-bit">Fluent Bit</h2>
+<p>Follow the example provided in <a href="../../../../../docs/guides/migrate/install/fluent/#namespace-configselector">fluent operator helm override recipe for namespace configurations</a> to add a helm override for namespace config label selector.</p>
+<p>Then, apply the following manifest in your cluster. Replace <namespace-name> with the namespace in which cert-manager is installed and <code>metadata.labels</code> of FluentBitConfig custom resource with the helm override that was supplied in the previous step.</p>
+<p><strong>Note</strong>: The manifest below assumes that the namespace config label selector override was <code>my.label.selector/namespace-config: &quot;mylabel&quot;</code> following the fluent operator helm override recipe.</p>
+<p><strong>fo_cm.yaml</strong>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>apiVersion: fluentbit.fluent.io/v1alpha2
+kind: FluentBitConfig
+metadata:
+  labels:
+    my.label.selector/namespace-config: &#34;mylabel&#34;
+  name: certmanager-fbc
+  namespace: &lt;namespace_name&gt;
+spec:
+  filterSelector:
+    matchLabels:
+      fluentbit.fluent.io/component: &#34;certmanager&#34;
+  parserSelector:
+    matchLabels:
+      fluentbit.fluent.io/component: &#34;certmanager&#34;
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Filter
+metadata:
+  labels:
+    fluentbit.fluent.io/component: &#34;certmanager&#34;
+  name: certmanager-filter
+  namespace: &lt;namespace_name&gt;
+spec:
+  filters:
+    - parser:
+        keyName: log
+        reserveData: true
+        preserveKey: true
+        parser: certmanager-parser
+  match: &#34;kube.*cert-manager*cert-manager*&#34;
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Parser
+metadata:
+  labels:
+    fluentbit.fluent.io/component: &#34;certmanager&#34;
+  name: certmanager-parser
+  namespace: &lt;namespace_name&gt;
+spec:
+  regex:
+    regex: &#39;/^(?&lt;level&gt;.)(\d{2}\d{2}) (?&lt;logtime&gt;\d{2}:\d{2}:\d{2}.\d{6})\s*?(?&lt;message&gt;[\s\S]*?)$/&#39;
+    timeKey: logtime
+    timeKeep: true
+    timeFormat: &#34;%H:%M:%S.%L&#34;
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script></p>
 <h2 id="network-policies-1">Network Policies</h2>
 
   <div class="section-index">
