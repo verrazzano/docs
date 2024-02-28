@@ -6,6 +6,121 @@ draft: false
 This document shows you how to integrate Prometheus with other OCNE components.
 
 ## Fluent Bit
+Follow the example provided in [fluent operator helm override recipe for namespace configurations]({{< relref "docs/guides/migrate/install/fluent/_index.md#namespace-configselector" >}}) to add a helm override for namespace config label selector.
+
+Then, apply the following manifest in your cluster. Replace <namespace-name> with the namespace in which prometheus is installed and `metadata.labels` of FluentBitConfig custom resource with the helm override that was supplied in the previous step.
+
+**Note**: The manifest below assumes that the namespace config label selector override was `my.label.selector/namespace-config: "mylabel"` following the fluent operator helm override recipe.
+
+**fo_prom.yaml**
+{{< clipboard >}}
+<div class="highlight">
+
+```
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: FluentBitConfig
+metadata:
+  labels:
+    my.label.selector/namespace-config: "mylabel"
+  name: prometheus-fbc
+  namespace: {{ template "kube-prometheus-stack.namespace" . }}
+spec:
+  filterSelector:
+    matchLabels:
+      fluentbit.fluent.io/component: "prometheus"
+  parserSelector:
+    matchLabels:
+      fluentbit.fluent.io/component: "prometheus"
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Filter
+metadata:
+  labels:
+    fluentbit.fluent.io/component: "prometheus"
+  name: prometheus-filter
+  namespace: <namespace_name>
+spec:
+  filters:
+    - parser:
+        keyName: log
+        reserveData: true
+        preserveKey: true
+        parser: prometheus-parser1,prometheus-parser2,prometheus-parser3,prometheus-parser4,prometheusconfig-parser
+  match: "kube.*prometheus-operator*"
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Parser
+metadata:
+  labels:
+    fluentbit.fluent.io/component: "prometheus"
+  name: prometheusconfig-parser
+  namespace: <namespace_name>
+spec:
+  regex:
+    regex: '/^(?<logtime>\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}) (?<message>[\s\S]*?)$/'
+    timeKey: logtime
+    timeKeep: true
+    timeFormat: "%Y/%m/%d %H:%M:%S"
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Parser
+metadata:
+  labels:
+    fluentbit.fluent.io/component: "prometheus"
+  name: prometheus-parser1
+  namespace: <namespace_name>
+spec:
+  regex:
+    regex: '/^ts=(?<logtime>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z)(.*)level=(?<level>.*?) (.*?)msg="(?<message>.*?)"([\s\S]*?)$/'
+    timeKey: logtime
+    timeKeep: true
+    timeFormat: "%Y-%m-%dT%H:%M:%S.%LZ"
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Parser
+metadata:
+  labels:
+    fluentbit.fluent.io/component: "prometheus"
+  name: prometheus-parser2
+  namespace: <namespace_name>
+spec:
+  regex:
+    regex: '/^ts=(?<logtime>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z)(.*)level=(?<level>.*?) (?<message>[\s\S]*?)$/'
+    timeKey: logtime
+    timeKeep: true
+    timeFormat: "%Y-%m-%dT%H:%M:%S.%LZ"
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Parser
+metadata:
+  labels:
+    fluentbit.fluent.io/component: "prometheus"
+  name: prometheus-parser3
+  namespace: <namespace_name>
+spec:
+  regex:
+    regex: '/^(?<level>.)(\d{2}\d{2}) (?<logtime>\d{2}:\d{2}:\d{2}.\d{6})\s*?(?<message>[\s\S]*?)$/'
+    timeKey: logtime
+    timeKeep: true
+    timeFormat: "%H:%M:%S.%L"
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Parser
+metadata:
+  labels:
+    fluentbit.fluent.io/component: "prometheus"
+  name: prometheus-parser4
+  namespace: <namespace_name>
+spec:
+  regex:
+    regex: '/^level=(?<level>.*?) ts=(?<logtime>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{1,9}Z)(?:.*msg="(?<message>[^"]+)")?[\s\S]*?$/'
+    timeKey: logtime
+    timeKeep: true
+    timeFormat: "%Y-%m-%dT%H:%M:%S.%LZ"
+```
+
+</div>
+{{< /clipboard >}}
 
 ## Ingress
 Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by the rules defined on the Ingress resource. Please refer to [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) for more details.

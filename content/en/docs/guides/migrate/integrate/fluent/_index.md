@@ -8,7 +8,7 @@ This document shows you how to integrate Fluentd and Fluent Bit with other OCNE 
 ## Network Policies
 ## Prometheus
 
-Follow [fluent operator helm override recipe]({{< relref "docs/guides/migrate/install/prometheus/_index.md#configuration-to-allow-prometheus-to-scrape-metrics" >}}) to configure overrides for prometheus to scrape metrics.
+Follow [fluent operator helm override recipe]({{< relref "docs/guides/migrate/install/fluent/_index.md#configuration-to-allow-prometheus-to-scrape-metrics" >}}) to configure overrides for prometheus to scrape metrics.
 
 Then, create the following ServiceMonitor resource in the `monitoring` namespace
 
