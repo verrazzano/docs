@@ -8,14 +8,16 @@ This document shows you how to integrate OpenSearch with other OCNE components.
 ## Ingress
 Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by the rules defined on the Ingress resource. Please refer to [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) for more details.
 
-#### Create Ingress to forward requests to OpenSearch and OpenSearch Dashboards
-The following example creates two Ingress to forward requests to the OpenSearch and OpenSearch Dashboards backend, using cert-manager ingress annotations to create a TLS certificate for the endpoint signed by `my-cluster-issuer` ClusterIssuer.
+#### Create Ingress to Forward Requests to OpenSearch and OpenSearch Dashboards
 
-The instructions assume:
-1. Cert Manager is installed and a ClusterIssuer `my-cluster-issuer` is created
-2. The `OpenSearch` and `OpenSearch Dashboards` are installed in `logging` namespace.
-3. The OpenSearch instance is listening on default port `9200` and OpenSearch Dashboards is listening on default port `5601`.
-4. Ingress Controller is installed in `ingress-nginx` namespace, with external IP `10.0.0.1`
+The following example creates two `Ingress` resources to forward requests to the `OpenSearch` and `OpenSearch Dashboards` backends. It utilizes cert-manager ingress annotations to generate a TLS certificate for the endpoint signed by the `my-cluster-issuer` ClusterIssuer.
+
+These instructions assume the following:
+
+1. Cert Manager is installed, and a ClusterIssuer named `my-cluster-issuer` has been created.
+2. The `OpenSearch` and `OpenSearch Dashboards` are installed in the `logging` namespace.
+3. The OpenSearch instance is listening on the default port `9200`, and OpenSearch Dashboards are listening on the default port `5601`.
+4. Ingress Controller is installed in the `ingress-nginx` namespace, with an external IP of `10.0.0.1`.
 
    {{<clipboard >}}
    <div class="highlight">
@@ -52,8 +54,8 @@ EOF
 
    </div>
    {{< /clipboard >}}
-
-{{<clipboard >}}
+   
+   {{<clipboard >}}
    <div class="highlight">
 
 ```
@@ -85,23 +87,24 @@ spec:
     secretName: opensearch-dashboards-tls
 EOF
 ```
-
    </div>
    {{< /clipboard >}}
 
 The ingress in this case utilizes the wildcard DNS service [nip.io](https://nip.io/) to create an address, that will forward requests to the OpenSearch or OpenSearch Dashboards ClusterIP services.
-## Istio
 
 ## Cert-Manager
-If you have installed the cert-manager, you can utilise it to generate the required certificates for Opensearch that are used to secure transport-layer traffic (node-to-node communication within your cluster) and REST-layer traffic (communication between a client and a node within your cluster). TLS is optional for the REST layer and mandatory for the transport layer.
 
-The following instructions to create certificate assume:
-1. Cert Manager is installed and a ClusterIssuer `my-cluster-issuer` is created
-2. Prometheus is installed in `monitoring` namespace.
-3. Organisation for the certificate is `myOrg`.
+If you have installed cert-manager, you can utilize it to generate the required certificates for OpenSearch, which are used to secure transport-layer traffic (node-to-node communication within your cluster) and REST-layer traffic (communication between a client and a node within your cluster). TLS is optional for the REST layer and mandatory for the transport layer.
 
-### Create admin certificate for OpenSearch
-Apply the following `Certificate` resource to create the Admin Certificate for OpenSearch. This will create admin certificate in `opensearch-admin-cert` secret. 
+The following instructions to create certificates assume:
+
+1. Cert Manager is installed, and a ClusterIssuer named `my-cluster-issuer` has been created.
+2. Prometheus is installed in the `monitoring` namespace.
+3. The organization for the certificate is `myOrg`.
+
+### Create Admin Certificate for OpenSearch
+
+Apply the following `Certificate` resource to create the admin Certificate for OpenSearch. This will create the admin certificate in the `opensearch-admin-cert` secret.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -133,13 +136,14 @@ spec:
     kind: ClusterIssuer
     name: my-cluster-issuer
 status: {}
+EOF
 ```
 </div>
 {{< /clipboard >}}
 
-Once admin Certificate is created, you can update `spec.security.config.adminSecret.name` field in the OpenSearchCluster with the `opensearch-admin-cert` secret that contains the admin certificate.
+Once the admin Certificate is created, you can update the `spec.security.config.adminSecret.name` field in the `OpenSearchCluster` with the `opensearch-admin-cert` secret that contains the admin certificate.
 
-### Create master certificate for OpenSearch nodes with master role
+### Create Master Certificate for OpenSearch Nodes with the Master Role
 
 Apply the following `Certificate` resource to create the master Certificate for OpenSearch. This will create master certificate in `opensearch-master-cert` secret.
 
@@ -179,13 +183,14 @@ spec:
     kind: ClusterIssuer
     name: my-cluster-issuer
 status: {}
+EOF
 ```
 </div>
 {{< /clipboard >}}
 
 Once master Certificate is created, you can update `spec.security.tls.http.secret.name` field in the OpenSearchCluster with the `opensearch-master-cert` secret that contains the master certificate.
 
-### Create node certificate for OpenSearch nodes with role other than master
+### Create Node Certificate for OpenSearch Nodes with Roles Other Than Master
 
 Apply the following `Certificate` resource to create the node Certificate for OpenSearch. This will create node certificate in `opensearch-node-cert` secret.
 
@@ -224,13 +229,14 @@ spec:
     kind: ClusterIssuer
     name: my-cluster-issuer
 status: {}
+EOF
 ```
 </div>
 {{< /clipboard >}}
 
 Once node Certificate is created, you can update `spec.security.tls.transport.secret.name` field in the OpenSearchCluster with the `opensearch-node-cert` secret that contains the node certificate.
 
-### Create OpenSearch Dashboards certificate
+### Create OpenSearch Dashboards Certificate
 
 Apply the following `Certificate` resource to create the OpenSearch Dashboards Certificate to allow communication from OpenSearch Dashboards to OpenSearch nodes. This will create OpenSearch Dashboards certificate in `opensearch-dashboards-cert` secret.
 
@@ -269,19 +275,19 @@ spec:
     kind: ClusterIssuer
     name: my-cluster-issuer
 status: {}
+EOF
 ```
 </div>
 {{< /clipboard >}}
 
 Once OpenSearch Dashboards Certificate is created, you can update `spec.dashboards.tls.secret.name` field in the OpenSearchCluster with the `opensearch-dashboards-cert` secret that contains the OpenSearch Dashboards certificate.
 
-You need to update the certificates in the OpenSearchCluster.
-You can refer [Create OpenSearch Cluster with your own certificates]({{< relref "/docs/guides/migrate/install/opensearch#create-openSearch-cluster-with-your-own-certificates" >}}) that contains the example `OpenSearchCluster` that use the same certificates that we generated above.
+You need to update the certificates in the OpenSearchCluster. You can refer [Create OpenSearch Cluster with your own certificates]({{< relref "/docs/guides/migrate/install/opensearch#create-opensearch-cluster-with-your-own-certificates" >}}), which contains an example `OpenSearchCluster` that uses the same certificates we generated above.
 
-### Create OpenSearch Client Cert for Prometheus
+### Create OpenSearch Client Certificate for Prometheus
 
 Create the necessary certificate for client certificate authentication through Cert-manager to enable communication between Prometheus and OpenSearch. Apply the following `Certificate` resource to create a client certificate for Prometheus. 
-This assumes Prometheus Operator will be installed in the `monitoring` namespace and the organization for this certificate is `yourOrg`.
+This assumes Prometheus Operator will be installed in the `monitoring` namespace and the organization for this certificate is `myOrg`.
 
 This will create a client certificate for Prometheus in the `opensearch-monitor-cert` secret. You can use this secret to create `ServiceMonitor` for OpenSearch.
 
@@ -315,6 +321,7 @@ spec:
     kind: ClusterIssuer
     name: my-cluster-issuer
 status: {}
+EOF
 ```
 </div>
 {{< /clipboard >}}
@@ -322,7 +329,9 @@ status: {}
 ## Prometheus
 
 Apply the following `ServiceMonitor` resource to scrape metrics from OpenSearch pods. This assumes Prometheus Operator has been installed in the `monitoring` namespace and OpenSearch has been installed in the `logging` namespace. 
-It also assumes you have created an OpenSearch client certificate for Prometheus in the secret named `opensearch-monitor-cert`. See [Create OpenSearch Client Cert for Prometheus]({{< relref "/docs/guides/migrate/integrate/opensearch#create-openSearch-client-cert-for-prometheus" >}}).
+The instructions assume:
+1. An OpenSearch client certificate for Prometheus is stored in the secret named `opensearch-monitor-cert`. Please refer: [Create OpenSearch Client Certificate for Prometheus]({{< relref "/docs/guides/migrate/integrate/opensearch#create-openSearch-client-cert-for-prometheus" >}}).
+2. Prometheus Operator is installed in `monitoring` namespace.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -375,6 +384,7 @@ spec:
             - __meta_kubernetes_pod_name
           action: replace
           targetLabel: kubernetes_pod_name
+EOF
 ```
 </div>
 {{< /clipboard >}}
@@ -384,11 +394,13 @@ This `ServiceMonitor` assumes OpenSearch is running in the Istio mesh. If OpenSe
 ## Fluent Operator
 To push the logs from the fluent-bit to OpenSearch, you need to create OpenSearch User that has access to push the logs.
 
-### Create OpenSearch Role that has access to push logs
+### Create OpenSearch Role with Access to Push Logs
+
 You need to create an `OpensearchRole` that has access to push the logs to OpenSearch. Apply the following `OpensearchRole` resource.
-The instruction assume:
+
+The instructions assume:
 1. OpenSearch Operator is installed in `logging` namespace.
-2. `myIndex` is index where fluentbit will push the logs.
+2. `myIndex` is the index where fluentbit will push the logs.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -418,6 +430,7 @@ spec:
         - "myIndex*"
       allowedActions:
         - indices_all
+EOF
 ```
 </div>
 {{< /clipboard >}}
@@ -456,14 +469,14 @@ spec:
   passwordFrom:
     key: password
     name: log-pusher-cred
-{{< clipboard >}}
-<div class="highlight">
+EOF
 ```
 </div>
 {{< /clipboard >}}
 
-### Create OpensearchUserRoleBinding
+### Create OpensearchUserRoleBinding for OpensearchUser
 Create `OpensearchUserRoleBinding` to bind the OpensearchUser `log-pusher-user` that we created in previous step to OpensearchRole `log-pusher` so that it can push the logs to OpenSearch.
+
 Apply the following `OpensearchUserRoleBinding` resource to create the OpensearchUserRoleBinding with name `log-pusher-rb`.
 
 {{< clipboard >}}
@@ -485,6 +498,7 @@ spec:
     - log-pusher
   users:
     - "log-pusher-user"
+EOF
 ```
 </div>
 {{< /clipboard >}}
@@ -492,7 +506,7 @@ spec:
 Now the user and password mentioned in the `log-pusher-cred` has access to push the logs.
 
 
-### Configure ClusterOutput to push the logs to OpenSearch
+### Configure ClusterOutput to Push Logs to OpenSearch
 
 Now, we have created OpenSearch user that has access to push the logs, we can use this user in Fluentbit ClusterOutput resource to push the logs from fluentbit to OpenSearch.
 
@@ -507,6 +521,7 @@ The following instructions assume:
 <div class="highlight">
 
 ```
+$ kubectl apply -f - <<EOF
 apiVersion: fluentbit.fluent.io/v1alpha2
 kind: ClusterOutput
 metadata:
@@ -533,6 +548,7 @@ spec:
           name: log-pusher-cred
     suppressTypeName: true
     replaceDots: true
+EOF
 ```
 </div>
 {{< /clipboard >}}

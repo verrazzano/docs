@@ -35,11 +35,11 @@ spec:
 </div>
 {{< /clipboard >}}
 
-For more information about setting component overrides, see [Installation Overrides]({{< relref "docs/setup/installationOverrides.md " >}}).
+For more information about setting component overrides, see [Installation Overrides]({{< relref "docs/setup/installationOverrides.md" >}}).
 
 For information about all the overrides supported by the kube-prometheus-stack chart in Verrazzano, see [values.yaml](https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/prometheus-community/kube-prometheus-stack/values.yaml).
 
-For instructions to customize persistent storage settings for Prometheus, see [Customize Persistent Storage]({{< relref "docs/observability/storage.md " >}}).
+For instructions to customize persistent storage settings for Prometheus, see [Customize Persistent Storage]({{< relref "docs/observability/storage.md" >}}).
 
 ## Configure data retention settings
 

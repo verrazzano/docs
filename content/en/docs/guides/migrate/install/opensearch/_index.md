@@ -347,7 +347,11 @@ spec:
 {{< /clipboard >}}
 
 #### Create OpenSearch Cluster with your own certificates
-In other way, you can create your own certificates and provide the certificate in OpenSearchCluster CR. Refer next section<TBD> to know how to generate certificates.
+In other way, you can create your own certificates and provide the certificate in OpenSearchCluster CR.
+
+To generate self-signed certificates using OpenSSL, you can refer [Generate self-signed certificates using OpenSSL](https://opensearch.org/docs/latest/security/configuration/generate-certificates/)
+
+To generate certificates using cert-manager, you can refer [Generate OpenSearch Certificates using Cert-Manager]({{< relref "/docs/guides/migrate/integrate/opensearch#cert-manager" >}})
 
 {{< clipboard >}}
 <div class="highlight">
@@ -472,160 +476,84 @@ You can utilise the table given below to get the correct configuration for your 
 
 ```
 apiVersion: opensearch.opster.io/v1
-
 kind: OpenSearchCluster
-
 metadata:
-
   finalizers:
-
   - Opster
-
   name: opensearch
-
   namespace: logging
-  
 spec:
-
   bootstrap:
-
     resources: {}
-
   confMgmt:
-
     smartScaler: true
-
   dashboards:
-
     additionalConfig:
-
       server.name: opensearch-dashboards
-
     enable: true
-
     opensearchCredentialsSecret:
-
       name: admin-credentials-secret
-
     podSecurityContext:
-
       fsGroup: 1000
-
       runAsGroup: 1000
-
       runAsNonRoot: true
-
       runAsUser: 1000
-
       seccompProfile:
-
         type: RuntimeDefault
-
     replicas: 1
-
     securityContext:
-
       allowPrivilegeEscalation: false
-
       capabilities:
-
         drop:
-
         - ALL
-
     version: 2.3.0
-
   general:
-
     drainDataNodes: true
-
     httpPort: 9200
-
     podSecurityContext:
-
       seccompProfile:
-
         type: RuntimeDefault
-
     securityContext:
-
       allowPrivilegeEscalation: false
-
       capabilities:
-
         drop:
-
         - ALL
-
       privileged: false
-
       runAsUser: 1000
-
     serviceAccount: opensearch-operator-controller-manager
-
     serviceName: opensearch
-
     setVMMaxMapCount: true
-
     vendor: opensearch
-
     version: 2.3.0
-
   nodePools:
-
   - component: es-master
-
     diskSize: 50Gi
-
     replicas: 3
-
     resources:
-
       requests:
-
         memory: 1503238553600m
-
     roles:
-
     - master
-
   - component: es-data
-
     diskSize: 50Gi
-
     replicas: 3
-
     resources:
-
       requests:
-
         memory: 5153960755200m
-
     roles:
-
     - data
-
   - component: es-ingest
-
     diskSize: 1Gi
-
     replicas: 1
-
     resources:
-
       requests:
-
         memory: 2560Mi
-
     roles:
-
     - ingest
-
   security:
-
     config:
       securityConfigSecret:
-##Pre create this secret with required security configs, to override the default settings
+      #Pre create this secret with required security configs, to override the default settings
        name: securityconfig-secret
       adminCredentialsSecret:
         name: admin-credentials-secret
@@ -644,133 +572,69 @@ spec:
 
 ```
 apiVersion: opensearch.opster.io/v1
-
 kind: OpenSearchCluster
-
 metadata:
-
   finalizers:
-
   - Opster
-
   name: opensearch
-
   namespace: <opensearch dedicated namespace>
-
 spec:
-
   bootstrap:
-
     additionalConfig:
-
       cluster.initial_master_nodes: opensearch-es-master-0
-
   confMgmt:
-
     smartScaler: true
-
   dashboards:
-
     additionalConfig:
-
       server.name: opensearch-dashboards
-
     enable: true
-
     opensearchCredentialsSecret:
-
       name: admin-credentials-secret
-
     podSecurityContext:
-
       fsGroup: 1000
-
       runAsGroup: 1000
-
       runAsNonRoot: true
-
       runAsUser: 1000
-
       seccompProfile:
-
         type: RuntimeDefault
-
     replicas: 1
-
     securityContext:
-
       allowPrivilegeEscalation: false
-
       capabilities:
-
         drop:
-
         - ALL
-
     version: 2.3.0
-
   general:
-
     drainDataNodes: false
-
     httpPort: 9200
-
     podSecurityContext:
-
       seccompProfile:
-
         type: RuntimeDefault
-
     securityContext:
-
       allowPrivilegeEscalation: false
-
       capabilities:
-
         drop:
-
         - ALL
-
       privileged: false
-
       runAsUser: 1000
-
     serviceAccount: opensearch-operator-controller-manager
-
     serviceName: opensearch
-
     setVMMaxMapCount: true
-
     vendor: opensearch
-
     version: 2.3.0
-
   nodePools:
-
   - additionalConfig:
-
       cluster.initial_master_nodes: opensearch-es-master-0
-
     component: es-master
-
     diskSize: 1Gi
-
     replicas: 1
-
     resources:
-
       requests:
-
         memory: 1G
-
     roles:
-
     - master
-
     - data
-
 security:
-
     config:
       securityConfigSecret:
 ##Pre create this secret with required security configs, to override the default settings
