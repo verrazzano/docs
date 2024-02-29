@@ -3,11 +3,7 @@ title: "Dex"
 weight: 1
 draft: false
 ---
-This document shows you how to install dex on OCNE.
-
-## Overview
-
-The following is a guide of how to install dex, an identity provider that uses OpenID Connect for authenticating access to applications.
+This document shows you how to install [dex](https://dexidp.io/docs/), an identity provider that uses OpenID Connect for authenticating access to applications.
 
 ## Install dex using Helm
 
