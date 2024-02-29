@@ -6,7 +6,78 @@ draft: false
 This document shows you how to integrate Ingress NGINX Controller with other OCNE components.
 
 ## Fluent Bit
-**TBD**
+Follow the example provided in [fluent operator helm override recipe for namespace configurations]({{< relref "docs/guides/migrate/install/fluent/_index.md#namespace-configselector" >}}) to add a helm override for namespace config label selector.
+
+Then, apply the following manifest in your cluster. Replace <namespace-name> with the namespace in which NGINX is installed and `metadata.labels` of FluentBitConfig custom resource with the helm override that was supplied in the previous step.
+
+**Note**: The manifest below assumes that the namespace config label selector override was `my.label.selector/namespace-config: "mylabel"` following the fluent operator helm override recipe.
+
+**fo_nginx.yaml**
+{{< clipboard >}}
+<div class="highlight">
+
+```
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: FluentBitConfig
+metadata:
+  labels:
+    my.label.selector/namespace-config: "mylabel"
+  name: nginx-fbc
+  namespace: <namespace_name>
+spec:
+  filterSelector:
+    matchLabels:
+      fluentbit.fluent.io/component: "nginx"
+  parserSelector:
+    matchLabels:
+      fluentbit.fluent.io/component: "nginx"
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Filter
+metadata:
+  labels:
+    fluentbit.fluent.io/component: "nginx"
+  name: nginx-filter
+  namespace: <namespace_name>
+spec:
+  filters:
+    - parser:
+        keyName: log
+        reserveData: true
+        preserveKey: true
+        parser: nginx-klog-parser,nginx-json-parser
+  match: "kube.*ingress-nginx-controller*"
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Parser
+metadata:
+  labels:
+    fluentbit.fluent.io/component: "nginx"
+  name: nginx-klog-parser
+  namespace: <namespace_name>
+spec:
+  regex:
+    regex: '/^(?<level>.)(\d{2}\d{2}) (?<logtime>\d{2}:\d{2}:\d{2}.\d{6})\s*?(?<message>[\s\S]*?)$/'
+    timeKey: logtime
+    timeKeep: true
+    timeFormat: "%H:%M:%S.%L"
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Parser
+metadata:
+  labels:
+    fluentbit.fluent.io/component: "nginx"
+  name: nginx-json-parser
+  namespace: <namespace_name>
+spec:
+  json:
+    timeKey: logtime
+    timeKeep: true
+    timeFormat: "%Y-%m-%dT%H:%M:%S+%L"
+```
+
+</div>
+{{< /clipboard >}}
 
 ## Network Policies
 NetworkPolicies let you specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.
