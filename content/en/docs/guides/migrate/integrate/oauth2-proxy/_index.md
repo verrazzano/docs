@@ -26,7 +26,7 @@ This document shows you how to integrate OAuth2 Proxy with other OCNE components
 
    Add the following annotations to the ingresses of applications that will be authorized and authenticated using oauth2-proxy:
    * nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User,X-Auth-Request-Email
-   * nginx.ingress.kubernetes.io/auth-signin: http://oauth2-proxy.${ADDRESS}.nip.io/oauth2/start
+   * nginx.ingress.kubernetes.io/auth-signin: http://oauth2-proxy.${ADDRESS}/oauth2/start
    * nginx.ingress.kubernetes.io/auth-url: http://oauth2-proxy.oauth2-proxy.svc.cluster.local/oauth2/auth
 
    <br>For example, adding the annotations to a Prometheus ingress:
@@ -42,12 +42,12 @@ This document shows you how to integrate OAuth2 Proxy with other OCNE components
      name: prometheus
      annotations:
        nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User,X-Auth-Request-Email
-       nginx.ingress.kubernetes.io/auth-signin: http://oauth2-proxy.${ADDRESS}.nip.io/oauth2/start
+       nginx.ingress.kubernetes.io/auth-signin: http://oauth2-proxy.${ADDRESS}/oauth2/start
        nginx.ingress.kubernetes.io/auth-url: http://oauth2-proxy.oauth2-proxy.svc.cluster.local/oauth2/auth
    spec:
      ingressClassName: nginx
      rules:
-       - host: prometheus.${ADDRESS}.nip.io
+       - host: prometheus.${ADDRESS}
          http:
            paths:
              - pathType: Prefix
