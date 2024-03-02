@@ -1934,7 +1934,7 @@ spec:
 &lt;p&gt;Add the following annotations to the ingresses of applications that will be authorized and authenticated using oauth2-proxy:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User,X-Auth-Request-Email&lt;/li&gt;
-&lt;li&gt;nginx.ingress.kubernetes.io/auth-signin: http://oauth2-proxy.${ADDRESS}.nip.io/oauth2/start&lt;/li&gt;
+&lt;li&gt;nginx.ingress.kubernetes.io/auth-signin: http://oauth2-proxy.${ADDRESS}/oauth2/start&lt;/li&gt;
 &lt;li&gt;nginx.ingress.kubernetes.io/auth-url: &lt;a href=&#34;http://oauth2-proxy.oauth2-proxy.svc.cluster.local/oauth2/auth&#34;&gt;http://oauth2-proxy.oauth2-proxy.svc.cluster.local/oauth2/auth&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;br&gt;For example, adding the annotations to a Prometheus ingress:&lt;/p&gt;
@@ -1975,12 +1975,12 @@ metadata:
   name: prometheus
   annotations:
     nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User,X-Auth-Request-Email
-    nginx.ingress.kubernetes.io/auth-signin: http://oauth2-proxy.${ADDRESS}.nip.io/oauth2/start
+    nginx.ingress.kubernetes.io/auth-signin: http://oauth2-proxy.${ADDRESS}/oauth2/start
     nginx.ingress.kubernetes.io/auth-url: http://oauth2-proxy.oauth2-proxy.svc.cluster.local/oauth2/auth
 spec:
   ingressClassName: nginx
   rules:
-    - host: prometheus.${ADDRESS}.nip.io
+    - host: prometheus.${ADDRESS}
       http:
         paths:
           - pathType: Prefix
