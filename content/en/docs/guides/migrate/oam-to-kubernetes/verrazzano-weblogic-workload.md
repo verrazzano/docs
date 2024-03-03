@@ -260,3 +260,204 @@ n/$(DOMAIN_UID).log
   webLogicCredentialsSecret:
     name: tododomain-weblogic-credentials
 ```
+
+## Edit Domain object to move from Fluentd sidecar to FluentBit sidecar
+
+Remove Fluentd sidecar container from `spec.serverPod` field and associated volumes and volumeMounts from your Domain object manifest before applying it in the cluster.
+For example, the Domain object in the previous section will look something like this after removing Fluentd sidecar container, associated volumes and volumeMounts.
+```
+apiVersion: weblogic.oracle/v9
+kind: Domain
+metadata:
+  name: todo-domain
+  namespace: todo-list
+spec:
+  adminServer:
+    adminChannelPortForwardingEnabled: true
+    serverStartPolicy: IfNeeded
+  configuration:
+    introspectorJobActiveDeadlineSeconds: 900
+    model:
+      auxiliaryImages:
+      - image: container-registry.oracle.com/verrazzano/example-todo:20211129200415-ae4e89e
+      configMap: tododomain-jdbc-config
+      domainType: WLS
+      runtimeEncryptionSecret: tododomain-runtime-encrypt-secret
+    overrideDistributionStrategy: Dynamic
+    secrets:
+    - tododomain-jdbc-tododb
+  domainHome: /u01/domains/tododomain
+  domainHomeSourceType: FromModel
+  domainUID: tododomain
+  failureRetryIntervalSeconds: 120
+  failureRetryLimitMinutes: 1440
+  httpAccessLogInLogHome: true
+  image: container-registry.oracle.com/middleware/weblogic:12.2.1.4
+  imagePullSecrets:
+  - name: tododomain-repo-credentials
+  includeServerOutInPodLog: true
+  logHome: /scratch/logs/todo-domain
+  logHomeEnabled: true
+  logHomeLayout: Flat
+  maxClusterConcurrentShutdown: 1
+  maxClusterConcurrentStartup: 0
+  maxClusterUnavailable: 1
+  monitoringExporter:
+    configuration:
+      domainQualifier: true
+      metricsNameSnakeCase: true
+      queries:
+      - applicationRuntimes:
+          componentRuntimes:
+            key: name
+            prefix: wls_webapp_config_
+            servlets:
+              key: servletName
+              prefix: wls_servlet_
+            type: WebAppComponentRuntime
+            values:
+            - deploymentState
+            - contextRoot
+            - sourceInfo
+            - sessionsOpenedTotalCount
+            - openSessionsCurrentCount
+            - openSessionsHighCount
+          key: name
+          keyName: app
+        key: name
+        keyName: location
+        prefix: wls_server_
+      - JVMRuntime:
+          key: name
+          prefix: wls_jvm_
+      - executeQueueRuntimes:
+          key: name
+          prefix: wls_socketmuxer_
+          values:
+          - pendingRequestCurrentCount
+      - workManagerRuntimes:
+          key: name
+          prefix: wls_workmanager_
+          values:
+          - stuckThreadCount
+          - pendingRequests
+          - completedRequests
+      - threadPoolRuntime:
+          key: name
+          prefix: wls_threadpool_
+          values:
+          - executeThreadTotalCount
+          - queueLength
+          - stuckThreadCount
+          - hoggingThreadCount
+      - JMSRuntime:
+          JMSServers:
+            destinations:
+              key: name
+              keyName: destination
+              prefix: wls_jms_dest_
+            key: name
+            keyName: jmsserver
+            prefix: wls_jms_
+          key: name
+          keyName: jmsruntime
+          prefix: wls_jmsruntime_
+      - persistentStoreRuntimes:
+          key: name
+          prefix: wls_persistentstore_
+      - JDBCServiceRuntime:
+          JDBCDataSourceRuntimeMBeans:
+            key: name
+            prefix: wls_datasource_
+      - JTARuntime:
+          key: name
+          prefix: wls_jta_
+    image: ghcr.io/oracle/weblogic-monitoring-exporter:2.1.8
+    imagePullPolicy: IfNotPresent
+    port: 8080
+  replaceVariablesInJavaOptions: false
+  replicas: 1
+  serverPod:
+    env:
+    - name: JAVA_OPTIONS
+      value: -Dweblogic.StdoutDebugEnabled=false
+    - name: USER_MEM_ARGS
+      value: '-Djava.security.egd=file:/dev/./urandom -Xms64m -Xmx256m '
+    - name: WL_HOME
+      value: /u01/oracle/wlserver
+    - name: MW_HOME
+      value: /u01/oracle
+    labels:
+      app: todo-domain
+      verrazzano.io/workload-type: weblogic
+      version: v1
+    volumeMounts:
+    - mountPath: /scratch
+      name: weblogic-domain-storage-volume
+    volumes:
+    - emptyDir: {}
+      name: weblogic-domain-storage-volume
+  serverService:
+    labels:
+      app: todo-domain
+      verrazzano.io/workload-type: weblogic
+      version: v1
+  serverStartPolicy: IfNeeded
+  webLogicCredentialsSecret:
+    name: tododomain-weblogic-credentials
+```
+
+Then, add a specification similar to this for a Fluent Bit sidecar in your Domain object spec.
+
+```
+spec:
+  fluentbitSpecification:
+    image: <fluentbit-image>
+    containerCommand:
+      - /fluent-bit/bin/fluent-bit
+    containerArgs:
+      - -c
+      - /fluent-bit/etc/fluent-bit.conf
+    volumeMounts:
+    - mountPath: /scratch
+      name: weblogic-domain-storage-volume
+    fluentbitConfiguration: |-
+      [SERVICE]
+        flush        1
+        log_level    off
+        parsers_file parsers.conf
+ 
+      [INPUT]
+        name             tail
+        path             ${LOG_PATH}
+        read_from_head   true
+        db               /tmp/serverlog.db
+        multiline.parser capture-multiline-log
+        tag foo
+ 
+      [FILTER]
+        match *
+        name parser
+        preserve_key true
+        parser parse-multiline-log
+        key_name log
+ 
+      [OUTPUT]
+        name             stdout
+        match            *
+    parserConfiguration: |-
+      [MULTILINE_PARSER]
+         name          capture-multiline-log
+         type          regex
+         flush_timeout 1000
+         rule      "start_state"   "/^####(.*)/"                     "cont"
+         rule      "cont"          "/^(?!####)(.*)/"                 "cont"
+ 
+      [PARSER]
+         Name parse-multiline-log
+         Format regex
+         Time_Key timestamp
+         Regex /^####<(?<timestamp>(.*?))> <(?<level>(.*?))> <(?<subSystem>(.*?))> <(?<serverName>(.*?))> <(?<serverName2>(.*?))> <(?<threadName>(.*?))> <(?<info1>(.*?))> <(?<info2>(.*?))> <(?<info3>(.*?))> <(?<sequenceNumber>(.*?))> <(?<severity>(.*?))> <(?<messageID>(.*?))> <(?<message>((?m).*?))>/    
+```
+
+Replace <fluentbit-image> with the same image as Fluent Bit DaemonSet running in your cluster.
