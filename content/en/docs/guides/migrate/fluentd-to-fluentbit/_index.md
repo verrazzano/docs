@@ -14,6 +14,6 @@ Following the migration guide to install and integrate Fluent Bit will result in
 
 ## Migrating Fluentd configuration for Fluentd sidecar to Fluent Bit
 
-Fluent Bit was built on top of Fluentd design and architecture, so they share certain similarities when it comes to configuration and plugins.
+Fluent Bit was inspired by Fluentd design and architecture, so they share certain similarities when it comes to configuration and plugins.
 
-For Fluentd to Fluent Bit sidecar migration, follow WKO section.
+For Fluentd to Fluent Bit sidecar migration, follow [recipe to migrate to Fluent Bit sidecar for WebLogic Workloads]({{< relref "docs/guides/migrate/oam-to-kubernetes/verrazzano-weblogic-workload.md#edit-domain-object-to-move-from-fluentd-sidecar-to-fluentbit-sidecar" >}})
