@@ -8,7 +8,6 @@ Fluentd is the default logging agent in Verrazzano, which runs as a DaemonSet th
 For components with multiple log streams or that cannot log to stdout, Verrazzano deploys a Fluentd sidecar which parses and translates the log stream. The resulting log is sent to stdout of the sidecar container and then written to /var/log/containers by the kubelet service.
 
 In OCNE, the default logging agent will be Fluent Bit, which will be installed via Fluent Operator and will also run as a DaemonSet and operate in a way similar to Fluentd to collect, process and send logs to log stores.
-The following sections offer details on how to move to Fluent Bit DaemonSet and sidecar.
 
 Following the migration guide to install and integrate Fluent Bit will result in a Fluent Bit DaemonSet instance that operates similar to Fluentd.
 
