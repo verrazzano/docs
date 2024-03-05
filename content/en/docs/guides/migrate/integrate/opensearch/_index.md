@@ -17,7 +17,7 @@ These instructions assume the following:
 1. Cert Manager is installed, and a ClusterIssuer named `my-cluster-issuer` has been created.
 2. The `OpenSearch` and `OpenSearch Dashboards` are installed in the `logging` namespace.
 3. The OpenSearch instance is listening on the default port `9200`, and OpenSearch Dashboards are listening on the default port `5601`.
-4. Ingress Controller is installed in the `ingress-nginx` namespace, with an external IP of `10.0.0.1`.
+4. Ingress Controller is installed in the `ingress-nginx` namespace, with a hostname of os.10.0.0.1.nip.io.
 
    {{<clipboard >}}
    <div class="highlight">
