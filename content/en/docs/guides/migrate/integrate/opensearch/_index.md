@@ -99,7 +99,7 @@ If you have installed cert-manager, you can utilize it to generate the required 
 The following instructions to create certificates assume:
 
 1. Cert Manager is installed, and a ClusterIssuer named `my-cluster-issuer` has been created.
-2. Prometheus is installed in the `monitoring` namespace.
+2. OpenSearch operator is installed in the `logging` namespace.
 3. The organization for the certificate is `myOrg`.
 
 ### Create Admin Certificate for OpenSearch
@@ -332,6 +332,7 @@ Apply the following `ServiceMonitor` resource to scrape metrics from OpenSearch 
 The instructions assume:
 1. An OpenSearch client certificate for Prometheus is stored in the secret named `opensearch-monitor-cert`. Please refer: [Create OpenSearch Client Certificate for Prometheus]({{< relref "/docs/guides/migrate/integrate/opensearch#create-openSearch-client-cert-for-prometheus" >}}).
 2. Prometheus Operator is installed in `monitoring` namespace.
+3. OpenSearch is not running in the Istio mesh.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -389,10 +390,9 @@ EOF
 </div>
 {{< /clipboard >}}
 
-This `ServiceMonitor` assumes OpenSearch is running in the Istio mesh. If OpenSearch is not in the Istio mesh, then remove the `tlsConfig` and change the `scheme` to `http`.
 
 ## Fluent Operator
-To push the logs from the fluent-bit to OpenSearch, you need to create OpenSearch User that has access to push the logs.
+To push the logs from the Fluent Bit to OpenSearch, you need to create OpenSearch User that has access to push the logs.
 
 ### Create OpenSearch Role with Access to Push Logs
 
@@ -400,7 +400,7 @@ You need to create an `OpensearchRole` that has access to push the logs to OpenS
 
 The instructions assume:
 1. OpenSearch Operator is installed in `logging` namespace.
-2. `myIndex` is the index where fluentbit will push the logs.
+2. `myIndex` is the index where Fluent Bit will push the logs.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -435,7 +435,7 @@ EOF
 </div>
 {{< /clipboard >}}
 
-### Create OpensearchUser for Fluentbit
+### Create OpensearchUser for Fluent Bit
 Apply the following `Secret` to create the password for OpensearchUser and `OpensearchUser` to create a OpensearchUser with that password.
 
 The following instructions create the `OpensearchUser` with name `log-pusher-user` and its password `admin` is stored as base64 encoded in `log-pusher-cred` secret.
@@ -508,12 +508,12 @@ Now the user and password mentioned in the `log-pusher-cred` has access to push 
 
 ### Configure ClusterOutput to Push Logs to OpenSearch
 
-Now, we have created OpenSearch user that has access to push the logs, we can use this user in Fluentbit ClusterOutput resource to push the logs from fluentbit to OpenSearch.
+Now, we have created OpenSearch user that has access to push the logs, we can use this user in Fluent Bit ClusterOutput resource to push the logs from Fluent Bit to OpenSearch.
 
-Apply the following `ClusterOutput` to allow the fluentbit to push the logs to OpenSearch.
+Apply the following `ClusterOutput` to allow the Fluent Bit to push the logs to OpenSearch.
 The following instructions assume:
-1. `myIndex` is OpenSearch index where fluentbit will push the logs.
-2. fluentbit will search logs in  `my-namespace` namespace to push it to OpenSearch.
+1. `myIndex` is OpenSearch index where Fluent Bit will push the logs.
+2. Fluent Bit will search logs in  `my-namespace` namespace to push it to OpenSearch.
 3. The OpenSearch instance is listening on default port `9200` and `opensearch` service is there in `logging` namespace.
 4. `log-pusher-cred` secret contains the username and password for the OpensearchUser that has access to push the logs.
 
