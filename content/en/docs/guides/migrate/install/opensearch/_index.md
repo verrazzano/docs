@@ -257,7 +257,8 @@ To create OpenSearch and OpenSearch Dashboards instance, you will require to cre
 
 There are two ways to provide certificates in OpenSearchCluster CR.
 
-1. One is where you can allow the OpenSearch Operator to generate and sign the certificates. You can refer below CR that has self generated certificates.
+#### Create OpenSearch Cluster with auto generated certificates
+You can allow the OpenSearch Operator to generate and sign the certificates. You can refer below CR that has auto generated certificates.
 
 {{< alert title="NOTE" color="primary" >}}
 Within this CR, specific parameter values are necessary to configure the OpenSearch Cluster according to the requirements or values outlined in the previous Verrazzano instance. You can refer to the [table]({{< relref "/docs/guides/migrate/install/opensearch#mapping-table-for-opensearchcluster-configuration" >}}) to determine the required values for these parameters.
@@ -345,7 +346,12 @@ spec:
 </div>
 {{< /clipboard >}}
 
-2. In other way, you can create your own certificates and provide the certificate in OpenSearchCluster CR. Refer next section<TBD> to know how to generate certificates.
+#### Create OpenSearch Cluster with your own certificates
+In other way, you can create your own certificates and provide the certificate in OpenSearchCluster CR.
+
+To generate self-signed certificates using OpenSSL, you can refer [Generate self-signed certificates using OpenSSL](https://opensearch.org/docs/latest/security/configuration/generate-certificates/)
+
+To generate certificates using cert-manager, you can refer [Generate OpenSearch Certificates using Cert-Manager]({{< relref "/docs/guides/migrate/integrate/opensearch#cert-manager" >}})
 
 {{< clipboard >}}
 <div class="highlight">
