@@ -91,7 +91,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.6187aba6bcf5647b3af5690930a8a64e.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.c1c33d9ec1fd09a90a94ba5695515217.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -117,7 +117,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.6187aba6bcf5647b3af5690930a8a64e.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.c1c33d9ec1fd09a90a94ba5695515217.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1231,10 +1231,29 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
-        <li><a href="#network-policies">Network Policies</a></li>
-        <li><a href="#ingress">Ingress</a></li>
-        <li><a href="#istio">Istio</a></li>
+        <li><a href="#ingress">Ingress</a>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+        <li><a href="#cert-manager">Cert-Manager</a>
+          <ul>
+            <li><a href="#create-admin-certificate-for-opensearch">Create Admin Certificate for OpenSearch</a></li>
+            <li><a href="#create-master-certificate-for-opensearch-nodes-with-the-master-role">Create Master Certificate for OpenSearch Nodes with the Master Role</a></li>
+            <li><a href="#create-node-certificate-for-opensearch-nodes-with-roles-other-than-master">Create Node Certificate for OpenSearch Nodes with Roles Other Than Master</a></li>
+            <li><a href="#create-opensearch-dashboards-certificate">Create OpenSearch Dashboards Certificate</a></li>
+            <li><a href="#create-opensearch-client-certificate-for-prometheus">Create OpenSearch Client Certificate for Prometheus</a></li>
+          </ul>
+        </li>
         <li><a href="#prometheus">Prometheus</a></li>
+        <li><a href="#fluent-operator">Fluent Operator</a>
+          <ul>
+            <li><a href="#create-opensearch-role-with-access-to-push-logs">Create OpenSearch Role with Access to Push Logs</a></li>
+            <li><a href="#create-opensearchuser-for-fluent-bit">Create OpensearchUser for Fluent Bit</a></li>
+            <li><a href="#create-opensearchuserrolebinding-for-opensearchuser">Create OpensearchUserRoleBinding for OpensearchUser</a></li>
+            <li><a href="#configure-clusteroutput-to-push-logs-to-opensearch">Configure ClusterOutput to Push Logs to OpenSearch</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -1270,11 +1289,270 @@ if (!doNotTrack) {
 		
 </header>
 	<p>This document shows you how to integrate OpenSearch with other OCNE components.</p>
-<h2 id="network-policies">Network Policies</h2>
 <h2 id="ingress">Ingress</h2>
-<h2 id="istio">Istio</h2>
-<h2 id="prometheus">Prometheus</h2>
-<p>Apply the following <code>ServiceMonitor</code> resource to scrape metrics from OpenSearch pods. This assumes Prometheus Operator has been installed in the <code>monitoring</code> namespace and OpenSearch has been installed in the <code>logging</code> namespace.</p>
+<p>Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by the rules defined on the Ingress resource. Please refer to <a href="https://kubernetes.io/docs/concepts/services-networking/ingress/">Ingress</a> for more details.</p>
+<h4 id="create-ingress-to-forward-requests-to-opensearch-and-opensearch-dashboards">Create Ingress to Forward Requests to OpenSearch and OpenSearch Dashboards</h4>
+<p>The following example creates two <code>Ingress</code> resources to forward requests to the <code>OpenSearch</code> and <code>OpenSearch Dashboards</code> backends. It utilizes cert-manager ingress annotations to generate a TLS certificate for the endpoint signed by the <code>my-cluster-issuer</code> ClusterIssuer.</p>
+<p>These instructions assume the following:</p>
+<ol>
+<li>
+<p>Cert Manager is installed, and a ClusterIssuer named <code>my-cluster-issuer</code> has been created.</p>
+</li>
+<li>
+<p>The <code>OpenSearch</code> and <code>OpenSearch Dashboards</code> are installed in the <code>logging</code> namespace.</p>
+</li>
+<li>
+<p>The OpenSearch instance is listening on the default port <code>9200</code>, and OpenSearch Dashboards are listening on the default port <code>5601</code>.</p>
+</li>
+<li>
+<p>Ingress Controller is installed in the <code>ingress-nginx</code> namespace, with a hostname of os.10.0.0.1.nip.io.</p>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+       <div class="highlight">
+<pre tabindex="0"><code>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: my-cluster-issuer
+    cert-manager.io/common-name: os.10.0.0.1.nip.io
+  name: opensearch
+  namespace: logging
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: os.10.0.0.1.nip.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: opensearch
+            port:
+              number: 9200
+        path: /()(.*)
+        pathType: Prefix
+  tls:
+  - hosts:
+    - opensearch.10.0.0.1.nip.io
+    secretName: opensearch-tls
+EOF
+</code></pre>   </div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+       <div class="highlight">
+<pre tabindex="0"><code>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: my-cluster-issuer
+    cert-manager.io/common-name: osd.10.0.0.1.nip.io
+  name: opensearch-dashboards
+  namespace: logging
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: osd.10.0.0.1.nip.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: opensearch-dashboards
+            port:
+              number: 5601
+        path: /()(.*)
+        pathType: Prefix
+  tls:
+  - hosts:
+    - opensearch.10.0.0.1.nip.io
+    secretName: opensearch-dashboards-tls
+EOF
+</code></pre>   </div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+</li>
+</ol>
+<p>The ingress in this case utilizes the wildcard DNS service <a href="https://nip.io/">nip.io</a> to create an address, that will forward requests to the OpenSearch or OpenSearch Dashboards ClusterIP services.</p>
+<h2 id="cert-manager">Cert-Manager</h2>
+<p>If you have installed cert-manager, you can utilize it to generate the required certificates for OpenSearch, which are used to secure transport-layer traffic (node-to-node communication within your cluster) and REST-layer traffic (communication between a client and a node within your cluster). TLS is optional for the REST layer and mandatory for the transport layer.</p>
+<p>The following instructions to create certificates assume:</p>
+<ol>
+<li>Cert Manager is installed, and a ClusterIssuer named <code>my-cluster-issuer</code> has been created.</li>
+<li>OpenSearch operator is installed in the <code>logging</code> namespace.</li>
+<li>The organization for the certificate is <code>myOrg</code>.</li>
+</ol>
+<h3 id="create-admin-certificate-for-opensearch">Create Admin Certificate for OpenSearch</h3>
+<p>Apply the following <code>Certificate</code> resource to create the admin Certificate for OpenSearch. This will create the admin certificate in the <code>opensearch-admin-cert</code> secret.</p>
 <style type="text/css">
     code {
         margin: 0;
@@ -1306,44 +1584,32 @@ if (!doNotTrack) {
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ kubectl apply -f - &lt;&lt;EOF
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
+apiVersion: cert-manager.io/v1
+kind: Certificate
 metadata:
-  labels:
-    release: prometheus-operator
-  name: opensearch
-  namespace: monitoring
+  name: opensearch-admin-cert
+  namespace: logging
 spec:
-  endpoints:
-  - enableHttp2: false
-    path: /_prometheus/metrics
-    relabelings:
-    - action: keep
-      regex: opensearch-cluster-.*
-      sourceLabels:
-      - __meta_kubernetes_pod_name
-    - action: keep
-      regex: &#34;9200&#34;
-      sourceLabels:
-      - __meta_kubernetes_pod_container_port_number
-    - action: replace
-      sourceLabels:
-      - __meta_kubernetes_namespace
-      targetLabel: namespace
-    - action: replace
-      sourceLabels:
-      - __meta_kubernetes_pod_name
-      targetLabel: kubernetes_pod_name
-    scheme: https
-    tlsConfig:
-      caFile: /etc/istio-certs/root-cert.pem
-      certFile: /etc/istio-certs/cert-chain.pem
-      insecureSkipVerify: true
-      keyFile: /etc/istio-certs/key.pem
-  namespaceSelector:
-    matchNames:
-    - logging
-  selector: {}
+  commonName: admin
+  secretName: opensearch-admin-cert
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS8
+    size: 2048
+  duration: 2160h0m0s
+  renewBefore: 360h0m0s
+  subject:
+    organizations:
+      - myOrg
+  usages:
+    - server auth
+    - client auth
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: my-cluster-issuer
+status: {}
+EOF
 </code></pre></div>
 
 </div>
@@ -1404,7 +1670,1132 @@ spec:
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
-<p>This <code>ServiceMonitor</code> assumes OpenSearch is running in the Istio mesh. If OpenSearch is not in the Istio mesh, then remove the <code>tlsConfig</code> and change the <code>scheme</code> to <code>http</code>.</p>
+<p>Once the admin Certificate is created, you can update the <code>spec.security.config.adminSecret.name</code> field in the <code>OpenSearchCluster</code> with the <code>opensearch-admin-cert</code> secret that contains the admin certificate.</p>
+<h3 id="create-master-certificate-for-opensearch-nodes-with-the-master-role">Create Master Certificate for OpenSearch Nodes with the Master Role</h3>
+<p>Apply the following <code>Certificate</code> resource to create the master Certificate for OpenSearch. This will create master certificate in <code>opensearch-master-cert</code> secret.</p>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: opensearch-master-cert
+  namespace: logging
+spec:
+  commonName: opensearch
+  secretName: opensearch-master-cert
+  dnsNames:
+    - opensearch
+    - opensearch.logging
+    - opensearch.logging.svc
+    - opensearch.logging.svc.cluster.local
+    - opensearch-discovery
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS8
+    size: 2048
+  renewBefore: 360h0m0s
+  duration: 2160h0m0s
+  subject:
+    organizations:
+      - myOrg
+  usages:
+    - server auth
+    - client auth
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: my-cluster-issuer
+status: {}
+EOF
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+<p>Once master Certificate is created, you can update <code>spec.security.tls.http.secret.name</code> field in the OpenSearchCluster with the <code>opensearch-master-cert</code> secret that contains the master certificate.</p>
+<h3 id="create-node-certificate-for-opensearch-nodes-with-roles-other-than-master">Create Node Certificate for OpenSearch Nodes with Roles Other Than Master</h3>
+<p>Apply the following <code>Certificate</code> resource to create the node Certificate for OpenSearch. This will create node certificate in <code>opensearch-node-cert</code> secret.</p>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: opensearch-node-cert
+  namespace: logging
+spec:
+  commonName: opensearch
+  secretName: opensearch-node-cert
+  dnsNames:
+    - opensearch
+    - opensearch.logging 
+    - opensearch.logging.svc
+    - opensearch.logging.svc.cluster.local
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS8
+    size: 2048
+  renewBefore: 360h0m0s
+  duration: 2160h0m0s
+  subject:
+    organizations:
+      - myOrg
+  usages:
+    - server auth
+    - client auth
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: my-cluster-issuer
+status: {}
+EOF
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+<p>Once node Certificate is created, you can update <code>spec.security.tls.transport.secret.name</code> field in the OpenSearchCluster with the <code>opensearch-node-cert</code> secret that contains the node certificate.</p>
+<h3 id="create-opensearch-dashboards-certificate">Create OpenSearch Dashboards Certificate</h3>
+<p>Apply the following <code>Certificate</code> resource to create the OpenSearch Dashboards Certificate to allow communication from OpenSearch Dashboards to OpenSearch nodes. This will create OpenSearch Dashboards certificate in <code>opensearch-dashboards-cert</code> secret.</p>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: opensearch-dashboards-cert
+  namespace: logging
+spec:
+  commonName: opensearch
+  secretName: opensearch-dashboards-cert
+  dnsNames:
+    - opensearch
+    - opensearch.logging
+    - opensearch.logging.svc
+    - opensearch.logging.svc.cluster.local
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS8
+    size: 2048
+  renewBefore: 360h0m0s
+  duration: 2160h0m0s
+  subject:
+    organizations:
+      - myOrg
+  usages:
+    - server auth
+    - client auth
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: my-cluster-issuer
+status: {}
+EOF
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+<p>Once OpenSearch Dashboards Certificate is created, you can update <code>spec.dashboards.tls.secret.name</code> field in the OpenSearchCluster with the <code>opensearch-dashboards-cert</code> secret that contains the OpenSearch Dashboards certificate.</p>
+<p>You need to update the certificates in the OpenSearchCluster. You can refer <a href="../../../../../docs/guides/migrate/install/opensearch/#create-opensearch-cluster-with-your-own-certificates">Create OpenSearch Cluster with your own certificates</a>, which contains an example <code>OpenSearchCluster</code> that uses the same certificates we generated above.</p>
+<h3 id="create-opensearch-client-certificate-for-prometheus">Create OpenSearch Client Certificate for Prometheus</h3>
+<p>Create the necessary certificate for client certificate authentication through Cert-manager to enable communication between Prometheus and OpenSearch. Apply the following <code>Certificate</code> resource to create a client certificate for Prometheus.
+This assumes Prometheus Operator will be installed in the <code>monitoring</code> namespace and the organization for this certificate is <code>myOrg</code>.</p>
+<p>This will create a client certificate for Prometheus in the <code>opensearch-monitor-cert</code> secret. You can use this secret to create <code>ServiceMonitor</code> for OpenSearch.</p>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: opensearch-monitor-certs
+  namespace: monitoring
+spec:
+  commonName: prometheus-operator
+  secretName: opensearch-monitor-cert
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS8
+    size: 2048
+  renewBefore: 360h0m0s
+  duration: 2160h0m0s
+  subject:
+    organizations:
+      - myOrg
+  usages:
+    - server auth
+    - client auth
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: my-cluster-issuer
+status: {}
+EOF
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+<h2 id="prometheus">Prometheus</h2>
+<p>Apply the following <code>ServiceMonitor</code> resource to scrape metrics from OpenSearch pods. This assumes Prometheus Operator has been installed in the <code>monitoring</code> namespace and OpenSearch has been installed in the <code>logging</code> namespace.
+The instructions assume:</p>
+<ol>
+<li>An OpenSearch client certificate for Prometheus is stored in the secret named <code>opensearch-monitor-cert</code>. Please refer: <a href="../../../../../docs/guides/migrate/integrate/opensearch/#create-openSearch-client-cert-for-prometheus">Create OpenSearch Client Certificate for Prometheus</a>.</li>
+<li>Prometheus Operator is installed in <code>monitoring</code> namespace.</li>
+<li>OpenSearch is not running in the Istio mesh.</li>
+</ol>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: opensearch
+  namespace: monitoring
+  labels:
+    release: prometheus-operator
+spec:
+  namespaceSelector:
+    matchNames:
+      - logging
+  selector: {}
+  endpoints:
+    - path: /_prometheus/metrics
+      enableHttp2: false
+      tlsConfig:
+        ca:
+          secret:
+            name: opensearch-monitor-cert
+            key: ca.crt
+        cert:
+          secret:
+            name: opensearch-monitor-cert
+            key: tls.crt
+        keySecret:
+          name: opensearch-monitor-cert
+          key: tls.key
+        insecureSkipVerify: true
+      scheme: https
+      relabelings:
+        - sourceLabels:
+            - __meta_kubernetes_pod_name
+          regex: opensearch.*
+          action: keep
+        - sourceLabels:
+            - __meta_kubernetes_pod_container_port_number
+          regex: &#34;9200&#34;
+          action: keep
+        - sourceLabels:
+            - __meta_kubernetes_namespace
+          action: replace
+          targetLabel: namespace
+        - sourceLabels:
+            - __meta_kubernetes_pod_name
+          action: replace
+          targetLabel: kubernetes_pod_name
+EOF
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+<h2 id="fluent-operator">Fluent Operator</h2>
+<p>To push the logs from the Fluent Bit to OpenSearch, you need to create OpenSearch User that has access to push the logs.</p>
+<h3 id="create-opensearch-role-with-access-to-push-logs">Create OpenSearch Role with Access to Push Logs</h3>
+<p>You need to create an <code>OpensearchRole</code> that has access to push the logs to OpenSearch. Apply the following <code>OpensearchRole</code> resource.</p>
+<p>The instructions assume:</p>
+<ol>
+<li>OpenSearch Operator is installed in <code>logging</code> namespace.</li>
+<li><code>myIndex</code> is the index where Fluent Bit will push the logs.</li>
+</ol>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchRole
+metadata:
+  name: log-pusher
+  namespace: logging
+spec:
+  opensearchCluster:
+    name: opensearch
+  clusterPermissions:
+    - &#34;cluster:monitor/main&#34;
+    - &#34;cluster:monitor/state&#34;
+    - &#34;cluster:monitor/health&#34;
+    - &#34;cluster_manage_index_templates&#34;
+    - &#34;indices:admin/index_template/get&#34;
+    - &#34;indices:admin/index_template/put&#34;
+    - &#34;indices:admin/mapping/put&#34;
+    - &#34;indices:admin/mapping/get&#34;
+    - &#34;indices:admin/create&#34;
+  indexPermissions:
+    - indexPatterns:
+        - &#34;myIndex*&#34;
+      allowedActions:
+        - indices_all
+EOF
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+<h3 id="create-opensearchuser-for-fluent-bit">Create OpensearchUser for Fluent Bit</h3>
+<p>Apply the following <code>Secret</code> to create the password for OpensearchUser and <code>OpensearchUser</code> to create a OpensearchUser with that password.</p>
+<p>The following instructions create the <code>OpensearchUser</code> with name <code>log-pusher-user</code> and its password <code>admin</code> is stored as base64 encoded in <code>log-pusher-cred</code> secret.
+You are suggested to use some different password.</p>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: log-pusher-cred
+  namespace: logging
+type: Opaque
+data:
+  password: YWRtaW4K   #base64 encoded password
+  username: log-pusher-user
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchUser
+metadata:
+  name: log-pusher-user
+  namespace:  &lt;opensearch operator namespace&gt; 
+spec:
+  opensearchCluster:
+    name: opensearch
+  backendRoles:
+    - log_pusher
+  passwordFrom:
+    key: password
+    name: log-pusher-cred
+EOF
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+<h3 id="create-opensearchuserrolebinding-for-opensearchuser">Create OpensearchUserRoleBinding for OpensearchUser</h3>
+<p>Create <code>OpensearchUserRoleBinding</code> to bind the OpensearchUser <code>log-pusher-user</code> that we created in previous step to OpensearchRole <code>log-pusher</code> so that it can push the logs to OpenSearch.</p>
+<p>Apply the following <code>OpensearchUserRoleBinding</code> resource to create the OpensearchUserRoleBinding with name <code>log-pusher-rb</code>.</p>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchUserRoleBinding
+metadata:
+  name: log-pusher-rb
+  namespace:  logging
+spec:
+  opensearchCluster:
+    name: opensearch
+  backendRoles:
+    - log_pusher
+  roles:
+    - log-pusher
+  users:
+    - &#34;log-pusher-user&#34;
+EOF
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+<p>Now the user and password mentioned in the <code>log-pusher-cred</code> has access to push the logs.</p>
+<h3 id="configure-clusteroutput-to-push-logs-to-opensearch">Configure ClusterOutput to Push Logs to OpenSearch</h3>
+<p>Now, we have created OpenSearch user that has access to push the logs, we can use this user in Fluent Bit ClusterOutput resource to push the logs from Fluent Bit to OpenSearch.</p>
+<p>Apply the following <code>ClusterOutput</code> to allow the Fluent Bit to push the logs to OpenSearch.
+The following instructions assume:</p>
+<ol>
+<li><code>myIndex</code> is OpenSearch index where Fluent Bit will push the logs.</li>
+<li>Fluent Bit will search logs in  <code>my-namespace</code> namespace to push it to OpenSearch.</li>
+<li>The OpenSearch instance is listening on default port <code>9200</code> and <code>opensearch</code> service is there in <code>logging</code> namespace.</li>
+<li><code>log-pusher-cred</code> secret contains the username and password for the OpensearchUser that has access to push the logs.</li>
+</ol>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre tabindex="0"><code>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: ClusterOutput
+metadata:
+  name: my-clusteroutput
+  labels:
+    fluentbit.fluent.io/enabled: &#34;true&#34;
+spec:
+  # you need to update the matchRegex to let the fluent operator know which namespace to include to fetch the logs.
+  matchRegex: &#39;^.*my-namespace.*&#39;
+  retry_limit: &#34;no_limits&#34;
+  opensearch:
+    host: opensearch.logging
+    port: 9200
+    index: myIndex
+    httpUser:
+      valueFrom:
+        secretKeyRef:
+          key: username
+          name: log-pusher-cred
+    httpPassword: admin
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: log-pusher-cred
+    suppressTypeName: true
+    replaceDots: true
+EOF
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
 
   <div class="section-index">
     
