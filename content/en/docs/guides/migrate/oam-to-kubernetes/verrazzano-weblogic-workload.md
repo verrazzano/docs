@@ -261,7 +261,7 @@ n/$(DOMAIN_UID).log
     name: tododomain-weblogic-credentials
 ```
 
-## Edit Domain object to move from Fluentd sidecar to FluentBit sidecar
+## Edit Domain object to move from Fluentd sidecar to Fluent Bit sidecar
 
 Remove Fluentd sidecar container from `spec.serverPod` field and associated volumes and volumeMounts from your Domain object manifest before applying it in the cluster.
 For example, the Domain object in the previous section will look something like this after removing Fluentd sidecar container, associated volumes and volumeMounts.
