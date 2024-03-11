@@ -3265,16 +3265,15 @@ operator:
         
         
         &lt;p&gt;This document shows you how to install Ingress NGINX Controller on OCNE.&lt;/p&gt;
-&lt;p&gt;Verrazzano installs &lt;a href=&#34;https://www.nginx.com/resources/glossary/kubernetes-ingress-controller/&#34;&gt;NGINX Ingress Controller&lt;/a&gt;, to provide ingress to system components like Prometheus, OpenSearch, OpenSearch Dashboards, etc.
-The Ingress Controller watches the Ingress resources and reconcile them, configures the underlying Kubernetes load balancer to handle the service routing.&lt;/p&gt;
+&lt;p&gt;Verrazzano installs &lt;a href=&#34;https://kubernetes.github.io/ingress-nginx/&#34;&gt;Ingress NGINX Controller&lt;/a&gt; to provide ingress to system components like Prometheus, OpenSearch, OpenSearch Dashboards, and such. The ingress controller watches the ingress resources and reconciles them, and configures the underlying Kubernetes load balancer to handle the service routing.&lt;/p&gt;
 &lt;p&gt;You specify chart overrides for the ingress-controller component in the Verrazzano custom resource under &lt;code&gt;.spec.components.ingressNGINX.overrides&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;install-ingress-controller&#34;&gt;Install ingress-controller&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;TBD&lt;/strong&gt;, ingress-controller will be installed as a first-class CNE module and not from the app catalog.&lt;/p&gt;
-&lt;h3 id=&#34;install-ingress-controller-using-helm&#34;&gt;Install ingress-controller using Helm&lt;/h3&gt;
-&lt;p&gt;For now, this document provides the instruction to install Ingress NGINX Controller using the Helm charts provided by the upstream.&lt;/p&gt;
+&lt;h3 id=&#34;install-ingress-nginx-controller-using-helm&#34;&gt;Install Ingress NGINX Controller using Helm&lt;/h3&gt;
+&lt;p&gt;This example assumes that you are using Helm version 3.2.0 or later.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Add the ingress-nginx Helm repository to the cluster:
+&lt;p&gt;Add the ingress-nginx Helm repository to the cluster.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -3369,9 +3368,11 @@ $ helm repo update
 &lt;/script&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Install or upgrade the ingress-nginx Helm chart&lt;/p&gt;
-&lt;p&gt;The following example &lt;code&gt;helm&lt;/code&gt; command installs Ingress NGINX Controller. The Ingress Controller can be installed in any namespace, this example installs the Helm chart in &lt;code&gt;ingress-nginx&lt;/code&gt; namespace. This example assumes you are using Helm version 3.2.0 or later.
-&lt;style type=&#34;text/css&#34;&gt;
+&lt;p&gt;Install or upgrade the ingress-nginx Helm chart.&lt;/p&gt;
+&lt;p&gt;The following example &lt;code&gt;helm&lt;/code&gt; command installs Ingress NGINX Controller. The ingress controller can be installed in any namespace; this example installs the Helm chart in the &lt;code&gt;ingress-nginx&lt;/code&gt; namespace.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
         padding: 0;
@@ -3462,7 +3463,7 @@ $ helm repo update
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-The YAML file used for option -f at minimum needs to override the values for the controller image defined in values.yaml in the following format:
+At a minimum, the YAML file used for the &lt;code&gt;-f&lt;/code&gt; option needs to override the values for the controller image defined in &lt;code&gt;values.yaml&lt;/code&gt; in the following format:
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -3560,16 +3561,13 @@ The YAML file used for option -f at minimum needs to override the values for the
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;The recipes below give examples of changing the configuration using Helm overrides.&lt;/p&gt;
 &lt;h3 id=&#34;helm-overrides-recipes&#34;&gt;Helm overrides recipes&lt;/h3&gt;
-&lt;p&gt;The following sections show you how to override certain ingress-controller default settings. These overrides should be put into a file and passed into helm using the &lt;code&gt;-f&lt;/code&gt; argument.&lt;/p&gt;
+&lt;p&gt;The following recipes show you how to override certain ingress-controller default settings. These overrides should be put into a file and passed into &lt;code&gt;helm&lt;/code&gt; using the &lt;code&gt;-f&lt;/code&gt; option.&lt;/p&gt;
 &lt;h4 id=&#34;install-ingress-controller-from-a-private-registry&#34;&gt;Install ingress-controller from a private registry&lt;/h4&gt;
 &lt;p&gt;&lt;strong&gt;TBD&lt;/strong&gt; - need OCNE module private registry example&lt;/p&gt;
-&lt;h4 id=&#34;configure-nginx-controller-configuration&#34;&gt;Configure NGINX controller configuration&lt;/h4&gt;
+&lt;h4 id=&#34;configure-nginx-controller&#34;&gt;Configure NGINX controller&lt;/h4&gt;
 &lt;p&gt;Override one or more custom &lt;a href=&#34;https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/&#34;&gt;configuration&lt;/a&gt; options to NGINX.&lt;/p&gt;
-&lt;p&gt;For example, apply the following overrides to set the log format for json output.&lt;/p&gt;
+&lt;p&gt;For example, apply the following overrides to set the log format for JSON output.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -3686,8 +3684,8 @@ The YAML file used for option -f at minimum needs to override the values for the
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
 &lt;h4 id=&#34;configure-custom-ingressclasses&#34;&gt;Configure custom IngressClasses&lt;/h4&gt;
-&lt;p&gt;IngressClasses are used to fix the race condition in updating the status fields when multiple ingress controllers are deployed. Please refer to &lt;a href=&#34;https://kubernetes.github.io/ingress-nginx/user-guide/multiple-ingress/&#34;&gt;Multiple Ingress controllers&lt;/a&gt; for more details.&lt;/p&gt;
-&lt;p&gt;For example, apply the following overrides to create IngressClass resource&lt;/p&gt;
+&lt;p&gt;IngressClasses are used to fix the race condition in updating the status fields when multiple ingress controllers are deployed. For more information, see &lt;a href=&#34;https://kubernetes.github.io/ingress-nginx/user-guide/multiple-ingress/&#34;&gt;Multiple Ingress controllers&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For example, apply the following overrides to create an IngressClass resource.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -3787,7 +3785,7 @@ The YAML file used for option -f at minimum needs to override the values for the
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
 &lt;h4 id=&#34;configure-pod-and-container-security&#34;&gt;Configure pod and container security&lt;/h4&gt;
-&lt;p&gt;Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.&lt;/p&gt;
+&lt;p&gt;Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and to mitigate security vulnerabilities, such as privilege escalation.&lt;/p&gt;
 &lt;p&gt;For example, apply the following overrides when installing the ingress-controller module in an OCNE cluster to use security settings.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -3895,7 +3893,7 @@ The YAML file used for option -f at minimum needs to override the values for the
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
 &lt;h4 id=&#34;configure-istio-sidecar&#34;&gt;Configure Istio sidecar&lt;/h4&gt;
-&lt;p&gt;When running ingress controller in a cluster that also has Istio installed, define the &lt;code&gt;podAnnotations&lt;/code&gt; for the controller as below:&lt;/p&gt;
+&lt;p&gt;When running the ingress controller in a cluster that also has Istio installed, define the &lt;code&gt;podAnnotations&lt;/code&gt; for the controller as shown.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -4465,7 +4463,7 @@ spec:
 &lt;/script&gt;
 &lt;/details&gt;
 &lt;BR&gt;
-&lt;p&gt;The OCNE 2.0 Istio module accepts the &lt;code&gt;spec&lt;/code&gt; section of the Istio Operator custom resource. Extract all elements of the &lt;code&gt;iop.yaml&lt;/code&gt; YAML files &lt;code&gt;spec&lt;/code&gt; section to a new file &lt;code&gt;istio-profile.yaml&lt;/code&gt;. Format that resulting YAML in the &lt;code&gt;istio-profile.yaml&lt;/code&gt; file to remove two spaces from the beginning of each line and save. These two actions can be completed in one command using &lt;code&gt;yq&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The OCNE 2.0 Istio module accepts the &lt;code&gt;spec&lt;/code&gt; section of the Istio Operator custom resource. Extract all elements of the &lt;code&gt;iop.yaml&lt;/code&gt; YAML file &lt;code&gt;spec&lt;/code&gt; section to a new file &lt;code&gt;istio-profile.yaml&lt;/code&gt;. Format that resulting YAML in the &lt;code&gt;istio-profile.yaml&lt;/code&gt; file to remove two spaces from the beginning of each line and save. These two actions can be completed in one command using &lt;code&gt;yq&lt;/code&gt;.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -4704,7 +4702,7 @@ spec:
 --istio-kubernetes-module mycluster \
 --istio-profile /path/to/file/istio-profile.yaml
 
-olcnectl module install \
+$ olcnectl module install \
 --environment-name myenvironment \
 --name istio-system
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -4800,7 +4798,7 @@ olcnectl module install \
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;cat &amp;lt;&amp;lt;EOF | kubectl apply -f -
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ cat &amp;lt;&amp;lt;EOF | kubectl apply -f -
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
@@ -4902,7 +4900,7 @@ EOF
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;cat &amp;lt;&amp;lt;EOF | kubectl apply -f -
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ cat &amp;lt;&amp;lt;EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
