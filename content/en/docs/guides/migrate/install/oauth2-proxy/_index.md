@@ -7,7 +7,7 @@ This document shows you how to install [OAuth2 Proxy](https://oauth2-proxy.githu
 
 ## Install OAuth2 Proxy using Helm
 
-1. Add the OAuth2 Proxy repository to the cluster:
+1. Add the OAuth2 Proxy repository to the cluster.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -18,15 +18,15 @@ $ helm repo update
 </div>
 {{< /clipboard >}}
 
-1. Setup configuration parameters:
+1. Set up configuration parameters.
 
    Assumptions for the example in this guide:
 
     * Dex is configured as the identity provider using a static user and password.
-    * The load balancer address needs to be known before the installation.
-    * The load balancer address is using `nip.io`.
-    * The value for OAUTH2_PROXY_SECRET must be the same value used when [dex]({{< relref "/docs/guides/migrate/install/dex/_index.md" >}})  was installed.
-    * Insecure connections (http) are used for dex and oauth2-proxy.
+    * The load balancer address must be known _before_ the installation.
+    * The load balancer address uses `nip.io`.
+    * The value for OAUTH2_PROXY_SECRET must be the same value used when [dex]({{< relref "/docs/guides/migrate/install/dex/_index.md" >}}) was installed.
+    * Insecure connections (HTTP) are used for dex and oauth2-proxy.
 
    {{< clipboard >}}
    <div class="highlight">
@@ -44,7 +44,7 @@ $ helm repo update
 <div class="highlight">
 
 ```
-cat > oauth2-proxy-overrides.yaml - <<EOF
+$ cat > oauth2-proxy-overrides.yaml - <<EOF
 namespaceOverride: oauth2-proxy
 
 ingress:
@@ -73,7 +73,7 @@ EOF
 </div>
 {{< /clipboard >}}
 
-1. Install oauth2-proxy:
+1. Install oauth2-proxy.
    {{< clipboard >}}
    <div class="highlight">
 
@@ -84,7 +84,7 @@ EOF
    {{< /clipboard >}}
 
 
-1. Wait for the installation of oauth2-proxy to complete:
+1. Wait for the installation of oauth2-proxy to complete.
    {{< clipboard >}}
    <div class="highlight">
 
