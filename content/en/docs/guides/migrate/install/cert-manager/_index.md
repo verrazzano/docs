@@ -5,28 +5,27 @@ draft: false
 ---
 This document shows you how to install cert-manager on OCNE.
 
-Verrazzano supports the installation of [cert-manager](https://cert-manager.io/), or using a customer-managed cert-manager instance.  
+Verrazzano supports the installation of [cert-manager](https://cert-manager.io/) or using a customer-managed cert-manager instance.  
 Depending on the configuration, Verrazzano will install the following components:
 
 - cert-manager
 - The Verrazzano [cert-manager-webhook-oci](https://github.com/verrazzano/cert-manager-webhook-oci) webhook for signing certificates using Let's Encrypt.
 - A ClusterIssuer used to sign certificates
 
-## Install cert-manager
+## Install cert-manager using Helm
 
-### Installing cert-manager using Helm
 **TBD**, will be installed as a first-class CNE module and not from the app catalog
 
-### Helm Overrides recipes
-The following sections show you how to override certain cert-manager default settings. These overrides should be put into a file and passed into helm using the `-f` argument.
+### Helm override recipes
+The following sections show you how to override certain cert-manager default settings. Overrides should be put into a file and passed into the `helm` command using the `-f` argument.
 
-#### Installing from a private registry
+#### Install from a private registry
 **TBD** - need OCNE module private registry example
 
-#### Configuring pod and container security
+#### Configure pod and container security
 Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.
 
-For example, apply the following overrides when installing the cert-manager module in an OCNE 2.0 cluster to use security settings similar to those used by Verrazzano 1.6.
+For example, to use security settings similar to those used by Verrazzano 1.6, apply the following overrides when installing the cert-manager module in an OCNE 2.0 cluster.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -83,11 +82,11 @@ webhook:
   </div>
   {{< /clipboard >}}
 
-#### Configuring storage and resource limits and requests
+#### Configure storage and resource limits and requests
 
-Specify overrides to change the default resource (storage, cpu, memory, and such) requests and limits.
+Specify overrides to change the default resource (storage, CPU, memory, and such) requests and limits.
 
-For example, to apply a custom resource requests for cert-manager pods create the following overrides file and apply it when installing the module.
+For example, to apply a custom resource requests for cert-manager pods, create the following overrides file and apply it when installing the module.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -101,7 +100,7 @@ resources:
 </div>
 {{< /clipboard >}}
 
-#### Customizing the cluster ClusterResourceNamespace
+#### Customize the ClusterResourceNamespace
 Verrazzano sets the location for ClusterIssuer secrets used by cert-manager called the clusterResourceNamespace. This is the same namespace where cert-manager is installed by default but can be overridden when a custom certificate authority is used.
 
 {{< clipboard >}}
@@ -115,7 +114,7 @@ clusterResourceNamespace: my-clusterissuer
 
 ## Install the OCI DNS webhook solver
 
-If you intend to use cert-manager with Let's Encrypt and OCI DNS, then you will need to install the `cert-manager-webhook-oci`  module from the OCNE application catalog.
+If you intend to use cert-manager with Let's Encrypt and OCI DNS, then you will need to install the `cert-manager-webhook-oci` module from the OCNE Application Catalog.
 The webhook solver is installed using the OCNE Application Catalog. The first step is to add the Application Catalog Helm repository to the cluster.
 
 {{< clipboard >}}
@@ -143,7 +142,7 @@ In the previous example, it was installed into the default `cert-manager` namesp
 ### Helm override recipes
 The following sections show you how to override certain cert-manager Helm values.
 
-#### Changing cert-manager locations
+#### Change cert-manager locations
 
 If cert-manager or the ClusterIssuer resource is installed in a non-default namespace (something other than `cert-manager`), then these will need to be provided to the webhook installation as Helm overrides.{{< clipboard >}}
 <div class="highlight">
@@ -154,7 +153,7 @@ $ helm install cert-manager-webhook-oci ocne-app-catalog/cert-manager-webhook-oc
 </div>
 {{< /clipboard >}}
 
-#### Installing from a private registry
+#### Install from a private registry
 
 In order to install using a private registry (for example, in a disconnected environment), then you must override the Helm values to change the webhook image path.
 
@@ -169,11 +168,11 @@ image:
 </div>
 {{< /clipboard >}}
 
-#### Configuring pod and container security
+#### Configure pod and container security
 
 Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.
 
-For example, to apply security settings similar to those used by Verrazzano, in OCNE 2.0 use the following overrides by using the `-f` option when running `helm upgrade --install` on the `cert-manager-wehbook-oci` chart.
+For example, to apply security settings similar to those used by Verrazzano, in OCNE 2.0, use the following overrides by using the `-f` option when running `helm upgrade --install` on the `cert-manager-wehbook-oci` chart.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -193,9 +192,9 @@ seccompProfile:
 </div>
 {{< /clipboard >}}
 
-#### Configuring storage and resource limits and requests
+#### Configure storage and resource limits and requests
 
-Specify overrides to change the default resource (storage, cpu, memory, and such) requests and limits.
+Specify overrides to change the default resource (storage, CPU, memory, and such) requests and limits.
 For example, to update resource requests for the webhook, create the following overrides file and provide the file using the `-f` option when running `helm upgrade --install`.
 {{< clipboard >}}
 <div class="highlight">
@@ -209,9 +208,9 @@ resources:
 </div>
 {{< /clipboard >}}
 
-## Creating a ClusterIssuer
+## Create a ClusterIssuer
 
-The steps in this section describe examples of how to create cert-manager `ClusterIssuers` that are functionally equivalent to those employed by Verrazzano and use them to secure endpoints.
+The steps in this section describe examples of how to create cert-manager `ClusterIssuers` that are functionally equivalent to those employed by Verrazzano and how to use them to secure endpoints.
 
 ### Self-signed `ClusterIssuer`
 
@@ -221,16 +220,16 @@ To create a self-signed `ClusterIssuer` similar to those used by Verrazzano, you
 1. Create a self-signed `root` certificate using the issuer from Step 1.
 1. Create a `ClusterIssuer` using the TLS secret created by the `root` certificate object from Step 2.
 
-The `ClusterIssuer` created in Step 3 can then be used to sign leaf certificate requests.
+The `ClusterIssuer` created in Step 3 then can be used to sign leaf certificate requests.
 
-#### Creating a self-signed root certificate
+#### Create a self-signed root certificate
 
 When using self-signed certificates, you need to start with a root CA. The cert-manager [SelfSigned](https://cert-manager.io/docs/configuration/selfsigned/) issuer can be used to set this up, as described in the following sequence.
 
 1. Create a [SelfSigned](https://cert-manager.io/docs/configuration/selfsigned/) issuer in the cert-manager namespace needed to create the root CA; if you are using a `ClusterIssuer`, then you must use the [cluster resource namespace](https://cert-manager.io/docs/configuration/#cluster-resource-namespace) (typically the namespace where cert-manager  is installed).
 1. Create a certificate that refers to the issuer; if a namespace-scoped `Issuer` is used, then the `Certificate` must be created in the same namespace as the `Issuer`.
 
-The `cert-manager` controller will then create the secret referenced in the `Certificate` object (Step 2) that contains the root certificate and private key.
+The `cert-manager` controller then will create the secret referenced in the `Certificate` object (Step 2) that contains the root certificate and private key.
 
 For example, to create a `SelfSigned` root CA using a `ClusterIssuer`:
 
@@ -429,7 +428,7 @@ type: kubernetes.io/tls
 
 #### Create the ClusterIssuer
 
-This secret will then be used to seed a `ClusterIssuer` to issue leaf certificates for other applications and services.
+This secret then will be used to seed a `ClusterIssuer` to issue leaf certificates for other applications and services.
 Using the `Certificate` from the previous example, you can create a `ClusterIssuer` named `my-issuer` and reference the secret `my-root-ca-tls` as the CA.
 
 **Verrazzano ClusterIssuer**
@@ -468,7 +467,7 @@ EOF
 clusterissuer.cert-manager.io/my-issuer created
 
 # Dislay the ClusterIssuer
-% kubectl get clusterissuers.cert-manager.io -o yaml my-issuer
+$ kubectl get clusterissuers.cert-manager.io -o yaml my-issuer
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -501,7 +500,7 @@ status:
 To create a `ClusterIssuer` using Let's Encrypt with OCI DNS, you must:
 
 - [Install the cert-manager-oci-webhook](#installing-the-oci-dns-webhook-solver).
-- Create an OCI user-principal secret, as documented [here]({{< relref "/docs/networking/traffic/dns#create-an-oracle-cloud-infrastructure-api-secret-in-the-target-cluster" >}}) in the `clusterResourceNamespace` for the cert-manager installation.
+- Create an OCI user-principal secret, as documented [here]({{< relref "/docs/networking/traffic/dns#create-an-oracle-cloud-infrastructure-api-secret-in-the-target-cluster" >}}), in the `clusterResourceNamespace` for the cert-manager installation.
 
 The following example creates a Let's Encrypt staging cluster issuer that:
 
