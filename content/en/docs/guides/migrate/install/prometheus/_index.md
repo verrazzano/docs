@@ -5,43 +5,43 @@ draft: false
 ---
 This document shows you how to install Prometheus on OCNE.
 
-### Components
+## Components
 Verrazzano supports the following monitoring components.
 
-#### Prometheus Operator, Prometheus, Alertmanager
-Verrazzano installs Prometheus Operator, Prometheus, and Alertmanager using a customized version of the Prometheus Community kube-prometheus-stack Helm chart. Prometheus Operator acts on custom resources to configure Prometheus and Alertmanager instances and metrics scrape configurations.
+### Prometheus Operator, Prometheus, Alertmanager
+Verrazzano installs Prometheus Operator, Prometheus, and Alertmanager using a customized version of the Prometheus Community kube-prometheus-stack Helm chart. Prometheus Operator acts on custom resources to configure Prometheus and Alertmanager instances, and metrics scrape configurations.
 
 You specify chart overrides for these components in the Verrazzano custom resource under `.spec.components.prometheusOperator.overrides`. The upstream kube-prometheus-stack Helm chart defines chart dependencies for kube-state-metrics, Node Exporter, and Grafana. However, the Verrazzano customized chart removes those dependencies and Verrazzano installs those components separately.
 
-#### Node Exporter
+### Node Exporter
 Verrazzano installs Node Exporter using a customized version of the Prometheus Community prometheus-node-exporter Helm chart. You specify chart overrides for Node Exporter in the Verrazzano custom resource under `.spec.components.prometheusNodeExporter.overrides`.
 
-#### kube-state-metrics
+### kube-state-metrics
 Verrazzano installs kube-state-metrics using a customized version of the Prometheus Community kube-state-metrics Helm chart. You specify chart overrides for kube-state-metrics in the Verrazzano custom resource under `.spec.components.kubeStateMetrics.overrides`.
 
-#### Prometheus Adapter
+### Prometheus Adapter
 Verrazzano installs Prometheus Adapter using a customized version of the Prometheus Community prometheus-adapter Helm chart. You specify chart overrides for Prometheus Adapter in the Verrazzano custom resource under `.spec.components.prometheusAdapter.overrides`.
 
-#### Grafana
+### Grafana
 Verrazzano does not use a Helm chart to install Grafana. As a result, there is no overrides field in the Grafana section of the Verrazzano custom resource. You can customize the Grafana instance using a limited set of configuration parameters available under `.spec.components.grafana` in the Verrazzano custom resource.
 
-### Verrazzano chart overrides
+## Verrazzano chart overrides
 
 Verrazzano applies a set of default chart overrides when installing components. The overrides for monitoring components generally fall into the following categories.
 
-#### Images
+### Images
 Verrazzano overrides image registries, repositories, and image tags to install Oracle built-from-source images. Registry overrides are also applied when installing Verrazzano from a private registry (for example, in a disconnected network environment).
 
-#### Pod and container security
+### Pod and container security
 Verrazzano overrides certain pod and container security settings to enhance the security of applications running in the cluster. For example, privilege escalation is disabled in pods to mitigate escalation attacks in a cluster.
 
-#### Istio configuration
+### Istio configuration
 Verrazzano overrides Istio settings so that the monitoring components themselves do not run in the Istio mesh. However, Prometheus may need to be able to scrape applications running both in the mesh and outside the mesh. Verrazzano overrides Prometheus settings to mount CA certificates that allow Prometheus to scrape applications in the mesh.
 
-#### Metric relabeling
+### Metric relabeling
 Verrazzano overrides chart values to add metric relabelings. The relabelings add a `verrazzano_cluster` label to all metrics. The relabeling configuration also adds a `verrazzano_component` label to label metrics for Verrazzano system components.
 
-#### Other
+### Other
 Verrazzano overrides chart values for various other settings, including specifying memory and storage and requests, namespace and label configuration for discovering ServiceMonitor and PodMonitor resources, and such.
 
 ## Migration steps
@@ -66,7 +66,7 @@ Next, install the Helm charts.
 
 #### Install or upgrade the kube-prometheus-stack Helm chart
 
-The following example `helm` command installs Prometheus Operator, Prometheus, Alertmanager, and kube-state-metrics in the `monitoring` namespace. Monitoring components can be installed in any namespace as long as the same namespace is used consistently. This example assumes you are using Helm version 3.2.0 or later.
+The following example `helm` command installs Prometheus Operator, Prometheus, Alertmanager, and kube-state-metrics in the `monitoring` namespace. Monitoring components can be installed in any namespace as long as the same namespace is used consistently. This example assumes that you are using Helm version 3.2.0 or later.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -77,7 +77,7 @@ $ helm upgrade --install prometheus-operator ocne-app-catalog/kube-prometheus-st
 </div>
 {{< /clipboard >}}
 
-Optionally, provide overrides when installing. The recipes below give examples of changing the configuration using Helm overrides.
+Optionally, provide overrides when installing. The following recipes give examples of changing the configuration using Helm overrides.
 
 **NOTE**: Grafana is disabled by default when installing kube-prometheus-stack from the Application Catalog, but Grafana can be enabled by providing a `grafana.enabled=true` Helm override.
 
@@ -325,5 +325,3 @@ prometheus:
 ```
 </div>
 {{< /clipboard >}}
-
-
