@@ -23,23 +23,22 @@
         
         
         &lt;p&gt;This document shows you how to install cert-manager on OCNE.&lt;/p&gt;
-&lt;p&gt;Verrazzano supports the installation of &lt;a href=&#34;https://cert-manager.io/&#34;&gt;cert-manager&lt;/a&gt;, or using a customer-managed cert-manager instance.&lt;br&gt;
+&lt;p&gt;Verrazzano supports the installation of &lt;a href=&#34;https://cert-manager.io/&#34;&gt;cert-manager&lt;/a&gt; or using a customer-managed cert-manager instance.&lt;br&gt;
 Depending on the configuration, Verrazzano will install the following components:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;cert-manager&lt;/li&gt;
 &lt;li&gt;The Verrazzano &lt;a href=&#34;https://github.com/verrazzano/cert-manager-webhook-oci&#34;&gt;cert-manager-webhook-oci&lt;/a&gt; webhook for signing certificates using Let&amp;rsquo;s Encrypt.&lt;/li&gt;
 &lt;li&gt;A ClusterIssuer used to sign certificates&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;install-cert-manager&#34;&gt;Install cert-manager&lt;/h2&gt;
-&lt;h3 id=&#34;installing-cert-manager-using-helm&#34;&gt;Installing cert-manager using Helm&lt;/h3&gt;
+&lt;h2 id=&#34;install-cert-manager-using-helm&#34;&gt;Install cert-manager using Helm&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;TBD&lt;/strong&gt;, will be installed as a first-class CNE module and not from the app catalog&lt;/p&gt;
-&lt;h3 id=&#34;helm-overrides-recipes&#34;&gt;Helm Overrides recipes&lt;/h3&gt;
-&lt;p&gt;The following sections show you how to override certain cert-manager default settings. These overrides should be put into a file and passed into helm using the &lt;code&gt;-f&lt;/code&gt; argument.&lt;/p&gt;
-&lt;h4 id=&#34;installing-from-a-private-registry&#34;&gt;Installing from a private registry&lt;/h4&gt;
+&lt;h3 id=&#34;helm-override-recipes&#34;&gt;Helm override recipes&lt;/h3&gt;
+&lt;p&gt;The following sections show you how to override certain cert-manager default settings. Overrides should be put into a file and passed into the &lt;code&gt;helm&lt;/code&gt; command using the &lt;code&gt;-f&lt;/code&gt; argument.&lt;/p&gt;
+&lt;h4 id=&#34;install-from-a-private-registry&#34;&gt;Install from a private registry&lt;/h4&gt;
 &lt;p&gt;&lt;strong&gt;TBD&lt;/strong&gt; - need OCNE module private registry example&lt;/p&gt;
-&lt;h4 id=&#34;configuring-pod-and-container-security&#34;&gt;Configuring pod and container security&lt;/h4&gt;
+&lt;h4 id=&#34;configure-pod-and-container-security&#34;&gt;Configure pod and container security&lt;/h4&gt;
 &lt;p&gt;Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.&lt;/p&gt;
-&lt;p&gt;For example, apply the following overrides when installing the cert-manager module in an OCNE 2.0 cluster to use security settings similar to those used by Verrazzano 1.6.&lt;/p&gt;
+&lt;p&gt;For example, to use security settings similar to those used by Verrazzano 1.6, apply the following overrides when installing the cert-manager module in an OCNE 2.0 cluster.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -177,9 +176,9 @@ webhook:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-&lt;h4 id=&#34;configuring-storage-and-resource-limits-and-requests&#34;&gt;Configuring storage and resource limits and requests&lt;/h4&gt;
-&lt;p&gt;Specify overrides to change the default resource (storage, cpu, memory, and such) requests and limits.&lt;/p&gt;
-&lt;p&gt;For example, to apply a custom resource requests for cert-manager pods create the following overrides file and apply it when installing the module.&lt;/p&gt;
+&lt;h4 id=&#34;configure-storage-and-resource-limits-and-requests&#34;&gt;Configure storage and resource limits and requests&lt;/h4&gt;
+&lt;p&gt;Specify overrides to change the default resource (storage, CPU, memory, and such) requests and limits.&lt;/p&gt;
+&lt;p&gt;For example, to apply a custom resource requests for cert-manager pods, create the following overrides file and apply it when installing the module.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -274,7 +273,7 @@ webhook:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-&lt;h4 id=&#34;customizing-the-cluster-clusterresourcenamespace&#34;&gt;Customizing the cluster ClusterResourceNamespace&lt;/h4&gt;
+&lt;h4 id=&#34;customize-the-clusterresourcenamespace&#34;&gt;Customize the ClusterResourceNamespace&lt;/h4&gt;
 &lt;p&gt;Verrazzano sets the location for ClusterIssuer secrets used by cert-manager called the clusterResourceNamespace. This is the same namespace where cert-manager is installed by default but can be overridden when a custom certificate authority is used.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -368,7 +367,7 @@ webhook:
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
 &lt;h2 id=&#34;install-the-oci-dns-webhook-solver&#34;&gt;Install the OCI DNS webhook solver&lt;/h2&gt;
-&lt;p&gt;If you intend to use cert-manager with Let&amp;rsquo;s Encrypt and OCI DNS, then you will need to install the &lt;code&gt;cert-manager-webhook-oci&lt;/code&gt;  module from the OCNE application catalog.
+&lt;p&gt;If you intend to use cert-manager with Let&amp;rsquo;s Encrypt and OCI DNS, then you will need to install the &lt;code&gt;cert-manager-webhook-oci&lt;/code&gt; module from the OCNE Application Catalog.
 The webhook solver is installed using the OCNE Application Catalog. The first step is to add the Application Catalog Helm repository to the cluster.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -555,9 +554,9 @@ $ helm repo update
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
 &lt;p&gt;In the previous example, it was installed into the default &lt;code&gt;cert-manager&lt;/code&gt; namespace, however, this is not required.&lt;/p&gt;
-&lt;h3 id=&#34;helm-override-recipes&#34;&gt;Helm override recipes&lt;/h3&gt;
+&lt;h3 id=&#34;helm-override-recipes-1&#34;&gt;Helm override recipes&lt;/h3&gt;
 &lt;p&gt;The following sections show you how to override certain cert-manager Helm values.&lt;/p&gt;
-&lt;h4 id=&#34;changing-cert-manager-locations&#34;&gt;Changing cert-manager locations&lt;/h4&gt;
+&lt;h4 id=&#34;change-cert-manager-locations&#34;&gt;Change cert-manager locations&lt;/h4&gt;
 &lt;p&gt;If cert-manager or the ClusterIssuer resource is installed in a non-default namespace (something other than &lt;code&gt;cert-manager&lt;/code&gt;), then these will need to be provided to the webhook installation as Helm overrides.&lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -649,7 +648,7 @@ $ helm repo update
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;h4 id=&#34;installing-from-a-private-registry-1&#34;&gt;Installing from a private registry&lt;/h4&gt;
+&lt;h4 id=&#34;install-from-a-private-registry-1&#34;&gt;Install from a private registry&lt;/h4&gt;
 &lt;p&gt;In order to install using a private registry (for example, in a disconnected environment), then you must override the Helm values to change the webhook image path.&lt;/p&gt;
 &lt;p&gt;For example, to install &lt;code&gt;cert-manager-webhook-oci&lt;/code&gt; from a private registry at &lt;code&gt;myprivreg.com/verrazzano/cert-manager-webhook-oci&lt;/code&gt;, create an overrides file with the following content and specify it using the &lt;code&gt;-f&lt;/code&gt; option when running &lt;code&gt;helm upgrade --install&lt;/code&gt;.
 &lt;style type=&#34;text/css&#34;&gt;
@@ -744,9 +743,9 @@ $ helm repo update
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;h4 id=&#34;configuring-pod-and-container-security-1&#34;&gt;Configuring pod and container security&lt;/h4&gt;
+&lt;h4 id=&#34;configure-pod-and-container-security-1&#34;&gt;Configure pod and container security&lt;/h4&gt;
 &lt;p&gt;Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.&lt;/p&gt;
-&lt;p&gt;For example, to apply security settings similar to those used by Verrazzano, in OCNE 2.0 use the following overrides by using the &lt;code&gt;-f&lt;/code&gt; option when running &lt;code&gt;helm upgrade --install&lt;/code&gt; on the &lt;code&gt;cert-manager-wehbook-oci&lt;/code&gt; chart.
+&lt;p&gt;For example, to apply security settings similar to those used by Verrazzano, in OCNE 2.0, use the following overrides by using the &lt;code&gt;-f&lt;/code&gt; option when running &lt;code&gt;helm upgrade --install&lt;/code&gt; on the &lt;code&gt;cert-manager-wehbook-oci&lt;/code&gt; chart.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -848,8 +847,8 @@ seccompProfile:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;h4 id=&#34;configuring-storage-and-resource-limits-and-requests-1&#34;&gt;Configuring storage and resource limits and requests&lt;/h4&gt;
-&lt;p&gt;Specify overrides to change the default resource (storage, cpu, memory, and such) requests and limits.
+&lt;h4 id=&#34;configure-storage-and-resource-limits-and-requests-1&#34;&gt;Configure storage and resource limits and requests&lt;/h4&gt;
+&lt;p&gt;Specify overrides to change the default resource (storage, CPU, memory, and such) requests and limits.
 For example, to update resource requests for the webhook, create the following overrides file and provide the file using the &lt;code&gt;-f&lt;/code&gt; option when running &lt;code&gt;helm upgrade --install&lt;/code&gt;.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -945,8 +944,8 @@ For example, to update resource requests for the webhook, create the following o
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;h2 id=&#34;creating-a-clusterissuer&#34;&gt;Creating a ClusterIssuer&lt;/h2&gt;
-&lt;p&gt;The steps in this section describe examples of how to create cert-manager &lt;code&gt;ClusterIssuers&lt;/code&gt; that are functionally equivalent to those employed by Verrazzano and use them to secure endpoints.&lt;/p&gt;
+&lt;h2 id=&#34;create-a-clusterissuer&#34;&gt;Create a ClusterIssuer&lt;/h2&gt;
+&lt;p&gt;The steps in this section describe examples of how to create cert-manager &lt;code&gt;ClusterIssuers&lt;/code&gt; that are functionally equivalent to those employed by Verrazzano and how to use them to secure endpoints.&lt;/p&gt;
 &lt;h3 id=&#34;self-signed-clusterissuer&#34;&gt;Self-signed &lt;code&gt;ClusterIssuer&lt;/code&gt;&lt;/h3&gt;
 &lt;p&gt;To create a self-signed &lt;code&gt;ClusterIssuer&lt;/code&gt; similar to those used by Verrazzano, you must:&lt;/p&gt;
 &lt;ol&gt;
@@ -954,14 +953,14 @@ For example, to update resource requests for the webhook, create the following o
 &lt;li&gt;Create a self-signed &lt;code&gt;root&lt;/code&gt; certificate using the issuer from Step 1.&lt;/li&gt;
 &lt;li&gt;Create a &lt;code&gt;ClusterIssuer&lt;/code&gt; using the TLS secret created by the &lt;code&gt;root&lt;/code&gt; certificate object from Step 2.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;The &lt;code&gt;ClusterIssuer&lt;/code&gt; created in Step 3 can then be used to sign leaf certificate requests.&lt;/p&gt;
-&lt;h4 id=&#34;creating-a-self-signed-root-certificate&#34;&gt;Creating a self-signed root certificate&lt;/h4&gt;
+&lt;p&gt;The &lt;code&gt;ClusterIssuer&lt;/code&gt; created in Step 3 then can be used to sign leaf certificate requests.&lt;/p&gt;
+&lt;h4 id=&#34;create-a-self-signed-root-certificate&#34;&gt;Create a self-signed root certificate&lt;/h4&gt;
 &lt;p&gt;When using self-signed certificates, you need to start with a root CA. The cert-manager &lt;a href=&#34;https://cert-manager.io/docs/configuration/selfsigned/&#34;&gt;SelfSigned&lt;/a&gt; issuer can be used to set this up, as described in the following sequence.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Create a &lt;a href=&#34;https://cert-manager.io/docs/configuration/selfsigned/&#34;&gt;SelfSigned&lt;/a&gt; issuer in the cert-manager namespace needed to create the root CA; if you are using a &lt;code&gt;ClusterIssuer&lt;/code&gt;, then you must use the &lt;a href=&#34;https://cert-manager.io/docs/configuration/#cluster-resource-namespace&#34;&gt;cluster resource namespace&lt;/a&gt; (typically the namespace where cert-manager  is installed).&lt;/li&gt;
 &lt;li&gt;Create a certificate that refers to the issuer; if a namespace-scoped &lt;code&gt;Issuer&lt;/code&gt; is used, then the &lt;code&gt;Certificate&lt;/code&gt; must be created in the same namespace as the &lt;code&gt;Issuer&lt;/code&gt;.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;The &lt;code&gt;cert-manager&lt;/code&gt; controller will then create the secret referenced in the &lt;code&gt;Certificate&lt;/code&gt; object (Step 2) that contains the root certificate and private key.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;cert-manager&lt;/code&gt; controller then will create the secret referenced in the &lt;code&gt;Certificate&lt;/code&gt; object (Step 2) that contains the root certificate and private key.&lt;/p&gt;
 &lt;p&gt;For example, to create a &lt;code&gt;SelfSigned&lt;/code&gt; root CA using a &lt;code&gt;ClusterIssuer&lt;/code&gt;:&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Root ClusterIssuer&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -1562,7 +1561,7 @@ type: kubernetes.io/tls
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
 &lt;h4 id=&#34;create-the-clusterissuer&#34;&gt;Create the ClusterIssuer&lt;/h4&gt;
-&lt;p&gt;This secret will then be used to seed a &lt;code&gt;ClusterIssuer&lt;/code&gt; to issue leaf certificates for other applications and services.
+&lt;p&gt;This secret then will be used to seed a &lt;code&gt;ClusterIssuer&lt;/code&gt; to issue leaf certificates for other applications and services.
 Using the &lt;code&gt;Certificate&lt;/code&gt; from the previous example, you can create a &lt;code&gt;ClusterIssuer&lt;/code&gt; named &lt;code&gt;my-issuer&lt;/code&gt; and reference the secret &lt;code&gt;my-root-ca-tls&lt;/code&gt; as the CA.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Verrazzano ClusterIssuer&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -1707,7 +1706,7 @@ EOF
 clusterissuer.cert-manager.io/my-issuer created
 
 # Dislay the ClusterIssuer
-% kubectl get clusterissuers.cert-manager.io -o yaml my-issuer
+$ kubectl get clusterissuers.cert-manager.io -o yaml my-issuer
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -1795,7 +1794,7 @@ status:
 &lt;p&gt;To create a &lt;code&gt;ClusterIssuer&lt;/code&gt; using Let&amp;rsquo;s Encrypt with OCI DNS, you must:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#installing-the-oci-dns-webhook-solver&#34;&gt;Install the cert-manager-oci-webhook&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Create an OCI user-principal secret, as documented &lt;a href=&#34;../../../../docs/networking/traffic/dns/#create-an-oracle-cloud-infrastructure-api-secret-in-the-target-cluster&#34;&gt;here&lt;/a&gt; in the &lt;code&gt;clusterResourceNamespace&lt;/code&gt; for the cert-manager installation.&lt;/li&gt;
+&lt;li&gt;Create an OCI user-principal secret, as documented &lt;a href=&#34;../../../../docs/networking/traffic/dns/#create-an-oracle-cloud-infrastructure-api-secret-in-the-target-cluster&#34;&gt;here&lt;/a&gt;, in the &lt;code&gt;clusterResourceNamespace&lt;/code&gt; for the cert-manager installation.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The following example creates a Let&amp;rsquo;s Encrypt staging cluster issuer that:&lt;/p&gt;
 &lt;ul&gt;
@@ -7589,34 +7588,34 @@ To create the index pattern, go to OpenSearch Dashboards, and select Management 
         
         
         &lt;p&gt;This document shows you how to install Prometheus on OCNE.&lt;/p&gt;
-&lt;h3 id=&#34;components&#34;&gt;Components&lt;/h3&gt;
+&lt;h2 id=&#34;components&#34;&gt;Components&lt;/h2&gt;
 &lt;p&gt;Verrazzano supports the following monitoring components.&lt;/p&gt;
-&lt;h4 id=&#34;prometheus-operator-prometheus-alertmanager&#34;&gt;Prometheus Operator, Prometheus, Alertmanager&lt;/h4&gt;
-&lt;p&gt;Verrazzano installs Prometheus Operator, Prometheus, and Alertmanager using a customized version of the Prometheus Community kube-prometheus-stack Helm chart. Prometheus Operator acts on custom resources to configure Prometheus and Alertmanager instances and metrics scrape configurations.&lt;/p&gt;
+&lt;h3 id=&#34;prometheus-operator-prometheus-alertmanager&#34;&gt;Prometheus Operator, Prometheus, Alertmanager&lt;/h3&gt;
+&lt;p&gt;Verrazzano installs Prometheus Operator, Prometheus, and Alertmanager using a customized version of the Prometheus Community kube-prometheus-stack Helm chart. Prometheus Operator acts on custom resources to configure Prometheus and Alertmanager instances, and metrics scrape configurations.&lt;/p&gt;
 &lt;p&gt;You specify chart overrides for these components in the Verrazzano custom resource under &lt;code&gt;.spec.components.prometheusOperator.overrides&lt;/code&gt;. The upstream kube-prometheus-stack Helm chart defines chart dependencies for kube-state-metrics, Node Exporter, and Grafana. However, the Verrazzano customized chart removes those dependencies and Verrazzano installs those components separately.&lt;/p&gt;
-&lt;h4 id=&#34;node-exporter&#34;&gt;Node Exporter&lt;/h4&gt;
+&lt;h3 id=&#34;node-exporter&#34;&gt;Node Exporter&lt;/h3&gt;
 &lt;p&gt;Verrazzano installs Node Exporter using a customized version of the Prometheus Community prometheus-node-exporter Helm chart. You specify chart overrides for Node Exporter in the Verrazzano custom resource under &lt;code&gt;.spec.components.prometheusNodeExporter.overrides&lt;/code&gt;.&lt;/p&gt;
-&lt;h4 id=&#34;kube-state-metrics&#34;&gt;kube-state-metrics&lt;/h4&gt;
+&lt;h3 id=&#34;kube-state-metrics&#34;&gt;kube-state-metrics&lt;/h3&gt;
 &lt;p&gt;Verrazzano installs kube-state-metrics using a customized version of the Prometheus Community kube-state-metrics Helm chart. You specify chart overrides for kube-state-metrics in the Verrazzano custom resource under &lt;code&gt;.spec.components.kubeStateMetrics.overrides&lt;/code&gt;.&lt;/p&gt;
-&lt;h4 id=&#34;prometheus-adapter&#34;&gt;Prometheus Adapter&lt;/h4&gt;
+&lt;h3 id=&#34;prometheus-adapter&#34;&gt;Prometheus Adapter&lt;/h3&gt;
 &lt;p&gt;Verrazzano installs Prometheus Adapter using a customized version of the Prometheus Community prometheus-adapter Helm chart. You specify chart overrides for Prometheus Adapter in the Verrazzano custom resource under &lt;code&gt;.spec.components.prometheusAdapter.overrides&lt;/code&gt;.&lt;/p&gt;
-&lt;h4 id=&#34;grafana&#34;&gt;Grafana&lt;/h4&gt;
+&lt;h3 id=&#34;grafana&#34;&gt;Grafana&lt;/h3&gt;
 &lt;p&gt;Verrazzano does not use a Helm chart to install Grafana. As a result, there is no overrides field in the Grafana section of the Verrazzano custom resource. You can customize the Grafana instance using a limited set of configuration parameters available under &lt;code&gt;.spec.components.grafana&lt;/code&gt; in the Verrazzano custom resource.&lt;/p&gt;
-&lt;h3 id=&#34;verrazzano-chart-overrides&#34;&gt;Verrazzano chart overrides&lt;/h3&gt;
+&lt;h2 id=&#34;verrazzano-chart-overrides&#34;&gt;Verrazzano chart overrides&lt;/h2&gt;
 &lt;p&gt;Verrazzano applies a set of default chart overrides when installing components. The overrides for monitoring components generally fall into the following categories.&lt;/p&gt;
-&lt;h4 id=&#34;images&#34;&gt;Images&lt;/h4&gt;
+&lt;h3 id=&#34;images&#34;&gt;Images&lt;/h3&gt;
 &lt;p&gt;Verrazzano overrides image registries, repositories, and image tags to install Oracle built-from-source images. Registry overrides are also applied when installing Verrazzano from a private registry (for example, in a disconnected network environment).&lt;/p&gt;
-&lt;h4 id=&#34;pod-and-container-security&#34;&gt;Pod and container security&lt;/h4&gt;
+&lt;h3 id=&#34;pod-and-container-security&#34;&gt;Pod and container security&lt;/h3&gt;
 &lt;p&gt;Verrazzano overrides certain pod and container security settings to enhance the security of applications running in the cluster. For example, privilege escalation is disabled in pods to mitigate escalation attacks in a cluster.&lt;/p&gt;
-&lt;h4 id=&#34;istio-configuration&#34;&gt;Istio configuration&lt;/h4&gt;
+&lt;h3 id=&#34;istio-configuration&#34;&gt;Istio configuration&lt;/h3&gt;
 &lt;p&gt;Verrazzano overrides Istio settings so that the monitoring components themselves do not run in the Istio mesh. However, Prometheus may need to be able to scrape applications running both in the mesh and outside the mesh. Verrazzano overrides Prometheus settings to mount CA certificates that allow Prometheus to scrape applications in the mesh.&lt;/p&gt;
-&lt;h4 id=&#34;metric-relabeling&#34;&gt;Metric relabeling&lt;/h4&gt;
+&lt;h3 id=&#34;metric-relabeling&#34;&gt;Metric relabeling&lt;/h3&gt;
 &lt;p&gt;Verrazzano overrides chart values to add metric relabelings. The relabelings add a &lt;code&gt;verrazzano_cluster&lt;/code&gt; label to all metrics. The relabeling configuration also adds a &lt;code&gt;verrazzano_component&lt;/code&gt; label to label metrics for Verrazzano system components.&lt;/p&gt;
-&lt;h4 id=&#34;other&#34;&gt;Other&lt;/h4&gt;
+&lt;h3 id=&#34;other&#34;&gt;Other&lt;/h3&gt;
 &lt;p&gt;Verrazzano overrides chart values for various other settings, including specifying memory and storage and requests, namespace and label configuration for discovering ServiceMonitor and PodMonitor resources, and such.&lt;/p&gt;
 &lt;h2 id=&#34;migration-steps&#34;&gt;Migration steps&lt;/h2&gt;
 &lt;p&gt;Follow these steps to install (or upgrade) and configure monitoring components. The result should be a cluster running a monitoring stack that achieves near-equivalent functionality compared to the Verrazzano-installed monitoring stack.&lt;/p&gt;
-&lt;h3 id=&#34;installing-from-the-application-catalog&#34;&gt;Installing from the application catalog&lt;/h3&gt;
+&lt;h3 id=&#34;install-from-the-application-catalog&#34;&gt;Install from the application catalog&lt;/h3&gt;
 &lt;p&gt;Monitoring components are installed using the OCNE Application Catalog. The first step is to add the Application Catalog Helm repository to the cluster.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -7712,7 +7711,7 @@ $ helm repo update
 &lt;/script&gt;
 &lt;p&gt;Next, install the Helm charts.&lt;/p&gt;
 &lt;h4 id=&#34;install-or-upgrade-the-kube-prometheus-stack-helm-chart&#34;&gt;Install or upgrade the kube-prometheus-stack Helm chart&lt;/h4&gt;
-&lt;p&gt;The following example &lt;code&gt;helm&lt;/code&gt; command installs Prometheus Operator, Prometheus, Alertmanager, and kube-state-metrics in the &lt;code&gt;monitoring&lt;/code&gt; namespace. Monitoring components can be installed in any namespace as long as the same namespace is used consistently. This example assumes you are using Helm version 3.2.0 or later.&lt;/p&gt;
+&lt;p&gt;The following example &lt;code&gt;helm&lt;/code&gt; command installs Prometheus Operator, Prometheus, Alertmanager, and kube-state-metrics in the &lt;code&gt;monitoring&lt;/code&gt; namespace. Monitoring components can be installed in any namespace as long as the same namespace is used consistently. This example assumes that you are using Helm version 3.2.0 or later.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -7804,7 +7803,7 @@ $ helm repo update
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-&lt;p&gt;Optionally, provide overrides when installing. The recipes below give examples of changing the configuration using Helm overrides.&lt;/p&gt;
+&lt;p&gt;Optionally, provide overrides when installing. The following recipes give examples of changing the configuration using Helm overrides.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Grafana is disabled by default when installing kube-prometheus-stack from the Application Catalog, but Grafana can be enabled by providing a &lt;code&gt;grafana.enabled=true&lt;/code&gt; Helm override.&lt;/p&gt;
 &lt;h4 id=&#34;install-or-upgrade-the-prometheus-adapter-helm-chart&#34;&gt;Install or upgrade the prometheus-adapter Helm chart&lt;/h4&gt;
 &lt;p&gt;To install or upgrade the Prometheus Adapter:&lt;/p&gt;
@@ -7999,7 +7998,7 @@ $ helm repo update
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;h5 id=&#34;installing-from-a-private-registry&#34;&gt;Installing from a private registry&lt;/h5&gt;
+&lt;h5 id=&#34;install-from-a-private-registry&#34;&gt;Install from a private registry&lt;/h5&gt;
 &lt;p&gt;To install using a private registry (for example, in a disconnected environment), you must override Helm values to change the image registry settings for all images. For example, to install kube-prometheus-stack from a private registry at &lt;code&gt;myprivreg.com&lt;/code&gt;, create an overrides file with the following content and specify it using the &lt;code&gt;-f&lt;/code&gt; option when running &lt;code&gt;helm upgrade --install&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;k-p-s_privreg_overrides.yaml&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -8213,7 +8212,7 @@ kube-state-metrics:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;h5 id=&#34;configuring-pod-and-container-security&#34;&gt;Configuring pod and container security&lt;/h5&gt;
+&lt;h5 id=&#34;configure-pod-and-container-security&#34;&gt;Configure pod and container security&lt;/h5&gt;
 &lt;p&gt;Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation. For example, apply the following overrides when installing the kube-prometheus-stack Helm chart.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;k-p-s_sec_overrides.yaml&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -8363,7 +8362,7 @@ grafana:
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
 &lt;p&gt;The default values in the prometheus-adapter Helm chart are sufficient, so no additional overrides are required.&lt;/p&gt;
-&lt;h5 id=&#34;configuring-istio&#34;&gt;Configuring Istio&lt;/h5&gt;
+&lt;h5 id=&#34;configure-istio&#34;&gt;Configure Istio&lt;/h5&gt;
 &lt;p&gt;When running monitoring components in a cluster that also has Istio installed, the monitoring components need to be configured as follows:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;All of the monitoring components are configured to run outside of the Istio mesh. The Prometheus pod is configured for Istio sidecar injection so that Istio adds the Istio CA certificates to the Prometheus pod, but all of the outbound traffic is configured to bypass the Istio envoy proxy sidecar. This configuration allows Prometheus to scrape pods that are both in and out of the mesh. If all pods that are to be scraped are inside the mesh, then this requirement can be dropped.&lt;/li&gt;
@@ -8586,8 +8585,8 @@ grafana:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-&lt;h5 id=&#34;configuring-storage-and-resource-limits-and-requests&#34;&gt;Configuring storage and resource limits and requests&lt;/h5&gt;
-&lt;p&gt;Specify overrides to change the default resource (storage, cpu, memory, and such) requests and limits. For example, to update resource requests for Prometheus, create the following overrides file and provide the file using the &lt;code&gt;-f&lt;/code&gt; option when running &lt;code&gt;helm upgrade --install&lt;/code&gt;. Note that the values shown here are also the default values used by Verrazzano when installing a Verrazzano custom resource configured with the &lt;code&gt;prod&lt;/code&gt; profile.&lt;/p&gt;
+&lt;h5 id=&#34;configure-storage-and-resource-limits-and-requests&#34;&gt;Configure storage and resource limits and requests&lt;/h5&gt;
+&lt;p&gt;Specify overrides to change the default resource (storage, CPU, memory, and such) requests and limits. For example, to update resource requests for Prometheus, create the following overrides file and provide the file using the &lt;code&gt;-f&lt;/code&gt; option when running &lt;code&gt;helm upgrade --install&lt;/code&gt;. Note that the values shown here are also the default values used by Verrazzano when installing a Verrazzano custom resource configured with the &lt;code&gt;prod&lt;/code&gt; profile.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;resource_overrides.yaml&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {

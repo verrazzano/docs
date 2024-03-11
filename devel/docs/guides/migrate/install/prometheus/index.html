@@ -91,7 +91,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.c1c33d9ec1fd09a90a94ba5695515217.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.cc729565ad1facc15ae5dbc939dab58a.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -117,7 +117,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.c1c33d9ec1fd09a90a94ba5695515217.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.cc729565ad1facc15ae5dbc939dab58a.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1047,6 +1047,10 @@ if (!doNotTrack) {
   
 </li>
   </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesmigratefluentd-to-fluentbit-li">
+  <input type="checkbox" id="m-docsguidesmigratefluentd-to-fluentbit-check"/>
+  <label for="m-docsguidesmigratefluentd-to-fluentbit-check"><a href="../../../../../docs/guides/migrate/fluentd-to-fluentbit/" class="align-left ps-0  td-sidebar-link td-sidebar-link__section" id="m-docsguidesmigratefluentd-to-fluentbit"><span class="">Moving to Fluent Bit from Fluentd</span></a></label>
+  
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidesmigrateoam-to-kubernetes-li">
   <input type="checkbox" id="m-docsguidesmigrateoam-to-kubernetes-check"/>
   <label for="m-docsguidesmigrateoam-to-kubernetes-check"><a href="../../../../../docs/guides/migrate/oam-to-kubernetes/" class="align-left ps-0  td-sidebar-link td-sidebar-link__section" id="m-docsguidesmigrateoam-to-kubernetes"><span class="">OAM to Kubernetes Mappings</span></a></label>
@@ -1231,15 +1235,27 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
-        <li>
+        <li><a href="#components">Components</a>
           <ul>
-            <li><a href="#components">Components</a></li>
-            <li><a href="#verrazzano-chart-overrides">Verrazzano chart overrides</a></li>
+            <li><a href="#prometheus-operator-prometheus-alertmanager">Prometheus Operator, Prometheus, Alertmanager</a></li>
+            <li><a href="#node-exporter">Node Exporter</a></li>
+            <li><a href="#kube-state-metrics">kube-state-metrics</a></li>
+            <li><a href="#prometheus-adapter">Prometheus Adapter</a></li>
+            <li><a href="#grafana">Grafana</a></li>
+          </ul>
+        </li>
+        <li><a href="#verrazzano-chart-overrides">Verrazzano chart overrides</a>
+          <ul>
+            <li><a href="#images">Images</a></li>
+            <li><a href="#pod-and-container-security">Pod and container security</a></li>
+            <li><a href="#istio-configuration">Istio configuration</a></li>
+            <li><a href="#metric-relabeling">Metric relabeling</a></li>
+            <li><a href="#other">Other</a></li>
           </ul>
         </li>
         <li><a href="#migration-steps">Migration steps</a>
           <ul>
-            <li><a href="#installing-from-the-application-catalog">Installing from the application catalog</a></li>
+            <li><a href="#install-from-the-application-catalog">Install from the application catalog</a></li>
           </ul>
         </li>
       </ul>
@@ -1277,34 +1293,34 @@ if (!doNotTrack) {
 		
 </header>
 	<p>This document shows you how to install Prometheus on OCNE.</p>
-<h3 id="components">Components</h3>
+<h2 id="components">Components</h2>
 <p>Verrazzano supports the following monitoring components.</p>
-<h4 id="prometheus-operator-prometheus-alertmanager">Prometheus Operator, Prometheus, Alertmanager</h4>
-<p>Verrazzano installs Prometheus Operator, Prometheus, and Alertmanager using a customized version of the Prometheus Community kube-prometheus-stack Helm chart. Prometheus Operator acts on custom resources to configure Prometheus and Alertmanager instances and metrics scrape configurations.</p>
+<h3 id="prometheus-operator-prometheus-alertmanager">Prometheus Operator, Prometheus, Alertmanager</h3>
+<p>Verrazzano installs Prometheus Operator, Prometheus, and Alertmanager using a customized version of the Prometheus Community kube-prometheus-stack Helm chart. Prometheus Operator acts on custom resources to configure Prometheus and Alertmanager instances, and metrics scrape configurations.</p>
 <p>You specify chart overrides for these components in the Verrazzano custom resource under <code>.spec.components.prometheusOperator.overrides</code>. The upstream kube-prometheus-stack Helm chart defines chart dependencies for kube-state-metrics, Node Exporter, and Grafana. However, the Verrazzano customized chart removes those dependencies and Verrazzano installs those components separately.</p>
-<h4 id="node-exporter">Node Exporter</h4>
+<h3 id="node-exporter">Node Exporter</h3>
 <p>Verrazzano installs Node Exporter using a customized version of the Prometheus Community prometheus-node-exporter Helm chart. You specify chart overrides for Node Exporter in the Verrazzano custom resource under <code>.spec.components.prometheusNodeExporter.overrides</code>.</p>
-<h4 id="kube-state-metrics">kube-state-metrics</h4>
+<h3 id="kube-state-metrics">kube-state-metrics</h3>
 <p>Verrazzano installs kube-state-metrics using a customized version of the Prometheus Community kube-state-metrics Helm chart. You specify chart overrides for kube-state-metrics in the Verrazzano custom resource under <code>.spec.components.kubeStateMetrics.overrides</code>.</p>
-<h4 id="prometheus-adapter">Prometheus Adapter</h4>
+<h3 id="prometheus-adapter">Prometheus Adapter</h3>
 <p>Verrazzano installs Prometheus Adapter using a customized version of the Prometheus Community prometheus-adapter Helm chart. You specify chart overrides for Prometheus Adapter in the Verrazzano custom resource under <code>.spec.components.prometheusAdapter.overrides</code>.</p>
-<h4 id="grafana">Grafana</h4>
+<h3 id="grafana">Grafana</h3>
 <p>Verrazzano does not use a Helm chart to install Grafana. As a result, there is no overrides field in the Grafana section of the Verrazzano custom resource. You can customize the Grafana instance using a limited set of configuration parameters available under <code>.spec.components.grafana</code> in the Verrazzano custom resource.</p>
-<h3 id="verrazzano-chart-overrides">Verrazzano chart overrides</h3>
+<h2 id="verrazzano-chart-overrides">Verrazzano chart overrides</h2>
 <p>Verrazzano applies a set of default chart overrides when installing components. The overrides for monitoring components generally fall into the following categories.</p>
-<h4 id="images">Images</h4>
+<h3 id="images">Images</h3>
 <p>Verrazzano overrides image registries, repositories, and image tags to install Oracle built-from-source images. Registry overrides are also applied when installing Verrazzano from a private registry (for example, in a disconnected network environment).</p>
-<h4 id="pod-and-container-security">Pod and container security</h4>
+<h3 id="pod-and-container-security">Pod and container security</h3>
 <p>Verrazzano overrides certain pod and container security settings to enhance the security of applications running in the cluster. For example, privilege escalation is disabled in pods to mitigate escalation attacks in a cluster.</p>
-<h4 id="istio-configuration">Istio configuration</h4>
+<h3 id="istio-configuration">Istio configuration</h3>
 <p>Verrazzano overrides Istio settings so that the monitoring components themselves do not run in the Istio mesh. However, Prometheus may need to be able to scrape applications running both in the mesh and outside the mesh. Verrazzano overrides Prometheus settings to mount CA certificates that allow Prometheus to scrape applications in the mesh.</p>
-<h4 id="metric-relabeling">Metric relabeling</h4>
+<h3 id="metric-relabeling">Metric relabeling</h3>
 <p>Verrazzano overrides chart values to add metric relabelings. The relabelings add a <code>verrazzano_cluster</code> label to all metrics. The relabeling configuration also adds a <code>verrazzano_component</code> label to label metrics for Verrazzano system components.</p>
-<h4 id="other">Other</h4>
+<h3 id="other">Other</h3>
 <p>Verrazzano overrides chart values for various other settings, including specifying memory and storage and requests, namespace and label configuration for discovering ServiceMonitor and PodMonitor resources, and such.</p>
 <h2 id="migration-steps">Migration steps</h2>
 <p>Follow these steps to install (or upgrade) and configure monitoring components. The result should be a cluster running a monitoring stack that achieves near-equivalent functionality compared to the Verrazzano-installed monitoring stack.</p>
-<h3 id="installing-from-the-application-catalog">Installing from the application catalog</h3>
+<h3 id="install-from-the-application-catalog">Install from the application catalog</h3>
 <p>Monitoring components are installed using the OCNE Application Catalog. The first step is to add the Application Catalog Helm repository to the cluster.</p>
 <style type="text/css">
     code {
@@ -1400,7 +1416,7 @@ $ helm repo update
 </script>
 <p>Next, install the Helm charts.</p>
 <h4 id="install-or-upgrade-the-kube-prometheus-stack-helm-chart">Install or upgrade the kube-prometheus-stack Helm chart</h4>
-<p>The following example <code>helm</code> command installs Prometheus Operator, Prometheus, Alertmanager, and kube-state-metrics in the <code>monitoring</code> namespace. Monitoring components can be installed in any namespace as long as the same namespace is used consistently. This example assumes you are using Helm version 3.2.0 or later.</p>
+<p>The following example <code>helm</code> command installs Prometheus Operator, Prometheus, Alertmanager, and kube-state-metrics in the <code>monitoring</code> namespace. Monitoring components can be installed in any namespace as long as the same namespace is used consistently. This example assumes that you are using Helm version 3.2.0 or later.</p>
 <style type="text/css">
     code {
         margin: 0;
@@ -1492,7 +1508,7 @@ $ helm repo update
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
-<p>Optionally, provide overrides when installing. The recipes below give examples of changing the configuration using Helm overrides.</p>
+<p>Optionally, provide overrides when installing. The following recipes give examples of changing the configuration using Helm overrides.</p>
 <p><strong>NOTE</strong>: Grafana is disabled by default when installing kube-prometheus-stack from the Application Catalog, but Grafana can be enabled by providing a <code>grafana.enabled=true</code> Helm override.</p>
 <h4 id="install-or-upgrade-the-prometheus-adapter-helm-chart">Install or upgrade the prometheus-adapter Helm chart</h4>
 <p>To install or upgrade the Prometheus Adapter:</p>
@@ -1687,7 +1703,7 @@ $ helm repo update
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<h5 id="installing-from-a-private-registry">Installing from a private registry</h5>
+<h5 id="install-from-a-private-registry">Install from a private registry</h5>
 <p>To install using a private registry (for example, in a disconnected environment), you must override Helm values to change the image registry settings for all images. For example, to install kube-prometheus-stack from a private registry at <code>myprivreg.com</code>, create an overrides file with the following content and specify it using the <code>-f</code> option when running <code>helm upgrade --install</code>.</p>
 <p><strong>k-p-s_privreg_overrides.yaml</strong>
 <style type="text/css">
@@ -1901,7 +1917,7 @@ kube-state-metrics:
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<h5 id="configuring-pod-and-container-security">Configuring pod and container security</h5>
+<h5 id="configure-pod-and-container-security">Configure pod and container security</h5>
 <p>Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation. For example, apply the following overrides when installing the kube-prometheus-stack Helm chart.</p>
 <p><strong>k-p-s_sec_overrides.yaml</strong>
 <style type="text/css">
@@ -2051,7 +2067,7 @@ grafana:
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
 <p>The default values in the prometheus-adapter Helm chart are sufficient, so no additional overrides are required.</p>
-<h5 id="configuring-istio">Configuring Istio</h5>
+<h5 id="configure-istio">Configure Istio</h5>
 <p>When running monitoring components in a cluster that also has Istio installed, the monitoring components need to be configured as follows:</p>
 <ol>
 <li>All of the monitoring components are configured to run outside of the Istio mesh. The Prometheus pod is configured for Istio sidecar injection so that Istio adds the Istio CA certificates to the Prometheus pod, but all of the outbound traffic is configured to bypass the Istio envoy proxy sidecar. This configuration allows Prometheus to scrape pods that are both in and out of the mesh. If all pods that are to be scraped are inside the mesh, then this requirement can be dropped.</li>
@@ -2274,8 +2290,8 @@ grafana:
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
-<h5 id="configuring-storage-and-resource-limits-and-requests">Configuring storage and resource limits and requests</h5>
-<p>Specify overrides to change the default resource (storage, cpu, memory, and such) requests and limits. For example, to update resource requests for Prometheus, create the following overrides file and provide the file using the <code>-f</code> option when running <code>helm upgrade --install</code>. Note that the values shown here are also the default values used by Verrazzano when installing a Verrazzano custom resource configured with the <code>prod</code> profile.</p>
+<h5 id="configure-storage-and-resource-limits-and-requests">Configure storage and resource limits and requests</h5>
+<p>Specify overrides to change the default resource (storage, CPU, memory, and such) requests and limits. For example, to update resource requests for Prometheus, create the following overrides file and provide the file using the <code>-f</code> option when running <code>helm upgrade --install</code>. Note that the values shown here are also the default values used by Verrazzano when installing a Verrazzano custom resource configured with the <code>prod</code> profile.</p>
 <p><strong>resource_overrides.yaml</strong>
 <style type="text/css">
     code {

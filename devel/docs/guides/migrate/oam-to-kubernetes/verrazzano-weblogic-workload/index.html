@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/guides/migrate/oam-to-kubernetes/verrazzano-weblogic-workload/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2024-01-26T13:50:20-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2024-03-11T16:15:59+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="VerrazzanoWebLogicWorkload">
 <meta itemprop="description" content="Review the Kubernetes objects Verrazzano creates for an OAM VerrazzanoWebLogicWorkload">
-<meta itemprop="dateModified" content="2024-01-26T13:50:20-05:00" />
-<meta itemprop="wordCount" content="518">
+<meta itemprop="dateModified" content="2024-03-11T16:15:59+05:30" />
+<meta itemprop="wordCount" content="961">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="VerrazzanoWebLogicWorkload"/>
 <meta name="twitter:description" content="Review the Kubernetes objects Verrazzano creates for an OAM VerrazzanoWebLogicWorkload"/>
@@ -95,7 +95,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.c1c33d9ec1fd09a90a94ba5695515217.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.cc729565ad1facc15ae5dbc939dab58a.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -121,7 +121,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.c1c33d9ec1fd09a90a94ba5695515217.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.cc729565ad1facc15ae5dbc939dab58a.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1051,6 +1051,10 @@ if (!doNotTrack) {
   
 </li>
   </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesmigratefluentd-to-fluentbit-li">
+  <input type="checkbox" id="m-docsguidesmigratefluentd-to-fluentbit-check"/>
+  <label for="m-docsguidesmigratefluentd-to-fluentbit-check"><a href="../../../../../docs/guides/migrate/fluentd-to-fluentbit/" class="align-left ps-0  td-sidebar-link td-sidebar-link__section" id="m-docsguidesmigratefluentd-to-fluentbit"><span class="">Moving to Fluent Bit from Fluentd</span></a></label>
+  
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsguidesmigrateoam-to-kubernetes-li">
   <input type="checkbox" id="m-docsguidesmigrateoam-to-kubernetes-check" checked/>
   <label for="m-docsguidesmigrateoam-to-kubernetes-check"><a href="../../../../../docs/guides/migrate/oam-to-kubernetes/" class="align-left ps-0  td-sidebar-link td-sidebar-link__section" id="m-docsguidesmigrateoam-to-kubernetes"><span class="">OAM to Kubernetes Mappings</span></a></label>
@@ -1230,7 +1234,18 @@ if (!doNotTrack) {
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#edit-domain-object-to-move-from-fluentd-sidecar-to-fluent-bit-sidecar">Edit Domain object to move from Fluentd sidecar to Fluent Bit sidecar</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      </div>
+    
             
 
           </aside>
@@ -1511,7 +1526,199 @@ n/$(DOMAIN_UID).log
   serverStartPolicy: IfNeeded
   webLogicCredentialsSecret:
     name: tododomain-weblogic-credentials
-</code></pre>
+</code></pre><h2 id="edit-domain-object-to-move-from-fluentd-sidecar-to-fluent-bit-sidecar">Edit Domain object to move from Fluentd sidecar to Fluent Bit sidecar</h2>
+<p>Remove Fluentd sidecar container from <code>spec.serverPod</code> field and associated volumes and volumeMounts from your Domain object manifest before applying it in the cluster.
+For example, the Domain object in the previous section will look something like this after removing Fluentd sidecar container, associated volumes and volumeMounts.</p>
+<pre tabindex="0"><code>apiVersion: weblogic.oracle/v9
+kind: Domain
+metadata:
+  name: todo-domain
+  namespace: todo-list
+spec:
+  adminServer:
+    adminChannelPortForwardingEnabled: true
+    serverStartPolicy: IfNeeded
+  configuration:
+    introspectorJobActiveDeadlineSeconds: 900
+    model:
+      auxiliaryImages:
+      - image: container-registry.oracle.com/verrazzano/example-todo:20211129200415-ae4e89e
+      configMap: tododomain-jdbc-config
+      domainType: WLS
+      runtimeEncryptionSecret: tododomain-runtime-encrypt-secret
+    overrideDistributionStrategy: Dynamic
+    secrets:
+    - tododomain-jdbc-tododb
+  domainHome: /u01/domains/tododomain
+  domainHomeSourceType: FromModel
+  domainUID: tododomain
+  failureRetryIntervalSeconds: 120
+  failureRetryLimitMinutes: 1440
+  httpAccessLogInLogHome: true
+  image: container-registry.oracle.com/middleware/weblogic:12.2.1.4
+  imagePullSecrets:
+  - name: tododomain-repo-credentials
+  includeServerOutInPodLog: true
+  logHome: /scratch/logs/todo-domain
+  logHomeEnabled: true
+  logHomeLayout: Flat
+  maxClusterConcurrentShutdown: 1
+  maxClusterConcurrentStartup: 0
+  maxClusterUnavailable: 1
+  monitoringExporter:
+    configuration:
+      domainQualifier: true
+      metricsNameSnakeCase: true
+      queries:
+      - applicationRuntimes:
+          componentRuntimes:
+            key: name
+            prefix: wls_webapp_config_
+            servlets:
+              key: servletName
+              prefix: wls_servlet_
+            type: WebAppComponentRuntime
+            values:
+            - deploymentState
+            - contextRoot
+            - sourceInfo
+            - sessionsOpenedTotalCount
+            - openSessionsCurrentCount
+            - openSessionsHighCount
+          key: name
+          keyName: app
+        key: name
+        keyName: location
+        prefix: wls_server_
+      - JVMRuntime:
+          key: name
+          prefix: wls_jvm_
+      - executeQueueRuntimes:
+          key: name
+          prefix: wls_socketmuxer_
+          values:
+          - pendingRequestCurrentCount
+      - workManagerRuntimes:
+          key: name
+          prefix: wls_workmanager_
+          values:
+          - stuckThreadCount
+          - pendingRequests
+          - completedRequests
+      - threadPoolRuntime:
+          key: name
+          prefix: wls_threadpool_
+          values:
+          - executeThreadTotalCount
+          - queueLength
+          - stuckThreadCount
+          - hoggingThreadCount
+      - JMSRuntime:
+          JMSServers:
+            destinations:
+              key: name
+              keyName: destination
+              prefix: wls_jms_dest_
+            key: name
+            keyName: jmsserver
+            prefix: wls_jms_
+          key: name
+          keyName: jmsruntime
+          prefix: wls_jmsruntime_
+      - persistentStoreRuntimes:
+          key: name
+          prefix: wls_persistentstore_
+      - JDBCServiceRuntime:
+          JDBCDataSourceRuntimeMBeans:
+            key: name
+            prefix: wls_datasource_
+      - JTARuntime:
+          key: name
+          prefix: wls_jta_
+    image: ghcr.io/oracle/weblogic-monitoring-exporter:2.1.8
+    imagePullPolicy: IfNotPresent
+    port: 8080
+  replaceVariablesInJavaOptions: false
+  replicas: 1
+  serverPod:
+    env:
+    - name: JAVA_OPTIONS
+      value: -Dweblogic.StdoutDebugEnabled=false
+    - name: USER_MEM_ARGS
+      value: &#39;-Djava.security.egd=file:/dev/./urandom -Xms64m -Xmx256m &#39;
+    - name: WL_HOME
+      value: /u01/oracle/wlserver
+    - name: MW_HOME
+      value: /u01/oracle
+    labels:
+      app: todo-domain
+      verrazzano.io/workload-type: weblogic
+      version: v1
+    volumeMounts:
+    - mountPath: /scratch
+      name: weblogic-domain-storage-volume
+    volumes:
+    - emptyDir: {}
+      name: weblogic-domain-storage-volume
+  serverService:
+    labels:
+      app: todo-domain
+      verrazzano.io/workload-type: weblogic
+      version: v1
+  serverStartPolicy: IfNeeded
+  webLogicCredentialsSecret:
+    name: tododomain-weblogic-credentials
+</code></pre><p>Then, add a specification similar to this for a Fluent Bit sidecar in your Domain object spec.</p>
+<pre tabindex="0"><code>spec:
+  fluentbitSpecification:
+    image: &lt;fluentbit-image&gt;
+    containerCommand:
+      - /fluent-bit/bin/fluent-bit
+    containerArgs:
+      - -c
+      - /fluent-bit/etc/fluent-bit.conf
+    volumeMounts:
+    - mountPath: /scratch
+      name: weblogic-domain-storage-volume
+    fluentbitConfiguration: |-
+      [SERVICE]
+        flush        1
+        log_level    off
+        parsers_file parsers.conf
+ 
+      [INPUT]
+        name             tail
+        path             ${LOG_PATH}
+        read_from_head   true
+        db               /tmp/serverlog.db
+        multiline.parser capture-multiline-log
+        tag foo
+ 
+      [FILTER]
+        match *
+        name parser
+        preserve_key true
+        parser parse-multiline-log
+        key_name log
+ 
+      [OUTPUT]
+        name             stdout
+        match            *
+    parserConfiguration: |-
+      [MULTILINE_PARSER]
+         name          capture-multiline-log
+         type          regex
+         flush_timeout 1000
+         rule      &#34;start_state&#34;   &#34;/^####(.*)/&#34;                     &#34;cont&#34;
+         rule      &#34;cont&#34;          &#34;/^(?!####)(.*)/&#34;                 &#34;cont&#34;
+ 
+      [PARSER]
+         Name parse-multiline-log
+         Format regex
+         Time_Key timestamp
+         Regex /^####&lt;(?&lt;timestamp&gt;(.*?))&gt; &lt;(?&lt;level&gt;(.*?))&gt; &lt;(?&lt;subSystem&gt;(.*?))&gt; &lt;(?&lt;serverName&gt;(.*?))&gt; &lt;(?&lt;serverName2&gt;(.*?))&gt; &lt;(?&lt;threadName&gt;(.*?))&gt; &lt;(?&lt;info1&gt;(.*?))&gt; &lt;(?&lt;info2&gt;(.*?))&gt; &lt;(?&lt;info3&gt;(.*?))&gt; &lt;(?&lt;sequenceNumber&gt;(.*?))&gt; &lt;(?&lt;severity&gt;(.*?))&gt; &lt;(?&lt;messageID&gt;(.*?))&gt; &lt;(?&lt;message&gt;((?m).*?))&gt;/    
+</code></pre><p>Replace <fluentbit-image> with the same image as Fluent Bit DaemonSet running in your cluster.</p>
+
 	<style>
   .feedback--answer {
     display: inline-block;

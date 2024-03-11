@@ -4,6 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="generator" content="Hugo 0.94.2" />
+<link rel="alternate" type="application/rss&#43;xml" href="../../../../docs/guides/migrate/fluentd-to-fluentbit/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -18,22 +19,17 @@
 <link rel="icon" type="image/png" href="../../../../favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="../../../../favicons/android-192x192.png" sizes="192x192">
 
-<title>Enable and Configure Argo CD | Verrazzano Enterprise Container Platform</title>
-<meta name="description" content="Enable and configure Argo CD to work with your Git repositories">
-<meta property="og:title" content="Enable and Configure Argo CD" />
-<meta property="og:description" content="Enable and configure Argo CD to work with your Git repositories" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/docs/applications/delivery/enable/" /><meta property="article:section" content="docs" />
+<title>Moving to Fluent Bit from Fluentd | Verrazzano Enterprise Container Platform</title>
+<meta name="description" content="A hybrid multi-cloud Kubernetes based Enterprise Container Platform for running both cloud-native and traditional applications">
+<meta property="og:title" content="Moving to Fluent Bit from Fluentd" />
+<meta property="og:description" content="A hybrid multi-cloud Kubernetes based Enterprise Container Platform for running both cloud-native and traditional applications" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="/docs/guides/migrate/fluentd-to-fluentbit/" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
-<meta property="article:modified_time" content="2023-06-07T11:57:52-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
-
-<meta itemprop="name" content="Enable and Configure Argo CD">
-<meta itemprop="description" content="Enable and configure Argo CD to work with your Git repositories">
-<meta itemprop="dateModified" content="2023-06-07T11:57:52-04:00" />
-<meta itemprop="wordCount" content="215">
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Enable and Configure Argo CD"/>
-<meta name="twitter:description" content="Enable and configure Argo CD to work with your Git repositories"/>
+<meta itemprop="name" content="Moving to Fluent Bit from Fluentd">
+<meta itemprop="description" content="A hybrid multi-cloud Kubernetes based Enterprise Container Platform for running both cloud-native and traditional applications"><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Moving to Fluent Bit from Fluentd"/>
+<meta name="twitter:description" content="A hybrid multi-cloud Kubernetes based Enterprise Container Platform for running both cloud-native and traditional applications"/>
 
 
 
@@ -60,7 +56,7 @@ if (!doNotTrack) {
 }
 </script>
   </head>
-  <body class="td-page">
+  <body class="td-section">
     <header>
       <nav class="td-navbar navbar-dark js-navbar-scroll">
 <div class="container-fluid flex-column flex-md-row">
@@ -441,8 +437,8 @@ if (!doNotTrack) {
   
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsapplications-li">
-  <input type="checkbox" id="m-docsapplications-check" checked/>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsapplications-li">
+  <input type="checkbox" id="m-docsapplications-check"/>
   <label for="m-docsapplications-check"><a href="../../../../docs/applications/" class="align-left ps-0  td-sidebar-link td-sidebar-link__section" id="m-docsapplications"><span class="">Deploy and Manage Applications</span></a></label>
   
   <ul class="ul-2 foldable">
@@ -576,14 +572,14 @@ if (!doNotTrack) {
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsapplicationsdelivery-li">
-  <input type="checkbox" id="m-docsapplicationsdelivery-check" checked/>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsapplicationsdelivery-li">
+  <input type="checkbox" id="m-docsapplicationsdelivery-check"/>
   <label for="m-docsapplicationsdelivery-check"><a href="../../../../docs/applications/delivery/" class="align-left ps-0  td-sidebar-link td-sidebar-link__section" id="m-docsapplicationsdelivery"><span class="">Continuous Delivery</span></a></label>
   
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsapplicationsdeliveryenable-li">
-  <input type="checkbox" id="m-docsapplicationsdeliveryenable-check" checked/>
-  <label for="m-docsapplicationsdeliveryenable-check"><a href="../../../../docs/applications/delivery/enable/" class="align-left ps-0  active td-sidebar-link td-sidebar-link__page" id="m-docsapplicationsdeliveryenable"><span class="td-sidebar-nav-active-item">Enable and Configure Argo CD</span></a></label>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsapplicationsdeliveryenable-li">
+  <input type="checkbox" id="m-docsapplicationsdeliveryenable-check"/>
+  <label for="m-docsapplicationsdeliveryenable-check"><a href="../../../../docs/applications/delivery/enable/" class="align-left ps-0  td-sidebar-link td-sidebar-link__page" id="m-docsapplicationsdeliveryenable"><span class="">Enable and Configure Argo CD</span></a></label>
   
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsapplicationsdeliverydeploy-li">
   <input type="checkbox" id="m-docsapplicationsdeliverydeploy-check"/>
@@ -959,13 +955,13 @@ if (!doNotTrack) {
   
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguides-li">
-  <input type="checkbox" id="m-docsguides-check"/>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsguides-li">
+  <input type="checkbox" id="m-docsguides-check" checked/>
   <label for="m-docsguides-check"><a href="../../../../docs/guides/" class="align-left ps-0  td-sidebar-link td-sidebar-link__section" id="m-docsguides"><span class="">Guides</span></a></label>
   
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidesmigrate-li">
-  <input type="checkbox" id="m-docsguidesmigrate-check"/>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsguidesmigrate-li">
+  <input type="checkbox" id="m-docsguidesmigrate-check" checked/>
   <label for="m-docsguidesmigrate-check"><a href="../../../../docs/guides/migrate/" class="align-left ps-0  td-sidebar-link td-sidebar-link__section" id="m-docsguidesmigrate"><span class="">Migrate From Verrazzano to OCNE 2.0</span></a></label>
   
   <ul class="ul-3 foldable">
@@ -1051,9 +1047,9 @@ if (!doNotTrack) {
   
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesmigratefluentd-to-fluentbit-li">
-  <input type="checkbox" id="m-docsguidesmigratefluentd-to-fluentbit-check"/>
-  <label for="m-docsguidesmigratefluentd-to-fluentbit-check"><a href="../../../../docs/guides/migrate/fluentd-to-fluentbit/" class="align-left ps-0  td-sidebar-link td-sidebar-link__section" id="m-docsguidesmigratefluentd-to-fluentbit"><span class="">Moving to Fluent Bit from Fluentd</span></a></label>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesmigratefluentd-to-fluentbit-li">
+  <input type="checkbox" id="m-docsguidesmigratefluentd-to-fluentbit-check" checked/>
+  <label for="m-docsguidesmigratefluentd-to-fluentbit-check"><a href="../../../../docs/guides/migrate/fluentd-to-fluentbit/" class="align-left ps-0  active td-sidebar-link td-sidebar-link__section" id="m-docsguidesmigratefluentd-to-fluentbit"><span class="td-sidebar-nav-active-item">Moving to Fluent Bit from Fluentd</span></a></label>
   
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidesmigrateoam-to-kubernetes-li">
   <input type="checkbox" id="m-docsguidesmigrateoam-to-kubernetes-check"/>
@@ -1239,12 +1235,7 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
-        <li>
-          <ul>
-            <li><a href="#enable-argo-cd">Enable Argo CD</a></li>
-            <li><a href="#configure-repositories">Configure repositories</a></li>
-          </ul>
-        </li>
+        <li><a href="#migrating-fluentd-configuration-for-fluentd-sidecar-to-fluent-bit">Migrating Fluentd configuration for Fluentd sidecar to Fluent Bit</a></li>
       </ul>
     </li>
   </ul>
@@ -1263,47 +1254,40 @@ if (!doNotTrack) {
   <li class="breadcrumb-item">
     <a href="../../../../docs/">Documentation</a></li>
   <li class="breadcrumb-item">
-    <a href="../../../../docs/applications/">Deploy and Manage Applications</a></li>
+    <a href="../../../../docs/guides/">Guides</a></li>
   <li class="breadcrumb-item">
-    <a href="../../../../docs/applications/delivery/">Continuous Delivery</a></li>
+    <a href="../../../../docs/guides/migrate/">Migrate From Verrazzano to OCNE 2.0</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Enable and Configure Argo CD</li>
+    Moving to Fluent Bit from Fluentd</li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Enable and Configure Argo CD</h1>
-	<div class="lead">Enable and configure Argo CD to work with your Git repositories</div>
+	<h1>Moving to Fluent Bit from Fluentd</h1>
+  
 	<header class="article-meta">
 		
 </header>
-	<h3 id="enable-argo-cd">Enable Argo CD</h3>
-<ol>
-<li>Install Verrazzano and set up a multicluster environment by following these <a href="../../../../docs/setup/mc-install/multicluster/#install-verrazzano">instructions</a>.
-<br>
-a. Because Argo CD is <em>not</em> enabled by default, you must first <a href="../../../../docs/setup/modify-installation/#pre-installation">enable argoCD</a> on the <em>admin</em> cluster. <br>
-b. When you <a href="../../../../docs/setup/mc-install/multicluster/#register-the-managed-cluster">register managed clusters</a>, they are automatically registered in Argo CD.</li>
-<li>Access the Argo CD console using the instructions at <a href="../../../../docs/setup/access/#the-argo-cd-console">Access Verrazzano</a>.</li>
-<li>After you set up your application in the Argo CD console, those registered clusters will be available for you to select, deploy, and manage applications.</li>
-</ol>
-<h3 id="configure-repositories">Configure repositories</h3>
-<p>In the Argo CD console, configure repositories that will contain the Kubernetes resources for deploying an application.</p>
-<p>The following is a sample procedure to configure a private Git repository through HTTPS.</p>
-<ol>
-<li>Log in to the Argo CD console.</li>
-<li>In the left navigation, click <strong>Settings</strong>.</li>
-<li>Click <strong>Repositories</strong>.</li>
-<li>Click <strong>Connect Repo</strong>.</li>
-<li>Select <strong>VIA HTTPS</strong> as the connection method.</li>
-<li>For <strong>Project</strong>, specify <strong>default</strong>.
-<br><strong>NOTE</strong>: Unless they are grouped together, all the projects are defined in the <code>default</code> level.</li>
-<li>For <strong>Repository URL</strong>, provide the required URL.</li>
-<li>If it is a private repository and a user name and password is required to connect to the repository, enter the required credentials.
-<br><strong>NOTE</strong>: The other fields are optional and based on how the Git repository is configured.</li>
-<li>Click <strong>Connect</strong> and verify that the connection status displayed is <code>Successful</code>.</li>
-</ol>
+	<p>Fluentd is the default logging agent in Verrazzano, which runs as a DaemonSet that collects, processes, and sends logs to log stores. When Verrazzano is installed, Fluentd is installed by default.
+For components with multiple log streams or that cannot log to stdout, Verrazzano deploys a Fluentd sidecar which parses and translates the log stream. The resulting log is sent to stdout of the sidecar container and then written to /var/log/containers by the kubelet service.</p>
+<p>In OCNE, the default logging agent will be Fluent Bit, which will be installed via Fluent Operator and will also run as a DaemonSet and operate in a way similar to Fluentd to collect, process and send logs to log stores.</p>
+<p>Following the migration guide to install and integrate Fluent Bit will result in a Fluent Bit DaemonSet instance that operates similar to Fluentd.</p>
+<h2 id="migrating-fluentd-configuration-for-fluentd-sidecar-to-fluent-bit">Migrating Fluentd configuration for Fluentd sidecar to Fluent Bit</h2>
+<p>Fluent Bit was inspired by Fluentd design and architecture, so they share certain similarities when it comes to configuration and plugins.</p>
+<p>For Fluentd to Fluent Bit sidecar migration, follow <a href="../../../../docs/guides/migrate/oam-to-kubernetes/verrazzano-weblogic-workload/#edit-domain-object-to-move-from-fluentd-sidecar-to-fluent-bit-sidecar">recipe to migrate to Fluent Bit sidecar for WebLogic Workloads</a></p>
 
-	<style>
+  <div class="section-index">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</div>
+<style>
   .feedback--answer {
     display: inline-block;
   }
@@ -1362,11 +1346,8 @@ b. When you <a href="../../../../docs/setup/mc-install/multicluster/#register-th
     sendFeedback(0);
   });
 </script>
-
-		<br />
-	
-</div>
-
+<br />
+	</div>
 
           </main>
         </div>

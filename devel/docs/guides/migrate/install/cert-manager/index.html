@@ -91,7 +91,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.c1c33d9ec1fd09a90a94ba5695515217.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.cc729565ad1facc15ae5dbc939dab58a.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -117,7 +117,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.c1c33d9ec1fd09a90a94ba5695515217.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.cc729565ad1facc15ae5dbc939dab58a.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1047,6 +1047,10 @@ if (!doNotTrack) {
   
 </li>
   </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesmigratefluentd-to-fluentbit-li">
+  <input type="checkbox" id="m-docsguidesmigratefluentd-to-fluentbit-check"/>
+  <label for="m-docsguidesmigratefluentd-to-fluentbit-check"><a href="../../../../../docs/guides/migrate/fluentd-to-fluentbit/" class="align-left ps-0  td-sidebar-link td-sidebar-link__section" id="m-docsguidesmigratefluentd-to-fluentbit"><span class="">Moving to Fluent Bit from Fluentd</span></a></label>
+  
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidesmigrateoam-to-kubernetes-li">
   <input type="checkbox" id="m-docsguidesmigrateoam-to-kubernetes-check"/>
   <label for="m-docsguidesmigrateoam-to-kubernetes-check"><a href="../../../../../docs/guides/migrate/oam-to-kubernetes/" class="align-left ps-0  td-sidebar-link td-sidebar-link__section" id="m-docsguidesmigrateoam-to-kubernetes"><span class="">OAM to Kubernetes Mappings</span></a></label>
@@ -1231,18 +1235,17 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
-        <li><a href="#install-cert-manager">Install cert-manager</a>
-          <ul>
-            <li><a href="#installing-cert-manager-using-helm">Installing cert-manager using Helm</a></li>
-            <li><a href="#helm-overrides-recipes">Helm Overrides recipes</a></li>
-          </ul>
-        </li>
-        <li><a href="#install-the-oci-dns-webhook-solver">Install the OCI DNS webhook solver</a>
+        <li><a href="#install-cert-manager-using-helm">Install cert-manager using Helm</a>
           <ul>
             <li><a href="#helm-override-recipes">Helm override recipes</a></li>
           </ul>
         </li>
-        <li><a href="#creating-a-clusterissuer">Creating a ClusterIssuer</a>
+        <li><a href="#install-the-oci-dns-webhook-solver">Install the OCI DNS webhook solver</a>
+          <ul>
+            <li><a href="#helm-override-recipes-1">Helm override recipes</a></li>
+          </ul>
+        </li>
+        <li><a href="#create-a-clusterissuer">Create a ClusterIssuer</a>
           <ul>
             <li><a href="#self-signed-clusterissuer">Self-signed <code>ClusterIssuer</code></a></li>
             <li><a href="#lets-encrypt-staging-with-oci-dns-clusterissuer">Let&rsquo;s Encrypt staging with OCI DNS ClusterIssuer</a></li>
@@ -1283,23 +1286,22 @@ if (!doNotTrack) {
 		
 </header>
 	<p>This document shows you how to install cert-manager on OCNE.</p>
-<p>Verrazzano supports the installation of <a href="https://cert-manager.io/">cert-manager</a>, or using a customer-managed cert-manager instance.<br>
+<p>Verrazzano supports the installation of <a href="https://cert-manager.io/">cert-manager</a> or using a customer-managed cert-manager instance.<br>
 Depending on the configuration, Verrazzano will install the following components:</p>
 <ul>
 <li>cert-manager</li>
 <li>The Verrazzano <a href="https://github.com/verrazzano/cert-manager-webhook-oci">cert-manager-webhook-oci</a> webhook for signing certificates using Let&rsquo;s Encrypt.</li>
 <li>A ClusterIssuer used to sign certificates</li>
 </ul>
-<h2 id="install-cert-manager">Install cert-manager</h2>
-<h3 id="installing-cert-manager-using-helm">Installing cert-manager using Helm</h3>
+<h2 id="install-cert-manager-using-helm">Install cert-manager using Helm</h2>
 <p><strong>TBD</strong>, will be installed as a first-class CNE module and not from the app catalog</p>
-<h3 id="helm-overrides-recipes">Helm Overrides recipes</h3>
-<p>The following sections show you how to override certain cert-manager default settings. These overrides should be put into a file and passed into helm using the <code>-f</code> argument.</p>
-<h4 id="installing-from-a-private-registry">Installing from a private registry</h4>
+<h3 id="helm-override-recipes">Helm override recipes</h3>
+<p>The following sections show you how to override certain cert-manager default settings. Overrides should be put into a file and passed into the <code>helm</code> command using the <code>-f</code> argument.</p>
+<h4 id="install-from-a-private-registry">Install from a private registry</h4>
 <p><strong>TBD</strong> - need OCNE module private registry example</p>
-<h4 id="configuring-pod-and-container-security">Configuring pod and container security</h4>
+<h4 id="configure-pod-and-container-security">Configure pod and container security</h4>
 <p>Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.</p>
-<p>For example, apply the following overrides when installing the cert-manager module in an OCNE 2.0 cluster to use security settings similar to those used by Verrazzano 1.6.</p>
+<p>For example, to use security settings similar to those used by Verrazzano 1.6, apply the following overrides when installing the cert-manager module in an OCNE 2.0 cluster.</p>
 <style type="text/css">
     code {
         margin: 0;
@@ -1437,9 +1439,9 @@ webhook:
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
-<h4 id="configuring-storage-and-resource-limits-and-requests">Configuring storage and resource limits and requests</h4>
-<p>Specify overrides to change the default resource (storage, cpu, memory, and such) requests and limits.</p>
-<p>For example, to apply a custom resource requests for cert-manager pods create the following overrides file and apply it when installing the module.</p>
+<h4 id="configure-storage-and-resource-limits-and-requests">Configure storage and resource limits and requests</h4>
+<p>Specify overrides to change the default resource (storage, CPU, memory, and such) requests and limits.</p>
+<p>For example, to apply a custom resource requests for cert-manager pods, create the following overrides file and apply it when installing the module.</p>
 <style type="text/css">
     code {
         margin: 0;
@@ -1534,7 +1536,7 @@ webhook:
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
-<h4 id="customizing-the-cluster-clusterresourcenamespace">Customizing the cluster ClusterResourceNamespace</h4>
+<h4 id="customize-the-clusterresourcenamespace">Customize the ClusterResourceNamespace</h4>
 <p>Verrazzano sets the location for ClusterIssuer secrets used by cert-manager called the clusterResourceNamespace. This is the same namespace where cert-manager is installed by default but can be overridden when a custom certificate authority is used.</p>
 <style type="text/css">
     code {
@@ -1628,7 +1630,7 @@ webhook:
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
 <h2 id="install-the-oci-dns-webhook-solver">Install the OCI DNS webhook solver</h2>
-<p>If you intend to use cert-manager with Let&rsquo;s Encrypt and OCI DNS, then you will need to install the <code>cert-manager-webhook-oci</code>  module from the OCNE application catalog.
+<p>If you intend to use cert-manager with Let&rsquo;s Encrypt and OCI DNS, then you will need to install the <code>cert-manager-webhook-oci</code> module from the OCNE Application Catalog.
 The webhook solver is installed using the OCNE Application Catalog. The first step is to add the Application Catalog Helm repository to the cluster.</p>
 <style type="text/css">
     code {
@@ -1815,9 +1817,9 @@ $ helm repo update
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
 <p>In the previous example, it was installed into the default <code>cert-manager</code> namespace, however, this is not required.</p>
-<h3 id="helm-override-recipes">Helm override recipes</h3>
+<h3 id="helm-override-recipes-1">Helm override recipes</h3>
 <p>The following sections show you how to override certain cert-manager Helm values.</p>
-<h4 id="changing-cert-manager-locations">Changing cert-manager locations</h4>
+<h4 id="change-cert-manager-locations">Change cert-manager locations</h4>
 <p>If cert-manager or the ClusterIssuer resource is installed in a non-default namespace (something other than <code>cert-manager</code>), then these will need to be provided to the webhook installation as Helm overrides.<style type="text/css">
     code {
         margin: 0;
@@ -1909,7 +1911,7 @@ $ helm repo update
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<h4 id="installing-from-a-private-registry-1">Installing from a private registry</h4>
+<h4 id="install-from-a-private-registry-1">Install from a private registry</h4>
 <p>In order to install using a private registry (for example, in a disconnected environment), then you must override the Helm values to change the webhook image path.</p>
 <p>For example, to install <code>cert-manager-webhook-oci</code> from a private registry at <code>myprivreg.com/verrazzano/cert-manager-webhook-oci</code>, create an overrides file with the following content and specify it using the <code>-f</code> option when running <code>helm upgrade --install</code>.
 <style type="text/css">
@@ -2004,9 +2006,9 @@ $ helm repo update
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<h4 id="configuring-pod-and-container-security-1">Configuring pod and container security</h4>
+<h4 id="configure-pod-and-container-security-1">Configure pod and container security</h4>
 <p>Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.</p>
-<p>For example, to apply security settings similar to those used by Verrazzano, in OCNE 2.0 use the following overrides by using the <code>-f</code> option when running <code>helm upgrade --install</code> on the <code>cert-manager-wehbook-oci</code> chart.
+<p>For example, to apply security settings similar to those used by Verrazzano, in OCNE 2.0, use the following overrides by using the <code>-f</code> option when running <code>helm upgrade --install</code> on the <code>cert-manager-wehbook-oci</code> chart.
 <style type="text/css">
     code {
         margin: 0;
@@ -2108,8 +2110,8 @@ seccompProfile:
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<h4 id="configuring-storage-and-resource-limits-and-requests-1">Configuring storage and resource limits and requests</h4>
-<p>Specify overrides to change the default resource (storage, cpu, memory, and such) requests and limits.
+<h4 id="configure-storage-and-resource-limits-and-requests-1">Configure storage and resource limits and requests</h4>
+<p>Specify overrides to change the default resource (storage, CPU, memory, and such) requests and limits.
 For example, to update resource requests for the webhook, create the following overrides file and provide the file using the <code>-f</code> option when running <code>helm upgrade --install</code>.
 <style type="text/css">
     code {
@@ -2205,8 +2207,8 @@ For example, to update resource requests for the webhook, create the following o
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<h2 id="creating-a-clusterissuer">Creating a ClusterIssuer</h2>
-<p>The steps in this section describe examples of how to create cert-manager <code>ClusterIssuers</code> that are functionally equivalent to those employed by Verrazzano and use them to secure endpoints.</p>
+<h2 id="create-a-clusterissuer">Create a ClusterIssuer</h2>
+<p>The steps in this section describe examples of how to create cert-manager <code>ClusterIssuers</code> that are functionally equivalent to those employed by Verrazzano and how to use them to secure endpoints.</p>
 <h3 id="self-signed-clusterissuer">Self-signed <code>ClusterIssuer</code></h3>
 <p>To create a self-signed <code>ClusterIssuer</code> similar to those used by Verrazzano, you must:</p>
 <ol>
@@ -2214,14 +2216,14 @@ For example, to update resource requests for the webhook, create the following o
 <li>Create a self-signed <code>root</code> certificate using the issuer from Step 1.</li>
 <li>Create a <code>ClusterIssuer</code> using the TLS secret created by the <code>root</code> certificate object from Step 2.</li>
 </ol>
-<p>The <code>ClusterIssuer</code> created in Step 3 can then be used to sign leaf certificate requests.</p>
-<h4 id="creating-a-self-signed-root-certificate">Creating a self-signed root certificate</h4>
+<p>The <code>ClusterIssuer</code> created in Step 3 then can be used to sign leaf certificate requests.</p>
+<h4 id="create-a-self-signed-root-certificate">Create a self-signed root certificate</h4>
 <p>When using self-signed certificates, you need to start with a root CA. The cert-manager <a href="https://cert-manager.io/docs/configuration/selfsigned/">SelfSigned</a> issuer can be used to set this up, as described in the following sequence.</p>
 <ol>
 <li>Create a <a href="https://cert-manager.io/docs/configuration/selfsigned/">SelfSigned</a> issuer in the cert-manager namespace needed to create the root CA; if you are using a <code>ClusterIssuer</code>, then you must use the <a href="https://cert-manager.io/docs/configuration/#cluster-resource-namespace">cluster resource namespace</a> (typically the namespace where cert-manager  is installed).</li>
 <li>Create a certificate that refers to the issuer; if a namespace-scoped <code>Issuer</code> is used, then the <code>Certificate</code> must be created in the same namespace as the <code>Issuer</code>.</li>
 </ol>
-<p>The <code>cert-manager</code> controller will then create the secret referenced in the <code>Certificate</code> object (Step 2) that contains the root certificate and private key.</p>
+<p>The <code>cert-manager</code> controller then will create the secret referenced in the <code>Certificate</code> object (Step 2) that contains the root certificate and private key.</p>
 <p>For example, to create a <code>SelfSigned</code> root CA using a <code>ClusterIssuer</code>:</p>
 <p><strong>Root ClusterIssuer</strong>
 <style type="text/css">
@@ -2822,7 +2824,7 @@ type: kubernetes.io/tls
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
 <h4 id="create-the-clusterissuer">Create the ClusterIssuer</h4>
-<p>This secret will then be used to seed a <code>ClusterIssuer</code> to issue leaf certificates for other applications and services.
+<p>This secret then will be used to seed a <code>ClusterIssuer</code> to issue leaf certificates for other applications and services.
 Using the <code>Certificate</code> from the previous example, you can create a <code>ClusterIssuer</code> named <code>my-issuer</code> and reference the secret <code>my-root-ca-tls</code> as the CA.</p>
 <p><strong>Verrazzano ClusterIssuer</strong>
 <style type="text/css">
@@ -2967,7 +2969,7 @@ EOF
 clusterissuer.cert-manager.io/my-issuer created
 
 # Dislay the ClusterIssuer
-% kubectl get clusterissuers.cert-manager.io -o yaml my-issuer
+$ kubectl get clusterissuers.cert-manager.io -o yaml my-issuer
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -3055,7 +3057,7 @@ status:
 <p>To create a <code>ClusterIssuer</code> using Let&rsquo;s Encrypt with OCI DNS, you must:</p>
 <ul>
 <li><a href="#installing-the-oci-dns-webhook-solver">Install the cert-manager-oci-webhook</a>.</li>
-<li>Create an OCI user-principal secret, as documented <a href="../../../../../docs/networking/traffic/dns/#create-an-oracle-cloud-infrastructure-api-secret-in-the-target-cluster">here</a> in the <code>clusterResourceNamespace</code> for the cert-manager installation.</li>
+<li>Create an OCI user-principal secret, as documented <a href="../../../../../docs/networking/traffic/dns/#create-an-oracle-cloud-infrastructure-api-secret-in-the-target-cluster">here</a>, in the <code>clusterResourceNamespace</code> for the cert-manager installation.</li>
 </ul>
 <p>The following example creates a Let&rsquo;s Encrypt staging cluster issuer that:</p>
 <ul>
