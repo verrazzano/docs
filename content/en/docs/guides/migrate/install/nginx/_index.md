@@ -5,7 +5,7 @@ draft: false
 ---
 This document shows you how to install Ingress NGINX Controller on OCNE.
 
-Verrazzano installs [Ingress NGINX Controller](https://www.nginx.com/resources/glossary/kubernetes-ingress-controller/) to provide ingress to system components like Prometheus, OpenSearch, OpenSearch Dashboards, and such. The ingress controller watches the ingress resources and reconciles them, and configures the underlying Kubernetes load balancer to handle the service routing.
+Verrazzano installs [Ingress NGINX Controller](https://kubernetes.github.io/ingress-nginx/) to provide ingress to system components like Prometheus, OpenSearch, OpenSearch Dashboards, and such. The ingress controller watches the ingress resources and reconciles them, and configures the underlying Kubernetes load balancer to handle the service routing.
 
 You specify chart overrides for the ingress-controller component in the Verrazzano custom resource under `.spec.components.ingressNGINX.overrides`.
 
