@@ -7,10 +7,10 @@ This document shows you how to install [dex](https://dexidp.io/docs/), an identi
 
 ## Install dex using Helm
 
-1. Add the dex Helm repository to the cluster:
+1. Add the dex Helm repository to the cluster.
    {{< clipboard >}}
    <div class="highlight">
-   
+
    ```
    $ helm repo add dex https://charts.dexidp.io
    $ helm repo update
@@ -19,18 +19,18 @@ This document shows you how to install [dex](https://dexidp.io/docs/), an identi
    {{< /clipboard >}}
 
 
-1. Setup configuration parameters:
+1. Set up configuration parameters.
 
    Assumptions for the example in this guide:
 
    * A static user and password will be configured instead of an actual identity provider.
-   * The load balancer address needs to be known before the installation.
-   * The load balancer address is using `nip.io`.
-   * Insecure connections (http) are used for dex and oauth2-proxy.
+   * The load balancer address must be known _before_ the installation.
+   * The load balancer address uses `nip.io`.
+   * Insecure connections (HTTP) are used for dex and oauth2-proxy.
 
    {{< clipboard >}}
    <div class="highlight">
-   
+
    ```
    $ DEX_USER_NAME=admin
    $ DEX_USER_EMAIL=admin@example.com
@@ -123,7 +123,7 @@ EOF
 </div>
 {{< /clipboard >}}
 
-1. Install dex:
+1. Install dex.
    {{< clipboard >}}
    <div class="highlight">
 
@@ -134,7 +134,7 @@ EOF
    {{< /clipboard >}}
 
 
-1. Wait for the installation of dex to complete:
+1. Wait for the dex installation to complete.
    {{< clipboard >}}
    <div class="highlight">
 
@@ -143,5 +143,3 @@ EOF
    ```
    </div>
    {{< /clipboard >}}
-
-   
