@@ -48,7 +48,7 @@ Verrazzano overrides chart values for various other settings, including specifyi
 
 Follow these steps to install (or upgrade) and configure monitoring components. The result should be a cluster running a monitoring stack that achieves near-equivalent functionality compared to the Verrazzano-installed monitoring stack.
 
-### Installing from the application catalog
+### Install from the application catalog
 
 Monitoring components are installed using the OCNE Application Catalog. The first step is to add the Application Catalog Helm repository to the cluster.
 
@@ -117,7 +117,7 @@ prometheus:
 </div>
 {{< /clipboard >}}
 
-##### Installing from a private registry
+##### Install from a private registry
 To install using a private registry (for example, in a disconnected environment), you must override Helm values to change the image registry settings for all images. For example, to install kube-prometheus-stack from a private registry at `myprivreg.com`, create an overrides file with the following content and specify it using the `-f` option when running `helm upgrade --install`.
 
 **k-p-s_privreg_overrides.yaml**
@@ -169,7 +169,7 @@ image:
 </div>
 {{< /clipboard >}}
 
-##### Configuring pod and container security
+##### Configure pod and container security
 
 Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation. For example, apply the following overrides when installing the kube-prometheus-stack Helm chart.
 
@@ -240,7 +240,7 @@ grafana:
 
 The default values in the prometheus-adapter Helm chart are sufficient, so no additional overrides are required.
 
-##### Configuring Istio
+##### Configure Istio
 
 When running monitoring components in a cluster that also has Istio installed, the monitoring components need to be configured as follows:
 
@@ -302,9 +302,9 @@ customLabels:
 </div>
 {{< /clipboard >}}
 
-##### Configuring storage and resource limits and requests
+##### Configure storage and resource limits and requests
 
-Specify overrides to change the default resource (storage, cpu, memory, and such) requests and limits. For example, to update resource requests for Prometheus, create the following overrides file and provide the file using the `-f` option when running `helm upgrade --install`. Note that the values shown here are also the default values used by Verrazzano when installing a Verrazzano custom resource configured with the `prod` profile.
+Specify overrides to change the default resource (storage, CPU, memory, and such) requests and limits. For example, to update resource requests for Prometheus, create the following overrides file and provide the file using the `-f` option when running `helm upgrade --install`. Note that the values shown here are also the default values used by Verrazzano when installing a Verrazzano custom resource configured with the `prod` profile.
 
 **resource_overrides.yaml**
 {{< clipboard >}}
