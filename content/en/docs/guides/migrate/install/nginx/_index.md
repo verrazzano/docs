@@ -1,18 +1,18 @@
 ---
-title: "NGINX Ingress Controller"
+title: "Ingress NGINX Controller"
 weight: 1
 draft: false
 ---
-This document shows you how to install NGINX Ingress Controller on OCNE.
+This document shows you how to install Ingress NGINX Controller on OCNE.
 
-Verrazzano installs [NGINX Ingress Controller](https://www.nginx.com/resources/glossary/kubernetes-ingress-controller/) to provide ingress to system components like Prometheus, OpenSearch, OpenSearch Dashboards, and such. The ingress controller watches the ingress resources and reconciles them, and configures the underlying Kubernetes load balancer to handle the service routing.
+Verrazzano installs [Ingress NGINX Controller](https://www.nginx.com/resources/glossary/kubernetes-ingress-controller/) to provide ingress to system components like Prometheus, OpenSearch, OpenSearch Dashboards, and such. The ingress controller watches the ingress resources and reconciles them, and configures the underlying Kubernetes load balancer to handle the service routing.
 
 You specify chart overrides for the ingress-controller component in the Verrazzano custom resource under `.spec.components.ingressNGINX.overrides`.
 
 ## Install ingress-controller
 **TBD**, ingress-controller will be installed as a first-class CNE module and not from the app catalog.
 
-### Install NGINX Ingress Controller using Helm
+### Install Ingress NGINX Controller using Helm
 
 This example assumes that you are using Helm version 3.2.0 or later.
 
@@ -29,7 +29,7 @@ $ helm repo update
 
 1. Install or upgrade the ingress-nginx Helm chart.
 
-   The following example `helm` command installs NGINX Ingress Controller. The ingress controller can be installed in any namespace; this example installs the Helm chart in the `ingress-nginx` namespace.
+   The following example `helm` command installs Ingress NGINX Controller. The ingress controller can be installed in any namespace; this example installs the Helm chart in the `ingress-nginx` namespace.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -47,7 +47,7 @@ At a minimum, the YAML file used for the `-f` option needs to override the value
 controller:
   name: controller
   image:
-    registry: <container registry hosting the NGINX Ingress Controller image>
+    registry: <container registry hosting the Ingress NGINX Controller image>
     image: <name of the image>
     tag: <image tag>
     digest: <image digest>
