@@ -1,22 +1,22 @@
 ---
-title: "Ingress NGINX Controller"
+title: "NGINX Ingress Controller"
 weight: 1
 draft: false
 ---
-This document shows you how to install Ingress NGINX Controller on OCNE.
+This document shows you how to install NGINX Ingress Controller on OCNE.
 
-Verrazzano installs [NGINX Ingress Controller](https://www.nginx.com/resources/glossary/kubernetes-ingress-controller/), to provide ingress to system components like Prometheus, OpenSearch, OpenSearch Dashboards, etc.
-The Ingress Controller watches the Ingress resources and reconcile them, configures the underlying Kubernetes load balancer to handle the service routing.
+Verrazzano installs [NGINX Ingress Controller](https://www.nginx.com/resources/glossary/kubernetes-ingress-controller/) to provide ingress to system components like Prometheus, OpenSearch, OpenSearch Dashboards, and such. The ingress controller watches the ingress resources and reconciles them, and configures the underlying Kubernetes load balancer to handle the service routing.
 
 You specify chart overrides for the ingress-controller component in the Verrazzano custom resource under `.spec.components.ingressNGINX.overrides`.
 
 ## Install ingress-controller
 **TBD**, ingress-controller will be installed as a first-class CNE module and not from the app catalog.
 
-### Install ingress-controller using Helm
-For now, this document provides the instruction to install Ingress NGINX Controller using the Helm charts provided by the upstream.
+### Install NGINX Ingress Controller using Helm
 
-1. Add the ingress-nginx Helm repository to the cluster:
+This example assumes that you are using Helm version 3.2.0 or later.
+
+1. Add the ingress-nginx Helm repository to the cluster.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -27,9 +27,10 @@ $ helm repo update
 </div>
 {{< /clipboard >}}
 
-1. Install or upgrade the ingress-nginx Helm chart
+1. Install or upgrade the ingress-nginx Helm chart.
 
-   The following example `helm` command installs Ingress NGINX Controller. The Ingress Controller can be installed in any namespace, this example installs the Helm chart in `ingress-nginx` namespace. This example assumes you are using Helm version 3.2.0 or later.
+   The following example `helm` command installs NGINX Ingress Controller. The ingress controller can be installed in any namespace; this example installs the Helm chart in the `ingress-nginx` namespace.
+
 {{< clipboard >}}
 <div class="highlight">
 
@@ -38,7 +39,7 @@ $ helm upgrade --install ingress-controller ingress-nginx/ingress-nginx -n ingre
 ```
 </div>
 {{< /clipboard >}}
-The YAML file used for option -f at minimum needs to override the values for the controller image defined in values.yaml in the following format:
+At a minimum, the YAML file used for the `-f` option needs to override the values for the controller image defined in `values.yaml` in the following format:
 {{< clipboard >}}
 <div class="highlight">
 
@@ -46,7 +47,7 @@ The YAML file used for option -f at minimum needs to override the values for the
 controller:
   name: controller
   image:
-    registry: <container registry hosting the Ingress NGINX Controller image>
+    registry: <container registry hosting the NGINX Ingress Controller image>
     image: <name of the image>
     tag: <image tag>
     digest: <image digest>
@@ -54,18 +55,18 @@ controller:
 </div>
 {{< /clipboard >}}
 
-The recipes below give examples of changing the configuration using Helm overrides.
 
 ### Helm overrides recipes
-The following sections show you how to override certain ingress-controller default settings. These overrides should be put into a file and passed into helm using the `-f` argument.
+
+The following recipes show you how to override certain ingress-controller default settings. These overrides should be put into a file and passed into `helm` using the `-f` option.
 
 #### Install ingress-controller from a private registry
 **TBD** - need OCNE module private registry example
 
-#### Configure NGINX controller configuration
+#### Configure NGINX controller
 Override one or more custom [configuration](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/) options to NGINX.
 
-For example, apply the following overrides to set the log format for json output.
+For example, apply the following overrides to set the log format for JSON output.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -101,9 +102,9 @@ controller:
   {{< /clipboard >}}
 
 #### Configure custom IngressClasses
-IngressClasses are used to fix the race condition in updating the status fields when multiple ingress controllers are deployed. Please refer to [Multiple Ingress controllers](https://kubernetes.github.io/ingress-nginx/user-guide/multiple-ingress/) for more details.
+IngressClasses are used to fix the race condition in updating the status fields when multiple ingress controllers are deployed. For more information, see [Multiple Ingress controllers](https://kubernetes.github.io/ingress-nginx/user-guide/multiple-ingress/).
 
-For example, apply the following overrides to create IngressClass resource
+For example, apply the following overrides to create an IngressClass resource.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -122,7 +123,7 @@ controller:
   {{< /clipboard >}}
 
 #### Configure pod and container security
-Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.
+Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and to mitigate security vulnerabilities, such as privilege escalation.
 
 For example, apply the following overrides when installing the ingress-controller module in an OCNE cluster to use security settings.
 
@@ -151,7 +152,7 @@ controller:
 
 #### Configure Istio sidecar
 
-When running ingress controller in a cluster that also has Istio installed, define the `podAnnotations` for the controller as below:
+When running the ingress controller in a cluster that also has Istio installed, define the `podAnnotations` for the controller as shown.
 
 {{< clipboard >}}
 <div class="highlight">
