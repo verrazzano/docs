@@ -310,7 +310,7 @@ spec:
 
 <BR>
 
-The OCNE 2.0 Istio module accepts the `spec` section of the Istio Operator custom resource. Extract all elements of the `iop.yaml` YAML files `spec` section to a new file `istio-profile.yaml`. Format that resulting YAML in the `istio-profile.yaml` file to remove two spaces from the beginning of each line and save. These two actions can be completed in one command using `yq`.
+The OCNE 2.0 Istio module accepts the `spec` section of the Istio Operator custom resource. Extract all elements of the `iop.yaml` YAML file `spec` section to a new file `istio-profile.yaml`. Format that resulting YAML in the `istio-profile.yaml` file to remove two spaces from the beginning of each line and save. These two actions can be completed in one command using `yq`.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -367,7 +367,7 @@ $ olcnectl module create \
 --istio-kubernetes-module mycluster \
 --istio-profile /path/to/file/istio-profile.yaml
 
-olcnectl module install \
+$ olcnectl module install \
 --environment-name myenvironment \
 --name istio-system
 ```
@@ -384,7 +384,7 @@ To continue the use of this mode in OCNE 2.0, create the peer authentication.
 <div class="highlight">
 
 ```
-cat <<EOF | kubectl apply -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
@@ -406,7 +406,7 @@ To configure OCNE 2.0 to allow server header pass through, create Envoyfilter.
 <div class="highlight">
 
 ```
-cat <<EOF | kubectl apply -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
