@@ -5,7 +5,7 @@ draft: false
 ---
 This document shows you how to install WebLogic Kubernetes Operator on OCNE.
 
-## Helm Install
+### Install WebLogic Kubernetes Operator using Helm
 
 With Verrazzano, the WebLogic Kubernetes Operator Helm chart used for installation and upgrade is embedded in the VPO image in a known location (`/verrazzano/platform-operator/thirdparty/charts/weblogic-operator`).
 
@@ -14,8 +14,8 @@ The following table shows the names and values used when installing and upgradin
 | Name                      | Value                                                | Description                                               |
 |---------------------------|------------------------------------------------------|-----------------------------------------------------------|
 | `annotations`                | `traffic.sidecar.istio.io/excludeOutboundPorts: 443`  | Outbound port to be excluded from redirection to Envoy.    |
-| `domainNamespaceLabelSelector` | `verrazzano-managed`  | Label selector used when searching for namespaces that the WebLogic Kubernetes Operator will manage. `weblogic-operator=enabled` is the default value.  |
-| `domainNamespaceSelectionStrategy`  | `LabelSelector`  | The WebLogic Kubernetes Operator will manage namespaces with Kubernetes labels that match the label selector defined by `domainNamespaceLabelSelector`. `LabelSelector` is the default value.   |
+| `domainNamespaceLabelSelector` | `verrazzano-managed`  | Label selector used when searching for namespaces that the WebLogic Kubernetes Operator will manage. The default value is `weblogic-operator=enabled`.  |
+| `domainNamespaceSelectionStrategy`  | `LabelSelector`  | The WebLogic Kubernetes Operator will manage namespaces with Kubernetes labels that match the label selector defined by `domainNamespaceLabelSelector`. The default value is `LabelSelector`.   |
 | `enableClusterRoleBinding`  | `true`   | WebLogic Kubernetes Operator has permission to manage any namespace and can automatically manage a namespace that is added after the operator was last installed or upgraded.  The default value is `true`.  |
 | `image`   | `ghcr.io/oracle/weblogic-kubernetes-operator:4.1.2`  | WebLogic Kubernetes Operator image.  Defaults to version of WebLogic Kubernetes Operator Helm Chart.  |
 | `serviceAccount`	  | `weblogic-operator-sa`  | Service account to be used by the WebLogic Kubernetes Operator.  |
@@ -74,17 +74,17 @@ spec:
 </div>
 {{< /clipboard >}}
 
-The network policy for a WebLogic Kubernetes Operator pod allows the following:
+The network policy for a WebLogic Kubernetes Operator pod:
 
 - Allows ingress traffic to any port from the `istio-system` namespace
-- Allows ingress traffic to envoy port 15090 from the Prometheus pod in the `verrazzano-monitoring` namespace
+- Allows ingress traffic to Envoy port 15090 from the Prometheus pod in the `verrazzano-monitoring` namespace
 - Egress traffic is not restricted
 
-## WebLogic Kubernetes Operator with OCNE 2.0
+### WebLogic Kubernetes Operator with OCNE 2.0
 
 For OCNE 2.0, the WebLogic Kubernetes Operator will be installed and upgraded with the community version of its Helm chart.
 
-To get the WebLogic Kubernetes Operator Helm chart downloaded and ready for installation or upgrade:
+To get the WebLogic Kubernetes Operator Helm chart:
 
 {{< clipboard >}}
 <div class="highlight">
@@ -107,7 +107,7 @@ $ helm search repo weblogic-operator/weblogic-operator --versions
 </div>
 {{< /clipboard >}}
 
-### How to install WebLogic Kubernetes Operator with OCNE 2.0
+### Install WebLogic Kubernetes Operator with OCNE 2.0
 To see what Helm values were used when installing the WebLogic Kubernetes Operator in Verrazzano:
 
 {{< clipboard >}}
