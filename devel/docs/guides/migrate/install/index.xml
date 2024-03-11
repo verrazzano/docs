@@ -1932,7 +1932,7 @@ spec:
 &lt;h2 id=&#34;install-dex-using-helm&#34;&gt;Install dex using Helm&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Add the dex Helm repository to the cluster:
+&lt;p&gt;Add the dex Helm repository to the cluster.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -2027,13 +2027,13 @@ $ helm repo update
 &lt;/script&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Setup configuration parameters:&lt;/p&gt;
+&lt;p&gt;Set up configuration parameters.&lt;/p&gt;
 &lt;p&gt;Assumptions for the example in this guide:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A static user and password will be configured instead of an actual identity provider.&lt;/li&gt;
-&lt;li&gt;The load balancer address needs to be known before the installation.&lt;/li&gt;
-&lt;li&gt;The load balancer address is using &lt;code&gt;nip.io&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Insecure connections (http) are used for dex and oauth2-proxy.&lt;/li&gt;
+&lt;li&gt;The load balancer address must be known &lt;em&gt;before&lt;/em&gt; the installation.&lt;/li&gt;
+&lt;li&gt;The load balancer address uses &lt;code&gt;nip.io&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Insecure connections (HTTP) are used for dex and oauth2-proxy.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -2297,7 +2297,7 @@ EOF
 &lt;/script&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Install dex:
+&lt;p&gt;Install dex.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -2391,7 +2391,7 @@ EOF
 &lt;/script&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Wait for the installation of dex to complete:
+&lt;p&gt;Wait for the dex installation to complete.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -2499,14 +2499,14 @@ EOF
         
         
         &lt;p&gt;This document shows you how to install Fluent Operator and Fluent Bit on OCNE.&lt;/p&gt;
-&lt;h2 id=&#34;verrazzano-background&#34;&gt;Verrazzano Background&lt;/h2&gt;
+&lt;h2 id=&#34;verrazzano-background&#34;&gt;Verrazzano background&lt;/h2&gt;
 &lt;p&gt;Fluentd is the default logging agent in Verrazzano, which runs as a DaemonSet that collects, processes, and sends logs to log stores. When Verrazzano is installed, Fluentd is installed by default.
-Starting in Verrazzano 1.6, end users have an option to replace Fluentd Daemonset with Fluent Bit Daemonset that gets installed via Fluent-operator.&lt;/p&gt;
-&lt;p&gt;Verrazzano includes Fluent Operator as an optional component. When enabled, the operator is installed in the cluster in the verrazzano-system namespace and creates the Fluent Bit DaemonSet in the same namespace, using the required custom resources. For a list of custom resources that the operator supports to configure Fluent Bit, see &lt;a href=&#34;https://github.com/fluent/fluent-operator?tab=readme-ov-file#fluent-bit&#34;&gt;https://github.com/fluent/fluent-operator?tab=readme-ov-file#fluent-bit&lt;/a&gt;. All the CRDs with the prefix Cluster are cluster-wide configurations that you can use to configure all the cluster logs.&lt;/p&gt;
+Starting in Verrazzano 1.6, users have the option to replace Fluentd DaemonSet with Fluent Bit DaemonSet that gets installed using Fluent Operator.&lt;/p&gt;
+&lt;p&gt;Verrazzano includes Fluent Operator as an optional component. When enabled, the operator is installed in the cluster in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace and creates the Fluent Bit DaemonSet in the same namespace, using the required custom resources. For a list of custom resources that the operator supports to configure Fluent Bit, see &lt;a href=&#34;https://github.com/fluent/fluent-operator?tab=readme-ov-file#fluent-bit&#34;&gt;https://github.com/fluent/fluent-operator?tab=readme-ov-file#fluent-bit&lt;/a&gt;. All the CRDs with the prefix &lt;code&gt;Cluster&lt;/code&gt; are cluster-wide configurations that you can use to configure all the cluster logs.&lt;/p&gt;
 &lt;p&gt;Like cluster-wide resources, the operator comes with namespaced resources, which when created will process logs from the namespace in which these resources exist. The namespaced and cluster-wide configurations will run in conjunction and complement each other. Creating a namespaced resource doesn’t override an existing cluster-wide resource.&lt;/p&gt;
 &lt;h2 id=&#34;fluent-operator-with-ocne-20&#34;&gt;Fluent Operator with OCNE 2.0&lt;/h2&gt;
-&lt;p&gt;Fluentd Daemonset is not going to be an option in OCNE 2.0. Customers are advised to install Fluent Operator to configure and manage Fluent Bit Daemonset.&lt;/p&gt;
-&lt;h3 id=&#34;helm-install&#34;&gt;Helm Install&lt;/h3&gt;
+&lt;p&gt;Fluentd DaemonSet is not going to be an option in OCNE 2.0. Customers are advised to install Fluent Operator to configure and manage Fluent Bit DaemonSet.&lt;/p&gt;
+&lt;h3 id=&#34;install-fluent-operator-using-helm&#34;&gt;Install Fluent Operator using Helm&lt;/h3&gt;
 &lt;p&gt;Fluent Operator is installed using the OCNE Application Catalog. The first step is to add the Application Catalog Helm repository to the cluster.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -2602,7 +2602,7 @@ $ helm repo update
 &lt;/script&gt;&lt;/p&gt;
 &lt;p&gt;Next, install the Helm charts.&lt;/p&gt;
 &lt;h4 id=&#34;install-or-upgrade-the-fluent-operator-helm-chart&#34;&gt;Install or upgrade the fluent-operator Helm chart&lt;/h4&gt;
-&lt;p&gt;The following example &lt;code&gt;helm&lt;/code&gt; command installs Fluent Operator and Fluent Bit in the &lt;code&gt;logging&lt;/code&gt; namespace. Fluent Operator and Fluent Bit can be installed in any namespace as long as the same namespace is used consistently. This example assumes you are using Helm version 3.2.0 or later.&lt;/p&gt;
+&lt;p&gt;The following example &lt;code&gt;helm&lt;/code&gt; command installs Fluent Operator and Fluent Bit in the &lt;code&gt;logging&lt;/code&gt; namespace. Fluent Operator and Fluent Bit can be installed in any namespace as long as the same namespace is used consistently. This example assumes that you are using Helm version 3.2.0 or later.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -2694,10 +2694,11 @@ $ helm repo update
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-&lt;p&gt;Optionally, provide overrides when installing. The recipes below give examples of changing the configuration using Helm overrides.&lt;/p&gt;
-&lt;h4 id=&#34;helm-override-recipes&#34;&gt;Helm override recipes&lt;/h4&gt;
-&lt;h5 id=&#34;installing-from-a-private-registry&#34;&gt;Installing from a private registry&lt;/h5&gt;
-&lt;p&gt;In order to install using a private registry (for example, in a disconnected environment), you must override Helm values to change the image registry settings for all images.&lt;/p&gt;
+&lt;p&gt;Optionally, provide overrides when installing.&lt;/p&gt;
+&lt;h3 id=&#34;helm-override-recipes&#34;&gt;Helm override recipes&lt;/h3&gt;
+&lt;p&gt;The following recipes give examples of changing the configuration using Helm overrides.&lt;/p&gt;
+&lt;h4 id=&#34;install-from-a-private-registry&#34;&gt;Install from a private registry&lt;/h4&gt;
+&lt;p&gt;To install using a private registry (for example, in a disconnected environment), you must override Helm values to change the image registry settings for all images.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;fo_privreg_overrides.yaml&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -2800,12 +2801,12 @@ fluentbit:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: Verrazzano uses ghcr.io/oracle/oraclelinux:8 as the initcontainer image for the operator. You can use any image in your registry as the initcontainer image that has docker installed.&lt;/p&gt;
-&lt;h5 id=&#34;configure-inputs-and-buffer&#34;&gt;Configure inputs and buffer&lt;/h5&gt;
-&lt;p&gt;By default, the tail input reads content from the tail of a file. Recommendation is to override the tail input to read from head of the file.&lt;/p&gt;
-&lt;p&gt;By default, the systemd journal logs directory is set to /var/run/journal. However, depending on the environment, the directory location may vary. For example, if the directory is /run/log/journal, add additionalVolumes and additionalVolumeMounts overrides for fluentbit, and override the path of systemd input to /run/log/journal.&lt;/p&gt;
-&lt;p&gt;By default, Fluent Bit uses an in-memory buffer, which may not be optimal for production environments. Optionally configure filesystem buffer for the inputs.&lt;/p&gt;
-&lt;p&gt;An example of the overrides covering the aforementioned points.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: Verrazzano uses &lt;code&gt;ghcr.io/oracle/oraclelinux:8&lt;/code&gt; as the &lt;code&gt;initcontainer&lt;/code&gt; image for the operator. You can use any image in your registry that has Docker installed.&lt;/p&gt;
+&lt;h4 id=&#34;configure-inputs-and-buffer&#34;&gt;Configure inputs and buffer&lt;/h4&gt;
+&lt;p&gt;By default, the tail input reads content from the tail of a file. We recommend overriding the tail input to read from the head of the file.&lt;/p&gt;
+&lt;p&gt;By default, the systemd journal logs directory is set to &lt;code&gt;/var/run/journal&lt;/code&gt;. However, depending on the environment, the directory location may vary. For example, if the directory is &lt;code&gt;/run/log/journal&lt;/code&gt;, add &lt;code&gt;additionalVolumes&lt;/code&gt; and &lt;code&gt;additionalVolumeMounts&lt;/code&gt; overrides for &lt;code&gt;fluentbit&lt;/code&gt;, and override the path of systemd input to &lt;code&gt;/run/log/journal&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;By default, Fluent Bit uses an in-memory buffer, which may not be optimal for production environments. Optionally, configure the file system buffer for the inputs.&lt;/p&gt;
+&lt;p&gt;An example of the overrides covering these points.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;fo_fluentbit_input_buffer_override.yaml&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -2926,9 +2927,9 @@ fluentbit:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;h5 id=&#34;pod-security-context&#34;&gt;Pod security context&lt;/h5&gt;
-&lt;p&gt;Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to only perform operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.&lt;/p&gt;
-&lt;p&gt;The default user for Fluent Bit is root, which it needs to be able to read and write to hostpath. Below are the recommended security settings for Fluent Bit and Fluent Operator.&lt;/p&gt;
+&lt;h4 id=&#34;configure-pod-and-container-security&#34;&gt;Configure pod and container security&lt;/h4&gt;
+&lt;p&gt;Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and to mitigate security vulnerabilities, such as privilege escalation.&lt;/p&gt;
+&lt;p&gt;The default user for Fluent Bit is root, which it needs to be able to read and write to &lt;code&gt;hostpath&lt;/code&gt;. The following are the recommended security settings for Fluent Bit and Fluent Operator.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;fo_seccontext.yaml&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -2971,7 +2972,7 @@ fluentbit:
     capabilities:
       drop:
       - ALL
- 
+
 operator:
   # Pod security context for Fluent Operator pod. Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
   podSecurityContext:
@@ -3046,7 +3047,7 @@ operator:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;h5 id=&#34;configuration-to-allow-prometheus-to-scrape-metrics&#34;&gt;Configuration to allow prometheus to scrape metrics&lt;/h5&gt;
+&lt;h4 id=&#34;configuration-to-allow-prometheus-to-scrape-metrics&#34;&gt;Configuration to allow Prometheus to scrape metrics&lt;/h4&gt;
 &lt;p&gt;The following override recipe will allow Fluent Bit to enable metrics and expose metrics data.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;fo_metrics.yaml&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -3153,8 +3154,8 @@ operator:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;h5 id=&#34;namespace-configselector&#34;&gt;Namespace ConfigSelector&lt;/h5&gt;
-&lt;p&gt;The Fluent Operator supports configurability at the namespace level that lets you create Fluent Bit configurations for logs from your application namespace. Add a helm override to add a label selector that allows FluentBit to select and map namespaced resources to a FluentBit instance. For example:&lt;/p&gt;
+&lt;h4 id=&#34;configure-the-namespace-configselector&#34;&gt;Configure the namespace ConfigSelector&lt;/h4&gt;
+&lt;p&gt;The Fluent Operator supports configurability at the namespace level that lets you create Fluent Bit configurations for logs from your application namespace. Add a Helm override to add a label selector that allows FluentBit to select and map namespaced resources to a FluentBit instance. For example:&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;fo_ns_cfg.yaml&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
