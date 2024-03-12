@@ -6,11 +6,11 @@ draft: false
 This document shows you how to integrate Istio with other OCNE components.
 
 ## Fluent Bit
-Follow the example provided in [fluent operator helm override recipe for namespace configurations]({{< relref "docs/guides/migrate/install/fluent/_index.md#namespace-configselector" >}}) to add a helm override for namespace config label selector.
+Follow the example, [Configure the namespace ConfigSelector]({{< relref "docs/guides/migrate/install/fluent/_index.md#configure-the-namespace-configselector" >}}), to add a Helm override for the namespace config label selector.
 
-Then, apply the following manifest in your cluster. Replace <namespace-name> with the namespace in which Istio is installed and `metadata.labels` of FluentBitConfig custom resource with the helm override that was supplied in the previous step.
+Then, apply the following manifest file in your cluster. Replace `<namespace-name>` with the namespace in which Istio is installed and `metadata.labels` of the FluentBitConfig custom resource with the Helm override that was supplied in the previous step.
 
-**Note**: The manifest below assumes that the namespace config label selector override was `my.label.selector/namespace-config: "mylabel"` following the fluent operator helm override recipe.
+**Note**: The following manifest file assumes that the namespace config label selector override was `my.label.selector/namespace-config: "mylabel"`.
 
 **fo_ns_cfg.yaml**
 {{< clipboard >}}
@@ -66,8 +66,8 @@ spec:
 </div>
 {{< /clipboard >}}
 
-## Network Policies
-NetworkPolicies allow you to specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.
+## Network policies
+NetworkPolicies let you specify how a pod can communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.
 
 Use the following commands to create NetworkPolicies in the `istio-system` namespace of your OCNE cluster, mimicking the NetworkPolicies that Verrazzano creates for Istio.
 
@@ -75,7 +75,7 @@ Use the following commands to create NetworkPolicies in the `istio-system` names
 <div class="highlight">
 
 ```
-kubectl apply -n istio-system -f - <<EOF
+$ kubectl apply -n istio-system -f - <<EOF
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -97,7 +97,7 @@ EOF
 <div class="highlight">
 
 ```
-kubectl apply -n istio-system -f - <<EOF
+$ kubectl apply -n istio-system -f - <<EOF
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -130,7 +130,7 @@ EOF
 <div class="highlight">
 
 ```
-kubectl apply -n istio-system -f - <<EOF
+$ kubectl apply -n istio-system -f - <<EOF
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -162,7 +162,7 @@ EOF
 <div class="highlight">
 
 ```
-kubectl apply -n istio-system -f - <<EOF
+$ kubectl apply -n istio-system -f - <<EOF
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
