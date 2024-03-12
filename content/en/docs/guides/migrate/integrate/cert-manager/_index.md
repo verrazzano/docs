@@ -4,12 +4,12 @@ weight: 1
 draft: false
 ---
 This document shows you how to integrate cert-manager with other OCNE components.
-## Network Policies
-NetworkPolicies allow you to specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.
+## Network policies
+NetworkPolicies let you specify how a pod can communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.
 
 For example, if Prometheus is installed in the target cluster and you wish to limit access to cert-manager only from Prometheus for metrics scraping, you can apply a network policy to enforce this.
 
-If the Prometheus instance is installed using the Prometheus operator in the namespace monitoring with the label `myapp.io/namespace=monitoring`, then the network policy can be applied as follows.
+If the Prometheus instance is installed using the Prometheus Operator in the namespace monitoring with the label `myapp.io/namespace=monitoring`, then the network policy can be applied as follows.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -42,14 +42,14 @@ EOF
 </div>
 {{< /clipboard >}}
 
-This will restrict ingress to be allowed only to pods in the `cert-manager` namespace with the `app: cert-manager` label on TCP port 9402 from Prometheus pods the `monitoring`  namespace.
+This will restrict ingress to be allowed only to pods in the `cert-manager` namespace with the `app: cert-manager` label on TCP port `9402` from Prometheus pods the `monitoring`  namespace.
 
 ## Fluent Bit
-Follow the example provided in [fluent operator helm override recipe for namespace configurations]({{< relref "docs/guides/migrate/install/fluent/_index.md#namespace-configselector" >}}) to add a helm override for namespace config label selector.
+Follow the example, [Configure the namespace ConfigSelector]({{< relref "docs/guides/migrate/install/fluent/_index.md#configure-the-namespace-configselector" >}}), to add a Helm override for the namespace config label selector.
 
-Then, apply the following manifest in your cluster. Replace <namespace-name> with the namespace in which cert-manager is installed and `metadata.labels` of FluentBitConfig custom resource with the helm override that was supplied in the previous step.
+Then, apply the following manifest in your cluster. Replace `<namespace-name>` with the namespace in which cert-manager is installed and the `metadata.labels` of the FluentBitConfig custom resource with the Helm override that was supplied in the previous step.
 
-**Note**: The manifest below assumes that the namespace config label selector override was `my.label.selector/namespace-config: "mylabel"` following the fluent operator helm override recipe.
+**Note**: The following manifest file assumes that the namespace config label selector override was `my.label.selector/namespace-config: "mylabel"`.
 
 **fo_cm.yaml**
 {{< clipboard >}}
@@ -104,5 +104,3 @@ spec:
 
 </div>
 {{< /clipboard >}}
-
-## Network Policies
