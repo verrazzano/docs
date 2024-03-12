@@ -4293,9 +4293,9 @@ EOF
         
         &lt;p&gt;This document shows you how to integrate WebLogic Kubernetes Operator with other OCNE components.&lt;/p&gt;
 &lt;h2 id=&#34;fluent-bit&#34;&gt;Fluent Bit&lt;/h2&gt;
-&lt;p&gt;Follow the example provided in &lt;a href=&#34;../../../../docs/guides/migrate/install/fluent/#namespace-configselector&#34;&gt;fluent operator helm override recipe for namespace configurations&lt;/a&gt; to add a helm override for namespace config label selector.&lt;/p&gt;
-&lt;p&gt;Then, apply the following manifest in your cluster. Replace &lt;namespace-name&gt; with the namespace in which weblogic-kubernetes-operator is installed and &lt;code&gt;metadata.labels&lt;/code&gt; of FluentBitConfig custom resource with the namespace config selector helm override supplied in the previous step.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: The manifest below assumes that the namespace config label selector override was &lt;code&gt;my.label.selector/namespace-config: &amp;quot;mylabel&amp;quot;&lt;/code&gt; following the fluent operator helm override recipe.&lt;/p&gt;
+&lt;p&gt;Follow the example, &lt;a href=&#34;../../../../docs/guides/migrate/install/fluent/#configure-the-namespace-configselector&#34;&gt;Configure the namespace ConfigSelector&lt;/a&gt;, to add a Helm override for the namespace config label selector.&lt;/p&gt;
+&lt;p&gt;Then, apply the following manifest file in your cluster. Replace &lt;code&gt;&amp;lt;namespace-name&amp;gt;&lt;/code&gt; with the namespace in which weblogic-kubernetes-operator is installed and &lt;code&gt;metadata.labels&lt;/code&gt; of the FluentBitConfig custom resource with the namespace config selector Helm override supplied in the previous step.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: The following manifest file assumes that the namespace config label selector override was &lt;code&gt;my.label.selector/namespace-config: &amp;quot;mylabel&amp;quot;&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;fo_wls.yaml&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -4433,12 +4433,12 @@ spec:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;h2 id=&#34;network-policies&#34;&gt;Network Policies&lt;/h2&gt;
-&lt;p&gt;The following Network Policy must be created in the &lt;code&gt;weblogic-operator&lt;/code&gt; namespace. This Network Policy for a WebLogic Kubernetes Operator pod allows the following:&lt;/p&gt;
+&lt;h2 id=&#34;network-policies&#34;&gt;Network policies&lt;/h2&gt;
+&lt;p&gt;The following NetworkPolicy must be created in the &lt;code&gt;weblogic-operator&lt;/code&gt; namespace. This NetworkPolicy for a WebLogic Kubernetes Operator pod allows the following:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Allows ingress traffic to any port from the &lt;code&gt;istio-system&lt;/code&gt; namespace&lt;/li&gt;
-&lt;li&gt;Allows ingress traffic to envoy port 15090 from the Prometheus pod in the &lt;code&gt;verrazzano-monitoring&lt;/code&gt; namespace&lt;/li&gt;
-&lt;li&gt;Egress traffic is not restricted&lt;/li&gt;
+&lt;li&gt;Ingress traffic to any port from the &lt;code&gt;istio-system&lt;/code&gt; namespace.&lt;/li&gt;
+&lt;li&gt;Ingress traffic to Envoy port &lt;code&gt;15090&lt;/code&gt; from the Prometheus pod in the &lt;code&gt;verrazzano-monitoring&lt;/code&gt; namespace.&lt;/li&gt;
+&lt;li&gt;Egress traffic is not restricted.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -4470,7 +4470,7 @@ spec:
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubectl apply -n weblogic-operator -f - &amp;lt;&amp;lt;EOF
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -n weblogic-operator -f - &amp;lt;&amp;lt;EOF
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -4559,7 +4559,7 @@ EOF
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
 &lt;h2 id=&#34;migrate-oam-weblogic-applications-to-ocne-20&#34;&gt;Migrate OAM WebLogic applications to OCNE 2.0&lt;/h2&gt;
-&lt;p&gt;As part of the migration, each OAM WebLogic application needs to be moved from the Verrazzano environment to the OCNE 2.0 environment. You will need to redeploy each OAM application in OCNE 2.0 without using OAM. This process is described in &lt;a href=&#34;../../../../docs/guides/migrate/oam-to-kubernetes/&#34;&gt;OAM to Kubernetes Mappings&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For the migration, each OAM WebLogic application must be moved from the Verrazzano environment to the OCNE 2.0 environment. You will need to redeploy each OAM application in OCNE 2.0 without using OAM. This process is described in &lt;a href=&#34;../../../../docs/guides/migrate/oam-to-kubernetes/&#34;&gt;OAM to Kubernetes Mappings&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;For each OAM application, start with the following command in your Verrazzano environment.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
