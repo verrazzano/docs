@@ -23,10 +23,10 @@
         
         
         &lt;p&gt;This document shows you how to integrate cert-manager with other OCNE components.&lt;/p&gt;
-&lt;h2 id=&#34;network-policies&#34;&gt;Network Policies&lt;/h2&gt;
-&lt;p&gt;NetworkPolicies allow you to specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.&lt;/p&gt;
+&lt;h2 id=&#34;network-policies&#34;&gt;Network policies&lt;/h2&gt;
+&lt;p&gt;NetworkPolicies let you specify how a pod can communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.&lt;/p&gt;
 &lt;p&gt;For example, if Prometheus is installed in the target cluster and you wish to limit access to cert-manager only from Prometheus for metrics scraping, you can apply a network policy to enforce this.&lt;/p&gt;
-&lt;p&gt;If the Prometheus instance is installed using the Prometheus operator in the namespace monitoring with the label &lt;code&gt;myapp.io/namespace=monitoring&lt;/code&gt;, then the network policy can be applied as follows.
+&lt;p&gt;If the Prometheus instance is installed using the Prometheus Operator in the namespace monitoring with the label &lt;code&gt;myapp.io/namespace=monitoring&lt;/code&gt;, then the network policy can be applied as follows.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -141,11 +141,11 @@ EOF
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;This will restrict ingress to be allowed only to pods in the &lt;code&gt;cert-manager&lt;/code&gt; namespace with the &lt;code&gt;app: cert-manager&lt;/code&gt; label on TCP port 9402 from Prometheus pods the &lt;code&gt;monitoring&lt;/code&gt;  namespace.&lt;/p&gt;
+&lt;p&gt;This will restrict ingress to be allowed only to pods in the &lt;code&gt;cert-manager&lt;/code&gt; namespace with the &lt;code&gt;app: cert-manager&lt;/code&gt; label on TCP port &lt;code&gt;9402&lt;/code&gt; from Prometheus pods the &lt;code&gt;monitoring&lt;/code&gt;  namespace.&lt;/p&gt;
 &lt;h2 id=&#34;fluent-bit&#34;&gt;Fluent Bit&lt;/h2&gt;
-&lt;p&gt;Follow the example provided in &lt;a href=&#34;../../../../docs/guides/migrate/install/fluent/#namespace-configselector&#34;&gt;fluent operator helm override recipe for namespace configurations&lt;/a&gt; to add a helm override for namespace config label selector.&lt;/p&gt;
-&lt;p&gt;Then, apply the following manifest in your cluster. Replace &lt;namespace-name&gt; with the namespace in which cert-manager is installed and &lt;code&gt;metadata.labels&lt;/code&gt; of FluentBitConfig custom resource with the helm override that was supplied in the previous step.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: The manifest below assumes that the namespace config label selector override was &lt;code&gt;my.label.selector/namespace-config: &amp;quot;mylabel&amp;quot;&lt;/code&gt; following the fluent operator helm override recipe.&lt;/p&gt;
+&lt;p&gt;Follow the example, &lt;a href=&#34;../../../../docs/guides/migrate/install/fluent/#configure-the-namespace-configselector&#34;&gt;Configure the namespace ConfigSelector&lt;/a&gt;, to add a Helm override for the namespace config label selector.&lt;/p&gt;
+&lt;p&gt;Then, apply the following manifest in your cluster. Replace &lt;code&gt;&amp;lt;namespace-name&amp;gt;&lt;/code&gt; with the namespace in which cert-manager is installed and the &lt;code&gt;metadata.labels&lt;/code&gt; of the FluentBitConfig custom resource with the Helm override that was supplied in the previous step.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: The following manifest file assumes that the namespace config label selector override was &lt;code&gt;my.label.selector/namespace-config: &amp;quot;mylabel&amp;quot;&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;fo_cm.yaml&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -281,7 +281,6 @@ spec:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;h2 id=&#34;network-policies-1&#34;&gt;Network Policies&lt;/h2&gt;
 
       </description>
     </item>
@@ -3685,9 +3684,9 @@ EOF
         
         &lt;p&gt;This document shows you how to integrate Prometheus with other OCNE components.&lt;/p&gt;
 &lt;h2 id=&#34;fluent-bit&#34;&gt;Fluent Bit&lt;/h2&gt;
-&lt;p&gt;Follow the example provided in &lt;a href=&#34;../../../../docs/guides/migrate/install/fluent/#namespace-configselector&#34;&gt;fluent operator helm override recipe for namespace configurations&lt;/a&gt; to add a helm override for namespace config label selector.&lt;/p&gt;
-&lt;p&gt;Then, apply the following manifest in your cluster. Replace &lt;namespace-name&gt; with the namespace in which prometheus is installed and &lt;code&gt;metadata.labels&lt;/code&gt; of FluentBitConfig custom resource with the helm override that was supplied in the previous step.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: The manifest below assumes that the namespace config label selector override was &lt;code&gt;my.label.selector/namespace-config: &amp;quot;mylabel&amp;quot;&lt;/code&gt; following the fluent operator helm override recipe.&lt;/p&gt;
+&lt;p&gt;First, follow the example, &lt;a href=&#34;../../../../docs/guides/migrate/install/fluent/#configure-the-namespace-configselector&#34;&gt;Configure the namespace ConfigSelector&lt;/a&gt;, to add a Helm override for the namespace config label selector.&lt;/p&gt;
+&lt;p&gt;Then, apply the following manifest file in your cluster. Replace &lt;code&gt;&amp;lt;namespace-name&amp;gt;&lt;/code&gt; with the namespace in which Prometheus is installed and &lt;code&gt;metadata.labels&lt;/code&gt; of the FluentBitConfig custom resource with the Helm override that was supplied in the previous step.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: The following manifest file assumes that the namespace config label selector override was &lt;code&gt;my.label.selector/namespace-config: &amp;quot;mylabel&amp;quot;&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;fo_prom.yaml&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -3880,22 +3879,22 @@ spec:
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
 &lt;h2 id=&#34;ingress&#34;&gt;Ingress&lt;/h2&gt;
-&lt;p&gt;Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by the rules defined on the Ingress resource. Please refer to &lt;a href=&#34;https://kubernetes.io/docs/concepts/services-networking/ingress/&#34;&gt;Ingress&lt;/a&gt; for more details.&lt;/p&gt;
+&lt;p&gt;An ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by the rules defined on the Ingress resource. For more information, see &lt;a href=&#34;https://kubernetes.io/docs/concepts/services-networking/ingress/&#34;&gt;Ingress&lt;/a&gt;.&lt;/p&gt;
 &lt;h4 id=&#34;create-an-ingress-to-forward-requests-to-prometheus&#34;&gt;Create an Ingress to forward requests to Prometheus&lt;/h4&gt;
-&lt;p&gt;The following example creates an Ingress to forward requests to the Prometheus backend, using cert-manager ingress annotations to create a TLS certificate for the endpoint signed by &lt;code&gt;my-cluster-issuer&lt;/code&gt; ClusterIssuer.&lt;/p&gt;
-&lt;p&gt;The instructions assume:&lt;/p&gt;
-&lt;ol&gt;
+&lt;p&gt;The following example creates an ingress to forward requests to the Prometheus back end, using cert-manager ingress annotations to create a TLS certificate for the endpoint signed by &lt;code&gt;my-cluster-issuer&lt;/code&gt; ClusterIssuer.&lt;/p&gt;
+&lt;p&gt;This example assumes:&lt;/p&gt;
+&lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;Cert Manager is installed and a ClusterIssuer &lt;code&gt;my-cluster-issuer&lt;/code&gt; is created&lt;/p&gt;
+&lt;p&gt;cert-manager is installed and a ClusterIssuer &lt;code&gt;my-cluster-issuer&lt;/code&gt; is created.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;The &lt;code&gt;kube-prometheus-stack&lt;/code&gt; is installed in &lt;code&gt;monitoring&lt;/code&gt; namespace with Prometheus instance created be &lt;code&gt;prometheus-operator-kube-p-prometheus&lt;/code&gt; with a clusterIP service&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;kube-prometheus-stack&lt;/code&gt; is installed in the &lt;code&gt;monitoring&lt;/code&gt; namespace with a Prometheus instance created &lt;code&gt;prometheus-operator-kube-p-prometheus&lt;/code&gt; with a clusterIP service.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;The Prometheus instance is listening on default port &lt;code&gt;9090&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;The Prometheus instance is listening on the default port &lt;code&gt;9090&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Ingress Controller is installed in &lt;code&gt;ingress-nginx&lt;/code&gt; namespace, with external IP &lt;code&gt;10.0.0.1&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;An ingress controller is installed in the &lt;code&gt;ingress-nginx&lt;/code&gt; namespace, with an external IP address, &lt;code&gt;10.0.0.1&lt;/code&gt;.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -4014,7 +4013,7 @@ EOF
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
 &lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 &lt;p&gt;The ingress in this case utilizes the wildcard DNS service &lt;a href=&#34;https://nip.io/&#34;&gt;nip.io&lt;/a&gt; to create an address, that will forward requests to the Prometheus ClusterIP service.&lt;/p&gt;
 &lt;h2 id=&#34;istio&#34;&gt;Istio&lt;/h2&gt;
 &lt;p&gt;The Istio Authorization Policy custom resource enables access control on workloads in the mesh.&lt;/p&gt;
@@ -4133,7 +4132,7 @@ EOF
 &lt;/script&gt;&lt;/p&gt;
 &lt;h2 id=&#34;network-policies&#34;&gt;Network policies&lt;/h2&gt;
 &lt;p&gt;NetworkPolicies let you specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.&lt;/p&gt;
-&lt;p&gt;As an example, run the following command to apply NetworkPolicy resources to only allow Prometheus to access the metrics ports on monitoring component pods. Note that these policies only affect ingress. Egress from the monitoring namespace is not impacted.&lt;/p&gt;
+&lt;p&gt;As an example, run the following command to apply NetworkPolicy resources to allow only Prometheus to access the metrics ports on the monitoring component pods. Note that these policies only affect ingress. Egress from the &lt;code&gt;monitoring&lt;/code&gt; namespace is not impacted.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
