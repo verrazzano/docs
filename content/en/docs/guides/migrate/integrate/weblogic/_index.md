@@ -6,11 +6,11 @@ draft: false
 This document shows you how to integrate WebLogic Kubernetes Operator with other OCNE components.
 
 ## Fluent Bit
-Follow the example provided in [fluent operator helm override recipe for namespace configurations]({{< relref "docs/guides/migrate/install/fluent/_index.md#namespace-configselector" >}}) to add a helm override for namespace config label selector.
+Follow the example, [Configure the namespace ConfigSelector]({{< relref "docs/guides/migrate/install/fluent/_index.md#configure-the-namespace-configselector" >}}), to add a Helm override for the namespace config label selector.
 
-Then, apply the following manifest in your cluster. Replace <namespace-name> with the namespace in which weblogic-kubernetes-operator is installed and `metadata.labels` of FluentBitConfig custom resource with the namespace config selector helm override supplied in the previous step.
+Then, apply the following manifest file in your cluster. Replace `<namespace-name>` with the namespace in which weblogic-kubernetes-operator is installed and `metadata.labels` of the FluentBitConfig custom resource with the namespace config selector Helm override supplied in the previous step.
 
-**Note**: The manifest below assumes that the namespace config label selector override was `my.label.selector/namespace-config: "mylabel"` following the fluent operator helm override recipe.
+**Note**: The following manifest file assumes that the namespace config label selector override was `my.label.selector/namespace-config: "mylabel"`.
 
 **fo_wls.yaml**
 {{< clipboard >}}
@@ -68,18 +68,18 @@ spec:
 </div>
 {{< /clipboard >}}
 
-## Network Policies
-The following Network Policy must be created in the `weblogic-operator` namespace. This Network Policy for a WebLogic Kubernetes Operator pod allows the following:
+## Network policies
+The following NetworkPolicy must be created in the `weblogic-operator` namespace. This NetworkPolicy for a WebLogic Kubernetes Operator pod allows the following:
 
-- Allows ingress traffic to any port from the `istio-system` namespace
-- Allows ingress traffic to envoy port 15090 from the Prometheus pod in the `verrazzano-monitoring` namespace
-- Egress traffic is not restricted
+- Ingress traffic to any port from the `istio-system` namespace.
+- Ingress traffic to Envoy port `15090` from the Prometheus pod in the `verrazzano-monitoring` namespace.
+- Egress traffic is not restricted.
 
 {{< clipboard >}}
 <div class="highlight">
 
 ```
-kubectl apply -n weblogic-operator -f - <<EOF
+$ kubectl apply -n weblogic-operator -f - <<EOF
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -112,7 +112,7 @@ EOF
 {{< /clipboard >}}
 
 ## Migrate OAM WebLogic applications to OCNE 2.0
-As part of the migration, each OAM WebLogic application needs to be moved from the Verrazzano environment to the OCNE 2.0 environment. You will need to redeploy each OAM application in OCNE 2.0 without using OAM. This process is described in [OAM to Kubernetes Mappings]({{< relref "/docs/guides/migrate/oam-to-kubernetes/_index.md" >}}).
+For the migration, each OAM WebLogic application must be moved from the Verrazzano environment to the OCNE 2.0 environment. You will need to redeploy each OAM application in OCNE 2.0 without using OAM. This process is described in [OAM to Kubernetes Mappings]({{< relref "/docs/guides/migrate/oam-to-kubernetes/_index.md" >}}).
 
 For each OAM application, start with the following command in your Verrazzano environment.
 
