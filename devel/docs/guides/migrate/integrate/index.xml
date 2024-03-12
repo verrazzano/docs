@@ -295,10 +295,10 @@ spec:
         
         
         &lt;p&gt;This document shows you how to integrate Fluentd and Fluent Bit with other OCNE components.&lt;/p&gt;
-&lt;h2 id=&#34;network-policies&#34;&gt;Network Policies&lt;/h2&gt;
+&lt;h2 id=&#34;network-policies&#34;&gt;Network policies&lt;/h2&gt;
 &lt;h2 id=&#34;prometheus&#34;&gt;Prometheus&lt;/h2&gt;
-&lt;p&gt;Follow &lt;a href=&#34;../../../../docs/guides/migrate/install/fluent/#configuration-to-allow-prometheus-to-scrape-metrics&#34;&gt;fluent operator helm override recipe&lt;/a&gt; to configure overrides for prometheus to scrape metrics.&lt;/p&gt;
-&lt;p&gt;Then, create the following ServiceMonitor resource in the &lt;code&gt;monitoring&lt;/code&gt; namespace&lt;/p&gt;
+&lt;p&gt;Follow the example, &lt;a href=&#34;../../../../docs/guides/migrate/install/fluent/#configure-the-namespace-configselector&#34;&gt;Configure the namespace ConfigSelector&lt;/a&gt;, to add a Helm override for the namespace config label selector.&lt;/p&gt;
+&lt;p&gt;Then, create the following ServiceMonitor resource in the &lt;code&gt;monitoring&lt;/code&gt; namespace.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -423,9 +423,9 @@ spec:
         
         &lt;p&gt;This document shows you how to integrate Ingress NGINX Controller with other OCNE components.&lt;/p&gt;
 &lt;h2 id=&#34;fluent-bit&#34;&gt;Fluent Bit&lt;/h2&gt;
-&lt;p&gt;Follow the example provided in &lt;a href=&#34;../../../../docs/guides/migrate/install/fluent/#namespace-configselector&#34;&gt;fluent operator helm override recipe for namespace configurations&lt;/a&gt; to add a helm override for namespace config label selector.&lt;/p&gt;
-&lt;p&gt;Then, apply the following manifest in your cluster. Replace &lt;namespace-name&gt; with the namespace in which NGINX is installed and &lt;code&gt;metadata.labels&lt;/code&gt; of FluentBitConfig custom resource with the helm override that was supplied in the previous step.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: The manifest below assumes that the namespace config label selector override was &lt;code&gt;my.label.selector/namespace-config: &amp;quot;mylabel&amp;quot;&lt;/code&gt; following the fluent operator helm override recipe.&lt;/p&gt;
+&lt;p&gt;Follow the example, &lt;a href=&#34;../../../../docs/guides/migrate/install/fluent/#configure-the-namespace-configselector&#34;&gt;Configure the namespace ConfigSelector&lt;/a&gt;, to add a Helm override for the namespace config label selector.&lt;/p&gt;
+&lt;p&gt;Then, apply the following manifest file in your cluster. Replace &lt;code&gt;&amp;lt;namespace-name&amp;gt;&lt;/code&gt; with the namespace in which NGINX is installed and &lt;code&gt;metadata.labels&lt;/code&gt; of the FluentBitConfig custom resource with the Helm override that was supplied in the previous step.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: The following manifest file assumes that the namespace config label selector override was &lt;code&gt;my.label.selector/namespace-config: &amp;quot;mylabel&amp;quot;&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;fo_nginx.yaml&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -574,9 +574,9 @@ spec:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;h2 id=&#34;network-policies&#34;&gt;Network Policies&lt;/h2&gt;
-&lt;p&gt;NetworkPolicies let you specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.&lt;/p&gt;
-&lt;p&gt;Verrazzano creates the following NetworkPolicy resource to only allow ingress to port 443 from all of the namespaces, and an ingress to port 10254 from Prometheus to scrape metrics. The manifest below assumes the Prometheus instance is installed using the Prometheus operator in the namespace &lt;code&gt;monitoring&lt;/code&gt; with the label &lt;code&gt;myapp.io/namespace=monitoring&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;network-policies&#34;&gt;Network policies&lt;/h2&gt;
+&lt;p&gt;NetworkPolicies let you specify how a pod can communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.&lt;/p&gt;
+&lt;p&gt;Verrazzano creates the following NetworkPolicy resource to allow only ingress to port &lt;code&gt;443&lt;/code&gt; from all of the namespaces, and an ingress to port &lt;code&gt;10254&lt;/code&gt; from Prometheus to scrape metrics. The following manifest file assumes that the Prometheus instance is installed using the Prometheus Operator in the namespace &lt;code&gt;monitoring&lt;/code&gt; with the label &lt;code&gt;myapp.io/namespace=monitoring&lt;/code&gt;.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -697,14 +697,12 @@ EOF
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-&lt;h2 id=&#34;configure-prometheus-scrape-target-for-nginx-metrics&#34;&gt;Configure Prometheus scrape target for NGINX metrics&lt;/h2&gt;
-&lt;p&gt;The section provides the steps to configure Prometheus scrape target for NGINX ingress controller metrics in using ServiceMonitor and PodMonitor. Both ServiceMonitor and PodMonitor declaratively specify how group of pods should be monitored. The Prometheus Operator automatically generates Prometheus scrape configuration based on the current state of the objects in the API server.&lt;/p&gt;
-&lt;p&gt;The instructions assume Prometheus is installed in &lt;code&gt;monitoring&lt;/code&gt; namespace, using kube-prometheus-stack as documented in &lt;a href=&#34;../../../../docs/guides/migrate/install/prometheus/&#34;&gt;Install Prometheus on OCNE&lt;/a&gt;. The instructions also assume ingress-controller is installed using Helm, will change once it is installed as a CNE module.&lt;/p&gt;
-&lt;h3 id=&#34;prometheus-metrics-using-servicemonitor&#34;&gt;Prometheus metrics using ServiceMonitor&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Configure ingress controller to enable metrics and creation of ServiceMonitor&lt;/p&gt;
-&lt;p&gt;&lt;style type=&#34;text/css&#34;&gt;
+&lt;h2 id=&#34;configure-the-prometheus-scrape-target-for-nginx-metrics&#34;&gt;Configure the Prometheus scrape target for NGINX metrics&lt;/h2&gt;
+&lt;p&gt;The section provides the steps to configure the Prometheus scrape target for Ingress NGINX Controller metrics using a ServiceMonitor and PodMonitor. Both ServiceMonitor and PodMonitor declaratively specify how a group of pods should be monitored. The Prometheus Operator automatically generates the Prometheus scrape configuration based on the current state of the objects in the API server.&lt;/p&gt;
+&lt;p&gt;The instructions assume Prometheus is installed in the &lt;code&gt;monitoring&lt;/code&gt; namespace, using kube-prometheus-stack as documented in &lt;a href=&#34;../../../../docs/guides/migrate/install/prometheus/&#34;&gt;Install Prometheus on OCNE&lt;/a&gt;. The instructions also assume that the ingress-controller is installed using Helm.&lt;/p&gt;
+&lt;h3 id=&#34;configure-prometheus-metrics-using-servicemonitor&#34;&gt;Configure Prometheus metrics using ServiceMonitor&lt;/h3&gt;
+&lt;p&gt;Configure the ingress controller to enable metrics and create the ServiceMonitor.&lt;/p&gt;
+&lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
         padding: 0;
@@ -734,7 +732,7 @@ EOF
 
 &lt;div class=&#34;clipboard&#34;&gt;
        &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;helm upgrade ingress-controller ingress-nginx/ingress-nginx \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ helm upgrade ingress-controller ingress-nginx/ingress-nginx \
    --namespace ingress-nginx \
    --set controller.metrics.enabled=true \
    --set controller.metrics.serviceMonitor.enabled=true \
@@ -799,13 +797,11 @@ EOF
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-Here controller.metrics.serviceMonitor.additionalLabels.release=&amp;ldquo;prometheus-operator&amp;rdquo; should match the name of the helm release of the &lt;code&gt;kube-prometheus-stack&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;prometheus-metrics-using-podmonitor&#34;&gt;Prometheus metrics using PodMonitor&lt;/h3&gt;
+&lt;p&gt;In this example, &lt;code&gt;controller.metrics.serviceMonitor.additionalLabels.release=&amp;quot;prometheus-operator&amp;quot;&lt;/code&gt; should match the name of the Helm release of the &lt;code&gt;kube-prometheus-stack&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;configure-prometheus-metrics-using-podmonitor&#34;&gt;Configure Prometheus metrics using PodMonitor&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Configure ingress controller to enable metrics and export metrics&lt;/p&gt;
+&lt;p&gt;Configure the ingress controller to enable metrics and export metrics.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -836,7 +832,7 @@ Here controller.metrics.serviceMonitor.additionalLabels.release=&amp;ldquo;prome
 
 &lt;div class=&#34;clipboard&#34;&gt;
        &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;helm upgrade ingress-controller ingress-nginx/ingress-nginx \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ helm upgrade ingress-controller ingress-nginx/ingress-nginx \
    --namespace ingress-nginx \
    --set controller.metrics.enabled=true \
    --set controller.metrics.portName=metrics \
@@ -904,7 +900,7 @@ Here controller.metrics.serviceMonitor.additionalLabels.release=&amp;ldquo;prome
 &lt;/script&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Create a PodMonitor resource in &lt;code&gt;monitoring&lt;/code&gt; namespace&lt;/p&gt;
+&lt;p&gt;Create a PodMonitor resource in the &lt;code&gt;monitoring&lt;/code&gt; namespace.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -1029,9 +1025,9 @@ EOF
         
         &lt;p&gt;This document shows you how to integrate Istio with other OCNE components.&lt;/p&gt;
 &lt;h2 id=&#34;fluent-bit&#34;&gt;Fluent Bit&lt;/h2&gt;
-&lt;p&gt;Follow the example provided in &lt;a href=&#34;../../../../docs/guides/migrate/install/fluent/#namespace-configselector&#34;&gt;fluent operator helm override recipe for namespace configurations&lt;/a&gt; to add a helm override for namespace config label selector.&lt;/p&gt;
-&lt;p&gt;Then, apply the following manifest in your cluster. Replace &lt;namespace-name&gt; with the namespace in which Istio is installed and &lt;code&gt;metadata.labels&lt;/code&gt; of FluentBitConfig custom resource with the helm override that was supplied in the previous step.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: The manifest below assumes that the namespace config label selector override was &lt;code&gt;my.label.selector/namespace-config: &amp;quot;mylabel&amp;quot;&lt;/code&gt; following the fluent operator helm override recipe.&lt;/p&gt;
+&lt;p&gt;Follow the example, &lt;a href=&#34;../../../../docs/guides/migrate/install/fluent/#configure-the-namespace-configselector&#34;&gt;Configure the namespace ConfigSelector&lt;/a&gt;, to add a Helm override for the namespace config label selector.&lt;/p&gt;
+&lt;p&gt;Then, apply the following manifest file in your cluster. Replace &lt;code&gt;&amp;lt;namespace-name&amp;gt;&lt;/code&gt; with the namespace in which Istio is installed and &lt;code&gt;metadata.labels&lt;/code&gt; of the FluentBitConfig custom resource with the Helm override that was supplied in the previous step.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: The following manifest file assumes that the namespace config label selector override was &lt;code&gt;my.label.selector/namespace-config: &amp;quot;mylabel&amp;quot;&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;fo_ns_cfg.yaml&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -1167,8 +1163,8 @@ spec:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;h2 id=&#34;network-policies&#34;&gt;Network Policies&lt;/h2&gt;
-&lt;p&gt;NetworkPolicies allow you to specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.&lt;/p&gt;
+&lt;h2 id=&#34;network-policies&#34;&gt;Network policies&lt;/h2&gt;
+&lt;p&gt;NetworkPolicies let you specify how a pod can communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.&lt;/p&gt;
 &lt;p&gt;Use the following commands to create NetworkPolicies in the &lt;code&gt;istio-system&lt;/code&gt; namespace of your OCNE cluster, mimicking the NetworkPolicies that Verrazzano creates for Istio.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -1200,7 +1196,7 @@ spec:
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubectl apply -n istio-system -f - &amp;lt;&amp;lt;EOF
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -n istio-system -f - &amp;lt;&amp;lt;EOF
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -1304,7 +1300,7 @@ EOF
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubectl apply -n istio-system -f - &amp;lt;&amp;lt;EOF
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -n istio-system -f - &amp;lt;&amp;lt;EOF
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -1418,7 +1414,7 @@ EOF
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubectl apply -n istio-system -f - &amp;lt;&amp;lt;EOF
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -n istio-system -f - &amp;lt;&amp;lt;EOF
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -1532,7 +1528,7 @@ EOF
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubectl apply -n istio-system -f - &amp;lt;&amp;lt;EOF
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -n istio-system -f - &amp;lt;&amp;lt;EOF
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -1829,13 +1825,10 @@ spec:
         
         &lt;p&gt;This document shows you how to integrate OAuth2 Proxy with other OCNE components.&lt;/p&gt;
 &lt;h2 id=&#34;configure-applications-to-be-authenticated-using-oauth2-proxy&#34;&gt;Configure applications to be authenticated using oauth2-proxy&lt;/h2&gt;
-&lt;ol&gt;
-&lt;li&gt;
 &lt;p&gt;Assumptions from the installation of &lt;a href=&#34;../../../../docs/guides/migrate/install/dex/&#34;&gt;dex&lt;/a&gt; and &lt;a href=&#34;../../../../docs/guides/migrate/install/oauth2-proxy/&#34;&gt;oauth2-proxy&lt;/a&gt;:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;The load balancer address is using &lt;code&gt;nip.io&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Insecure connections (http) are used for dex and oauth2-proxy.&lt;/li&gt;
-&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;* The load balancer address uses `nip.io`.
+* Insecure connections (HTTP) are used for dex and oauth2-proxy.
+&lt;/code&gt;&lt;/pre&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -1927,14 +1920,14 @@ spec:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-&lt;/li&gt;
+&lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Configure applications to be authenticated using oauth2-proxy:&lt;/p&gt;
+&lt;p&gt;Configure applications to be authenticated using oauth2-proxy.&lt;/p&gt;
 &lt;p&gt;Add the following annotations to the ingresses of applications that will be authorized and authenticated using oauth2-proxy:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User,X-Auth-Request-Email&lt;/li&gt;
-&lt;li&gt;nginx.ingress.kubernetes.io/auth-signin: http://oauth2-proxy.${ADDRESS}/oauth2/start&lt;/li&gt;
-&lt;li&gt;nginx.ingress.kubernetes.io/auth-url: &lt;a href=&#34;http://oauth2-proxy.oauth2-proxy.svc.cluster.local/oauth2/auth&#34;&gt;http://oauth2-proxy.oauth2-proxy.svc.cluster.local/oauth2/auth&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nginx.ingress.kubernetes.io/auth-response-headers&lt;/code&gt;: &lt;code&gt;X-Auth-Request-User,X-Auth-Request-Email&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nginx.ingress.kubernetes.io/auth-signin&lt;/code&gt;: &lt;code&gt;http://oauth2-proxy.${ADDRESS}/oauth2/start&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nginx.ingress.kubernetes.io/auth-url&lt;/code&gt;: &lt;code&gt;http://oauth2-proxy.oauth2-proxy.svc.cluster.local/oauth2/auth&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;br&gt;For example, adding the annotations to a Prometheus ingress:&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -2052,8 +2045,8 @@ EOF
 &lt;/script&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Test access to an application:&lt;/p&gt;
-&lt;p&gt;The username and password for the OAuth2 Proxy login form can be viewed as follows:&lt;/p&gt;
+&lt;p&gt;Test access to an application.&lt;/p&gt;
+&lt;p&gt;You can view the user name and password for the OAuth2 Proxy login form as follows.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;

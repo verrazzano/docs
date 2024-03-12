@@ -91,7 +91,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.ea56e6818a01b7e7af8d6ab4d7094756.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.9142d2054aa58b8a2e64108036f23584.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -117,7 +117,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.ea56e6818a01b7e7af8d6ab4d7094756.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.9142d2054aa58b8a2e64108036f23584.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1236,7 +1236,7 @@ if (!doNotTrack) {
     <li>
       <ul>
         <li><a href="#fluent-bit">Fluent Bit</a></li>
-        <li><a href="#network-policies">Network Policies</a></li>
+        <li><a href="#network-policies">Network policies</a></li>
         <li><a href="#prometheus">Prometheus</a></li>
       </ul>
     </li>
@@ -1274,9 +1274,9 @@ if (!doNotTrack) {
 </header>
 	<p>This document shows you how to integrate Istio with other OCNE components.</p>
 <h2 id="fluent-bit">Fluent Bit</h2>
-<p>Follow the example provided in <a href="../../../../../docs/guides/migrate/install/fluent/#namespace-configselector">fluent operator helm override recipe for namespace configurations</a> to add a helm override for namespace config label selector.</p>
-<p>Then, apply the following manifest in your cluster. Replace <namespace-name> with the namespace in which Istio is installed and <code>metadata.labels</code> of FluentBitConfig custom resource with the helm override that was supplied in the previous step.</p>
-<p><strong>Note</strong>: The manifest below assumes that the namespace config label selector override was <code>my.label.selector/namespace-config: &quot;mylabel&quot;</code> following the fluent operator helm override recipe.</p>
+<p>Follow the example, <a href="../../../../../docs/guides/migrate/install/fluent/#configure-the-namespace-configselector">Configure the namespace ConfigSelector</a>, to add a Helm override for the namespace config label selector.</p>
+<p>Then, apply the following manifest file in your cluster. Replace <code>&lt;namespace-name&gt;</code> with the namespace in which Istio is installed and <code>metadata.labels</code> of the FluentBitConfig custom resource with the Helm override that was supplied in the previous step.</p>
+<p><strong>Note</strong>: The following manifest file assumes that the namespace config label selector override was <code>my.label.selector/namespace-config: &quot;mylabel&quot;</code>.</p>
 <p><strong>fo_ns_cfg.yaml</strong>
 <style type="text/css">
     code {
@@ -1412,8 +1412,8 @@ spec:
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<h2 id="network-policies">Network Policies</h2>
-<p>NetworkPolicies allow you to specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.</p>
+<h2 id="network-policies">Network policies</h2>
+<p>NetworkPolicies let you specify how a pod can communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.</p>
 <p>Use the following commands to create NetworkPolicies in the <code>istio-system</code> namespace of your OCNE cluster, mimicking the NetworkPolicies that Verrazzano creates for Istio.</p>
 <style type="text/css">
     code {
@@ -1445,7 +1445,7 @@ spec:
 
 <div class="clipboard">
     <div class="highlight">
-<pre tabindex="0"><code>kubectl apply -n istio-system -f - &lt;&lt;EOF
+<pre tabindex="0"><code>$ kubectl apply -n istio-system -f - &lt;&lt;EOF
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -1549,7 +1549,7 @@ EOF
 
 <div class="clipboard">
     <div class="highlight">
-<pre tabindex="0"><code>kubectl apply -n istio-system -f - &lt;&lt;EOF
+<pre tabindex="0"><code>$ kubectl apply -n istio-system -f - &lt;&lt;EOF
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -1663,7 +1663,7 @@ EOF
 
 <div class="clipboard">
     <div class="highlight">
-<pre tabindex="0"><code>kubectl apply -n istio-system -f - &lt;&lt;EOF
+<pre tabindex="0"><code>$ kubectl apply -n istio-system -f - &lt;&lt;EOF
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -1777,7 +1777,7 @@ EOF
 
 <div class="clipboard">
     <div class="highlight">
-<pre tabindex="0"><code>kubectl apply -n istio-system -f - &lt;&lt;EOF
+<pre tabindex="0"><code>$ kubectl apply -n istio-system -f - &lt;&lt;EOF
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:

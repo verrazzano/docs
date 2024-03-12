@@ -91,7 +91,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.ea56e6818a01b7e7af8d6ab4d7094756.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.9142d2054aa58b8a2e64108036f23584.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -117,7 +117,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.ea56e6818a01b7e7af8d6ab4d7094756.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.9142d2054aa58b8a2e64108036f23584.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1272,13 +1272,10 @@ if (!doNotTrack) {
 </header>
 	<p>This document shows you how to integrate OAuth2 Proxy with other OCNE components.</p>
 <h2 id="configure-applications-to-be-authenticated-using-oauth2-proxy">Configure applications to be authenticated using oauth2-proxy</h2>
-<ol>
-<li>
 <p>Assumptions from the installation of <a href="../../../../../docs/guides/migrate/install/dex/">dex</a> and <a href="../../../../../docs/guides/migrate/install/oauth2-proxy/">oauth2-proxy</a>:</p>
-<ul>
-<li>The load balancer address is using <code>nip.io</code>.</li>
-<li>Insecure connections (http) are used for dex and oauth2-proxy.</li>
-</ul>
+<pre><code>* The load balancer address uses `nip.io`.
+* Insecure connections (HTTP) are used for dex and oauth2-proxy.
+</code></pre>
 <style type="text/css">
     code {
         margin: 0;
@@ -1370,14 +1367,14 @@ if (!doNotTrack) {
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
-</li>
+<ol>
 <li>
-<p>Configure applications to be authenticated using oauth2-proxy:</p>
+<p>Configure applications to be authenticated using oauth2-proxy.</p>
 <p>Add the following annotations to the ingresses of applications that will be authorized and authenticated using oauth2-proxy:</p>
 <ul>
-<li>nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User,X-Auth-Request-Email</li>
-<li>nginx.ingress.kubernetes.io/auth-signin: http://oauth2-proxy.${ADDRESS}/oauth2/start</li>
-<li>nginx.ingress.kubernetes.io/auth-url: <a href="http://oauth2-proxy.oauth2-proxy.svc.cluster.local/oauth2/auth">http://oauth2-proxy.oauth2-proxy.svc.cluster.local/oauth2/auth</a></li>
+<li><code>nginx.ingress.kubernetes.io/auth-response-headers</code>: <code>X-Auth-Request-User,X-Auth-Request-Email</code></li>
+<li><code>nginx.ingress.kubernetes.io/auth-signin</code>: <code>http://oauth2-proxy.${ADDRESS}/oauth2/start</code></li>
+<li><code>nginx.ingress.kubernetes.io/auth-url</code>: <code>http://oauth2-proxy.oauth2-proxy.svc.cluster.local/oauth2/auth</code></li>
 </ul>
 <p><br>For example, adding the annotations to a Prometheus ingress:</p>
 <style type="text/css">
@@ -1495,8 +1492,8 @@ EOF
 </script>
 </li>
 <li>
-<p>Test access to an application:</p>
-<p>The username and password for the OAuth2 Proxy login form can be viewed as follows:</p>
+<p>Test access to an application.</p>
+<p>You can view the user name and password for the OAuth2 Proxy login form as follows.</p>
 <style type="text/css">
     code {
         margin: 0;

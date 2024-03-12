@@ -91,7 +91,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.ea56e6818a01b7e7af8d6ab4d7094756.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.9142d2054aa58b8a2e64108036f23584.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -117,7 +117,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.ea56e6818a01b7e7af8d6ab4d7094756.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.9142d2054aa58b8a2e64108036f23584.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1236,11 +1236,11 @@ if (!doNotTrack) {
     <li>
       <ul>
         <li><a href="#fluent-bit">Fluent Bit</a></li>
-        <li><a href="#network-policies">Network Policies</a></li>
-        <li><a href="#configure-prometheus-scrape-target-for-nginx-metrics">Configure Prometheus scrape target for NGINX metrics</a>
+        <li><a href="#network-policies">Network policies</a></li>
+        <li><a href="#configure-the-prometheus-scrape-target-for-nginx-metrics">Configure the Prometheus scrape target for NGINX metrics</a>
           <ul>
-            <li><a href="#prometheus-metrics-using-servicemonitor">Prometheus metrics using ServiceMonitor</a></li>
-            <li><a href="#prometheus-metrics-using-podmonitor">Prometheus metrics using PodMonitor</a></li>
+            <li><a href="#configure-prometheus-metrics-using-servicemonitor">Configure Prometheus metrics using ServiceMonitor</a></li>
+            <li><a href="#configure-prometheus-metrics-using-podmonitor">Configure Prometheus metrics using PodMonitor</a></li>
           </ul>
         </li>
       </ul>
@@ -1279,9 +1279,9 @@ if (!doNotTrack) {
 </header>
 	<p>This document shows you how to integrate Ingress NGINX Controller with other OCNE components.</p>
 <h2 id="fluent-bit">Fluent Bit</h2>
-<p>Follow the example provided in <a href="../../../../../docs/guides/migrate/install/fluent/#namespace-configselector">fluent operator helm override recipe for namespace configurations</a> to add a helm override for namespace config label selector.</p>
-<p>Then, apply the following manifest in your cluster. Replace <namespace-name> with the namespace in which NGINX is installed and <code>metadata.labels</code> of FluentBitConfig custom resource with the helm override that was supplied in the previous step.</p>
-<p><strong>Note</strong>: The manifest below assumes that the namespace config label selector override was <code>my.label.selector/namespace-config: &quot;mylabel&quot;</code> following the fluent operator helm override recipe.</p>
+<p>Follow the example, <a href="../../../../../docs/guides/migrate/install/fluent/#configure-the-namespace-configselector">Configure the namespace ConfigSelector</a>, to add a Helm override for the namespace config label selector.</p>
+<p>Then, apply the following manifest file in your cluster. Replace <code>&lt;namespace-name&gt;</code> with the namespace in which NGINX is installed and <code>metadata.labels</code> of the FluentBitConfig custom resource with the Helm override that was supplied in the previous step.</p>
+<p><strong>Note</strong>: The following manifest file assumes that the namespace config label selector override was <code>my.label.selector/namespace-config: &quot;mylabel&quot;</code>.</p>
 <p><strong>fo_nginx.yaml</strong>
 <style type="text/css">
     code {
@@ -1430,9 +1430,9 @@ spec:
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<h2 id="network-policies">Network Policies</h2>
-<p>NetworkPolicies let you specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.</p>
-<p>Verrazzano creates the following NetworkPolicy resource to only allow ingress to port 443 from all of the namespaces, and an ingress to port 10254 from Prometheus to scrape metrics. The manifest below assumes the Prometheus instance is installed using the Prometheus operator in the namespace <code>monitoring</code> with the label <code>myapp.io/namespace=monitoring</code>.</p>
+<h2 id="network-policies">Network policies</h2>
+<p>NetworkPolicies let you specify how a pod can communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.</p>
+<p>Verrazzano creates the following NetworkPolicy resource to allow only ingress to port <code>443</code> from all of the namespaces, and an ingress to port <code>10254</code> from Prometheus to scrape metrics. The following manifest file assumes that the Prometheus instance is installed using the Prometheus Operator in the namespace <code>monitoring</code> with the label <code>myapp.io/namespace=monitoring</code>.</p>
 <style type="text/css">
     code {
         margin: 0;
@@ -1553,14 +1553,12 @@ EOF
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
-<h2 id="configure-prometheus-scrape-target-for-nginx-metrics">Configure Prometheus scrape target for NGINX metrics</h2>
-<p>The section provides the steps to configure Prometheus scrape target for NGINX ingress controller metrics in using ServiceMonitor and PodMonitor. Both ServiceMonitor and PodMonitor declaratively specify how group of pods should be monitored. The Prometheus Operator automatically generates Prometheus scrape configuration based on the current state of the objects in the API server.</p>
-<p>The instructions assume Prometheus is installed in <code>monitoring</code> namespace, using kube-prometheus-stack as documented in <a href="../../../../../docs/guides/migrate/install/prometheus/">Install Prometheus on OCNE</a>. The instructions also assume ingress-controller is installed using Helm, will change once it is installed as a CNE module.</p>
-<h3 id="prometheus-metrics-using-servicemonitor">Prometheus metrics using ServiceMonitor</h3>
-<ol>
-<li>
-<p>Configure ingress controller to enable metrics and creation of ServiceMonitor</p>
-<p><style type="text/css">
+<h2 id="configure-the-prometheus-scrape-target-for-nginx-metrics">Configure the Prometheus scrape target for NGINX metrics</h2>
+<p>The section provides the steps to configure the Prometheus scrape target for Ingress NGINX Controller metrics using a ServiceMonitor and PodMonitor. Both ServiceMonitor and PodMonitor declaratively specify how a group of pods should be monitored. The Prometheus Operator automatically generates the Prometheus scrape configuration based on the current state of the objects in the API server.</p>
+<p>The instructions assume Prometheus is installed in the <code>monitoring</code> namespace, using kube-prometheus-stack as documented in <a href="../../../../../docs/guides/migrate/install/prometheus/">Install Prometheus on OCNE</a>. The instructions also assume that the ingress-controller is installed using Helm.</p>
+<h3 id="configure-prometheus-metrics-using-servicemonitor">Configure Prometheus metrics using ServiceMonitor</h3>
+<p>Configure the ingress controller to enable metrics and create the ServiceMonitor.</p>
+<style type="text/css">
     code {
         margin: 0;
         padding: 0;
@@ -1590,7 +1588,7 @@ EOF
 
 <div class="clipboard">
        <div class="highlight">
-<pre tabindex="0"><code>helm upgrade ingress-controller ingress-nginx/ingress-nginx \
+<pre tabindex="0"><code>$ helm upgrade ingress-controller ingress-nginx/ingress-nginx \
    --namespace ingress-nginx \
    --set controller.metrics.enabled=true \
    --set controller.metrics.serviceMonitor.enabled=true \
@@ -1655,13 +1653,11 @@ EOF
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
-Here controller.metrics.serviceMonitor.additionalLabels.release=&ldquo;prometheus-operator&rdquo; should match the name of the helm release of the <code>kube-prometheus-stack</code>.</p>
-</li>
-</ol>
-<h3 id="prometheus-metrics-using-podmonitor">Prometheus metrics using PodMonitor</h3>
+<p>In this example, <code>controller.metrics.serviceMonitor.additionalLabels.release=&quot;prometheus-operator&quot;</code> should match the name of the Helm release of the <code>kube-prometheus-stack</code>.</p>
+<h3 id="configure-prometheus-metrics-using-podmonitor">Configure Prometheus metrics using PodMonitor</h3>
 <ol>
 <li>
-<p>Configure ingress controller to enable metrics and export metrics</p>
+<p>Configure the ingress controller to enable metrics and export metrics.</p>
 <style type="text/css">
     code {
         margin: 0;
@@ -1692,7 +1688,7 @@ Here controller.metrics.serviceMonitor.additionalLabels.release=&ldquo;prometheu
 
 <div class="clipboard">
        <div class="highlight">
-<pre tabindex="0"><code>helm upgrade ingress-controller ingress-nginx/ingress-nginx \
+<pre tabindex="0"><code>$ helm upgrade ingress-controller ingress-nginx/ingress-nginx \
    --namespace ingress-nginx \
    --set controller.metrics.enabled=true \
    --set controller.metrics.portName=metrics \
@@ -1760,7 +1756,7 @@ Here controller.metrics.serviceMonitor.additionalLabels.release=&ldquo;prometheu
 </script>
 </li>
 <li>
-<p>Create a PodMonitor resource in <code>monitoring</code> namespace</p>
+<p>Create a PodMonitor resource in the <code>monitoring</code> namespace.</p>
 <style type="text/css">
     code {
         margin: 0;
