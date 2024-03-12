@@ -6,11 +6,11 @@ draft: false
 This document shows you how to integrate Prometheus with other OCNE components.
 
 ## Fluent Bit
-Follow the example provided in [fluent operator helm override recipe for namespace configurations]({{< relref "docs/guides/migrate/install/fluent/_index.md#namespace-configselector" >}}) to add a helm override for namespace config label selector.
+First, follow the example, [Configure the namespace ConfigSelector]({{< relref "docs/guides/migrate/install/fluent/_index.md#configure-the-namespace-configselector" >}}), to add a Helm override for the namespace config label selector.
 
-Then, apply the following manifest in your cluster. Replace <namespace-name> with the namespace in which prometheus is installed and `metadata.labels` of FluentBitConfig custom resource with the helm override that was supplied in the previous step.
+Then, apply the following manifest file in your cluster. Replace `<namespace-name>` with the namespace in which Prometheus is installed and `metadata.labels` of the FluentBitConfig custom resource with the Helm override that was supplied in the previous step.
 
-**Note**: The manifest below assumes that the namespace config label selector override was `my.label.selector/namespace-config: "mylabel"` following the fluent operator helm override recipe.
+**Note**: The following manifest file assumes that the namespace config label selector override was `my.label.selector/namespace-config: "mylabel"`.
 
 **fo_prom.yaml**
 {{< clipboard >}}
@@ -123,16 +123,16 @@ spec:
 {{< /clipboard >}}
 
 ## Ingress
-Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by the rules defined on the Ingress resource. Please refer to [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) for more details.
+An ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by the rules defined on the Ingress resource. For more information, see [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/).
 
 #### Create an Ingress to forward requests to Prometheus
-The following example creates an Ingress to forward requests to the Prometheus backend, using cert-manager ingress annotations to create a TLS certificate for the endpoint signed by `my-cluster-issuer` ClusterIssuer.
+The following example creates an ingress to forward requests to the Prometheus back end, using cert-manager ingress annotations to create a TLS certificate for the endpoint signed by `my-cluster-issuer` ClusterIssuer.
 
-The instructions assume:
-1. Cert Manager is installed and a ClusterIssuer `my-cluster-issuer` is created
-2. The `kube-prometheus-stack` is installed in `monitoring` namespace with Prometheus instance created be `prometheus-operator-kube-p-prometheus` with a clusterIP service
-3. The Prometheus instance is listening on default port `9090`
-4. Ingress Controller is installed in `ingress-nginx` namespace, with external IP `10.0.0.1`
+This example assumes:
+- cert-manager is installed and a ClusterIssuer `my-cluster-issuer` is created.
+- The `kube-prometheus-stack` is installed in the `monitoring` namespace with a Prometheus instance created `prometheus-operator-kube-p-prometheus` with a clusterIP service.
+- The Prometheus instance is listening on the default port `9090`.
+- An ingress controller is installed in the `ingress-nginx` namespace, with an external IP address, `10.0.0.1`.
 
    {{<clipboard >}}
    <div class="highlight">
@@ -210,7 +210,7 @@ EOF
 ## Network policies
 NetworkPolicies let you specify how a pod is allowed to communicate with various network entities in a cluster. NetworkPolicies increase the security posture of the cluster by limiting network traffic and preventing unwanted network communication. NetworkPolicy resources affect layer 4 connections (TCP, UDP, and optionally SCTP). The cluster must be running a Container Network Interface (CNI) plug-in that enforces NetworkPolicies.
 
-As an example, run the following command to apply NetworkPolicy resources to only allow Prometheus to access the metrics ports on monitoring component pods. Note that these policies only affect ingress. Egress from the monitoring namespace is not impacted.
+As an example, run the following command to apply NetworkPolicy resources to allow only Prometheus to access the metrics ports on the monitoring component pods. Note that these policies only affect ingress. Egress from the `monitoring` namespace is not impacted.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -282,4 +282,3 @@ EOF
 {{< /clipboard >}}
 
 **TBD** Add NetworkPolicies when we figure out how auth and ingress are going to work. This will impact Grafana, Alertmanager, and Prometheus as they all have web UIs.
-
