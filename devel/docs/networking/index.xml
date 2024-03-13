@@ -42,7 +42,7 @@ such as Calico, before installing Verrazzano, or else the policies are ignored.&
 &lt;p&gt;Verrazzano installs a set of NetworkPolicies for system components to control ingress into the Pods.
 A policy is scoped to a namespace and uses selectors to specify the Pods that the policy applies to, along
 with the ingress and egress rules.  For example, the following policy applies to the Verrazzano API Pod in the
-&lt;code&gt;verrazzano-system&lt;/code&gt; namespace.  This policy allows network traffic from NGINX Ingress Controller on
+&lt;code&gt;verrazzano-system&lt;/code&gt; namespace.  This policy allows network traffic from Ingress NGINX Controller on
 port 8775 and from Prometheus on port 15090.  No other Pods can reach those ports or any other ports of the
 Verrazzano API Pod.  Notice that namespace selectors need to be used; the NetworkPolicy resource does not support
 specifying the namespace name.
@@ -601,7 +601,7 @@ items:
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
 &lt;h2 id=&#34;tls&#34;&gt;TLS&lt;/h2&gt;
-&lt;p&gt;TLS is used by external clients to access the cluster, both through the NGINX Ingress Controller and the Istio ingress gateway.
+&lt;p&gt;TLS is used by external clients to access the cluster, both through the Ingress NGINX Controller and the Istio ingress gateway.
 The certificate used by these TLS connections vary; see &lt;a href=&#34;../../docs/security/&#34;&gt;Verrazzano security&lt;/a&gt; for details.
 All TLS connections are terminated at the ingress proxy. Traffic between the two proxies and the internal cluster Pods
 always uses mTLS, because those Pods are all in the Istio mesh.&lt;/p&gt;
@@ -633,7 +633,7 @@ as Coherence Pods, are labeled at runtime with &lt;code&gt;sidecar.istio.io/inje
 &lt;li&gt;Kiali&lt;/li&gt;
 &lt;li&gt;Keycloak&lt;/li&gt;
 &lt;li&gt;MySQL&lt;/li&gt;
-&lt;li&gt;NGINX Ingress Controller&lt;/li&gt;
+&lt;li&gt;Ingress NGINX Controller&lt;/li&gt;
 &lt;li&gt;OpenSearch&lt;/li&gt;
 &lt;li&gt;OpenSearch Dashboards&lt;/li&gt;
 &lt;li&gt;Prometheus&lt;/li&gt;
@@ -643,7 +643,7 @@ as Coherence Pods, are labeled at runtime with &lt;code&gt;sidecar.istio.io/inje
 &lt;/ul&gt;
 &lt;p&gt;Some of these components, have mesh-related details that are worth noting, as described in the following sections.&lt;/p&gt;
 &lt;h3 id=&#34;nginx&#34;&gt;NGINX&lt;/h3&gt;
-&lt;p&gt;The NGINX Ingress Controller listens for HTTPS traffic, and provides ingress into the cluster.  NGINX is
+&lt;p&gt;The Ingress NGINX Controller listens for HTTPS traffic, and provides ingress into the cluster.  NGINX is
 configured to do TLS termination of client connections.  All traffic from NGINX to the mesh services
 use mTLS, which means that traffic is fully encrypted from the client to the target back-end services.&lt;/p&gt;
 &lt;h3 id=&#34;keycloak-and-mysql&#34;&gt;Keycloak and MySQL&lt;/h3&gt;
@@ -956,16 +956,16 @@ depends on the underlying Kubernetes platform.  With Oracle Cloud Infrastructure
 creating a LoadBalancer type service will
 result in an Oracle Cloud Infrastructure load balancer being created and configured to load balance to a set of Pods.&lt;/p&gt;
 &lt;h3 id=&#34;ingress-for-system-components&#34;&gt;Ingress for system components&lt;/h3&gt;
-&lt;p&gt;To provide ingress to system components, Verrazzano installs a NGINX Ingress Controller,
+&lt;p&gt;To provide ingress to system components, Verrazzano installs a Ingress NGINX Controller,
 which includes a NGINX load balancer.  Verrazzano also creates Kubernetes
 Ingress resources to configure ingress for each system component that requires ingress.
 An Ingress resource is used is to specify HTTP/HTTPS routes to Kubernetes services, along
 with an endpoint host name and a TLS certificate. An Ingress by itself doesn&amp;rsquo;t do anything;
 it is just a resource. An ingress controller is needed to watch Ingress resources and
 reconcile them, configuring the underlying Kubernetes load balancer to handle the service
-routing. The NGINX Ingress Controller processes Ingress resources and configures NGINX with
+routing. The Ingress NGINX Controller processes Ingress resources and configures NGINX with
 the ingress route information, and such.&lt;/p&gt;
-&lt;p&gt;The NGINX Ingress Controller is a LoadBalancer service, as seen here:
+&lt;p&gt;The Ingress NGINX Controller is a LoadBalancer service, as seen here:
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -1178,13 +1178,13 @@ routing traffic to the Istio ingress gateway Pod, for example, the Envoy proxy.&
 &lt;p&gt;When you install Verrazzano, you can optionally specify an external DNS for your domain.  If you do that,
 Verrazzano will not only create the DNS records, using ExternalDNS, but also it will configure your host
 name in the Ingress resources. You can then use that host name to access the system components through the
-NGINX Ingress Controller.&lt;/p&gt;
+Ingress NGINX Controller.&lt;/p&gt;
 &lt;h2 id=&#34;system-traffic&#34;&gt;System traffic&lt;/h2&gt;
 &lt;p&gt;System traffic includes all traffic that enters and leaves system Pods.&lt;/p&gt;
 &lt;h3 id=&#34;north-south-system-traffic&#34;&gt;North-south system traffic&lt;/h3&gt;
 &lt;p&gt;North-south traffic includes all system traffic that enters or leaves a Kubernetes cluster.&lt;/p&gt;
 &lt;h4 id=&#34;ingress-1&#34;&gt;Ingress&lt;/h4&gt;
-&lt;p&gt;The following lists the Verrazzano system components which are accessed through the NGINX Ingress Controller
+&lt;p&gt;The following lists the Verrazzano system components which are accessed through the Ingress NGINX Controller
 from a client external to the cluster:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;argoCD&lt;/li&gt;
@@ -1297,7 +1297,7 @@ OpenSearch Pods.&lt;/li&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Console for OpenSearch.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;NGINX Ingress Controller&lt;/td&gt;
+&lt;td&gt;Ingress NGINX Controller&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Kubernetes API server&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Performs CRUD operations on Kubernetes resources.&lt;/td&gt;
 &lt;/tr&gt;
@@ -1400,11 +1400,11 @@ OpenSearch Pods.&lt;/li&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;NGINX Ingress Controller&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Ingress NGINX Controller&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;NGINX Ingress Controller&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Ingress NGINX Controller&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;NGINX metrics&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1848,7 +1848,7 @@ The following table shows which proxies are used and in which Pod they run.&lt;/
 &lt;td style=&#34;text-align:left&#34;&gt;Envoy&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;ingress-controller-ingress-nginx-controller-*&lt;/code&gt;&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;&lt;code&gt;ingress-nginx&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;NGINX Ingress Controller in the Istio mesh.&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Ingress NGINX Controller in the Istio mesh.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Istio mesh sidecar&lt;/td&gt;
@@ -1920,7 +1920,7 @@ The following table shows which proxies are used and in which Pod they run.&lt;/
 Verrazzano authentication proxy, and Prometheus.&lt;/p&gt;
 &lt;h3 id=&#34;multicluster-egress&#34;&gt;Multicluster egress&lt;/h3&gt;
 &lt;p&gt;The following table shows Verrazzano system components that initiate requests between the admin and managed clusters.
-All of these requests go through the NGINX Ingress Controller on the respective destination cluster.&lt;/p&gt;
+All of these requests go through the Ingress NGINX Controller on the respective destination cluster.&lt;/p&gt;
 &lt;p&gt;Traffic on port 443 needs to be allowed in both directions, from managed clusters to the admin cluster, and from
 the admin cluster to managed clusters. Additionally, if Rancher is not enabled on the admin cluster, then managed
 clusters will also need access to the admin cluster&amp;rsquo;s Kubernetes API server port (typically, this is port 6443).&lt;/p&gt;
@@ -2004,14 +2004,14 @@ On the managed cluster, the authentication proxy connects to Keycloak on the adm
 Controller running on the admin cluster.&lt;/p&gt;
 &lt;p&gt;For Single Sign-On (SSO), the authentication proxy also needs to send requests to Keycloak, either in-cluster or through the cluster ingress. When a
 request comes into the authentication proxy without an authentication header, the proxy sends a request to Keycloak
-through the NGINX Ingress Controller, so the request exits the cluster.  Otherwise, if the authentication proxy is on the admin cluster, then the request is
+through the Ingress NGINX Controller, so the request exits the cluster.  Otherwise, if the authentication proxy is on the admin cluster, then the request is
 sent directly to Keycloak within the cluster.  If the authentication proxy is on the managed
 cluster, then it must send requests to Keycloak on the admin cluster.&lt;/p&gt;
 &lt;h3 id=&#34;prometheus&#34;&gt;Prometheus&lt;/h3&gt;
 &lt;p&gt;A single Prometheus service in the cluster, scrapes metrics from Pods in system components and applications.
 It also scrapes Pods in the Istio mesh using HTTPS, and outside the mesh using HTTP. In the multicluster case,
 Prometheus on the admin cluster, scrapes metrics from Prometheus on the managed cluster, through
-the NGINX Ingress Controller on the managed cluster.&lt;/p&gt;
+the Ingress NGINX Controller on the managed cluster.&lt;/p&gt;
 
       </description>
     </item>
