@@ -27,7 +27,7 @@ such as Calico, before installing Verrazzano, or else the policies are ignored.
 Verrazzano installs a set of NetworkPolicies for system components to control ingress into the Pods.
 A policy is scoped to a namespace and uses selectors to specify the Pods that the policy applies to, along
 with the ingress and egress rules.  For example, the following policy applies to the Verrazzano API Pod in the
-`verrazzano-system` namespace.  This policy allows network traffic from NGINX Ingress Controller on
+`verrazzano-system` namespace.  This policy allows network traffic from Ingress NGINX Controller on
 port 8775 and from Prometheus on port 15090.  No other Pods can reach those ports or any other ports of the
 Verrazzano API Pod.  Notice that namespace selectors need to be used; the NetworkPolicy resource does not support
 specifying the namespace name.
@@ -235,7 +235,7 @@ items:
 {{< /clipboard >}}
 
 ## TLS
-TLS is used by external clients to access the cluster, both through the NGINX Ingress Controller and the Istio ingress gateway.
+TLS is used by external clients to access the cluster, both through the Ingress NGINX Controller and the Istio ingress gateway.
 The certificate used by these TLS connections vary; see [Verrazzano security]({{< relref "/docs/security/_index.md" >}}) for details.
 All TLS connections are terminated at the ingress proxy. Traffic between the two proxies and the internal cluster Pods
 always uses mTLS, because those Pods are all in the Istio mesh.
@@ -271,7 +271,7 @@ The following Verrazzano components are in the mesh and use mTLS for all service
 - Kiali
 - Keycloak
 - MySQL
-- NGINX Ingress Controller
+- Ingress NGINX Controller
 - OpenSearch
 - OpenSearch Dashboards
 - Prometheus
@@ -282,7 +282,7 @@ The following Verrazzano components are in the mesh and use mTLS for all service
 Some of these components, have mesh-related details that are worth noting, as described in the following sections.
 
 ### NGINX
-The NGINX Ingress Controller listens for HTTPS traffic, and provides ingress into the cluster.  NGINX is
+The Ingress NGINX Controller listens for HTTPS traffic, and provides ingress into the cluster.  NGINX is
 configured to do TLS termination of client connections.  All traffic from NGINX to the mesh services
 use mTLS, which means that traffic is fully encrypted from the client to the target back-end services.
 

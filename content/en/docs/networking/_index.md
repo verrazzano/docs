@@ -28,7 +28,7 @@ both run outside the mesh and connect to external services using TLS.  This diag
 does not show Prometheus scraping.
 
 Verrazzano system traffic enters a platform load balancer over TLS and is routed to the
-NGINX Ingress Controller, where TLS is terminated.  From there, the traffic is routed
+Ingress NGINX Controller, where TLS is terminated.  From there, the traffic is routed
 to one of the system components in the mesh over mutual TLS authentication (mTLS), or using HTTP to a system component,
 outside the mesh.  
 
@@ -60,7 +60,7 @@ ensure that the clusters have network connectivity.
 A summary of the network-related configuration follows.
 
 Verrazzano does the following as it relates to networking:
-1. Installs and configures NGINX Ingress Controller.
+1. Installs and configures Ingress NGINX Controller.
 1. Creates Ingress resources for system components.
 1. Installs and configures Istio.
 1. Enables strict mTLS for the mesh by creating an Istio PeerAuthentication resource.

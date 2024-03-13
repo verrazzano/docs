@@ -7,7 +7,7 @@ draft: false
 ---
 
 ### Summary
-Analysis detected that the Verrazzano installation failed while installing the NGINX Ingress Controller.
+Analysis detected that the Verrazzano installation failed while installing the Ingress NGINX Controller.
 
 The root cause appears to be that the load balancer service limit has been reached.
 

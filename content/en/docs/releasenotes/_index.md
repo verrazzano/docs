@@ -105,7 +105,7 @@ For more details, see My Oracle Support [Note 2794708.1](https://support.oracle.
 
 ### v1.6.5
 **Enhancements**:
-- Reduced NGINX Ingress Controller image size.
+- Reduced Ingress NGINX Controller image size.
 - Reduced Fluentd image size.
 - Cluster API ClusterClass support expanded.
 - Updated to the Rancher v2.75 console.
@@ -168,7 +168,7 @@ For more details, see My Oracle Support [Note 2794708.1](https://support.oracle.
 - Coherence Operator v3.2.10
 - Jaeger v1.42.0
 - kube-state-metrics v2.8.2
-- NGINX Ingress Controller v1.7.1
+- Ingress NGINX Controller v1.7.1
 - Prometheus Operator v0.64.1
 - Prometheus v2.44.0
 - Rancher v2.7.3
@@ -283,7 +283,7 @@ For more details, see My Oracle Support [Note 2794708.1](https://support.oracle.
 - Coherence Operator v3.2.9
 - MySQL Server v8.0.32
 - oam-kubernetes-runtime v0.3.3
-- NGINX Ingress Controller v1.3.1
+- Ingress NGINX Controller v1.3.1
 - Prometheus v2.38.0
 - Prometheus Operator v0.59.1
 - External DNS v0.12.2
@@ -505,7 +505,7 @@ For more details, see My Oracle Support [Note 2794708.1](https://support.oracle.
 - Istio v1.13.2
 - Jaeger Operator v1.32.0
 - Kiali v1.42.0
-- NGINX Ingress Controller v1.1.1
+- Ingress NGINX Controller v1.1.1
 - Node Exporter v1.3.1
 - Prometheus v2.34.0
 - Rancher v2.6.4
@@ -727,7 +727,7 @@ For more details, see My Oracle Support [Note 2794708.1](https://support.oracle.
   - Coherence Operator v3.1.5.
   - WebLogic Kubernetes Operator v3.2.3.
   - Node Exporter v1.0.0.
-  - NGINX Ingress Controller v0.46.
+  - Ingress NGINX Controller v0.46.
   - Fluentd v1.12.3.
 - Added network policies for Istio.
 
