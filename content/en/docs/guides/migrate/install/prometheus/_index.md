@@ -244,7 +244,7 @@ The default values in the prometheus-adapter Helm chart are sufficient, so no ad
 
 When running monitoring components in a cluster that also has Istio installed, the monitoring components need to be configured as follows:
 
-1. All of the monitoring components are configured to run outside of the Istio mesh. The Prometheus pod is configured for Istio sidecar injection so that Istio adds the Istio CA certificates to the Prometheus pod, but all of the outbound traffic is configured to bypass the Istio envoy proxy sidecar. This configuration allows Prometheus to scrape pods that are both in and out of the mesh. If all pods that are to be scraped are inside the mesh, then this requirement can be dropped.
+1. All of the monitoring components are configured to run outside of the Istio mesh. The Prometheus pod is configured for Istio sidecar injection so that Istio adds the Istio CA certificates to the Prometheus pod, but all of the outbound traffic is configured to bypass the Istio Envoy proxy sidecar. This configuration allows Prometheus to scrape pods that are both in and out of the mesh. If all pods that are to be scraped are inside the mesh, then this requirement can be dropped.
 1. The Prometheus container needs to mount the Istio CA certificates. Istio will automatically add its certificates when Istio sidecar injection is enabled. This allows Prometheus to scrape pods in the mesh using TLS.
 
 When installing the kube-prometheus-stack Helm chart, apply the following overrides.

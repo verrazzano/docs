@@ -7,7 +7,7 @@ draft: false
 ---
 
 ### Summary
-Analysis detected that the Verrazzano installation has failed related to the NGINX Ingress Controller, however, it was unable to isolate the specific root cause.
+Analysis detected that the Verrazzano installation has failed related to the Ingress NGINX Controller, however, it was unable to isolate the specific root cause.
 
 ### Steps
 

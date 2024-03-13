@@ -356,10 +356,6 @@ Step 4. Verify the domain.
    - Verrazzano creates the underlying domain Kubernetes resource from the VerrazzanoWebLogicWorkload component, which is then processed by the WebLogic Kubernetes Operator to create the Administration and Managed Server pods, and deploy the applications and resources associated with the WebLogic domain.
    - To verify that the WebLogic domain is up and running, follow the steps found [here]({{< relref "/docs/examples/wls-coh/todo-list#verify-the-deployed-application" >}}).
 
-{{< alert title="NOTE" color="primary" >}}
-Oracle recommends that you use the [WebLogic Toolkit UI](https://github.com/oracle/weblogic-toolkit-ui/releases) (WKTUI) for deploying WebLogic applications in Verrazzano. Follow the WKTUI documentation found [here](https://oracle.github.io/weblogic-toolkit-ui/).
-{{< /alert >}}
-
 ## Database connections
 
 Typically, WebLogic applications make database connections using the connection information present in the JDBCSystemResources created in a WebLogic domain. To implement this in Verrazzano, databases are deployed as separate components and the connection information is made available to the WebLogic domain using a WDT Model.
