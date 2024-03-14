@@ -5516,13 +5516,13 @@ EOF
         
         
         &lt;p&gt;This document shows you how to install OpenSearch on OCNE.&lt;/p&gt;
-&lt;h2 id=&#34;verrazzano-background&#34;&gt;Verrazzano Background&lt;/h2&gt;
-&lt;p&gt;Verrazzano installs OpenSearch and OpenSearch Dashboards as part of its logging stack. Prior to Verrazzano 1.7, OpenSearch and OpenSearch Dashboards were installed by the Verrazzano Monitoring Operator. Starting from version 1.7, OpenSearch and OpenSearch Dashboards are installed via the OpenSearch Operator, which can be found at &lt;a href=&#34;https://github.com/opensearch-project/opensearch-k8s-operator&#34;&gt;OpenSearch Operator&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;The OpenSearch Operator is installed in the cluster within the verrazzano-logging namespace and creates the &lt;strong&gt;opensearch-operator-controller-manager&lt;/strong&gt; Deployment in the same namespace. By utilizing the OpenSearchCluster Custom Resource (CR), the operator establishes the specified OpenSearch node topology as a StatefulSet and deploys the OpenSearch Dashboards as a Deployment. For more details regarding the OpenSearch Cluster CR, refer to: &lt;a href=&#34;https://github.com/opensearch-project/opensearch-k8s-operator/blob/main/charts/opensearch-cluster/templates/opensearch-cluster-cr.yaml&#34;&gt;OpenSearch Cluster CR YAML&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;verrazzano-background&#34;&gt;Verrazzano background&lt;/h2&gt;
+&lt;p&gt;Verrazzano installs OpenSearch and OpenSearch Dashboards as part of its logging stack. Prior to Verrazzano 1.7, OpenSearch and OpenSearch Dashboards were installed by the Verrazzano Monitoring Operator. Beginning in version 1.7, OpenSearch and OpenSearch Dashboards are installed using the &lt;a href=&#34;https://github.com/opensearch-project/opensearch-k8s-operator&#34;&gt;OpenSearch Operator&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The OpenSearch Operator is installed in the cluster within the &lt;code&gt;verrazzano-logging&lt;/code&gt; namespace and creates the &lt;code&gt;opensearch-operator-controller-manager&lt;/code&gt; deployment in the same namespace. By using the OpenSearchCluster Custom Resource (CR), the operator establishes the specified OpenSearch node topology as a StatefulSet and deploys the OpenSearch Dashboards as a Deployment. For more information about the OpenSearch Cluster CR, see the &lt;a href=&#34;https://github.com/opensearch-project/opensearch-k8s-operator/blob/main/charts/opensearch-cluster/templates/opensearch-cluster-cr.yaml&#34;&gt;OpenSearch Cluster CR&lt;/a&gt; YAML file.&lt;/p&gt;
 &lt;h2 id=&#34;opensearch-and-opensearch-dashboards-on-ocne-20&#34;&gt;OpenSearch and OpenSearch Dashboards on OCNE 2.0&lt;/h2&gt;
-&lt;p&gt;Customers are advised to use the OpenSearch Operator to install OpenSearch and OpenSearch Dashboards on OCNE 2.0.&lt;/p&gt;
-&lt;h3 id=&#34;helm-install&#34;&gt;Helm Install&lt;/h3&gt;
-&lt;p&gt;OpenSearch Operator can be installed from the Community Helm Chart repository. The first step would be to add the OpenSearch Operator community Helm chart repository to the cluster.
+&lt;p&gt;You should use the OpenSearch Operator to install OpenSearch and OpenSearch Dashboards on OCNE 2.0.&lt;/p&gt;
+&lt;h3 id=&#34;install-opensearch-operator-using-helm&#34;&gt;Install OpenSearch Operator using Helm&lt;/h3&gt;
+&lt;p&gt;You can install the OpenSearch Operator from the Community Helm Chart repository. The first step is add the OpenSearch Operator community Helm chart repository to the cluster.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -5617,7 +5617,7 @@ $ helm repo update
 &lt;/script&gt;&lt;/p&gt;
 &lt;p&gt;Next, install the Helm charts.&lt;/p&gt;
 &lt;h4 id=&#34;install-or-upgrade-the-opensearch-operator-helm-chart&#34;&gt;Install or upgrade the OpenSearch Operator Helm chart&lt;/h4&gt;
-&lt;p&gt;In the following example, &lt;code&gt;helm&lt;/code&gt; command installs OpenSearch Operator in the &lt;code&gt;logging&lt;/code&gt; namespace. OpenSearch Operator can be installed in any namespace as long as the same namespace is used consistently. This example assumes you are using Helm version 3.2.0 or later.&lt;/p&gt;
+&lt;p&gt;In the following example, the &lt;code&gt;helm&lt;/code&gt; command installs OpenSearch Operator in the &lt;code&gt;logging&lt;/code&gt; namespace. OpenSearch Operator can be installed in any namespace as long as the same namespace is used consistently. This example assumes that you are using Helm version 3.2.0 or later.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -5709,10 +5709,11 @@ $ helm repo update
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-&lt;p&gt;Optionally, provide overrides when installing. The recipes below give examples of changing the configuration using Helm overrides.&lt;/p&gt;
-&lt;h4 id=&#34;helm-override-recipes&#34;&gt;Helm override recipes&lt;/h4&gt;
-&lt;h5 id=&#34;installing-from-a-private-registry&#34;&gt;Installing from a private registry&lt;/h5&gt;
-&lt;p&gt;In order to install using a private registry (for example, in a disconnected environment), you must override Helm values to change the image registry settings for all images.&lt;/p&gt;
+&lt;p&gt;Optionally, provide overrides when installing.&lt;/p&gt;
+&lt;h3 id=&#34;helm-override-recipes&#34;&gt;Helm override recipes&lt;/h3&gt;
+&lt;p&gt;The following recipes give examples of changing the configuration using Helm overrides.&lt;/p&gt;
+&lt;h4 id=&#34;install-from-a-private-registry&#34;&gt;Install from a private registry&lt;/h4&gt;
+&lt;p&gt;To install using a private registry (for example, in a disconnected environment), you must override the Helm values to change the image registry settings for all images.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;os_operator_privreg_overrides.yaml&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -5812,17 +5813,9 @@ kubeRbacProxy:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-
-
-&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
-
-    If you are not using kubeRbacProxy, there is no need to specify an image for kubeRbacProxy.
-
-&lt;/div&gt;
-
-&lt;h5 id=&#34;pod-security-context&#34;&gt;Pod security context&lt;/h5&gt;
-&lt;p&gt;Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to only perform operations that are needed for them to operate successfully, and mitigate security vulnerabilities, such as privilege escalation.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: If you are not using kubeRbacProxy, then there is no need to specify an image for kubeRbacProxy.&lt;/p&gt;
+&lt;h4 id=&#34;configure-pod-and-container-security&#34;&gt;Configure pod and container security&lt;/h4&gt;
+&lt;p&gt;Override pod and container security default settings to limit actions that pods and containers can perform in the cluster. These settings allow pods and containers to perform only operations that are needed for them to operate successfully, and to mitigate security vulnerabilities, such as privilege escalation.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;os_operator_seccontext.yaml&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -5928,7 +5921,7 @@ manager:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;Optionally, when installing the OpenSearch Helm chart, you can disable the kubeRbacProxy if not required using the overrides below.&lt;/p&gt;
+&lt;p&gt;Optionally, when installing the OpenSearch Helm chart, you can disable the kubeRbacProxy if it&amp;rsquo;s not required when using the following overrides.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -6021,9 +6014,9 @@ manager:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-&lt;p&gt;Once OpenSearch Operator is installed, you will see a &lt;strong&gt;opensearch-operator-controller-manager&lt;/strong&gt; deployment in the &lt;strong&gt;logging&lt;/strong&gt; namespace. If OpenSearch Operator pod is ready, you can proceed to next step.&lt;/p&gt;
-&lt;h4 id=&#34;configure-admin-credentials&#34;&gt;Configure Admin Credentials&lt;/h4&gt;
-&lt;p&gt;Create &lt;code&gt;admin-credentials-secret&lt;/code&gt; secret to provide the admin credentials in the &lt;code&gt;logging&lt;/code&gt; namespace. You can use existing password if it exists in older Verrazzano instance or provide a new password. You can use the below &lt;code&gt;admin-credentials-secret&lt;/code&gt; by updating the password parameter(base64 encoded).
+&lt;p&gt;After OpenSearch Operator is installed, you will see a &lt;code&gt;opensearch-operator-controller-manager&lt;/code&gt; deployment in the &lt;code&gt;logging&lt;/code&gt; namespace. When the OpenSearch Operator pod is ready, you can proceed to next step.&lt;/p&gt;
+&lt;h3 id=&#34;configure-admin-credentials&#34;&gt;Configure admin credentials&lt;/h3&gt;
+&lt;p&gt;Create &lt;code&gt;admin-credentials-secret&lt;/code&gt; to provide the admin credentials in the &lt;code&gt;logging&lt;/code&gt; namespace. You can use an existing password, if it exists in an older Verrazzano instance, or provide a new password. You can use the following &lt;code&gt;admin-credentials-secret&lt;/code&gt; by updating the password parameter (base64 encoded).
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -6123,9 +6116,101 @@ data:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;h4 id=&#34;configure-security-plugin&#34;&gt;Configure Security Plugin&lt;/h4&gt;
-&lt;p&gt;Create a security-config secret to configure the security plugin in the &lt;strong&gt;logging&lt;/strong&gt; namespace of the OpenSearch operator. You can use the following secret YAML file to create the security-config secret with the name &lt;strong&gt;securityconfig-secret&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;In the below &lt;strong&gt;securityconfig-secret&lt;/strong&gt;, you need to pass the hash of the password that you provided in the admin-credentials-secret created in the previous step.
+&lt;h3 id=&#34;configure-security-plug-in&#34;&gt;Configure security plug-in&lt;/h3&gt;
+&lt;p&gt;Create a security-config secret to configure the security plug-in in the &lt;code&gt;logging&lt;/code&gt; namespace of the OpenSearch Operator. You can use the following YAML file to create the security-config secret with the name &lt;code&gt;securityconfig-secret&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;In the following &lt;code&gt;securityconfig-secret&lt;/code&gt;, you need to pass the hash of the password that you provided in the &lt;code&gt;admin-credentials-secret&lt;/code&gt; created in the previous step.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: You can create the hash of the password using following command.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ python3 -c &amp;#39;import bcrypt; print(bcrypt.hashpw(&amp;#34;your password&amp;#34;.encode(&amp;#34;utf-8&amp;#34;), bcrypt.gensalt(12, prefix=b&amp;#34;2a&amp;#34;)).decode(&amp;#34;utf-8&amp;#34;))&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -6312,119 +6397,13 @@ stringData:
     document
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-
-
-&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
-
-    &lt;p&gt;You can create the hash of the password using below command&lt;/p&gt;
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;python3 -c &amp;#39;import bcrypt; print(bcrypt.hashpw(&amp;#34;your password&amp;#34;.encode(&amp;#34;utf-8&amp;#34;), bcrypt.gensalt(12, prefix=b&amp;#34;2a&amp;#34;)).decode(&amp;#34;utf-8&amp;#34;))&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  
-&lt;/div&gt;
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-
-
-&lt;/div&gt;
-
-&lt;h4 id=&#34;create-opensearch-cluster&#34;&gt;Create OpenSearch Cluster&lt;/h4&gt;
-&lt;p&gt;To create OpenSearch and OpenSearch Dashboards instance, you will require to create the OpenSearchCluster CR.&lt;/p&gt;
-&lt;p&gt;There are two ways to provide certificates in OpenSearchCluster CR.&lt;/p&gt;
-&lt;h4 id=&#34;create-opensearch-cluster-with-auto-generated-certificates&#34;&gt;Create OpenSearch Cluster with auto generated certificates&lt;/h4&gt;
-&lt;p&gt;You can allow the OpenSearch Operator to generate and sign the certificates. You can refer below CR that has auto generated certificates.&lt;/p&gt;
-
-
-&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
-
-    Within this CR, specific parameter values are necessary to configure the OpenSearch Cluster according to the requirements or values outlined in the previous Verrazzano instance. You can refer to the &lt;a href=&#34;../../../../docs/guides/migrate/install/opensearch/#mapping-table-for-opensearchcluster-configuration&#34;&gt;table&lt;/a&gt; to determine the required values for these parameters.
-
-&lt;/div&gt;
-
+&lt;h3 id=&#34;create-an-opensearch-cluster&#34;&gt;Create an OpenSearch cluster&lt;/h3&gt;
+&lt;p&gt;To create an OpenSearch and OpenSearch Dashboards instance, you must create the OpenSearchCluster CR.&lt;/p&gt;
+&lt;p&gt;There are two ways to provide certificates in the OpenSearchCluster CR.&lt;/p&gt;
+&lt;h4 id=&#34;create-an-opensearch-cluster-with-auto-generated-certificates&#34;&gt;Create an OpenSearch cluster with auto-generated certificates&lt;/h4&gt;
+&lt;p&gt;You can allow the OpenSearch Operator to generate and sign the certificates. See the following CR that has auto-generated certificates.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Within this CR, specific parameter values are necessary to configure the OpenSearch cluster according to the requirements or values outlined in the previous Verrazzano instance. Refer to this &lt;a href=&#34;../../../../docs/guides/migrate/install/opensearch/#mapping-table-for-opensearchcluster-configuration&#34;&gt;mapping table&lt;/a&gt; to determine the required values for these parameters.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -6588,10 +6567,16 @@ spec:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-&lt;h4 id=&#34;create-opensearch-cluster-with-your-own-certificates&#34;&gt;Create OpenSearch Cluster with your own certificates&lt;/h4&gt;
-&lt;p&gt;In other way, you can create your own certificates and provide the certificate in OpenSearchCluster CR.&lt;/p&gt;
-&lt;p&gt;To generate self-signed certificates using OpenSSL, you can refer &lt;a href=&#34;https://opensearch.org/docs/latest/security/configuration/generate-certificates/&#34;&gt;Generate self-signed certificates using OpenSSL&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;To generate certificates using cert-manager, you can refer &lt;a href=&#34;../../../../docs/guides/migrate/integrate/opensearch/#cert-manager&#34;&gt;Generate OpenSearch Certificates using Cert-Manager&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;create-an-opensearch-cluster-with-your-own-certificates&#34;&gt;Create an OpenSearch cluster with your own certificates&lt;/h4&gt;
+&lt;p&gt;Alternatively, you can create your own certificates and provide the certificate in the OpenSearchCluster CR.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;To generate self-signed certificates using OpenSSL, see &lt;a href=&#34;https://opensearch.org/docs/latest/security/configuration/generate-certificates/&#34;&gt;Generate self-signed certificates using OpenSSL&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To generate certificates using cert-manager, see &lt;a href=&#34;../../../../docs/guides/migrate/integrate/opensearch/#cert-manager&#34;&gt;Generate OpenSearch certificates using cert-manager&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -6767,135 +6752,137 @@ spec:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-&lt;h5 id=&#34;mapping-table-for-opensearchcluster-configuration&#34;&gt;mapping table for OpenSearchCluster configuration&lt;/h5&gt;
-&lt;p&gt;You can utilise the table given below to get the correct configuration for your cluster.&lt;/p&gt;
+&lt;h4 id=&#34;mapping-table-for-opensearchcluster-configuration&#34;&gt;Mapping table for OpenSearchCluster configuration&lt;/h4&gt;
+&lt;p&gt;Use the following table to get the correct configuration for your cluster.&lt;/p&gt;
+&lt;div&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;Parameter&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;th&gt;Verrazzano Default value (Dev profile)&lt;/th&gt;
-&lt;th&gt;Verrazzano Default Value (Prod profile)&lt;/th&gt;
-&lt;th&gt;Mapped Verrazzano CR Key&lt;/th&gt;
+&lt;th&gt;&lt;div style=&#34;width:200px&#34;&gt;Parameter&lt;/div&gt;&lt;/th&gt;
+&lt;th&gt;&lt;div style=&#34;width:450px&#34;&gt;Description&lt;/div&gt;&lt;/th&gt;
+&lt;th&gt;&lt;div style=&#34;width:450px&#34;&gt;Verrazzano Default value&lt;br/&gt;(&lt;code&gt;dev&lt;/code&gt; profile)&lt;/div&gt;&lt;/th&gt;
+&lt;th&gt;&lt;div style=&#34;width:450px&#34;&gt;Verrazzano Default value&lt;br/&gt;(&lt;code&gt;prod&lt;/code&gt; profile)&lt;/div&gt;&lt;/th&gt;
+&lt;th&gt;&lt;div style=&#34;width:450px&#34;&gt;Mapped Verrazzano CR Key&lt;/div&gt;&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;osdReplicas&lt;/td&gt;
-&lt;td&gt;number of OpenSearch Dashboards replicas&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;osdReplicas&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Number of OpenSearch Dashboards replicas.&lt;/td&gt;
 &lt;td&gt;1&lt;/td&gt;
 &lt;td&gt;1&lt;/td&gt;
 &lt;td&gt;spec.components.opensearchDashboards.replicas&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;osdPluginsList&lt;/td&gt;
-&lt;td&gt;list of plugins to be dynamically installed in OpenSearch Dashboards&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;osdPluginsList&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;List of plug-ins to be dynamically installed in OpenSearch Dashboards.&lt;/td&gt;
 &lt;td&gt;[ ]&lt;/td&gt;
 &lt;td&gt;[ ]&lt;/td&gt;
 &lt;td&gt;spec.components.opensearchDashboards.plugins.installList&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;osdPluginsEnabled&lt;/td&gt;
-&lt;td&gt;Whether any external plugins needs to be dynamically installed or not in OSD&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;osdPluginsEnabled&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Whether any external plug-ins needs to be dynamically installed or not in OpenSearch Dashboards.&lt;/td&gt;
 &lt;td&gt;false&lt;/td&gt;
 &lt;td&gt;false&lt;/td&gt;
 &lt;td&gt;spec.components.opensearchDashboards.plugins.enabled&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;osPluginsList&lt;/td&gt;
-&lt;td&gt;list of plugins to be dynamically installed in OpenSearch&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;osPluginsList&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;List of plug-ins to be dynamically installed in OpenSearch.&lt;/td&gt;
 &lt;td&gt;[ ]&lt;/td&gt;
 &lt;td&gt;[ ]&lt;/td&gt;
 &lt;td&gt;spec.components.opensearch.plugins.installList&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;osPluginsEnabled&lt;/td&gt;
-&lt;td&gt;Whether any external plugins needs to be dynamically installed or not in OpenSearch&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;osPluginsEnabled&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Whether any external plug-ins needs to be dynamically installed or notin OpenSearch.&lt;/td&gt;
 &lt;td&gt;false&lt;/td&gt;
 &lt;td&gt;false&lt;/td&gt;
 &lt;td&gt;spec.components.opensearch.plugins.enabled&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;nodePools[*].diskSize&lt;/td&gt;
-&lt;td&gt;Node group storage size&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nodePools[*].diskSize&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Node group storage size.&lt;/td&gt;
 &lt;td&gt;1Gi&lt;/td&gt;
-&lt;td&gt;es-master -&amp;gt; 50Gi es-data -&amp;gt; 50Gi es-ingest -&amp;gt; 1Gi&lt;/td&gt;
-&lt;td&gt;spec.components.opensearch.nodes[*].storage if above value is not defined , then get it from storage spec storageSpec.resources.requests.storage defined in the Volume template for spec.defaultVolumeSource.persistentVolumeClaim.&lt;/td&gt;
+&lt;td&gt;es-master -&amp;gt; 50Gi&lt;br/&gt;es-data -&amp;gt; 50Gi&lt;br/&gt;es-ingest -&amp;gt; 1Gi&lt;/td&gt;
+&lt;td&gt;spec.components.opensearch.nodes[*].storage&lt;br/&gt;&lt;br/&gt;if above value is not defined , then get it from storage spec storageSpec.resources.requests.storage defined in the Volume template for spec.defaultVolumeSource.persistentVolumeClaim&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;nodePools[*].roles&lt;/td&gt;
-&lt;td&gt;list of roles that nodes in the group will assume&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nodePools[*].roles&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;List of roles that nodes in the group will assume.&lt;/td&gt;
 &lt;td&gt;[ master, data]&lt;/td&gt;
-&lt;td&gt;es-master -&amp;gt; [master] es-data -&amp;gt; [data] es-ingest -&amp;gt; [ingest]&lt;/td&gt;
+&lt;td&gt;es-master -&amp;gt; [master]&lt;br/&gt;es-data -&amp;gt; [data]&lt;br/&gt;es-ingest -&amp;gt; [ingest]&lt;/td&gt;
 &lt;td&gt;spec.components.opensearch.nodes[*].roles&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;nodePools[*].resources&lt;/td&gt;
-&lt;td&gt;configures the compute resource requirements.&lt;/td&gt;
-&lt;td&gt;resources:  requests:  memory: 1G&lt;/td&gt;
-&lt;td&gt;For es-master: resources:  requests:  memory: 1.4Gi &lt;br/&gt;For es-data resources:  requests:  memory: 4.8Gi &lt;br/&gt;For es-ingest resources:  requests:  memory: 2.5Gi&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nodePools[*].resources&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Configures the compute resource requirements.&lt;/td&gt;
+&lt;td&gt;resources:&lt;br/&gt;   requests:&lt;br/&gt;      memory: 1G&lt;br/&gt;      cpu: 500m&lt;/td&gt;
+&lt;td&gt;For es-master:&lt;br/&gt;resources:&lt;br/&gt;  requests:&lt;br/&gt;    memory: 1.4Gi&lt;br/&gt;&lt;br/&gt;For es-data&lt;br/&gt;resources:&lt;br/&gt;  requests:&lt;br/&gt;    memory: 4.8Gi&lt;br/&gt;&lt;br/&gt;For es-ingest&lt;br/&gt;resources:&lt;br/&gt;  requests:&lt;br/&gt;    memory: 2.5Gi&lt;/td&gt;
 &lt;td&gt;spec.components.opensearch.nodes[*].resources&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;nodePools[*].replicas&lt;/td&gt;
-&lt;td&gt;number of openSearch nodes&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nodePools[*].replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Number of OpenSearch nodes.&lt;/td&gt;
 &lt;td&gt;1&lt;/td&gt;
-&lt;td&gt;es-master -&amp;gt; 3 es-data -&amp;gt; 3 es-ingest -&amp;gt; 1&lt;/td&gt;
+&lt;td&gt;es-master -&amp;gt; 3&lt;br/&gt;es-data -&amp;gt; 3&lt;br/&gt;es-ingest -&amp;gt; 1&lt;/td&gt;
 &lt;td&gt;spec.components.opensearch.nodes[*].replicas&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;nodePools[*].component&lt;/td&gt;
-&lt;td&gt;name of the node.&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nodePools[*].component&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Name of the node.&lt;/td&gt;
 &lt;td&gt;es-master&lt;/td&gt;
 &lt;td&gt;es-master, es-ingest, es-data&lt;/td&gt;
 &lt;td&gt;spec.components.opensearch.nodes[*].name&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;nodePools[*].jvm&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nodePools[*].jvm&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;JVM configuration of the node.&lt;/td&gt;
 &lt;td&gt;{}&lt;/td&gt;
 &lt;td&gt;{}&lt;/td&gt;
 &lt;td&gt;spec.components.opensearch.nodes[*].javaOpts&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;nodePools&lt;/td&gt;
-&lt;td&gt;list of OpenSearch node groups.&lt;/td&gt;
-&lt;td&gt;nodePools:- additionalConfig: cluster.initial_master_nodes: opensearch-es-master-0  component: es-master  diskSize: 1Gi  replicas: 1  resources:  requests:  memory: 1G  roles:  - master  - data&lt;/td&gt;
-&lt;td&gt;nodePools: &lt;br/&gt;- component: es-master  diskSize: 50Gi  replicas: 3  resources:  requests:  memory: 4.8Gi  roles:  - master &lt;br/&gt;- component: es-data  diskSize: 50Gi  replicas: 3  resources:  requests:  memory: 1.4Gi  roles:  - data &lt;br/&gt;- component: es-ingest  diskSize: 1Gi  replicas: 1  resources:  requests:  memory: 2.5Gi  roles:  - ingest&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nodePools&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;List of OpenSearch node groups.&lt;/td&gt;
+&lt;td&gt;nodePools:&lt;br/&gt;- additionalConfig:&lt;br/&gt;    cluster.initial_master_nodes: opensearch-es-master-0&lt;br/&gt;  component: es-master&lt;br/&gt;  diskSize: 1Gi&lt;br/&gt;  replicas: 1&lt;br/&gt;  resources:&lt;br/&gt;    requests:&lt;br/&gt;      memory: 1G&lt;br/&gt;  roles:&lt;br/&gt;  - master&lt;br/&gt;  - data&lt;/td&gt;
+&lt;td&gt;nodePools:&lt;br/&gt;- component: es-master&lt;br/&gt;  diskSize: 50Gi&lt;br/&gt;  replicas: 3&lt;br/&gt;  resources:&lt;br/&gt;    requests:&lt;br/&gt;      memory: 4.8Gi&lt;br/&gt;  roles:&lt;br/&gt;  - master&lt;br/&gt;- component: es-data&lt;br/&gt;  diskSize: 50Gi&lt;br/&gt;  replicas: 3&lt;br/&gt;  resources:&lt;br/&gt;    requests:&lt;br/&gt;      memory: 1.4Gi&lt;br/&gt;  roles:&lt;br/&gt;  - data&lt;br/&gt;- component: es-ingest&lt;br/&gt;  diskSize: 1Gi&lt;br/&gt;  replicas: 1&lt;br/&gt;  resources:&lt;br/&gt;    requests:&lt;br/&gt;      memory: 2.5Gi&lt;br/&gt;  roles:&lt;br/&gt;  - ingest&lt;/td&gt;
 &lt;td&gt;spec.components.opensearch.nodes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;isOpenSearchDashboardsEnabled&lt;/td&gt;
-&lt;td&gt;whether to enable OpenSearch Dashboards or not.&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;isOpenSearchDashboardsEnabled&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Whether to enable OpenSearch Dashboards or not.&lt;/td&gt;
 &lt;td&gt;true&lt;/td&gt;
 &lt;td&gt;true&lt;/td&gt;
 &lt;td&gt;spec.components.kibana.enabled or spec.components.opensearchDashboards.enabled&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;bootstrapConfig&lt;/td&gt;
-&lt;td&gt;items to add to the opensearch.yml&lt;/td&gt;
-&lt;td&gt;&amp;ldquo;cluster.initial_master_nodes:opensearch-es-master-0&amp;rdquo;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;bootstrapConfig&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Items to add to the &lt;code&gt;opensearch.yml&lt;/code&gt; file.&lt;/td&gt;
+&lt;td&gt;cluster.initial_master_nodes:opensearch-es-master-0&lt;/td&gt;
 &lt;td&gt;&amp;quot;&amp;quot;&lt;/td&gt;
 &lt;td&gt;based on spec.profile&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;drainDataNodes&lt;/td&gt;
-&lt;td&gt;whether data nodes need to be drained. only works on nodes that singed as DATA roles nodes&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;drainDataNodes&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Whether data nodes need to be drained. Only works on nodes that are signed as DATA roles nodes.&lt;/td&gt;
 &lt;td&gt;false&lt;/td&gt;
 &lt;td&gt;true&lt;/td&gt;
 &lt;td&gt;based on spec.profile&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;nodePools[*].additionalConfig&lt;/td&gt;
-&lt;td&gt;additional configuration for the node group&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nodePools[*].additionalConfig&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Additional configuration for the node group.&lt;/td&gt;
 &lt;td&gt;cluster.initial_master_nodes: opensearch-es-master-0&lt;/td&gt;
 &lt;td&gt;&amp;quot;&amp;quot;&lt;/td&gt;
 &lt;td&gt;based on spec.profile&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h5 id=&#34;opensearchcluster-cr-with-default-values&#34;&gt;OpenSearchCluster CR with Default values&lt;/h5&gt;
-&lt;p&gt;&lt;strong&gt;Prod Profile&lt;/strong&gt;
+&lt;/div&gt;
+&lt;h4 id=&#34;opensearchcluster-cr-with-default-values&#34;&gt;OpenSearchCluster CR with default values&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;prod&lt;/code&gt; Profile&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -7073,7 +7060,7 @@ spec:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Dev Profile&lt;/strong&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;dev&lt;/code&gt; Profile&lt;/strong&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -7239,19 +7226,10 @@ security:
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;Once OpenSearchCluster CR is created, you will see OpenSearch and OpenSearch Dashboards pods coming up.&lt;/p&gt;
-&lt;h4 id=&#34;create-ism-policies&#34;&gt;Create ISM Policies&lt;/h4&gt;
-&lt;p&gt;(Optional) Create  ISM policies to manage your indices. In the OpenSearch Dashboards, navigate to the Dev Tools console to send queries to OpenSearch. Execute the following queries to create ISM policies.
-Below are the default ISM policies that we create in Verrazzano.
-
-
-&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
-
-    You need to modify these according to the requirements or resources on your cluster. Consider changing name of the policy and the index patterns mentioned in the policies below based on the requirements and your setup.
-
-&lt;/div&gt;
-&lt;/p&gt;
+&lt;p&gt;After the OpenSearchCluster CR is created, you will see OpenSearch and OpenSearch Dashboards pods coming up.&lt;/p&gt;
+&lt;h3 id=&#34;create-ism-policies&#34;&gt;Create ISM policies&lt;/h3&gt;
+&lt;p&gt;Optionally, create  ISM policies to manage your indices. In the OpenSearch Dashboards, navigate to the Dev Tools Console to send queries to OpenSearch. Run the following queries to create ISM policies.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The following are the default ISM policies that we create in Verrazzano. You need to modify these according to the requirements or resources on your cluster. Consider changing name of the policy and the index patterns, based on your requirements and setup.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -7324,7 +7302,7 @@ PUT _plugins/_ism/policies/vz-system
               &amp;#34;delay&amp;#34;:&amp;#34;10m&amp;#34;
             },
             &amp;#34;delete&amp;#34;:{
- 
+
             }
           }
         ]
@@ -7471,7 +7449,7 @@ PUT _plugins/_ism/policies/vz-system
               &amp;#34;delay&amp;#34;:&amp;#34;10m&amp;#34;
             },
             &amp;#34;delete&amp;#34;:{
- 
+
             }
           }
         ]
@@ -7547,32 +7525,39 @@ PUT _plugins/_ism/policies/vz-system
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
-&lt;h4 id=&#34;create-index-patterns&#34;&gt;Create Index Patterns&lt;/h4&gt;
+&lt;h3 id=&#34;create-index-patterns&#34;&gt;Create index patterns&lt;/h3&gt;
 &lt;p&gt;Index patterns are essential for accessing OpenSearch data. To access specific logs, create index patterns based on your data-stream and index patterns.&lt;/p&gt;
-&lt;p&gt;Below are the index pattern that we create in Verrazzano to access the Verrazzano specific logs.&lt;/p&gt;
+&lt;p&gt;The following are the index patterns that we create in Verrazzano to access Verrazzano-specific logs.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;verrazzano-system&lt;/code&gt; for Verrazano component logs.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;verrazzano-application&lt;/code&gt; for application logs.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: You need to create your own index patterns based on the indices you intend to access.&lt;/p&gt;
+&lt;p&gt;To create an index pattern:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;verrazzano-system&lt;/strong&gt;: to cover Verrazano component logs.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;verrazzano-application&lt;/strong&gt;: to cover Application logs.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;
-
-&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
-
-    You need to create your own index patterns based on the indices you intend to access.
-
-&lt;/div&gt;
-
-To create the index pattern, go to OpenSearch Dashboards, and select Management &amp;gt; Dashboards Management &amp;gt; Index patterns.&lt;/p&gt;
+&lt;li&gt;
+&lt;p&gt;Go to OpenSearch Dashboards, and select Management &amp;gt; Dashboards Management &amp;gt; Index patterns.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
 &lt;p&gt;Select Create index pattern.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
 &lt;p&gt;From the Create index pattern window, define the index pattern by entering a name for your index pattern in the Index pattern name field.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
 &lt;p&gt;Select Next step.&lt;/p&gt;
-&lt;p&gt;Select &lt;strong&gt;@timestamp&lt;/strong&gt; from the dropdown menu to specify the time field for OpenSearch to use when filtering documents based on time.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Select @timestamp from the drop-down list to specify the time field for OpenSearch to use when filtering documents based on time.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
 &lt;p&gt;Select Create index pattern.&lt;/p&gt;
-&lt;h4 id=&#34;opensearch-data-migration&#34;&gt;OpenSearch Data Migration:&lt;/h4&gt;
-&lt;p&gt;There is existing documentation for Verrazzano that provides guidance on backing up and restoring OpenSearch data. You can follow the instructions outlined in &lt;a href=&#34;../../../../docs/backup/opensearch/#opensearch-backup-using-velero&#34;&gt;Verrazzano documentation&lt;/a&gt; for using Velero to back up and restore data.&lt;/p&gt;
-&lt;p&gt;Alternatively, instead of restoring the data using Velero, you can refer to the documentation on &lt;a href=&#34;../../../../docs/backup/opensearch/#opensearch-restore-in-an-existing-cluster-using-opensearch-api&#34;&gt;restoring data using the OpenSearch API&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Additionally, OpenSearch&amp;rsquo;s official documentation provides resources on taking snapshots using the OpenSearch API and restoring data. You can find more information &lt;a href=&#34;https://opensearch.org/docs/latest/tuning-your-cluster/availability-and-recovery/snapshots/snapshot-restore/#shared-file-system&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;opensearch-data-migration&#34;&gt;OpenSearch data migration&lt;/h3&gt;
+&lt;p&gt;Verrazzano provides guidance on backing up and restoring OpenSearch data. To back up and restore data, follow the instructions in &lt;a href=&#34;../../../../docs/backup/opensearch/#opensearch-backup-using-velero&#34;&gt;OpenSearch backup Using Velero&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Alternatively, instead of restoring the data using Velero, see &lt;a href=&#34;../../../../docs/backup/opensearch/#opensearch-restore-in-an-existing-cluster-using-opensearch-api&#34;&gt;OpenSearch restore in an existing cluster using OpenSearch API&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Additionally, the OpenSearch documentation provides resources for taking snapshots using the OpenSearch API and restoring data. For more information, see the documentation &lt;a href=&#34;https://opensearch.org/docs/latest/tuning-your-cluster/availability-and-recovery/snapshots/snapshot-restore/#shared-file-system&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>
