@@ -9,6 +9,31 @@ Premier Support for Oracle Verrazzano Enterprise Container Platform will end on 
 For more details, see My Oracle Support [Note 2794708.1](https://support.oracle.com/epmos/faces/DocumentDisplay?_afrLoop=33881630232591&id=2794708.1).
 {{< /alert >}}
 
+## v1.7.1
+#### Enhancements:
+- Added an `export oam` option to the VZ CLI to export the Kubernetes objects created for a deployed OAM application.
+- Added a 'sanitize' command to the VZ CLI to allow users to sanitize sensitive data from their cluster.
+- Analysis Enhancements.
+- Various VZ CLI Enhancements and fixes.
+- Added fields to the VerrazzanoManagedCluster resource for cluster summary information.
+
+#### Component Version Updates:
+- WebLogic Kubernetes Operator v4.1.4
+- WebLogic Monitoring Operator v2.1.8
+- Coherence v3.3.2
+- Redis v7.0.15
+- Cluster API v1.5.3
+- Cluster API OCI Controller v0.13.0
+- Rancher v2.7.8
+- Go 1.20 Support
+- Istio v1.19.3
+
+#### Fixes:
+- Fixed an issue that occurred with Verrazzano Managed Cluster Deletion.
+- Fix to avoid removing nodes in aftersuite of Opensearch.
+- Fixed an issue with ArgoCD SSO with Keycloak using Let's Encrypt staging certificates.
+- Fix Regarding Rancher and pagenation of OCI requests.
+- Fixed an issue related to Rancher Upgrade Failures.
 ## v1.7.0
 #### Features
 - Added support for managing Verrazzano installed on clusters that were provisioned using the cluster API.
