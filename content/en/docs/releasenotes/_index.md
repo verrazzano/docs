@@ -9,6 +9,29 @@ Premier Support for Oracle Verrazzano Enterprise Container Platform will end on 
 For more details, see My Oracle Support [Note 2794708.1](https://support.oracle.com/epmos/faces/DocumentDisplay?_afrLoop=33881630232591&id=2794708.1).
 {{< /alert >}}
 
+## v1.7.1
+#### Enhancements:
+- Added an `export oam` option to the Verrazzano CLI to export the Kubernetes objects created for a deployed OAM application.
+- Added a `sanitize` command to the Verrazzano CLI to enable users to sanitize sensitive data from their cluster.
+- Added various Verrazzano CLI enhancements and fixes.
+- Added fields to the VerrazzanoManagedCluster resource for cluster summary information.
+
+#### Component version updates:
+- WebLogic Kubernetes Operator v4.1.4
+- WebLogic Monitoring Operator v2.1.8
+- Coherence v3.3.2
+- Redis v7.0.15
+- Cluster API v1.5.3
+- Cluster API OCI Controller v0.13.0
+- Rancher v2.7.8
+- Go 1.20 Support
+- Istio v1.19.3
+
+#### Fixes:
+- Fixed an issue that occurred with Verrazzano managed cluster deletion.
+- Fixed an issue with Argo CD SSO with Keycloak using Let's Encrypt staging certificates.
+- Fixed an issue with Rancher and the pagination of OCI requests.
+- Fixed an issue related to Rancher upgrade failures.
 ## v1.7.0
 #### Features
 - Added support for managing Verrazzano installed on clusters that were provisioned using the cluster API.
@@ -49,6 +72,24 @@ For more details, see My Oracle Support [Note 2794708.1](https://support.oracle.
 - When updating the node pool of a cluster API based OKE cluster, the console may report the cluster state as 'Active' prematurely.
 
 ## Previous Release Information
+### v1.6.11
+**Enhancements**:
+- Added an `export oam` option to the Verrazzano CLI to export the Kubernetes objects created for a deployed OAM application.
+- Added a `sanitize` command to the Verrazzano CLI to enable users to sanitize sensitive data from their cluster.
+- Added various Verrazzano CLI enhancements and fixes.
+
+**Component version updates**:
+- WebLogic Kubernetes Operator v4.1.4
+- WebLogic Monitoring Operator v2.1.8
+- Coherence v3.3.2
+- Redis v7.0.15
+- Go 1.20 Support
+- Istio v1.19.3
+
+**Fixes**:
+- Fixes to the Kubelet Grafana Dashboard. 
+- Fixed an issue with Rancher and the pagination of OCI requests.
+
 ### v1.6.10
 **Fixes**:
 - Fixed an issue where pods would crash frequently with an Envoy core dump.
