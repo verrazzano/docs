@@ -11,12 +11,12 @@ For more details, see My Oracle Support [Note 2794708.1](https://support.oracle.
 
 ## v1.7.1
 #### Enhancements:
-- Added an `export oam` option to the VZ CLI to export the Kubernetes objects created for a deployed OAM application.
-- Added a 'sanitize' command to the VZ CLI to allow users to sanitize some sensitive data from their cluster.
-- Various VZ CLI Enhancements and fixes.
+- Added an `export oam` option to the Verrazzano CLI to export the Kubernetes objects created for a deployed OAM application.
+- Added a `sanitize` command to the Verrazzano CLI to enable users to sanitize sensitive data from their cluster.
+- Added various Verrazzano CLI enhancements and fixes.
 - Added fields to the VerrazzanoManagedCluster resource for cluster summary information.
 
-#### Component Version Updates:
+#### Component version updates:
 - WebLogic Kubernetes Operator v4.1.4
 - WebLogic Monitoring Operator v2.1.8
 - Coherence v3.3.2
@@ -28,10 +28,10 @@ For more details, see My Oracle Support [Note 2794708.1](https://support.oracle.
 - Istio v1.19.3
 
 #### Fixes:
-- Fixed an issue that occurred with Verrazzano Managed Cluster Deletion.
-- Fixed an issue with ArgoCD SSO with Keycloak using Let's Encrypt staging certificates.
-- Fixed an issue with Rancher and pagenation of OCI requests.
-- Fixed an issue related to Rancher Upgrade Failures.
+- Fixed an issue that occurred with Verrazzano managed cluster deletion.
+- Fixed an issue with Argo CD SSO with Keycloak using Let's Encrypt staging certificates.
+- Fixed an issue with Rancher and the pagination of OCI requests.
+- Fixed an issue related to Rancher upgrade failures.
 ## v1.7.0
 #### Features
 - Added support for managing Verrazzano installed on clusters that were provisioned using the cluster API.
