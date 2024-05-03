@@ -12,7 +12,7 @@ For more details, see My Oracle Support [Note 2794708.1](https://support.oracle.
 ## v1.7.1
 #### Enhancements:
 - Added an `export oam` option to the VZ CLI to export the Kubernetes objects created for a deployed OAM application.
-- Added a 'sanitize' command to the VZ CLI to allow users to sanitize sensitive data from their cluster.
+- Added a 'sanitize' command to the VZ CLI to allow users to sanitize some sensitive data from their cluster.
 - Various VZ CLI Enhancements and fixes.
 - Added fields to the VerrazzanoManagedCluster resource for cluster summary information.
 
