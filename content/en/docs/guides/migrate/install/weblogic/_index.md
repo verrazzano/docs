@@ -84,14 +84,13 @@ The network policy for a WebLogic Kubernetes Operator pod:
 
 For OCNE 2.0, the WebLogic Kubernetes Operator will be installed and upgraded with the community version of its Helm chart.
 
-To get the WebLogic Kubernetes Operator Helm chart:
+To add the WebLogic Kubernetes Operator Helm chart catalog:
 
 {{< clipboard >}}
 <div class="highlight">
 
 ```
-$ helm repo add weblogic-operator https://oracle.github.io/weblogic-kubernetes-operator/charts
-$ helm repo update
+$ ocne catalog add --uri https://oracle.github.io/weblogic-kubernetes-operator --name "WebLogic Kubernetes Operator"
 ```
 </div>
 {{< /clipboard >}}
@@ -102,7 +101,7 @@ To see what versions of the WebLogic Kubernetes Operator are available:
 <div class="highlight">
 
 ```
-$ helm search repo weblogic-operator/weblogic-operator --versions
+$ ocne catalog search --name "WebLogic Kubernetes Operator" --pattern 'weblogic-operator'
 ```
 </div>
 {{< /clipboard >}}
@@ -129,7 +128,7 @@ $ helm get values weblogic-operator -n verrazzano-system
 - The image Helm default value for the version of the WebLogic Kubernetes Operator can be used unless you want to override it.  For example, for an disconnected environment, you would override it.
 - The `weblogicMonitoringExporterImage` Helm value is obsolete and is not needed.
 
-**Example**: Installing WebLogic Kubernetes Operator 4.1.7 in OCNE 2.0.
+**Example**: Installing WebLogic Kubernetes Operator 4.2.3 in OCNE 2.0.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -138,8 +137,7 @@ $ helm get values weblogic-operator -n verrazzano-system
 $ kubectl create namespace weblogic-operator
 $ kubectl label namespace weblogic-operator istio-injection=enabled
 $ kubectl create serviceaccount weblogic-operator-sa -n weblogic-operator
-
-$ helm install weblogic-operator weblogic-operator/weblogic-operator -n weblogic-operator --version=4.1.7 -f - <<EOF
+$ ocne application install -c "WebLogic Kubernetes Operator" --release weblogic-operator --namespace weblogic-operator --name weblogic-operator --version 4.2.3 -v - <<EOF
 annotations:
   traffic.sidecar.istio.io/excludeOutboundPorts: '443'
 serviceAccount: weblogic-operator-sa
