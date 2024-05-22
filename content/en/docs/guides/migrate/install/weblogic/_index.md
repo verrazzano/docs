@@ -84,7 +84,7 @@ The network policy for a WebLogic Kubernetes Operator pod:
 
 For OCNE 2.0, the WebLogic Kubernetes Operator will be installed and upgraded with the community version of its Helm chart.
 
-To add the WebLogic Kubernetes Operator Helm chart:
+To add the WebLogic Kubernetes Operator Helm chart catalog:
 
 {{< clipboard >}}
 <div class="highlight">
