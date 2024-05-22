@@ -91,7 +91,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.3ebb1d6b09423db95eebabe23b4e7806.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.e6aa307f17c0c64e939175a628268184.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -117,7 +117,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.3ebb1d6b09423db95eebabe23b4e7806.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.e6aa307f17c0c64e939175a628268184.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1544,7 +1544,7 @@ spec:
 </ul>
 <h3 id="weblogic-kubernetes-operator-with-ocne-20">WebLogic Kubernetes Operator with OCNE 2.0</h3>
 <p>For OCNE 2.0, the WebLogic Kubernetes Operator will be installed and upgraded with the community version of its Helm chart.</p>
-<p>To get the WebLogic Kubernetes Operator Helm chart:</p>
+<p>To add the WebLogic Kubernetes Operator Helm chart catalog:</p>
 <style type="text/css">
     code {
         margin: 0;
@@ -1575,8 +1575,7 @@ spec:
 
 <div class="clipboard">
     <div class="highlight">
-<pre tabindex="0"><code>$ helm repo add weblogic-operator https://oracle.github.io/weblogic-kubernetes-operator/charts
-$ helm repo update
+<pre tabindex="0"><code>$ ocne catalog add --uri https://oracle.github.io/weblogic-kubernetes-operator --name &#34;WebLogic Kubernetes Operator&#34;
 </code></pre></div>
 
 </div>
@@ -1668,7 +1667,7 @@ $ helm repo update
 
 <div class="clipboard">
     <div class="highlight">
-<pre tabindex="0"><code>$ helm search repo weblogic-operator/weblogic-operator --versions
+<pre tabindex="0"><code>$ ocne catalog search --name &#34;WebLogic Kubernetes Operator&#34; --pattern &#39;weblogic-operator&#39;
 </code></pre></div>
 
 </div>
@@ -1832,7 +1831,7 @@ $ helm repo update
 <li>The image Helm default value for the version of the WebLogic Kubernetes Operator can be used unless you want to override it.  For example, for an disconnected environment, you would override it.</li>
 <li>The <code>weblogicMonitoringExporterImage</code> Helm value is obsolete and is not needed.</li>
 </ul>
-<p><strong>Example</strong>: Installing WebLogic Kubernetes Operator 4.1.7 in OCNE 2.0.</p>
+<p><strong>Example</strong>: Installing WebLogic Kubernetes Operator 4.2.3 in OCNE 2.0.</p>
 <style type="text/css">
     code {
         margin: 0;
@@ -1866,8 +1865,7 @@ $ helm repo update
 <pre tabindex="0"><code>$ kubectl create namespace weblogic-operator
 $ kubectl label namespace weblogic-operator istio-injection=enabled
 $ kubectl create serviceaccount weblogic-operator-sa -n weblogic-operator
-
-$ helm install weblogic-operator weblogic-operator/weblogic-operator -n weblogic-operator --version=4.1.7 -f - &lt;&lt;EOF
+$ ocne application install -c &#34;WebLogic Kubernetes Operator&#34; --release weblogic-operator --namespace weblogic-operator --name weblogic-operator --version 4.2.3 -v - &lt;&lt;EOF
 annotations:
   traffic.sidecar.istio.io/excludeOutboundPorts: &#39;443&#39;
 serviceAccount: weblogic-operator-sa

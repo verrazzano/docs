@@ -8953,7 +8953,7 @@ spec:
 &lt;/ul&gt;
 &lt;h3 id=&#34;weblogic-kubernetes-operator-with-ocne-20&#34;&gt;WebLogic Kubernetes Operator with OCNE 2.0&lt;/h3&gt;
 &lt;p&gt;For OCNE 2.0, the WebLogic Kubernetes Operator will be installed and upgraded with the community version of its Helm chart.&lt;/p&gt;
-&lt;p&gt;To get the WebLogic Kubernetes Operator Helm chart:&lt;/p&gt;
+&lt;p&gt;To add the WebLogic Kubernetes Operator Helm chart catalog:&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -8984,8 +8984,7 @@ spec:
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ helm repo add weblogic-operator https://oracle.github.io/weblogic-kubernetes-operator/charts
-$ helm repo update
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ ocne catalog add --uri https://oracle.github.io/weblogic-kubernetes-operator --name &amp;#34;WebLogic Kubernetes Operator&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -9077,7 +9076,7 @@ $ helm repo update
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ helm search repo weblogic-operator/weblogic-operator --versions
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ ocne catalog search --name &amp;#34;WebLogic Kubernetes Operator&amp;#34; --pattern &amp;#39;weblogic-operator&amp;#39;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -9241,7 +9240,7 @@ $ helm repo update
 &lt;li&gt;The image Helm default value for the version of the WebLogic Kubernetes Operator can be used unless you want to override it.  For example, for an disconnected environment, you would override it.&lt;/li&gt;
 &lt;li&gt;The &lt;code&gt;weblogicMonitoringExporterImage&lt;/code&gt; Helm value is obsolete and is not needed.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;: Installing WebLogic Kubernetes Operator 4.1.7 in OCNE 2.0.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;: Installing WebLogic Kubernetes Operator 4.2.3 in OCNE 2.0.&lt;/p&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -9275,8 +9274,7 @@ $ helm repo update
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl create namespace weblogic-operator
 $ kubectl label namespace weblogic-operator istio-injection=enabled
 $ kubectl create serviceaccount weblogic-operator-sa -n weblogic-operator
-
-$ helm install weblogic-operator weblogic-operator/weblogic-operator -n weblogic-operator --version=4.1.7 -f - &amp;lt;&amp;lt;EOF
+$ ocne application install -c &amp;#34;WebLogic Kubernetes Operator&amp;#34; --release weblogic-operator --namespace weblogic-operator --name weblogic-operator --version 4.2.3 -v - &amp;lt;&amp;lt;EOF
 annotations:
   traffic.sidecar.istio.io/excludeOutboundPorts: &amp;#39;443&amp;#39;
 serviceAccount: weblogic-operator-sa
