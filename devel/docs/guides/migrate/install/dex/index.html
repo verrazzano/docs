@@ -91,7 +91,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.e6aa307f17c0c64e939175a628268184.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.0fa04030fe5d6196f7a604526aa30426.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -117,7 +117,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.e6aa307f17c0c64e939175a628268184.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.0fa04030fe5d6196f7a604526aa30426.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1235,7 +1235,7 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
-        <li><a href="#install-dex-using-helm">Install dex using Helm</a></li>
+        <li><a href="#install-dex-using-ocne-20">Install dex using OCNE 2.0</a></li>
       </ul>
     </li>
   </ul>
@@ -1271,103 +1271,8 @@ if (!doNotTrack) {
 		
 </header>
 	<p>This document shows you how to install <a href="https://dexidp.io/docs/">dex</a>, an identity provider that uses OpenID Connect for authenticating access to applications.</p>
-<h2 id="install-dex-using-helm">Install dex using Helm</h2>
+<h2 id="install-dex-using-ocne-20">Install dex using OCNE 2.0</h2>
 <ol>
-<li>
-<p>Add the dex Helm repository to the cluster.
-<style type="text/css">
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-</style>
-
-<div class="clipboard">
-       <div class="highlight">
-<pre tabindex="0"><code>$ helm repo add dex https://charts.dexidp.io
-$ helm repo update
-</code></pre>   </div>
-
-</div>
-
-<script>
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement("button");
-        button.innerText = "Copy";
-        button.className = "copy-code-button";
-        button.addEventListener("click", () =>
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement("div");
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
-        
-        let codeBlock = codeToCopy.split("\n");
-        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join("\n");
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement('textarea');
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = "Copied";
-        setTimeout(function () {
-            button.innerText = "Copy";
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(".highlight")
-        .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script></p>
-</li>
 <li>
 <p>Set up configuration parameters.</p>
 <p>Assumptions for the example in this guide:</p>
@@ -1414,8 +1319,8 @@ $ DEX_PASSWORD_HASH=$(htpasswd -nbBC 10 &#34;&#34; ${DEX_PASSWORD} | tr -d &#39;
 $ DEX_UUID=$(uuidgen)
 $ ADDRESS=$(kubectl get service -n ingress-nginx ingress-controller-ingress-nginx-controller -o jsonpath=&#39;{.status.loadBalancer.ingress[0].ip}&#39;).nip.io
 $ OAUTH2_PROXY_SECRET=$(openssl rand -base64 10)
-$ DEX_IMAGE_REPO=ghcr.io/verrazzano/dex
-$ DEX_IMAGE_TAG=v2.37.0-20230911122845-caabc629
+$ DEX_IMAGE_REPO=olcne/dex
+$ DEX_IMAGE_TAG=v2.39.1
 </code></pre>   </div>
 
 </div>
@@ -1670,7 +1575,7 @@ EOF
 
 <div class="clipboard">
        <div class="highlight">
-<pre tabindex="0"><code>$ helm install dex dex/dex -n dex -f dex-overrides.yaml --create-namespace --version 0.15.3
+<pre tabindex="0"><code>$ ocne application install --release dex --namespace dex --name dex --version 0.17.1 -v dex-overrides.yaml
 </code></pre>   </div>
 
 </div>
