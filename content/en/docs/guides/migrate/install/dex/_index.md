@@ -5,19 +5,7 @@ draft: false
 ---
 This document shows you how to install [dex](https://dexidp.io/docs/), an identity provider that uses OpenID Connect for authenticating access to applications.
 
-## Install dex using Helm
-
-1. Add the dex Helm repository to the cluster.
-   {{< clipboard >}}
-   <div class="highlight">
-
-   ```
-   $ helm repo add dex https://charts.dexidp.io
-   $ helm repo update
-   ```
-   </div>
-   {{< /clipboard >}}
-
+## Install dex using OCNE 2.0
 
 1. Set up configuration parameters.
 
@@ -39,8 +27,8 @@ This document shows you how to install [dex](https://dexidp.io/docs/), an identi
    $ DEX_UUID=$(uuidgen)
    $ ADDRESS=$(kubectl get service -n ingress-nginx ingress-controller-ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}').nip.io
    $ OAUTH2_PROXY_SECRET=$(openssl rand -base64 10)
-   $ DEX_IMAGE_REPO=ghcr.io/verrazzano/dex
-   $ DEX_IMAGE_TAG=v2.37.0-20230911122845-caabc629
+   $ DEX_IMAGE_REPO=olcne/dex
+   $ DEX_IMAGE_TAG=v2.39.1
    ```
    </div>
    {{< /clipboard >}}
@@ -128,7 +116,7 @@ EOF
    <div class="highlight">
 
    ```
-   $ helm install dex dex/dex -n dex -f dex-overrides.yaml --create-namespace --version 0.15.3
+   $ ocne application install --release dex --namespace dex --name dex --version 0.17.1 -v dex-overrides.yaml
    ```
    </div>
    {{< /clipboard >}}
