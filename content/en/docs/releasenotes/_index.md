@@ -15,7 +15,7 @@ For more details, see My Oracle Support [Note 2794708.1](https://support.oracle.
 - Go 1.21 Support
 
 #### Fixes:
-- Fixed an issue where console certificates were being recreated approximately every 10-18 hours. Now they get recreated only shortly after certificate.Status.renewalTime.
+- Fixed an issue where console certificates were being recreated approximately every 10-18 hours. Now they get recreated only shortly after `certificate.Status.renewalTime`.
 ## v1.7.1
 #### Enhancements:
 - Added an `export oam` option to the Verrazzano CLI to export the Kubernetes objects created for a deployed OAM application.
@@ -86,7 +86,7 @@ For more details, see My Oracle Support [Note 2794708.1](https://support.oracle.
 - Go 1.21 Support
 
 **Fixes**:
-- Fixed an issue where console certificates were being recreated approximately every 10-18 hours. Now they get recreated only shortly after certificate.Status.renewalTime.
+- Fixed an issue where console certificates were being recreated approximately every 10-18 hours. Now they get recreated only shortly after `certificate.Status.renewalTime`.
 
 ### v1.6.11
 **Enhancements**:
