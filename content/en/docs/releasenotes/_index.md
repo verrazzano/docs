@@ -9,6 +9,15 @@ Premier Support for Oracle Verrazzano Enterprise Container Platform will end on 
 For more details, see My Oracle Support [Note 2794708.1](https://support.oracle.com/epmos/faces/DocumentDisplay?_afrLoop=33881630232591&id=2794708.1).
 {{< /alert >}}
 
+### v1.6.12
+#### Component version updates:
+- WebLogic Kubernetes Operator v4.2.5
+- WebLogic Monitoring Operator v2.2.0
+- Go 1.21 Support
+
+#### Fixes:
+- Fixed an issue where console certificates were being recreated approximately every 10-18 hours. Now they get recreated only shortly after `certificate.Status.renewalTime`.
+
 ## v1.6.11
 #### Enhancements:
 - Added an `export oam` option to the Verrazzano CLI to export the Kubernetes objects created for a deployed OAM application.
